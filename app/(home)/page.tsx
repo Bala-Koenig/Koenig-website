@@ -542,12 +542,31 @@ const LEARNING_LINKS = ['Live Online Training','Classroom Training','1-on-1 Trai
 
 /* ─── Footer column data ─────────────────────────────────────── */
 const FOOTER_COLS = [
-  { heading: 'Company', links: ['About Us','Leadership','Contact Us','Webinars','Our Clientele','All Courses','Our Partners','Our Story','Testimonials','Our Awards'] },
-  { heading: 'Learning Options', links: ['Explore All Learning Options','Live Online Training','1-on-1 Training','Classroom Training','Fly-me-a-Trainer (FMAT)','Flexi','Customized Training','Webinar as a Service','Techlabs','Learnova'] },
+  { heading: 'Company', links: ['About us','Leadership','Contact Us','Webinars','Our Clientele','All Courses','Our Partners','Our Story','Testimonials','Our Awards'] },
+  { heading: 'Learning Options', links: ['Explore All Learning Options','Live Online Training','1-on-1 Training','Classroom Training','Fly-me-a-Trainer (FMAT)','Flexi','Customized Training','Webinar as a Service','Techlabs','Learnova','AI Agent'] },
   { heading: 'Resources', links: ['Technical Questions & Answers','Blog','Sitemap','Koenig Koshish','Qubits','Certificate Authenticator','Microsoft Products'] },
   { heading: 'Others', links: ['Environment Policy','Payment Methods','Terms of Service','Career','Privacy Policy',"What's New",'Media Report'] },
+]
+
+const FOOTER_BOTTOM_COLS = [
   { heading: 'Top Technologies', links: ['Cloud Computing','Artificial Intelligence','Microsoft Office','Security','Microsoft Dynamics'] },
   { heading: 'Top Partners', links: ['Microsoft','AWS','Cisco','PECB','VMware'] },
+]
+
+const TOP_COURSES_COL1 = [
+  'PL-300T00: Design and Manage Analytics Solutions Using Power BI',
+  'AZ-104T00-A: Microsoft Azure Administrator',
+  'AI-102T00: Develop AI Solutions in Azure',
+  'ITIL® 4 Foundation',
+  'Automation in a Day',
+]
+
+const TOP_COURSES_COL2 = [
+  'DP-700T00: Microsoft Fabric Data Engineer',
+  'AWS Certified Solutions Architect - Associate (Architecting on AWS)',
+  'AZ-305T00: GH-300: GitHub Copilot Fundamentals',
+  'AZ-400T00-A: Designing and Implementing Microsoft DevOps Solutions',
+  'VMware vSphere: Install, Configure, Manage [V8]',
 ]
 
 const AWARDS = [
@@ -2328,54 +2347,78 @@ export default function Design4Page() {
       </section>
 
       {/* ── Footer ────────────────────────────────────────────── */}
-      <footer style={{ background: '#093148' }} className="text-white">
-        {/* Newsletter row */}
-        <div style={{ borderBottom: '1px solid #0D4A6B' }} className="px-4 lg:px-[50px] py-10">
-          <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 sm:flex-row sm:justify-between">
+      <footer style={{ background: '#071929' }} className="text-white">
+
+        {/* Newsletter + Social icons row */}
+        <div style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-8">
+          <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            {/* Newsletter */}
             <div>
-              <p className="text-sm sm:text-base font-semibold text-white">Subscribe to our Newsletter</p>
-              <p className="text-xs" style={{ color: '#A8C8E0' }}>Get certification tips, exclusive discounts, and career insights delivered weekly.</p>
+              <p className="mb-3 text-sm font-semibold text-white">Subscribe to our Newsletter</p>
+              <div className="flex gap-0">
+                <input
+                  type="email"
+                  placeholder=""
+                  aria-label="Email address"
+                  value={newsletterEmail}
+                  onChange={e => setNewsletterEmail(e.target.value)}
+                  className="w-56 sm:w-72 rounded-l border-y border-l px-3 py-2 text-sm text-white placeholder-white/40 outline-none"
+                  style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
+                />
+                <button className="rounded-r px-5 py-2 text-sm font-semibold text-white" style={{ background: '#0694D1' }}>
+                  Subscribe
+                </button>
+              </div>
             </div>
-            <div className="flex w-full max-w-md gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                aria-label="Email address"
-                value={newsletterEmail}
-                onChange={e => setNewsletterEmail(e.target.value)}
-                className="flex-1 rounded-lg border px-4 py-2.5 text-sm text-white placeholder-white/60 outline-none transition-colors focus:border-white/40"
-                style={{ background: 'rgba(255,255,255,0.08)', borderColor: '#0D4A6B' }}
-              />
-              <button
-                className="shrink-0 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-                style={{ background: '#076D9D' }}
-              >
-                Subscribe
-              </button>
+            {/* Social icons */}
+            <div className="flex items-center gap-3">
+              {/* YouTube */}
+              <a href="https://www.youtube.com/user/KoenigSol" target="_blank" rel="noopener noreferrer" aria-label="YouTube"
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-opacity hover:opacity-80"
+                style={{ background: '#FF0000' }}>
+                <svg className="h-4 w-4" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              </a>
+              {/* Facebook */}
+              <a href="https://www.facebook.com/KoenigSolutions" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-opacity hover:opacity-80"
+                style={{ background: '#1877F2' }}>
+                <svg className="h-4 w-4" fill="white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              {/* Instagram */}
+              <a href="https://www.instagram.com/koenigsolutions" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-opacity hover:opacity-80"
+                style={{ background: 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)' }}>
+                <svg className="h-4 w-4" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+              </a>
+              {/* LinkedIn */}
+              <a href="https://www.linkedin.com/company/koenig-solutions" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-opacity hover:opacity-80"
+                style={{ background: '#0A66C2' }}>
+                <svg className="h-4 w-4" fill="white" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              {/* X (Twitter) */}
+              <a href="https://twitter.com/koenigsolutions" target="_blank" rel="noopener noreferrer" aria-label="X"
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-opacity hover:opacity-80"
+                style={{ background: '#000000' }}>
+                <svg className="h-4 w-4" fill="white" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.63 5.906-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
             </div>
           </div>
         </div>
 
-        {/* 6-column link grid */}
-        <div className="px-4 lg:px-[50px] py-12">
+        {/* Main link columns */}
+        <div className="px-4 lg:px-[50px] py-10">
           <div className="mx-auto max-w-7xl">
-            {/* Logo + contact */}
-            <div className="mb-10">
-              <p className="mt-2 text-xs" style={{ color: '#A8C8E0' }}>info@koenig-solutions.com</p>
-              <p className="text-xs" style={{ color: '#A8C8E0' }}>+14129537506</p>
-            </div>
 
-            <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-6">
+            {/* Row 1: Company, Learning Options, Resources, Others */}
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-4 mb-10">
               {FOOTER_COLS.map(col => (
                 <div key={col.heading}>
-                  <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-white">{col.heading}</h4>
-                  <ul className="space-y-2.5">
+                  <h4 className="mb-4 text-sm font-semibold" style={{ color: '#0694D1' }}>{col.heading}</h4>
+                  <ul className="space-y-2">
                     {col.links.map(link => (
                       <li key={link}>
-                        <a href="#" className="footer-link text-xs leading-snug" style={{ color: '#A8C8E0' }}
-                          onMouseEnter={e => (e.currentTarget.style.color = '#ffffff')}
-                          onMouseLeave={e => (e.currentTarget.style.color = '#A8C8E0')}
-                        >{link}</a>
+                        <a href="#" className="text-xs leading-snug text-white/80 transition-colors hover:text-white">{link}</a>
                       </li>
                     ))}
                   </ul>
@@ -2383,42 +2426,73 @@ export default function Design4Page() {
               ))}
             </div>
 
-            {/* Social icons row */}
-            <div style={{ borderTop: '1px solid #0D4A6B' }} className="mt-10 flex flex-wrap items-center gap-3 pt-8">
-              <span className="text-xs font-semibold" style={{ color: '#A8C8E0' }}>Follow us:</span>
-              {[
-                { label: 'LinkedIn', icon: 'in', bg: '#0077b5' },
-                { label: 'Twitter/X', icon: 'X', bg: '#1da1f2' },
-                { label: 'YouTube', icon: '▶', bg: '#ff0000' },
-                { label: 'Facebook', icon: 'f', bg: '#1877f2' },
-              ].map(s => (
-                <a
-                  key={s.label}
-                  href="#"
-                  aria-label={s.label}
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white transition-all duration-200 hover:scale-110 hover:opacity-90"
-                  style={{ background: 'rgba(255,255,255,0.12)' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = s.bg)}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
-                >
-                  {s.icon}
-                </a>
+            {/* Row 2: Top Technologies, Top Partners, Top Courses (spans 2 cols) */}
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+              {FOOTER_BOTTOM_COLS.map(col => (
+                <div key={col.heading}>
+                  <h4 className="mb-4 text-sm font-semibold" style={{ color: '#0694D1' }}>{col.heading}</h4>
+                  <ul className="space-y-2">
+                    {col.links.map(link => (
+                      <li key={link}>
+                        <a href="#" className="text-xs leading-snug text-white/80 transition-colors hover:text-white">{link}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
+              {/* Top Courses — 2 sub-columns */}
+              <div className="col-span-2">
+                <h4 className="mb-4 text-sm font-semibold" style={{ color: '#0694D1' }}>Top Courses</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                  <ul className="space-y-2">
+                    {TOP_COURSES_COL1.map(link => (
+                      <li key={link}><a href="#" className="text-xs leading-snug text-white/80 transition-colors hover:text-white">{link}</a></li>
+                    ))}
+                  </ul>
+                  <ul className="space-y-2">
+                    {TOP_COURSES_COL2.map(link => (
+                      <li key={link}><a href="#" className="text-xs leading-snug text-white/80 transition-colors hover:text-white">{link}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Legal disclaimers */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-8">
+          <div className="mx-auto max-w-7xl flex flex-col lg:flex-row gap-8 items-start">
+            <ul className="flex-1 space-y-1.5 list-disc list-outside pl-4 text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              <li>All rights reserved. ©1997 - 2026, Koenig Solutions Pvt. Ltd.</li>
+              <li>PMP ® is a registered trademark of the Project Management Institute.</li>
+              <li>ITIL, PRINCE2 and IAASC are registered trademarks of the PeopleCert group. PeopleCert DevOps and PeopleCert SCRUM are trademarks of the PeopleCert group. Used under licence from PeopleCert. All rights reserved.</li>
+              <li>TOGAF® is a registered trademark of The Open Group.</li>
+              <li>The Open Group Certification Mark is a trademark, and The Open Group and TOGAF are registered trademarks of The Open Group.</li>
+              <li>The APMG International and swirl device logo is a trademark of the APM Group Limited, used under permission of The APM Group Limited. All rights reserved.</li>
+              <li>AgilePM® is a registered trademark of Agile Business Consortium Limited. All rights reserved.</li>
+            </ul>
+            {/* DMCA Badge */}
+            <div className="shrink-0">
+              <a href="https://www.dmca.com/Protection/Status.aspx?ID=koenig-solutions" target="_blank" rel="noopener noreferrer"
+                className="flex flex-col items-center justify-center rounded border px-3 py-2 text-center text-[10px] font-bold text-white/70 transition-opacity hover:opacity-80"
+                style={{ borderColor: 'rgba(255,255,255,0.2)', width: '72px' }}>
+                <svg className="mb-1 h-5 w-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                PROTECTED BY<br />DMCA
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div style={{ borderTop: '1px solid #0D4A6B' }} className="px-4 lg:px-[50px] py-5">
-          <div className="mx-auto max-w-7xl flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-between sm:text-left">
-            <p className="text-xs" style={{ color: '#A8C8E0' }}>
-              © 1997-2026, Koenig Solutions Pvt. Ltd. All rights reserved.
-            </p>
-            <p className="text-[10px] leading-relaxed" style={{ color: 'rgba(168,200,224,0.6)' }}>
-              PMP is a registered mark of the Project Management Institute, Inc. &nbsp;|&nbsp; ITIL® is a registered trademark of AXELOS Limited.
-            </p>
-          </div>
+        {/* Philosophy tagline */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-5">
+          <p className="mx-auto max-w-7xl text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+            We believe in the philosophy To Err is Human, to Admit Divine! We are not perfect but we are trying. Keep visiting our website, you will see improvements and occasional blunders, Feel free to tell us how we can improve by writing to{' '}
+            <a href="mailto:webmaster@koenig-solutions.com" className="text-[#0694D1] hover:underline">webmaster@koenig-solutions.com</a>
+          </p>
         </div>
+
       </footer>
 
       {/* ── Chatbot widget (Design 5 style) ──────────────────────── */}
