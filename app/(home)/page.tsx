@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import VendorStack from '@/components/VendorStack'
 
 /* ─── Data ──────────────────────────────────────────────────── */
@@ -922,7 +923,7 @@ export default function Design4Page() {
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <img src="/images/koenig-logo.svg" alt="Koenig Solutions" className="h-8 w-auto" />
+            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={150} height={40} />
           </Link>
 
           {/* Desktop nav links */}
