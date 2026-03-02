@@ -891,8 +891,8 @@ export default function Design4Page() {
       ════════════════════════════════════════════════════════ */}
 
       {/* Contact bar */}
-      <div className="hidden md:block" style={{ background: '#061624' }}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 lg:px-[50px] py-1.5 text-[11px] text-white/75">
+      <div className="hidden md:block px-4 lg:px-[50px]" style={{ background: '#061624' }}>
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 py-1.5 text-[11px] text-white/75">
           <div className="flex flex-wrap items-center gap-3">
             <a href="tel:+14129537506" className="flex items-center gap-1 transition-colors hover:text-white/80">
               <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
@@ -915,11 +915,11 @@ export default function Design4Page() {
 
       {/* Main sticky navbar */}
       <header
-        className={`sticky top-0 z-50 transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
+        className={`sticky top-0 z-50 px-4 lg:px-[50px] transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
         style={{ background: '#ffffff', borderBottom: '1px solid #e5e7eb' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
-        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2 lg:py-3 lg:px-[50px]">
+        <div className="mx-auto flex max-w-7xl items-center gap-3 py-2 lg:py-3">
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
@@ -979,7 +979,7 @@ export default function Design4Page() {
 
         {/* Mobile drawer */}
         {mobileOpen && (
-          <div className="border-t lg:hidden" style={{ background: '#0d3a5c', borderColor: '#0D4A6B' }}>
+          <div className="-mx-4 lg:-mx-[50px] border-t lg:hidden" style={{ background: '#0d3a5c', borderColor: '#0D4A6B' }}>
             <div className="mx-auto max-w-7xl space-y-0.5 px-4 py-3">
               {/* Contact info mobile */}
               <div className="mb-3 space-y-1.5 pb-3 text-xs" style={{ borderBottom: '1px solid #0D4A6B' }}>
