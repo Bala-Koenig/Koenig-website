@@ -909,7 +909,6 @@ export default function Design4Page() {
               info@koenig-solutions.com
             </a>
           </div>
-          <Link href="/" className="shrink-0 text-[#A8C8E0] transition-colors hover:text-white">← All designs</Link>
         </div>
       </div>
 
