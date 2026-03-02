@@ -2356,10 +2356,6 @@ export default function Design4Page() {
           <div className="mx-auto max-w-7xl">
             {/* Logo + contact */}
             <div className="mb-10">
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-lg sm:text-xl font-black text-white">KOENIG</span>
-                <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#A8C8E0' }}>step forward</span>
-              </div>
               <p className="mt-2 text-xs" style={{ color: '#A8C8E0' }}>info@koenig-solutions.com</p>
               <p className="text-xs" style={{ color: '#A8C8E0' }}>+14129537506</p>
             </div>
