@@ -2477,7 +2477,7 @@ export default function Design4Page() {
             <div className="shrink-0">
               <a href="https://www.dmca.com/Protection/Status.aspx?ID=koenig-solutions" target="_blank" rel="noopener noreferrer"
                 className="transition-opacity hover:opacity-80">
-                <Image src="/images/dmca-badge.png" alt="DMCA Protected" width={120} height={24} />
+                <Image src="/images/dmca-badge.png" alt="DMCA Protected" width={121} height={24} unoptimized />
               </a>
             </div>
           </div>
