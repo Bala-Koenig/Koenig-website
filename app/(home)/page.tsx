@@ -922,8 +922,7 @@ export default function Design4Page() {
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <span className="text-lg sm:text-xl font-black tracking-tight text-white">KOENIG</span>
-            <span className="hidden text-[9px] font-semibold uppercase tracking-widest text-white/65 sm:inline">step forward</span>
+            <img src="/images/koenig-logo.svg" alt="Koenig Solutions" className="h-8 w-auto" />
           </Link>
 
           {/* Desktop nav links */}
