@@ -923,7 +923,7 @@ export default function Design4Page() {
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={150} height={40} />
+            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={150} height={40} style={{ filter: 'brightness(0) invert(1)' }} />
           </Link>
 
           {/* Desktop nav links */}
