@@ -2478,7 +2478,7 @@ export default function Design4Page() {
               <a href="https://www.dmca.com/Protection/Status.aspx?ID=koenig-solutions" target="_blank" rel="noopener noreferrer"
                 className="transition-opacity hover:opacity-80">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/dmca.png" alt="DMCA Protected" style={{ width: '150px', height: 'auto' }} />
+                <img src="/images/dmca.png" alt="DMCA Protected" style={{ width: '62px', height: '62px' }} />
               </a>
             </div>
           </div>
