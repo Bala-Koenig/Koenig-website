@@ -2476,10 +2476,8 @@ export default function Design4Page() {
             {/* DMCA Badge */}
             <div className="shrink-0">
               <a href="https://www.dmca.com/Protection/Status.aspx?ID=koenig-solutions" target="_blank" rel="noopener noreferrer"
-                className="flex flex-col items-center justify-center rounded border px-3 py-2 text-center text-[10px] font-bold text-white/70 transition-opacity hover:opacity-80"
-                style={{ borderColor: 'rgba(255,255,255,0.2)', width: '72px' }}>
-                <svg className="mb-1 h-5 w-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                PROTECTED BY<br />DMCA
+                className="transition-opacity hover:opacity-80">
+                <Image src="/images/dmca-logo.png" alt="DMCA Protected" width={150} height={30} />
               </a>
             </div>
           </div>
