@@ -919,7 +919,7 @@ export default function Design4Page() {
         style={{ background: '#ffffff', borderBottom: '1px solid #e5e7eb' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
-        <div className="mx-auto flex max-w-7xl items-center gap-3 py-2 lg:py-3">
+        <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
