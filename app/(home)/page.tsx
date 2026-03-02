@@ -1299,7 +1299,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Trusted by Global Companies ───────────────────────── */}
-      <section className="bg-white overflow-hidden" style={{ paddingTop: '48px', paddingBottom: '40px' }}>
+      <section className="bg-white overflow-hidden px-4 lg:px-[50px]" style={{ paddingTop: '48px', paddingBottom: '40px' }}>
         <style>{`
           @keyframes trustedScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
           .trusted-track { display: flex; width: max-content; animation: trustedScroll 38s linear infinite; }
@@ -1307,7 +1307,7 @@ export default function Design4Page() {
         `}</style>
 
         {/* Section heading */}
-        <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
+        <div className="mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: '16px' }}>
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">
               Trusted by <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">global companies</span> across various industries
@@ -1457,7 +1457,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Vendor Partners ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
         <div className="pointer-events-none absolute -left-40 -top-32 h-[420px] w-[420px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-20 right-0 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         {/* Add reverse-marquee keyframe */}
@@ -1467,7 +1467,7 @@ export default function Design4Page() {
           .marquee-rev:hover { animation-play-state: paused; }
         `}</style>
 
-        <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
+        <div className="mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
             <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue">
               Official Partnerships
@@ -2238,12 +2238,12 @@ export default function Design4Page() {
       </section>
 
       {/* ── Awards ────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white py-[60px]" style={{ borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]" style={{ borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
 
         {/* Header */}
-        <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
+        <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-10 text-center">
             <span className="mb-2 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue">Recognition</span>
             <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Awards &amp; <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Recognition</span></h2>
