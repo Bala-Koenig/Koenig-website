@@ -923,22 +923,23 @@ export default function Design4Page() {
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={150} height={40} />
+            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-7 w-auto lg:h-8" />
           </Link>
 
           {/* Desktop nav links */}
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-4 lg:flex">
             {/* All Courses — filled cyan pill */}
             <button
-              className="rounded-full px-5 py-1.5 text-xs sm:text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              className="flex items-center gap-1 rounded-full px-4 py-1.5 text-xs sm:text-sm font-semibold text-white transition-opacity hover:opacity-90"
               style={{ background: '#0694D1' }}
             >
               All Courses
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg>
             </button>
-            <a href="#" className="px-3 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Technologies</a>
-            <a href="#" className="px-3 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Vendors</a>
-            <a href="#" className="px-3 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>About</a>
-            <a href="#" className="px-3 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Contact</a>
+            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Technologies<svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Vendors<svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>About<svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Contact<svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg></a>
           </nav>
 
           {/* Right — search + login + hamburger */}
