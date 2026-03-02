@@ -916,14 +916,14 @@ export default function Design4Page() {
       {/* Main sticky navbar */}
       <header
         className={`sticky top-0 z-50 transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
-        style={{ background: '#093148' }}
+        style={{ background: '#ffffff', borderBottom: '1px solid #e5e7eb' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2 lg:py-3 lg:px-[50px]">
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={150} height={40} style={{ filter: 'brightness(0) invert(1)' }} />
+            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={150} height={40} />
           </Link>
 
           {/* Desktop nav links */}
@@ -935,32 +935,36 @@ export default function Design4Page() {
             >
               All Courses
             </button>
-            <a href="#" className="px-3 py-2 text-sm font-medium text-white transition-colors hover:text-white/70">Technologies</a>
-            <a href="#" className="px-3 py-2 text-sm font-medium text-white transition-colors hover:text-white/70">Vendors</a>
-            <a href="#" className="px-3 py-2 text-sm font-medium text-white transition-colors hover:text-white/70">About</a>
-            <a href="#" className="px-3 py-2 text-sm font-medium text-white transition-colors hover:text-white/70">Contact</a>
+            <a href="#" className="px-3 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Technologies</a>
+            <a href="#" className="px-3 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Vendors</a>
+            <a href="#" className="px-3 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>About</a>
+            <a href="#" className="px-3 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Contact</a>
           </nav>
 
           {/* Right — search + login + hamburger */}
           <div className="ml-auto flex items-center gap-2">
             {/* Search */}
-            <div className="hidden items-center gap-2 rounded-lg border border-white/20 bg-white/8 px-3 py-1.5 transition-all focus-within:border-white/35 focus-within:bg-white/12 lg:flex">
-              <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              <input type="text" placeholder="Search courses…" aria-label="Search courses" className="w-36 bg-transparent text-sm text-white placeholder-white/60 outline-none" />
+            <div className="hidden items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 transition-all focus-within:border-[#0694D1] focus-within:bg-white lg:flex">
+              <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" placeholder="Search courses…" aria-label="Search courses" className="w-36 bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none" />
             </div>
             {/* Login */}
             <a
               href="https://mykoenig.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden rounded-lg border border-white/30 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-white/10 lg:inline-block"
+              className="hidden rounded-lg border px-4 py-1.5 text-sm font-medium transition-colors lg:inline-block"
+              style={{ borderColor: '#093148', color: '#093148' }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#093148'; e.currentTarget.style.color = '#ffffff'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#093148'; }}
             >
               Login
             </a>
             {/* Hamburger */}
             <button
               onClick={() => setMobileOpen(v => !v)}
-              className="rounded-lg p-2 text-white transition-colors hover:bg-white/10 lg:hidden"
+              className="rounded-lg p-2 transition-colors hover:bg-gray-100 lg:hidden"
+              style={{ color: '#093148' }}
               aria-label="Toggle menu"
             >
               {mobileOpen ? (
