@@ -564,7 +564,7 @@ const AWARDS = [
 
 function AwardsMarquee({ awards }: { awards: typeof AWARDS }) {
   const trackRef = useRef<HTMLDivElement>(null)
-  const rafRef = useRef<number>()
+  const rafRef = useRef<number>(0)
   const posRef = useRef(0)
   const dragging = useRef(false)
   const lastX = useRef(0)
