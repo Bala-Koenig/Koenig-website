@@ -1131,13 +1131,16 @@ export default function Design4Page() {
 
               {/* Search bar */}
               <div className="hero-search h-fade-up h-d4 mb-5 flex w-full max-w-2xl items-stretch overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.35)] bg-[#071B2E]/90 p-2 shadow-xl backdrop-blur-sm transition-all duration-200">
-                <select aria-label="Filter by domain" className="hidden rounded-xl bg-[#0b1929] px-4 py-2 text-sm text-white/80 outline-none sm:block">
-                  <option value="">All Domains</option>
-                  <option value="cloud">Cloud</option>
-                  <option value="security">Security</option>
-                  <option value="networking">Networking</option>
-                  <option value="ai">AI &amp; ML</option>
-                </select>
+                <div className="relative hidden shrink-0 sm:block">
+                  <select aria-label="Filter by domain" className="h-full appearance-none rounded-xl py-2 pl-4 pr-8 text-sm text-white/90 outline-none" style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.28)' }}>
+                    <option value="">All Domains</option>
+                    <option value="cloud">Cloud</option>
+                    <option value="security">Security</option>
+                    <option value="networking">Networking</option>
+                    <option value="ai">AI &amp; ML</option>
+                  </select>
+                  <svg className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 opacity-60" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#7DD3F8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
                 <div className="mx-2 my-1 hidden w-px bg-white/10 sm:block" />
                 <input
                   type="text"
