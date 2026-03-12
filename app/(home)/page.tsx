@@ -1133,11 +1133,11 @@ export default function Design4Page() {
               <div className="hero-search h-fade-up h-d4 mb-5 flex w-full max-w-2xl items-stretch overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.35)] bg-[#071B2E]/90 p-2 shadow-xl backdrop-blur-sm transition-all duration-200">
                 <div className="relative hidden shrink-0 sm:block">
                   <select aria-label="Filter by domain" className="h-full appearance-none rounded-xl py-2 pl-4 pr-8 text-sm text-white/90 outline-none" style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.28)' }}>
-                    <option value="">All Domains</option>
-                    <option value="cloud">Cloud</option>
-                    <option value="security">Security</option>
-                    <option value="networking">Networking</option>
-                    <option value="ai">AI &amp; ML</option>
+                    <option value="" style={{ background: '#0b1929', color: '#fff' }}>All Domains</option>
+                    <option value="cloud" style={{ background: '#0b1929', color: '#fff' }}>Cloud</option>
+                    <option value="security" style={{ background: '#0b1929', color: '#fff' }}>Security</option>
+                    <option value="networking" style={{ background: '#0b1929', color: '#fff' }}>Networking</option>
+                    <option value="ai" style={{ background: '#0b1929', color: '#fff' }}>AI &amp; ML</option>
                   </select>
                   <svg className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 opacity-60" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#7DD3F8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
