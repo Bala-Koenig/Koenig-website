@@ -1347,11 +1347,13 @@ export default function Design4Page() {
                     className="flex flex-1 flex-col items-center overflow-hidden"
                     style={{ background: 'linear-gradient(135deg, rgba(180,0,0,0.55) 0%, rgba(5,18,35,0.92) 100%)' }}
                   >
-                    <img
-                      src="/images/awards/RED-25-1.png"
-                      alt="RedHat Gold Partner of the Year 2025"
-                      className="w-full object-contain object-top"
-                    />
+                    <div className="w-full overflow-hidden" style={{ height: '62%', flexShrink: 0 }}>
+                      <img
+                        src="/images/awards/RED-25-1.png"
+                        alt="RedHat Gold Partner of the Year 2025"
+                        className="w-full h-full object-contain object-top"
+                      />
+                    </div>
                     <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(40,6,6,0.72)' }}>
                       <p className="font-bold" style={{ fontSize: '15px', lineHeight: '1.6' }}>
                         Winner of Red Hat Gold Partner<br />
