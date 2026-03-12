@@ -680,6 +680,12 @@ export default function Design4Page() {
   const [testimStart, setTestimStart] = useState(0)
   const [webinarStart, setWebinarStart] = useState(0)
   const statsRef = useRef<HTMLDivElement>(null)
+  const [navQuery, setNavQuery] = useState('')
+  const [heroQuery, setHeroQuery] = useState('')
+  const [navResultsOpen, setNavResultsOpen] = useState(false)
+  const [heroResultsOpen, setHeroResultsOpen] = useState(false)
+  const navSearchRef = useRef<HTMLDivElement>(null)
+  const heroSearchRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (heroPaused) return
@@ -751,6 +757,15 @@ export default function Design4Page() {
   }, [])
 
 
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
+      if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) setHeroResultsOpen(false)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   return (
     <div className="min-h-screen overflow-x-clip bg-white" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -964,9 +979,38 @@ export default function Design4Page() {
           {/* Right — search + login + hamburger */}
           <div className="ml-auto flex items-center gap-2">
             {/* Search */}
-            <div className="hidden items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 transition-all focus-within:border-[#0694D1] focus-within:bg-white lg:flex">
-              <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-              <input type="text" placeholder="Search courses…" aria-label="Search courses" className="w-36 bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none" />
+            <div className="relative hidden lg:block" ref={navSearchRef}>
+              <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 transition-all focus-within:border-[#0694D1] focus-within:bg-white">
+                <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input
+                  type="text"
+                  value={navQuery}
+                  onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true) }}
+                  onFocus={() => setNavResultsOpen(true)}
+                  placeholder="Search courses…"
+                  aria-label="Search courses"
+                  className="w-36 bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none"
+                />
+              </div>
+              {navResultsOpen && navQuery.trim().length > 0 && (
+                <div className="absolute right-0 top-full z-50 mt-1.5 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+                  {(() => {
+                    const results = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
+                      c.name.toLowerCase().includes(navQuery.toLowerCase()) ||
+                      c.vendor.toLowerCase().includes(navQuery.toLowerCase())
+                    ).slice(0, 6)
+                    return results.length > 0 ? results.map((c, i) => (
+                      <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-gray-800">{c.name}</p>
+                          <p className="mt-0.5 text-xs text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
+                        </div>
+                        <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${c.levelColor}`}>{c.level}</span>
+                      </div>
+                    )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for "{navQuery}"</div>
+                  })()}
+                </div>
+              )}
             </div>
             {/* Login */}
             <a
@@ -1130,27 +1174,51 @@ export default function Design4Page() {
               </p>
 
               {/* Search bar */}
-              <div className="hero-search h-fade-up h-d4 mb-5 flex w-full max-w-2xl items-stretch overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.35)] bg-[#071B2E]/90 p-2 shadow-xl backdrop-blur-sm transition-all duration-200">
-                <div className="relative hidden shrink-0 sm:block">
-                  <select aria-label="Filter by domain" className="h-full appearance-none rounded-xl py-2 pl-4 pr-8 text-sm text-white/90 outline-none" style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.28)' }}>
-                    <option value="" style={{ background: '#0b1929', color: '#fff' }}>All Domains</option>
-                    <option value="cloud" style={{ background: '#0b1929', color: '#fff' }}>Cloud</option>
-                    <option value="security" style={{ background: '#0b1929', color: '#fff' }}>Security</option>
-                    <option value="networking" style={{ background: '#0b1929', color: '#fff' }}>Networking</option>
-                    <option value="ai" style={{ background: '#0b1929', color: '#fff' }}>AI &amp; ML</option>
-                  </select>
-                  <svg className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 opacity-60" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#7DD3F8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <div className="h-fade-up h-d4 mb-5 relative w-full max-w-2xl" ref={heroSearchRef}>
+                <div className="hero-search flex w-full items-stretch overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.35)] bg-[#071B2E]/90 p-2 shadow-xl backdrop-blur-sm transition-all duration-200">
+                  <div className="relative hidden shrink-0 sm:block">
+                    <select aria-label="Filter by domain" className="h-full appearance-none rounded-xl py-2 pl-4 pr-8 text-sm text-white/90 outline-none" style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.28)' }}>
+                      <option value="" style={{ background: '#0b1929', color: '#fff' }}>All Domains</option>
+                      <option value="cloud" style={{ background: '#0b1929', color: '#fff' }}>Cloud</option>
+                      <option value="security" style={{ background: '#0b1929', color: '#fff' }}>Security</option>
+                      <option value="networking" style={{ background: '#0b1929', color: '#fff' }}>Networking</option>
+                      <option value="ai" style={{ background: '#0b1929', color: '#fff' }}>AI &amp; ML</option>
+                    </select>
+                    <svg className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 opacity-60" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#7DD3F8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <div className="mx-2 my-1 hidden w-px bg-white/10 sm:block" />
+                  <input
+                    type="text"
+                    value={heroQuery}
+                    onChange={e => { setHeroQuery(e.target.value); setHeroResultsOpen(true) }}
+                    onFocus={() => setHeroResultsOpen(true)}
+                    placeholder="Search 5,000+ courses — e.g. Azure, CISSP, AWS DevOps..."
+                    aria-label="Search courses"
+                    className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder-white/40 outline-none"
+                  />
+                  <button className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
+                    Search
+                  </button>
                 </div>
-                <div className="mx-2 my-1 hidden w-px bg-white/10 sm:block" />
-                <input
-                  type="text"
-                  placeholder="Search 5,000+ courses — e.g. Azure, CISSP, AWS DevOps..."
-                  aria-label="Search courses"
-                  className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder-white/40 outline-none"
-                />
-                <button className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
-                  Search
-                </button>
+                {heroResultsOpen && heroQuery.trim().length > 0 && (
+                  <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.30)] bg-[#071B2E]/98 shadow-2xl backdrop-blur-sm">
+                    {(() => {
+                      const results = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
+                        c.name.toLowerCase().includes(heroQuery.toLowerCase()) ||
+                        c.vendor.toLowerCase().includes(heroQuery.toLowerCase())
+                      ).slice(0, 6)
+                      return results.length > 0 ? results.map((c, i) => (
+                        <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-white/5 px-4 py-3 transition-colors hover:bg-white/5 last:border-0">
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-medium text-white">{c.name}</p>
+                            <p className="mt-0.5 text-xs text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
+                          </div>
+                          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${c.levelColor}`}>{c.level}</span>
+                        </div>
+                      )) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
+                    })()}
+                  </div>
+                )}
               </div>
 
               {/* Popular tags */}
