@@ -1044,7 +1044,31 @@ export default function Design4Page() {
           .h-fade-up { animation: heroFadeUp 0.7s ease both; }
           .h-slide-l { animation: heroSlideL 0.6s ease both; }
           .h-d1{animation-delay:0.05s} .h-d2{animation-delay:0.20s} .h-d3{animation-delay:0.35s} .h-d4{animation-delay:0.50s} .h-d5{animation-delay:0.65s}
-          .hero-search:focus-within { border-color:#076D9D; box-shadow:0 0 0 3px rgba(7,109,157,0.25); }
+          /* Search bar — glow breathe */
+          @keyframes searchGlow {
+            0%,100% { box-shadow: 0 0 14px 2px rgba(6,148,209,0.20), 0 0 36px 4px rgba(77,191,239,0.08); border-color: rgba(6,148,209,0.35); }
+            50%      { box-shadow: 0 0 30px 7px rgba(6,148,209,0.45), 0 0 64px 12px rgba(77,191,239,0.18); border-color: rgba(6,148,209,0.70); }
+          }
+          .hero-search { animation: searchGlow 3s ease-in-out infinite; }
+          .hero-search:focus-within {
+            border-color: #0694D1 !important;
+            box-shadow: 0 0 0 3px rgba(6,148,209,0.30), 0 0 40px 10px rgba(6,148,209,0.40) !important;
+            animation: none;
+          }
+          /* Search button — shine sweep */
+          @keyframes btnShine {
+            0%   { background-position: -200% center; }
+            30%  { background-position: 200% center; }
+            100% { background-position: 200% center; }
+          }
+          .search-btn {
+            background: #0694D1;
+            background-image: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.55) 50%, transparent 60%);
+            background-size: 200% 100%;
+            background-position: -200% center;
+            animation: btnShine 2.4s ease-in-out infinite;
+          }
+          .search-btn:hover { background-color: #076D9D; }
           @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
           @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
           @keyframes statFadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
@@ -1121,7 +1145,7 @@ export default function Design4Page() {
                   aria-label="Search courses"
                   className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder-white/40 outline-none"
                 />
-                <button className="shrink-0 rounded-xl bg-[#0694D1] px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-all hover:bg-[#076D9D] hover:shadow-[0_0_20px_rgba(6,148,209,0.55)]">
+                <button className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
                   Search
                 </button>
               </div>
