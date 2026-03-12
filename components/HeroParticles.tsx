@@ -75,7 +75,7 @@ export default function HeroParticles() {
         for (let j = i + 1; j < ps.length; j++) {
           const d = Math.hypot(ps[i].x - ps[j].x, ps[i].y - ps[j].y)
           if (d < CONNECT_R) {
-            const a = (1 - d / CONNECT_R) * 0.22
+            const a = (1 - d / CONNECT_R) * 0.38
             ctx.strokeStyle = `rgba(${R},${G},${B},${a})`
             ctx.beginPath()
             ctx.moveTo(ps[i].x, ps[i].y)
