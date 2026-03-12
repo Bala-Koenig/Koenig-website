@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 /* ─── Constants ─────────────────────────────────────────────── */
 const NAV_H   = 56
@@ -319,6 +319,7 @@ function MoreCard() {
 
 /* ─── Main Component ────────────────────────────────────────── */
 export default function VendorStack() {
+  const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
     const SHIFT  = 22
@@ -326,14 +327,12 @@ export default function VendorStack() {
     const FADE   = 0.12
     const MAX_BG = 4
 
-    const allCards = document.querySelectorAll('[data-index]')
-    const allTabs  = document.querySelectorAll('[data-tab]')
+    const allCards = Array.from(document.querySelectorAll<HTMLElement>('[data-index]'))
+    const triggers = Array.from(document.querySelectorAll<HTMLElement>('.vs-trigger'))
 
-    function applyLayout(active: number) {
-      allCards.forEach((card, i) => {
-        const el  = card as HTMLElement
+    function applyCards(active: number) {
+      allCards.forEach((el, i) => {
         const pos = active - i
-
         if (pos < 0) {
           el.style.transform = 'translateY(110%)'
           el.style.opacity   = '0'
@@ -344,40 +343,59 @@ export default function VendorStack() {
           el.style.opacity   = '1'
           el.style.zIndex    = '100'
           el.style.boxShadow = 'none'
+        } else if (pos > MAX_BG) {
+          el.style.transform = `translateY(-${MAX_BG * SHIFT + 30}px) scale(${Math.max(1 - MAX_BG * SCALE, 0.78)})`
+          el.style.opacity   = '0'
+          el.style.zIndex    = String(100 - pos)
         } else {
-          if (pos > MAX_BG) {
-            el.style.transform = `translateY(-${MAX_BG * SHIFT + 30}px) scale(${Math.max(1 - MAX_BG * SCALE, 0.78)})`
-            el.style.opacity   = '0'
-            el.style.zIndex    = String(100 - pos)
-          } else {
-            el.style.transform = `translateY(-${pos * SHIFT}px) scale(${Math.max(1 - pos * SCALE, 0.78)})`
-            el.style.opacity   = String(Math.max(1 - pos * FADE, 0.2))
-            el.style.zIndex    = String(100 - pos)
-            el.style.boxShadow = 'none'
-          }
+          el.style.transform = `translateY(-${pos * SHIFT}px) scale(${Math.max(1 - pos * SCALE, 0.78)})`
+          el.style.opacity   = String(Math.max(1 - pos * FADE, 0.2))
+          el.style.zIndex    = String(100 - pos)
+          el.style.boxShadow = 'none'
         }
-      })
-
-      allTabs.forEach((t, i) => {
-        const el = t as HTMLElement
-        el.setAttribute('data-active', i === active ? 'true' : 'false')
       })
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const n = parseInt((entry.target as HTMLElement).dataset.n ?? '0', 10)
-            applyLayout(n)
-          }
-        })
-      },
-      { threshold: 0.5 }
-    )
+    let lastActive = -1
+    let cleanup: (() => void) | null = null
 
-    document.querySelectorAll('.vs-trigger').forEach(t => observer.observe(t))
-    return () => observer.disconnect()
+    // Defer one frame so layout is painted and getBoundingClientRect is accurate
+    const rafId = requestAnimationFrame(() => {
+      if (triggers.length === 0) return
+
+      // Precompute each trigger's absolute position from page top (stable — doesn't change on scroll)
+      const triggerTops = triggers.map(t => t.getBoundingClientRect().top + window.scrollY)
+
+      // Bottom of sticky section = where triggers first become visible
+      const stickyEl = document.querySelector<HTMLElement>('.vs-section')
+      const stickyBottom = NAV_H + (stickyEl?.offsetHeight ?? 0)
+
+      const onScroll = () => {
+        // Detection line: just past the sticky panel so we react as trigger enters the visible strip
+        const viewLine = window.scrollY + stickyBottom + 40
+
+        let active = 0
+        for (let i = 0; i < triggerTops.length; i++) {
+          if (triggerTops[i] <= viewLine) active = i
+          else break
+        }
+
+        if (active !== lastActive) {
+          lastActive = active
+          applyCards(active)
+          setActiveTab(active)
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true })
+      cleanup = () => window.removeEventListener('scroll', onScroll)
+      onScroll() // set correct state immediately
+    })
+
+    return () => {
+      cancelAnimationFrame(rafId)
+      cleanup?.()
+    }
   }, [])
 
   const scrollToTrigger = (i: number) => {
@@ -435,18 +453,19 @@ export default function VendorStack() {
               <button
                 key={i}
                 data-tab={i}
-                data-active={i === 0 ? 'true' : 'false'}
+                data-active={activeTab === i ? 'true' : 'false'}
                 onClick={() => scrollToTrigger(i)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 6,
                   padding: '8px 14px', borderRadius: 9999,
-                  border: '1px solid rgba(6,148,209,0.3)',
-                  background: 'transparent', cursor: 'pointer',
-                  whiteSpace: 'nowrap', flexShrink: 0,
+                  border: `1px solid ${activeTab === i ? '#0694D1' : 'rgba(6,148,209,0.3)'}`,
+                  background: activeTab === i ? 'rgba(6,148,209,0.25)' : 'transparent',
+                  cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+                  transition: 'background 0.2s, border-color 0.2s',
                 }}
               >
                 <span style={{ fontSize: 14 }}>{tab.icon}</span>
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)' }}>{tab.label}</span>
+                <span style={{ fontSize: 13, color: activeTab === i ? 'white' : 'rgba(255,255,255,0.7)', fontWeight: activeTab === i ? 600 : 400 }}>{tab.label}</span>
               </button>
             ))}
           </div>
@@ -492,7 +511,7 @@ export default function VendorStack() {
               <button
                 key={i}
                 data-tab={i}
-                data-active={i === 0 ? 'true' : 'false'}
+                data-active={activeTab === i ? 'true' : 'false'}
                 onClick={() => scrollToTrigger(i)}
                 style={{
                   display: 'flex',
@@ -502,9 +521,13 @@ export default function VendorStack() {
                   padding: '10px 14px',
                   width: '100%',
                   border: 'none',
-                  background: 'transparent',
+                  borderLeft: `3px solid ${activeTab === i ? '#0694D1' : 'transparent'}`,
+                  background: activeTab === i
+                    ? 'linear-gradient(90deg, rgba(6,148,209,0.35) 0%, rgba(77,191,239,0.12) 100%)'
+                    : 'transparent',
                   cursor: 'pointer',
                   textAlign: 'left',
+                  transition: 'background 0.2s, border-color 0.2s',
                 }}
               >
                 <span
@@ -512,13 +535,14 @@ export default function VendorStack() {
                     width: 32, height: 32, borderRadius: 8,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 16, flexShrink: 0,
-                    background: i === 0 ? '#076D9D' : 'transparent',
-                    color: i === 0 ? 'white' : 'rgba(255,255,255,0.5)',
+                    background: activeTab === i ? 'linear-gradient(135deg, #076D9D, #0694D1)' : 'transparent',
+                    color: activeTab === i ? 'white' : 'rgba(255,255,255,0.5)',
+                    transition: 'background 0.2s',
                   }}
                 >
                   {tab.icon}
                 </span>
-                <span className="vs-tab-label" style={{ fontSize: 14, color: i === 0 ? 'white' : 'rgba(255,255,255,0.55)', whiteSpace: 'nowrap' }}>
+                <span className="vs-tab-label" style={{ fontSize: 14, color: activeTab === i ? 'white' : 'rgba(255,255,255,0.55)', fontWeight: activeTab === i ? 600 : 400, whiteSpace: 'nowrap' }}>
                   {tab.label}
                 </span>
               </button>
