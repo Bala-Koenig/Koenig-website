@@ -26,11 +26,11 @@ export default function HeroParticles() {
   const cvRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const cv = cvRef.current
-    if (!cv) return
-    const ctx = cv.getContext('2d')
+    if (!cvRef.current) return
+    const cv: HTMLCanvasElement = cvRef.current
+    const ctx = cv.getContext('2d') as CanvasRenderingContext2D
     if (!ctx) return
-    const par = cv.parentElement
+    const par = cv.parentElement as HTMLElement
     if (!par) return
 
     let W = 0, H = 0
