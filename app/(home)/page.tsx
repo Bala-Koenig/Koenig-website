@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import VendorStack from '@/components/VendorStack'
+import HeroParticles from '@/components/HeroParticles'
 
 /* ─── Data ──────────────────────────────────────────────────── */
 
@@ -1135,6 +1136,8 @@ export default function Design4Page() {
         <div className="blob2 pointer-events-none absolute top-1/2 -right-40 h-80 w-80 rounded-full bg-cyan-300/15 blur-3xl" />
         <div className="blob3 pointer-events-none absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-sky-200/10 blur-3xl" />
 
+        {/* Interactive particle canvas */}
+        <HeroParticles />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
