@@ -1177,7 +1177,7 @@ export default function Design4Page() {
               </p>
 
               {/* Search bar */}
-              <div className="h-fade-up h-d4 mb-5 relative w-full max-w-2xl" ref={heroSearchRef}>
+              <div className="h-fade-up h-d4 mb-5 relative w-full max-w-2xl z-[100]" ref={heroSearchRef}>
                 <div className="hero-search flex w-full items-stretch overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.35)] bg-[#071B2E]/90 p-2 shadow-xl backdrop-blur-sm transition-all duration-200">
                   <div className="relative hidden shrink-0 sm:block">
                     <select aria-label="Filter by domain" className="h-full appearance-none rounded-xl py-2 pl-4 pr-8 text-sm text-white/90 outline-none" style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.28)' }}>
