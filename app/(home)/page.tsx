@@ -1303,7 +1303,7 @@ export default function Design4Page() {
               >
 
                 {/* shared dots — pinned to card bottom */}
-                <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 py-2.5" style={{ background: 'rgba(4,16,30,0.40)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
+                <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 py-2.5" style={{ background: 'rgba(6,40,65,0.72)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
                   {[0,1,2,3].map(i => (
                     <button
                       key={i}
