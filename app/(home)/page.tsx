@@ -957,7 +957,7 @@ export default function Design4Page() {
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <div className="rounded-lg px-2.5 py-1.5" style={{ background: 'rgba(6,148,209,0.18)' }}>
+            <div className="rounded-lg px-2.5 py-1.5" style={{ background: 'rgba(56,189,248,0.15)' }}>
               <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-7 w-auto lg:h-8" />
             </div>
           </Link>
