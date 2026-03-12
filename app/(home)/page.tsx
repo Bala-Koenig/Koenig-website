@@ -1046,8 +1046,8 @@ export default function Design4Page() {
           .h-d1{animation-delay:0.05s} .h-d2{animation-delay:0.20s} .h-d3{animation-delay:0.35s} .h-d4{animation-delay:0.50s} .h-d5{animation-delay:0.65s}
           /* Search bar — glow breathe */
           @keyframes searchGlow {
-            0%,100% { box-shadow: 0 0 14px 2px rgba(6,148,209,0.20), 0 0 36px 4px rgba(77,191,239,0.08); border-color: rgba(6,148,209,0.35); }
-            50%      { box-shadow: 0 0 30px 7px rgba(6,148,209,0.45), 0 0 64px 12px rgba(77,191,239,0.18); border-color: rgba(6,148,209,0.70); }
+            0%,100% { box-shadow: 0 0 8px 1px rgba(6,148,209,0.10), 0 0 20px 2px rgba(77,191,239,0.04); border-color: rgba(6,148,209,0.22); }
+            50%      { box-shadow: 0 0 18px 4px rgba(6,148,209,0.25), 0 0 40px 6px rgba(77,191,239,0.09); border-color: rgba(6,148,209,0.45); }
           }
           .hero-search { animation: searchGlow 3s ease-in-out infinite; }
           .hero-search:focus-within {
