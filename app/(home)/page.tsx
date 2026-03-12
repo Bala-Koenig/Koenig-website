@@ -1354,7 +1354,7 @@ export default function Design4Page() {
                         className="w-full h-full object-contain object-top"
                       />
                     </div>
-                    <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(40,6,6,0.72)' }}>
+                    <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(6,40,65,0.72)' }}>
                       <p className="font-bold" style={{ fontSize: '15px', lineHeight: '1.6' }}>
                         Winner of Red Hat Gold Partner<br />
                         of the Year 2025 – Non-Retail<br />
