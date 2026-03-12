@@ -8,6 +8,7 @@ const LINE_R    = 155   // cursor→particle line radius (px)
 const SPRING    = 0.030 // spring strength back to home
 const DAMP      = 0.80  // velocity damping per frame
 const REPEL_F   = 3.0   // repel impulse multiplier
+const CONNECT_R = 95    // particle↔particle join line radius (px)
 // Brand blue  rgb(6, 148, 209)
 const R = 6, G = 148, B = 209
 
@@ -67,6 +68,22 @@ export default function HeroParticles() {
     function frame() {
       ctx.clearRect(0, 0, W, H)
       if (!paused) t += 0.007
+
+      /* particle↔particle join lines */
+      ctx.lineWidth = 0.65
+      for (let i = 0; i < ps.length; i++) {
+        for (let j = i + 1; j < ps.length; j++) {
+          const d = Math.hypot(ps[i].x - ps[j].x, ps[i].y - ps[j].y)
+          if (d < CONNECT_R) {
+            const a = (1 - d / CONNECT_R) * 0.22
+            ctx.strokeStyle = `rgba(${R},${G},${B},${a})`
+            ctx.beginPath()
+            ctx.moveTo(ps[i].x, ps[i].y)
+            ctx.lineTo(ps[j].x, ps[j].y)
+            ctx.stroke()
+          }
+        }
+      }
 
       /* connection lines from cursor */
       if (m.on && !paused) {
