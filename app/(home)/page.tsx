@@ -691,7 +691,7 @@ export default function Design4Page() {
   useEffect(() => {
     if (heroPaused) return
     const timer = setInterval(() => {
-      setHeroSlide(s => (s + 1) % 3)
+      setHeroSlide(s => (s + 1) % 4)
     }, 4000)
     return () => clearInterval(timer)
   }, [heroPaused])
@@ -1304,7 +1304,7 @@ export default function Design4Page() {
 
                 {/* shared dots — pinned to card bottom */}
                 <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 py-2.5" style={{ background: 'rgba(4,16,30,0.40)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
-                  {[0,1,2].map(i => (
+                  {[0,1,2,3].map(i => (
                     <button
                       key={i}
                       onClick={() => setHeroSlide(i)}
@@ -1338,10 +1338,34 @@ export default function Design4Page() {
                   </div>
                 </div>
 
-                {/* ── Slide 2 — Partner Stats ── */}
+                {/* ── Slide 2 — RedHat Gold Partner Award ── */}
                 <div
                   className="absolute inset-0 flex flex-col transition-opacity duration-500"
                   style={{ opacity: heroSlide === 1 ? 1 : 0, pointerEvents: heroSlide === 1 ? 'auto' : 'none' }}
+                >
+                  <div
+                    className="flex flex-1 flex-col items-center overflow-hidden"
+                    style={{ background: 'linear-gradient(135deg, rgba(180,0,0,0.55) 0%, rgba(5,18,35,0.92) 100%)' }}
+                  >
+                    <img
+                      src="/images/awards/RED-25-1.png"
+                      alt="RedHat Gold Partner of the Year 2025"
+                      className="w-full object-contain object-top"
+                    />
+                    <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(40,6,6,0.72)' }}>
+                      <p className="font-bold" style={{ fontSize: '15px', lineHeight: '1.6' }}>
+                        Winner of Red Hat Gold Partner<br />
+                        of the Year 2025 – Non-Retail<br />
+                        (GLS India)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Slide 3 — Partner Stats ── */}
+                <div
+                  className="absolute inset-0 flex flex-col transition-opacity duration-500"
+                  style={{ opacity: heroSlide === 2 ? 1 : 0, pointerEvents: heroSlide === 2 ? 'auto' : 'none' }}
                 >
                   <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
                     <div className="font-bold text-sm leading-snug">
@@ -1373,10 +1397,10 @@ export default function Design4Page() {
                   </div>
                 </div>
 
-                {/* ── Slide 3 — Learning Stack ── */}
+                {/* ── Slide 4 — Learning Stack ── */}
                 <div
                   className="absolute inset-0 flex flex-col transition-opacity duration-500"
-                  style={{ opacity: heroSlide === 2 ? 1 : 0, pointerEvents: heroSlide === 2 ? 'auto' : 'none' }}
+                  style={{ opacity: heroSlide === 3 ? 1 : 0, pointerEvents: heroSlide === 3 ? 'auto' : 'none' }}
                 >
                   <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
                     <div className="font-bold text-sm leading-snug">
