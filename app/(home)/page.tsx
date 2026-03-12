@@ -1129,8 +1129,7 @@ export default function Design4Page() {
         </div>
         {/* Dark navy/teal gradient overlay — matches reference */}
         <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', opacity: 0.78 }} />
-        {/* Dot-grid particle layer */}
-        <div className="dot-grid pointer-events-none absolute inset-0" />
+        {/* Dot-grid removed — replaced by HeroParticles canvas */}
         {/* Animated blobs */}
         <div className="blob1 pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
         <div className="blob2 pointer-events-none absolute top-1/2 -right-40 h-80 w-80 rounded-full bg-cyan-300/15 blur-3xl" />
