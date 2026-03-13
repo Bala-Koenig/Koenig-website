@@ -1197,15 +1197,13 @@ export default function Design4Page() {
               {/* Nav links */}
               {[
                 { label: 'Technologies', arrow: true,  href: '#' },
-                { label: 'Enterprise',   arrow: false, href: 'https://herovired.com/vired-for-business' },
+                { label: 'Enterprise',   arrow: false, href: '/enterprise' },
                 { label: 'About',        arrow: true,  href: '#' },
                 { label: 'Contact',      arrow: false, href: '#' },
               ].map(({ label, arrow, href }) => (
                 <a
                   key={label}
                   href={href}
-                  target={label === 'Enterprise' ? '_blank' : undefined}
-                  rel={label === 'Enterprise' ? 'noopener noreferrer' : undefined}
                   onClick={label === 'Technologies' ? (e) => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); } : undefined}
                   className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                   style={{ color: label === 'Technologies' && techMenuOpen ? '#38bdf8' : '#ffffff', background: label === 'Technologies' && techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
