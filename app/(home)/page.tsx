@@ -1003,8 +1003,8 @@ export default function Design4Page() {
           <div className="ml-auto flex items-center gap-2">
             {/* Search */}
             <div className="relative hidden lg:block" ref={navSearchRef}>
-              <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 transition-all focus-within:border-[#38bdf8] focus-within:bg-white/15">
-                <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <div className="flex items-center gap-2 rounded-full px-4 py-1.5 transition-all focus-within:shadow-[0_0_0_2px_rgba(6,148,209,0.6)]" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.35)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+                <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0" style={{ color: '#38bdf8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 <input
                   type="text"
                   value={navQuery}
@@ -1012,7 +1012,7 @@ export default function Design4Page() {
                   onFocus={() => setNavResultsOpen(true)}
                   placeholder="Search courses…"
                   aria-label="Search courses"
-                  className="w-36 bg-transparent text-sm text-white placeholder-white/50 outline-none"
+                  className="w-36 bg-transparent text-sm text-white placeholder-white/40 outline-none"
                 />
               </div>
               {navResultsOpen && navQuery.trim().length > 0 && (
