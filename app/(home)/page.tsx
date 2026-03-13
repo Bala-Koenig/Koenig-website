@@ -973,10 +973,29 @@ export default function Design4Page() {
               All Courses
               <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
             </button>
-            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#ffffff' }} onMouseEnter={e => (e.currentTarget.style.color = '#38bdf8')} onMouseLeave={e => (e.currentTarget.style.color = '#ffffff')}>Technologies<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
-            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#ffffff' }} onMouseEnter={e => (e.currentTarget.style.color = '#38bdf8')} onMouseLeave={e => (e.currentTarget.style.color = '#ffffff')}>Vendors<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
-            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#ffffff' }} onMouseEnter={e => (e.currentTarget.style.color = '#38bdf8')} onMouseLeave={e => (e.currentTarget.style.color = '#ffffff')}>About<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
-            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#ffffff' }} onMouseEnter={e => (e.currentTarget.style.color = '#38bdf8')} onMouseLeave={e => (e.currentTarget.style.color = '#ffffff')}>Contact<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
+            {/* Glassmorphism pill nav group */}
+            <div className="flex items-center" style={{ background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', padding: '3px' }}>
+              {[
+                { label: 'Technologies' },
+                { label: 'Vendors' },
+                { label: 'About' },
+                { label: 'Contact' },
+              ].map(({ label }, i, arr) => (
+                <div key={label} className="flex items-center">
+                  <a
+                    href="#"
+                    className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[7px] transition-all"
+                    style={{ color: '#ffffff' }}
+                    onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = 'transparent'; }}
+                  >
+                    {label}
+                    <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+                  </a>
+                  {i < arr.length - 1 && <span style={{ width: '1px', height: '16px', background: 'rgba(255,255,255,0.15)', display: 'inline-block', flexShrink: 0 }} />}
+                </div>
+              ))}
+            </div>
           </nav>
 
           {/* Right — search + login + hamburger */}
