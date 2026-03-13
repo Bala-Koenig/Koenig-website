@@ -1352,7 +1352,7 @@ export default function Design4Page() {
                         src="/images/awards/RED-25-1.png"
                         alt="RedHat Gold Partner of the Year 2025"
                         className="w-full h-full object-contain object-top"
-                        style={{ marginTop: '10px' }}
+                        style={{ marginTop: '5px' }}
                       />
                     </div>
                     <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(6,40,65,0.72)' }}>
