@@ -950,7 +950,7 @@ export default function Design4Page() {
       {/* Main sticky navbar */}
       <header
         className={`sticky top-0 z-50 px-4 lg:px-[50px] transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
-        style={{ background: '#ffffff', borderBottom: '1px solid #e5e7eb' }}
+        style={{ background: 'linear-gradient(to right, #ffffff 0%, #061624 100%)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
@@ -971,18 +971,18 @@ export default function Design4Page() {
               All Courses
               <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
             </button>
-            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Technologies<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
-            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Vendors<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
-            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>About<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
-            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#093148' }} onMouseEnter={e => (e.currentTarget.style.color = '#0694D1')} onMouseLeave={e => (e.currentTarget.style.color = '#093148')}>Contact<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#ffffff' }} onMouseEnter={e => (e.currentTarget.style.color = '#38bdf8')} onMouseLeave={e => (e.currentTarget.style.color = '#ffffff')}>Technologies<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#ffffff' }} onMouseEnter={e => (e.currentTarget.style.color = '#38bdf8')} onMouseLeave={e => (e.currentTarget.style.color = '#ffffff')}>Vendors<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#ffffff' }} onMouseEnter={e => (e.currentTarget.style.color = '#38bdf8')} onMouseLeave={e => (e.currentTarget.style.color = '#ffffff')}>About<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
+            <a href="#" className="flex items-center gap-1 px-1 py-2 text-sm font-medium transition-colors" style={{ color: '#ffffff' }} onMouseEnter={e => (e.currentTarget.style.color = '#38bdf8')} onMouseLeave={e => (e.currentTarget.style.color = '#ffffff')}>Contact<svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg></a>
           </nav>
 
           {/* Right — search + login + hamburger */}
           <div className="ml-auto flex items-center gap-2">
             {/* Search */}
             <div className="relative hidden lg:block" ref={navSearchRef}>
-              <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 transition-all focus-within:border-[#0694D1] focus-within:bg-white">
-                <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 transition-all focus-within:border-[#38bdf8] focus-within:bg-white/15">
+                <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 <input
                   type="text"
                   value={navQuery}
@@ -990,7 +990,7 @@ export default function Design4Page() {
                   onFocus={() => setNavResultsOpen(true)}
                   placeholder="Search courses…"
                   aria-label="Search courses"
-                  className="w-36 bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none"
+                  className="w-36 bg-transparent text-sm text-white placeholder-white/50 outline-none"
                 />
               </div>
               {navResultsOpen && navQuery.trim().length > 0 && (
@@ -1019,17 +1019,17 @@ export default function Design4Page() {
               target="_blank"
               rel="noopener noreferrer"
               className="hidden rounded-lg border px-4 py-1.5 text-sm font-medium transition-colors lg:inline-block"
-              style={{ borderColor: '#093148', color: '#093148' }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#093148'; e.currentTarget.style.color = '#ffffff'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#093148'; }}
+              style={{ borderColor: 'rgba(255,255,255,0.45)', color: '#ffffff' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#ffffff'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#ffffff'; }}
             >
               Login
             </a>
             {/* Hamburger */}
             <button
               onClick={() => setMobileOpen(v => !v)}
-              className="rounded-lg p-2 transition-colors hover:bg-gray-100 lg:hidden"
-              style={{ color: '#093148' }}
+              className="rounded-lg p-2 transition-colors hover:bg-white/10 lg:hidden"
+              style={{ color: '#ffffff' }}
               aria-label="Toggle menu"
             >
               {mobileOpen ? (
