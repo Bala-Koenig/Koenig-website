@@ -957,7 +957,7 @@ export default function Design4Page() {
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <div style={{ background: '#ffffff', borderRadius: '10px', padding: '6px 12px' }}>
+            <div style={{ background: '#ffffff', borderRadius: '6px', padding: '6px' }}>
               <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-7 w-auto lg:h-8" />
             </div>
           </Link>
