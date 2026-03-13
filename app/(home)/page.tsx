@@ -1429,27 +1429,40 @@ export default function Design4Page() {
             {/* Left — technology categories */}
             <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
               <div className="px-4 py-3 text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Technologies</div>
-              {TOP_TECHNOLOGIES.map(t => (
-                <button
-                  key={t.name}
-                  onMouseEnter={() => setTechMenuCategory(t.name)}
-                  onClick={() => setTechMenuCategory(t.name)}
-                  className="flex items-center justify-between px-4 py-2.5 text-left transition-all"
-                  style={{
-                    background: techMenuCategory === t.name ? 'rgba(6,148,209,0.12)' : 'transparent',
-                    borderLeft: techMenuCategory === t.name ? '2px solid #0694D1' : '2px solid transparent',
-                    color: techMenuCategory === t.name ? '#ffffff' : 'rgba(255,255,255,0.65)',
-                  }}
-                >
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-medium leading-tight">{t.name}</div>
-                    <div className="text-[11px]" style={{ color: 'rgba(6,148,209,0.7)' }}>{t.count} Courses</div>
-                  </div>
-                  {techMenuCategory === t.name && (
-                    <svg className="h-3.5 w-3.5 shrink-0 ml-2" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
-                  )}
-                </button>
-              ))}
+              {([
+                { name: 'Cloud Computing',    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
+                { name: 'Cybersecurity',      icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
+                { name: 'Networking',         icon: <><circle cx="12" cy="5" r="2" strokeWidth={1.8}/><circle cx="5" cy="19" r="2" strokeWidth={1.8}/><circle cx="19" cy="19" r="2" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 7v4M8.5 17.5l3-2.5M15.5 17.5l-3-2.5"/></> },
+                { name: 'Project Management', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/> },
+                { name: 'Data & AI',          icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></> },
+                { name: 'DevOps',             icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/> },
+                { name: 'ERP Systems',        icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/> },
+                { name: 'Linux & Open Source',icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/> },
+              ] as { name: string; icon: React.ReactNode }[]).map(({ name, icon }) => {
+                const t = TOP_TECHNOLOGIES.find(x => x.name === name)!
+                return (
+                  <button
+                    key={name}
+                    onMouseEnter={() => setTechMenuCategory(name)}
+                    onClick={() => setTechMenuCategory(name)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-left transition-all"
+                    style={{
+                      background: techMenuCategory === name ? 'rgba(6,148,209,0.12)' : 'transparent',
+                      borderLeft: techMenuCategory === name ? '2px solid #0694D1' : '2px solid transparent',
+                      color: techMenuCategory === name ? '#ffffff' : 'rgba(255,255,255,0.65)',
+                    }}
+                  >
+                    <svg className="h-4 w-4 shrink-0" style={{ color: techMenuCategory === name ? '#38bdf8' : 'rgba(6,148,209,0.6)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icon}</svg>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium leading-tight">{name}</div>
+                      <div className="text-[11px]" style={{ color: 'rgba(6,148,209,0.7)' }}>{t.count} Courses</div>
+                    </div>
+                    {techMenuCategory === name && (
+                      <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
+                    )}
+                  </button>
+                )
+              })}
             </div>
 
             {/* Right — courses panel */}
