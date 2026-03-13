@@ -950,14 +950,14 @@ export default function Design4Page() {
       {/* Main sticky navbar */}
       <header
         className={`sticky top-0 z-50 px-4 lg:px-[50px] transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
-        style={{ background: 'linear-gradient(to right, #ffffff 0%, #061624 100%)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+        style={{ background: '#06111E', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-7 w-auto lg:h-8" />
+            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-7 w-auto lg:h-8" style={{ filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.75)) drop-shadow(0 0 4px rgba(255,255,255,0.5))' }} />
           </Link>
 
           {/* Desktop nav links */}
