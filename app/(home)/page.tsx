@@ -965,7 +965,7 @@ export default function Design4Page() {
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-4 lg:flex">
             {/* Glassmorphism pill nav group — All Courses + nav links */}
-            <div className="flex items-center" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.22)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.35), 0 0 40px rgba(6,148,209,0.15), 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)' }}>
+            <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.15) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.35), 0 0 40px rgba(6,148,209,0.15), 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
               {/* All Courses */}
               <button
                 className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-semibold text-white transition-opacity hover:opacity-90 rounded-[40px]"
