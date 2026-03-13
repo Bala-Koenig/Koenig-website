@@ -1014,6 +1014,16 @@ export default function Design4Page() {
                   aria-label="Search courses"
                   className="w-36 bg-transparent text-sm text-white placeholder-white/40 outline-none"
                 />
+                {navQuery.length > 0 && (
+                  <button
+                    onClick={() => { setNavQuery(''); setNavResultsOpen(false); }}
+                    className="shrink-0 flex items-center justify-center w-4 h-4 rounded-full transition-colors hover:bg-white/20"
+                    aria-label="Clear search"
+                    style={{ color: 'rgba(255,255,255,0.5)' }}
+                  >
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                )}
               </div>
               {navResultsOpen && navQuery.trim().length > 0 && (
                 <div className="absolute right-0 top-full z-50 mt-1.5 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
@@ -1219,6 +1229,16 @@ export default function Design4Page() {
                     aria-label="Search courses"
                     className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder-white/40 outline-none"
                   />
+                  {heroQuery.length > 0 && (
+                    <button
+                      onClick={() => { setHeroQuery(''); setHeroResultsOpen(false); }}
+                      className="shrink-0 flex items-center justify-center w-6 h-6 my-auto mr-1 rounded-full transition-colors hover:bg-white/10"
+                      aria-label="Clear search"
+                      style={{ color: 'rgba(255,255,255,0.5)' }}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                  )}
                   <button className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
                     Search
                   </button>
