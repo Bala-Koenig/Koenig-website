@@ -974,7 +974,7 @@ export default function Design4Page() {
               <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
             </button>
             {/* Glassmorphism pill nav group */}
-            <div className="flex items-center" style={{ background: 'rgba(255,255,255,0.07)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', padding: '3px' }}>
+            <div className="flex items-center" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.22)', borderRadius: '50px', padding: '4px', boxShadow: '0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
               {[
                 { label: 'Technologies' },
                 { label: 'Vendors' },
@@ -984,7 +984,7 @@ export default function Design4Page() {
                 <div key={label} className="flex items-center">
                   <a
                     href="#"
-                    className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[7px] transition-all"
+                    className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                     style={{ color: '#ffffff' }}
                     onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
                     onMouseLeave={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = 'transparent'; }}
