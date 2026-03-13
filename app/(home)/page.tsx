@@ -964,17 +964,20 @@ export default function Design4Page() {
 
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-4 lg:flex">
-            {/* All Courses — box with 8px radius */}
-            <button
-              className="flex items-center px-3 py-2.5 text-xs sm:text-sm font-semibold text-white transition-opacity hover:opacity-90"
-              style={{ background: '#0694D1', borderRadius: '8px', gap: '8px' }}
-            >
-              <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
-              All Courses
-              <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-            </button>
-            {/* Glassmorphism pill nav group */}
-            <div className="flex items-center" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.22)', borderRadius: '50px', padding: '4px', boxShadow: '0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
+            {/* Glassmorphism pill nav group — All Courses + nav links */}
+            <div className="flex items-center" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.22)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.35), 0 0 40px rgba(6,148,209,0.15), 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2)' }}>
+              {/* All Courses */}
+              <button
+                className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-semibold text-white transition-opacity hover:opacity-90 rounded-[40px]"
+                style={{ background: '#0694D1', gap: '8px' }}
+              >
+                <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
+                All Courses
+                <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              {/* Divider */}
+              <span style={{ width: '1px', height: '16px', background: 'rgba(255,255,255,0.2)', display: 'inline-block', flexShrink: 0, margin: '0 2px' }} />
+              {/* Nav links */}
               {[
                 { label: 'Technologies' },
                 { label: 'Vendors' },
