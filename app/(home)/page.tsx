@@ -950,7 +950,7 @@ export default function Design4Page() {
       {/* Main sticky navbar */}
       <header
         className={`sticky top-0 z-50 px-4 lg:px-[50px] transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
-        style={{ background: 'rgba(6,17,30,0.85)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+        style={{ background: 'rgba(6,17,30,0.90)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
@@ -975,8 +975,6 @@ export default function Design4Page() {
                 All Courses
                 <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </button>
-              {/* Divider */}
-              <span style={{ width: '1px', height: '16px', background: 'rgba(255,255,255,0.2)', display: 'inline-block', flexShrink: 0, margin: '0 2px' }} />
               {/* Nav links */}
               {[
                 { label: 'Technologies' },
