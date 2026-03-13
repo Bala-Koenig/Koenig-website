@@ -541,6 +541,154 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
 const ABOUT_LINKS = ['About Us','Our Clientele','Leadership','Our Partners','Happiness Guarantee','Student Feedback','Testimonials','Koenig Koshish','Our Awards']
 const LEARNING_LINKS = ['Live Online Training','Classroom Training','1-on-1 Training','Fly-Me-a-Trainer','Flexi','Customized Training','Webinar as a Service','Qubits','Upcoming Webinars','Learnova']
 
+const MEGA_MENU_VENDORS = [
+  { name: 'Microsoft',        img: 'microsoft-cloud-t.png',                                    courses: '380+' },
+  { name: 'AWS',              img: 'amazon-authorized.png',                                     courses: '290+' },
+  { name: 'Cisco',            img: 'Cisco.png',                                                 courses: '210+' },
+  { name: 'CompTIA',          img: 'comptia.png',                                               courses: '180+' },
+  { name: 'Oracle',           img: 'o-prtnr-clr-rgb (1).png',                                   courses: '160+' },
+  { name: 'SAP',              img: 'SAP.jpg',                                                   courses: '140+' },
+  { name: 'PMI',              img: 'PMI1115-ATP-Badge-2024-rgb.png',                            courses: '140+' },
+  { name: 'Red Hat',          img: 'Redvendorlogo.png',                                         courses: '110+' },
+  { name: 'EC-Council',       img: 'EC-Council-logo.png',                                       courses: '120+' },
+  { name: 'VMware',           img: 'VMware-Broadcom.png',                                       courses: '120+' },
+  { name: 'PeopleCert',       img: 'PeopleCert.png',                                            courses: '90+'  },
+  { name: 'PECB',             img: 'Authorized PECB Certification Courses Training badge.png',  courses: '80+'  },
+  { name: 'Linux Foundation', img: 'Linux-Foundation.png',                                      courses: '60+'  },
+  { name: 'ISACA',            img: undefined,                                                   courses: '60+'  },
+  { name: 'ISC2',             img: 'OTP-Preferred-Badge.png',                                   courses: '50+'  },
+  { name: 'ISTQB',            img: 'ISTQB.png',                                                 courses: '40+'  },
+  { name: 'The Open Group',   img: 'Vendor-OG-logo.png',                                        courses: '45+'  },
+  { name: 'ServiceNow',       img: 'ServiceNow.png',                                            courses: '40+'  },
+  { name: 'Broadcom',         img: 'Broadcom.png',                                              courses: '70+'  },
+  { name: 'Check Point',      img: 'Checkpoint ATC 2026 PLATINUM Badge.png',                   courses: '55+'  },
+]
+
+const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: string }[]> = {
+  'Microsoft': [
+    { name: 'AZ-104: Microsoft Azure Administrator', days: 5, level: 'Intermediate' },
+    { name: 'AZ-305: Azure Solutions Architect Expert', days: 4, level: 'Advanced' },
+    { name: 'AI-102: Azure AI Engineer Associate', days: 4, level: 'Advanced' },
+    { name: 'PL-300: Power BI Data Analyst', days: 3, level: 'Intermediate' },
+    { name: 'MS-102: Microsoft 365 Administrator', days: 5, level: 'Advanced' },
+    { name: 'AZ-400: Azure DevOps Engineer Expert', days: 5, level: 'Advanced' },
+    { name: 'AZ-900: Azure Fundamentals', days: 1, level: 'Beginner' },
+    { name: 'MS-900: Microsoft 365 Fundamentals', days: 1, level: 'Beginner' },
+  ],
+  'AWS': [
+    { name: 'AWS Solutions Architect – Associate', days: 4, level: 'Intermediate' },
+    { name: 'AWS DevOps Engineer – Professional', days: 5, level: 'Advanced' },
+    { name: 'AWS Certified AI Practitioner', days: 3, level: 'Beginner' },
+    { name: 'AWS Cloud Practitioner Essentials', days: 2, level: 'Beginner' },
+    { name: 'AWS SysOps Administrator – Associate', days: 3, level: 'Intermediate' },
+    { name: 'Advanced AWS Networking', days: 4, level: 'Advanced' },
+  ],
+  'Cisco': [
+    { name: 'CCNP Enterprise Core (ENCOR)', days: 5, level: 'Advanced' },
+    { name: 'CCNA (200-301)', days: 5, level: 'Beginner' },
+    { name: 'Cisco CyberOps Associate', days: 5, level: 'Intermediate' },
+    { name: 'Cisco DevNet Associate', days: 4, level: 'Intermediate' },
+    { name: 'CCIE Enterprise Infrastructure', days: 5, level: 'Advanced' },
+  ],
+  'CompTIA': [
+    { name: 'CompTIA Security+ (SY0-701)', days: 5, level: 'Intermediate' },
+    { name: 'CompTIA Network+', days: 5, level: 'Beginner' },
+    { name: 'CompTIA CySA+', days: 5, level: 'Intermediate' },
+    { name: 'CompTIA A+ Core 1 & Core 2', days: 5, level: 'Beginner' },
+    { name: 'CompTIA PenTest+', days: 5, level: 'Advanced' },
+  ],
+  'Oracle': [
+    { name: 'Oracle Database Administration', days: 5, level: 'Intermediate' },
+    { name: 'Oracle Cloud Infrastructure Architect Associate', days: 4, level: 'Intermediate' },
+    { name: 'Java SE 17 Developer', days: 5, level: 'Intermediate' },
+    { name: 'Oracle Cloud Infrastructure Foundations', days: 2, level: 'Beginner' },
+  ],
+  'SAP': [
+    { name: 'SAP S/4HANA Functional Consultant', days: 5, level: 'Advanced' },
+    { name: 'SAP BASIS Administration', days: 5, level: 'Intermediate' },
+    { name: 'SAP ABAP Programming', days: 5, level: 'Intermediate' },
+    { name: 'SAP BW/4HANA Data Modeling', days: 4, level: 'Advanced' },
+    { name: 'SAP Certified Associate – Cloud ERP', days: 3, level: 'Intermediate' },
+  ],
+  'PMI': [
+    { name: 'Project Management Professional (PMP)', days: 3, level: 'Advanced' },
+    { name: 'CAPM: Certified Associate in PM', days: 3, level: 'Beginner' },
+    { name: 'PMI-ACP: Agile Certified Practitioner', days: 3, level: 'Intermediate' },
+    { name: 'PMI-RMP: Risk Management Professional', days: 3, level: 'Advanced' },
+  ],
+  'Red Hat': [
+    { name: 'RHCSA: Red Hat Certified System Administrator', days: 5, level: 'Intermediate' },
+    { name: 'RHCE: Red Hat Certified Engineer', days: 5, level: 'Advanced' },
+    { name: 'OpenShift Administration', days: 4, level: 'Advanced' },
+    { name: 'Ansible Automation Platform', days: 4, level: 'Intermediate' },
+  ],
+  'EC-Council': [
+    { name: 'Certified Ethical Hacker (CEH v13)', days: 5, level: 'Intermediate' },
+    { name: 'CPENT: Certified Penetration Testing', days: 5, level: 'Advanced' },
+    { name: 'CHFI: Computer Hacking Forensic Investigator', days: 5, level: 'Intermediate' },
+    { name: 'CCSE: Certified Cloud Security Engineer', days: 3, level: 'Advanced' },
+  ],
+  'VMware': [
+    { name: 'vSphere: Install, Configure, Manage', days: 5, level: 'Intermediate' },
+    { name: 'NSX-T Data Center: Install, Configure, Manage', days: 5, level: 'Advanced' },
+    { name: 'vSAN: Deploy and Manage', days: 3, level: 'Advanced' },
+    { name: 'VMware Cloud Foundation: Deploy and Manage', days: 4, level: 'Advanced' },
+  ],
+  'PeopleCert': [
+    { name: 'ITIL® 4 Foundation', days: 3, level: 'Beginner' },
+    { name: 'PRINCE2® Foundation & Practitioner', days: 5, level: 'Intermediate' },
+    { name: 'ITIL 4 Specialist: Create, Deliver and Support', days: 3, level: 'Advanced' },
+    { name: 'PRINCE2 Agile', days: 3, level: 'Intermediate' },
+  ],
+  'PECB': [
+    { name: 'ISO 27001 Lead Implementer', days: 5, level: 'Advanced' },
+    { name: 'ISO 27001 Lead Auditor', days: 5, level: 'Advanced' },
+    { name: 'ISO 22301 Lead Implementer', days: 5, level: 'Intermediate' },
+    { name: 'ISO 9001 Lead Auditor', days: 5, level: 'Intermediate' },
+  ],
+  'Linux Foundation': [
+    { name: 'Certified Kubernetes Administrator (CKA)', days: 4, level: 'Advanced' },
+    { name: 'Certified Kubernetes Application Developer (CKAD)', days: 3, level: 'Intermediate' },
+    { name: 'Linux Foundation Certified System Administrator', days: 5, level: 'Intermediate' },
+  ],
+  'ISACA': [
+    { name: 'CISM: Certified Information Security Manager', days: 3, level: 'Advanced' },
+    { name: 'CISA: Certified Information Systems Auditor', days: 3, level: 'Advanced' },
+    { name: 'CRISC: Certified in Risk and Information Systems Control', days: 3, level: 'Advanced' },
+  ],
+  'ISC2': [
+    { name: 'CISSP Certification', days: 5, level: 'Advanced' },
+    { name: 'CCSP: Certified Cloud Security Professional', days: 5, level: 'Advanced' },
+    { name: 'SSCP: Systems Security Certified Practitioner', days: 5, level: 'Intermediate' },
+    { name: 'CC: Certified in Cybersecurity', days: 2, level: 'Beginner' },
+  ],
+  'ISTQB': [
+    { name: 'ISTQB Certified Tester Foundation Level', days: 3, level: 'Beginner' },
+    { name: 'ISTQB Advanced Level Test Analyst', days: 4, level: 'Advanced' },
+    { name: 'ISTQB Advanced Level Test Manager', days: 5, level: 'Advanced' },
+  ],
+  'The Open Group': [
+    { name: 'TOGAF 10 Foundation & Practitioner', days: 5, level: 'Intermediate' },
+    { name: 'TOGAF 9.2 Foundation', days: 3, level: 'Beginner' },
+    { name: 'ArchiMate 3 Foundation & Practitioner', days: 4, level: 'Intermediate' },
+  ],
+  'ServiceNow': [
+    { name: 'ServiceNow System Administrator', days: 3, level: 'Intermediate' },
+    { name: 'ServiceNow Application Developer', days: 4, level: 'Advanced' },
+    { name: 'ServiceNow ITSM Implementation', days: 3, level: 'Intermediate' },
+  ],
+  'Broadcom': [
+    { name: 'Clarity PPM Administration', days: 4, level: 'Advanced' },
+    { name: 'CA Service Management Administration', days: 3, level: 'Intermediate' },
+    { name: 'Symantec Endpoint Security', days: 3, level: 'Intermediate' },
+  ],
+  'Check Point': [
+    { name: 'Check Point CCSA R82', days: 3, level: 'Intermediate' },
+    { name: 'Check Point CCSE R82', days: 4, level: 'Advanced' },
+    { name: 'Check Point Certified Cloud Specialist', days: 3, level: 'Advanced' },
+  ],
+}
+
 /* ─── Footer column data ─────────────────────────────────────── */
 const FOOTER_COLS = [
   { heading: 'Company', links: ['About us','Leadership','Contact Us','Webinars','Our Clientele','All Courses','Our Partners','Our Story','Testimonials','Our Awards'] },
@@ -687,6 +835,9 @@ export default function Design4Page() {
   const [heroResultsOpen, setHeroResultsOpen] = useState(false)
   const navSearchRef = useRef<HTMLDivElement>(null)
   const heroSearchRef = useRef<HTMLDivElement>(null)
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false)
+  const [megaMenuVendor, setMegaMenuVendor] = useState('Microsoft')
+  const megaMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (heroPaused) return
@@ -763,6 +914,7 @@ export default function Design4Page() {
     function handleClickOutside(e: MouseEvent) {
       if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
       if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) setHeroResultsOpen(false)
+      if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -968,8 +1120,9 @@ export default function Design4Page() {
             <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
               {/* All Courses */}
               <button
+                onClick={() => setMegaMenuOpen(v => !v)}
                 className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
-                style={{ background: '#0694D1', gap: '8px' }}
+                style={{ background: megaMenuOpen ? '#076D9D' : '#0694D1', gap: '8px' }}
               >
                 <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
                 All Courses
@@ -1107,6 +1260,97 @@ export default function Design4Page() {
               >
                 Login
               </a>
+            </div>
+          </div>
+        )}
+        {/* ── All Courses Mega Menu ── */}
+        {megaMenuOpen && (
+          <div
+            ref={megaMenuRef}
+            className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
+            style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
+          >
+            {/* Left — vendor list */}
+            <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
+              <div className="px-4 py-3 text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
+              {MEGA_MENU_VENDORS.map(v => (
+                <button
+                  key={v.name}
+                  onMouseEnter={() => setMegaMenuVendor(v.name)}
+                  onClick={() => setMegaMenuVendor(v.name)}
+                  className="flex items-center gap-3 px-4 py-2.5 text-left transition-all"
+                  style={{
+                    background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.12)' : 'transparent',
+                    borderLeft: megaMenuVendor === v.name ? '2px solid #0694D1' : '2px solid transparent',
+                    color: megaMenuVendor === v.name ? '#ffffff' : 'rgba(255,255,255,0.65)',
+                  }}
+                >
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white p-0.5">
+                    {v.img ? (
+                      <img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" />
+                    ) : (
+                      <span className="text-[11px] font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-medium leading-tight">{v.name}</div>
+                    <div className="text-[11px]" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses} Courses</div>
+                  </div>
+                  {megaMenuVendor === v.name && (
+                    <svg className="ml-auto h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Right — courses panel */}
+            <div className="flex flex-1 flex-col overflow-y-auto p-6">
+              {/* Header */}
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-white">{megaMenuVendor} Courses</h3>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                    {MEGA_MENU_VENDORS.find(v => v.name === megaMenuVendor)?.courses} courses available
+                  </p>
+                </div>
+                <a href="#" className="flex items-center gap-1 text-xs font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
+                  View all {megaMenuVendor} courses
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+              </div>
+              {/* Course grid */}
+              <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+                {(MEGA_MENU_COURSES[megaMenuVendor] ?? []).map((course, i) => (
+                  <a
+                    key={i}
+                    href="#"
+                    className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
+                  >
+                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2">{course.name}</p>
+                    <div className="flex items-center gap-2 mt-auto">
+                      <span className="flex items-center gap-1 text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        {course.days} days
+                      </span>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                        course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
+                        course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
+                        'bg-[#076d9d] text-white'
+                      }`}>{course.level}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+              {/* Footer CTA */}
+              <div className="mt-5 flex items-center justify-between border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+                <span className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {megaMenuVendor}</span>
+                <a href="#" className="rounded-lg px-4 py-2 text-xs font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+                  Browse All {megaMenuVendor} Courses →
+                </a>
+              </div>
             </div>
           </div>
         )}
