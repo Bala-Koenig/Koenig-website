@@ -1103,7 +1103,7 @@ export default function Design4Page() {
       </header>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative flex items-center overflow-hidden px-4 lg:px-[50px] py-[80px]" style={{ background: '#06111E' }}>
+      <section className="relative flex items-center px-4 lg:px-[50px] py-[80px]" style={{ background: '#06111E' }}>
         {/* Hero keyframes */}
         <style>{`
           @keyframes heroFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
@@ -1145,20 +1145,19 @@ export default function Design4Page() {
           .stat-box-d { animation: statFadeIn 0.6s ease both 0.45s, floatA 4.5s ease-in-out 0.5s infinite; }
         `}</style>
 
-        {/* Background image */}
-        <div className="pointer-events-none absolute inset-0">
+        {/* Background container — overflow-hidden keeps blobs/image contained */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Background image */}
           <img src="/images/home-baner.png" alt="" className="h-full w-full object-cover object-center" style={{ opacity: 0.55 }} />
+          {/* Dark navy/teal gradient overlay */}
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', opacity: 0.78 }} />
+          {/* Animated blobs */}
+          <div className="blob1 absolute -top-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+          <div className="blob2 absolute top-1/2 -right-40 h-80 w-80 rounded-full bg-cyan-300/15 blur-3xl" />
+          <div className="blob3 absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-sky-200/10 blur-3xl" />
+          {/* Interactive particle canvas */}
+          <HeroParticles />
         </div>
-        {/* Dark navy/teal gradient overlay — matches reference */}
-        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', opacity: 0.78 }} />
-        {/* Dot-grid removed — replaced by HeroParticles canvas */}
-        {/* Animated blobs */}
-        <div className="blob1 pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
-        <div className="blob2 pointer-events-none absolute top-1/2 -right-40 h-80 w-80 rounded-full bg-cyan-300/15 blur-3xl" />
-        <div className="blob3 pointer-events-none absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-sky-200/10 blur-3xl" />
-
-        {/* Interactive particle canvas */}
-        <HeroParticles />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
