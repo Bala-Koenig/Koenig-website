@@ -957,7 +957,7 @@ export default function Design4Page() {
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <div style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', padding: '6px 12px' }}>
+            <div style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(20px) saturate(180%)', WebkitBackdropFilter: 'blur(20px) saturate(180%)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '10px', padding: '6px 12px', boxShadow: '0 0 0 1px rgba(255,255,255,0.08), 0 4px 16px rgba(255,255,255,0.06)' }}>
               <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-7 w-auto lg:h-8" />
             </div>
           </Link>
