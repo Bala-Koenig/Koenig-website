@@ -950,7 +950,7 @@ export default function Design4Page() {
       {/* Main sticky navbar */}
       <header
         className={`sticky top-0 z-50 px-4 lg:px-[50px] transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
-        style={{ background: 'radial-gradient(ellipse at 55% 50%, #0D3F5A 0%, #071B2E 50%, #040C18 100%)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+        style={{ background: 'linear-gradient(to right, rgba(6,17,30,0.94) 0%, rgba(6,60,110,0.90) 40%, rgba(6,148,209,0.15) 60%, rgba(6,17,30,0.94) 100%)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
