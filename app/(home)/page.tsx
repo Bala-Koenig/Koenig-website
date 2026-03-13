@@ -689,6 +689,68 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
   ],
 }
 
+const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: number; level: string }[]> = {
+  'Cloud Computing': [
+    { name: 'AZ-104: Microsoft Azure Administrator', vendor: 'Microsoft', days: 5, level: 'Intermediate' },
+    { name: 'AWS Solutions Architect – Associate', vendor: 'AWS', days: 4, level: 'Intermediate' },
+    { name: 'Google Professional Cloud Architect', vendor: 'Google Cloud', days: 4, level: 'Advanced' },
+    { name: 'AZ-900: Azure Fundamentals', vendor: 'Microsoft', days: 1, level: 'Beginner' },
+    { name: 'AWS Cloud Practitioner Essentials', vendor: 'AWS', days: 2, level: 'Beginner' },
+    { name: 'Oracle Cloud Infrastructure Foundations', vendor: 'Oracle', days: 2, level: 'Beginner' },
+  ],
+  'Cybersecurity': [
+    { name: 'Certified Ethical Hacker (CEH v13)', vendor: 'EC-Council', days: 5, level: 'Intermediate' },
+    { name: 'CompTIA Security+ (SY0-701)', vendor: 'CompTIA', days: 5, level: 'Intermediate' },
+    { name: 'CISSP Certification', vendor: 'ISC2', days: 5, level: 'Advanced' },
+    { name: 'CCSP: Certified Cloud Security', vendor: 'ISC2', days: 5, level: 'Advanced' },
+    { name: 'CompTIA CySA+', vendor: 'CompTIA', days: 5, level: 'Intermediate' },
+    { name: 'CPENT: Certified Penetration Testing', vendor: 'EC-Council', days: 5, level: 'Advanced' },
+  ],
+  'Networking': [
+    { name: 'CCNP Enterprise Core (ENCOR)', vendor: 'Cisco', days: 5, level: 'Advanced' },
+    { name: 'CCNA (200-301)', vendor: 'Cisco', days: 5, level: 'Beginner' },
+    { name: 'CompTIA Network+', vendor: 'CompTIA', days: 5, level: 'Beginner' },
+    { name: 'Cisco DevNet Associate', vendor: 'Cisco', days: 4, level: 'Intermediate' },
+    { name: 'CCIE Enterprise Infrastructure', vendor: 'Cisco', days: 5, level: 'Advanced' },
+  ],
+  'Project Management': [
+    { name: 'Project Management Professional (PMP)', vendor: 'PMI', days: 3, level: 'Advanced' },
+    { name: 'PRINCE2® Foundation & Practitioner', vendor: 'PeopleCert', days: 5, level: 'Intermediate' },
+    { name: 'ITIL® 4 Foundation', vendor: 'PeopleCert', days: 3, level: 'Beginner' },
+    { name: 'PMI-ACP: Agile Certified Practitioner', vendor: 'PMI', days: 3, level: 'Intermediate' },
+    { name: 'CAPM: Certified Associate in PM', vendor: 'PMI', days: 3, level: 'Beginner' },
+  ],
+  'Data & AI': [
+    { name: 'AI-102: Azure AI Engineer Associate', vendor: 'Microsoft', days: 4, level: 'Advanced' },
+    { name: 'AWS Certified AI Practitioner', vendor: 'AWS', days: 3, level: 'Beginner' },
+    { name: 'Google Professional Data Engineer', vendor: 'Google Cloud', days: 4, level: 'Advanced' },
+    { name: 'PL-300: Power BI Data Analyst', vendor: 'Microsoft', days: 3, level: 'Intermediate' },
+    { name: 'Azure AI Engineer Associate', vendor: 'Microsoft', days: 4, level: 'Advanced' },
+    { name: 'SAP BW/4HANA Data Modeling', vendor: 'SAP', days: 4, level: 'Advanced' },
+  ],
+  'DevOps': [
+    { name: 'AZ-400: Azure DevOps Engineer Expert', vendor: 'Microsoft', days: 5, level: 'Advanced' },
+    { name: 'Certified Kubernetes Administrator (CKA)', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
+    { name: 'AWS DevOps Engineer – Professional', vendor: 'AWS', days: 5, level: 'Advanced' },
+    { name: 'Ansible Automation Platform', vendor: 'Red Hat', days: 4, level: 'Intermediate' },
+    { name: 'HashiCorp Certified: Terraform Associate', vendor: 'HashiCorp', days: 3, level: 'Intermediate' },
+  ],
+  'ERP Systems': [
+    { name: 'SAP S/4HANA Functional Consultant', vendor: 'SAP', days: 5, level: 'Advanced' },
+    { name: 'SAP BASIS Administration', vendor: 'SAP', days: 5, level: 'Intermediate' },
+    { name: 'Oracle Database Administration', vendor: 'Oracle', days: 5, level: 'Intermediate' },
+    { name: 'SAP ABAP Programming', vendor: 'SAP', days: 5, level: 'Intermediate' },
+    { name: 'Oracle Cloud Infrastructure Architect', vendor: 'Oracle', days: 4, level: 'Intermediate' },
+  ],
+  'Linux & Open Source': [
+    { name: 'RHCSA: Red Hat Certified System Administrator', vendor: 'Red Hat', days: 5, level: 'Intermediate' },
+    { name: 'RHCE: Red Hat Certified Engineer', vendor: 'Red Hat', days: 5, level: 'Advanced' },
+    { name: 'Linux Foundation Certified Sysadmin', vendor: 'Linux Foundation', days: 5, level: 'Intermediate' },
+    { name: 'OpenShift Administration', vendor: 'Red Hat', days: 4, level: 'Advanced' },
+    { name: 'Certified Kubernetes Administrator', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
+  ],
+}
+
 /* ─── Footer column data ─────────────────────────────────────── */
 const FOOTER_COLS = [
   { heading: 'Company', links: ['About us','Leadership','Contact Us','Webinars','Our Clientele','All Courses','Our Partners','Our Story','Testimonials','Our Awards'] },
@@ -838,6 +900,9 @@ export default function Design4Page() {
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [megaMenuVendor, setMegaMenuVendor] = useState('Microsoft')
   const megaMenuRef = useRef<HTMLDivElement>(null)
+  const [techMenuOpen, setTechMenuOpen] = useState(false)
+  const [techMenuCategory, setTechMenuCategory] = useState('Cloud Computing')
+  const techMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (heroPaused) return
@@ -915,6 +980,7 @@ export default function Design4Page() {
       if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
       if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) setHeroResultsOpen(false)
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
+      if (techMenuRef.current && !techMenuRef.current.contains(e.target as Node)) setTechMenuOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -1120,7 +1186,7 @@ export default function Design4Page() {
             <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
               {/* All Courses */}
               <button
-                onClick={() => setMegaMenuOpen(v => !v)}
+                onClick={() => { setMegaMenuOpen(v => !v); setTechMenuOpen(false); }}
                 className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
                 style={{ background: megaMenuOpen ? '#076D9D' : '#0694D1', gap: '8px' }}
               >
@@ -1130,24 +1196,22 @@ export default function Design4Page() {
               </button>
               {/* Nav links */}
               {[
-                { label: 'Technologies' },
-                { label: 'Vendors' },
-                { label: 'About' },
-                { label: 'Contact' },
-              ].map(({ label }, i, arr) => (
-                <div key={label} className="flex items-center">
-                  <a
-                    href="#"
-                    className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
-                    style={{ color: '#ffffff' }}
-                    onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = 'transparent'; }}
-                  >
-                    {label}
-                    <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                  </a>
-                  {i < arr.length - 1 && <span style={{ width: '1px', height: '16px', background: 'rgba(255,255,255,0.15)', display: 'inline-block', flexShrink: 0 }} />}
-                </div>
+                { label: 'Technologies', arrow: true },
+                { label: 'About', arrow: true },
+                { label: 'Contact', arrow: false },
+              ].map(({ label, arrow }) => (
+                <a
+                  key={label}
+                  href="#"
+                  onClick={label === 'Technologies' ? (e) => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); } : undefined}
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                  style={{ color: label === 'Technologies' && techMenuOpen ? '#38bdf8' : '#ffffff', background: label === 'Technologies' && techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = label === 'Technologies' && techMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = label === 'Technologies' && techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
+                >
+                  {label}
+                  {arrow && <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>}
+                </a>
               ))}
             </div>
           </nav>
@@ -1349,6 +1413,86 @@ export default function Design4Page() {
                 <span className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {megaMenuVendor}</span>
                 <a href="#" className="rounded-lg px-4 py-2 text-xs font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
                   Browse All {megaMenuVendor} Courses →
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Technologies Mega Menu ── */}
+        {techMenuOpen && (
+          <div
+            ref={techMenuRef}
+            className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
+            style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
+          >
+            {/* Left — technology categories */}
+            <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
+              <div className="px-4 py-3 text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Technologies</div>
+              {TOP_TECHNOLOGIES.map(t => (
+                <button
+                  key={t.name}
+                  onMouseEnter={() => setTechMenuCategory(t.name)}
+                  onClick={() => setTechMenuCategory(t.name)}
+                  className="flex items-center justify-between px-4 py-2.5 text-left transition-all"
+                  style={{
+                    background: techMenuCategory === t.name ? 'rgba(6,148,209,0.12)' : 'transparent',
+                    borderLeft: techMenuCategory === t.name ? '2px solid #0694D1' : '2px solid transparent',
+                    color: techMenuCategory === t.name ? '#ffffff' : 'rgba(255,255,255,0.65)',
+                  }}
+                >
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-medium leading-tight">{t.name}</div>
+                    <div className="text-[11px]" style={{ color: 'rgba(6,148,209,0.7)' }}>{t.count} Courses</div>
+                  </div>
+                  {techMenuCategory === t.name && (
+                    <svg className="h-3.5 w-3.5 shrink-0 ml-2" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Right — courses panel */}
+            <div className="flex flex-1 flex-col overflow-y-auto p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <h3 className="text-base font-bold text-white">{techMenuCategory}</h3>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                    {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.partners.join(', ')}
+                  </p>
+                </div>
+                <a href="#" className="flex items-center gap-1 text-xs font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
+                  View all {techMenuCategory} courses
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+              </div>
+              <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+                {(TECH_MENU_COURSES[techMenuCategory] ?? []).map((course, i) => (
+                  <a
+                    key={i}
+                    href="#"
+                    className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
+                  >
+                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2">{course.name}</p>
+                    <div className="flex items-center gap-2 mt-auto">
+                      <span className="text-[11px]" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.vendor}</span>
+                      <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
+                      <span className="flex items-center gap-1 text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        {course.days}d
+                      </span>
+                      <span className={`ml-auto rounded-full px-2 py-0.5 text-[10px] font-semibold ${course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' : 'bg-[#076d9d] text-white'}`}>{course.level}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+              <div className="mt-5 flex items-center justify-between border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+                <span className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {techMenuCategory}</span>
+                <a href="#" className="rounded-lg px-4 py-2 text-xs font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+                  Browse All {techMenuCategory} Courses →
                 </a>
               </div>
             </div>
