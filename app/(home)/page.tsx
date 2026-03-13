@@ -965,7 +965,7 @@ export default function Design4Page() {
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-4 lg:flex">
             {/* Glassmorphism pill nav group — All Courses + nav links */}
-            <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.15) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.35), 0 0 40px rgba(6,148,209,0.15), 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
+            <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.08) 0%, rgba(255,255,255,0.02) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.35), 0 0 40px rgba(6,148,209,0.15), 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)' }}>
               {/* All Courses */}
               <button
                 className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
@@ -1105,7 +1105,7 @@ export default function Design4Page() {
       </header>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative flex items-center overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: '#06111E' }}>
+      <section className="relative flex items-center overflow-hidden px-4 lg:px-[50px] py-[80px]" style={{ background: '#06111E' }}>
         {/* Hero keyframes */}
         <style>{`
           @keyframes heroFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
@@ -1149,10 +1149,10 @@ export default function Design4Page() {
 
         {/* Background image */}
         <div className="pointer-events-none absolute inset-0">
-          <img src="/images/home-baner.png" alt="" className="h-full w-full object-cover object-center" style={{ opacity: 0.55 }} />
+          <img src="/images/home-baner.png" alt="" className="h-full w-full object-cover object-center" style={{ opacity: 0.9 }} />
         </div>
         {/* Dark navy/teal gradient overlay — matches reference */}
-        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', opacity: 0.78 }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', opacity: 0.45 }} />
         {/* Dot-grid removed — replaced by HeroParticles canvas */}
         {/* Animated blobs */}
         <div className="blob1 pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
