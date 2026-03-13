@@ -968,7 +968,7 @@ export default function Design4Page() {
             <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.15) 0%, rgba(255,255,255,0.04) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.35), 0 0 40px rgba(6,148,209,0.15), 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
               {/* All Courses */}
               <button
-                className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-semibold text-white transition-opacity hover:opacity-90 rounded-[40px]"
+                className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
                 style={{ background: '#0694D1', gap: '8px' }}
               >
                 <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
