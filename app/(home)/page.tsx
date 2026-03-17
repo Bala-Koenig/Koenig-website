@@ -1218,6 +1218,21 @@ export default function Design4Page() {
 
           {/* Right — search + login + hamburger */}
           <div className="ml-auto flex items-center gap-2">
+            {/* Individual / Enterprise toggle */}
+            <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
+              <span className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
+                Individual
+              </span>
+              <Link
+                href="/enterprise"
+                className="rounded-lg px-3 py-1.5 text-xs font-semibold transition-all"
+                style={{ color: 'rgba(255,255,255,0.55)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              >
+                Enterprise
+              </Link>
+            </div>
             {/* Search */}
             <div className="relative hidden lg:block" ref={navSearchRef}>
               <div className="flex items-center gap-2 rounded-full px-4 py-1.5 transition-all focus-within:shadow-[0_0_0_2px_rgba(6,148,209,0.6)]" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.35)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
@@ -1608,25 +1623,8 @@ export default function Design4Page() {
               </p>
 
               {/* Search bar + Enterprise toggle */}
-              <div className="h-fade-up h-d4 mb-5 flex w-full max-w-2xl items-center gap-3 z-[100]">
-
-              {/* Individual / Enterprise toggle */}
-              <div className="shrink-0 flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)', backdropFilter: 'blur(8px)' }}>
-                <span className="rounded-lg px-3 py-2 text-xs font-semibold text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.45)' }}>
-                  Individual
-                </span>
-                <Link
-                  href="/enterprise"
-                  className="rounded-lg px-3 py-2 text-xs font-semibold transition-all"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-                >
-                  Enterprise
-                </Link>
-              </div>
-
-              <div className="relative flex-1" ref={heroSearchRef}>
+              {/* Search bar */}
+              <div className="h-fade-up h-d4 mb-5 relative w-full max-w-2xl z-[100]" ref={heroSearchRef}>
                 <div className="hero-search flex w-full items-stretch overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.35)] bg-[#071B2E]/90 p-2 shadow-xl backdrop-blur-sm transition-all duration-200">
                   <div className="relative hidden shrink-0 sm:block">
                     <select aria-label="Filter by domain" className="h-full appearance-none rounded-xl py-2 pl-4 pr-8 text-sm text-white/90 outline-none" style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.28)' }}>
@@ -1682,7 +1680,6 @@ export default function Design4Page() {
                   </div>
                 )}
               </div>
-              </div>{/* end flex row: toggle + search */}
 
               {/* Popular tags */}
               <div className="h-fade-up h-d4 mb-5 flex max-w-2xl flex-wrap items-center justify-center gap-2 lg:justify-start">
