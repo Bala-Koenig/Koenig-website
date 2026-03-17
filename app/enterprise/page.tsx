@@ -216,7 +216,7 @@ function BentoCard({ label, children, style }: {
   )
 }
 
-/* ── Canvas 1: GEN AI — neural network nodes ── */
+/* ── Canvas 1: GEN AI — layered neural-net forward pass ── */
 function CanvasNeuralNet() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -224,35 +224,43 @@ function CanvasNeuralNet() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    const N = Array.from({ length: 10 }, () => ({ x: Math.random(), y: Math.random(), ph: Math.random() * 6.28 }))
-    const E: [number,number][] = []
-    for (let i = 0; i < N.length; i++)
-      for (let j = i+1; j < N.length; j++) {
-        const dx = N[i].x-N[j].x, dy = N[i].y-N[j].y
-        if (dx*dx+dy*dy < 0.22) E.push([i,j])
-      }
+    const LAYERS = [3, 5, 4, 2]
     const loop = () => {
-      const W = c.width, H = c.height, t = Date.now()/1000
-      ctx.clearRect(0,0,W,H)
-      E.forEach(([i,j]) => {
-        const a = 0.12 + 0.35*Math.abs(Math.sin(t*1.6+i*0.9))
-        ctx.beginPath(); ctx.moveTo(N[i].x*W,N[i].y*H); ctx.lineTo(N[j].x*W,N[j].y*H)
-        ctx.strokeStyle = `rgba(6,148,209,${a})`; ctx.lineWidth = 0.8; ctx.stroke()
-      })
-      N.forEach((n,i) => {
-        const p = 0.5+0.5*Math.sin(t*2.4+n.ph); const x=n.x*W, y=n.y*H
-        const g = ctx.createRadialGradient(x,y,0,x,y,6+p*5)
-        g.addColorStop(0,'rgba(56,189,248,0.9)'); g.addColorStop(1,'rgba(56,189,248,0)')
-        ctx.beginPath(); ctx.arc(x,y,6+p*5,0,6.28); ctx.fillStyle=g; ctx.fill()
-        ctx.beginPath(); ctx.arc(x,y,2.2,0,6.28); ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.fill()
-      })
-      if (E.length) {
-        const ei = Math.floor(t*0.8)%E.length; const [i,j]=E[ei]; const f=(t*0.8)%1
-        const x=(N[i].x+(N[j].x-N[i].x)*f)*W, y=(N[i].y+(N[j].y-N[i].y)*f)*H
-        const g=ctx.createRadialGradient(x,y,0,x,y,9); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(1,'rgba(56,189,248,0)')
-        ctx.beginPath(); ctx.arc(x,y,9,0,6.28); ctx.fillStyle=g; ctx.fill()
-        ctx.beginPath(); ctx.arc(x,y,2.5,0,6.28); ctx.fillStyle='white'; ctx.fill()
+      const W = c.width, H = c.height, t = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+      const nodes = LAYERS.map((cnt, li) =>
+        Array.from({ length: cnt }, (_, ni) => ({
+          x: W * (0.14 + li * 0.24),
+          y: H * 0.5 + (ni - (cnt - 1) / 2) * (H * 0.19),
+        }))
+      )
+      // connections + animated pulse dots
+      for (let li = 0; li < nodes.length - 1; li++) {
+        nodes[li].forEach((a, ai) => {
+          nodes[li + 1].forEach((b, bi) => {
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y)
+            ctx.strokeStyle = 'rgba(6,148,209,0.09)'; ctx.lineWidth = 0.7; ctx.stroke()
+            const p = ((t * 0.7 + ai * 0.14 + bi * 0.10 + li * 0.33) % 1)
+            const px = a.x + (b.x - a.x) * p, py = a.y + (b.y - a.y) * p
+            const g = ctx.createRadialGradient(px, py, 0, px, py, 5)
+            g.addColorStop(0, 'rgba(56,189,248,0.88)'); g.addColorStop(1, 'rgba(56,189,248,0)')
+            ctx.beginPath(); ctx.arc(px, py, 5, 0, 6.28); ctx.fillStyle = g; ctx.fill()
+          })
+        })
       }
+      // nodes with activation glow
+      nodes.forEach((layer, li) => {
+        layer.forEach((n, ni) => {
+          const act = 0.35 + 0.65 * Math.abs(Math.sin(t * 2.2 + li * 1.4 + ni))
+          const rg = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, 16)
+          rg.addColorStop(0, `rgba(6,148,209,${act * 0.4})`); rg.addColorStop(1, 'rgba(6,148,209,0)')
+          ctx.beginPath(); ctx.arc(n.x, n.y, 16, 0, 6.28); ctx.fillStyle = rg; ctx.fill()
+          ctx.beginPath(); ctx.arc(n.x, n.y, 4 + act * 3, 0, 6.28)
+          ctx.strokeStyle = `rgba(56,189,248,${0.45 + act * 0.55})`; ctx.lineWidth = 1.5; ctx.stroke()
+          ctx.beginPath(); ctx.arc(n.x, n.y, 2, 0, 6.28)
+          ctx.fillStyle = `rgba(255,255,255,${0.65 + act * 0.35})`; ctx.fill()
+        })
+      })
       id = requestAnimationFrame(loop)
     }
     loop()
@@ -261,7 +269,7 @@ function CanvasNeuralNet() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
-/* ── Canvas 2: MANAGEMENT — portrait rings + orbits ── */
+/* ── Canvas 2: MANAGEMENT — animated org-chart hierarchy ── */
 function CanvasManagement() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -270,43 +278,44 @@ function CanvasManagement() {
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
     const loop = () => {
-      const W = c.width, H = c.height, t = Date.now()/1000
-      ctx.clearRect(0,0,W,H)
-      const cx = W*0.5, cy = H*0.42, R = Math.min(W,H)*0.26
-      /* bg glow */
-      const bg = ctx.createRadialGradient(cx,cy,0,cx,cy,R*3)
-      bg.addColorStop(0,'rgba(6,148,209,0.14)'); bg.addColorStop(1,'rgba(6,148,209,0)')
-      ctx.beginPath(); ctx.arc(cx,cy,R*3,0,6.28); ctx.fillStyle=bg; ctx.fill()
-      /* concentric rings */
-      for (let r=0;r<5;r++) {
-        const rr=R*(1.0+r*0.6), a=0.06+0.08*Math.abs(Math.sin(t*0.7+r*0.9))
-        ctx.beginPath(); ctx.arc(cx,cy,rr,0,6.28)
-        ctx.strokeStyle=`rgba(6,148,209,${a})`; ctx.lineWidth=r===0?1.5:0.7; ctx.stroke()
-      }
-      /* head silhouette */
-      const headR = R*0.58
-      const hg = ctx.createRadialGradient(cx,cy-R*0.08,0,cx,cy-R*0.08,headR*1.5)
-      hg.addColorStop(0,'rgba(6,148,209,0.22)'); hg.addColorStop(1,'rgba(6,148,209,0)')
-      ctx.beginPath(); ctx.arc(cx,cy-R*0.08,headR*1.5,0,6.28); ctx.fillStyle=hg; ctx.fill()
-      ctx.beginPath(); ctx.arc(cx,cy-R*0.08,headR,0,6.28)
-      ctx.strokeStyle='rgba(56,189,248,0.55)'; ctx.lineWidth=1.4; ctx.stroke()
-      /* shoulders */
-      ctx.beginPath(); ctx.arc(cx,cy+headR*0.9,headR*1.5,Math.PI*1.12,Math.PI*1.88)
-      ctx.strokeStyle='rgba(6,148,209,0.45)'; ctx.lineWidth=1.4; ctx.stroke()
-      /* orbiting dots */
-      const ORBITS: [number,number][] = [[R*1.3,0.45],[R*1.75,-0.3],[R*2.2,0.22]]
-      ORBITS.forEach(([orb,spd],i) => {
-        const a = t*spd+i*2.1
-        const ox=cx+Math.cos(a)*orb*0.85, oy=cy+Math.sin(a)*orb*0.42
-        ctx.beginPath(); ctx.arc(ox,oy,2.8,0,6.28); ctx.fillStyle='#38bdf8'; ctx.fill()
-        ctx.beginPath(); ctx.arc(ox,oy,5,0,6.28); ctx.strokeStyle='rgba(56,189,248,0.3)'; ctx.lineWidth=0.8; ctx.stroke()
+      const W = c.width, H = c.height, t = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+      type Nd = { x: number; y: number }
+      const root: Nd = { x: W * 0.5, y: H * 0.13 }
+      const mid: Nd[] = [{ x: W * 0.27, y: H * 0.42 }, { x: W * 0.73, y: H * 0.42 }]
+      const leaves: Nd[] = [
+        { x: W * 0.12, y: H * 0.74 }, { x: W * 0.40, y: H * 0.74 },
+        { x: W * 0.60, y: H * 0.74 }, { x: W * 0.88, y: H * 0.74 },
+      ]
+      const allNodes = [root, ...mid, ...leaves]
+      const edges: [Nd, Nd][] = [
+        [root, mid[0]], [root, mid[1]],
+        [mid[0], leaves[0]], [mid[0], leaves[1]],
+        [mid[1], leaves[2]], [mid[1], leaves[3]],
+      ]
+      edges.forEach(([a, b], ei) => {
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y)
+        ctx.strokeStyle = 'rgba(6,148,209,0.22)'; ctx.lineWidth = 1.2; ctx.stroke()
+        const p = ((t * 0.52 + ei * 0.21) % 1)
+        const px = a.x + (b.x - a.x) * p, py = a.y + (b.y - a.y) * p
+        const g = ctx.createRadialGradient(px, py, 0, px, py, 7)
+        g.addColorStop(0, 'rgba(56,189,248,0.9)'); g.addColorStop(1, 'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(px, py, 7, 0, 6.28); ctx.fillStyle = g; ctx.fill()
+        ctx.beginPath(); ctx.arc(px, py, 2.2, 0, 6.28); ctx.fillStyle = '#38bdf8'; ctx.fill()
       })
-      /* small floating particles */
-      for (let i=0;i<7;i++) {
-        const a=t*0.28+i*0.9, d=R*(0.38+0.14*Math.sin(t*0.6+i))
-        ctx.beginPath(); ctx.arc(cx+Math.cos(a)*d,cy+Math.sin(a)*d,1.4,0,6.28)
-        ctx.fillStyle=`rgba(56,189,248,${0.25+0.45*Math.abs(Math.sin(t+i))})`; ctx.fill()
-      }
+      const radii = [10, 7, 7, 5, 5, 5, 5]
+      allNodes.forEach((n, i) => {
+        const pulse = 0.5 + 0.5 * Math.sin(t * 1.9 + i * 0.85)
+        const r = radii[i] + pulse * 3
+        const ng = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 2.6)
+        ng.addColorStop(0, `rgba(6,148,209,${0.32 + pulse * 0.28})`); ng.addColorStop(1, 'rgba(6,148,209,0)')
+        ctx.beginPath(); ctx.arc(n.x, n.y, r * 2.6, 0, 6.28); ctx.fillStyle = ng; ctx.fill()
+        ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 6.28)
+        ctx.fillStyle = 'rgba(6,20,40,0.92)'; ctx.fill()
+        ctx.strokeStyle = `rgba(56,189,248,${0.5 + pulse * 0.5})`; ctx.lineWidth = 1.5; ctx.stroke()
+        ctx.beginPath(); ctx.arc(n.x, n.y, r * 0.38, 0, 6.28)
+        ctx.fillStyle = `rgba(56,189,248,${0.65 + pulse * 0.35})`; ctx.fill()
+      })
       id = requestAnimationFrame(loop)
     }
     loop()
@@ -315,7 +324,7 @@ function CanvasManagement() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
-/* ── Canvas 3: FINANCE — animated bar chart ── */
+/* ── Canvas 3: FINANCE — candlestick chart with EMA line ── */
 function CanvasFinance() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -323,33 +332,60 @@ function CanvasFinance() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    const PH = Array.from({length:7},(_,i)=>i*0.48+Math.random()*2)
+    // [open, high, low, close] each 0-1
+    const BASE: [number, number, number, number][] = [
+      [0.42, 0.62, 0.34, 0.57],
+      [0.57, 0.71, 0.50, 0.47],
+      [0.47, 0.55, 0.37, 0.53],
+      [0.53, 0.73, 0.51, 0.69],
+      [0.69, 0.82, 0.60, 0.76],
+      [0.76, 0.79, 0.54, 0.59],
+      [0.59, 0.67, 0.41, 0.50],
+    ]
     const loop = () => {
-      const W = c.width, H = c.height, t = Date.now()/1000
-      ctx.clearRect(0,0,W,H)
-      const bW = W/(PH.length*1.9), gap = (W-bW*PH.length)/(PH.length+1)
-      PH.forEach((ph,i) => {
-        const hPct = 0.2+0.65*Math.abs(Math.sin(t*0.75+ph))
-        const bH = H*0.78*hPct, x = gap+i*(bW+gap), y = H*0.88-bH
-        const g = ctx.createLinearGradient(x,H,x,y)
-        g.addColorStop(0,'rgba(6,148,209,0.9)'); g.addColorStop(1,'rgba(56,189,248,0.5)')
-        ctx.fillStyle = g; ctx.fillRect(x,y,bW,bH)
-        /* top glow */
-        const tg = ctx.createRadialGradient(x+bW/2,y,0,x+bW/2,y,bW)
-        tg.addColorStop(0,`rgba(56,189,248,${0.5+0.35*hPct})`); tg.addColorStop(1,'rgba(56,189,248,0)')
-        ctx.beginPath(); ctx.arc(x+bW/2,y,bW,0,6.28); ctx.fillStyle=tg; ctx.fill()
+      const W = c.width, H = c.height, t = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+      const floor = H * 0.86, ceiling = H * 0.10, range = floor - ceiling
+      const n = BASE.length, bW = W / (n * 2.4)
+      const gap = (W - bW * n) / (n + 1)
+      // faint grid
+      for (let gr = 0; gr < 4; gr++) {
+        const gy = ceiling + (gr / 3) * range
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy)
+        ctx.strokeStyle = 'rgba(6,148,209,0.07)'; ctx.lineWidth = 0.6; ctx.stroke()
+      }
+      // candles
+      BASE.forEach(([o, h, l, cl], i) => {
+        const animCl = cl + 0.06 * Math.sin(t * 1.1 + i * 0.65)
+        const animH = Math.max(h, animCl) + 0.025 * Math.abs(Math.sin(t * 0.8 + i))
+        const animL = Math.min(l, animCl) - 0.018 * Math.abs(Math.sin(t * 0.7 + i))
+        const x = gap + i * (bW + gap) + bW / 2
+        const oY = floor - o * range, cY = floor - animCl * range
+        const hY = floor - animH * range, lY = floor - animL * range
+        const isUp = animCl >= o
+        const col = isUp ? 'rgba(56,189,248,0.92)' : 'rgba(6,100,180,0.72)'
+        ctx.beginPath(); ctx.moveTo(x, hY); ctx.lineTo(x, lY)
+        ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.stroke()
+        const bodyY = Math.min(oY, cY), bodyH = Math.max(2, Math.abs(oY - cY))
+        ctx.fillStyle = col; ctx.fillRect(x - bW / 2, bodyY, bW, bodyH)
+        if (isUp) {
+          const tg = ctx.createRadialGradient(x, cY, 0, x, cY, bW * 1.6)
+          tg.addColorStop(0, 'rgba(56,189,248,0.32)'); tg.addColorStop(1, 'rgba(56,189,248,0)')
+          ctx.beginPath(); ctx.arc(x, cY, bW * 1.6, 0, 6.28); ctx.fillStyle = tg; ctx.fill()
+        }
       })
-      /* baseline */
-      ctx.beginPath(); ctx.moveTo(0,H*0.88); ctx.lineTo(W,H*0.88)
-      ctx.strokeStyle='rgba(6,148,209,0.3)'; ctx.lineWidth=0.8; ctx.stroke()
-      /* moving line across tops */
+      // EMA line
       ctx.beginPath()
-      PH.forEach((ph,i) => {
-        const hPct=0.2+0.65*Math.abs(Math.sin(t*0.75+ph))
-        const bH=H*0.78*hPct, x=gap+i*(bW+gap)+bW/2, y=H*0.88-bH
-        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)
+      BASE.forEach(([, , , cl], i) => {
+        const animCl = cl + 0.06 * Math.sin(t * 1.1 + i * 0.65)
+        const x = gap + i * (bW + gap) + bW / 2, y = floor - animCl * range
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
       })
-      ctx.strokeStyle='rgba(56,189,248,0.4)'; ctx.lineWidth=1; ctx.stroke()
+      ctx.strokeStyle = 'rgba(56,189,248,0.55)'; ctx.lineWidth = 1.5
+      ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([])
+      // baseline
+      ctx.beginPath(); ctx.moveTo(0, floor); ctx.lineTo(W, floor)
+      ctx.strokeStyle = 'rgba(6,148,209,0.28)'; ctx.lineWidth = 0.8; ctx.stroke()
       id = requestAnimationFrame(loop)
     }
     loop()
@@ -358,7 +394,7 @@ function CanvasFinance() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
-/* ── Canvas 4: DATA SCIENCE — convergent wave streams ── */
+/* ── Canvas 4: DATA SCIENCE — scatter-plot clustering ── */
 function CanvasDataScience() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -366,33 +402,48 @@ function CanvasDataScience() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    const loop = () => {
-      const W = c.width, H = c.height, t = Date.now()/1000
-      ctx.clearRect(0,0,W,H)
-      const NL = 18
-      for (let i = 0; i < NL; i++) {
-        const frac = i/(NL-1)
-        const sY = H*0.08+frac*H*0.84
-        const mX = W*0.46, cY = H*0.5+Math.sin(frac*Math.PI)*H*0.08
-        const a = 0.12+0.45*Math.abs(Math.sin(t*0.9+frac*2.8))
-        ctx.beginPath(); ctx.moveTo(0,sY)
-        ctx.bezierCurveTo(mX,sY,mX,cY,W*0.92,H*0.5)
-        ctx.strokeStyle=`rgba(6,148,209,${a})`; ctx.lineWidth=0.85; ctx.stroke()
-        /* particle */
-        const pt = ((t*0.38+frac*0.65)%1)
-        const bx=(1-pt)**3*0+3*(1-pt)**2*pt*mX+3*(1-pt)*pt**2*mX+pt**3*W*0.92
-        const by=(1-pt)**3*sY+3*(1-pt)**2*pt*sY+3*(1-pt)*pt**2*cY+pt**3*H*0.5
-        if (pt>0.04 && pt<0.96) {
-          ctx.beginPath(); ctx.arc(bx,by,1.6,0,6.28)
-          ctx.fillStyle=`rgba(56,189,248,${0.5+0.5*Math.abs(Math.sin(t*2+i))})`; ctx.fill()
-        }
+    const CLUSTERS = [
+      { cx: 0.24, cy: 0.32, col: '6,148,209' },
+      { cx: 0.73, cy: 0.27, col: '56,189,248' },
+      { cx: 0.50, cy: 0.73, col: '7,109,157' },
+    ]
+    const PTS = Array.from({ length: 39 }, (_, i) => {
+      const cl = CLUSTERS[i % 3]
+      return {
+        rx: Math.random() * 0.88 + 0.06,
+        ry: Math.random() * 0.82 + 0.09,
+        clX: cl.cx + (Math.random() - 0.5) * 0.20,
+        clY: cl.cy + (Math.random() - 0.5) * 0.20,
+        ci: i % 3,
+        ph: Math.random() * 6.28,
       }
-      /* convergence glow */
-      const gx=W*0.88, gy=H*0.5, pr=20+7*Math.sin(t*2.2)
-      const gg=ctx.createRadialGradient(gx,gy,0,gx,gy,pr)
-      gg.addColorStop(0,'rgba(56,189,248,0.6)'); gg.addColorStop(1,'rgba(56,189,248,0)')
-      ctx.beginPath(); ctx.arc(gx,gy,pr,0,6.28); ctx.fillStyle=gg; ctx.fill()
-      ctx.beginPath(); ctx.arc(gx,gy,4,0,6.28); ctx.fillStyle='#38bdf8'; ctx.fill()
+    })
+    const loop = () => {
+      const W = c.width, H = c.height, t = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+      const cycle = (t * 0.20) % 1
+      const gather = Math.max(0, Math.min(1, cycle * 2.2 - 0.3))
+      CLUSTERS.forEach((cl, ci) => {
+        const rp = 24 + 7 * Math.sin(t * 1.9 + ci)
+        if (gather > 0.2) {
+          const rg = ctx.createRadialGradient(cl.cx * W, cl.cy * H, 0, cl.cx * W, cl.cy * H, rp * gather + 12)
+          rg.addColorStop(0, `rgba(${cl.col},${0.09 * gather})`); rg.addColorStop(1, `rgba(${cl.col},0)`)
+          ctx.beginPath(); ctx.arc(cl.cx * W, cl.cy * H, rp * gather + 12, 0, 6.28); ctx.fillStyle = rg; ctx.fill()
+          ctx.beginPath(); ctx.arc(cl.cx * W, cl.cy * H, rp * gather, 0, 6.28)
+          ctx.strokeStyle = `rgba(${cl.col},${gather * 0.45})`; ctx.lineWidth = 1; ctx.stroke()
+        }
+      })
+      PTS.forEach(pt => {
+        const cl = CLUSTERS[pt.ci]
+        const x = (pt.rx + (pt.clX - pt.rx) * gather) * W
+        const y = (pt.ry + (pt.clY - pt.ry) * gather) * H
+        const pulse = 0.5 + 0.5 * Math.sin(t * 2.6 + pt.ph)
+        const r = 2 + pulse * 1.8
+        const cg = ctx.createRadialGradient(x, y, 0, x, y, r * 2.8)
+        cg.addColorStop(0, `rgba(${cl.col},0.88)`); cg.addColorStop(1, `rgba(${cl.col},0)`)
+        ctx.beginPath(); ctx.arc(x, y, r * 2.8, 0, 6.28); ctx.fillStyle = cg; ctx.fill()
+        ctx.beginPath(); ctx.arc(x, y, r, 0, 6.28); ctx.fillStyle = `rgba(${cl.col},1)`; ctx.fill()
+      })
       id = requestAnimationFrame(loop)
     }
     loop()
@@ -401,7 +452,7 @@ function CanvasDataScience() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
-/* ── Canvas 5: TECHNOLOGY — circuit paths + packets ── */
+/* ── Canvas 5: TECHNOLOGY — hexagonal pulse-wave grid ── */
 function CanvasTechnology() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -409,37 +460,42 @@ function CanvasTechnology() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    type Pt = {x:number;y:number}
-    const PATHS: Pt[][] = Array.from({length:5},() => {
-      let x=Math.random()*0.25, y=0.1+Math.random()*0.8; const p:Pt[]=[{x,y}]
-      for(let j=0;j<6;j++){
-        if(Math.random()<0.5) x=Math.min(0.98,x+0.12+Math.random()*0.18)
-        else y=Math.max(0.05,Math.min(0.95,y+(Math.random()-0.5)*0.38))
-        p.push({x,y})
+    const drawHex = (cx: number, cy: number, r: number) => {
+      ctx.beginPath()
+      for (let i = 0; i < 6; i++) {
+        const a = (i * Math.PI) / 3 - Math.PI / 6
+        i === 0 ? ctx.moveTo(cx + r * Math.cos(a), cy + r * Math.sin(a))
+                : ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a))
       }
-      return p
-    })
+      ctx.closePath()
+    }
     const loop = () => {
-      const W=c.width, H=c.height, t=Date.now()/1000
-      ctx.clearRect(0,0,W,H)
-      PATHS.forEach((path,pi) => {
-        ctx.beginPath(); ctx.moveTo(path[0].x*W,path[0].y*H)
-        for(let i=1;i<path.length;i++) ctx.lineTo(path[i].x*W,path[i].y*H)
-        ctx.strokeStyle='rgba(6,148,209,0.22)'; ctx.lineWidth=1; ctx.stroke()
-        path.forEach(pt => {
-          ctx.beginPath(); ctx.arc(pt.x*W,pt.y*H,1.8,0,6.28)
-          ctx.fillStyle='rgba(6,148,209,0.55)'; ctx.fill()
-        })
-        const seg=(path.length-1), ov=((t*0.48+pi*0.28)%1)*seg
-        const si=Math.min(seg-1,Math.floor(ov)), sf=ov-si
-        const p1=path[si], p2=path[si+1]
-        const px=(p1.x+(p2.x-p1.x)*sf)*W, py=(p1.y+(p2.y-p1.y)*sf)*H
-        const pg=ctx.createRadialGradient(px,py,0,px,py,8)
-        pg.addColorStop(0,'rgba(255,255,255,0.95)'); pg.addColorStop(1,'rgba(56,189,248,0)')
-        ctx.beginPath(); ctx.arc(px,py,8,0,6.28); ctx.fillStyle=pg; ctx.fill()
-        ctx.beginPath(); ctx.arc(px,py,2,0,6.28); ctx.fillStyle='white'; ctx.fill()
-      })
-      id=requestAnimationFrame(loop)
+      const W = c.width, H = c.height, t = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+      const R = Math.min(W, H) * 0.10
+      const hW = R * Math.sqrt(3), hH = R * 1.5
+      const cols = Math.ceil(W / hW) + 2, rows = Math.ceil(H / hH) + 2
+      const p1 = { x: W * 0.5, y: H * 0.5, ph: t * 1.5 }
+      const p2 = { x: W * 0.18, y: H * 0.28, ph: t * 1.1 + 2.8 }
+      for (let row = -1; row < rows; row++) {
+        for (let col = -1; col < cols; col++) {
+          const cx = col * hW + (row % 2 === 0 ? 0 : hW / 2)
+          const cy = row * hH
+          const d1 = Math.sqrt((cx - p1.x) ** 2 + (cy - p1.y) ** 2)
+          const d2 = Math.sqrt((cx - p2.x) ** 2 + (cy - p2.y) ** 2)
+          const w1 = 0.5 + 0.5 * Math.cos(d1 * 0.05 - p1.ph)
+          const w2 = 0.5 + 0.5 * Math.cos(d2 * 0.07 - p2.ph)
+          const intensity = Math.max(w1, w2)
+          drawHex(cx, cy, R - 1.5)
+          ctx.fillStyle = `rgba(6,148,209,${intensity * 0.17})`; ctx.fill()
+          ctx.strokeStyle = `rgba(56,189,248,${0.07 + intensity * 0.55})`; ctx.lineWidth = 0.8; ctx.stroke()
+          if (intensity > 0.84) {
+            ctx.beginPath(); ctx.arc(cx, cy, 2.8, 0, 6.28)
+            ctx.fillStyle = `rgba(56,189,248,${(intensity - 0.84) * 6})`; ctx.fill()
+          }
+        }
+      }
+      id = requestAnimationFrame(loop)
     }
     loop()
     return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
@@ -447,7 +503,7 @@ function CanvasTechnology() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
-/* ── Canvas 6: FUNCTIONAL SKILLS — ripple puzzle grid ── */
+/* ── Canvas 6: FUNCTIONAL SKILLS — morphing radar / spider chart ── */
 function CanvasPuzzle() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -455,26 +511,56 @@ function CanvasPuzzle() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
+    const AXES = 6
+    const P1 = [0.80, 0.60, 0.90, 0.50, 0.72, 0.82]
+    const P2 = [0.50, 0.90, 0.62, 0.88, 0.58, 0.50]
     const loop = () => {
-      const W=c.width, H=c.height, t=Date.now()/1000
-      ctx.clearRect(0,0,W,H)
-      const COLS=4, ROWS=4, cW=W/COLS, cH=H/ROWS, pad=3
-      for(let row=0;row<ROWS;row++){
-        for(let col=0;col<COLS;col++){
-          const dist=Math.sqrt((col-1.5)**2+(row-1.5)**2)
-          const pulse=0.5+0.5*Math.sin(t*1.9-dist*1.3)
-          const a=0.07+pulse*0.38
-          ctx.strokeStyle=`rgba(6,148,209,${a})`; ctx.lineWidth=1
-          ctx.strokeRect(col*cW+pad,row*cH+pad,cW-pad*2,cH-pad*2)
-          ctx.fillStyle=`rgba(6,148,209,${a*0.28})`
-          ctx.fillRect(col*cW+pad,row*cH+pad,cW-pad*2,cH-pad*2)
-          if(pulse>0.78){
-            ctx.beginPath(); ctx.arc(col*cW+cW/2,row*cH+cH/2,2,0,6.28)
-            ctx.fillStyle=`rgba(56,189,248,${(pulse-0.78)*5*0.85})`; ctx.fill()
-          }
+      const W = c.width, H = c.height, t = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+      const cx = W * 0.5, cy = H * 0.5
+      const R = Math.min(W, H) * 0.38
+      const morph = 0.5 + 0.5 * Math.sin(t * 0.72)
+      // grid rings
+      for (let ring = 1; ring <= 4; ring++) {
+        const rr = R * ring / 4
+        ctx.beginPath()
+        for (let a = 0; a < AXES; a++) {
+          const angle = (a * Math.PI * 2) / AXES - Math.PI / 2
+          const x = cx + rr * Math.cos(angle), y = cy + rr * Math.sin(angle)
+          a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
         }
+        ctx.closePath()
+        ctx.strokeStyle = `rgba(6,148,209,${0.07 + ring * 0.025})`; ctx.lineWidth = 0.7; ctx.stroke()
       }
-      id=requestAnimationFrame(loop)
+      // spokes
+      for (let a = 0; a < AXES; a++) {
+        const angle = (a * Math.PI * 2) / AXES - Math.PI / 2
+        ctx.beginPath(); ctx.moveTo(cx, cy)
+        ctx.lineTo(cx + R * Math.cos(angle), cy + R * Math.sin(angle))
+        ctx.strokeStyle = 'rgba(6,148,209,0.14)'; ctx.lineWidth = 0.7; ctx.stroke()
+      }
+      // filled morphing polygon
+      const vals = P1.map((v, i) => v + (P2[i] - v) * morph)
+      ctx.beginPath()
+      vals.forEach((v, a) => {
+        const angle = (a * Math.PI * 2) / AXES - Math.PI / 2
+        const x = cx + R * v * Math.cos(angle), y = cy + R * v * Math.sin(angle)
+        a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
+      })
+      ctx.closePath()
+      ctx.fillStyle = 'rgba(6,148,209,0.17)'; ctx.fill()
+      ctx.strokeStyle = 'rgba(56,189,248,0.75)'; ctx.lineWidth = 1.6; ctx.stroke()
+      // vertex glow dots
+      vals.forEach((v, a) => {
+        const angle = (a * Math.PI * 2) / AXES - Math.PI / 2
+        const x = cx + R * v * Math.cos(angle), y = cy + R * v * Math.sin(angle)
+        const pulse = 0.5 + 0.5 * Math.sin(t * 2.5 + a * 1.05)
+        const vg = ctx.createRadialGradient(x, y, 0, x, y, 7)
+        vg.addColorStop(0, `rgba(56,189,248,${0.7 + pulse * 0.3})`); vg.addColorStop(1, 'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(x, y, 7, 0, 6.28); ctx.fillStyle = vg; ctx.fill()
+        ctx.beginPath(); ctx.arc(x, y, 2.5, 0, 6.28); ctx.fillStyle = '#38bdf8'; ctx.fill()
+      })
+      id = requestAnimationFrame(loop)
     }
     loop()
     return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
