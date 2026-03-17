@@ -178,6 +178,16 @@ const HOW_IT_WORKS = [
   },
 ]
 
+const TECH_TRENDS = [
+  { label: 'HOT',      name: 'Generative AI & LLMs',     growth: '+340%', desc: 'Prompt engineering, RAG pipelines, fine-tuning, and AI governance at enterprise scale.',    courses: '120+', accent: '#FF6B35' },
+  { label: 'HOT',      name: 'Cloud-Native & Kubernetes', growth: '+185%', desc: 'Container orchestration, GitOps, service mesh, and multi-cloud architecture.',               courses: '280+', accent: '#0694D1' },
+  { label: 'RISING',   name: 'Zero Trust Security',       growth: '+210%', desc: 'Identity-centric, perimeter-less security for hybrid and cloud-first enterprises.',          courses: '95+',  accent: '#8B5CF6' },
+  { label: 'RISING',   name: 'FinOps & Cloud Cost',       growth: '+168%', desc: 'Cloud financial management, cost allocation, and optimisation at enterprise scale.',         courses: '40+',  accent: '#10B981' },
+  { label: 'EMERGING', name: 'Quantum Computing',         growth: '+420%', desc: 'Quantum algorithms, Qiskit, and post-quantum cryptography for enterprise readiness.',        courses: '18+',  accent: '#F59E0B' },
+  { label: 'RISING',   name: 'DevSecOps & SBOM',          growth: '+145%', desc: 'Shift-left security, supply-chain integrity, and automated compliance pipelines.',           courses: '160+', accent: '#38bdf8' },
+  { label: 'EMERGING', name: 'Edge AI & TinyML',          growth: '+290%', desc: 'On-device inference and real-time AI for manufacturing, retail, and smart infrastructure.', courses: '55+',  accent: '#EC4899' },
+]
+
 const FAQS = [
   { q: 'What is the minimum team size for enterprise training?', a: 'We accommodate teams of any size — from a single employee in 1-on-1 format to enterprise-wide rollouts of 1,000+ staff. Pricing and formats are fully customised to your headcount and objectives.' },
   { q: 'Can training be delivered at our office location?', a: 'Yes. Our Fly-Me-a-Trainer (FMAT) service deploys certified instructors directly to your premises anywhere in the world — ideal for large teams or classified environments.' },
@@ -1453,6 +1463,233 @@ export default function EnterprisePage() {
                 <p className="text-sm leading-relaxed text-white/55">{f.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           NEW: 2025 Technology Radar (WHITE — featured + staggered grid)
+      ════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-0 right-0 h-[500px] w-[500px] rounded-full blur-3xl opacity-20" style={{ background: 'radial-gradient(circle, #CAEFFF, transparent)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          {/* Header row */}
+          <div className="io-fade mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <span className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-widest" style={{ background: 'rgba(255,107,53,0.10)', border: '1px solid rgba(255,107,53,0.32)', color: '#FF6B35' }}>
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#FF6B35]" style={{ animation: 'pulse 1.5s infinite' }} />
+                Live Demand Intelligence · 2025
+              </span>
+              <h2 className="mt-2 text-3xl font-black leading-tight lg:text-4xl" style={{ color: '#093148' }}>
+                Technology Skills Enterprises<br className="hidden lg:block" />
+                Are <span className="ent-dark-grad-text">Racing to Learn</span>
+              </h2>
+            </div>
+            <p className="max-w-xs text-sm lg:text-right" style={{ color: '#4a7a9b' }}>
+              Demand signals from 1M+ enrolled professionals across 195+ countries. Updated quarterly.
+            </p>
+          </div>
+
+          {/* Featured card + grid */}
+          <div className="grid gap-5 lg:grid-cols-[360px_1fr]">
+            {/* Featured — GenAI */}
+            <div className="relative flex min-h-[340px] flex-col justify-between overflow-hidden rounded-3xl p-8" style={{ background: 'linear-gradient(145deg,#06111E 0%,#0a2440 55%,#071a30 100%)', border: '1.5px solid rgba(255,107,53,0.35)' }}>
+              <div className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(255,107,53,0.05) 1px, transparent 1px)', backgroundSize: '22px 22px' }} />
+              <div className="relative z-10">
+                <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-widest" style={{ background: 'rgba(255,107,53,0.18)', color: '#FF6B35', border: '1px solid rgba(255,107,53,0.4)' }}>
+                  🔥 #1 Trending Globally
+                </span>
+                <h3 className="mt-5 text-3xl font-black leading-tight text-white">Generative AI<br />&amp; LLMs</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/55">Prompt engineering, RAG pipelines, fine-tuning, and responsible AI governance at enterprise scale.</p>
+              </div>
+              <div className="relative z-10">
+                <div className="mb-4 flex items-end gap-3">
+                  <span className="text-5xl font-black" style={{ color: '#FF6B35' }}>+340%</span>
+                  <span className="mb-1.5 text-sm text-white/45">YoY demand</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-white/60">120+ Courses</span>
+                  <a href="#contact" className="rounded-lg px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-80" style={{ background: 'rgba(255,107,53,0.22)', border: '1px solid rgba(255,107,53,0.45)' }}>Explore →</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Trend cards grid */}
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3">
+              {TECH_TRENDS.slice(1).map((t, i) => (
+                <div
+                  key={i}
+                  className="io-fade group relative overflow-hidden rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                  style={{ background: '#F4FBFF', border: '1.5px solid #CAEFFF', cursor: 'default' }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#EBF8FE'; el.style.borderColor = t.accent }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#F4FBFF'; el.style.borderColor = '#CAEFFF' }}
+                >
+                  {/* Trend badge */}
+                  <span className="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest" style={{ background: `${t.accent}18`, color: t.accent, border: `1px solid ${t.accent}44` }}>
+                    {t.label}
+                  </span>
+                  <h4 className="mb-1.5 text-sm font-bold leading-tight" style={{ color: '#093148' }}>{t.name}</h4>
+                  <div className="mb-2 text-2xl font-black leading-none" style={{ color: t.accent }}>{t.growth}</div>
+                  <p className="text-[11px] leading-relaxed" style={{ color: '#4a7a9b' }}>{t.courses} courses · YoY</p>
+                  {/* animated bottom bar */}
+                  <div className="absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-500 group-hover:w-full" style={{ background: `linear-gradient(90deg,${t.accent},transparent)` }} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom strip */}
+          <div className="io-fade mt-6 flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row" style={{ background: '#F0FAFF', border: '1.5px solid #CAEFFF' }}>
+            <div>
+              <p className="text-sm font-bold" style={{ color: '#093148' }}>Don&apos;t see your technology?</p>
+              <p className="text-xs" style={{ color: '#4a7a9b' }}>We cover 5,000+ courses across 50+ vendors — our team builds custom curricula for any tech stack.</p>
+            </div>
+            <a href="#contact" className="shrink-0 rounded-xl px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
+              Request Custom Training
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           NEW: Vendor Certification Ecosystem (DARK NAVY — tiered rows)
+      ════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px]" style={{ background: '#093148' }}>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(6,148,209,0.035) 1px,transparent 1px)', backgroundSize: '30px 30px' }} />
+          <div className="ent-blob1 absolute -top-28 -right-28 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: 'radial-gradient(circle,#0694D1,transparent)' }} />
+          <div className="ent-blob2 absolute -bottom-20 -left-20 h-72 w-72 rounded-full opacity-10 blur-3xl" style={{ background: 'radial-gradient(circle,#38bdf8,transparent)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="io-fade mb-12 text-center">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Official Vendor Partners</p>
+            <h2 className="text-3xl font-black text-white lg:text-4xl">50+ Authorised <span style={{ color: '#38bdf8' }}>Certification Partners</span></h2>
+            <p className="mt-3 max-w-xl mx-auto text-sm text-white/50">Train and certify your team on the industry's most in-demand platforms — all under one roof, with one account manager.</p>
+          </div>
+
+          {/* Tier rows */}
+          <div className="space-y-4">
+            {([
+              { tier: '🏆 ELITE', vendors: ['Microsoft', 'AWS', 'Cisco', 'VMware', 'Red Hat', 'Google Cloud'], accentColor: '#F59E0B' },
+              { tier: '⭐ PREMIER', vendors: ['CompTIA', 'PMI', 'EC-Council', 'Salesforce', 'ServiceNow', 'SAP', 'Oracle'], accentColor: '#38bdf8' },
+              { tier: '✅ CERTIFIED', vendors: ['IBM', 'Fortinet', 'Palo Alto Networks', 'HashiCorp', 'Nutanix', 'Juniper', 'Citrix', 'ISACA', 'AXELOS'], accentColor: '#10B981' },
+            ] as { tier: string; vendors: string[]; accentColor: string }[]).map((row, ri) => (
+              <div key={ri} className="io-fade overflow-hidden rounded-2xl" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.18)' }}>
+                <div className="flex flex-col gap-4 p-5 lg:flex-row lg:items-center">
+                  <div className="shrink-0 lg:w-[160px]">
+                    <span className="text-xs font-black uppercase tracking-widest" style={{ color: row.accentColor }}>{row.tier}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {row.vendors.map(v => (
+                      <span key={v} className="rounded-full px-3.5 py-1.5 text-xs font-semibold text-white/80 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.11)' }}>{v}</span>
+                    ))}
+                    <span className="rounded-full px-3.5 py-1.5 text-xs font-semibold" style={{ background: `${row.accentColor}18`, color: row.accentColor, border: `1px solid ${row.accentColor}38` }}>+ more</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mini stat strip */}
+          <div className="io-fade mt-8 grid gap-4 text-center sm:grid-cols-3">
+            {[['50+','Vendor Partnerships'],['300+','Certifications Available'],['94%','First-Attempt Pass Rate']].map(([n, l], i) => (
+              <div key={i} className="rounded-2xl py-5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.25)' }}>
+                <div className="text-2xl font-black" style={{ color: '#38bdf8' }}>{n}</div>
+                <div className="mt-1 text-xs text-white/50">{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           NEW: L&D Intelligence Dashboard (WHITE — split-screen with CSS mockup)
+      ════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="ent-blob3 absolute bottom-0 left-1/3 h-72 w-72 rounded-full opacity-15 blur-3xl" style={{ background: 'radial-gradient(circle,#0694D1,transparent)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="flex flex-col gap-14 lg:flex-row lg:items-center">
+            {/* Left copy */}
+            <div className="flex-1">
+              <p className="mb-3 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Enterprise Reporting</p>
+              <h2 className="mb-5 text-3xl font-black leading-tight lg:text-4xl" style={{ color: '#093148' }}>
+                Full Visibility Into<br /><span className="ent-dark-grad-text">Every Training Engagement</span>
+              </h2>
+              <p className="mb-8 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>
+                Your dedicated L&amp;D portal gives HR leaders, managers, and executives real-time insight into completion, certification timelines, and measurable ROI — no spreadsheets, no chasing updates.
+              </p>
+              <div className="space-y-5">
+                {[
+                  { icon: '📊', title: 'Real-Time Progress Tracking',  desc: 'Completion rates, assessment scores, and engagement metrics per employee, team, or region.' },
+                  { icon: '🏅', title: 'Certification Status Board',   desc: 'See who is certified, who is expiring, and who needs re-sit — with automated renewal reminders.' },
+                  { icon: '📈', title: 'Audit-Ready ROI Reports',      desc: 'Downloadable reports aligned to ISO, SOC 2, GDPR, and HIPAA compliance frameworks.' },
+                  { icon: '🔔', title: 'Smart Alerts & Escalation',    desc: 'Automatic alerts for low attendance, missed sessions, and upcoming exam deadlines.' },
+                ].map((f, i) => (
+                  <div key={i} className="io-fade flex items-start gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg" style={{ background: '#EBF8FE', border: '1px solid #CAEFFF' }}>{f.icon}</div>
+                    <div>
+                      <h4 className="text-sm font-bold" style={{ color: '#093148' }}>{f.title}</h4>
+                      <p className="mt-0.5 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{f.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <a href="#contact" className="mt-8 inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 0 24px rgba(6,148,209,0.28)' }}>
+                Request a Platform Demo →
+              </a>
+            </div>
+
+            {/* Right: CSS dashboard mockup */}
+            <div className="shrink-0 w-full lg:w-[460px]">
+              <div className="rounded-3xl p-6 shadow-2xl" style={{ background: '#06111E', border: '1px solid rgba(6,148,209,0.28)' }}>
+                {/* Window chrome */}
+                <div className="mb-5 flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-400 opacity-80" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-400 opacity-80" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-green-400 opacity-80" />
+                  <span className="ml-3 text-[11px] text-white/30">L&D Training Portal — Koenig Enterprise</span>
+                </div>
+                {/* Stat row */}
+                <div className="mb-4 grid grid-cols-3 gap-3">
+                  {[['847','Enrolled'],['234','Certified'],['94%','Pass Rate']].map(([v,l],i) => (
+                    <div key={i} className="rounded-xl p-3 text-center" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                      <div className="text-lg font-black" style={{ color: '#38bdf8' }}>{v}</div>
+                      <div className="text-[10px] text-white/45">{l}</div>
+                    </div>
+                  ))}
+                </div>
+                {/* Progress bars */}
+                <div className="mb-4 rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  <p className="mb-3 text-xs font-semibold text-white/50">Completion by Department</p>
+                  {[{ d:'Cloud Engineering',pct:87 },{ d:'Security Ops',pct:74 },{ d:'Data Science',pct:91 },{ d:'DevOps',pct:68 }].map((r,i) => (
+                    <div key={i} className="mb-2.5 last:mb-0">
+                      <div className="mb-1 flex justify-between text-[10px]">
+                        <span className="text-white/55">{r.d}</span>
+                        <span style={{ color: '#38bdf8' }}>{r.pct}%</span>
+                      </div>
+                      <div className="h-1.5 rounded-full" style={{ background: 'rgba(6,148,209,0.15)' }}>
+                        <div className="h-full rounded-full" style={{ width: `${r.pct}%`, background: 'linear-gradient(90deg,#0694D1,#38bdf8)' }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Exam schedule */}
+                <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  <p className="mb-3 text-xs font-semibold text-white/50">Upcoming Exams</p>
+                  {[{ n:'AZ-900',d:'Mar 22',s:'On Track' },{ n:'CKA',d:'Mar 28',s:'At Risk' },{ n:'CISSP',d:'Apr 3',s:'On Track' }].map((ex,i) => (
+                    <div key={i} className="flex items-center justify-between border-b py-1.5 last:border-0" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                      <span className="text-xs font-semibold text-white">{ex.n}</span>
+                      <span className="text-xs text-white/40">{ex.d}</span>
+                      <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ background: ex.s==='On Track' ? 'rgba(16,185,129,0.16)' : 'rgba(245,158,11,0.16)', color: ex.s==='On Track' ? '#10B981' : '#F59E0B' }}>{ex.s}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
