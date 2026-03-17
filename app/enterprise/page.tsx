@@ -632,87 +632,147 @@ function HeroStatsAnimation() {
   )
 }
 
-/* ── Hero right-panel: illustrative globe + floating live cards ── */
+/* ── Hero right-panel: technology constellation canvas ── */
 function HeroIllustration() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => {
+      const r = c.getBoundingClientRect()
+      if (r.width) { c.width = r.width; c.height = r.height }
+    }
+    resize(); window.addEventListener('resize', resize)
+
+    // 6 domains — each with colour, 3 tech satellites, and hex position angle
+    const DOMAINS = [
+      { name: 'GEN AI',       rgb: '255,107,53',  techs: ['LLMs', 'RAG', 'GPT-4'],     a: -Math.PI / 2 },
+      { name: 'TECHNOLOGY',   rgb: '6,148,209',   techs: ['Azure', 'AWS', 'K8s'],       a: -Math.PI / 2 + (Math.PI * 2) / 6 },
+      { name: 'DATA SCIENCE', rgb: '139,92,246',  techs: ['Python', 'Spark', 'SQL'],    a: -Math.PI / 2 + (Math.PI * 4) / 6 },
+      { name: 'FINANCE',      rgb: '16,185,129',  techs: ['SAP', 'Oracle', 'FinOps'],   a: -Math.PI / 2 + Math.PI },
+      { name: 'MANAGEMENT',   rgb: '56,189,248',  techs: ['PMP', 'Agile', 'PRINCE2'],   a: -Math.PI / 2 + (Math.PI * 8) / 6 },
+      { name: 'FUNCTIONAL',   rgb: '245,158,11',  techs: ['ITIL', 'Lean', '6 Sigma'],   a: -Math.PI / 2 + (Math.PI * 10) / 6 },
+    ]
+
+    const loop = () => {
+      const W = c.width, H = c.height, t = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+
+      // Background fill
+      ctx.fillStyle = 'rgba(6,12,24,1)'
+      ctx.fillRect(0, 0, W, H)
+
+      // Dot grid
+      ctx.fillStyle = 'rgba(6,148,209,0.10)'
+      for (let gx = 0; gx <= W; gx += 26)
+        for (let gy = 0; gy <= H; gy += 26) {
+          ctx.beginPath(); ctx.arc(gx, gy, 0.7, 0, 6.28); ctx.fill()
+        }
+
+      const cx = W * 0.5, cy = H * 0.5
+      const R = Math.min(W, H) * 0.30     // domain ring radius
+      const satR = Math.min(W, H) * 0.095 // satellite orbit radius
+
+      // Compute domain node positions
+      const pos = DOMAINS.map(d => ({
+        ...d, x: cx + Math.cos(d.a) * R, y: cy + Math.sin(d.a) * R,
+      }))
+
+      // Faint cross-connections between all domain nodes
+      for (let i = 0; i < pos.length; i++)
+        for (let j = i + 1; j < pos.length; j++) {
+          ctx.beginPath(); ctx.moveTo(pos[i].x, pos[i].y); ctx.lineTo(pos[j].x, pos[j].y)
+          ctx.strokeStyle = 'rgba(6,148,209,0.055)'; ctx.lineWidth = 0.7; ctx.stroke()
+        }
+
+      // Spokes from centre → each domain + animated pulse dot
+      pos.forEach((d, di) => {
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(d.x, d.y)
+        ctx.strokeStyle = `rgba(${d.rgb},0.18)`; ctx.lineWidth = 0.9; ctx.stroke()
+        const p = ((t * 0.55 + di * 0.19) % 1)
+        const px = cx + (d.x - cx) * p, py = cy + (d.y - cy) * p
+        const pg = ctx.createRadialGradient(px, py, 0, px, py, 5)
+        pg.addColorStop(0, `rgba(${d.rgb},0.92)`); pg.addColorStop(1, `rgba(${d.rgb},0)`)
+        ctx.beginPath(); ctx.arc(px, py, 5, 0, 6.28); ctx.fillStyle = pg; ctx.fill()
+      })
+
+      // Centre hub
+      const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 34)
+      cg.addColorStop(0, 'rgba(56,189,248,0.50)'); cg.addColorStop(1, 'rgba(56,189,248,0)')
+      ctx.beginPath(); ctx.arc(cx, cy, 34, 0, 6.28); ctx.fillStyle = cg; ctx.fill()
+      ctx.beginPath(); ctx.arc(cx, cy, 11, 0, 6.28)
+      ctx.fillStyle = 'rgba(6,12,24,0.95)'; ctx.fill()
+      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.8; ctx.stroke()
+      ctx.beginPath(); ctx.arc(cx, cy, 4.5, 0, 6.28); ctx.fillStyle = '#38bdf8'; ctx.fill()
+
+      // Domain nodes + satellite tech labels
+      pos.forEach((d, di) => {
+        const pulse = 0.5 + 0.5 * Math.sin(t * 1.8 + di * 1.05)
+
+        // Node glow
+        const ng = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, 32)
+        ng.addColorStop(0, `rgba(${d.rgb},${0.18 + pulse * 0.14})`); ng.addColorStop(1, `rgba(${d.rgb},0)`)
+        ctx.beginPath(); ctx.arc(d.x, d.y, 32, 0, 6.28); ctx.fillStyle = ng; ctx.fill()
+
+        // Node ring
+        ctx.beginPath(); ctx.arc(d.x, d.y, 13, 0, 6.28)
+        ctx.fillStyle = 'rgba(6,12,24,0.94)'; ctx.fill()
+        ctx.strokeStyle = `rgba(${d.rgb},0.85)`; ctx.lineWidth = 1.5; ctx.stroke()
+
+        // Node core dot
+        ctx.beginPath(); ctx.arc(d.x, d.y, 4 + pulse * 1.5, 0, 6.28)
+        ctx.fillStyle = `rgba(${d.rgb},0.90)`; ctx.fill()
+
+        // Domain name — pushed outward from centre
+        ctx.save()
+        ctx.font = 'bold 8.5px system-ui,sans-serif'
+        ctx.fillStyle = `rgba(${d.rgb},0.92)`
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+        const lx = d.x + Math.cos(d.a) * 26, ly = d.y + Math.sin(d.a) * 26
+        ctx.fillText(d.name, lx, ly)
+        ctx.restore()
+
+        // Satellites
+        d.techs.forEach((tech, si) => {
+          const sa = t * 0.45 + di * 1.1 + si * (Math.PI * 2 / 3)
+          const sx = d.x + Math.cos(sa) * satR, sy = d.y + Math.sin(sa) * satR
+
+          // Spoke to satellite
+          ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(sx, sy)
+          ctx.strokeStyle = `rgba(${d.rgb},0.15)`; ctx.lineWidth = 0.6; ctx.stroke()
+
+          // Satellite dot
+          const sp = 0.5 + 0.5 * Math.sin(t * 2.6 + si * 1.2 + di)
+          const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, 5)
+          sg.addColorStop(0, `rgba(${d.rgb},${0.6 + sp * 0.4})`); sg.addColorStop(1, `rgba(${d.rgb},0)`)
+          ctx.beginPath(); ctx.arc(sx, sy, 5, 0, 6.28); ctx.fillStyle = sg; ctx.fill()
+          ctx.beginPath(); ctx.arc(sx, sy, 2.2, 0, 6.28); ctx.fillStyle = `rgba(${d.rgb},0.9)`; ctx.fill()
+
+          // Tech label beside satellite dot
+          ctx.save()
+          ctx.font = '7.5px system-ui,sans-serif'
+          ctx.fillStyle = 'rgba(255,255,255,0.52)'
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+          const lDist = satR + 11
+          ctx.fillText(tech, d.x + Math.cos(sa) * lDist, d.y + Math.sin(sa) * lDist)
+          ctx.restore()
+        })
+      })
+
+      id = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl" style={{ height: 420, background: 'linear-gradient(145deg,rgba(6,12,24,0.97) 0%,rgba(7,42,68,0.90) 100%)', border: '1px solid rgba(6,148,209,0.22)' }}>
-
-      {/* Dot-grid texture */}
-      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(6,148,209,0.13) 1px,transparent 1px)', backgroundSize: '26px 26px' }} />
-
-      {/* Ambient centre glow */}
-      <div className="absolute pointer-events-none" style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 340, height: 340, borderRadius: '50%', background: 'radial-gradient(circle,rgba(6,148,209,0.11) 0%,transparent 70%)' }} />
-
-      {/* ── Globe ── */}
-      {/* Outer orbit ring + dot */}
-      <div className="absolute ent-ill-spin" style={{ top: '50%', left: '50%', width: 236, height: 236, marginTop: -118, marginLeft: -118, borderRadius: '50%', border: '1px dashed rgba(6,148,209,0.28)' }}>
-        <div style={{ position: 'absolute', top: -5, left: '50%', marginLeft: -5, width: 10, height: 10, borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 12px rgba(56,189,248,0.95)' }} />
-      </div>
-
-      {/* Inner orbit ring + dot (counter) */}
-      <div className="absolute ent-ill-spin-rev" style={{ top: '50%', left: '50%', width: 182, height: 182, marginTop: -91, marginLeft: -91, borderRadius: '50%', border: '1px solid rgba(56,189,248,0.18)' }}>
-        <div style={{ position: 'absolute', bottom: -4, right: '15%', width: 7, height: 7, borderRadius: '50%', background: '#0694D1', boxShadow: '0 0 8px rgba(6,148,209,0.95)' }} />
-      </div>
-
-      {/* Third slow orbit (large) */}
-      <div className="absolute ent-ill-spin" style={{ top: '50%', left: '50%', width: 290, height: 290, marginTop: -145, marginLeft: -145, borderRadius: '50%', border: '1px dashed rgba(6,148,209,0.10)', animationDuration: '34s' }}>
-        <div style={{ position: 'absolute', top: '22%', right: -4, width: 6, height: 6, borderRadius: '50%', background: 'rgba(56,189,248,0.6)', boxShadow: '0 0 7px rgba(56,189,248,0.7)' }} />
-      </div>
-
-      {/* Globe sphere */}
-      <div className="absolute ent-ill-orb" style={{ top: '50%', left: '50%', width: 130, height: 130, marginTop: -65, marginLeft: -65, borderRadius: '50%', background: 'radial-gradient(circle at 34% 32%, rgba(56,189,248,0.30) 0%, rgba(6,148,209,0.22) 38%, rgba(6,18,36,0.92) 100%)', border: '1.5px solid rgba(6,148,209,0.58)', overflow: 'hidden' }}>
-        {/* Latitude lines */}
-        {[-24, 0, 24].map((y, i) => (
-          <div key={i} style={{ position: 'absolute', left: 0, right: 0, top: `calc(50% + ${y}px)`, height: 1, background: 'rgba(56,189,248,0.20)' }} />
-        ))}
-        {/* Meridians */}
-        <div style={{ position: 'absolute', top: 0, bottom: 0, left: '50%', width: 1, background: 'rgba(56,189,248,0.18)' }} />
-        <div style={{ position: 'absolute', top: '-8%', bottom: '-8%', left: '18%', right: '18%', border: '1px solid rgba(56,189,248,0.13)', borderRadius: '50%' }} />
-        {/* Highlight glint */}
-        <div style={{ position: 'absolute', top: '12%', left: '18%', width: '28%', height: '18%', borderRadius: '50%', background: 'radial-gradient(circle,rgba(255,255,255,0.14) 0%,transparent 100%)' }} />
-      </div>
-
-      {/* ── Floating notification cards ── */}
-
-      {/* Top-left: Live session */}
-      <div className="absolute ent-ill-float-a" style={{ top: 22, left: 16, maxWidth: 164, background: 'rgba(4,9,20,0.93)', border: '1px solid rgba(34,197,94,0.42)', borderRadius: 14, padding: '10px 13px', backdropFilter: 'blur(18px)', boxShadow: '0 8px 28px rgba(0,0,0,0.55)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5 }}>
-          <span className="ent-ill-live-dot" style={{ width: 7, height: 7, borderRadius: '50%', background: '#22C55E', display: 'inline-block', flexShrink: 0, boxShadow: '0 0 6px #22C55E' }} />
-          <span style={{ fontSize: 9, fontWeight: 700, color: '#22C55E', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Live Training</span>
-        </div>
-        <p style={{ fontSize: 12, fontWeight: 600, color: '#fff', margin: 0, lineHeight: 1.35 }}>Azure Architect · Dubai</p>
-        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.40)', margin: '3px 0 0', lineHeight: 1.3 }}>32 learners · 40 min ago</p>
-      </div>
-
-      {/* Top-right: Cert earned */}
-      <div className="absolute ent-ill-float-b" style={{ top: 22, right: 16, maxWidth: 148, background: 'rgba(4,9,20,0.93)', border: '1px solid rgba(6,148,209,0.40)', borderRadius: 14, padding: '10px 13px', backdropFilter: 'blur(18px)', boxShadow: '0 8px 28px rgba(0,0,0,0.55)' }}>
-        <div style={{ fontSize: 20, lineHeight: 1, marginBottom: 6 }}>🏅</div>
-        <p style={{ fontSize: 12, fontWeight: 600, color: '#fff', margin: 0, lineHeight: 1.35 }}>AZ-305 Certified</p>
-        <p style={{ fontSize: 10, color: 'rgba(56,189,248,0.75)', margin: '3px 0 0' }}>Issued · 2 hours ago</p>
-      </div>
-
-      {/* Bottom-left: Active learners */}
-      <div className="absolute ent-ill-float-c" style={{ bottom: 58, left: 16, maxWidth: 152, background: 'rgba(4,9,20,0.93)', border: '1px solid rgba(6,148,209,0.30)', borderRadius: 14, padding: '10px 13px', backdropFilter: 'blur(18px)', boxShadow: '0 8px 28px rgba(0,0,0,0.55)' }}>
-        <p style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.36)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 3px' }}>Active Right Now</p>
-        <div style={{ fontSize: 26, fontWeight: 900, color: '#38bdf8', lineHeight: 1, marginBottom: 2 }}>247</div>
-        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.36)', margin: 0 }}>Learners · 18 countries</p>
-      </div>
-
-      {/* Bottom-right: Pass rate */}
-      <div className="absolute ent-ill-float-a" style={{ bottom: 58, right: 16, maxWidth: 148, background: 'rgba(4,9,20,0.93)', border: '1px solid rgba(16,185,129,0.32)', borderRadius: 14, padding: '10px 13px', backdropFilter: 'blur(18px)', boxShadow: '0 8px 28px rgba(0,0,0,0.55)', animationDelay: '0.6s' }}>
-        <p style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.36)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 3px' }}>Pass Rate</p>
-        <div style={{ fontSize: 26, fontWeight: 900, color: '#10B981', lineHeight: 1, marginBottom: 2 }}>94%</div>
-        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.36)', margin: 0 }}>First-attempt · All certs</p>
-      </div>
-
-      {/* Bottom centre pill */}
-      <div className="absolute" style={{ bottom: 18, left: '50%', transform: 'translateX(-50%)', background: 'rgba(4,9,20,0.90)', border: '1px solid rgba(6,148,209,0.22)', borderRadius: 999, padding: '6px 18px', backdropFilter: 'blur(14px)', whiteSpace: 'nowrap', boxShadow: '0 4px 16px rgba(0,0,0,0.45)' }}>
-        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.52)', fontWeight: 500 }}>
-          🌍 Training across <strong style={{ color: '#38bdf8', fontWeight: 700 }}>195+ countries</strong>
-        </span>
-      </div>
-
-    </div>
+    <canvas
+      ref={ref}
+      style={{
+        display: 'block', width: '100%', height: 420,
+        borderRadius: 16, border: '1px solid rgba(6,148,209,0.22)',
+      }}
+    />
   )
 }
 
