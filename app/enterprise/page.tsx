@@ -1468,6 +1468,21 @@ export default function EnterprisePage() {
             </div>
           </Link>
           <div className="flex items-center gap-4">
+            {/* Individual / Enterprise toggle */}
+            <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
+              <Link
+                href="/"
+                className="rounded-lg px-3 py-1.5 text-xs font-normal transition-all"
+                style={{ color: 'rgba(255,255,255,0.55)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              >
+                Individual
+              </Link>
+              <span className="rounded-lg px-3 py-1.5 text-xs font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
+                Enterprise
+              </span>
+            </div>
             <Link href="/" className="text-sm text-white/70 transition-colors hover:text-white">← Back to Home</Link>
             <a href="#contact" className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
               Get in Touch

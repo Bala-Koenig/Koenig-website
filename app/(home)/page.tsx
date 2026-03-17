@@ -1220,12 +1220,12 @@ export default function Design4Page() {
           <div className="ml-auto flex items-center gap-2">
             {/* Individual / Enterprise toggle */}
             <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
-              <span className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
+              <span className="rounded-lg px-3 py-1.5 text-xs font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
                 Individual
               </span>
               <Link
                 href="/enterprise"
-                className="rounded-lg px-3 py-1.5 text-xs font-semibold transition-all"
+                className="rounded-lg px-3 py-1.5 text-xs font-normal transition-all"
                 style={{ color: 'rgba(255,255,255,0.55)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
