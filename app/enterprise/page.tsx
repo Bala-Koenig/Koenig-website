@@ -187,6 +187,247 @@ const FAQS = [
   { q: 'What happens if an employee does not pass their certification exam?', a: 'We include exam-prep support and, for most programmes, a complimentary re-sit session. Our 94% first-attempt pass rate means this is rarely needed — but the safety net is always there.' },
 ]
 
+/* ─── Globe Animation ────────────────────────────────────── */
+
+function HeroGlobeCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')!
+    let animId: number
+    let rot = 0
+
+    // Major training-hub cities [lat, lng]
+    const CITIES = [
+      { lat: 51.5,  lng:   0.0 }, // London
+      { lat: 40.7,  lng: -74.0 }, // New York
+      { lat: 25.2,  lng:  55.3 }, // Dubai
+      { lat:  1.3,  lng: 103.8 }, // Singapore
+      { lat:-33.8,  lng: 151.2 }, // Sydney
+      { lat: 43.7,  lng: -79.4 }, // Toronto
+      { lat: 28.6,  lng:  77.2 }, // Delhi
+      { lat: 35.7,  lng: 139.7 }, // Tokyo
+      { lat: 50.1,  lng:   8.7 }, // Frankfurt
+      { lat:-26.2,  lng:  28.0 }, // Johannesburg
+      { lat:-23.5,  lng: -46.6 }, // São Paulo
+      { lat: 55.7,  lng:  37.6 }, // Moscow
+    ]
+
+    // Pairs that shoot training arcs between each other
+    const CONN = [
+      [0,2],[0,1],[0,8],[1,5],[2,3],[2,6],
+      [3,4],[3,7],[0,9],[1,10],[7,3],[8,11],
+    ]
+    const connState = CONN.map(() => ({
+      t: Math.random(),
+      spd: 0.0022 + Math.random() * 0.003,
+    }))
+
+    const R2D = (d: number) => d * Math.PI / 180
+
+    function proj(lat: number, lng: number, R: number, cx: number, cy: number) {
+      const φ = R2D(lat), λ = R2D(lng) + rot
+      return {
+        sx: cx + Math.cos(φ) * Math.cos(λ) * R,
+        sy: cy - Math.sin(φ) * R,
+        z:  Math.cos(φ) * Math.sin(λ),
+      }
+    }
+
+    function slerp(la1: number, lo1: number, la2: number, lo2: number, t: number) {
+      const φ1=R2D(la1), λ1=R2D(lo1), φ2=R2D(la2), λ2=R2D(lo2)
+      const ax=Math.cos(φ1)*Math.cos(λ1), ay=Math.sin(φ1), az=Math.cos(φ1)*Math.sin(λ1)
+      const bx=Math.cos(φ2)*Math.cos(λ2), by=Math.sin(φ2), bz=Math.cos(φ2)*Math.sin(λ2)
+      const dot=Math.min(1,Math.max(-1,ax*bx+ay*by+az*bz))
+      const θ=Math.acos(dot)
+      if(θ<0.001) return {lat:la1,lng:lo1}
+      const s=Math.sin(θ)
+      const w1=Math.sin((1-t)*θ)/s, w2=Math.sin(t*θ)/s
+      return {
+        lat: Math.asin(w1*ay+w2*by)*180/Math.PI,
+        lng: Math.atan2(w1*az+w2*bz, w1*ax+w2*bx)*180/Math.PI,
+      }
+    }
+
+    function resize() {
+      const r = canvas.getBoundingClientRect()
+      canvas.width  = r.width
+      canvas.height = r.height
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    function draw() {
+      const W = canvas.width, H = canvas.height
+      ctx.clearRect(0, 0, W, H)
+      rot += 0.0018
+
+      const mobile = W < 768
+      const R  = mobile ? Math.min(W * 0.41, H * 0.40) : Math.min(W * 0.27, H * 0.46)
+      const cx = mobile ? W * 0.5 : W * 0.675
+      const cy = H * 0.5
+
+      // ── Outer atmospheric glow ──
+      const aura = ctx.createRadialGradient(cx, cy, R * 0.82, cx, cy, R * 1.42)
+      aura.addColorStop(0,   'rgba(6,148,209,0.18)')
+      aura.addColorStop(0.5, 'rgba(6,148,209,0.07)')
+      aura.addColorStop(1,   'rgba(6,148,209,0)')
+      ctx.beginPath(); ctx.arc(cx, cy, R * 1.42, 0, Math.PI * 2)
+      ctx.fillStyle = aura; ctx.fill()
+
+      // ── Sphere fill ──
+      const sf = ctx.createRadialGradient(cx - R*0.28, cy - R*0.28, R*0.04, cx, cy, R)
+      sf.addColorStop(0,   'rgba(6,148,209,0.13)')
+      sf.addColorStop(0.5, 'rgba(7,109,157,0.06)')
+      sf.addColorStop(1,   'rgba(6,17,30,0.0)')
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2)
+      ctx.fillStyle = sf; ctx.fill()
+
+      // ── Back-face grid (low opacity) ──
+      ctx.lineWidth = 0.5
+      for (let lat = -80; lat <= 80; lat += 20) {
+        ctx.beginPath(); let first = true
+        for (let lng = -180; lng <= 180; lng += 5) {
+          const p = proj(lat, lng, R, cx, cy)
+          if (p.z < 0) { first ? ctx.moveTo(p.sx,p.sy) : ctx.lineTo(p.sx,p.sy); first=false }
+          else first = true
+        }
+        ctx.strokeStyle = 'rgba(6,148,209,0.08)'; ctx.stroke()
+      }
+      for (let lng = -180; lng < 180; lng += 20) {
+        ctx.beginPath(); let first = true
+        for (let lat = -90; lat <= 90; lat += 5) {
+          const p = proj(lat, lng, R, cx, cy)
+          if (p.z < 0) { first ? ctx.moveTo(p.sx,p.sy) : ctx.lineTo(p.sx,p.sy); first=false }
+          else first = true
+        }
+        ctx.strokeStyle = 'rgba(6,148,209,0.08)'; ctx.stroke()
+      }
+
+      // ── Sphere rim ──
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2)
+      ctx.strokeStyle = 'rgba(6,148,209,0.5)'; ctx.lineWidth = 1.4; ctx.stroke()
+
+      // ── Front-face grid (brighter) ──
+      ctx.lineWidth = 0.55
+      for (let lat = -80; lat <= 80; lat += 20) {
+        ctx.beginPath(); let first = true
+        for (let lng = -180; lng <= 180; lng += 5) {
+          const p = proj(lat, lng, R, cx, cy)
+          if (p.z >= 0) { first ? ctx.moveTo(p.sx,p.sy) : ctx.lineTo(p.sx,p.sy); first=false }
+          else first = true
+        }
+        ctx.strokeStyle = 'rgba(6,148,209,0.28)'; ctx.stroke()
+      }
+      for (let lng = -180; lng < 180; lng += 20) {
+        ctx.beginPath(); let first = true
+        for (let lat = -90; lat <= 90; lat += 5) {
+          const p = proj(lat, lng, R, cx, cy)
+          if (p.z >= 0) { first ? ctx.moveTo(p.sx,p.sy) : ctx.lineTo(p.sx,p.sy); first=false }
+          else first = true
+        }
+        ctx.strokeStyle = 'rgba(6,148,209,0.28)'; ctx.stroke()
+      }
+
+      // ── Training arcs ──
+      const now = Date.now() * 0.001
+      CONN.forEach((c, i) => {
+        connState[i].t += connState[i].spd
+        if (connState[i].t > 1.35) connState[i].t = -0.12
+
+        const t    = connState[i].t
+        const head = Math.min(1, t)
+        const tail = Math.max(0, t - 0.22)
+        if (head <= 0 || tail >= 1) return
+
+        const c1 = CITIES[c[0]], c2 = CITIES[c[1]]
+        const STEPS = 64
+        type Pt = { sx:number; sy:number; z:number; frac:number }
+        const pts: Pt[] = []
+
+        for (let j = 0; j <= STEPS; j++) {
+          const st = j / STEPS
+          if (st < tail || st > head) continue
+          const ip   = slerp(c1.lat, c1.lng, c2.lat, c2.lng, st)
+          const lift = 1 + 0.16 * Math.sin(st * Math.PI)   // arc bows outward at midpoint
+          const φ = R2D(ip.lat), λ = R2D(ip.lng) + rot
+          pts.push({
+            sx: cx + Math.cos(φ) * Math.cos(λ) * R * lift,
+            sy: cy - Math.sin(φ) * R * lift,
+            z:  Math.cos(φ) * Math.sin(λ),
+            frac: (st - tail) / Math.max(0.001, head - tail),
+          })
+        }
+        if (pts.length < 2) return
+
+        // Draw arc segments with gradient alpha (dim tail → bright head)
+        for (let j = 1; j < pts.length; j++) {
+          if (pts[j-1].z < -0.05 || pts[j].z < -0.05) continue
+          const alpha = 0.15 + pts[j].frac * 0.82
+          ctx.beginPath()
+          ctx.moveTo(pts[j-1].sx, pts[j-1].sy)
+          ctx.lineTo(pts[j].sx,   pts[j].sy)
+          ctx.strokeStyle = `rgba(56,189,248,${alpha})`
+          ctx.lineWidth = 1.8; ctx.stroke()
+        }
+
+        // Leading glowing dot
+        const last = pts[pts.length - 1]
+        if (last && last.z >= -0.05) {
+          const hg = ctx.createRadialGradient(last.sx, last.sy, 0, last.sx, last.sy, 10)
+          hg.addColorStop(0,   'rgba(255,255,255,1)')
+          hg.addColorStop(0.25,'rgba(56,189,248,0.9)')
+          hg.addColorStop(1,   'rgba(6,148,209,0)')
+          ctx.beginPath(); ctx.arc(last.sx, last.sy, 10, 0, Math.PI * 2)
+          ctx.fillStyle = hg; ctx.fill()
+          ctx.beginPath(); ctx.arc(last.sx, last.sy, 2.5, 0, Math.PI * 2)
+          ctx.fillStyle = 'white'; ctx.fill()
+        }
+      })
+
+      // ── City dots with pulsing rings ──
+      CITIES.forEach((city, ci) => {
+        const p = proj(city.lat, city.lng, R, cx, cy)
+        if (p.z < 0) return
+        const pulse = 0.5 + 0.5 * Math.sin(now * 2.4 + ci * 1.35)
+
+        // Outer pulse ring
+        ctx.beginPath(); ctx.arc(p.sx, p.sy, 5 + pulse * 5.5, 0, Math.PI * 2)
+        ctx.strokeStyle = `rgba(6,148,209,${0.38 * pulse})`
+        ctx.lineWidth = 1; ctx.stroke()
+
+        // Inner ring
+        ctx.beginPath(); ctx.arc(p.sx, p.sy, 3.5 + pulse * 2, 0, Math.PI * 2)
+        ctx.strokeStyle = `rgba(56,189,248,${0.22 * pulse})`
+        ctx.lineWidth = 0.8; ctx.stroke()
+
+        // Core dot
+        const dg = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, 4.5)
+        dg.addColorStop(0,   'rgba(255,255,255,1)')
+        dg.addColorStop(0.45,'rgba(56,189,248,1)')
+        dg.addColorStop(1,   'rgba(6,148,209,0.7)')
+        ctx.beginPath(); ctx.arc(p.sx, p.sy, 4, 0, Math.PI * 2)
+        ctx.fillStyle = dg; ctx.fill()
+      })
+
+      animId = requestAnimationFrame(draw)
+    }
+
+    draw()
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 h-full w-full"
+      style={{ pointerEvents: 'none' }}
+    />
+  )
+}
+
 /* ─── Component ──────────────────────────────────────────── */
 
 export default function EnterprisePage() {
@@ -302,6 +543,8 @@ export default function EnterprisePage() {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28">
+        {/* Rotating globe with training-arc animation */}
+        <HeroGlobeCanvas />
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 60% 50%, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
           <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
