@@ -229,7 +229,7 @@ function BentoCard({ label, children, style }: {
         className="absolute bottom-0 left-0 right-0 px-3 py-2"
         style={{ background: 'linear-gradient(to top,rgba(6,12,24,0.95) 60%,transparent)' }}
       >
-        <span className="text-[10px] font-black tracking-[0.12em] text-white">{label}</span>
+        <span className="text-[10px] font-medium tracking-[0.12em] text-white/75">{label}</span>
       </div>
     </div>
   )
