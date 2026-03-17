@@ -632,7 +632,7 @@ function HeroStatsAnimation() {
   )
 }
 
-/* ── Hero right-panel: technology constellation canvas ── */
+/* ── Hero right-panel: live training analytics dashboard ── */
 function HeroIllustration() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -644,119 +644,192 @@ function HeroIllustration() {
     }
     resize(); window.addEventListener('resize', resize)
 
-    // 6 domains — each with colour, 3 tech satellites, and hex position angle
     const DOMAINS = [
-      { name: 'GEN AI',       rgb: '255,107,53',  techs: ['LLMs', 'RAG', 'GPT-4'],     a: -Math.PI / 2 },
-      { name: 'TECHNOLOGY',   rgb: '6,148,209',   techs: ['Azure', 'AWS', 'K8s'],       a: -Math.PI / 2 + (Math.PI * 2) / 6 },
-      { name: 'DATA SCIENCE', rgb: '139,92,246',  techs: ['Python', 'Spark', 'SQL'],    a: -Math.PI / 2 + (Math.PI * 4) / 6 },
-      { name: 'FINANCE',      rgb: '16,185,129',  techs: ['SAP', 'Oracle', 'FinOps'],   a: -Math.PI / 2 + Math.PI },
-      { name: 'MANAGEMENT',   rgb: '56,189,248',  techs: ['PMP', 'Agile', 'PRINCE2'],   a: -Math.PI / 2 + (Math.PI * 8) / 6 },
-      { name: 'FUNCTIONAL',   rgb: '245,158,11',  techs: ['ITIL', 'Lean', '6 Sigma'],   a: -Math.PI / 2 + (Math.PI * 10) / 6 },
+      { name: 'GEN AI',     rgb: '255,107,53',  target: 0.87, count: 1847 },
+      { name: 'TECHNOLOGY', rgb: '6,148,209',   target: 0.74, count: 2341 },
+      { name: 'DATA SCI',   rgb: '139,92,246',  target: 0.68, count: 1256 },
+      { name: 'FINANCE',    rgb: '16,185,129',  target: 0.91, count: 3102 },
+      { name: 'MANAGEMENT', rgb: '56,189,248',  target: 0.82, count: 2789 },
+      { name: 'FUNCTIONAL', rgb: '245,158,11',  target: 0.76, count: 1934 },
     ]
 
+    const CERTS = [
+      'Priya S. — AWS Solutions Architect',
+      'James K. — PMP Certified',
+      'Maria L. — Azure Data Engineer',
+      'Rahul M. — Scrum Master (CSM)',
+      'Sarah W. — Generative AI Specialist',
+      'Ahmed H. — SAP FICO Consultant',
+      'Nina C. — ITIL 4 Foundation',
+      'David P. — Python for Data Science',
+      'Liu W. — CFA Level I',
+      'Emma T. — Lean Six Sigma Green Belt',
+    ]
+
+    interface CertEntry { text: string; alpha: number; y: number }
+    let certIdx = 0
+    const certDisplayed: CertEntry[] = []
+    let lastCertTime = 0
+    const startTime = Date.now()
+    const progress = DOMAINS.map(() => 0)
+
+    function drawRR(x: number, y: number, w: number, h: number, r: number) {
+      ctx.beginPath()
+      ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y)
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r)
+      ctx.lineTo(x + w, y + h - r)
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h)
+      ctx.lineTo(x + r, y + h)
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r)
+      ctx.lineTo(x, y + r)
+      ctx.quadraticCurveTo(x, y, x + r, y)
+      ctx.closePath()
+    }
+
     const loop = () => {
-      const W = c.width, H = c.height, t = Date.now() / 1000
+      const W = c.width, H = c.height
+      const now = Date.now()
+      const elapsed = (now - startTime) / 1000
       ctx.clearRect(0, 0, W, H)
 
-      // Background fill
-      ctx.fillStyle = 'rgba(6,12,24,1)'
+      // Background
+      ctx.fillStyle = '#060f1d'
       ctx.fillRect(0, 0, W, H)
 
       // Dot grid
-      ctx.fillStyle = 'rgba(6,148,209,0.10)'
-      for (let gx = 0; gx <= W; gx += 26)
-        for (let gy = 0; gy <= H; gy += 26) {
-          ctx.beginPath(); ctx.arc(gx, gy, 0.7, 0, 6.28); ctx.fill()
+      ctx.fillStyle = 'rgba(6,148,209,0.07)'
+      for (let gx = 12; gx < W; gx += 24)
+        for (let gy = 12; gy < H; gy += 24) {
+          ctx.beginPath(); ctx.arc(gx, gy, 0.8, 0, 6.28); ctx.fill()
         }
 
-      const cx = W * 0.5, cy = H * 0.5
-      const R = Math.min(W, H) * 0.30     // domain ring radius
-      const satR = Math.min(W, H) * 0.095 // satellite orbit radius
+      // Header bar
+      const headerH = 44
+      ctx.fillStyle = 'rgba(6,148,209,0.08)'
+      ctx.fillRect(0, 0, W, headerH)
+      ctx.strokeStyle = 'rgba(6,148,209,0.20)'; ctx.lineWidth = 1
+      ctx.beginPath(); ctx.moveTo(0, headerH); ctx.lineTo(W, headerH); ctx.stroke()
 
-      // Compute domain node positions
-      const pos = DOMAINS.map(d => ({
-        ...d, x: cx + Math.cos(d.a) * R, y: cy + Math.sin(d.a) * R,
-      }))
+      // Live dot + pulse
+      const livePulse = 0.5 + 0.5 * Math.sin(now / 500)
+      ctx.beginPath(); ctx.arc(18, headerH / 2, 4.5, 0, 6.28)
+      ctx.fillStyle = `rgba(16,185,129,${0.6 + livePulse * 0.4})`; ctx.fill()
+      ctx.beginPath(); ctx.arc(18, headerH / 2, 4.5 + livePulse * 3.5, 0, 6.28)
+      ctx.strokeStyle = `rgba(16,185,129,${(1 - livePulse) * 0.35})`; ctx.lineWidth = 1; ctx.stroke()
 
-      // Faint cross-connections between all domain nodes
-      for (let i = 0; i < pos.length; i++)
-        for (let j = i + 1; j < pos.length; j++) {
-          ctx.beginPath(); ctx.moveTo(pos[i].x, pos[i].y); ctx.lineTo(pos[j].x, pos[j].y)
-          ctx.strokeStyle = 'rgba(6,148,209,0.055)'; ctx.lineWidth = 0.7; ctx.stroke()
-        }
+      ctx.font = 'bold 10px system-ui,sans-serif'
+      ctx.fillStyle = 'rgba(16,185,129,0.90)'
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle'
+      ctx.fillText('LIVE', 30, headerH / 2)
+      ctx.font = '10px system-ui,sans-serif'
+      ctx.fillStyle = 'rgba(255,255,255,0.42)'
+      ctx.fillText('Training Activity Dashboard', 58, headerH / 2)
 
-      // Spokes from centre → each domain + animated pulse dot
-      pos.forEach((d, di) => {
-        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(d.x, d.y)
-        ctx.strokeStyle = `rgba(${d.rgb},0.18)`; ctx.lineWidth = 0.9; ctx.stroke()
-        const p = ((t * 0.55 + di * 0.19) % 1)
-        const px = cx + (d.x - cx) * p, py = cy + (d.y - cy) * p
-        const pg = ctx.createRadialGradient(px, py, 0, px, py, 5)
-        pg.addColorStop(0, `rgba(${d.rgb},0.92)`); pg.addColorStop(1, `rgba(${d.rgb},0)`)
-        ctx.beginPath(); ctx.arc(px, py, 5, 0, 6.28); ctx.fillStyle = pg; ctx.fill()
+      const totalCerts = Math.floor(500000 + Math.min(elapsed * 80, 800))
+      ctx.font = 'bold 10px system-ui,sans-serif'
+      ctx.fillStyle = 'rgba(56,189,248,0.85)'
+      ctx.textAlign = 'right'
+      ctx.fillText(`${totalCerts.toLocaleString()}+ Certified`, W - 14, headerH / 2)
+
+      // Domain card grid
+      const padX = 12, padY = 10
+      const gridTop = headerH + padY
+      const feedH = 56
+      const gridH = H - gridTop - feedH - padY
+      const cols = 3, rows = 2
+      const colGap = 8, rowGap = 8
+      const cardW = (W - padX * 2 - colGap * (cols - 1)) / cols
+      const cardH = (gridH - rowGap * (rows - 1)) / rows
+
+      DOMAINS.forEach((d, i) => {
+        const col = i % cols, row = Math.floor(i / cols)
+        const x = padX + col * (cardW + colGap)
+        const y = gridTop + row * (cardH + rowGap)
+
+        const animP = Math.min(1, Math.max(0, (elapsed - i * 0.18) / 2.6))
+        const eased = 1 - Math.pow(1 - animP, 3)
+        progress[i] = d.target * eased
+        const pulse = 0.5 + 0.5 * Math.sin(now / 900 + i * 1.1)
+
+        // Card background + border
+        drawRR(x, y, cardW, cardH, 8)
+        ctx.fillStyle = `rgba(${d.rgb},0.07)`; ctx.fill()
+        ctx.strokeStyle = `rgba(${d.rgb},${0.20 + pulse * 0.10})`; ctx.lineWidth = 1; ctx.stroke()
+
+        // Inner radial glow
+        const cg = ctx.createRadialGradient(x + cardW / 2, y + cardH * 0.35, 0, x + cardW / 2, y + cardH / 2, cardH * 0.8)
+        cg.addColorStop(0, `rgba(${d.rgb},${0.06 + pulse * 0.04})`); cg.addColorStop(1, `rgba(${d.rgb},0)`)
+        drawRR(x, y, cardW, cardH, 8); ctx.fillStyle = cg; ctx.fill()
+
+        // Circular progress ring
+        const ringR = Math.min(cardW, cardH) * 0.255
+        const ringCx = x + cardW / 2, ringCy = y + cardH * 0.535
+        ctx.beginPath(); ctx.arc(ringCx, ringCy, ringR, 0, Math.PI * 2)
+        ctx.strokeStyle = `rgba(${d.rgb},0.13)`; ctx.lineWidth = 3.5; ctx.stroke()
+        ctx.lineCap = 'round'
+        ctx.beginPath()
+        ctx.arc(ringCx, ringCy, ringR, -Math.PI / 2, -Math.PI / 2 + progress[i] * Math.PI * 2)
+        ctx.strokeStyle = `rgba(${d.rgb},0.90)`; ctx.lineWidth = 3.5; ctx.stroke()
+        ctx.lineCap = 'butt'
+
+        // Leading glow dot at arc tip
+        const tipA = -Math.PI / 2 + progress[i] * Math.PI * 2
+        const tipX = ringCx + Math.cos(tipA) * ringR
+        const tipY = ringCy + Math.sin(tipA) * ringR
+        const tg = ctx.createRadialGradient(tipX, tipY, 0, tipX, tipY, 7)
+        tg.addColorStop(0, `rgba(${d.rgb},0.8)`); tg.addColorStop(1, `rgba(${d.rgb},0)`)
+        ctx.beginPath(); ctx.arc(tipX, tipY, 7, 0, 6.28); ctx.fillStyle = tg; ctx.fill()
+
+        // Percentage inside ring
+        ctx.font = `bold ${Math.max(8, Math.round(ringR * 0.55))}px system-ui,sans-serif`
+        ctx.fillStyle = `rgba(${d.rgb},0.95)`
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+        ctx.fillText(Math.round(progress[i] * 100) + '%', ringCx, ringCy)
+
+        // Domain name above ring
+        ctx.font = `bold ${Math.max(7, Math.round(cardH * 0.115))}px system-ui,sans-serif`
+        ctx.fillStyle = 'rgba(255,255,255,0.85)'
+        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'
+        ctx.fillText(d.name, x + cardW / 2, y + cardH * 0.26)
+
+        // Enrolled count below ring
+        const cnt = Math.round(d.count * Math.min(1, progress[i] / (d.target || 1) + 0.01))
+        ctx.font = `${Math.max(6, Math.round(cardH * 0.09))}px system-ui,sans-serif`
+        ctx.fillStyle = `rgba(${d.rgb},0.58)`
+        ctx.textBaseline = 'top'
+        ctx.fillText(`${cnt.toLocaleString()} enrolled`, x + cardW / 2, y + cardH * 0.80)
       })
 
-      // Centre hub
-      const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 34)
-      cg.addColorStop(0, 'rgba(56,189,248,0.50)'); cg.addColorStop(1, 'rgba(56,189,248,0)')
-      ctx.beginPath(); ctx.arc(cx, cy, 34, 0, 6.28); ctx.fillStyle = cg; ctx.fill()
-      ctx.beginPath(); ctx.arc(cx, cy, 11, 0, 6.28)
-      ctx.fillStyle = 'rgba(6,12,24,0.95)'; ctx.fill()
-      ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.8; ctx.stroke()
-      ctx.beginPath(); ctx.arc(cx, cy, 4.5, 0, 6.28); ctx.fillStyle = '#38bdf8'; ctx.fill()
+      // Feed area divider
+      const feedY = H - feedH + 2
+      ctx.strokeStyle = 'rgba(6,148,209,0.14)'; ctx.lineWidth = 1
+      ctx.beginPath(); ctx.moveTo(padX, feedY - 4); ctx.lineTo(W - padX, feedY - 4); ctx.stroke()
 
-      // Domain nodes + satellite tech labels
-      pos.forEach((d, di) => {
-        const pulse = 0.5 + 0.5 * Math.sin(t * 1.8 + di * 1.05)
+      // Spawn new cert entry every 2 seconds
+      if (now - lastCertTime > 2000) {
+        lastCertTime = now
+        certDisplayed.unshift({ text: CERTS[certIdx % CERTS.length], alpha: 0, y: feedY + 10 })
+        certIdx++
+        if (certDisplayed.length > 2) certDisplayed.pop()
+      }
 
-        // Node glow
-        const ng = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, 32)
-        ng.addColorStop(0, `rgba(${d.rgb},${0.18 + pulse * 0.14})`); ng.addColorStop(1, `rgba(${d.rgb},0)`)
-        ctx.beginPath(); ctx.arc(d.x, d.y, 32, 0, 6.28); ctx.fillStyle = ng; ctx.fill()
+      // Draw scrolling cert feed
+      certDisplayed.forEach((entry, idx) => {
+        entry.alpha = Math.min(1, entry.alpha + 0.05)
+        const targetY = feedY + 6 + idx * 22
+        entry.y += (targetY - entry.y) * 0.15
 
-        // Node ring
-        ctx.beginPath(); ctx.arc(d.x, d.y, 13, 0, 6.28)
-        ctx.fillStyle = 'rgba(6,12,24,0.94)'; ctx.fill()
-        ctx.strokeStyle = `rgba(${d.rgb},0.85)`; ctx.lineWidth = 1.5; ctx.stroke()
-
-        // Node core dot
-        ctx.beginPath(); ctx.arc(d.x, d.y, 4 + pulse * 1.5, 0, 6.28)
-        ctx.fillStyle = `rgba(${d.rgb},0.90)`; ctx.fill()
-
-        // Domain name — pushed outward from centre
-        ctx.save()
-        ctx.font = 'bold 8.5px system-ui,sans-serif'
-        ctx.fillStyle = `rgba(${d.rgb},0.92)`
+        ctx.beginPath(); ctx.arc(padX + 7, entry.y, 5.5, 0, 6.28)
+        ctx.fillStyle = `rgba(16,185,129,${entry.alpha * 0.85})`; ctx.fill()
+        ctx.font = 'bold 7.5px system-ui,sans-serif'
+        ctx.fillStyle = `rgba(255,255,255,${entry.alpha})`
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-        const lx = d.x + Math.cos(d.a) * 26, ly = d.y + Math.sin(d.a) * 26
-        ctx.fillText(d.name, lx, ly)
-        ctx.restore()
+        ctx.fillText('✓', padX + 7, entry.y)
 
-        // Satellites
-        d.techs.forEach((tech, si) => {
-          const sa = t * 0.45 + di * 1.1 + si * (Math.PI * 2 / 3)
-          const sx = d.x + Math.cos(sa) * satR, sy = d.y + Math.sin(sa) * satR
-
-          // Spoke to satellite
-          ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(sx, sy)
-          ctx.strokeStyle = `rgba(${d.rgb},0.15)`; ctx.lineWidth = 0.6; ctx.stroke()
-
-          // Satellite dot
-          const sp = 0.5 + 0.5 * Math.sin(t * 2.6 + si * 1.2 + di)
-          const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, 5)
-          sg.addColorStop(0, `rgba(${d.rgb},${0.6 + sp * 0.4})`); sg.addColorStop(1, `rgba(${d.rgb},0)`)
-          ctx.beginPath(); ctx.arc(sx, sy, 5, 0, 6.28); ctx.fillStyle = sg; ctx.fill()
-          ctx.beginPath(); ctx.arc(sx, sy, 2.2, 0, 6.28); ctx.fillStyle = `rgba(${d.rgb},0.9)`; ctx.fill()
-
-          // Tech label beside satellite dot
-          ctx.save()
-          ctx.font = '7.5px system-ui,sans-serif'
-          ctx.fillStyle = 'rgba(255,255,255,0.52)'
-          ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-          const lDist = satR + 11
-          ctx.fillText(tech, d.x + Math.cos(sa) * lDist, d.y + Math.sin(sa) * lDist)
-          ctx.restore()
-        })
+        ctx.font = '9px system-ui,sans-serif'
+        ctx.fillStyle = `rgba(255,255,255,${entry.alpha * 0.78})`
+        ctx.textAlign = 'left'
+        ctx.fillText(entry.text, padX + 18, entry.y)
       })
 
       id = requestAnimationFrame(loop)
