@@ -647,7 +647,7 @@ function ParticleBanner() {
       x: number; y: number; vx: number; vy: number
       r: number; alpha: number; rgb: string; pulse: number
     }
-    const COLORS = ['6,148,209', '56,189,248', '139,92,246', '16,185,129', '245,158,11']
+    const COLORS = ['6,148,209', '56,189,248', '6,148,209', '38,175,225', '14,107,157']
     const COUNT = 90
     const particles: Particle[] = Array.from({ length: COUNT }, () => ({
       x: Math.random(),
