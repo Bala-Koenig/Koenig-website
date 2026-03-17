@@ -482,6 +482,51 @@ function CanvasPuzzle() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
+/* ── Animated stats cards (bento animation behind each stat) ── */
+function HeroStatsAnimation() {
+  const cards = [
+    { num: '1M+',    label: 'Professionals Trained', Canvas: CanvasNeuralNet   },
+    { num: '5,000+', label: 'Courses Available',     Canvas: CanvasDataScience },
+    { num: '30+',    label: 'Years of Excellence',   Canvas: CanvasFinance     },
+    { num: '195+',   label: 'Countries Served',      Canvas: CanvasTechnology  },
+  ]
+  return (
+    <div className="grid w-full max-w-sm grid-cols-2 gap-3 lg:w-auto">
+      {cards.map(({ num, label, Canvas }) => (
+        <div
+          key={label}
+          className="relative overflow-hidden rounded-2xl text-center"
+          style={{
+            background: 'rgba(6,12,24,0.90)',
+            border: '1px solid rgba(6,148,209,0.40)',
+            backdropFilter: 'blur(10px)',
+            minHeight: 140,
+            padding: '22px 14px 18px',
+          }}
+        >
+          {/* Canvas animation fills the card as background */}
+          <Canvas />
+          {/* Dark vignette so numbers stay readable */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse at 50% 60%, rgba(6,12,24,0.18) 0%, rgba(6,12,24,0.72) 100%)', pointerEvents: 'none' }}
+          />
+          {/* Stat content */}
+          <div className="relative z-10">
+            <div
+              className="text-3xl font-black leading-none"
+              style={{ color: '#38bdf8', textShadow: '0 0 22px rgba(56,189,248,0.55)' }}
+            >
+              {num}
+            </div>
+            <div className="mt-2 text-xs font-semibold leading-tight text-white/65">{label}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /* ── Bento grid wrapper ── */
 function HeroBentoAnimation() {
   return (
@@ -888,8 +933,7 @@ export default function EnterprisePage() {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28">
-        {/* Animated bento domain grid */}
-        <HeroBentoAnimation />
+        {/* (bento removed — animations live inside each stat card) */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 60% 50%, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
           <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
@@ -919,15 +963,8 @@ export default function EnterprisePage() {
                 </a>
               </div>
             </div>
-            {/* Right — stats grid */}
-            <div className="grid w-full max-w-sm grid-cols-2 gap-4 lg:w-auto">
-              {STATS.map(s => (
-                <div key={s.label} className="rounded-2xl p-6 text-center" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.2)', backdropFilter: 'blur(12px)' }}>
-                  <div className="text-3xl font-black" style={{ color: '#38bdf8' }}>{s.num}</div>
-                  <div className="mt-1 text-sm text-white/60">{s.label}</div>
-                </div>
-              ))}
-            </div>
+            {/* Right — animated stat cards */}
+            <HeroStatsAnimation />
           </div>
         </div>
       </section>
