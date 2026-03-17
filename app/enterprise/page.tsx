@@ -527,7 +527,95 @@ function HeroStatsAnimation() {
   )
 }
 
-/* ── Bento grid wrapper ── */
+/* ── Reusable inline bento grid (fills its parent) ── */
+function BentoGrid() {
+  return (
+    <div
+      className="h-full w-full"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        gridTemplateRows: '1fr 1fr',
+        gap: 8,
+      }}
+    >
+      <BentoCard label="GEN AI" style={{ gridColumn: 1, gridRow: 1 }}>
+        <CanvasNeuralNet />
+      </BentoCard>
+      <BentoCard label="MANAGEMENT" style={{ gridColumn: 2, gridRow: '1 / 3' }}>
+        <CanvasManagement />
+      </BentoCard>
+      <BentoCard label="FINANCE" style={{ gridColumn: 3, gridRow: 1 }}>
+        <CanvasFinance />
+      </BentoCard>
+      <BentoCard label="DATA SCIENCE" style={{ gridColumn: 1, gridRow: 2 }}>
+        <CanvasDataScience />
+      </BentoCard>
+      <div style={{ gridColumn: 3, gridRow: 2, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <BentoCard label="TECHNOLOGY" style={{ flex: 1 }}>
+          <CanvasTechnology />
+        </BentoCard>
+        <BentoCard label="& FUNCTIONAL SKILLS" style={{ flex: 1 }}>
+          <CanvasPuzzle />
+        </BentoCard>
+      </div>
+    </div>
+  )
+}
+
+/* ── Hero right panel: bento background + stats centered on top ── */
+function HeroRightPanel() {
+  return (
+    <div className="w-full flex-shrink-0 lg:w-[440px] xl:w-[480px]">
+      {/* Mobile — plain stats only */}
+      <div className="grid grid-cols-2 gap-3 lg:hidden">
+        {STATS.map(s => (
+          <div key={s.label} className="rounded-2xl p-5 text-center" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.2)' }}>
+            <div className="text-3xl font-black" style={{ color: '#38bdf8' }}>{s.num}</div>
+            <div className="mt-1 text-sm text-white/60">{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop — bento fills the box, stats float centered on top */}
+      <div className="relative hidden lg:block" style={{ height: 420 }}>
+        {/* Layer 1: bento animation */}
+        <BentoGrid />
+
+        {/* Layer 2: stat boxes float centered over the bento */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="grid grid-cols-2 gap-3">
+            {STATS.map(s => (
+              <div
+                key={s.label}
+                className="rounded-2xl text-center"
+                style={{
+                  background: 'rgba(6,12,24,0.80)',
+                  border: '1.5px solid rgba(6,148,209,0.55)',
+                  backdropFilter: 'blur(18px)',
+                  WebkitBackdropFilter: 'blur(18px)',
+                  boxShadow: '0 0 32px rgba(6,148,209,0.25), 0 8px 40px rgba(0,0,0,0.55)',
+                  padding: '22px 18px',
+                  minWidth: 140,
+                }}
+              >
+                <div
+                  className="text-3xl font-black leading-none"
+                  style={{ color: '#38bdf8', textShadow: '0 0 24px rgba(56,189,248,0.6)' }}
+                >
+                  {s.num}
+                </div>
+                <div className="mt-2 text-xs font-semibold text-white/65">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── Bento grid wrapper (kept for reference) ── */
 function HeroBentoAnimation() {
   return (
     <div
@@ -963,8 +1051,8 @@ export default function EnterprisePage() {
                 </a>
               </div>
             </div>
-            {/* Right — animated stat cards */}
-            <HeroStatsAnimation />
+            {/* Right — bento animation with stats floating on top */}
+            <HeroRightPanel />
           </div>
         </div>
       </section>
