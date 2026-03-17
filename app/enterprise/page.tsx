@@ -632,6 +632,90 @@ function HeroStatsAnimation() {
   )
 }
 
+/* ── Hero right-panel: illustrative globe + floating live cards ── */
+function HeroIllustration() {
+  return (
+    <div className="relative w-full overflow-hidden rounded-2xl" style={{ height: 420, background: 'linear-gradient(145deg,rgba(6,12,24,0.97) 0%,rgba(7,42,68,0.90) 100%)', border: '1px solid rgba(6,148,209,0.22)' }}>
+
+      {/* Dot-grid texture */}
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(6,148,209,0.13) 1px,transparent 1px)', backgroundSize: '26px 26px' }} />
+
+      {/* Ambient centre glow */}
+      <div className="absolute pointer-events-none" style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 340, height: 340, borderRadius: '50%', background: 'radial-gradient(circle,rgba(6,148,209,0.11) 0%,transparent 70%)' }} />
+
+      {/* ── Globe ── */}
+      {/* Outer orbit ring + dot */}
+      <div className="absolute ent-ill-spin" style={{ top: '50%', left: '50%', width: 236, height: 236, marginTop: -118, marginLeft: -118, borderRadius: '50%', border: '1px dashed rgba(6,148,209,0.28)' }}>
+        <div style={{ position: 'absolute', top: -5, left: '50%', marginLeft: -5, width: 10, height: 10, borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 12px rgba(56,189,248,0.95)' }} />
+      </div>
+
+      {/* Inner orbit ring + dot (counter) */}
+      <div className="absolute ent-ill-spin-rev" style={{ top: '50%', left: '50%', width: 182, height: 182, marginTop: -91, marginLeft: -91, borderRadius: '50%', border: '1px solid rgba(56,189,248,0.18)' }}>
+        <div style={{ position: 'absolute', bottom: -4, right: '15%', width: 7, height: 7, borderRadius: '50%', background: '#0694D1', boxShadow: '0 0 8px rgba(6,148,209,0.95)' }} />
+      </div>
+
+      {/* Third slow orbit (large) */}
+      <div className="absolute ent-ill-spin" style={{ top: '50%', left: '50%', width: 290, height: 290, marginTop: -145, marginLeft: -145, borderRadius: '50%', border: '1px dashed rgba(6,148,209,0.10)', animationDuration: '34s' }}>
+        <div style={{ position: 'absolute', top: '22%', right: -4, width: 6, height: 6, borderRadius: '50%', background: 'rgba(56,189,248,0.6)', boxShadow: '0 0 7px rgba(56,189,248,0.7)' }} />
+      </div>
+
+      {/* Globe sphere */}
+      <div className="absolute ent-ill-orb" style={{ top: '50%', left: '50%', width: 130, height: 130, marginTop: -65, marginLeft: -65, borderRadius: '50%', background: 'radial-gradient(circle at 34% 32%, rgba(56,189,248,0.30) 0%, rgba(6,148,209,0.22) 38%, rgba(6,18,36,0.92) 100%)', border: '1.5px solid rgba(6,148,209,0.58)', overflow: 'hidden' }}>
+        {/* Latitude lines */}
+        {[-24, 0, 24].map((y, i) => (
+          <div key={i} style={{ position: 'absolute', left: 0, right: 0, top: `calc(50% + ${y}px)`, height: 1, background: 'rgba(56,189,248,0.20)' }} />
+        ))}
+        {/* Meridians */}
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: '50%', width: 1, background: 'rgba(56,189,248,0.18)' }} />
+        <div style={{ position: 'absolute', top: '-8%', bottom: '-8%', left: '18%', right: '18%', border: '1px solid rgba(56,189,248,0.13)', borderRadius: '50%' }} />
+        {/* Highlight glint */}
+        <div style={{ position: 'absolute', top: '12%', left: '18%', width: '28%', height: '18%', borderRadius: '50%', background: 'radial-gradient(circle,rgba(255,255,255,0.14) 0%,transparent 100%)' }} />
+      </div>
+
+      {/* ── Floating notification cards ── */}
+
+      {/* Top-left: Live session */}
+      <div className="absolute ent-ill-float-a" style={{ top: 22, left: 16, maxWidth: 164, background: 'rgba(4,9,20,0.93)', border: '1px solid rgba(34,197,94,0.42)', borderRadius: 14, padding: '10px 13px', backdropFilter: 'blur(18px)', boxShadow: '0 8px 28px rgba(0,0,0,0.55)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5 }}>
+          <span className="ent-ill-live-dot" style={{ width: 7, height: 7, borderRadius: '50%', background: '#22C55E', display: 'inline-block', flexShrink: 0, boxShadow: '0 0 6px #22C55E' }} />
+          <span style={{ fontSize: 9, fontWeight: 700, color: '#22C55E', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Live Training</span>
+        </div>
+        <p style={{ fontSize: 12, fontWeight: 600, color: '#fff', margin: 0, lineHeight: 1.35 }}>Azure Architect · Dubai</p>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.40)', margin: '3px 0 0', lineHeight: 1.3 }}>32 learners · 40 min ago</p>
+      </div>
+
+      {/* Top-right: Cert earned */}
+      <div className="absolute ent-ill-float-b" style={{ top: 22, right: 16, maxWidth: 148, background: 'rgba(4,9,20,0.93)', border: '1px solid rgba(6,148,209,0.40)', borderRadius: 14, padding: '10px 13px', backdropFilter: 'blur(18px)', boxShadow: '0 8px 28px rgba(0,0,0,0.55)' }}>
+        <div style={{ fontSize: 20, lineHeight: 1, marginBottom: 6 }}>🏅</div>
+        <p style={{ fontSize: 12, fontWeight: 600, color: '#fff', margin: 0, lineHeight: 1.35 }}>AZ-305 Certified</p>
+        <p style={{ fontSize: 10, color: 'rgba(56,189,248,0.75)', margin: '3px 0 0' }}>Issued · 2 hours ago</p>
+      </div>
+
+      {/* Bottom-left: Active learners */}
+      <div className="absolute ent-ill-float-c" style={{ bottom: 58, left: 16, maxWidth: 152, background: 'rgba(4,9,20,0.93)', border: '1px solid rgba(6,148,209,0.30)', borderRadius: 14, padding: '10px 13px', backdropFilter: 'blur(18px)', boxShadow: '0 8px 28px rgba(0,0,0,0.55)' }}>
+        <p style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.36)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 3px' }}>Active Right Now</p>
+        <div style={{ fontSize: 26, fontWeight: 900, color: '#38bdf8', lineHeight: 1, marginBottom: 2 }}>247</div>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.36)', margin: 0 }}>Learners · 18 countries</p>
+      </div>
+
+      {/* Bottom-right: Pass rate */}
+      <div className="absolute ent-ill-float-a" style={{ bottom: 58, right: 16, maxWidth: 148, background: 'rgba(4,9,20,0.93)', border: '1px solid rgba(16,185,129,0.32)', borderRadius: 14, padding: '10px 13px', backdropFilter: 'blur(18px)', boxShadow: '0 8px 28px rgba(0,0,0,0.55)', animationDelay: '0.6s' }}>
+        <p style={{ fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.36)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 3px' }}>Pass Rate</p>
+        <div style={{ fontSize: 26, fontWeight: 900, color: '#10B981', lineHeight: 1, marginBottom: 2 }}>94%</div>
+        <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.36)', margin: 0 }}>First-attempt · All certs</p>
+      </div>
+
+      {/* Bottom centre pill */}
+      <div className="absolute" style={{ bottom: 18, left: '50%', transform: 'translateX(-50%)', background: 'rgba(4,9,20,0.90)', border: '1px solid rgba(6,148,209,0.22)', borderRadius: 999, padding: '6px 18px', backdropFilter: 'blur(14px)', whiteSpace: 'nowrap', boxShadow: '0 4px 16px rgba(0,0,0,0.45)' }}>
+        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.52)', fontWeight: 500 }}>
+          🌍 Training across <strong style={{ color: '#38bdf8', fontWeight: 700 }}>195+ countries</strong>
+        </span>
+      </div>
+
+    </div>
+  )
+}
+
 /* ── Reusable inline bento grid (fills its parent) ── */
 function BentoGrid() {
   return (
@@ -1049,6 +1133,23 @@ export default function EnterprisePage() {
 
       {/* ── Global styles & keyframes (same as homepage) ── */}
       <style>{`
+        /* ── Hero illustration ── */
+        @keyframes entIllSpin    { to { transform: rotate(360deg); } }
+        @keyframes entIllSpinRev { to { transform: rotate(-360deg); } }
+        @keyframes entIllOrb     { 0%,100%{box-shadow:0 0 35px rgba(6,148,209,0.32),0 0 70px rgba(6,148,209,0.10)} 50%{box-shadow:0 0 58px rgba(6,148,209,0.55),0 0 110px rgba(6,148,209,0.20)} }
+        @keyframes entIllFloatA  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        @keyframes entIllFloatB  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        @keyframes entIllFloatC  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes entIllLiveDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.25;transform:scale(0.5)} }
+        @keyframes entIllBeam    { 0%{stroke-dashoffset:200} 100%{stroke-dashoffset:0} }
+        .ent-ill-spin     { animation: entIllSpin 20s linear infinite; }
+        .ent-ill-spin-rev { animation: entIllSpinRev 13s linear infinite; }
+        .ent-ill-orb      { animation: entIllOrb 3.8s ease-in-out infinite; }
+        .ent-ill-float-a  { animation: entIllFloatA 5s ease-in-out infinite; }
+        .ent-ill-float-b  { animation: entIllFloatB 6.5s ease-in-out infinite 0.9s; }
+        .ent-ill-float-c  { animation: entIllFloatC 4.5s ease-in-out infinite 1.6s; }
+        .ent-ill-live-dot { animation: entIllLiveDot 1.4s ease-in-out infinite; }
+
         /* Morphing hero word (same as homepage) */
         @keyframes entMorphIn  { from { opacity:0; filter:blur(10px); transform:translateY(14px);  } to { opacity:1; filter:blur(0); transform:translateY(0); } }
         @keyframes entMorphOut { from { opacity:1; filter:blur(0);    transform:translateY(0);     } to { opacity:0; filter:blur(10px); transform:translateY(-14px); } }
@@ -1203,9 +1304,9 @@ export default function EnterprisePage() {
               </div>
             </div>
 
-            {/* Right — bento animation (clean, no overlay) */}
-            <div className="hidden w-full flex-shrink-0 lg:block lg:w-[420px] xl:w-[460px]" style={{ height: 420 }}>
-              <BentoGrid />
+            {/* Right — illustrative globe animation */}
+            <div className="hidden w-full flex-shrink-0 lg:block lg:w-[420px] xl:w-[460px]">
+              <HeroIllustration />
             </div>
           </div>
         </div>
