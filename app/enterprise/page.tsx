@@ -5,6 +5,15 @@ import { useState, useEffect, useRef } from 'react'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
+const ENT_MORPH_WORDS = [
+  'at Global Scale',
+  'Across 195+ Countries',
+  'With Expert Trainers',
+  'Across All Domains',
+  'in Record Time',
+  'With Certified Outcomes',
+]
+
 const STATS = [
   { num: '1M+',   label: 'Professionals Trained' },
   { num: '5,000+',label: 'Courses Available'      },
@@ -1008,6 +1017,8 @@ export default function EnterprisePage() {
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [entMorphIdx, setEntMorphIdx] = useState(0)
+  const [entMorphExiting, setEntMorphExiting] = useState(false)
 
   // Scroll-triggered fade-ins (same pattern as homepage)
   useEffect(() => {
@@ -1022,11 +1033,28 @@ export default function EnterprisePage() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    const cycle = setInterval(() => {
+      setEntMorphExiting(true)
+      setTimeout(() => {
+        setEntMorphIdx(i => (i + 1) % ENT_MORPH_WORDS.length)
+        setEntMorphExiting(false)
+      }, 380)
+    }, 2800)
+    return () => clearInterval(cycle)
+  }, [])
+
   return (
     <div className="min-h-screen" style={{ background: '#06111E', fontFamily: "'GT Walsheim Pro', sans-serif" }}>
 
       {/* ── Global styles & keyframes (same as homepage) ── */}
       <style>{`
+        /* Morphing hero word (same as homepage) */
+        @keyframes entMorphIn  { from { opacity:0; filter:blur(10px); transform:translateY(14px);  } to { opacity:1; filter:blur(0); transform:translateY(0); } }
+        @keyframes entMorphOut { from { opacity:1; filter:blur(0);    transform:translateY(0);     } to { opacity:0; filter:blur(10px); transform:translateY(-14px); } }
+        .ent-morph-in  { animation: entMorphIn  0.52s cubic-bezier(0.22,1,0.36,1) both; }
+        .ent-morph-out { animation: entMorphOut 0.34s ease-in both; }
+
         /* Scroll-triggered fade-in-up */
         .io-fade { opacity: 0; transform: translateY(12px); transition: opacity 0.22s ease-out, transform 0.22s ease-out; }
         .io-fade.io-visible { opacity: 1; transform: translateY(0); }
@@ -1135,7 +1163,13 @@ export default function EnterprisePage() {
               </div>
               <h1 className="mb-5 text-4xl font-black leading-tight tracking-tight text-white lg:text-5xl xl:text-6xl">
                 Upskill Your Workforce<br />
-                <span style={{ color: '#38bdf8' }}>at Global Scale</span>
+                <span
+                  key={entMorphIdx}
+                  className={`inline-block ${entMorphExiting ? 'ent-morph-out' : 'ent-morph-in'}`}
+                  style={{ color: '#38bdf8', textShadow: '0 0 28px rgba(56,189,248,0.85), 0 0 55px rgba(6,148,209,0.45)' }}
+                >
+                  {ENT_MORPH_WORDS[entMorphIdx]}
+                </span>
               </h1>
               <p className="mb-8 max-w-xl text-base text-white/65 lg:text-lg">
                 Tailored IT certification programmes for enterprises across 195+ countries. From needs assessment to certified outcomes — Koenig handles everything, so your team stays focused on what matters.
