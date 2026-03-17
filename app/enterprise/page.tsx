@@ -1211,6 +1211,27 @@ export default function EnterprisePage() {
         .ent-faq-answer { max-height:0; overflow:hidden; transition: max-height 0.38s cubic-bezier(0.22,1,0.36,1), opacity 0.28s ease; opacity:0; }
         .ent-faq-answer.open { max-height:300px; opacity:1; }
 
+        /* CTA button shine sweep (same as homepage search-btn) */
+        @keyframes entBtnShine {
+          0%   { background-position: -200% center; }
+          30%  { background-position: 200% center; }
+          100% { background-position: 200% center; }
+        }
+        .ent-cta-btn {
+          background: linear-gradient(135deg,#0694D1,#076D9D);
+          background-image: linear-gradient(135deg,#0694D1,#076D9D), linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.55) 50%,transparent 60%);
+          background-image: linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.52) 50%,transparent 60%), linear-gradient(135deg,#0694D1,#076D9D);
+          background-size: 200% 100%, 100% 100%;
+          background-position: -200% center, 0 0;
+          animation: entBtnShine 2.4s ease-in-out infinite;
+          box-shadow: 0 0 18px rgba(6,148,209,0.45), 0 4px 24px rgba(6,148,209,0.25);
+          transition: box-shadow 0.2s ease, opacity 0.2s ease;
+        }
+        .ent-cta-btn:hover {
+          box-shadow: 0 0 28px rgba(6,148,209,0.65), 0 6px 32px rgba(6,148,209,0.35);
+          opacity: 0.95;
+        }
+
         /* Gradient text */
         .ent-grad-text { background: linear-gradient(135deg,#0694D1,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 
@@ -1276,7 +1297,7 @@ export default function EnterprisePage() {
                 Tailored IT certification programmes for enterprises across 195+ countries. From needs assessment to certified outcomes — Koenig handles everything, so your team stays focused on what matters.
               </p>
               <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
-                <a href="#contact" className="rounded-xl px-7 py-3.5 text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 24px rgba(6,148,209,0.4)' }}>
+                <a href="#contact" className="ent-cta-btn rounded-xl px-7 py-3.5 text-base font-bold text-white">
                   Get a Free Consultation
                 </a>
                 <a href="mailto:enterprise@koenig-solutions.com" className="rounded-xl border px-7 py-3.5 text-base font-medium text-white transition-colors hover:bg-white/5" style={{ borderColor: 'rgba(255,255,255,0.25)' }}>
