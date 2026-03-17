@@ -1161,7 +1161,7 @@ export default function EnterprisePage() {
                 <span className="h-2 w-2 rounded-full bg-[#0694D1]" />
                 Enterprise Training Solutions
               </div>
-              <h1 className="mb-5 text-4xl font-black leading-tight tracking-tight text-white lg:text-5xl xl:text-6xl">
+              <h1 className="mb-5 text-4xl font-bold leading-tight tracking-tight text-white lg:text-5xl xl:text-6xl">
                 Upskill Your Workforce<br />
                 <span
                   key={entMorphIdx}
@@ -1219,7 +1219,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
           <div className="io-fade mb-10 text-center">
             <p className="mb-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Trusted Worldwide</p>
-            <h2 className="text-2xl font-black lg:text-3xl" style={{ color: '#093148' }}>
+            <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
               Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
             </h2>
             <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
@@ -1266,7 +1266,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Our Methodology</p>
-            <h2 className="text-3xl font-black text-white lg:text-4xl">The Koenig <span style={{ color: '#38bdf8' }}>A.D.D.E.</span> Framework</h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">The Koenig <span style={{ color: '#38bdf8' }}>A.D.D.E.</span> Framework</h2>
             <p className="mt-3 text-white/50">A structured 4-step approach that ensures every enterprise training programme delivers measurable results.</p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -1306,7 +1306,7 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Sector Expertise</p>
-            <h2 className="text-3xl font-black text-white lg:text-4xl">Industries We <span style={{ color: '#38bdf8' }}>Specialise In</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">Industries We <span style={{ color: '#38bdf8' }}>Specialise In</span></h2>
             <p className="mt-3 max-w-2xl mx-auto text-base text-white/55">Deep domain knowledge across the sectors that depend most on certified IT expertise — delivered with precision, at scale.</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -1337,7 +1337,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
-            <h2 className="text-3xl font-black text-white lg:text-4xl">5,000+ Courses Across <span style={{ color: '#38bdf8' }}>8 Core Domains</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">5,000+ Courses Across <span style={{ color: '#38bdf8' }}>8 Core Domains</span></h2>
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-4">
             {DOMAINS.map(d => (
@@ -1367,7 +1367,7 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-14 text-center">
             <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Proven Results</p>
-            <h2 className="text-3xl font-black lg:text-4xl" style={{ color: '#093148' }}>
+            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
               The Business Impact of <span className="ent-dark-grad-text">Koenig Enterprise Training</span>
             </h2>
             <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#4a7a9b' }}>Numbers that matter to L&D leaders, CISOs, and CFOs alike — backed by 30+ years of enterprise outcomes.</p>
@@ -1413,7 +1413,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Why Enterprises Choose Us</p>
-            <h2 className="text-3xl font-black text-white lg:text-4xl">The Koenig <span style={{ color: '#38bdf8' }}>Difference</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">The Koenig <span style={{ color: '#38bdf8' }}>Difference</span></h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {WHY.map((w, i) => (
@@ -1442,7 +1442,7 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-14 text-center">
             <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Simple Onboarding</p>
-            <h2 className="text-3xl font-black lg:text-4xl" style={{ color: '#093148' }}>
+            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
               From Brief to Certified — <span className="ent-dark-grad-text">In 4 Simple Steps</span>
             </h2>
             <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#4a7a9b' }}>We handle every detail so your HR and L&D teams can focus on strategy, not logistics.</p>
@@ -1489,7 +1489,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Flexible Delivery</p>
-            <h2 className="text-3xl font-black text-white lg:text-4xl">Training That Fits <span style={{ color: '#38bdf8' }}>Your Way of Working</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">Training That Fits <span style={{ color: '#38bdf8' }}>Your Way of Working</span></h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {FORMATS.map((f, i) => (
@@ -1518,7 +1518,7 @@ export default function EnterprisePage() {
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#FF6B35]" style={{ animation: 'pulse 1.5s infinite' }} />
                 Live Demand Intelligence · 2025
               </span>
-              <h2 className="mt-2 text-3xl font-black leading-tight lg:text-4xl" style={{ color: '#093148' }}>
+              <h2 className="mt-2 text-3xl font-bold leading-tight lg:text-4xl" style={{ color: '#093148' }}>
                 Technology Skills Enterprises<br className="hidden lg:block" />
                 Are <span className="ent-dark-grad-text">Racing to Learn</span>
               </h2>
@@ -1537,7 +1537,7 @@ export default function EnterprisePage() {
                 <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-widest" style={{ background: 'rgba(255,107,53,0.18)', color: '#FF6B35', border: '1px solid rgba(255,107,53,0.4)' }}>
                   🔥 #1 Trending Globally
                 </span>
-                <h3 className="mt-5 text-3xl font-black leading-tight text-white">Generative AI<br />&amp; LLMs</h3>
+                <h3 className="mt-5 text-3xl font-bold leading-tight text-white">Generative AI<br />&amp; LLMs</h3>
                 <p className="mt-3 text-sm leading-relaxed text-white/55">Prompt engineering, RAG pipelines, fine-tuning, and responsible AI governance at enterprise scale.</p>
               </div>
               <div className="relative z-10">
@@ -1601,7 +1601,7 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
             <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Official Vendor Partners</p>
-            <h2 className="text-3xl font-black text-white lg:text-4xl">50+ Authorised <span style={{ color: '#38bdf8' }}>Certification Partners</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">50+ Authorised <span style={{ color: '#38bdf8' }}>Certification Partners</span></h2>
             <p className="mt-3 max-w-xl mx-auto text-sm text-white/50">Train and certify your team on the industry's most in-demand platforms — all under one roof, with one account manager.</p>
           </div>
 
@@ -1652,7 +1652,7 @@ export default function EnterprisePage() {
             {/* Left copy */}
             <div className="flex-1">
               <p className="mb-3 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Enterprise Reporting</p>
-              <h2 className="mb-5 text-3xl font-black leading-tight lg:text-4xl" style={{ color: '#093148' }}>
+              <h2 className="mb-5 text-3xl font-bold leading-tight lg:text-4xl" style={{ color: '#093148' }}>
                 Full Visibility Into<br /><span className="ent-dark-grad-text">Every Training Engagement</span>
               </h2>
               <p className="mb-8 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>
@@ -1735,7 +1735,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Client Stories</p>
-            <h2 className="text-3xl font-black text-white lg:text-4xl">Trusted by <span style={{ color: '#38bdf8' }}>Global Enterprises</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">Trusted by <span style={{ color: '#38bdf8' }}>Global Enterprises</span></h2>
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
             {TESTIMONIALS.map((t, i) => (
@@ -1767,7 +1767,7 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-4xl">
           <div className="io-fade mb-12 text-center">
             <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Common Questions</p>
-            <h2 className="text-3xl font-black lg:text-4xl" style={{ color: '#093148' }}>
+            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
               Everything You Need to <span className="ent-dark-grad-text">Know</span>
             </h2>
             <p className="mt-3 text-sm" style={{ color: '#4a7a9b' }}>Quick answers to the questions L&D leaders ask before launching enterprise training with Koenig.</p>
@@ -1816,7 +1816,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Let's Talk</p>
-            <h2 className="text-3xl font-black text-white lg:text-4xl">Start Your Enterprise <span style={{ color: '#38bdf8' }}>Training Journey</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">Start Your Enterprise <span style={{ color: '#38bdf8' }}>Training Journey</span></h2>
             <p className="mt-3 text-white/50">Tell us about your workforce goals and we'll design a programme that delivers real, measurable outcomes.</p>
           </div>
           {submitted ? (
