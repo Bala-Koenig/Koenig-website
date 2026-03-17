@@ -1483,7 +1483,6 @@ export default function EnterprisePage() {
                 Enterprise
               </span>
             </div>
-            <Link href="/" className="text-sm text-white/70 transition-colors hover:text-white">← Back to Home</Link>
             <a href="#contact" className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
               Get in Touch
             </a>
