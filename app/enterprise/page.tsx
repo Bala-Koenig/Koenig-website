@@ -632,6 +632,86 @@ function HeroStatsAnimation() {
   )
 }
 
+/* ── Hero particle banner background ── */
+function ParticleBanner() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => {
+      c.width = c.offsetWidth; c.height = c.offsetHeight
+    }
+    resize(); window.addEventListener('resize', resize)
+
+    interface Particle {
+      x: number; y: number; vx: number; vy: number
+      r: number; alpha: number; rgb: string; pulse: number
+    }
+    const COLORS = ['6,148,209', '56,189,248', '139,92,246', '16,185,129', '245,158,11']
+    const COUNT = 90
+    const particles: Particle[] = Array.from({ length: COUNT }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      vx: (Math.random() - 0.5) * 0.00018,
+      vy: (Math.random() - 0.5) * 0.00018,
+      r: Math.random() * 2.2 + 0.8,
+      alpha: Math.random() * 0.5 + 0.2,
+      rgb: COLORS[Math.floor(Math.random() * COLORS.length)],
+      pulse: Math.random() * Math.PI * 2,
+    }))
+
+    const CONNECT_DIST = 0.14 // fraction of canvas width
+
+    const loop = () => {
+      const W = c.width, H = c.height, now = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+
+      // Move particles
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy
+        if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0
+        if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0
+      })
+
+      // Connection lines
+      const cd = CONNECT_DIST * W
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i]
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j]
+          const dx = (a.x - b.x) * W, dy = (a.y - b.y) * H
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < cd) {
+            const alpha = (1 - dist / cd) * 0.18
+            ctx.beginPath()
+            ctx.moveTo(a.x * W, a.y * H)
+            ctx.lineTo(b.x * W, b.y * H)
+            ctx.strokeStyle = `rgba(6,148,209,${alpha})`
+            ctx.lineWidth = 0.7; ctx.stroke()
+          }
+        }
+      }
+
+      // Particles
+      particles.forEach(p => {
+        const pulsed = p.alpha * (0.7 + 0.3 * Math.sin(now * 1.4 + p.pulse))
+        const g = ctx.createRadialGradient(p.x * W, p.y * H, 0, p.x * W, p.y * H, p.r * 3.5)
+        g.addColorStop(0, `rgba(${p.rgb},${pulsed})`)
+        g.addColorStop(1, `rgba(${p.rgb},0)`)
+        ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r * 3.5, 0, 6.28)
+        ctx.fillStyle = g; ctx.fill()
+        ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r, 0, 6.28)
+        ctx.fillStyle = `rgba(${p.rgb},${pulsed * 0.9})`; ctx.fill()
+      })
+
+      id = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={ref} className="absolute inset-0 h-full w-full" style={{ pointerEvents: 'none' }} />
+}
+
 /* ── Hero right-panel: live training analytics dashboard ── */
 function HeroIllustration() {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -1402,8 +1482,8 @@ export default function EnterprisePage() {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28">
-        {/* (bento removed — animations live inside each stat card) */}
         <div className="pointer-events-none absolute inset-0">
+          <ParticleBanner />
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 60% 50%, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
           <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
           <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
