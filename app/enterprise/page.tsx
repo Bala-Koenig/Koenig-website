@@ -1099,8 +1099,10 @@ export default function EnterprisePage() {
       {/* ── Nav ── */}
       <header className="sticky top-0 z-50 px-4 lg:px-[50px]" style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between py-3">
-          <Link href="/">
-            <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-8 w-auto" />
+          <Link href="/" className="flex shrink-0 items-center gap-2">
+            <div style={{ background: '#ffffff', borderRadius: '6px', padding: '8px' }}>
+              <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-7 w-auto lg:h-8" />
+            </div>
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/" className="text-sm text-white/70 transition-colors hover:text-white">← Back to Home</Link>
