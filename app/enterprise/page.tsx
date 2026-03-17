@@ -1,7 +1,9 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+/* ─── Existing Data ──────────────────────────────────────── */
 
 const STATS = [
   { num: '1M+',   label: 'Professionals Trained' },
@@ -76,12 +78,208 @@ const WHY = [
   { title: 'End-to-End Support',         desc: 'From needs analysis to post-training reporting — a dedicated account manager handles everything.' },
 ]
 
+/* ─── New Data ───────────────────────────────────────────── */
+
+const ENTERPRISE_CLIENTS = [
+  { name: 'Google',             img: 'google.png'               },
+  { name: 'Microsoft',          img: 'ms.png'                   },
+  { name: 'Adobe',              img: 'adobe.png'                },
+  { name: 'Dell',               img: 'dell.png'                 },
+  { name: 'HP',                 img: 'hp.png'                   },
+  { name: 'Infosys',            img: 'infosys.png'              },
+  { name: 'TCS',                img: 'TCS.png'                  },
+  { name: 'Wipro',              img: 'wipro.png'                },
+  { name: 'HCL Technologies',   img: 'hcl-technologies.png'     },
+  { name: 'Cognizant',          img: 'cts.png'                  },
+  { name: 'EY',                 img: 'EY.png'                   },
+  { name: 'PwC',                img: 'pwc.png'                  },
+  { name: 'McKinsey',           img: 'mcKinsey-and-company.png' },
+  { name: 'HSBC',               img: 'hsbc.png'                 },
+  { name: 'Shell',              img: 'shell 1.png'              },
+  { name: 'Emirates',           img: 'Emirates.png'             },
+  { name: 'Capgemini',          img: 'capeg.png'                },
+  { name: 'Saudi Aramco',       img: 'aramco.png'               },
+]
+
+const INDUSTRIES = [
+  {
+    name: 'Financial Services',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>,
+    desc: 'Upskill risk analysts, compliance officers, and cloud architects across banking, insurance, and fintech.',
+    tags: ['Cloud Security', 'Risk & Compliance', 'AI/ML'],
+  },
+  {
+    name: 'Healthcare & Life Sciences',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>,
+    desc: 'Equip IT teams with HIPAA-compliant cloud, data management, and cybersecurity expertise at scale.',
+    tags: ['Data Privacy', 'Cloud Computing', 'DevOps'],
+  },
+  {
+    name: 'Manufacturing & Engineering',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>,
+    desc: 'Enable digital transformation with IIoT, automation, and ERP training from shop-floor to C-suite.',
+    tags: ['SAP S/4HANA', 'IoT & Automation', 'PMP'],
+  },
+  {
+    name: 'Technology & Software',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>,
+    desc: 'Accelerate product delivery with DevOps, cloud-native, and AI/ML certifications at scale for engineering teams.',
+    tags: ['Kubernetes', 'AWS / Azure', 'DevSecOps'],
+  },
+  {
+    name: 'Government & Defence',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
+    desc: 'Deliver security-cleared, compliance-driven training for public sector IT and defence organisations worldwide.',
+    tags: ['Cybersecurity', 'ITSM / ITIL', 'CompTIA'],
+  },
+  {
+    name: 'Energy & Utilities',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z"/>,
+    desc: 'Future-proof infrastructure teams with OT/IT convergence, cloud migration, and project management skills.',
+    tags: ['SCADA / OT', 'Cloud Migration', 'Cisco Networking'],
+  },
+]
+
+const ROI_METRICS = [
+  { value: '94%',  label: 'First-Attempt Certification Pass Rate', sub: 'Across all 5,000+ courses' },
+  { value: '3×',   label: 'Faster Skill Acquisition',              sub: 'vs. self-study or e-learning' },
+  { value: '48h',  label: 'Average Programme Launch Time',         sub: 'From brief to live training' },
+  { value: '$0',   label: 'Hidden or Unexpected Costs',            sub: 'All-inclusive transparent pricing' },
+]
+
+const HOW_IT_WORKS = [
+  {
+    step: '01',
+    title: 'Submit Your Brief',
+    desc: 'Share your team size, required skills, and timeline via our quick-start form or a 30-minute consultation call.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>,
+    color: '#0694D1',
+  },
+  {
+    step: '02',
+    title: 'Receive a Custom Plan',
+    desc: 'Your dedicated account manager presents a tailored curriculum, delivery format, and cost estimate within 48 hours.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>,
+    color: '#076D9D',
+  },
+  {
+    step: '03',
+    title: 'Approve & Schedule',
+    desc: 'Confirm dates, select formats — Live Online, Classroom, or 1-on-1 — and receive a guaranteed training calendar.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>,
+    color: '#0694D1',
+  },
+  {
+    step: '04',
+    title: 'Train, Certify & Report',
+    desc: 'Your team trains with certified instructors. We track progress, manage re-sits, and deliver a full ROI report.',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>,
+    color: '#076D9D',
+  },
+]
+
+const FAQS = [
+  { q: 'What is the minimum team size for enterprise training?', a: 'We accommodate teams of any size — from a single employee in 1-on-1 format to enterprise-wide rollouts of 1,000+ staff. Pricing and formats are fully customised to your headcount and objectives.' },
+  { q: 'Can training be delivered at our office location?', a: 'Yes. Our Fly-Me-a-Trainer (FMAT) service deploys certified instructors directly to your premises anywhere in the world — ideal for large teams or classified environments.' },
+  { q: 'How quickly can a programme be launched?', a: 'For standard certification programmes we can go from brief to live training within 48 hours. Custom-built curricula typically require 5–10 business days for instructional design.' },
+  { q: 'Do you offer post-training reporting and ROI tracking?', a: 'Yes. Every enterprise engagement includes a training-completion report, certification tracking dashboard, and an optional ROI analysis aligned to your L&D KPIs.' },
+  { q: 'Are all instructors vendor-certified?', a: 'Absolutely. Every Koenig instructor holds active certifications from the vendor they teach — Microsoft, AWS, Cisco, etc. — and brings a minimum of 5 years of real-world enterprise experience.' },
+  { q: 'What happens if an employee does not pass their certification exam?', a: 'We include exam-prep support and, for most programmes, a complimentary re-sit session. Our 94% first-attempt pass rate means this is rarely needed — but the safety net is always there.' },
+]
+
+/* ─── Component ──────────────────────────────────────────── */
+
 export default function EnterprisePage() {
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  // Scroll-triggered fade-ins (same pattern as homepage)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('io-visible')
+        else e.target.classList.remove('io-visible')
+      }),
+      { threshold: 0.08 }
+    )
+    document.querySelectorAll('.io-fade').forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div className="min-h-screen" style={{ background: '#06111E', fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+
+      {/* ── Global styles & keyframes (same as homepage) ── */}
+      <style>{`
+        /* Scroll-triggered fade-in-up */
+        .io-fade { opacity: 0; transform: translateY(12px); transition: opacity 0.22s ease-out, transform 0.22s ease-out; }
+        .io-fade.io-visible { opacity: 1; transform: translateY(0); }
+        .io-fade.delay-1 { transition-delay: 0.04s; }
+        .io-fade.delay-2 { transition-delay: 0.08s; }
+        .io-fade.delay-3 { transition-delay: 0.12s; }
+        .io-fade.delay-4 { transition-delay: 0.16s; }
+        .io-fade.delay-5 { transition-delay: 0.20s; }
+        .io-fade.delay-6 { transition-delay: 0.24s; }
+
+        /* Infinite client logo marquee */
+        @keyframes ent-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .ent-marquee-track { animation: ent-marquee 55s linear infinite; display:flex; width:max-content; }
+        .ent-marquee-track:hover { animation-play-state: paused; }
+        .ent-marquee-wrap { overflow:hidden; mask-image:linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%); -webkit-mask-image:linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%); }
+
+        /* Hero blob floats (same as homepage) */
+        @keyframes entBlob1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-30px) scale(1.1)} 66%{transform:translate(-20px,20px) scale(0.95)} }
+        @keyframes entBlob2 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-35px,25px) scale(1.08)} 66%{transform:translate(25px,-15px) scale(0.92)} }
+        @keyframes entBlob3 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(20px,40px) scale(1.05)} 66%{transform:translate(-30px,-20px) scale(1.1)} }
+        .ent-blob1 { animation: entBlob1 12s ease-in-out infinite; }
+        .ent-blob2 { animation: entBlob2 16s ease-in-out infinite; }
+        .ent-blob3 { animation: entBlob3 20s ease-in-out infinite; }
+
+        /* Gradient shimmer on dark banners (same as homepage diff-banner) */
+        @keyframes entShimmer { 0%{transform:translateX(-110%) skewX(-18deg)} 100%{transform:translateX(220%) skewX(-18deg)} }
+        .ent-shimmer { position:relative; overflow:hidden; }
+        .ent-shimmer::after { content:''; position:absolute; top:0; left:0; height:100%; width:40%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent); animation:entShimmer 5s ease-in-out infinite; pointer-events:none; border-radius:inherit; }
+
+        /* ROI stat pop */
+        @keyframes entStatPop { 0%{opacity:0;transform:scale(0.6) translateY(8px)} 70%{transform:scale(1.06)} 100%{opacity:1;transform:scale(1) translateY(0)} }
+        .ent-stat-pop { opacity:0; }
+        .ent-stat-pop.io-visible { animation: entStatPop 0.65s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .ent-stat-pop.io-visible.d1 { animation-delay:0.05s; }
+        .ent-stat-pop.io-visible.d2 { animation-delay:0.18s; }
+        .ent-stat-pop.io-visible.d3 { animation-delay:0.31s; }
+        .ent-stat-pop.io-visible.d4 { animation-delay:0.44s; }
+
+        /* Industry card hover glow */
+        .ent-ind-card { transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+        .ent-ind-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(6,148,209,0.2), 0 0 0 1px rgba(6,148,209,0.5); }
+
+        /* How-it-works card */
+        @keyframes entHiwIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .ent-hiw-card { opacity:0; }
+        .ent-hiw-card.io-visible { animation: entHiwIn 0.55s cubic-bezier(0.22,1,0.36,1) both; }
+        .ent-hiw-card.io-visible.d1 { animation-delay:0.05s; }
+        .ent-hiw-card.io-visible.d2 { animation-delay:0.15s; }
+        .ent-hiw-card.io-visible.d3 { animation-delay:0.25s; }
+        .ent-hiw-card.io-visible.d4 { animation-delay:0.35s; }
+
+        /* FAQ accordion */
+        .ent-faq-answer { max-height:0; overflow:hidden; transition: max-height 0.38s cubic-bezier(0.22,1,0.36,1), opacity 0.28s ease; opacity:0; }
+        .ent-faq-answer.open { max-height:300px; opacity:1; }
+
+        /* Gradient text */
+        .ent-grad-text { background: linear-gradient(135deg,#0694D1,#38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+        /* White section gradient text */
+        .ent-dark-grad-text { background: linear-gradient(135deg,#076D9D,#0694D1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+        /* Pointer */
+        a, button, [role="button"] { cursor: pointer !important; }
+
+        @media (max-width: 480px) {
+          .ent-blob1,.ent-blob2,.ent-blob3 { animation: none !important; }
+        }
+      `}</style>
 
       {/* ── Nav ── */}
       <header className="sticky top-0 z-50 px-4 lg:px-[50px]" style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
@@ -97,6 +295,10 @@ export default function EnterprisePage() {
           </div>
         </div>
       </header>
+
+      {/* ════════════════════════════════════════════════════════
+           EXISTING SECTIONS (unchanged)
+      ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28">
@@ -142,7 +344,57 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Approach ── */}
+      {/* ════════════════════════════════════════════════════════
+           NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
+           Inspired by Simplilearn's client marquee strip
+      ════════════════════════════════════════════════════════ */}
+      <section className="py-16 bg-white">
+        <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
+          <div className="io-fade mb-10 text-center">
+            <p className="mb-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Trusted Worldwide</p>
+            <h2 className="text-2xl font-black lg:text-3xl" style={{ color: '#093148' }}>
+              Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
+            </h2>
+            <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
+          </div>
+        </div>
+        <div className="ent-marquee-wrap py-2">
+          <div className="ent-marquee-track gap-6 px-6">
+            {[...ENTERPRISE_CLIENTS, ...ENTERPRISE_CLIENTS].map((c, i) => (
+              <div
+                key={i}
+                className="flex shrink-0 items-center justify-center rounded-xl bg-white px-6 py-4"
+                style={{ height: '72px', minWidth: '160px', border: '1.5px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}
+              >
+                <img
+                  src={`/images/companies/${encodeURIComponent(c.img)}`}
+                  alt={c.name}
+                  className="max-h-9 max-w-[120px] object-contain grayscale opacity-60 transition-all duration-300 hover:grayscale-0 hover:opacity-100"
+                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Trust badges */}
+        <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-[50px]">
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            {[
+              { icon: '🏆', text: 'Microsoft Training Partner of the Year 2025' },
+              { icon: '✅', text: 'Certified Great Place to Work 2011–2025' },
+              { icon: '🌍', text: 'Training delivered in 195+ Countries' },
+              { icon: '⭐', text: '4.9/5 Average Client Satisfaction Score' },
+            ].map((b, i) => (
+              <div key={i} className="io-fade flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium" style={{ background: '#F0FAFF', border: '1px solid #CAEFFF', color: '#093148' }}>
+                <span>{b.icon}</span>
+                {b.text}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ADDE Framework (existing, unchanged) ── */}
       <section className="px-4 lg:px-[50px] py-20" style={{ background: 'rgba(255,255,255,0.02)' }}>
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
@@ -173,7 +425,47 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Training Domains ── */}
+      {/* ════════════════════════════════════════════════════════
+           NEW SECTION 2 — Industries We Serve (DARK NAVY)
+           Inspired by Simplilearn's industry verticals section
+      ════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px]" style={{ background: '#093148' }}>
+        {/* Blob decorations (same as homepage) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="ent-blob1 absolute -top-32 -right-32 h-96 w-96 rounded-full opacity-20 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
+          <div className="ent-blob2 absolute -bottom-24 -left-24 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: 'radial-gradient(circle, #38bdf8, transparent)' }} />
+          <div className="ent-blob3 absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-10 blur-3xl" style={{ background: 'radial-gradient(circle, #076D9D, transparent)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="io-fade mb-12 text-center">
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Sector Expertise</p>
+            <h2 className="text-3xl font-black text-white lg:text-4xl">Industries We <span style={{ color: '#38bdf8' }}>Specialise In</span></h2>
+            <p className="mt-3 max-w-2xl mx-auto text-base text-white/55">Deep domain knowledge across the sectors that depend most on certified IT expertise — delivered with precision, at scale.</p>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {INDUSTRIES.map((ind, i) => (
+              <div
+                key={i}
+                className={`ent-ind-card io-fade delay-${i + 1} rounded-2xl p-6`}
+                style={{ background: 'rgba(6,148,209,0.07)', border: '1px solid rgba(6,148,209,0.2)', backdropFilter: 'blur(8px)' }}
+              >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(6,148,209,0.25), rgba(7,109,157,0.35))', border: '1px solid rgba(6,148,209,0.3)' }}>
+                  <svg className="h-6 w-6" style={{ color: '#38bdf8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{ind.icon}</svg>
+                </div>
+                <h3 className="mb-2 text-base font-bold text-white">{ind.name}</h3>
+                <p className="mb-4 text-sm leading-relaxed text-white/55">{ind.desc}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {ind.tags.map(tag => (
+                    <span key={tag} className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.25)' }}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Training Domains (existing, unchanged) ── */}
       <section className="px-4 lg:px-[50px] py-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
@@ -195,7 +487,61 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Why Koenig ── */}
+      {/* ════════════════════════════════════════════════════════
+           NEW SECTION 3 — Training ROI & Business Impact (WHITE)
+           Inspired by Simplilearn's impact/metrics section
+      ════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+        {/* Subtle background gradient blobs */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="ent-blob1 absolute -top-20 -right-20 h-80 w-80 rounded-full opacity-10 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
+          <div className="ent-blob2 absolute -bottom-16 -left-16 h-64 w-64 rounded-full opacity-8 blur-3xl" style={{ background: 'radial-gradient(circle, #076D9D, transparent)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="io-fade mb-14 text-center">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Proven Results</p>
+            <h2 className="text-3xl font-black lg:text-4xl" style={{ color: '#093148' }}>
+              The Business Impact of <span className="ent-dark-grad-text">Koenig Enterprise Training</span>
+            </h2>
+            <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#4a7a9b' }}>Numbers that matter to L&D leaders, CISOs, and CFOs alike — backed by 30+ years of enterprise outcomes.</p>
+          </div>
+          {/* ROI Metric Cards */}
+          <div className="mb-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {ROI_METRICS.map((m, i) => (
+              <div
+                key={i}
+                className={`ent-stat-pop io-fade d${i + 1} rounded-2xl p-7 text-center`}
+                style={{ background: 'linear-gradient(135deg,#F0FAFF,#EBF8FE)', border: '1.5px solid #CAEFFF', boxShadow: '0 4px 20px rgba(6,148,209,0.1)' }}
+              >
+                <div className="mb-2 text-4xl font-black lg:text-5xl ent-dark-grad-text">{m.value}</div>
+                <p className="mb-1 text-sm font-bold" style={{ color: '#093148' }}>{m.label}</p>
+                <p className="text-xs" style={{ color: '#4a7a9b' }}>{m.sub}</p>
+              </div>
+            ))}
+          </div>
+          {/* Two-column benefit strip */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { icon: '📊', title: 'Dedicated L&D Dashboard', desc: 'Real-time visibility into team progress, certification status, and upcoming sessions — all in one portal.' },
+              { icon: '🔒', title: 'Compliance-Ready Training', desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements available on demand.' },
+              { icon: '💬', title: 'Dedicated Account Manager', desc: 'A single point of contact handles scheduling, logistics, and escalation — zero admin burden on your team.' },
+              { icon: '🌐', title: 'Multi-Region Delivery', desc: 'Run identical programmes across APAC, EMEA, and Americas simultaneously with region-specific instructors.' },
+              { icon: '🎓', title: 'Vendor-Certified Instructors', desc: 'Every trainer holds active vendor certs and real-world experience — no theory-only instructors, ever.' },
+              { icon: '📅', title: 'Guaranteed Schedule',       desc: 'Every confirmed batch runs. No last-minute cancellations. Your team plans around training, not the other way.' },
+            ].map((b, i) => (
+              <div key={i} className={`io-fade delay-${i + 1} flex gap-4 rounded-xl p-5`} style={{ border: '1px solid #CAEFFF', background: '#F8FCFF' }}>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg" style={{ background: '#EBF8FE', border: '1px solid #CAEFFF' }}>{b.icon}</div>
+                <div>
+                  <h4 className="mb-1 text-sm font-bold" style={{ color: '#093148' }}>{b.title}</h4>
+                  <p className="text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{b.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Why Koenig (existing, unchanged) ── */}
       <section className="px-4 lg:px-[50px] py-20" style={{ background: 'rgba(255,255,255,0.02)' }}>
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
@@ -218,7 +564,60 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Learning Formats ── */}
+      {/* ════════════════════════════════════════════════════════
+           NEW SECTION 4 — How Corporate Training Works (WHITE)
+           Inspired by Simplilearn's "How it works" process section
+      ════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="ent-blob3 absolute top-1/3 right-0 h-72 w-72 rounded-full opacity-8 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="io-fade mb-14 text-center">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Simple Onboarding</p>
+            <h2 className="text-3xl font-black lg:text-4xl" style={{ color: '#093148' }}>
+              From Brief to Certified — <span className="ent-dark-grad-text">In 4 Simple Steps</span>
+            </h2>
+            <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#4a7a9b' }}>We handle every detail so your HR and L&D teams can focus on strategy, not logistics.</p>
+          </div>
+          <div className="relative">
+            {/* Connector line (desktop) */}
+            <div className="absolute top-10 left-[12.5%] right-[12.5%] h-0.5 hidden lg:block" style={{ background: 'linear-gradient(90deg, #CAEFFF, #0694D1, #CAEFFF)' }} />
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {HOW_IT_WORKS.map((step, i) => (
+                <div key={i} className={`ent-hiw-card io-fade d${i + 1} relative flex flex-col items-center text-center`}>
+                  {/* Circle number */}
+                  <div
+                    className="relative z-10 mb-5 flex h-20 w-20 items-center justify-center rounded-full font-black text-white text-xl shadow-lg"
+                    style={{ background: `linear-gradient(135deg, ${step.color}, #093148)`, boxShadow: `0 0 28px ${step.color}50` }}
+                  >
+                    {step.step}
+                  </div>
+                  <div className="rounded-2xl p-5 w-full" style={{ background: '#F0FAFF', border: '1.5px solid #CAEFFF' }}>
+                    <div className="mb-3 flex h-10 w-10 mx-auto items-center justify-center rounded-xl" style={{ background: 'white', border: '1px solid #CAEFFF' }}>
+                      <svg className="h-5 w-5" style={{ color: step.color }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{step.icon}</svg>
+                    </div>
+                    <h3 className="mb-2 text-sm font-bold" style={{ color: '#093148' }}>{step.title}</h3>
+                    <p className="text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{step.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="io-fade mt-12 text-center">
+            <a
+              href="#contact"
+              className="ent-shimmer inline-flex items-center gap-2 rounded-xl px-8 py-4 text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 28px rgba(6,148,209,0.35)' }}
+            >
+              Start Your Programme Today
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Learning Formats (existing, unchanged) ── */}
       <section className="px-4 lg:px-[50px] py-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
@@ -237,7 +636,7 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Testimonials ── */}
+      {/* ── Testimonials (existing, unchanged) ── */}
       <section className="px-4 lg:px-[50px] py-20" style={{ background: 'rgba(255,255,255,0.02)' }}>
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
@@ -262,7 +661,63 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Contact Form ── */}
+      {/* ════════════════════════════════════════════════════════
+           NEW SECTION 5 — FAQ (WHITE)
+           Inspired by Simplilearn's FAQ accordion section
+      ════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="ent-blob1 absolute -top-24 -left-24 h-72 w-72 rounded-full opacity-8 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
+          <div className="ent-blob2 absolute -bottom-20 -right-20 h-64 w-64 rounded-full opacity-6 blur-3xl" style={{ background: 'radial-gradient(circle, #076D9D, transparent)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-4xl">
+          <div className="io-fade mb-12 text-center">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Common Questions</p>
+            <h2 className="text-3xl font-black lg:text-4xl" style={{ color: '#093148' }}>
+              Everything You Need to <span className="ent-dark-grad-text">Know</span>
+            </h2>
+            <p className="mt-3 text-sm" style={{ color: '#4a7a9b' }}>Quick answers to the questions L&D leaders ask before launching enterprise training with Koenig.</p>
+          </div>
+          <div className="space-y-3">
+            {FAQS.map((faq, i) => {
+              const isOpen = openFaq === i
+              return (
+                <div
+                  key={i}
+                  className="io-fade overflow-hidden rounded-2xl transition-all duration-200"
+                  style={{ border: isOpen ? '1.5px solid #0694D1' : '1.5px solid #CAEFFF', background: isOpen ? '#F0FAFF' : '#FAFCFF', boxShadow: isOpen ? '0 4px 20px rgba(6,148,209,0.12)' : 'none' }}
+                >
+                  <button
+                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                  >
+                    <span className="text-sm font-semibold lg:text-base" style={{ color: isOpen ? '#076D9D' : '#093148' }}>{faq.q}</span>
+                    <span
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all duration-300"
+                      style={{ background: isOpen ? '#0694D1' : '#EBF8FE', transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
+                    >
+                      <svg className="h-3.5 w-3.5" style={{ color: isOpen ? 'white' : '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div className={`ent-faq-answer px-6${isOpen ? ' open' : ''}`}>
+                    <p className="pb-5 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{faq.a}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          <div className="io-fade mt-10 text-center">
+            <p className="mb-4 text-sm" style={{ color: '#4a7a9b' }}>Still have questions? Our enterprise team is here to help.</p>
+            <a href="#contact" className="inline-flex items-center gap-2 rounded-xl px-7 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.3)' }}>
+              Talk to Our Team →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Contact Form (existing, unchanged) ── */}
       <section id="contact" className="px-4 lg:px-[50px] py-20">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 text-center">
@@ -320,7 +775,7 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
+      {/* ── Footer (existing, unchanged) ── */}
       <footer className="px-4 lg:px-[50px] py-10" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
           <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={100} height={28} className="h-7 w-auto" />
