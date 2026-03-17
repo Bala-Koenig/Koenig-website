@@ -187,8 +187,353 @@ const FAQS = [
   { q: 'What happens if an employee does not pass their certification exam?', a: 'We include exam-prep support and, for most programmes, a complimentary re-sit session. Our 94% first-attempt pass rate means this is rarely needed — but the safety net is always there.' },
 ]
 
-/* ─── Globe Animation ────────────────────────────────────── */
+/* ─── Bento Hero Animation ───────────────────────────────── */
 
+/* Shared card wrapper */
+function BentoCard({ label, children, style }: {
+  label: string; children: React.ReactNode; style?: React.CSSProperties
+}) {
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{
+        borderRadius: 14,
+        background: 'rgba(6,12,24,0.88)',
+        border: '1px solid rgba(6,148,209,0.38)',
+        backdropFilter: 'blur(6px)',
+        ...style,
+      }}
+    >
+      {children}
+      {/* Label overlay */}
+      <div
+        className="absolute bottom-0 left-0 right-0 px-3 py-2"
+        style={{ background: 'linear-gradient(to top,rgba(6,12,24,0.95) 60%,transparent)' }}
+      >
+        <span className="text-[10px] font-black tracking-[0.12em] text-white">{label}</span>
+      </div>
+    </div>
+  )
+}
+
+/* ── Canvas 1: GEN AI — neural network nodes ── */
+function CanvasNeuralNet() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
+    resize(); window.addEventListener('resize', resize)
+    const N = Array.from({ length: 10 }, () => ({ x: Math.random(), y: Math.random(), ph: Math.random() * 6.28 }))
+    const E: [number,number][] = []
+    for (let i = 0; i < N.length; i++)
+      for (let j = i+1; j < N.length; j++) {
+        const dx = N[i].x-N[j].x, dy = N[i].y-N[j].y
+        if (dx*dx+dy*dy < 0.22) E.push([i,j])
+      }
+    const loop = () => {
+      const W = c.width, H = c.height, t = Date.now()/1000
+      ctx.clearRect(0,0,W,H)
+      E.forEach(([i,j]) => {
+        const a = 0.12 + 0.35*Math.abs(Math.sin(t*1.6+i*0.9))
+        ctx.beginPath(); ctx.moveTo(N[i].x*W,N[i].y*H); ctx.lineTo(N[j].x*W,N[j].y*H)
+        ctx.strokeStyle = `rgba(6,148,209,${a})`; ctx.lineWidth = 0.8; ctx.stroke()
+      })
+      N.forEach((n,i) => {
+        const p = 0.5+0.5*Math.sin(t*2.4+n.ph); const x=n.x*W, y=n.y*H
+        const g = ctx.createRadialGradient(x,y,0,x,y,6+p*5)
+        g.addColorStop(0,'rgba(56,189,248,0.9)'); g.addColorStop(1,'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(x,y,6+p*5,0,6.28); ctx.fillStyle=g; ctx.fill()
+        ctx.beginPath(); ctx.arc(x,y,2.2,0,6.28); ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.fill()
+      })
+      if (E.length) {
+        const ei = Math.floor(t*0.8)%E.length; const [i,j]=E[ei]; const f=(t*0.8)%1
+        const x=(N[i].x+(N[j].x-N[i].x)*f)*W, y=(N[i].y+(N[j].y-N[i].y)*f)*H
+        const g=ctx.createRadialGradient(x,y,0,x,y,9); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(1,'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(x,y,9,0,6.28); ctx.fillStyle=g; ctx.fill()
+        ctx.beginPath(); ctx.arc(x,y,2.5,0,6.28); ctx.fillStyle='white'; ctx.fill()
+      }
+      id = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
+}
+
+/* ── Canvas 2: MANAGEMENT — portrait rings + orbits ── */
+function CanvasManagement() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
+    resize(); window.addEventListener('resize', resize)
+    const loop = () => {
+      const W = c.width, H = c.height, t = Date.now()/1000
+      ctx.clearRect(0,0,W,H)
+      const cx = W*0.5, cy = H*0.42, R = Math.min(W,H)*0.26
+      /* bg glow */
+      const bg = ctx.createRadialGradient(cx,cy,0,cx,cy,R*3)
+      bg.addColorStop(0,'rgba(6,148,209,0.14)'); bg.addColorStop(1,'rgba(6,148,209,0)')
+      ctx.beginPath(); ctx.arc(cx,cy,R*3,0,6.28); ctx.fillStyle=bg; ctx.fill()
+      /* concentric rings */
+      for (let r=0;r<5;r++) {
+        const rr=R*(1.0+r*0.6), a=0.06+0.08*Math.abs(Math.sin(t*0.7+r*0.9))
+        ctx.beginPath(); ctx.arc(cx,cy,rr,0,6.28)
+        ctx.strokeStyle=`rgba(6,148,209,${a})`; ctx.lineWidth=r===0?1.5:0.7; ctx.stroke()
+      }
+      /* head silhouette */
+      const headR = R*0.58
+      const hg = ctx.createRadialGradient(cx,cy-R*0.08,0,cx,cy-R*0.08,headR*1.5)
+      hg.addColorStop(0,'rgba(6,148,209,0.22)'); hg.addColorStop(1,'rgba(6,148,209,0)')
+      ctx.beginPath(); ctx.arc(cx,cy-R*0.08,headR*1.5,0,6.28); ctx.fillStyle=hg; ctx.fill()
+      ctx.beginPath(); ctx.arc(cx,cy-R*0.08,headR,0,6.28)
+      ctx.strokeStyle='rgba(56,189,248,0.55)'; ctx.lineWidth=1.4; ctx.stroke()
+      /* shoulders */
+      ctx.beginPath(); ctx.arc(cx,cy+headR*0.9,headR*1.5,Math.PI*1.12,Math.PI*1.88)
+      ctx.strokeStyle='rgba(6,148,209,0.45)'; ctx.lineWidth=1.4; ctx.stroke()
+      /* orbiting dots */
+      const ORBITS: [number,number][] = [[R*1.3,0.45],[R*1.75,-0.3],[R*2.2,0.22]]
+      ORBITS.forEach(([orb,spd],i) => {
+        const a = t*spd+i*2.1
+        const ox=cx+Math.cos(a)*orb*0.85, oy=cy+Math.sin(a)*orb*0.42
+        ctx.beginPath(); ctx.arc(ox,oy,2.8,0,6.28); ctx.fillStyle='#38bdf8'; ctx.fill()
+        ctx.beginPath(); ctx.arc(ox,oy,5,0,6.28); ctx.strokeStyle='rgba(56,189,248,0.3)'; ctx.lineWidth=0.8; ctx.stroke()
+      })
+      /* small floating particles */
+      for (let i=0;i<7;i++) {
+        const a=t*0.28+i*0.9, d=R*(0.38+0.14*Math.sin(t*0.6+i))
+        ctx.beginPath(); ctx.arc(cx+Math.cos(a)*d,cy+Math.sin(a)*d,1.4,0,6.28)
+        ctx.fillStyle=`rgba(56,189,248,${0.25+0.45*Math.abs(Math.sin(t+i))})`; ctx.fill()
+      }
+      id = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
+}
+
+/* ── Canvas 3: FINANCE — animated bar chart ── */
+function CanvasFinance() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
+    resize(); window.addEventListener('resize', resize)
+    const PH = Array.from({length:7},(_,i)=>i*0.48+Math.random()*2)
+    const loop = () => {
+      const W = c.width, H = c.height, t = Date.now()/1000
+      ctx.clearRect(0,0,W,H)
+      const bW = W/(PH.length*1.9), gap = (W-bW*PH.length)/(PH.length+1)
+      PH.forEach((ph,i) => {
+        const hPct = 0.2+0.65*Math.abs(Math.sin(t*0.75+ph))
+        const bH = H*0.78*hPct, x = gap+i*(bW+gap), y = H*0.88-bH
+        const g = ctx.createLinearGradient(x,H,x,y)
+        g.addColorStop(0,'rgba(6,148,209,0.9)'); g.addColorStop(1,'rgba(56,189,248,0.5)')
+        ctx.fillStyle = g; ctx.fillRect(x,y,bW,bH)
+        /* top glow */
+        const tg = ctx.createRadialGradient(x+bW/2,y,0,x+bW/2,y,bW)
+        tg.addColorStop(0,`rgba(56,189,248,${0.5+0.35*hPct})`); tg.addColorStop(1,'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(x+bW/2,y,bW,0,6.28); ctx.fillStyle=tg; ctx.fill()
+      })
+      /* baseline */
+      ctx.beginPath(); ctx.moveTo(0,H*0.88); ctx.lineTo(W,H*0.88)
+      ctx.strokeStyle='rgba(6,148,209,0.3)'; ctx.lineWidth=0.8; ctx.stroke()
+      /* moving line across tops */
+      ctx.beginPath()
+      PH.forEach((ph,i) => {
+        const hPct=0.2+0.65*Math.abs(Math.sin(t*0.75+ph))
+        const bH=H*0.78*hPct, x=gap+i*(bW+gap)+bW/2, y=H*0.88-bH
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)
+      })
+      ctx.strokeStyle='rgba(56,189,248,0.4)'; ctx.lineWidth=1; ctx.stroke()
+      id = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
+}
+
+/* ── Canvas 4: DATA SCIENCE — convergent wave streams ── */
+function CanvasDataScience() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
+    resize(); window.addEventListener('resize', resize)
+    const loop = () => {
+      const W = c.width, H = c.height, t = Date.now()/1000
+      ctx.clearRect(0,0,W,H)
+      const NL = 18
+      for (let i = 0; i < NL; i++) {
+        const frac = i/(NL-1)
+        const sY = H*0.08+frac*H*0.84
+        const mX = W*0.46, cY = H*0.5+Math.sin(frac*Math.PI)*H*0.08
+        const a = 0.12+0.45*Math.abs(Math.sin(t*0.9+frac*2.8))
+        ctx.beginPath(); ctx.moveTo(0,sY)
+        ctx.bezierCurveTo(mX,sY,mX,cY,W*0.92,H*0.5)
+        ctx.strokeStyle=`rgba(6,148,209,${a})`; ctx.lineWidth=0.85; ctx.stroke()
+        /* particle */
+        const pt = ((t*0.38+frac*0.65)%1)
+        const bx=(1-pt)**3*0+3*(1-pt)**2*pt*mX+3*(1-pt)*pt**2*mX+pt**3*W*0.92
+        const by=(1-pt)**3*sY+3*(1-pt)**2*pt*sY+3*(1-pt)*pt**2*cY+pt**3*H*0.5
+        if (pt>0.04 && pt<0.96) {
+          ctx.beginPath(); ctx.arc(bx,by,1.6,0,6.28)
+          ctx.fillStyle=`rgba(56,189,248,${0.5+0.5*Math.abs(Math.sin(t*2+i))})`; ctx.fill()
+        }
+      }
+      /* convergence glow */
+      const gx=W*0.88, gy=H*0.5, pr=20+7*Math.sin(t*2.2)
+      const gg=ctx.createRadialGradient(gx,gy,0,gx,gy,pr)
+      gg.addColorStop(0,'rgba(56,189,248,0.6)'); gg.addColorStop(1,'rgba(56,189,248,0)')
+      ctx.beginPath(); ctx.arc(gx,gy,pr,0,6.28); ctx.fillStyle=gg; ctx.fill()
+      ctx.beginPath(); ctx.arc(gx,gy,4,0,6.28); ctx.fillStyle='#38bdf8'; ctx.fill()
+      id = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
+}
+
+/* ── Canvas 5: TECHNOLOGY — circuit paths + packets ── */
+function CanvasTechnology() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
+    resize(); window.addEventListener('resize', resize)
+    type Pt = {x:number;y:number}
+    const PATHS: Pt[][] = Array.from({length:5},() => {
+      let x=Math.random()*0.25, y=0.1+Math.random()*0.8; const p:Pt[]=[{x,y}]
+      for(let j=0;j<6;j++){
+        if(Math.random()<0.5) x=Math.min(0.98,x+0.12+Math.random()*0.18)
+        else y=Math.max(0.05,Math.min(0.95,y+(Math.random()-0.5)*0.38))
+        p.push({x,y})
+      }
+      return p
+    })
+    const loop = () => {
+      const W=c.width, H=c.height, t=Date.now()/1000
+      ctx.clearRect(0,0,W,H)
+      PATHS.forEach((path,pi) => {
+        ctx.beginPath(); ctx.moveTo(path[0].x*W,path[0].y*H)
+        for(let i=1;i<path.length;i++) ctx.lineTo(path[i].x*W,path[i].y*H)
+        ctx.strokeStyle='rgba(6,148,209,0.22)'; ctx.lineWidth=1; ctx.stroke()
+        path.forEach(pt => {
+          ctx.beginPath(); ctx.arc(pt.x*W,pt.y*H,1.8,0,6.28)
+          ctx.fillStyle='rgba(6,148,209,0.55)'; ctx.fill()
+        })
+        const seg=(path.length-1), ov=((t*0.48+pi*0.28)%1)*seg
+        const si=Math.min(seg-1,Math.floor(ov)), sf=ov-si
+        const p1=path[si], p2=path[si+1]
+        const px=(p1.x+(p2.x-p1.x)*sf)*W, py=(p1.y+(p2.y-p1.y)*sf)*H
+        const pg=ctx.createRadialGradient(px,py,0,px,py,8)
+        pg.addColorStop(0,'rgba(255,255,255,0.95)'); pg.addColorStop(1,'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(px,py,8,0,6.28); ctx.fillStyle=pg; ctx.fill()
+        ctx.beginPath(); ctx.arc(px,py,2,0,6.28); ctx.fillStyle='white'; ctx.fill()
+      })
+      id=requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
+}
+
+/* ── Canvas 6: FUNCTIONAL SKILLS — ripple puzzle grid ── */
+function CanvasPuzzle() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
+    resize(); window.addEventListener('resize', resize)
+    const loop = () => {
+      const W=c.width, H=c.height, t=Date.now()/1000
+      ctx.clearRect(0,0,W,H)
+      const COLS=4, ROWS=4, cW=W/COLS, cH=H/ROWS, pad=3
+      for(let row=0;row<ROWS;row++){
+        for(let col=0;col<COLS;col++){
+          const dist=Math.sqrt((col-1.5)**2+(row-1.5)**2)
+          const pulse=0.5+0.5*Math.sin(t*1.9-dist*1.3)
+          const a=0.07+pulse*0.38
+          ctx.strokeStyle=`rgba(6,148,209,${a})`; ctx.lineWidth=1
+          ctx.strokeRect(col*cW+pad,row*cH+pad,cW-pad*2,cH-pad*2)
+          ctx.fillStyle=`rgba(6,148,209,${a*0.28})`
+          ctx.fillRect(col*cW+pad,row*cH+pad,cW-pad*2,cH-pad*2)
+          if(pulse>0.78){
+            ctx.beginPath(); ctx.arc(col*cW+cW/2,row*cH+cH/2,2,0,6.28)
+            ctx.fillStyle=`rgba(56,189,248,${(pulse-0.78)*5*0.85})`; ctx.fill()
+          }
+        }
+      }
+      id=requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
+}
+
+/* ── Bento grid wrapper ── */
+function HeroBentoAnimation() {
+  return (
+    <div
+      className="absolute inset-0 flex items-center justify-end"
+      style={{ pointerEvents: 'none', padding: '18px 22px 18px 0' }}
+    >
+      <div
+        className="hidden lg:grid h-full w-[400px] xl:w-[450px]"
+        style={{
+          gridTemplateColumns: '1fr 1fr 1fr',
+          gridTemplateRows: '1fr 1fr',
+          gap: 9,
+          maxHeight: 445,
+          opacity: 0.92,
+        }}
+      >
+        {/* GEN AI — top-left */}
+        <BentoCard label="GEN AI" style={{ gridColumn: 1, gridRow: 1 }}>
+          <CanvasNeuralNet />
+        </BentoCard>
+
+        {/* MANAGEMENT — center, spans both rows */}
+        <BentoCard label="MANAGEMENT" style={{ gridColumn: 2, gridRow: '1 / 3' }}>
+          <CanvasManagement />
+        </BentoCard>
+
+        {/* FINANCE — top-right */}
+        <BentoCard label="FINANCE" style={{ gridColumn: 3, gridRow: 1 }}>
+          <CanvasFinance />
+        </BentoCard>
+
+        {/* DATA SCIENCE — bottom-left */}
+        <BentoCard label="DATA SCIENCE" style={{ gridColumn: 1, gridRow: 2 }}>
+          <CanvasDataScience />
+        </BentoCard>
+
+        {/* Bottom-right: TECHNOLOGY + FUNCTIONAL SKILLS stacked */}
+        <div style={{ gridColumn: 3, gridRow: 2, display: 'flex', flexDirection: 'column', gap: 9 }}>
+          <BentoCard label="TECHNOLOGY" style={{ flex: 1 }}>
+            <CanvasTechnology />
+          </BentoCard>
+          <BentoCard label="& FUNCTIONAL SKILLS" style={{ flex: 1 }}>
+            <CanvasPuzzle />
+          </BentoCard>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* (old globe stub — replaced) */
 function HeroGlobeCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -543,8 +888,8 @@ export default function EnterprisePage() {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28">
-        {/* Rotating globe with training-arc animation */}
-        <HeroGlobeCanvas />
+        {/* Animated bento domain grid */}
+        <HeroBentoAnimation />
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 60% 50%, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
           <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
