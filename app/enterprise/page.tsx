@@ -1050,9 +1050,31 @@ export default function EnterprisePage() {
                   enterprise@koenig-solutions.com
                 </a>
               </div>
+
+              {/* Stats — all 4 in one row below the CTAs */}
+              <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+                {STATS.map((s, i) => (
+                  <div
+                    key={s.label}
+                    className="flex flex-col items-center rounded-xl px-5 py-3 text-center"
+                    style={{
+                      background: 'rgba(6,148,209,0.08)',
+                      border: '1px solid rgba(6,148,209,0.22)',
+                      backdropFilter: 'blur(10px)',
+                      minWidth: 100,
+                    }}
+                  >
+                    <span className="text-xl font-black leading-none" style={{ color: '#38bdf8' }}>{s.num}</span>
+                    <span className="mt-1 text-[11px] font-medium leading-tight text-white/55">{s.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            {/* Right — bento animation with stats floating on top */}
-            <HeroRightPanel />
+
+            {/* Right — bento animation (clean, no overlay) */}
+            <div className="hidden w-full flex-shrink-0 lg:block lg:w-[420px] xl:w-[460px]" style={{ height: 420 }}>
+              <BentoGrid />
+            </div>
           </div>
         </div>
       </section>
