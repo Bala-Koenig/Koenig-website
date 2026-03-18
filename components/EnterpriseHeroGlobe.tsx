@@ -478,10 +478,10 @@ export default function EnterpriseHeroGlobe() {
 
   /* ── HUD floating info cards ─────────────────────────────────── */
   const HUD_CARDS = [
-    { pos: 'top-left',     title: 'Active Learners',  value: '3,240',  sub: 'Enrolled this month',      live: true,  icon: '👥', accent: '#22c55e' },
-    { pos: 'top-right',    title: 'Certifications',   value: '1M+',    sub: 'Total issued globally',    live: false, icon: '🎓', accent: '#1a6fbf' },
-    { pos: 'bottom-left',  title: 'Completion Rate',  value: '94.7%',  sub: 'Avg. across all courses',  live: false, icon: '📈', accent: '#13a8d4' },
-    { pos: 'bottom-right', title: 'NPS Score',        value: '72',     sub: 'World-class promoter score', live: false, icon: '⭐', accent: '#f59e0b' },
+    { pos: 'top-left',     label: 'Gen AI',       sub: 'Artificial Intelligence', icon: '🤖', accent: '#0694d1' },
+    { pos: 'top-right',    label: 'Technology',   sub: 'IT & Cloud Skills',       icon: '💻', accent: '#1a6fbf' },
+    { pos: 'bottom-left',  label: 'Finance',      sub: 'Financial Expertise',     icon: '💹', accent: '#13a8d4' },
+    { pos: 'bottom-right', label: 'Data Science', sub: 'Analytics & ML',          icon: '📊', accent: '#076D9D' },
   ]
 
   const posClass: Record<string, string> = {
@@ -539,54 +539,48 @@ export default function EnterpriseHeroGlobe() {
           <div
             style={{
               background:     'rgba(255,255,255,0.93)',
-              border:         `1px solid ${card.accent}2a`,
-              boxShadow:      `0 4px 22px rgba(11,37,69,0.10), 0 1px 5px ${card.accent}14`,
+              border:         `1px solid ${card.accent}40`,
+              boxShadow:      `0 4px 22px rgba(11,37,69,0.10), 0 1px 5px ${card.accent}20`,
               borderRadius:   '14px',
               padding:        '11px 15px',
-              minWidth:       '138px',
+              minWidth:       '130px',
               backdropFilter: 'blur(12px)',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-              <span style={{ fontSize: 13 }}>{card.icon}</span>
-              <span style={{
-                fontSize:      9,
-                fontWeight:    700,
-                color:         '#64748b',
-                fontFamily:    '"Plus Jakarta Sans", sans-serif',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase' as const,
-              }}>
-                {card.title}
+            {/* Icon + domain label */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 5 }}>
+              <span
+                style={{
+                  fontSize:     18,
+                  lineHeight:   1,
+                  width:        30,
+                  height:       30,
+                  display:      'flex',
+                  alignItems:   'center',
+                  justifyContent: 'center',
+                  borderRadius: '8px',
+                  background:   `${card.accent}18`,
+                  flexShrink:   0,
+                }}
+              >
+                {card.icon}
               </span>
-              {card.live && (
-                <span
-                  className="ent-live-dot"
-                  style={{
-                    width:        7,
-                    height:       7,
-                    borderRadius: '50%',
-                    background:   '#22c55e',
-                    display:      'inline-block',
-                    marginLeft:   'auto',
-                  }}
-                />
-              )}
+              <span style={{
+                fontSize:   13,
+                fontWeight: 800,
+                color:      '#0b2545',
+                fontFamily: '"Plus Jakarta Sans", sans-serif',
+                lineHeight: 1.2,
+              }}>
+                {card.label}
+              </span>
             </div>
             <div style={{
-              fontSize:   22,
-              fontWeight: 800,
-              color:      '#0b2545',
-              fontFamily: '"Plus Jakarta Sans", sans-serif',
-              lineHeight: 1.1,
-            }}>
-              {card.value}
-            </div>
-            <div style={{
-              fontSize:   10,
-              color:      '#64748b',
-              fontFamily: '"Inter", sans-serif',
-              marginTop:  3,
+              fontSize:      10,
+              color:         card.accent,
+              fontFamily:    '"Inter", sans-serif',
+              fontWeight:    600,
+              letterSpacing: '0.03em',
             }}>
               {card.sub}
             </div>
