@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import VendorStack from '@/components/VendorStack'
 import HeroParticles from '@/components/HeroParticles'
-import HeroGlobe from '@/components/HeroGlobe'
 
 /* ─── Data ──────────────────────────────────────────────────── */
 
@@ -1530,158 +1529,371 @@ export default function Design4Page() {
       </header>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(140deg, #f4f9fe 0%, #e8f4fd 45%, #eef7ff 100%)', paddingTop: '72px', paddingBottom: '72px' }}>
+      <section className="relative flex items-center px-4 lg:px-[50px] py-[80px]" style={{ background: '#06111E' }}>
+        {/* Hero keyframes */}
         <style>{`
           @keyframes heroFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+          @keyframes heroSlideL { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:translateX(0)} }
           .h-fade-up { animation: heroFadeUp 0.7s ease both; }
+          .h-slide-l { animation: heroSlideL 0.6s ease both; }
           .h-d1{animation-delay:0.05s} .h-d2{animation-delay:0.20s} .h-d3{animation-delay:0.35s} .h-d4{animation-delay:0.50s} .h-d5{animation-delay:0.65s}
-          @keyframes heroStatPop { from{opacity:0;transform:translateY(12px) scale(0.96)} to{opacity:1;transform:translateY(0) scale(1)} }
-          .hero-stat { animation: heroStatPop 0.55s cubic-bezier(0.22,1,0.36,1) both; }
-          .hero-stat:nth-child(1){animation-delay:0.60s}
-          .hero-stat:nth-child(2){animation-delay:0.72s}
-          .hero-stat:nth-child(3){animation-delay:0.84s}
-          .hero-stat:nth-child(4){animation-delay:0.96s}
-          @keyframes heroCTAShine {
-            0%{background-position:-200% center} 40%{background-position:200% center} 100%{background-position:200% center}
+          /* Search bar — glow breathe */
+          @keyframes searchGlow {
+            0%,100% { box-shadow: 0 0 8px 1px rgba(6,148,209,0.10), 0 0 20px 2px rgba(77,191,239,0.04); border-color: rgba(6,148,209,0.22); }
+            50%      { box-shadow: 0 0 18px 4px rgba(6,148,209,0.25), 0 0 40px 6px rgba(77,191,239,0.09); border-color: rgba(6,148,209,0.45); }
           }
-          .hero-cta-primary {
-            background: linear-gradient(135deg,#1a6fbf 0%,#0b2545 100%);
-            background-image: linear-gradient(135deg,#1a6fbf 0%,#0b2545 100%), linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.38) 50%,transparent 60%);
-            background-size: 100% 100%, 220% 100%;
-            background-position: 0 0, -220% center;
-            animation: heroCTAShine 3s ease-in-out infinite;
+          .hero-search { animation: searchGlow 3s ease-in-out infinite; }
+          .hero-search:focus-within {
+            border-color: #0694D1 !important;
+            box-shadow: 0 0 0 3px rgba(6,148,209,0.30), 0 0 40px 10px rgba(6,148,209,0.40) !important;
+            animation: none;
           }
-          .hero-cta-primary:hover { box-shadow: 0 8px 28px rgba(26,111,191,0.50) !important; transform: translateY(-2px); }
-          .hero-badge-pill { animation: heroFadeUp 0.6s ease both; }
+          /* Search button — shine sweep */
+          @keyframes btnShine {
+            0%   { background-position: -200% center; }
+            30%  { background-position: 200% center; }
+            100% { background-position: 200% center; }
+          }
+          .search-btn {
+            background: #0694D1;
+            background-image: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.55) 50%, transparent 60%);
+            background-size: 200% 100%;
+            background-position: -200% center;
+            animation: btnShine 2.4s ease-in-out infinite;
+          }
+          .search-btn:hover { background-color: #076D9D; }
+          @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+          @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+          @keyframes statFadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+          .stat-box-a { animation: statFadeIn 0.6s ease both, floatA 4s ease-in-out 0.6s infinite; }
+          .stat-box-b { animation: statFadeIn 0.6s ease both 0.15s, floatB 4.5s ease-in-out 0.75s infinite; }
+          .stat-box-c { animation: statFadeIn 0.6s ease both 0.3s,  floatB 4s ease-in-out 1s infinite; }
+          .stat-box-d { animation: statFadeIn 0.6s ease both 0.45s, floatA 4.5s ease-in-out 0.5s infinite; }
         `}</style>
 
-        {/* Background: light-theme particles + subtle radial glow */}
+        {/* Background container — overflow-hidden keeps blobs/image contained */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Background image */}
+          <img src="/images/home-baner.png" alt="" className="h-full w-full object-cover object-center" style={{ opacity: 0.55 }} />
+          {/* Dark navy/teal gradient overlay */}
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', opacity: 0.78 }} />
+          {/* Animated blobs */}
+          <div className="blob1 absolute -top-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+          <div className="blob2 absolute top-1/2 -right-40 h-80 w-80 rounded-full bg-cyan-300/15 blur-3xl" />
+          <div className="blob3 absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-sky-200/10 blur-3xl" />
+          {/* Interactive particle canvas */}
           <HeroParticles />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 55% at 68% 52%, rgba(19,168,212,0.07) 0%, transparent 65%)' }} />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 40% 40% at 15% 20%, rgba(26,111,191,0.05) 0%, transparent 60%)' }} />
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 lg:px-[50px]">
-          <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-6">
+        <div className="relative z-10 mx-auto w-full max-w-7xl">
+          <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
 
-            {/* ── LEFT SIDE ── */}
-            <div className="flex-1 text-center lg:text-left lg:max-w-[50%]">
+            {/* ── Left: text content ── */}
+            <div className="flex-1 text-center lg:text-left">
 
-              {/* Badge */}
-              <div className="hero-badge-pill mb-5 flex justify-center lg:justify-start">
-                <div
-                  className="flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-semibold"
-                  style={{
-                    background: 'rgba(255,255,255,0.85)',
-                    border: '1px solid rgba(26,111,191,0.22)',
-                    boxShadow: '0 2px 12px rgba(26,111,191,0.10)',
-                    color: '#1a6fbf',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                >
+              {/* Announcement pill */}
+              <div className="h-fade-up mb-5 flex justify-center lg:justify-start">
+                <div className="flex items-center gap-2.5 rounded-full px-5 py-2 text-sm font-medium text-white" style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.30)', boxShadow: '0 0 0 1px rgba(255,255,255,0.08) inset' }}>
                   <span className="relative flex h-2.5 w-2.5 shrink-0">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
                   </span>
-                  <span style={{ fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}>
-                    <span className="font-bold">New batches</span> starting this week —&nbsp;
-                    <span className="rounded-full px-2 py-0.5 text-xs font-bold text-white" style={{ background: '#1a6fbf' }}>47 seats left</span>
-                  </span>
+                  <span><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold" style={{ color: '#053148' }}>47 seats remaining</span></span>
                 </div>
               </div>
 
-              {/* Headline */}
-              <h1 className="h-fade-up h-d2 mb-5 font-bold leading-tight tracking-tight" style={{ fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}>
-                <span className="block text-3xl sm:text-4xl lg:text-[2.85rem] xl:text-5xl" style={{ color: '#0b2545' }}>
+              {/* Main headline — 2 lines with morphing word */}
+              <h1 className="h-fade-up h-d2 mb-5 font-bold leading-tight tracking-tight">
+                <span className="block text-2xl text-white sm:text-3xl md:text-4xl lg:text-5xl">
                   Master Any{' '}
                   <span
                     key={morphIdx}
                     className={`inline ${morphExiting ? 'morph-word-out' : 'morph-word-in'}`}
-                    style={{
-                      background: 'linear-gradient(135deg, #1a6fbf 0%, #13a8d4 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}
+                    style={{ color: '#C8EEFF', textShadow: '0 0 28px rgba(6,148,209,0.9), 0 0 55px rgba(6,148,209,0.45)' }}
                   >
                     {MORPH_WORDS[morphIdx]}
                   </span>
                 </span>
-                <span className="block text-3xl sm:text-4xl lg:text-[2.85rem] xl:text-5xl" style={{ color: '#0b2545' }}>in Record Time</span>
+                <span className="block text-2xl text-white sm:text-3xl md:text-4xl lg:text-5xl">in Record Time</span>
               </h1>
 
               {/* Subtext */}
-              <p
-                className="h-fade-up h-d3 mx-auto mb-7 max-w-xl text-[15px] leading-relaxed lg:mx-0"
-                style={{ color: '#475569', fontFamily: 'var(--font-inter, "Inter", sans-serif)' }}
-              >
-                30+ years of IT training excellence. 5,000+ courses across 50+ vendors. Over 1 million professionals certified worldwide — trust Koenig to deliver results that move careers.
+              <p className="h-fade-up h-d3 mx-auto mb-6 max-w-2xl text-sm text-white sm:text-base lg:mx-0">
+                30+ years. 5,000+ courses. 1M+ professionals certified. The world trusts Koenig to deliver results that matter.
               </p>
 
-              {/* CTAs */}
-              <div className="h-fade-up h-d4 mb-8 flex flex-wrap justify-center gap-3 lg:justify-start">
-                <button
-                  className="hero-cta-primary rounded-xl px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 active:scale-95"
-                  style={{ boxShadow: '0 4px 16px rgba(26,111,191,0.32)', fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}
-                >
-                  Explore 5,000+ Courses →
-                </button>
-                <button
-                  className="rounded-xl px-7 py-3.5 text-sm font-bold transition-all duration-200 hover:bg-white hover:-translate-y-0.5 active:scale-95"
-                  style={{
-                    border: '1.5px solid rgba(26,111,191,0.30)',
-                    background: 'rgba(255,255,255,0.70)',
-                    color: '#1a6fbf',
-                    backdropFilter: 'blur(8px)',
-                    fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
-                  }}
-                >
-                  Talk to an Advisor
-                </button>
+              {/* Search bar + Enterprise toggle */}
+              {/* Search bar */}
+              <div className="h-fade-up h-d4 mb-5 relative w-full max-w-2xl z-[100]" ref={heroSearchRef}>
+                <div className="hero-search flex w-full items-stretch overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.35)] bg-[#071B2E]/90 p-2 shadow-xl backdrop-blur-sm transition-all duration-200">
+                  <div className="relative hidden shrink-0 sm:block">
+                    <select aria-label="Filter by domain" className="h-full appearance-none rounded-xl py-2 pl-4 pr-8 text-sm text-white/90 outline-none" style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.28)' }}>
+                      <option value="" style={{ background: '#0b1929', color: '#fff' }}>All Domains</option>
+                      <option value="cloud" style={{ background: '#0b1929', color: '#fff' }}>Cloud</option>
+                      <option value="security" style={{ background: '#0b1929', color: '#fff' }}>Security</option>
+                      <option value="networking" style={{ background: '#0b1929', color: '#fff' }}>Networking</option>
+                      <option value="ai" style={{ background: '#0b1929', color: '#fff' }}>AI &amp; ML</option>
+                    </select>
+                    <svg className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 opacity-60" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#7DD3F8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                  <div className="mx-2 my-1 hidden w-px bg-white/10 sm:block" />
+                  <input
+                    type="text"
+                    value={heroQuery}
+                    onChange={e => { setHeroQuery(e.target.value); setHeroResultsOpen(true) }}
+                    onFocus={() => setHeroResultsOpen(true)}
+                    placeholder="Search 5,000+ courses — e.g. Azure, CISSP, AWS DevOps..."
+                    aria-label="Search courses"
+                    className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder-white/40 outline-none"
+                  />
+                  {heroQuery.length > 0 && (
+                    <button
+                      onClick={() => { setHeroQuery(''); setHeroResultsOpen(false); }}
+                      className="shrink-0 flex items-center justify-center w-6 h-6 my-auto mr-1 rounded-full transition-colors hover:bg-white/10"
+                      aria-label="Clear search"
+                      style={{ color: 'rgba(255,255,255,0.5)' }}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                  )}
+                  <button className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
+                    Search
+                  </button>
+                </div>
+                {heroResultsOpen && heroQuery.trim().length > 0 && (
+                  <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.30)] bg-[#071B2E]/98 shadow-2xl backdrop-blur-sm">
+                    {(() => {
+                      const results = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
+                        c.name.toLowerCase().includes(heroQuery.toLowerCase()) ||
+                        c.vendor.toLowerCase().includes(heroQuery.toLowerCase())
+                      ).slice(0, 6)
+                      return results.length > 0 ? results.map((c, i) => (
+                        <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-white/5 px-4 py-3 transition-colors hover:bg-white/5 last:border-0">
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-medium text-white">{c.name}</p>
+                            <p className="mt-0.5 text-xs text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
+                          </div>
+                          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${c.levelColor}`}>{c.level}</span>
+                        </div>
+                      )) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
+                    })()}
+                  </div>
+                )}
               </div>
 
-              {/* 4-column stats row */}
-              <div className="h-fade-up h-d5 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {[
-                  { value: '1M+',    label: 'Professionals Trained' },
-                  { value: '5,000+', label: 'Courses Available' },
-                  { value: '30+',    label: 'Years of Excellence' },
-                  { value: '95%',    label: 'Certification Pass Rate' },
-                ].map(s => (
-                  <div
-                    key={s.label}
-                    className="hero-stat rounded-2xl bg-white p-4 text-center transition-shadow duration-200 hover:shadow-md"
-                    style={{
-                      border: '1px solid rgba(26,111,191,0.12)',
-                      boxShadow: '0 2px 10px rgba(11,37,69,0.06)',
-                    }}
+              {/* Popular tags */}
+              <div className="h-fade-up h-d4 mb-5 flex max-w-2xl flex-wrap items-center justify-center gap-2 lg:justify-start">
+                <span className="text-xs sm:text-sm font-semibold text-white/80">Popular:</span>
+                {['Azure Administrator', 'AWS Solutions Architect', 'CISSP', 'PMP', 'CCNA', 'Kubernetes', 'CompTIA Security+'].map(t => (
+                  <span
+                    key={t}
+                    className="cursor-pointer rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-white/20 hover:text-white"
                   >
-                    <div
-                      className="text-xl md:text-2xl font-black"
-                      style={{ color: '#1a6fbf', fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}
-                    >
-                      {s.value}
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              {/* Social proof */}
+              <div className="h-fade-up h-d4 mb-3 flex justify-center lg:justify-start">
+                <div className="flex flex-wrap items-center gap-6 rounded-full px-6 py-3" style={{ background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(8px)' }}>
+                  <div className="flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                      {[
+                        '/images/headshots/headshot-1.webp',
+                        '/images/headshots/headshot-2.webp',
+                        '/images/headshots/headshot-3.webp',
+                        '/images/headshots/headshot-4.png',
+                        '/images/headshots/headshot-5.webp',
+                      ].map((src, i) => (
+                        <img
+                          key={i}
+                          src={src}
+                          alt={`Student ${i + 1}`}
+                          className="h-9 w-9 shrink-0 rounded-full object-cover object-top"
+                          style={{ border: '1px solid rgba(255,255,255,0.7)', zIndex: 5 - i }}
+                        />
+                      ))}
                     </div>
-                    <div
-                      className="mt-1 text-xs leading-snug"
-                      style={{ color: '#64748b', fontFamily: 'var(--font-inter, "Inter", sans-serif)' }}
-                    >
-                      {s.label}
-                    </div>
+                    <span className="text-xs sm:text-sm text-white"><span className="font-bold">3,200+</span> enrolled this month</span>
+                  </div>
+                  <span className="hidden h-4 w-px bg-white/25 sm:block" />
+                  <div className="flex items-center gap-2">
+                    <span className="text-yellow-400 text-base leading-none">★★★★★</span>
+                    <span className="text-xs sm:text-sm text-white font-bold">4.9/5</span>
+                    <span className="text-xs sm:text-sm text-white/80">(18,400+ reviews)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile stats 2×2 grid */}
+              <div className="mt-6 grid grid-cols-2 gap-3 lg:hidden">
+                {[
+                  { num: '1M+', label: 'Trained' },
+                  { num: '95%', label: 'Pass Rate' },
+                  { num: '30+', label: 'Years' },
+                  { num: '50+', label: 'Vendors' },
+                ].map(s => (
+                  <div key={s.label} className="rounded-2xl border border-white/20 bg-white/10 p-4 text-center backdrop-blur-md">
+                    <div className="text-lg sm:text-xl md:text-2xl font-black text-white">{s.num}</div>
+                    <div className="mt-1 text-xs text-white/60">{s.label}</div>
                   </div>
                 ))}
               </div>
 
             </div>{/* /left */}
 
-            {/* ── RIGHT SIDE: Holographic Globe ── */}
-            <div
-              className="h-fade-up h-d3 relative shrink-0 w-full lg:w-[560px]"
-              style={{ height: '500px' }}
-            >
-              <HeroGlobe />
-            </div>
+            {/* ── Right: Hero Carousel ── */}
+            <div className="h-fade-up h-d5 hidden shrink-0 lg:block">
+              {/* card height sized to slide 1 natural content: image(~189px)+text(~60px)+dots(36px) */}
+              <div
+                className="relative w-80 overflow-hidden rounded-2xl cursor-pointer"
+                style={{
+                  height: '340px',
+                  background: 'rgba(6, 25, 45, 0.52)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(6,148,209,0.25)',
+                  boxShadow: '0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.12)',
+                }}
+                onMouseEnter={() => setHeroPaused(true)}
+                onMouseLeave={() => setHeroPaused(false)}
+              >
+
+                {/* shared dots — pinned to card bottom */}
+                <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 py-2.5" style={{ background: 'rgba(6,40,65,0.72)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
+                  {[0,1,2,3].map(i => (
+                    <button
+                      key={i}
+                      onClick={() => setHeroSlide(i)}
+                      style={i === heroSlide ? { background: 'linear-gradient(to right, #3AB6EB, #076D9D)' } : {}}
+                      className={`rounded-full transition-all duration-300 ${i === heroSlide ? 'w-6 h-2' : 'h-2 w-2 bg-white/25 border border-[#0694D1]/40'}`}
+                    />
+                  ))}
+                </div>
+
+                {/* ── Slide 1 — MS Award full image ── */}
+                <div
+                  className="absolute inset-0 flex flex-col transition-opacity duration-500"
+                  style={{ opacity: heroSlide === 0 ? 1 : 0, pointerEvents: heroSlide === 0 ? 'auto' : 'none' }}
+                >
+                  <div
+                    className="flex flex-1 flex-col items-center overflow-hidden"
+                    style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.88) 100%)' }}
+                  >
+                    <img
+                      src="/images/MS-award-banner.png"
+                      alt="Microsoft 2025 Partner of the Year Award"
+                      className="w-full object-contain object-top"
+                    />
+                    <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(6,40,65,0.72)' }}>
+                      <p className="font-bold" style={{ fontSize: '15px', lineHeight: '1.6' }}>
+                        Koenig Solutions is the Global Winner<br />
+                        of 2025 Microsoft Training Services<br />
+                        Partner of the Year Award!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Slide 2 — RedHat Gold Partner Award ── */}
+                <div
+                  className="absolute inset-0 flex flex-col transition-opacity duration-500"
+                  style={{ opacity: heroSlide === 1 ? 1 : 0, pointerEvents: heroSlide === 1 ? 'auto' : 'none' }}
+                >
+                  <div
+                    className="flex flex-1 flex-col items-center overflow-hidden"
+                    style={{ background: 'linear-gradient(135deg, rgba(180,0,0,0.55) 0%, rgba(5,18,35,0.92) 100%)' }}
+                  >
+                    <div className="w-full overflow-hidden" style={{ height: '62%', flexShrink: 0 }}>
+                      <img
+                        src="/images/awards/RED-25-1.png"
+                        alt="RedHat Gold Partner of the Year 2025"
+                        className="w-full h-full object-contain object-top"
+                        style={{ marginTop: '5px' }}
+                      />
+                    </div>
+                    <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(6,40,65,0.72)' }}>
+                      <p className="font-bold" style={{ fontSize: '15px', lineHeight: '1.6' }}>
+                        Winner of Red Hat Gold Partner<br />
+                        of the Year 2025 – Non-Retail<br />
+                        (GLS India)
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Slide 3 — Partner Stats ── */}
+                <div
+                  className="absolute inset-0 flex flex-col transition-opacity duration-500"
+                  style={{ opacity: heroSlide === 2 ? 1 : 0, pointerEvents: heroSlide === 2 ? 'auto' : 'none' }}
+                >
+                  <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
+                    <div className="font-bold text-sm leading-snug">
+                      Koenig is globally authorized by leading vendors, offering extensive courses delivered by certified trainers
+                    </div>
+                  </div>
+                  <div className="flex flex-1 flex-col justify-evenly gap-1.5 p-2 pb-8" style={{ background: 'transparent' }}>
+                    {[
+                      { icon: '🛡️', stat: '35+',    label: 'Partner Authorizations',             img: '/images/home-banner/35+.svg' },
+                      { icon: '📚', stat: '5,000+', label: 'Courses (Across technologies)',        img: '/images/home-banner/5000+.svg' },
+                      { icon: '👥', stat: '350+',   label: 'Certified Trainers (Real-world experts)', img: '/images/home-banner/350+.svg' },
+                    ].map((row, i) => (
+                      <div key={i} className="flex items-center justify-between rounded-xl px-3 py-2" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
+                            style={{ background: 'linear-gradient(135deg, #076D9D, #0C5A7F)', border: '1px solid rgba(58,182,235,0.30)' }}
+                          >
+                            <img src={row.img} alt={row.stat} className="h-5 w-5 object-contain" />
+                          </div>
+                          <div>
+                            <div className="font-bold text-white text-sm">{row.stat}</div>
+                            <div className="text-xs text-white/60">{row.label}</div>
+                          </div>
+                        </div>
+                        <span className="font-bold text-sm text-white/50">›</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ── Slide 4 — Learning Stack ── */}
+                <div
+                  className="absolute inset-0 flex flex-col transition-opacity duration-500"
+                  style={{ opacity: heroSlide === 3 ? 1 : 0, pointerEvents: heroSlide === 3 ? 'auto' : 'none' }}
+                >
+                  <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
+                    <div className="font-bold text-sm leading-snug">
+                      Koenig&apos;s learning stack ensures structured training with hands-on labs, guided practice, and certification pathways
+                    </div>
+                  </div>
+                  <div className="flex flex-1 flex-col justify-evenly gap-1 p-2 pb-8" style={{ background: 'transparent' }}>
+                    {[
+                      { icon: '🎯', name: 'Pre-requisite Training', img: '/images/home-banner/pre-req.png' },
+                      { icon: '🔍', name: 'Assessments (Qubits)',  img: '/images/home-banner/qubit.png' },
+                      { icon: '🎬', name: 'Class Recordings',      img: '/images/home-banner/classrecord.png' },
+                      { icon: '💻', name: 'Lab Extensions',        img: '/images/home-banner/lab-extn.png' },
+                      { icon: '📖', name: 'Revision Classes',      img: '/images/home-banner/revision.png' },
+                    ].map((row, i) => (
+                      <div key={i} className="flex items-center justify-between rounded-lg px-2 py-1" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                        <div className="flex items-center gap-1.5">
+                          <div
+                            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md"
+                            style={{ background: 'linear-gradient(135deg, #076D9D, #0C5A7F)', border: '1px solid rgba(58,182,235,0.30)' }}
+                          >
+                            <img src={row.img} alt="" className="h-3 w-3 object-contain" />
+                          </div>
+                          <span className="font-medium text-white/90" style={{ fontSize: '11px' }}>{row.name}</span>
+                        </div>
+                        <span className="rounded-full px-1.5 py-0.5 font-normal text-white" style={{ fontSize: '10px', background: 'rgba(7,109,157,0.75)', border: '1px solid rgba(6,148,209,0.30)' }}>Free</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            </div>{/* /right carousel */}
 
           </div>
         </div>
