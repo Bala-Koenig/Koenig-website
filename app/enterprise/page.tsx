@@ -263,7 +263,7 @@ function CanvasNeuralNet() {
       const outX = W - tW - W * 0.05
       const inTks  = Array.from({ length: N }, (_, i) => ({ x: inX,  y: gapY + i * (tH + gapY) + tH / 2 }))
       const outTks = Array.from({ length: N }, (_, i) => ({ x: outX, y: gapY + i * (tH + gapY) + tH / 2 }))
-      // Attention arcs
+      // Attention arcs — Koenig blue palette
       inTks.forEach((a, ai) => {
         outTks.forEach((b, bi) => {
           const w = 0.2 + 0.8 * Math.abs(Math.sin(t * 0.5 + ai * 1.3 + bi * 0.8))
@@ -273,7 +273,7 @@ function CanvasNeuralNet() {
           ctx.beginPath()
           ctx.moveTo(a.x + tW, a.y)
           ctx.quadraticCurveTo(mx, my, b.x, b.y)
-          ctx.strokeStyle = `rgba(168,85,247,${w * 0.32})`
+          ctx.strokeStyle = `rgba(6,148,209,${w * 0.32})`
           ctx.lineWidth = w * 1.6
           ctx.stroke()
           // Particle along arc
@@ -281,11 +281,11 @@ function CanvasNeuralNet() {
           const qx = (1-p)*(1-p)*(a.x+tW) + 2*(1-p)*p*mx + p*p*b.x
           const qy = (1-p)*(1-p)*a.y     + 2*(1-p)*p*my + p*p*b.y
           const g = ctx.createRadialGradient(qx, qy, 0, qx, qy, 5)
-          g.addColorStop(0, `rgba(217,70,239,${w})`); g.addColorStop(1, 'rgba(168,85,247,0)')
+          g.addColorStop(0, `rgba(56,189,248,${w})`); g.addColorStop(1, 'rgba(6,148,209,0)')
           ctx.beginPath(); ctx.arc(qx, qy, 5, 0, 6.28); ctx.fillStyle = g; ctx.fill()
         })
       })
-      // Draw a token box helper
+      // Draw a token box helper — Koenig navy/blue tones
       const drawToken = (x: number, y: number, label: string, accent: string, alpha: number, cursor: boolean) => {
         const bx = x, by = y - tH / 2
         ctx.fillStyle = `rgba(${accent},${0.55 * alpha})`
@@ -295,25 +295,25 @@ function CanvasNeuralNet() {
         ctx.strokeRect(bx, by, tW, tH)
         ctx.font = `600 ${Math.max(6, tH * 0.52)}px monospace`
         ctx.textAlign = 'center'
-        ctx.fillStyle = `rgba(245,220,255,${alpha})`
+        ctx.fillStyle = `rgba(220,240,255,${alpha})`
         ctx.fillText(label, x + tW / 2, y + tH * 0.18)
         if (cursor && Math.sin(t * 5) > 0) {
-          ctx.fillStyle = 'rgba(217,70,239,0.9)'
+          ctx.fillStyle = 'rgba(56,189,248,0.9)'
           ctx.fillRect(x + tW - 4, by + 2, 2, tH - 4)
         }
       }
-      // Input tokens (purple-dark)
+      // Input tokens — dark navy
       inTks.forEach((tk, i) => {
         const act = 0.5 + 0.5 * Math.abs(Math.sin(t * 1.6 + i * 0.9))
-        drawToken(tk.x, tk.y, IN_TOKENS[i], '88,28,135', act, false)
+        drawToken(tk.x, tk.y, IN_TOKENS[i], '7,109,157', act, false)
       })
-      // Output tokens streaming in one by one
+      // Output tokens streaming in one by one — koenig blue
       const streamed = Math.floor(t * 0.9) % (N + 3)
       outTks.forEach((tk, i) => {
         if (i >= streamed) return
         const isNew = i === streamed - 1
         const act = isNew ? 1 : 0.6 + 0.4 * Math.abs(Math.sin(t * 1.4 + i * 0.7))
-        drawToken(tk.x, tk.y, OUT_TOKENS[i], isNew ? '124,58,237' : '76,29,149', act, isNew)
+        drawToken(tk.x, tk.y, OUT_TOKENS[i], isNew ? '6,148,209' : '9,49,72', act, isNew)
       })
       id = requestAnimationFrame(loop)
     }
@@ -474,11 +474,11 @@ function CanvasDataScience() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    // Three clusters with visually distinct colours
+    // Three clusters — Koenig brand blues (distinct brightness/saturation)
     const CLUSTERS = [
-      { cx: 0.26, cy: 0.28, r: [249,115,22],  label: 'Class A' },  // orange
-      { cx: 0.72, cy: 0.30, r: [16,185,129],  label: 'Class B' },  // green
-      { cx: 0.49, cy: 0.74, r: [6,182,212],   label: 'Class C' },  // cyan
+      { cx: 0.26, cy: 0.28, r: [56,189,248],  label: 'Cluster A' },  // #38bdf8 bright cyan
+      { cx: 0.72, cy: 0.30, r: [6,148,209],   label: 'Cluster B' },  // #0694d1 koenig blue
+      { cx: 0.49, cy: 0.74, r: [77,191,239],  label: 'Cluster C' },  // #4DBFEF mid cyan
     ]
     // Seeded (stable) scatter points — no Math.random in render loop
     const PTS = Array.from({ length: 42 }, (_, i) => {
