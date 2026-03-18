@@ -1739,12 +1739,16 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28">
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28" style={{ background: 'linear-gradient(135deg,#0a6ebd 0%,#0694d1 50%,#00b4d8 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
-          <ParticleBanner />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 60% 50%, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
-          <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
+          {/* Shimmer sweep */}
+          <div className="ent-shimmer absolute inset-0" />
+          {/* Subtle blobs for depth */}
+          <div className="ent-blob1 absolute -top-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+          <div className="ent-blob2 absolute top-1/2 -right-40 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
+          <div className="ent-blob3 absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-cyan-200/15 blur-3xl" />
+          {/* Dot grid overlay */}
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
         </div>
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
