@@ -872,6 +872,97 @@ function HeroStatsAnimation() {
   )
 }
 
+/* ── Hero tech-wave banner animation ── */
+function HeroTechWave() {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const c = ref.current; if (!c) return
+    const ctx = c.getContext('2d')!; let id: number
+    const resize = () => { c.width = c.offsetWidth; c.height = c.offsetHeight }
+    resize(); window.addEventListener('resize', resize)
+
+    // Flowing data-stream dots along each wave
+    const WAVES = [
+      { amp: 0.09, freq: 1.8, speed: 0.38, phase: 0.0,  yBase: 0.20, col: '6,148,209',  opacity: 0.22 },
+      { amp: 0.07, freq: 2.4, speed: 0.28, phase: 1.2,  yBase: 0.38, col: '0,180,216',  opacity: 0.18 },
+      { amp: 0.11, freq: 1.4, speed: 0.48, phase: 2.5,  yBase: 0.55, col: '56,189,248', opacity: 0.14 },
+      { amp: 0.06, freq: 3.0, speed: 0.22, phase: 0.8,  yBase: 0.70, col: '6,148,209',  opacity: 0.16 },
+      { amp: 0.08, freq: 2.0, speed: 0.35, phase: 3.8,  yBase: 0.85, col: '77,191,239', opacity: 0.12 },
+    ]
+    // Dots that travel along each wave
+    const DOTS = WAVES.flatMap((w, wi) =>
+      Array.from({ length: 4 }, (_, di) => ({ wi, offset: di / 4 }))
+    )
+    // Static circuit nodes (stable grid positions)
+    const NODES = Array.from({ length: 18 }, (_, i) => ({
+      rx: (Math.sin(i * 127.1) * 0.5 + 0.5),
+      ry: (Math.sin(i * 311.7) * 0.5 + 0.5),
+    }))
+
+    const loop = () => {
+      const W = c.width, H = c.height, t = Date.now() / 1000
+      ctx.clearRect(0, 0, W, H)
+
+      // Faint dot-grid
+      const gridSize = 36
+      for (let gx = 0; gx < W; gx += gridSize) {
+        for (let gy = 0; gy < H; gy += gridSize) {
+          ctx.beginPath(); ctx.arc(gx, gy, 1, 0, 6.28)
+          ctx.fillStyle = 'rgba(6,148,209,0.10)'; ctx.fill()
+        }
+      }
+
+      // Circuit connector lines between nearby nodes
+      const pts = NODES.map(n => ({ x: n.rx * W, y: n.ry * H }))
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < W * 0.22) {
+            ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y)
+            ctx.strokeStyle = `rgba(6,148,209,${0.06 * (1 - dist / (W * 0.22))})`;
+            ctx.lineWidth = 0.7; ctx.stroke()
+          }
+        }
+      }
+      // Node dots
+      pts.forEach((p, i) => {
+        const pulse = 0.5 + 0.5 * Math.sin(t * 1.6 + i * 0.9)
+        ctx.beginPath(); ctx.arc(p.x, p.y, 1.8 + pulse * 0.8, 0, 6.28)
+        ctx.fillStyle = `rgba(6,148,209,${0.10 + pulse * 0.08})`; ctx.fill()
+      })
+
+      // Flowing sine waves
+      WAVES.forEach(w => {
+        ctx.beginPath()
+        for (let px = 0; px <= W; px += 2) {
+          const x = px
+          const y = H * w.yBase + H * w.amp * Math.sin(w.freq * Math.PI * 2 * (px / W) - t * w.speed * Math.PI * 2 + w.phase)
+          px === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
+        }
+        ctx.strokeStyle = `rgba(${w.col},${w.opacity})`; ctx.lineWidth = 1.4; ctx.stroke()
+      })
+
+      // Travelling dots along each wave
+      DOTS.forEach(d => {
+        const w = WAVES[d.wi]
+        const prog = ((t * w.speed + d.offset) % 1)
+        const px = prog * W
+        const py = H * w.yBase + H * w.amp * Math.sin(w.freq * Math.PI * 2 * prog - t * w.speed * Math.PI * 2 + w.phase)
+        const glow = ctx.createRadialGradient(px, py, 0, px, py, 6)
+        glow.addColorStop(0, `rgba(${w.col},0.55)`); glow.addColorStop(1, `rgba(${w.col},0)`)
+        ctx.beginPath(); ctx.arc(px, py, 6, 0, 6.28); ctx.fillStyle = glow; ctx.fill()
+        ctx.beginPath(); ctx.arc(px, py, 2, 0, 6.28); ctx.fillStyle = `rgba(${w.col},0.80)`; ctx.fill()
+      })
+
+      id = requestAnimationFrame(loop)
+    }
+    loop()
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }} />
+}
+
 /* ── Hero particle banner background ── */
 function ParticleBanner() {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -1748,6 +1839,7 @@ export default function EnterprisePage() {
       {/* ── Hero ── */}
       <section className="relative overflow-hidden bg-[#E8F4FA] px-4 lg:px-[50px] py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0">
+          <HeroTechWave />
           <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
           <div className="absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
