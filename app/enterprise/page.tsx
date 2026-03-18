@@ -217,9 +217,10 @@ function BentoCard({ label, children, style }: {
       className="relative overflow-hidden"
       style={{
         borderRadius: 14,
-        background: 'rgba(6,12,24,0.88)',
-        border: '1px solid rgba(6,148,209,0.38)',
-        backdropFilter: 'blur(6px)',
+        background: 'rgba(255,255,255,0.72)',
+        border: '1px solid rgba(6,148,209,0.28)',
+        backdropFilter: 'blur(12px)',
+        boxShadow: '0 4px 24px rgba(6,148,209,0.10)',
         ...style,
       }}
     >
@@ -227,15 +228,14 @@ function BentoCard({ label, children, style }: {
       {/* Label overlay */}
       <div
         className="absolute bottom-0 left-0 right-0 px-3 py-2"
-        style={{ background: 'linear-gradient(to top,rgba(6,12,24,0.95) 60%,transparent)' }}
+        style={{ background: 'linear-gradient(to top,rgba(220,238,250,0.97) 60%,transparent)' }}
       >
         <span
-          className="inline-block text-[10px] font-medium tracking-[0.12em] text-white/90 px-2.5 py-1 rounded"
+          className="inline-block text-[10px] font-semibold tracking-[0.12em] px-2.5 py-1 rounded"
           style={{
-            background: 'linear-gradient(135deg, rgba(6,148,209,0.28) 0%, rgba(56,189,248,0.14) 50%, rgba(6,148,209,0.22) 100%)',
-            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.2)',
-            border: '1px solid rgba(56,189,248,0.20)',
-            backdropFilter: 'blur(4px)',
+            background: 'rgba(6,148,209,0.12)',
+            border: '1px solid rgba(6,148,209,0.32)',
+            color: '#076d9d',
           }}
         >{label}</span>
       </div>
@@ -331,7 +331,7 @@ function CanvasNeuralNet() {
         ng.addColorStop(0, `rgba(6,148,209,${0.28 + pulse * 0.18})`); ng.addColorStop(1, 'rgba(6,148,209,0)')
         ctx.beginPath(); ctx.arc(n.x, n.y, r * 3, 0, 6.28); ctx.fillStyle = ng; ctx.fill()
         ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 6.28)
-        ctx.fillStyle = 'rgba(5,18,36,0.92)'; ctx.fill()
+        ctx.fillStyle = 'rgba(232,244,250,0.95)'; ctx.fill()
         ctx.strokeStyle = `rgba(56,189,248,${0.5 + pulse * 0.5})`; ctx.lineWidth = 1.1; ctx.stroke()
         ctx.beginPath(); ctx.arc(n.x, n.y, r * 0.33, 0, 6.28)
         ctx.fillStyle = `rgba(56,189,248,${0.7 + pulse * 0.3})`; ctx.fill()
@@ -373,7 +373,7 @@ function CanvasNeuralNet() {
         ctx.fillStyle = `rgba(${accent},${0.52 * alpha})`; ctx.fillRect(x, by2, tW, tH)
         ctx.strokeStyle = `rgba(${accent},${0.8 * alpha})`; ctx.lineWidth = 1; ctx.strokeRect(x, by2, tW, tH)
         ctx.font = `600 ${Math.max(6, tH * 0.52)}px monospace`; ctx.textAlign = 'center'
-        ctx.fillStyle = `rgba(220,240,255,${alpha})`
+        ctx.fillStyle = `rgba(7,49,70,${alpha})`
         ctx.fillText(label, x + tW / 2, y + tH * 0.18)
         if (cursor && Math.sin(t * 5) > 0) {
           ctx.fillStyle = 'rgba(56,189,248,0.9)'; ctx.fillRect(x + tW - 4, by2 + 2, 2, tH - 4)
@@ -382,14 +382,14 @@ function CanvasNeuralNet() {
       // Input tokens
       inTks.forEach((tk, i) => {
         const act = 0.5 + 0.5 * Math.abs(Math.sin(t * 1.6 + i * 0.9))
-        drawToken(tk.x, tk.y, IN_TOKENS[i], '7,109,157', act, false)
+        drawToken(tk.x, tk.y, IN_TOKENS[i], '6,148,209', act, false)
       })
       // Output tokens — streaming one by one
       outTks.forEach((tk, i) => {
         if (i >= streamed) return
         const isNew = i === streamed - 1
         const act = isNew ? 1 : 0.6 + 0.4 * Math.abs(Math.sin(t * 1.4 + i * 0.7))
-        drawToken(tk.x, tk.y, OUT_TOKENS[i], isNew ? '6,148,209' : '9,49,72', act, isNew)
+        drawToken(tk.x, tk.y, OUT_TOKENS[i], isNew ? '6,148,209' : '6,148,209', act, isNew)
       })
       id = requestAnimationFrame(loop)
     }
@@ -464,7 +464,7 @@ function CanvasManagement() {
         const rad = 5
         // Card bg
         ctx.beginPath(); ctx.roundRect(x, y, n.w, n.h, rad)
-        ctx.fillStyle = 'rgba(5,17,34,0.93)'; ctx.fill()
+        ctx.fillStyle = 'rgba(232,244,250,0.90)'; ctx.fill()
         ctx.strokeStyle = `rgba(${n.acc},${0.42 + pulse * 0.32})`
         ctx.lineWidth = n.lvl === 0 ? 1.4 : 1; ctx.stroke()
         // Left accent strip
@@ -596,16 +596,16 @@ function CanvasDataScience() {
       const py = (v: number) => mT + (1 - v) * cH  // 0 at bottom, 1 at top
       // Horizontal grid + Y-axis tick labels
       const fs = Math.max(5, W * 0.046)
-      ctx.font = `${fs}px sans-serif`; ctx.fillStyle = 'rgba(56,189,248,0.32)'
+      ctx.font = `${fs}px sans-serif`; ctx.fillStyle = 'rgba(7,109,157,0.70)'
       ctx.textAlign = 'right'
       for (let g = 0; g <= 4; g++) {
         const gy = mT + (g / 4) * cH
         ctx.beginPath(); ctx.moveTo(mL, gy); ctx.lineTo(mL + cW, gy)
-        ctx.strokeStyle = 'rgba(6,148,209,0.08)'; ctx.lineWidth = 0.6; ctx.stroke()
+        ctx.strokeStyle = 'rgba(6,148,209,0.16)'; ctx.lineWidth = 0.6; ctx.stroke()
         ctx.fillText(`${((4 - g) * 0.25).toFixed(2)}`, mL - 3, gy + fs * 0.35)
       }
       // X-axis epoch ticks
-      ctx.fillStyle = 'rgba(56,189,248,0.30)'; ctx.textAlign = 'center'
+      ctx.fillStyle = 'rgba(7,109,157,0.65)'; ctx.textAlign = 'center'
       for (let e = 0; e <= 3; e++) {
         const gx = mL + (e / 3) * cW
         ctx.beginPath(); ctx.moveTo(gx, mT + cH); ctx.lineTo(gx, mT + cH + 3)
@@ -614,10 +614,10 @@ function CanvasDataScience() {
       }
       // Axes
       ctx.beginPath(); ctx.moveTo(mL, mT); ctx.lineTo(mL, mT + cH); ctx.lineTo(mL + cW, mT + cH)
-      ctx.strokeStyle = 'rgba(56,189,248,0.28)'; ctx.lineWidth = 1; ctx.stroke()
+      ctx.strokeStyle = 'rgba(6,148,209,0.45)'; ctx.lineWidth = 1; ctx.stroke()
       // Axis labels
       ctx.font = `${fs}px sans-serif`
-      ctx.fillStyle = 'rgba(56,189,248,0.38)'; ctx.textAlign = 'center'
+      ctx.fillStyle = 'rgba(7,109,157,0.70)'; ctx.textAlign = 'center'
       ctx.fillText('Epoch', mL + cW / 2, H - mB * 0.06)
       ctx.save(); ctx.translate(mL * 0.22, mT + cH / 2); ctx.rotate(-Math.PI / 2)
       ctx.fillText('Value', 0, 0); ctx.restore()
@@ -666,9 +666,9 @@ function CanvasDataScience() {
       // Top readouts
       const ei = Math.min(tipFl, N - 1)
       ctx.font = `600 ${fs}px sans-serif`
-      ctx.fillStyle = 'rgba(56,189,248,0.72)'; ctx.textAlign = 'left'
+      ctx.fillStyle = 'rgba(7,109,157,0.80)'; ctx.textAlign = 'left'
       ctx.fillText(`Epoch ${Math.round(tipI)}/${N - 1}`, mL, mT - fs * 0.6)
-      ctx.fillStyle = 'rgba(56,189,248,0.50)'; ctx.textAlign = 'right'
+      ctx.fillStyle = 'rgba(7,109,157,0.65)'; ctx.textAlign = 'right'
       ctx.fillText(`Loss ${TRAIN_LOSS[ei].toFixed(3)}  Acc ${(ACCURACY[ei] * 100).toFixed(1)}%`, mL + cW, mT - fs * 0.6)
       // Legend
       const legY = mT + cH + mB * 0.52
@@ -684,7 +684,7 @@ function CanvasDataScience() {
         if (it.dash) ctx.setLineDash([3, 2])
         ctx.beginPath(); ctx.moveTo(lx, legY); ctx.lineTo(lx + 11, legY); ctx.stroke()
         ctx.setLineDash([])
-        ctx.font = `${fs}px sans-serif`; ctx.fillStyle = it.col; ctx.textAlign = 'left'
+        ctx.font = `${fs}px sans-serif`; ctx.fillStyle = 'rgba(7,109,157,0.75)'; ctx.textAlign = 'left'
         ctx.fillText(it.label, lx + 14, legY + fs * 0.38)
       })
       id = requestAnimationFrame(loop)
@@ -730,8 +730,8 @@ function CanvasTechnology() {
           const w2 = 0.5 + 0.5 * Math.cos(d2 * 0.07 - p2.ph)
           const intensity = Math.max(w1, w2)
           drawHex(cx, cy, R - 1.5)
-          ctx.fillStyle = `rgba(6,148,209,${intensity * 0.17})`; ctx.fill()
-          ctx.strokeStyle = `rgba(56,189,248,${0.07 + intensity * 0.55})`; ctx.lineWidth = 0.8; ctx.stroke()
+          ctx.fillStyle = `rgba(6,148,209,${intensity * 0.25})`; ctx.fill()
+          ctx.strokeStyle = `rgba(6,100,180,${0.12 + intensity * 0.60})`; ctx.lineWidth = 0.8; ctx.stroke()
           if (intensity > 0.84) {
             ctx.beginPath(); ctx.arc(cx, cy, 2.8, 0, 6.28)
             ctx.fillStyle = `rgba(56,189,248,${(intensity - 0.84) * 6})`; ctx.fill()
@@ -773,14 +773,14 @@ function CanvasPuzzle() {
           a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
         }
         ctx.closePath()
-        ctx.strokeStyle = `rgba(6,148,209,${0.07 + ring * 0.025})`; ctx.lineWidth = 0.7; ctx.stroke()
+        ctx.strokeStyle = `rgba(6,148,209,${0.14 + ring * 0.04})`; ctx.lineWidth = 0.7; ctx.stroke()
       }
       // spokes
       for (let a = 0; a < AXES; a++) {
         const angle = (a * Math.PI * 2) / AXES - Math.PI / 2
         ctx.beginPath(); ctx.moveTo(cx, cy)
         ctx.lineTo(cx + R * Math.cos(angle), cy + R * Math.sin(angle))
-        ctx.strokeStyle = 'rgba(6,148,209,0.14)'; ctx.lineWidth = 0.7; ctx.stroke()
+        ctx.strokeStyle = 'rgba(6,148,209,0.25)'; ctx.lineWidth = 0.7; ctx.stroke()
       }
       // filled morphing polygon
       const vals = P1.map((v, i) => v + (P2[i] - v) * morph)
@@ -791,7 +791,7 @@ function CanvasPuzzle() {
         a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
       })
       ctx.closePath()
-      ctx.fillStyle = 'rgba(6,148,209,0.17)'; ctx.fill()
+      ctx.fillStyle = 'rgba(6,148,209,0.22)'; ctx.fill()
       ctx.strokeStyle = 'rgba(56,189,248,0.75)'; ctx.lineWidth = 1.6; ctx.stroke()
       // vertex glow dots
       vals.forEach((v, a) => {
