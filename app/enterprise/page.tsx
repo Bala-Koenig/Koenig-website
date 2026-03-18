@@ -1902,9 +1902,9 @@ export default function EnterprisePage() {
               </div>
             </div>
 
-            {/* Right — bento canvas animations */}
-            <div className="hidden w-full flex-shrink-0 lg:block lg:w-[420px] xl:w-[460px]" style={{ height: 420 }}>
-              <BentoGrid />
+            {/* Right — holographic globe */}
+            <div className="hidden w-full flex-shrink-0 lg:block lg:w-[480px] xl:w-[520px]" style={{ height: 480 }}>
+              <HeroGlobeCanvas />
             </div>
           </div>
         </div>
