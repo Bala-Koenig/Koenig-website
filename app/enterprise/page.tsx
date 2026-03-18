@@ -1739,26 +1739,21 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28" style={{ background: 'linear-gradient(135deg,#0a6ebd 0%,#0694d1 50%,#00b4d8 100%)' }}>
+      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 lg:px-[50px] py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0">
-          {/* Shimmer sweep */}
-          <div className="ent-shimmer absolute inset-0" />
-          {/* Subtle blobs for depth */}
-          <div className="ent-blob1 absolute -top-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
-          <div className="ent-blob2 absolute top-1/2 -right-40 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-          <div className="ent-blob3 absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-cyan-200/15 blur-3xl" />
-          {/* Dot grid overlay */}
-          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+          <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
+          <div className="absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%)' }} />
+          <div className="absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
         </div>
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
             {/* Left */}
             <div className="flex-1 text-center lg:text-left">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-white" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)' }}>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.30)', color: '#0694d1' }}>
                 <span className="h-2 w-2 rounded-full bg-[#0694D1]" />
                 Enterprise Training Solutions
               </div>
-              <h1 className="mb-5 text-4xl font-bold leading-tight tracking-tight text-white lg:text-5xl xl:text-6xl">
+              <h1 className="mb-5 text-4xl font-bold leading-tight tracking-tight lg:text-5xl xl:text-6xl" style={{ color: '#093148' }}>
                 Upskill Your Workforce<br />
                 <span
                   key={entMorphIdx}
@@ -1767,14 +1762,14 @@ export default function EnterprisePage() {
                   {ENT_MORPH_WORDS[entMorphIdx]}
                 </span>
               </h1>
-              <p className="mb-8 max-w-xl text-base text-white/65 lg:text-lg">
+              <p className="mb-8 max-w-xl text-base lg:text-lg" style={{ color: '#4a7a99' }}>
                 Tailored IT certification programmes for enterprises across 195+ countries. From needs assessment to certified outcomes — Koenig handles everything, so your team stays focused on what matters.
               </p>
               <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
                 <a href="#contact" className="ent-cta-btn rounded-xl px-7 py-3.5 text-base font-bold text-white">
                   Get a Free Consultation
                 </a>
-                <a href="mailto:enterprise@koenig-solutions.com" className="rounded-xl border px-7 py-3.5 text-base font-medium text-white transition-colors hover:bg-white/5" style={{ borderColor: 'rgba(255,255,255,0.25)' }}>
+                <a href="mailto:enterprise@koenig-solutions.com" className="rounded-xl border px-7 py-3.5 text-base font-medium transition-colors hover:bg-[#0694d1]/5" style={{ borderColor: 'rgba(6,148,209,0.40)', color: '#076d9d' }}>
                   enterprise@koenig-solutions.com
                 </a>
               </div>
@@ -1786,14 +1781,14 @@ export default function EnterprisePage() {
                     key={s.label}
                     className="flex flex-col items-center rounded-xl px-5 py-3 text-center"
                     style={{
-                      background: 'rgba(6,148,209,0.08)',
+                      background: 'rgba(255,255,255,0.70)',
                       border: '1px solid rgba(6,148,209,0.22)',
                       backdropFilter: 'blur(10px)',
                       minWidth: 100,
                     }}
                   >
-                    <span className="text-xl font-black leading-none" style={{ color: '#38bdf8' }}>{s.num}</span>
-                    <span className="mt-1 text-[11px] font-medium leading-tight text-white/55">{s.label}</span>
+                    <span className="text-xl font-black leading-none" style={{ color: '#0694d1' }}>{s.num}</span>
+                    <span className="mt-1 text-[11px] font-medium leading-tight" style={{ color: '#4a7a99' }}>{s.label}</span>
                   </div>
                 ))}
               </div>
