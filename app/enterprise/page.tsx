@@ -304,6 +304,7 @@ function CanvasManagement() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
+    const ROLES = ['CEO', 'VP Eng', 'VP Ops', 'Lead', 'Lead', 'Dev', 'Dev']
     const loop = () => {
       const W = c.width, H = c.height, t = Date.now() / 1000
       ctx.clearRect(0, 0, W, H)
@@ -311,8 +312,8 @@ function CanvasManagement() {
       const root: Nd = { x: W * 0.5, y: H * 0.13 }
       const mid: Nd[] = [{ x: W * 0.27, y: H * 0.42 }, { x: W * 0.73, y: H * 0.42 }]
       const leaves: Nd[] = [
-        { x: W * 0.12, y: H * 0.74 }, { x: W * 0.40, y: H * 0.74 },
-        { x: W * 0.60, y: H * 0.74 }, { x: W * 0.88, y: H * 0.74 },
+        { x: W * 0.12, y: H * 0.72 }, { x: W * 0.40, y: H * 0.72 },
+        { x: W * 0.60, y: H * 0.72 }, { x: W * 0.88, y: H * 0.72 },
       ]
       const allNodes = [root, ...mid, ...leaves]
       const edges: [Nd, Nd][] = [
@@ -320,6 +321,7 @@ function CanvasManagement() {
         [mid[0], leaves[0]], [mid[0], leaves[1]],
         [mid[1], leaves[2]], [mid[1], leaves[3]],
       ]
+      // Draw edges with animated particles
       edges.forEach(([a, b], ei) => {
         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y)
         ctx.strokeStyle = 'rgba(6,148,209,0.22)'; ctx.lineWidth = 1.2; ctx.stroke()
@@ -330,18 +332,34 @@ function CanvasManagement() {
         ctx.beginPath(); ctx.arc(px, py, 7, 0, 6.28); ctx.fillStyle = g; ctx.fill()
         ctx.beginPath(); ctx.arc(px, py, 2.2, 0, 6.28); ctx.fillStyle = '#38bdf8'; ctx.fill()
       })
-      const radii = [10, 7, 7, 5, 5, 5, 5]
+      const radii = [13, 10, 10, 7, 7, 7, 7]
       allNodes.forEach((n, i) => {
         const pulse = 0.5 + 0.5 * Math.sin(t * 1.9 + i * 0.85)
-        const r = radii[i] + pulse * 3
-        const ng = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 2.6)
-        ng.addColorStop(0, `rgba(6,148,209,${0.32 + pulse * 0.28})`); ng.addColorStop(1, 'rgba(6,148,209,0)')
-        ctx.beginPath(); ctx.arc(n.x, n.y, r * 2.6, 0, 6.28); ctx.fillStyle = ng; ctx.fill()
+        const r = radii[i] + pulse * 2
+        // Glow halo
+        const ng = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 2.8)
+        ng.addColorStop(0, `rgba(6,148,209,${0.28 + pulse * 0.22})`); ng.addColorStop(1, 'rgba(6,148,209,0)')
+        ctx.beginPath(); ctx.arc(n.x, n.y, r * 2.8, 0, 6.28); ctx.fillStyle = ng; ctx.fill()
+        // Node background circle
         ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 6.28)
-        ctx.fillStyle = 'rgba(6,20,40,0.92)'; ctx.fill()
+        ctx.fillStyle = 'rgba(6,20,40,0.94)'; ctx.fill()
         ctx.strokeStyle = `rgba(56,189,248,${0.5 + pulse * 0.5})`; ctx.lineWidth = 1.5; ctx.stroke()
-        ctx.beginPath(); ctx.arc(n.x, n.y, r * 0.38, 0, 6.28)
-        ctx.fillStyle = `rgba(56,189,248,${0.65 + pulse * 0.35})`; ctx.fill()
+        // Person icon — head + shoulders silhouette
+        const iconColor = `rgba(56,189,248,${0.7 + pulse * 0.3})`
+        const headR = r * 0.36
+        const headY = n.y - r * 0.22
+        const bodyR = r * 0.5
+        const bodyY = n.y + r * 0.32
+        ctx.beginPath(); ctx.arc(n.x, headY, headR, 0, 6.28)
+        ctx.fillStyle = iconColor; ctx.fill()
+        ctx.beginPath(); ctx.arc(n.x, bodyY, bodyR, Math.PI, 0)
+        ctx.fillStyle = iconColor; ctx.fill()
+        // Role label below node
+        const fontSize = Math.max(6, Math.round(r * 0.62))
+        ctx.font = `600 ${fontSize}px sans-serif`
+        ctx.textAlign = 'center'
+        ctx.fillStyle = `rgba(56,189,248,${0.55 + pulse * 0.25})`
+        ctx.fillText(ROLES[i], n.x, n.y + r * 2.3)
       })
       id = requestAnimationFrame(loop)
     }
