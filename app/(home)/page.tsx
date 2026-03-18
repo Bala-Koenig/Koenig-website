@@ -1530,54 +1530,108 @@ export default function Design4Page() {
       </header>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(140deg, #f4f9fe 0%, #e8f4fd 45%, #eef7ff 100%)', paddingTop: '72px', paddingBottom: '72px' }}>
+      <section
+        className="relative overflow-hidden"
+        style={{
+          background: 'linear-gradient(145deg, #f4f9fe 0%, #e8f4fd 40%, #eef7ff 72%, #f0f8ff 100%)',
+          paddingTop: '76px',
+          paddingBottom: '76px',
+        }}
+      >
         <style>{`
-          @keyframes heroFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-          .h-fade-up { animation: heroFadeUp 0.7s ease both; }
-          .h-d1{animation-delay:0.05s} .h-d2{animation-delay:0.20s} .h-d3{animation-delay:0.35s} .h-d4{animation-delay:0.50s} .h-d5{animation-delay:0.65s}
-          @keyframes heroStatPop { from{opacity:0;transform:translateY(12px) scale(0.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+          /* ── Entrance animations ── */
+          @keyframes heroFadeUp {
+            from { opacity:0; transform:translateY(26px) }
+            to   { opacity:1; transform:translateY(0) }
+          }
+          .h-fade-up { animation: heroFadeUp 0.72s cubic-bezier(0.22,1,0.36,1) both; }
+          .h-d1 { animation-delay:0.05s }
+          .h-d2 { animation-delay:0.18s }
+          .h-d3 { animation-delay:0.32s }
+          .h-d4 { animation-delay:0.46s }
+          .h-d5 { animation-delay:0.60s }
+
+          /* ── Stat card pop-in ── */
+          @keyframes heroStatPop {
+            from { opacity:0; transform:translateY(14px) scale(0.95) }
+            to   { opacity:1; transform:translateY(0)  scale(1) }
+          }
           .hero-stat { animation: heroStatPop 0.55s cubic-bezier(0.22,1,0.36,1) both; }
-          .hero-stat:nth-child(1){animation-delay:0.60s}
-          .hero-stat:nth-child(2){animation-delay:0.72s}
-          .hero-stat:nth-child(3){animation-delay:0.84s}
-          .hero-stat:nth-child(4){animation-delay:0.96s}
+          .hero-stat:nth-child(1) { animation-delay:0.62s }
+          .hero-stat:nth-child(2) { animation-delay:0.74s }
+          .hero-stat:nth-child(3) { animation-delay:0.86s }
+          .hero-stat:nth-child(4) { animation-delay:0.98s }
+
+          /* ── Primary CTA shine sweep ── */
           @keyframes heroCTAShine {
-            0%{background-position:-200% center} 40%{background-position:200% center} 100%{background-position:200% center}
+            0%   { background-position: -220% center }
+            42%  { background-position:  220% center }
+            100% { background-position:  220% center }
           }
           .hero-cta-primary {
-            background: linear-gradient(135deg,#1a6fbf 0%,#0b2545 100%);
-            background-image: linear-gradient(135deg,#1a6fbf 0%,#0b2545 100%), linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.38) 50%,transparent 60%);
-            background-size: 100% 100%, 220% 100%;
-            background-position: 0 0, -220% center;
-            animation: heroCTAShine 3s ease-in-out infinite;
+            background: linear-gradient(135deg, #1a6fbf 0%, #0b2545 100%);
+            background-image:
+              linear-gradient(135deg, #1a6fbf 0%, #0b2545 100%),
+              linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.40) 50%, transparent 62%);
+            background-size: 100% 100%, 240% 100%;
+            background-position: 0 0, -240% center;
+            animation: heroCTAShine 3.2s ease-in-out infinite;
           }
-          .hero-cta-primary:hover { box-shadow: 0 8px 28px rgba(26,111,191,0.50) !important; transform: translateY(-2px); }
-          .hero-badge-pill { animation: heroFadeUp 0.6s ease both; }
+          .hero-cta-primary:hover {
+            box-shadow: 0 8px 30px rgba(26,111,191,0.52) !important;
+            transform: translateY(-2px);
+          }
+
+          /* ── Morphing word transitions ── */
+          @keyframes morphIn  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+          @keyframes morphOut { from{opacity:1;transform:translateY(0)}  to{opacity:0;transform:translateY(-8px)} }
+          .morph-word-in  { animation: morphIn  0.32s cubic-bezier(0.22,1,0.36,1) both; }
+          .morph-word-out { animation: morphOut 0.22s ease-in both; }
+
+          /* ── Badge ── */
+          .hero-badge-pill { animation: heroFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both; }
+
+          /* ── Stat hover ── */
+          .hero-stat:hover {
+            box-shadow: 0 6px 20px rgba(26,111,191,0.14) !important;
+            transform: translateY(-2px);
+          }
+          .hero-stat { transition: box-shadow 0.25s ease, transform 0.25s ease; }
         `}</style>
 
-        {/* Background: light-theme particles + subtle radial glow */}
+        {/* ── Background: drifting dot-mesh particles + subtle glows ── */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <HeroParticles />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 55% at 68% 52%, rgba(19,168,212,0.07) 0%, transparent 65%)' }} />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 40% 40% at 15% 20%, rgba(26,111,191,0.05) 0%, transparent 60%)' }} />
+          {/* Soft cyan glow behind globe */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse 72% 58% at 70% 52%, rgba(19,168,212,0.08) 0%, transparent 65%)' }}
+          />
+          {/* Soft blue glow behind left text */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse 42% 42% at 12% 18%, rgba(26,111,191,0.055) 0%, transparent 60%)' }}
+          />
         </div>
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 lg:px-[50px]">
-          <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-6">
+          <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-4 xl:gap-8">
 
-            {/* ── LEFT SIDE ── */}
+            {/* ── LEFT SIDE ─────────────────────────────────────── */}
             <div className="flex-1 text-center lg:text-left lg:max-w-[50%]">
 
-              {/* Badge */}
+              {/* Live badge */}
               <div className="hero-badge-pill mb-5 flex justify-center lg:justify-start">
                 <div
-                  className="flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-semibold"
+                  className="flex items-center gap-2.5 rounded-full px-4 py-2"
                   style={{
-                    background: 'rgba(255,255,255,0.85)',
-                    border: '1px solid rgba(26,111,191,0.22)',
-                    boxShadow: '0 2px 12px rgba(26,111,191,0.10)',
-                    color: '#1a6fbf',
-                    backdropFilter: 'blur(8px)',
+                    background:    'rgba(255,255,255,0.88)',
+                    border:        '1px solid rgba(26,111,191,0.20)',
+                    boxShadow:     '0 2px 14px rgba(26,111,191,0.10)',
+                    backdropFilter:'blur(10px)',
+                    color:         '#1a6fbf',
+                    fontSize:      '13px',
+                    fontWeight:    600,
                   }}
                 >
                   <span className="relative flex h-2.5 w-2.5 shrink-0">
@@ -1585,56 +1639,82 @@ export default function Design4Page() {
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
                   </span>
                   <span style={{ fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}>
-                    <span className="font-bold">New batches</span> starting this week —&nbsp;
-                    <span className="rounded-full px-2 py-0.5 text-xs font-bold text-white" style={{ background: '#1a6fbf' }}>47 seats left</span>
+                    <span style={{ fontWeight: 700 }}>New batches</span> starting this week —&nbsp;
+                    <span
+                      className="rounded-full px-2 py-0.5 text-white"
+                      style={{ background: '#1a6fbf', fontSize: 11, fontWeight: 700 }}
+                    >
+                      47 seats left
+                    </span>
                   </span>
                 </div>
               </div>
 
-              {/* Headline */}
-              <h1 className="h-fade-up h-d2 mb-5 font-bold leading-tight tracking-tight" style={{ fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}>
-                <span className="block text-3xl sm:text-4xl lg:text-[2.85rem] xl:text-5xl" style={{ color: '#0b2545' }}>
+              {/* Headline with gradient morphing accent */}
+              <h1
+                className="h-fade-up h-d2 mb-5 font-bold leading-tight tracking-tight"
+                style={{ fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}
+              >
+                <span
+                  className="block"
+                  style={{ color: '#0b2545', fontSize: 'clamp(1.85rem, 4vw, 3rem)' }}
+                >
                   Master Any{' '}
                   <span
                     key={morphIdx}
                     className={`inline ${morphExiting ? 'morph-word-out' : 'morph-word-in'}`}
                     style={{
-                      background: 'linear-gradient(135deg, #1a6fbf 0%, #13a8d4 100%)',
+                      background:           'linear-gradient(135deg, #1a6fbf 0%, #13a8d4 100%)',
                       WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
+                      WebkitTextFillColor:  'transparent',
+                      backgroundClip:       'text',
                     }}
                   >
                     {MORPH_WORDS[morphIdx]}
                   </span>
                 </span>
-                <span className="block text-3xl sm:text-4xl lg:text-[2.85rem] xl:text-5xl" style={{ color: '#0b2545' }}>in Record Time</span>
+                <span
+                  className="block"
+                  style={{ color: '#0b2545', fontSize: 'clamp(1.85rem, 4vw, 3rem)' }}
+                >
+                  in Record Time
+                </span>
               </h1>
 
               {/* Subtext */}
               <p
-                className="h-fade-up h-d3 mx-auto mb-7 max-w-xl text-[15px] leading-relaxed lg:mx-0"
-                style={{ color: '#475569', fontFamily: 'var(--font-inter, "Inter", sans-serif)' }}
+                className="h-fade-up h-d3 mx-auto mb-7 max-w-xl lg:mx-0"
+                style={{
+                  color:      '#475569',
+                  fontFamily: 'var(--font-inter, "Inter", sans-serif)',
+                  fontSize:   '15px',
+                  lineHeight: 1.72,
+                }}
               >
-                30+ years of IT training excellence. 5,000+ courses across 50+ vendors. Over 1 million professionals certified worldwide — trust Koenig to deliver results that move careers.
+                30+ years of IT training excellence. 5,000+ courses across 50+ vendors.
+                Over 1 million professionals certified worldwide — trust Koenig to deliver
+                results that move careers.
               </p>
 
-              {/* CTAs */}
+              {/* CTA buttons */}
               <div className="h-fade-up h-d4 mb-8 flex flex-wrap justify-center gap-3 lg:justify-start">
                 <button
-                  className="hero-cta-primary rounded-xl px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 active:scale-95"
-                  style={{ boxShadow: '0 4px 16px rgba(26,111,191,0.32)', fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}
+                  className="hero-cta-primary rounded-xl px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 active:scale-[0.97]"
+                  style={{
+                    boxShadow:  '0 4px 18px rgba(26,111,191,0.34)',
+                    fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+                  }}
                 >
                   Explore 5,000+ Courses →
                 </button>
                 <button
-                  className="rounded-xl px-7 py-3.5 text-sm font-bold transition-all duration-200 hover:bg-white hover:-translate-y-0.5 active:scale-95"
+                  className="rounded-xl px-7 py-3.5 text-sm font-bold transition-all duration-200 hover:bg-white hover:-translate-y-0.5 active:scale-[0.97]"
                   style={{
-                    border: '1.5px solid rgba(26,111,191,0.30)',
-                    background: 'rgba(255,255,255,0.70)',
-                    color: '#1a6fbf',
-                    backdropFilter: 'blur(8px)',
-                    fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+                    border:        '1.5px solid rgba(26,111,191,0.28)',
+                    background:    'rgba(255,255,255,0.72)',
+                    color:         '#1a6fbf',
+                    backdropFilter:'blur(8px)',
+                    fontFamily:    'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
                   }}
                 >
                   Talk to an Advisor
@@ -1651,21 +1731,27 @@ export default function Design4Page() {
                 ].map(s => (
                   <div
                     key={s.label}
-                    className="hero-stat rounded-2xl bg-white p-4 text-center transition-shadow duration-200 hover:shadow-md"
+                    className="hero-stat rounded-2xl bg-white p-4 text-center"
                     style={{
-                      border: '1px solid rgba(26,111,191,0.12)',
+                      border:    '1px solid rgba(26,111,191,0.11)',
                       boxShadow: '0 2px 10px rgba(11,37,69,0.06)',
                     }}
                   >
                     <div
                       className="text-xl md:text-2xl font-black"
-                      style={{ color: '#1a6fbf', fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}
+                      style={{
+                        color:      '#1a6fbf',
+                        fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+                      }}
                     >
                       {s.value}
                     </div>
                     <div
                       className="mt-1 text-xs leading-snug"
-                      style={{ color: '#64748b', fontFamily: 'var(--font-inter, "Inter", sans-serif)' }}
+                      style={{
+                        color:      '#64748b',
+                        fontFamily: 'var(--font-inter, "Inter", sans-serif)',
+                      }}
                     >
                       {s.label}
                     </div>
@@ -1675,10 +1761,10 @@ export default function Design4Page() {
 
             </div>{/* /left */}
 
-            {/* ── RIGHT SIDE: Holographic Globe ── */}
+            {/* ── RIGHT SIDE: Holographic Globe ─────────────────── */}
             <div
-              className="h-fade-up h-d3 relative shrink-0 w-full lg:w-[560px]"
-              style={{ height: '500px' }}
+              className="h-fade-up h-d3 relative shrink-0 w-full lg:w-[560px] xl:w-[600px]"
+              style={{ height: '510px' }}
             >
               <HeroGlobe />
             </div>
