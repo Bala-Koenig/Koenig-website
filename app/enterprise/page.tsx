@@ -1601,6 +1601,17 @@ export default function EnterprisePage() {
         @keyframes entMorphOut { from { opacity:1; filter:blur(0);    transform:translateY(0);     } to { opacity:0; filter:blur(10px); transform:translateY(-14px); } }
         .ent-morph-in  { animation: entMorphIn  0.52s cubic-bezier(0.22,1,0.36,1) both; }
         .ent-morph-out { animation: entMorphOut 0.34s ease-in both; }
+        /* Gradient morph text — colour stays blue gradient, glow matches homepage */
+        @keyframes entGradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        .ent-morph-gradient {
+          background: linear-gradient(90deg, #38bdf8 0%, #0694d1 30%, #4DBFEF 55%, #38bdf8 80%, #0694d1 100%);
+          background-size: 250% 100%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: entGradShift 3s ease infinite;
+          filter: drop-shadow(0 0 28px rgba(6,148,209,0.9)) drop-shadow(0 0 55px rgba(6,148,209,0.45));
+        }
 
         /* Scroll-triggered fade-in-up */
         .io-fade { opacity: 0; transform: translateY(12px); transition: opacity 0.22s ease-out, transform 0.22s ease-out; }
@@ -1747,8 +1758,7 @@ export default function EnterprisePage() {
                 Upskill Your Workforce<br />
                 <span
                   key={entMorphIdx}
-                  className={`inline-block ${entMorphExiting ? 'ent-morph-out' : 'ent-morph-in'}`}
-                  style={{ color: '#C8EEFF', textShadow: '0 0 28px rgba(6,148,209,0.9), 0 0 55px rgba(6,148,209,0.45)' }}
+                  className={`inline-block ent-morph-gradient ${entMorphExiting ? 'ent-morph-out' : 'ent-morph-in'}`}
                 >
                   {ENT_MORPH_WORDS[entMorphIdx]}
                 </span>
