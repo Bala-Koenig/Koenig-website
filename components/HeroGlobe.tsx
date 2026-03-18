@@ -1,397 +1,377 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 
-/* ─── Orbit Node Config ──────────────────────────────────────── */
+/* ─── Orbit Node Config ─────────────────────────────────────── */
 const ORBIT_NODES = [
-  { label: 'Gen AI',       color: '#ef4444', r: 115, speed: 0.00080, tilt:  22, phase: 0.00 },
-  { label: 'Technology',   color: '#3b82f6', r: 140, speed: 0.00058, tilt: -18, phase: 1.05 },
-  { label: 'Finance',      color: '#22c55e', r: 126, speed: 0.00100, tilt:  35, phase: 2.10 },
-  { label: 'Data Science', color: '#ec4899', r: 150, speed: 0.00068, tilt: -28, phase: 3.15 },
-  { label: 'Management',   color: '#a855f7', r: 134, speed: 0.00090, tilt:  15, phase: 4.20 },
-  { label: 'Functional',   color: '#f59e0b', r: 122, speed: 0.00112, tilt: -40, phase: 5.25 },
+  { label: 'Gen AI',       color: '#ef4444', glow: 'rgba(239,68,68,0.55)',   r: 118, speed: 0.0008, tilt: 22,  phase: 0 },
+  { label: 'Technology',   color: '#3b82f6', glow: 'rgba(59,130,246,0.55)',  r: 138, speed: 0.0006, tilt: -18, phase: 1.1 },
+  { label: 'Finance',      color: '#22c55e', glow: 'rgba(34,197,94,0.55)',   r: 125, speed: 0.0010, tilt: 35,  phase: 2.2 },
+  { label: 'Data Science', color: '#ec4899', glow: 'rgba(236,72,153,0.55)',  r: 145, speed: 0.0007, tilt: -28, phase: 3.3 },
+  { label: 'Management',   color: '#a855f7', glow: 'rgba(168,85,247,0.55)',  r: 132, speed: 0.0009, tilt: 15,  phase: 4.4 },
+  { label: 'Functional',   color: '#f59e0b', glow: 'rgba(245,158,11,0.55)',  r: 120, speed: 0.0011, tilt: -40, phase: 5.5 },
 ]
 
-/* ─── City Hotspots ──────────────────────────────────────────── */
+/* ─── City Hotspots ─────────────────────────────────────────── */
 const CITIES = [
-  { lat:  51.5, lon:   -0.1 },  // London
-  { lat:  40.7, lon:  -74.0 },  // New York
-  { lat:   1.3, lon:  103.8 },  // Singapore
-  { lat:  28.6, lon:   77.2 },  // Delhi
-  { lat:  35.7, lon:  139.7 },  // Tokyo
-  { lat:  25.2, lon:   55.3 },  // Dubai
-  { lat:  48.9, lon:    2.3 },  // Paris
-  { lat:  37.8, lon: -122.4 },  // San Francisco
-  { lat:  55.8, lon:   37.6 },  // Moscow
-  { lat: -23.5, lon:  -46.6 },  // São Paulo
-  { lat:  30.1, lon:   31.2 },  // Cairo
-  { lat:  41.3, lon:   69.3 },  // Central Asia
-  { lat: -33.9, lon:   18.4 },  // Cape Town
+  { name: 'London',       lat: 51.5,  lon: -0.1   },
+  { name: 'New York',     lat: 40.7,  lon: -74.0  },
+  { name: 'Singapore',    lat: 1.3,   lon: 103.8  },
+  { name: 'Delhi',        lat: 28.6,  lon: 77.2   },
+  { name: 'Tokyo',        lat: 35.7,  lon: 139.7  },
+  { name: 'Dubai',        lat: 25.2,  lon: 55.3   },
+  { name: 'Paris',        lat: 48.9,  lon: 2.3    },
+  { name: 'San Francisco',lat: 37.8,  lon: -122.4 },
+  { name: 'Moscow',       lat: 55.8,  lon: 37.6   },
+  { name: 'São Paulo',    lat: -23.5, lon: -46.6  },
+  { name: 'Cairo',        lat: 30.1,  lon: 31.2   },
+  { name: 'Central Asia', lat: 41.3,  lon: 69.3   },
+  { name: 'Cape Town',    lat: -33.9, lon: 18.4   },
 ]
 
-/* ─── Lat/lon → screen coords ────────────────────────────────── */
 function latLonToXY(lat: number, lon: number, rotation: number, R: number) {
   const latR = (lat * Math.PI) / 180
-  // longitude in screen-space: lon + rotation converted to degrees
   const lonR = ((lon + rotation * (180 / Math.PI)) * Math.PI) / 180
   const cosLat = Math.cos(latR)
-  const x = cosLat * Math.cos(lonR) // screen-x component
-  const y = cosLat * Math.sin(lonR) // depth (positive = facing viewer)
-  const z = Math.sin(latR)          // screen-y component (up = positive lat)
+  const z = Math.sin(latR)
+  const x = cosLat * Math.cos(lonR)
+  const y = cosLat * Math.sin(lonR)
   return { sx: x * R, sy: -z * R, depth: y }
 }
 
-/* ─── Node position on a tilted orbit ellipse ───────────────── */
-// The orbit is a circle of radius r, tilted by `tiltRad` around the
-// vertical axis, then projected to screen. This gives a rotated ellipse
-// with semi-major=r and semi-minor=r*PERSP.
-// The parametric position for angle θ on that rotated ellipse is:
-//   x = r*cos(θ)*cos(tilt) - r*PERSP*sin(θ)*sin(tilt) + CX
-//   y = r*cos(θ)*sin(tilt) + r*PERSP*sin(θ)*cos(tilt) + CY
-const PERSP = 0.36
-
-function orbitPos(node: typeof ORBIT_NODES[0], angle: number, CX: number, CY: number) {
-  const tiltRad = (node.tilt * Math.PI) / 180
-  const xl = node.r * Math.cos(angle)
-  const yl = node.r * PERSP * Math.sin(angle)
-  return {
-    nx: CX + xl * Math.cos(tiltRad) - yl * Math.sin(tiltRad),
-    ny: CY + xl * Math.sin(tiltRad) + yl * Math.cos(tiltRad),
-  }
-}
-
-/* ─── Main Globe Component ───────────────────────────────────── */
+/* ─── Main Canvas Globe ─────────────────────────────────────── */
 export default function HeroGlobe() {
-  const cvRef      = useRef<HTMLCanvasElement>(null)
-  const wrapRef    = useRef<HTMLDivElement>(null)
+  const cvRef = useRef<HTMLCanvasElement>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
   const [hoveredNode, setHoveredNode] = useState<number | null>(null)
   const hoveredRef = useRef<number | null>(null)
-  const animRef    = useRef<number>(0)
+  const animRef = useRef<number>(0)
 
   useEffect(() => {
-    const cv  = cvRef.current as HTMLCanvasElement
+    const cv = cvRef.current as HTMLCanvasElement
     if (!cv) return
     const ctx = cv.getContext('2d') as CanvasRenderingContext2D
     if (!ctx) return
 
-    let W = 0, H = 0, GR = 0, CX = 0, CY = 0
+    let W = 0, H = 0
+    let GR = 0 // globe radius
+    let CX = 0, CY = 0
     let t = 0
 
-    // Per-city ripple phase offsets so they don't all pulse in sync
-    const cityPhases    = CITIES.map((_, i) => i * 0.62)
-    // Per-node packet progress (0..1 along globe-edge→node line)
+    // Per-city ripple timers (offset so they don't all pulse together)
+    const cityPhases = CITIES.map((_, i) => i * 0.65)
+
+    // Per-packet progress along orbit connection line
     const packetProgress = ORBIT_NODES.map(() => Math.random())
 
-    /* ── Resize ────────────────────────────────────────────── */
     function resize() {
-      const parent = cv.parentElement
-      if (!parent) return
-      W = parent.offsetWidth
-      H = parent.offsetHeight
-      const dpr = window.devicePixelRatio || 1
-      cv.width  = Math.round(W * dpr)
-      cv.height = Math.round(H * dpr)
-      cv.style.width  = W + 'px'
+      if (!cv.parentElement) return
+      W = cv.parentElement.offsetWidth
+      H = cv.parentElement.offsetHeight
+      cv.width = W * window.devicePixelRatio
+      cv.height = H * window.devicePixelRatio
+      cv.style.width = W + 'px'
       cv.style.height = H + 'px'
-      ctx.resetTransform()
-      ctx.scale(dpr, dpr)
-      GR = Math.min(W, H) * 0.292
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+      GR = Math.min(W, H) * 0.30
       CX = W / 2
       CY = H / 2
     }
+
     resize()
 
-    /* ── Globe body ─────────────────────────────────────────── */
+    /* ── Draw Globe ────────────────────────────────────────── */
     function drawGlobe() {
-      const rotation = t * 0.18 // globe rotation in radians (cumulative)
+      const rotation = t * 0.18 // radians/s equivalent
 
-      /* Ocean radial gradient */
-      const ocean = ctx.createRadialGradient(
-        CX - GR * 0.22, CY - GR * 0.26, GR * 0.04,
-        CX, CY, GR
-      )
-      ocean.addColorStop(0,    'rgba(185,230,248,1)')
-      ocean.addColorStop(0.40, 'rgba(90,175,222,1)')
-      ocean.addColorStop(0.76, 'rgba(26,111,191,1)')
-      ocean.addColorStop(1,    'rgba(7,28,60,1)')
+      // ── Ocean fill (radial gradient)
+      const oceanGrad = ctx.createRadialGradient(CX - GR * 0.22, CY - GR * 0.25, GR * 0.05, CX, CY, GR)
+      oceanGrad.addColorStop(0,   'rgba(173,216,240,1)')
+      oceanGrad.addColorStop(0.45,'rgba(100,180,220,1)')
+      oceanGrad.addColorStop(0.78,'rgba(26,111,191,1)')
+      oceanGrad.addColorStop(1,   'rgba(11,37,69,1)')
       ctx.save()
       ctx.beginPath()
       ctx.arc(CX, CY, GR, 0, Math.PI * 2)
-      ctx.fillStyle = ocean
+      ctx.fillStyle = oceanGrad
       ctx.fill()
       ctx.restore()
 
-      /* Specular highlight */
-      const spec = ctx.createRadialGradient(
-        CX - GR * 0.30, CY - GR * 0.33, 0,
-        CX - GR * 0.10, CY - GR * 0.10, GR * 0.62
-      )
-      spec.addColorStop(0,    'rgba(255,255,255,0.60)')
-      spec.addColorStop(0.38, 'rgba(255,255,255,0.15)')
-      spec.addColorStop(1,    'rgba(255,255,255,0)')
+      // ── Specular highlight
+      const specGrad = ctx.createRadialGradient(CX - GR * 0.28, CY - GR * 0.32, 0, CX - GR * 0.1, CY - GR * 0.1, GR * 0.65)
+      specGrad.addColorStop(0,   'rgba(255,255,255,0.55)')
+      specGrad.addColorStop(0.35,'rgba(255,255,255,0.12)')
+      specGrad.addColorStop(1,   'rgba(255,255,255,0)')
       ctx.save()
       ctx.beginPath()
       ctx.arc(CX, CY, GR, 0, Math.PI * 2)
       ctx.clip()
-      ctx.fillStyle = spec
+      ctx.fillStyle = specGrad
       ctx.fillRect(CX - GR, CY - GR, GR * 2, GR * 2)
       ctx.restore()
 
-      /* Longitude lines — 18 lines, front-facing brighter */
-      for (let i = 0; i < 18; i++) {
-        const lonAngle = ((i / 18) * Math.PI * 2) + rotation
-        const isFront  = Math.cos(lonAngle) > 0
+      // ── Longitude lines (18)
+      const LON_COUNT = 18
+      for (let i = 0; i < LON_COUNT; i++) {
+        const lonBase = (i / LON_COUNT) * Math.PI * 2
+        const lonAngle = lonBase + rotation
+
+        // Determine if front-facing
+        const cosLon = Math.cos(lonAngle)
+        const isFront = cosLon > 0
+
         ctx.save()
         ctx.beginPath()
-        for (let s = 0; s <= 64; s++) {
-          const latA = (s / 64) * Math.PI - Math.PI / 2
-          const px   = GR * Math.cos(latA) * Math.cos(lonAngle)
-          const py   = -GR * Math.sin(latA)
-          if (s === 0) ctx.moveTo(CX + px, CY + py)
-          else         ctx.lineTo(CX + px, CY + py)
+        for (let step = 0; step <= 64; step++) {
+          const latAngle = ((step / 64) * Math.PI) - Math.PI / 2
+          const x = GR * Math.cos(latAngle) * Math.cos(lonAngle)
+          const y = -GR * Math.sin(latAngle)
+          if (step === 0) ctx.moveTo(CX + x, CY + y)
+          else ctx.lineTo(CX + x, CY + y)
         }
-        ctx.strokeStyle = isFront ? 'rgba(100,215,255,0.48)' : 'rgba(100,215,255,0.08)'
-        ctx.lineWidth   = isFront ? 0.70 : 0.34
+        const alpha = isFront ? 0.55 : 0.10
+        ctx.strokeStyle = `rgba(100,200,255,${alpha})`
+        ctx.lineWidth = isFront ? 0.7 : 0.4
         ctx.stroke()
         ctx.restore()
       }
 
-      /* Latitude ellipses — 9 rings */
-      for (let i = 1; i < 9; i++) {
-        const latA  = (i / 9) * Math.PI - Math.PI / 2
-        const eRx   = GR * Math.cos(latA)
-        const eY    = CY - GR * Math.sin(latA)
-        if (eRx < 2) continue
-        const brightness = 1 - Math.abs((i / 9) - 0.5) * 1.25
-        const alpha      = Math.max(0.06, brightness * 0.42)
+      // ── Latitude ellipses (9)
+      const LAT_COUNT = 9
+      for (let i = 1; i < LAT_COUNT; i++) {
+        const latAngle = ((i / LAT_COUNT) * Math.PI) - Math.PI / 2
+        const ellipseR = GR * Math.cos(latAngle)
+        const ellipseY = CY - GR * Math.sin(latAngle)
+
+        if (ellipseR < 1) continue
+
         ctx.save()
         ctx.beginPath()
-        ctx.ellipse(CX, eY, eRx, eRx * 0.10, 0, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(100,215,255,${alpha})`
-        ctx.lineWidth   = 0.55
+        ctx.ellipse(CX, ellipseY, ellipseR, ellipseR * 0.12, 0, 0, Math.PI * 2)
+        // Use depth from Y: top/bottom rings are faded, equatorial is bright
+        const brightness = 1 - Math.abs((i / LAT_COUNT) - 0.5) * 1.2
+        const alpha = Math.max(0.08, brightness * 0.5)
+        ctx.strokeStyle = `rgba(100,200,255,${alpha})`
+        ctx.lineWidth = 0.6
         ctx.stroke()
         ctx.restore()
       }
 
-      /* 3 concentric pulsing rings radiating outward */
+      // ── 3 Concentric pulsing rings
       for (let r = 0; r < 3; r++) {
-        const pulse = ((t * 0.54 + r * 0.56) % 1)
-        const ringR = GR + 9 + r * 15 + pulse * 26
-        const alpha = (1 - pulse) * 0.20
+        const pulse = ((t * 0.6 + r * 0.6) % 1)
+        const ringR = GR + 12 + r * 18 + pulse * 22
+        const alpha = (1 - pulse) * 0.25
         ctx.save()
         ctx.beginPath()
         ctx.arc(CX, CY, ringR, 0, Math.PI * 2)
         ctx.strokeStyle = `rgba(19,168,212,${alpha})`
-        ctx.lineWidth   = 1.5 - pulse * 0.7
+        ctx.lineWidth = 1.5 - pulse
         ctx.stroke()
         ctx.restore()
       }
 
-      /* Scanning arc sweeping around the globe edge */
-      const scanA = (t * 1.08) % (Math.PI * 2)
+      // ── Scanning arc
+      const scanAngle = (t * 1.1) % (Math.PI * 2)
       ctx.save()
       ctx.beginPath()
-      ctx.arc(CX, CY, GR + 5, scanA, scanA + 0.88)
-      ctx.strokeStyle = 'rgba(19,168,212,0.90)'
-      ctx.lineWidth   = 2.6
-      ctx.lineCap     = 'round'
-      ctx.shadowBlur  = 10
-      ctx.shadowColor = 'rgba(19,168,212,0.68)'
+      ctx.arc(CX, CY, GR + 5, scanAngle, scanAngle + 0.9)
+      ctx.strokeStyle = 'rgba(19,168,212,0.9)'
+      ctx.lineWidth = 2.5
+      ctx.lineCap = 'round'
+      ctx.shadowBlur = 8
+      ctx.shadowColor = 'rgba(19,168,212,0.8)'
       ctx.stroke()
       ctx.restore()
 
-      /* Glowing core dot at globe centre */
-      const cp = 0.65 + 0.35 * Math.sin(t * 3.3)
-      const cg = ctx.createRadialGradient(CX, CY, 0, CX, CY, 15)
-      cg.addColorStop(0,   `rgba(255,255,255,${cp})`)
-      cg.addColorStop(0.4, `rgba(19,168,212,${cp * 0.65})`)
-      cg.addColorStop(1,   'rgba(19,168,212,0)')
+      // ── Glowing core dot
+      const corePulse = 0.7 + 0.3 * Math.sin(t * 3.5)
+      const coreGrad = ctx.createRadialGradient(CX, CY, 0, CX, CY, 12)
+      coreGrad.addColorStop(0,   `rgba(255,255,255,${corePulse})`)
+      coreGrad.addColorStop(0.4, `rgba(19,168,212,${corePulse * 0.7})`)
+      coreGrad.addColorStop(1,   'rgba(19,168,212,0)')
       ctx.save()
-      ctx.fillStyle = cg
+      ctx.fillStyle = coreGrad
       ctx.beginPath()
-      ctx.arc(CX, CY, 15, 0, Math.PI * 2)
+      ctx.arc(CX, CY, 12, 0, Math.PI * 2)
       ctx.fill()
-      ctx.fillStyle = `rgba(255,255,255,${cp})`
+      // solid white inner
+      ctx.fillStyle = `rgba(255,255,255,${corePulse})`
       ctx.beginPath()
-      ctx.arc(CX, CY, 3.0, 0, Math.PI * 2)
+      ctx.arc(CX, CY, 3.5, 0, Math.PI * 2)
       ctx.fill()
       ctx.restore()
 
-      /* City hotspot dots with animated ripple rings */
-      CITIES.forEach(({ lat, lon }, ci) => {
-        const { sx, sy, depth } = latLonToXY(lat, lon, rotation, GR)
-        if (depth < -0.06) return               // hidden on back face
-        const px  = CX + sx
-        const py  = CY + sy
-        const vis = Math.min(1, (depth + 0.06) / 0.55)
+      // ── City hotspots
+      CITIES.forEach((city, ci) => {
+        const { sx, sy, depth } = latLonToXY(city.lat, city.lon, rotation, GR)
+        if (depth < -0.1) return // back face hidden
 
-        cityPhases[ci] = (cityPhases[ci] + 0.011) % 1
-        const phase = cityPhases[ci]
+        const px = CX + sx
+        const py = CY + sy
+        const vis = Math.min(1, (depth + 0.1) / 0.5)
 
-        // Ripple ring
+        cityPhases[ci] += 0.012
+        const ripplePhase = cityPhases[ci] % 1
+
+        // ripple ring
+        const rippleR = 4 + ripplePhase * 14
+        const rippleA = (1 - ripplePhase) * 0.6 * vis
         ctx.save()
         ctx.beginPath()
-        ctx.arc(px, py, 4 + phase * 14, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(19,168,212,${(1 - phase) * 0.58 * vis})`
-        ctx.lineWidth   = 1.1
+        ctx.arc(px, py, rippleR, 0, Math.PI * 2)
+        ctx.strokeStyle = `rgba(19,168,212,${rippleA})`
+        ctx.lineWidth = 1.2
         ctx.stroke()
         ctx.restore()
 
-        // Dot glow + solid centre
-        const dg = ctx.createRadialGradient(px, py, 0, px, py, 5.5)
-        dg.addColorStop(0,   `rgba(255,255,255,${vis})`)
-        dg.addColorStop(0.5, `rgba(77,191,239,${vis * 0.75})`)
-        dg.addColorStop(1,   'rgba(19,168,212,0)')
+        // dot
+        const dotGrad = ctx.createRadialGradient(px, py, 0, px, py, 5)
+        dotGrad.addColorStop(0,  `rgba(255,255,255,${vis})`)
+        dotGrad.addColorStop(0.5,`rgba(77,191,239,${vis * 0.8})`)
+        dotGrad.addColorStop(1,  `rgba(19,168,212,0)`)
         ctx.save()
-        ctx.fillStyle = dg
+        ctx.fillStyle = dotGrad
         ctx.beginPath()
-        ctx.arc(px, py, 5.5, 0, Math.PI * 2)
+        ctx.arc(px, py, 5, 0, Math.PI * 2)
         ctx.fill()
-        ctx.fillStyle = `rgba(255,255,255,${vis * 0.92})`
+        ctx.fillStyle = `rgba(255,255,255,${vis * 0.95})`
         ctx.beginPath()
-        ctx.arc(px, py, 2.1, 0, Math.PI * 2)
+        ctx.arc(px, py, 2.2, 0, Math.PI * 2)
         ctx.fill()
         ctx.restore()
       })
     }
 
-    /* ── Orbit nodes ────────────────────────────────────────── */
+    /* ── Draw Orbit Nodes ──────────────────────────────────── */
     function drawOrbitNodes() {
       ORBIT_NODES.forEach((node, ni) => {
+        const angle = t * node.speed * 1000 + node.phase
         const tiltRad = (node.tilt * Math.PI) / 180
-        const angle   = t * node.speed * 1000 + node.phase
 
-        /* Dashed tilted orbit ellipse — drawn by translating/rotating ctx */
+        // Ellipse semi-axes in screen space
+        const ax = node.r * 1.0
+        const ay = node.r * 0.35 * Math.cos(tiltRad)
+
+        // ── Dashed orbit ellipse
         ctx.save()
-        ctx.translate(CX, CY)
-        ctx.rotate(tiltRad)
         ctx.setLineDash([4, 5])
         ctx.beginPath()
-        ctx.ellipse(0, 0, node.r, node.r * PERSP, 0, 0, Math.PI * 2)
-        ctx.strokeStyle = node.color + '2a'
-        ctx.lineWidth   = 1.0
+        ctx.ellipse(CX, CY, ax, Math.abs(ay) + Math.abs(node.r * 0.35 * Math.sin(tiltRad) * 0.35), tiltRad, 0, Math.PI * 2)
+        ctx.strokeStyle = `${node.color}33`
+        ctx.lineWidth = 1
         ctx.stroke()
         ctx.setLineDash([])
         ctx.restore()
 
-        /* Node position on the rotated ellipse — must match the drawn path */
-        const { nx, ny } = orbitPos(node, angle, CX, CY)
+        // Node position
+        const nx = CX + Math.cos(angle) * ax
+        const ny = CY + Math.sin(angle) * (Math.abs(ay) + Math.abs(node.r * 0.35 * Math.sin(tiltRad) * 0.35))
 
-        /* Connection line: globe surface → node */
-        const dx    = nx - CX
-        const dy    = ny - CY
-        const dist  = Math.hypot(dx, dy)
+        // ── Connection line (globe edge → node)
+        const dx = nx - CX, dy = ny - CY
+        const dist = Math.hypot(dx, dy)
         const edgeX = CX + (dx / dist) * GR
         const edgeY = CY + (dy / dist) * GR
 
-        const lg = ctx.createLinearGradient(edgeX, edgeY, nx, ny)
-        lg.addColorStop(0,   node.color + '00')
-        lg.addColorStop(0.3, node.color + '42')
-        lg.addColorStop(1,   node.color + '20')
+        const lineGrad = ctx.createLinearGradient(edgeX, edgeY, nx, ny)
+        lineGrad.addColorStop(0, `${node.color}00`)
+        lineGrad.addColorStop(0.3, `${node.color}44`)
+        lineGrad.addColorStop(1, `${node.color}22`)
         ctx.save()
         ctx.beginPath()
         ctx.moveTo(edgeX, edgeY)
         ctx.lineTo(nx, ny)
-        ctx.strokeStyle = lg
-        ctx.lineWidth   = 1.1
+        ctx.strokeStyle = lineGrad
+        ctx.lineWidth = 1.2
         ctx.stroke()
         ctx.restore()
 
-        /* Animated data packet travelling along connection line */
-        packetProgress[ni] = (packetProgress[ni] + 0.0055) % 1
-        const pp  = packetProgress[ni]
+        // ── Animated data packet
+        packetProgress[ni] = (packetProgress[ni] + 0.006) % 1
+        const pp = packetProgress[ni]
         const pkx = edgeX + (nx - edgeX) * pp
         const pky = edgeY + (ny - edgeY) * pp
-        const pg  = ctx.createRadialGradient(pkx, pky, 0, pkx, pky, 5)
-        pg.addColorStop(0, node.color + 'ff')
-        pg.addColorStop(1, node.color + '00')
+        const pkGrad = ctx.createRadialGradient(pkx, pky, 0, pkx, pky, 5)
+        pkGrad.addColorStop(0, `${node.color}ff`)
+        pkGrad.addColorStop(1, `${node.color}00`)
         ctx.save()
-        ctx.fillStyle = pg
+        ctx.fillStyle = pkGrad
         ctx.beginPath()
         ctx.arc(pkx, pky, 5, 0, Math.PI * 2)
         ctx.fill()
         ctx.restore()
 
-        /* Node circle */
+        // ── Node circle
         const isHov = hoveredRef.current === ni
-        const scale = isHov ? 1.28 : 1.0
-        const nodeR = 13 * scale
+        const scale = isHov ? 1.25 : 1.0
+        const nodeR = 14 * scale
 
-        // Outer glow aura
-        const glowR = nodeR + 8 + (isHov ? 7 : 0) + 2.8 * Math.sin(t * 3 + ni)
-        const gg    = ctx.createRadialGradient(nx, ny, nodeR * 0.5, nx, ny, glowR)
-        gg.addColorStop(0, node.color + '52')
-        gg.addColorStop(1, node.color + '00')
+        // outer glow
+        const glowR = nodeR + 8 + (isHov ? 6 : 0) + 3 * Math.sin(t * 3 + ni)
+        const glowGrad = ctx.createRadialGradient(nx, ny, nodeR * 0.5, nx, ny, glowR)
+        glowGrad.addColorStop(0, `${node.color}55`)
+        glowGrad.addColorStop(1, `${node.color}00`)
         ctx.save()
-        ctx.fillStyle = gg
+        ctx.fillStyle = glowGrad
         ctx.beginPath()
         ctx.arc(nx, ny, glowR, 0, Math.PI * 2)
         ctx.fill()
         ctx.restore()
 
-        // Outer glow ring
+        // glow ring
         ctx.save()
         ctx.beginPath()
-        ctx.arc(nx, ny, nodeR + 4.5, 0, Math.PI * 2)
-        ctx.strokeStyle = node.color + (isHov ? 'bb' : '52')
-        ctx.lineWidth   = isHov ? 2.0 : 1.4
+        ctx.arc(nx, ny, nodeR + 4, 0, Math.PI * 2)
+        ctx.strokeStyle = `${node.color}${isHov ? 'bb' : '55'}`
+        ctx.lineWidth = isHov ? 2 : 1.5
         ctx.stroke()
         ctx.restore()
 
-        // Filled node circle
-        const ng = ctx.createRadialGradient(
-          nx - nodeR * 0.28, ny - nodeR * 0.28, 0,
-          nx, ny, nodeR
-        )
-        ng.addColorStop(0, node.color + 'ff')
-        ng.addColorStop(1, node.color + 'aa')
+        // filled circle
+        const nodeGrad = ctx.createRadialGradient(nx - nodeR * 0.3, ny - nodeR * 0.3, 0, nx, ny, nodeR)
+        nodeGrad.addColorStop(0, node.color + 'ff')
+        nodeGrad.addColorStop(1, node.color + 'aa')
         ctx.save()
         ctx.beginPath()
         ctx.arc(nx, ny, nodeR, 0, Math.PI * 2)
-        ctx.fillStyle = ng
+        ctx.fillStyle = nodeGrad
         ctx.fill()
         ctx.restore()
 
-        // White inner dot
+        // white inner dot
         ctx.save()
-        ctx.fillStyle = 'rgba(255,255,255,0.93)'
+        ctx.fillStyle = 'rgba(255,255,255,0.92)'
         ctx.beginPath()
-        ctx.arc(nx, ny, 3.0, 0, Math.PI * 2)
+        ctx.arc(nx, ny, 3.5, 0, Math.PI * 2)
         ctx.fill()
         ctx.restore()
 
-        /* Label pill below node */
-        const fs = 9.5 * scale
+        // ── Label pill (drawn on canvas for simplicity)
         ctx.save()
-        ctx.font      = `600 ${fs}px "Plus Jakarta Sans","Inter",sans-serif`
+        ctx.font = `bold ${10 * scale}px "Plus Jakarta Sans", "Inter", sans-serif`
         ctx.textAlign = 'center'
-        const tw  = ctx.measureText(node.label).width
-        const ph  = 15 * scale
-        const pw  = tw + 12 * scale
-        const lx  = nx
-        const ly  = ny + nodeR + 9 * scale
-        // Pill background
-        ctx.fillStyle = 'rgba(255,255,255,0.94)'
+        const tw = ctx.measureText(node.label).width
+        const ph = 16 * scale, pw = tw + 14 * scale
+        const lx = nx, ly = ny + nodeR + 10 * scale
+        // pill bg
+        ctx.fillStyle = 'rgba(255,255,255,0.92)'
         ctx.beginPath()
-        if (ctx.roundRect) {
-          ctx.roundRect(lx - pw / 2, ly - ph / 2, pw, ph, ph / 2)
-        } else {
-          ctx.rect(lx - pw / 2, ly - ph / 2, pw, ph)
-        }
+        ctx.roundRect(lx - pw / 2, ly - ph / 2, pw, ph, ph / 2)
         ctx.fill()
-        // Pill border
+        // pill border
         ctx.strokeStyle = node.color + '88'
-        ctx.lineWidth   = 1
+        ctx.lineWidth = 1
         ctx.stroke()
-        // Pill text
+        // text
         ctx.fillStyle = node.color
         ctx.fillText(node.label, lx, ly + 3.5 * scale)
         ctx.restore()
       })
     }
 
-    /* ── Animation loop ─────────────────────────────────────── */
+    /* ── Main Loop ─────────────────────────────────────────── */
     function frame() {
-      t += 0.010
+      t += 0.01
       ctx.clearRect(0, 0, W, H)
       drawGlobe()
       drawOrbitNodes()
@@ -409,17 +389,23 @@ export default function HeroGlobe() {
     }
   }, [])
 
-  /* ── Hover detection ────────────────────────────────────────── */
+  // ── Hover detection via pointer move on wrapper
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const mx   = e.clientX - rect.left
-    const my   = e.clientY - rect.top
-    const CX   = rect.width  / 2
-    const CY   = rect.height / 2
+    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect()
+    const mx = e.clientX - rect.left
+    const my = e.clientY - rect.top
+    const W = rect.width, H = rect.height
+    const CX = W / 2, CY = H / 2
+    const GR = Math.min(W, H) * 0.30
+
     let found: number | null = null
     ORBIT_NODES.forEach((node, ni) => {
-      const angle       = (Date.now() * node.speed) + node.phase
-      const { nx, ny } = orbitPos(node, angle, CX, CY)
+      const angle = (Date.now() * node.speed) + node.phase
+      const tiltRad = (node.tilt * Math.PI) / 180
+      const ax = node.r
+      const ay = Math.abs(node.r * 0.35 * Math.cos(tiltRad)) + Math.abs(node.r * 0.35 * Math.sin(tiltRad) * 0.35)
+      const nx = CX + Math.cos(angle) * ax
+      const ny = CY + Math.sin(angle) * ay
       if (Math.hypot(mx - nx, my - ny) < 22) found = ni
     })
     if (found !== hoveredRef.current) {
@@ -433,51 +419,51 @@ export default function HeroGlobe() {
     setHoveredNode(null)
   }
 
-  /* ── HUD floating info cards ────────────────────────────────── */
+  /* ── HUD Cards ─────────────────────────────────────────── */
   const HUD_CARDS = [
     {
-      pos:   'top-left',
+      pos: 'top-left',
       title: 'Active Learners',
       value: '3,240',
-      sub:   'Enrolled this month',
-      live:  true,
-      icon:  '👥',
-      accent:'#22c55e',
+      sub: 'Enrolled this month',
+      live: true,
+      icon: '👥',
+      accent: '#22c55e',
     },
     {
-      pos:   'top-right',
+      pos: 'top-right',
       title: 'Certifications',
       value: '1M+',
-      sub:   'Total issued globally',
-      live:  false,
-      icon:  '🎓',
-      accent:'#1a6fbf',
+      sub: 'Total issued globally',
+      live: false,
+      icon: '🎓',
+      accent: '#1a6fbf',
     },
     {
-      pos:   'bottom-left',
+      pos: 'bottom-left',
       title: 'Completion Rate',
       value: '94.7%',
-      sub:   'Avg. across all courses',
-      live:  false,
-      icon:  '📈',
-      accent:'#13a8d4',
+      sub: 'Avg. across all courses',
+      live: false,
+      icon: '📈',
+      accent: '#13a8d4',
     },
     {
-      pos:   'bottom-right',
+      pos: 'bottom-right',
       title: 'NPS Score',
       value: '72',
-      sub:   'World-class promoter score',
-      live:  false,
-      icon:  '⭐',
-      accent:'#f59e0b',
+      sub: 'Promoter score',
+      live: false,
+      icon: '⭐',
+      accent: '#f59e0b',
     },
   ]
 
   const posClass: Record<string, string> = {
-    'top-left':     'top-3 left-1',
-    'top-right':    'top-3 right-1',
-    'bottom-left':  'bottom-3 left-1',
-    'bottom-right': 'bottom-3 right-1',
+    'top-left':     'top-4 left-2',
+    'top-right':    'top-4 right-2',
+    'bottom-left':  'bottom-4 left-2',
+    'bottom-right': 'bottom-4 right-2',
   }
   const floatClass: Record<string, string> = {
     'top-left':     'hud-float-a',
@@ -487,36 +473,24 @@ export default function HeroGlobe() {
   }
 
   return (
-    <div ref={wrapRef} className="relative w-full h-full select-none">
+    <div className="relative w-full h-full select-none" ref={wrapRef}>
       <style>{`
-        @keyframes hudFloatA {
-          0%,100% { transform: translateY(0px) }
-          50%     { transform: translateY(-7px) }
-        }
-        @keyframes hudFloatB {
-          0%,100% { transform: translateY(0px) }
-          50%     { transform: translateY(7px) }
-        }
-        .hud-float-a { animation: hudFloatA 4.3s ease-in-out infinite; }
-        .hud-float-b { animation: hudFloatB 4.9s ease-in-out infinite; }
-        @keyframes livePulse {
-          0%,100% { opacity:1; transform:scale(1) }
-          50%     { opacity:0.42; transform:scale(1.48) }
-        }
-        .live-dot { animation: livePulse 1.45s ease-in-out infinite; }
+        @keyframes hudFloatA { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-8px)} }
+        @keyframes hudFloatB { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(8px)} }
+        .hud-float-a { animation: hudFloatA 4s ease-in-out infinite; }
+        .hud-float-b { animation: hudFloatB 4.5s ease-in-out infinite; }
+        @keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+        .live-dot { animation: livePulse 1.5s ease-in-out infinite; }
       `}</style>
 
-      {/* Canvas — fills the container */}
+      {/* Canvas */}
       <div
         className="absolute inset-0"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ cursor: hoveredNode !== null ? 'pointer' : 'default' }}
       >
-        <canvas
-          ref={cvRef}
-          style={{ display: 'block', width: '100%', height: '100%' }}
-        />
+        <canvas ref={cvRef} style={{ display: 'block', width: '100%', height: '100%' }} />
       </div>
 
       {/* HUD Cards */}
@@ -527,56 +501,28 @@ export default function HeroGlobe() {
         >
           <div
             style={{
-              background:    'rgba(255,255,255,0.93)',
-              border:        `1px solid ${card.accent}2a`,
-              boxShadow:     `0 4px 22px rgba(11,37,69,0.10), 0 1px 5px ${card.accent}14`,
-              borderRadius:  '14px',
-              padding:       '11px 15px',
-              minWidth:      '138px',
-              backdropFilter:'blur(12px)',
+              background: 'rgba(255,255,255,0.93)',
+              border: `1px solid ${card.accent}30`,
+              boxShadow: `0 4px 20px rgba(11,37,69,0.10), 0 1px 4px ${card.accent}18`,
+              borderRadius: '12px',
+              padding: '10px 14px',
+              minWidth: '130px',
+              backdropFilter: 'blur(8px)',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-              <span style={{ fontSize: 13 }}>{card.icon}</span>
-              <span style={{
-                fontSize:      9,
-                fontWeight:    700,
-                color:         '#64748b',
-                fontFamily:    '"Plus Jakarta Sans", sans-serif',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-              }}>
+            <div className="flex items-center gap-2 mb-1">
+              <span style={{ fontSize: 14 }}>{card.icon}</span>
+              <span style={{ fontSize: 10, fontWeight: 600, color: '#64748b', fontFamily: '"Plus Jakarta Sans", sans-serif', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                 {card.title}
               </span>
               {card.live && (
-                <span
-                  className="live-dot"
-                  style={{
-                    width:        7,
-                    height:       7,
-                    borderRadius: '50%',
-                    background:   '#22c55e',
-                    display:      'inline-block',
-                    marginLeft:   'auto',
-                  }}
-                />
+                <span className="live-dot ml-auto" style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
               )}
             </div>
-            <div style={{
-              fontSize:   22,
-              fontWeight: 800,
-              color:      '#0b2545',
-              fontFamily: '"Plus Jakarta Sans", sans-serif',
-              lineHeight: 1.1,
-            }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: '#0b2545', fontFamily: '"Plus Jakarta Sans", sans-serif', lineHeight: 1.1 }}>
               {card.value}
             </div>
-            <div style={{
-              fontSize:   10,
-              color:      '#64748b',
-              fontFamily: '"Inter", sans-serif',
-              marginTop:  3,
-            }}>
+            <div style={{ fontSize: 10, color: '#64748b', fontFamily: '"Inter", sans-serif', marginTop: 2 }}>
               {card.sub}
             </div>
           </div>
