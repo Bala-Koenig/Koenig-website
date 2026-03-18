@@ -229,7 +229,15 @@ function BentoCard({ label, children, style }: {
         className="absolute bottom-0 left-0 right-0 px-3 py-2"
         style={{ background: 'linear-gradient(to top,rgba(6,12,24,0.95) 60%,transparent)' }}
       >
-        <span className="text-[10px] font-medium tracking-[0.12em] text-white/75">{label}</span>
+        <span
+          className="inline-block text-[10px] font-medium tracking-[0.12em] text-white/90 px-2.5 py-1 rounded"
+          style={{
+            background: 'linear-gradient(135deg, rgba(6,148,209,0.28) 0%, rgba(56,189,248,0.14) 50%, rgba(6,148,209,0.22) 100%)',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.2)',
+            border: '1px solid rgba(56,189,248,0.20)',
+            backdropFilter: 'blur(4px)',
+          }}
+        >{label}</span>
       </div>
     </div>
   )
@@ -957,7 +965,7 @@ function BentoGrid() {
         <BentoCard label="TECHNOLOGY" style={{ flex: 1 }}>
           <CanvasTechnology />
         </BentoCard>
-        <BentoCard label="& FUNCTIONAL SKILLS" style={{ flex: 1 }}>
+        <BentoCard label="FUNCTIONAL SKILLS" style={{ flex: 1 }}>
           <CanvasPuzzle />
         </BentoCard>
       </div>
@@ -1059,7 +1067,7 @@ function HeroBentoAnimation() {
           <BentoCard label="TECHNOLOGY" style={{ flex: 1 }}>
             <CanvasTechnology />
           </BentoCard>
-          <BentoCard label="& FUNCTIONAL SKILLS" style={{ flex: 1 }}>
+          <BentoCard label="FUNCTIONAL SKILLS" style={{ flex: 1 }}>
             <CanvasPuzzle />
           </BentoCard>
         </div>
