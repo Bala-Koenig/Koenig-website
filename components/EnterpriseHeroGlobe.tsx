@@ -404,33 +404,41 @@ export default function EnterpriseHeroGlobe() {
         ctx.fillText(node.icon, nx, ny)
         ctx.restore()
 
-        // Label pill
-        const fs = 9.5 * scale
-        ctx.save()
-        ctx.font      = `600 ${fs}px "Plus Jakarta Sans","Inter",sans-serif`
-        ctx.textAlign = 'center'
-        const tw = ctx.measureText(node.label).width
-        const ph = 15 * scale
-        const pw = tw + 12 * scale
-        const lx = nx
-        const ly = ny + nodeR + 9 * scale
-        // Pill bg — brand navy with blue border
-        ctx.fillStyle = 'rgba(11,37,69,0.88)'
-        ctx.beginPath()
-        if (ctx.roundRect) {
-          ctx.roundRect(lx - pw / 2, ly - ph / 2, pw, ph, ph / 2)
-        } else {
-          ctx.rect(lx - pw / 2, ly - ph / 2, pw, ph)
-        }
-        ctx.fill()
-        ctx.strokeStyle = 'rgba(6,148,209,0.70)'
-        ctx.lineWidth   = 1
-        ctx.stroke()
-        // Pill text — Koenig cyan
-        ctx.fillStyle   = '#4DBFEF'
-        ctx.fillText(node.label, lx, ly + 3.5 * scale)
-        ctx.restore()
       })
+    }
+
+    /* ── floating tech keywords ─────────────────────────────── */
+    const TECH_WORDS = [
+      'Cloud', 'API', 'DevOps', 'ML', 'AI', 'Python',
+      'Azure', 'AWS', 'K8s', 'CI/CD', 'Docker', 'SQL',
+    ]
+    // Pre-assign each word a fixed orbit around the canvas edges
+    const wordSeeds = TECH_WORDS.map((_, i) => ({
+      angleOffset: (i / TECH_WORDS.length) * Math.PI * 2,
+      speed:       0.00018 + (i % 3) * 0.00007,
+      radiusFactor:0.88 + (i % 4) * 0.06,   // fraction of half-canvas
+      opacity:     0.38 + (i % 3) * 0.12,
+    }))
+
+    function drawTechWords() {
+      ctx.save()
+      ctx.font      = '600 10px "Plus Jakarta Sans","Inter",sans-serif'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      const halfW = W / 2
+      const halfH = H / 2
+      TECH_WORDS.forEach((word, i) => {
+        const seed  = wordSeeds[i]
+        const angle = seed.angleOffset + t * seed.speed * 1000
+        // Elliptical path that hugs the canvas border area
+        const rx = halfW * seed.radiusFactor
+        const ry = halfH * seed.radiusFactor * 0.75
+        const wx = CX + Math.cos(angle) * rx
+        const wy = CY + Math.sin(angle) * ry
+        ctx.fillStyle = `rgba(6,148,209,${seed.opacity})`
+        ctx.fillText(word, wx, wy)
+      })
+      ctx.restore()
     }
 
     /* ── animation loop ──────────────────────────────────────── */
@@ -439,6 +447,7 @@ export default function EnterpriseHeroGlobe() {
       ctx.clearRect(0, 0, W, H)
       drawGlobe()
       drawOrbitNodes()
+      drawTechWords()
       animRef.current = requestAnimationFrame(frame)
     }
 
