@@ -6,7 +6,7 @@
 }
 
 @theme {
-  --animate-aurora: aurora 60s linear infinite;
+  --animate-aurora: aurora 40s linear infinite;
 }
 
 @font-face {
