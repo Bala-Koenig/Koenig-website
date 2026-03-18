@@ -1604,6 +1604,7 @@ export default function EnterprisePage() {
           -webkit-text-fill-color: transparent;
           background-clip: text;
           animation: entGradShift 3s ease infinite;
+          filter: drop-shadow(0 0 14px rgba(56,189,248,0.85)) drop-shadow(0 0 28px rgba(6,148,209,0.45));
         }
 
         /* Scroll-triggered fade-in-up */
