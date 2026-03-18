@@ -3,12 +3,12 @@ import { useEffect, useRef, useState } from 'react'
 
 /* ─── Orbit Node Config ──────────────────────────────────────── */
 const ORBIT_NODES = [
-  { label: 'Gen AI',       color: '#ef4444', r: 115, speed: 0.00080, tilt:  22, phase: 0.00 },
-  { label: 'Technology',   color: '#3b82f6', r: 140, speed: 0.00058, tilt: -18, phase: 1.05 },
-  { label: 'Finance',      color: '#22c55e', r: 126, speed: 0.00100, tilt:  35, phase: 2.10 },
-  { label: 'Data Science', color: '#ec4899', r: 150, speed: 0.00068, tilt: -28, phase: 3.15 },
-  { label: 'Management',   color: '#a855f7', r: 134, speed: 0.00090, tilt:  15, phase: 4.20 },
-  { label: 'Functional',   color: '#f59e0b', r: 122, speed: 0.00112, tilt: -40, phase: 5.25 },
+  { label: 'Gen AI',       color: '#ef4444', r: 115, speed: 0.00080, tilt:  22, phase: 0.00, icon: '🤖' },
+  { label: 'Technology',   color: '#3b82f6', r: 140, speed: 0.00058, tilt: -18, phase: 1.05, icon: '💻' },
+  { label: 'Finance',      color: '#22c55e', r: 126, speed: 0.00100, tilt:  35, phase: 2.10, icon: '💹' },
+  { label: 'Data Science', color: '#ec4899', r: 150, speed: 0.00068, tilt: -28, phase: 3.15, icon: '📊' },
+  { label: 'Management',   color: '#a855f7', r: 134, speed: 0.00090, tilt:  15, phase: 4.20, icon: '🏆' },
+  { label: 'Functional',   color: '#f59e0b', r: 122, speed: 0.00112, tilt: -40, phase: 5.25, icon: '⚙️' },
 ]
 
 /* ─── City Hotspots ──────────────────────────────────────────── */
@@ -345,12 +345,13 @@ export default function EnterpriseHeroGlobe() {
         ctx.fill()
         ctx.restore()
 
-        // White inner dot
+        // Tech icon centered inside node
+        const iconSize = nodeR * 1.05
         ctx.save()
-        ctx.fillStyle = 'rgba(255,255,255,0.93)'
-        ctx.beginPath()
-        ctx.arc(nx, ny, 3.0, 0, Math.PI * 2)
-        ctx.fill()
+        ctx.font = `${iconSize}px serif`
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(node.icon, nx, ny)
         ctx.restore()
 
         // Label pill
