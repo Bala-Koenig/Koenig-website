@@ -567,7 +567,7 @@ function CanvasFinance() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
-/* ── Canvas 4: DATA SCIENCE — scatter plot with shapes, regression line & accuracy ── */
+/* ── Canvas 4: DATA SCIENCE — ML training curves (loss + accuracy over epochs) ── */
 function CanvasDataScience() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -575,117 +575,120 @@ function CanvasDataScience() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    const CLUSTERS = [
-      { cx: 0.26, cy: 0.28, col: [56,189,248],  label: '● Cluster A' },
-      { cx: 0.72, cy: 0.30, col: [6,148,209],   label: '■ Cluster B' },
-      { cx: 0.49, cy: 0.74, col: [77,191,239],  label: '▲ Cluster C' },
-    ]
-    const PTS = Array.from({ length: 42 }, (_, i) => {
-      const cl = CLUSTERS[i % 3]
-      const s1 = Math.sin(i * 127.1) * 0.5, s2 = Math.cos(i * 311.7) * 0.5
-      return {
-        clX: Math.max(0.09, Math.min(0.91, cl.cx + s1 * 0.15)),
-        clY: Math.max(0.09, Math.min(0.91, cl.cy + s2 * 0.18)),
-        ci: i % 3, ph: (i * 2.399) % 6.28,
-      }
-    })
-    // Draw marker shapes per cluster: 0=circle, 1=square, 2=triangle
-    const drawMarker = (x: number, y: number, r: number, ci: number, col: number[]) => {
-      const c3 = `${col[0]},${col[1]},${col[2]}`
-      const cg = ctx.createRadialGradient(x, y, 0, x, y, r * 2.4)
-      cg.addColorStop(0, `rgba(${c3},0.88)`); cg.addColorStop(1, `rgba(${c3},0)`)
-      ctx.beginPath(); ctx.arc(x, y, r * 2.4, 0, 6.28); ctx.fillStyle = cg; ctx.fill()
-      ctx.fillStyle = `rgba(${c3},1)`
-      if (ci === 0) {
-        ctx.beginPath(); ctx.arc(x, y, r, 0, 6.28); ctx.fill()
-      } else if (ci === 1) {
-        ctx.fillRect(x - r, y - r, r * 2, r * 2)
-      } else {
-        ctx.beginPath(); ctx.moveTo(x, y - r * 1.2); ctx.lineTo(x + r * 1.1, y + r * 0.8); ctx.lineTo(x - r * 1.1, y + r * 0.8); ctx.closePath(); ctx.fill()
-      }
-    }
+    const N = 24 // epochs
+    // Pre-computed stable curves (no Math.random in loop)
+    const TRAIN_LOSS = Array.from({ length: N }, (_, i) =>
+      Math.exp(-i * 0.21) * 0.84 + 0.07 + Math.sin(i * 3.7) * 0.025)
+    const VAL_LOSS = Array.from({ length: N }, (_, i) =>
+      Math.exp(-i * 0.17) * 0.80 + 0.11 + Math.sin(i * 2.4 + 1.1) * 0.034)
+    const ACCURACY = Array.from({ length: N }, (_, i) =>
+      Math.min(0.975, 1 - Math.exp(-i * 0.19) * 0.82 - 0.07 + Math.sin(i * 3.1 + 0.5) * 0.018))
     const loop = () => {
       const W = c.width, H = c.height, t = Date.now() / 1000
       ctx.clearRect(0, 0, W, H)
-      const mL = W * 0.12, mB = H * 0.15, mT = H * 0.07, mR = W * 0.04
+      const mL = W * 0.11, mB = H * 0.20, mT = H * 0.14, mR = W * 0.04
       const cW = W - mL - mR, cH = H - mT - mB
-      // Grid
+      // Animate: draw progressively then hold, cycle every ~6 s
+      const cycle = (t * 0.18) % 1
+      const prog  = Math.min(1, cycle < 0.65 ? cycle / 0.65 : 1)
+      const tipI  = prog * (N - 1)
+      const tipFl = Math.floor(tipI), tipFr = tipI - tipFl
+      // Map helpers
+      const px = (i: number) => mL + (i / (N - 1)) * cW
+      const py = (v: number) => mT + (1 - v) * cH  // 0 at bottom, 1 at top
+      // Horizontal grid + Y-axis tick labels
+      const fs = Math.max(5, W * 0.046)
+      ctx.font = `${fs}px sans-serif`; ctx.fillStyle = 'rgba(56,189,248,0.32)'
+      ctx.textAlign = 'right'
       for (let g = 0; g <= 4; g++) {
-        const gx = mL + (g / 4) * cW, gy = mT + (g / 4) * cH
-        ctx.beginPath(); ctx.moveTo(gx, mT); ctx.lineTo(gx, mT + cH)
-        ctx.strokeStyle = 'rgba(6,148,209,0.08)'; ctx.lineWidth = 0.6; ctx.stroke()
+        const gy = mT + (g / 4) * cH
         ctx.beginPath(); ctx.moveTo(mL, gy); ctx.lineTo(mL + cW, gy)
         ctx.strokeStyle = 'rgba(6,148,209,0.08)'; ctx.lineWidth = 0.6; ctx.stroke()
+        ctx.fillText(`${((4 - g) * 0.25).toFixed(2)}`, mL - 3, gy + fs * 0.35)
+      }
+      // X-axis epoch ticks
+      ctx.fillStyle = 'rgba(56,189,248,0.30)'; ctx.textAlign = 'center'
+      for (let e = 0; e <= 3; e++) {
+        const gx = mL + (e / 3) * cW
+        ctx.beginPath(); ctx.moveTo(gx, mT + cH); ctx.lineTo(gx, mT + cH + 3)
+        ctx.strokeStyle = 'rgba(56,189,248,0.20)'; ctx.lineWidth = 0.7; ctx.stroke()
+        ctx.fillText(`${Math.round((e / 3) * (N - 1))}`, gx, mT + cH + fs + 2)
       }
       // Axes
       ctx.beginPath(); ctx.moveTo(mL, mT); ctx.lineTo(mL, mT + cH); ctx.lineTo(mL + cW, mT + cH)
-      ctx.strokeStyle = 'rgba(56,189,248,0.3)'; ctx.lineWidth = 1; ctx.stroke()
-      // Tick marks + labels
-      const fs = Math.max(5.5, W * 0.048)
-      ctx.font = `${fs}px sans-serif`; ctx.fillStyle = 'rgba(56,189,248,0.38)'
-      for (let tick = 1; tick <= 4; tick++) {
-        const xT = mL + (tick / 4) * cW, yT = mT + (tick / 4) * cH
-        ctx.beginPath(); ctx.moveTo(xT, mT + cH); ctx.lineTo(xT, mT + cH + 3); ctx.strokeStyle = 'rgba(56,189,248,0.25)'; ctx.lineWidth = 0.8; ctx.stroke()
-        ctx.textAlign = 'center'; ctx.fillText(`${tick * 25}`, xT, mT + cH + fs + 2)
-        ctx.beginPath(); ctx.moveTo(mL, yT); ctx.lineTo(mL - 3, yT); ctx.stroke()
-        ctx.textAlign = 'right'; ctx.fillText(`${(4 - tick) * 25}`, mL - 5, yT + fs * 0.35)
-      }
+      ctx.strokeStyle = 'rgba(56,189,248,0.28)'; ctx.lineWidth = 1; ctx.stroke()
       // Axis labels
-      ctx.fillStyle = 'rgba(56,189,248,0.4)'; ctx.textAlign = 'center'
-      ctx.fillText('Feature X₁', mL + cW / 2, H - mB * 0.05)
+      ctx.font = `${fs}px sans-serif`
+      ctx.fillStyle = 'rgba(56,189,248,0.38)'; ctx.textAlign = 'center'
+      ctx.fillText('Epoch', mL + cW / 2, H - mB * 0.06)
       ctx.save(); ctx.translate(mL * 0.22, mT + cH / 2); ctx.rotate(-Math.PI / 2)
-      ctx.fillText('Feature X₂', 0, 0); ctx.restore()
-      // Animated regression line (draws progressively then holds)
-      const regPhase = ((t * 0.18) % 1)
-      const regProgress = Math.min(1, regPhase < 0.6 ? regPhase / 0.6 : 1)
-      const rx1 = mL, ry1 = mT + cH * 0.18
-      const rx2 = mL + cW, ry2 = mT + cH * 0.78
-      if (regProgress > 0) {
-        const endX = rx1 + (rx2 - rx1) * regProgress
-        const endY = ry1 + (ry2 - ry1) * regProgress
-        ctx.beginPath(); ctx.moveTo(rx1, ry1); ctx.lineTo(endX, endY)
-        ctx.strokeStyle = `rgba(56,189,248,${0.22 * regProgress})`; ctx.lineWidth = 1.2
-        ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([])
+      ctx.fillText('Value', 0, 0); ctx.restore()
+      // Draw a curve progressively up to tipI
+      const drawCurve = (data: number[], col: string, lw: number, dash: number[]) => {
+        if (tipFl < 1) return
+        ctx.beginPath(); ctx.moveTo(px(0), py(data[0]))
+        for (let i = 1; i <= tipFl; i++) ctx.lineTo(px(i), py(data[i]))
+        if (tipFl < N - 1 && tipFr > 0) {
+          const v = data[tipFl] + (data[tipFl + 1] - data[tipFl]) * tipFr
+          ctx.lineTo(px(tipI), py(v))
+        }
+        ctx.strokeStyle = col; ctx.lineWidth = lw
+        if (dash.length) ctx.setLineDash(dash)
+        ctx.stroke()
+        ctx.setLineDash([])
       }
-      // Cycling highlight (one cluster at a time)
-      const hilite = Math.floor(t * 0.4) % 3
-      // Cluster boundaries
-      CLUSTERS.forEach((cl, ci) => {
-        const cx = mL + cl.cx * cW, cy = mT + cl.cy * cH
-        const isHi = ci === hilite
-        const pulse = 0.6 + 0.18 * Math.sin(t * 0.9 + ci * 1.2)
-        const scale = isHi ? 1.15 + 0.05 * Math.sin(t * 2.0) : pulse
-        const rx = cW * 0.13 * scale, ry = cH * 0.17 * scale
-        ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, 6.28)
-        ctx.strokeStyle = `rgba(${cl.col[0]},${cl.col[1]},${cl.col[2]},${isHi ? 0.45 : 0.18})`
-        ctx.lineWidth = isHi ? 1.2 : 0.8; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.setLineDash([])
-        ctx.beginPath()
-        ctx.moveTo(cx - 5, cy); ctx.lineTo(cx + 5, cy)
-        ctx.moveTo(cx, cy - 5); ctx.lineTo(cx, cy + 5)
-        ctx.strokeStyle = `rgba(${cl.col[0]},${cl.col[1]},${cl.col[2]},${isHi ? 0.75 : 0.45})`
-        ctx.lineWidth = 1.2; ctx.stroke()
-      })
-      // Data points with per-cluster shapes
-      PTS.forEach(pt => {
-        const cl = CLUSTERS[pt.ci]
-        const x = mL + pt.clX * cW, y = mT + pt.clY * cH
-        const pulse = 0.5 + 0.5 * Math.sin(t * 2.4 + pt.ph)
-        const r = 2.0 + pulse * 1.0
-        drawMarker(x, y, r, pt.ci, cl.col)
-      })
+      // Filled area under accuracy curve
+      if (tipFl >= 1) {
+        ctx.beginPath(); ctx.moveTo(px(0), py(ACCURACY[0]))
+        for (let i = 1; i <= tipFl; i++) ctx.lineTo(px(i), py(ACCURACY[i]))
+        if (tipFl < N - 1 && tipFr > 0) {
+          const v = ACCURACY[tipFl] + (ACCURACY[tipFl + 1] - ACCURACY[tipFl]) * tipFr
+          ctx.lineTo(px(tipI), py(v))
+        }
+        ctx.lineTo(px(tipI), mT + cH); ctx.lineTo(px(0), mT + cH); ctx.closePath()
+        const ag = ctx.createLinearGradient(0, mT, 0, mT + cH)
+        ag.addColorStop(0, 'rgba(7,109,157,0.18)'); ag.addColorStop(1, 'rgba(7,109,157,0)')
+        ctx.fillStyle = ag; ctx.fill()
+      }
+      drawCurve(VAL_LOSS,  'rgba(7,109,157,0.65)',  1.1, [3, 2])
+      drawCurve(TRAIN_LOSS,'rgba(56,189,248,0.90)',  1.5, [])
+      drawCurve(ACCURACY,  'rgba(77,191,239,0.75)',  1.2, [])
+      // Moving glow tip on train-loss curve
+      if (tipFl >= 0) {
+        const tipV = tipFl < N - 1 && tipFr > 0
+          ? TRAIN_LOSS[tipFl] + (TRAIN_LOSS[tipFl + 1] - TRAIN_LOSS[tipFl]) * tipFr
+          : TRAIN_LOSS[tipFl]
+        const tx = px(tipI), ty = py(tipV)
+        const dp = 0.5 + 0.5 * Math.sin(t * 7)
+        const dg = ctx.createRadialGradient(tx, ty, 0, tx, ty, 7)
+        dg.addColorStop(0, 'rgba(56,189,248,0.9)'); dg.addColorStop(1, 'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(tx, ty, 7, 0, 6.28); ctx.fillStyle = dg; ctx.fill()
+        ctx.beginPath(); ctx.arc(tx, ty, 2.2 + dp * 0.8, 0, 6.28); ctx.fillStyle = '#38bdf8'; ctx.fill()
+      }
+      // Top readouts
+      const ei = Math.min(tipFl, N - 1)
+      ctx.font = `600 ${fs}px sans-serif`
+      ctx.fillStyle = 'rgba(56,189,248,0.72)'; ctx.textAlign = 'left'
+      ctx.fillText(`Epoch ${Math.round(tipI)}/${N - 1}`, mL, mT - fs * 0.6)
+      ctx.fillStyle = 'rgba(56,189,248,0.50)'; ctx.textAlign = 'right'
+      ctx.fillText(`Loss ${TRAIN_LOSS[ei].toFixed(3)}  Acc ${(ACCURACY[ei] * 100).toFixed(1)}%`, mL + cW, mT - fs * 0.6)
       // Legend
-      const legX = mL + cW * 0.58, legY = mT + cH * 0.06
-      CLUSTERS.forEach((cl, ci) => {
-        const ly = legY + ci * (fs + 4.5)
-        ctx.font = `${fs}px sans-serif`; ctx.textAlign = 'left'
-        ctx.fillStyle = `rgba(${cl.col[0]},${cl.col[1]},${cl.col[2]},${ci === hilite ? 0.95 : 0.6})`
-        ctx.fillText(cl.label, legX, ly)
+      const legY = mT + cH + mB * 0.52
+      const items = [
+        { col: 'rgba(56,189,248,0.9)', label: 'Train Loss', dash: false },
+        { col: 'rgba(7,109,157,0.65)', label: 'Val Loss',   dash: true  },
+        { col: 'rgba(77,191,239,0.8)', label: 'Accuracy',   dash: false },
+      ]
+      const segW = cW / items.length
+      items.forEach((it, ii) => {
+        const lx = mL + ii * segW
+        ctx.strokeStyle = it.col; ctx.lineWidth = 1.4
+        if (it.dash) ctx.setLineDash([3, 2])
+        ctx.beginPath(); ctx.moveTo(lx, legY); ctx.lineTo(lx + 11, legY); ctx.stroke()
+        ctx.setLineDash([])
+        ctx.font = `${fs}px sans-serif`; ctx.fillStyle = it.col; ctx.textAlign = 'left'
+        ctx.fillText(it.label, lx + 14, legY + fs * 0.38)
       })
-      // Accuracy badge (top-left of chart area)
-      const acc = Math.min(94.2, 94.2 * Math.min(1, (t % 8) / 2))
-      ctx.font = `600 ${fs}px sans-serif`; ctx.textAlign = 'left'
-      ctx.fillStyle = 'rgba(56,189,248,0.55)'
-      ctx.fillText(`Acc: ${acc.toFixed(1)}%`, mL + 2, mT - 2)
       id = requestAnimationFrame(loop)
     }
     loop()
