@@ -2,7 +2,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
-import { AuroraBackground } from '@/components/ui/aurora-background'
 import { FallingPattern } from '@/components/ui/falling-pattern'
 
 /* ─── Existing Data ──────────────────────────────────────── */
@@ -1839,10 +1838,7 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <AuroraBackground
-        className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-20 lg:py-28"
-        showRadialGradient={true}
-      >
+      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0">
           {/* Falling pattern — Koenig blue streaks on hero bg */}
           <FallingPattern
@@ -1912,7 +1908,7 @@ export default function EnterprisePage() {
             </div>
           </div>
         </div>
-      </AuroraBackground>
+      </section>
 
       {/* ════════════════════════════════════════════════════════
            NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
