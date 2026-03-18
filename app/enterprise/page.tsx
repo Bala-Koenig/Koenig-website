@@ -847,7 +847,13 @@ function HeroStatsAnimation() {
           <div className="relative z-10">
             <div
               className="text-3xl font-black leading-none"
-              style={{ color: '#38bdf8', textShadow: '0 0 22px rgba(56,189,248,0.55)' }}
+              style={{
+                background: 'linear-gradient(135deg, #e0f7ff 0%, #38bdf8 40%, #0694d1 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'drop-shadow(0 0 10px rgba(56,189,248,0.6)) drop-shadow(0 0 22px rgba(6,148,209,0.35))',
+              }}
             >
               {num}
             </div>
