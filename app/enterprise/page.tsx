@@ -470,13 +470,15 @@ function CanvasManagement() {
         // Left accent strip
         ctx.beginPath(); ctx.roundRect(x, y, 3, n.h, [rad, 0, 0, rad])
         ctx.fillStyle = `rgba(${n.acc},${0.75 + pulse * 0.25})`; ctx.fill()
-        // Person icon
-        const iX = x + 10, iY = n.y
-        const hR = n.h * 0.17
-        const iCol = `rgba(${n.acc},0.85)`
+        // Person icon — centered in card
+        // Icon spans: top = iY - hR*1.6, bottom = iY + hR*1.1 (total height hR*2.7)
+        // Set iY so visual centre = card centre (n.y)
+        const hR = n.h * 0.22
+        const iX = n.x
+        const iY = n.y + hR * 0.25
+        const iCol = `rgba(${n.acc},0.88)`
         ctx.beginPath(); ctx.arc(iX, iY - hR * 0.6, hR, 0, 6.28); ctx.fillStyle = iCol; ctx.fill()
         ctx.beginPath(); ctx.arc(iX, iY + hR * 1.1, hR * 1.35, Math.PI, 0); ctx.fillStyle = iCol; ctx.fill()
-        const fs = Math.max(5.5, n.h * 0.33)
         // Status dot (top-right, pulsing)
         const dX = x + n.w - 7, dY = y + 7
         const dR = 2.2 + pulse * 0.9
