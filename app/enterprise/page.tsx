@@ -208,19 +208,30 @@ const FAQS = [
 
 /* ─── Bento Hero Animation ───────────────────────────────── */
 
+/* Per-card colour themes */
+const BENTO_THEMES: Record<string, { card: string; border: string; overlay: string; badge: string; badgeBorder: string; text: string }> = {
+  'GEN AI':            { card: 'rgba(237,233,255,0.82)', border: 'rgba(139,92,246,0.32)',  overlay: 'rgba(237,233,255,0.97)', badge: 'rgba(139,92,246,0.13)', badgeBorder: 'rgba(139,92,246,0.35)', text: '#6d28d9' },
+  'MANAGEMENT':        { card: 'rgba(219,242,255,0.82)', border: 'rgba(6,148,209,0.35)',   overlay: 'rgba(219,242,255,0.97)', badge: 'rgba(6,148,209,0.13)',  badgeBorder: 'rgba(6,148,209,0.38)',  text: '#076d9d' },
+  'FINANCE':           { card: 'rgba(220,252,231,0.82)', border: 'rgba(16,185,129,0.32)',  overlay: 'rgba(220,252,231,0.97)', badge: 'rgba(16,185,129,0.13)', badgeBorder: 'rgba(16,185,129,0.35)', text: '#047857' },
+  'DATA SCIENCE':      { card: 'rgba(207,250,254,0.82)', border: 'rgba(6,182,212,0.32)',   overlay: 'rgba(207,250,254,0.97)', badge: 'rgba(6,182,212,0.13)',  badgeBorder: 'rgba(6,182,212,0.35)',  text: '#0891b2' },
+  'TECHNOLOGY':        { card: 'rgba(255,243,220,0.82)', border: 'rgba(245,158,11,0.32)',  overlay: 'rgba(255,243,220,0.97)', badge: 'rgba(245,158,11,0.13)', badgeBorder: 'rgba(245,158,11,0.35)', text: '#b45309' },
+  'FUNCTIONAL SKILLS': { card: 'rgba(255,228,240,0.82)', border: 'rgba(236,72,153,0.28)',  overlay: 'rgba(255,228,240,0.97)', badge: 'rgba(236,72,153,0.11)', badgeBorder: 'rgba(236,72,153,0.30)', text: '#be185d' },
+}
+
 /* Shared card wrapper */
 function BentoCard({ label, children, style }: {
   label: string; children: React.ReactNode; style?: React.CSSProperties
 }) {
+  const th = BENTO_THEMES[label] ?? BENTO_THEMES['MANAGEMENT']
   return (
     <div
       className="relative overflow-hidden"
       style={{
         borderRadius: 14,
-        background: 'rgba(255,255,255,0.72)',
-        border: '1px solid rgba(6,148,209,0.28)',
+        background: th.card,
+        border: `1px solid ${th.border}`,
         backdropFilter: 'blur(12px)',
-        boxShadow: '0 4px 24px rgba(6,148,209,0.10)',
+        boxShadow: `0 4px 24px ${th.border.replace('0.32','0.12').replace('0.35','0.12').replace('0.28','0.10')}`,
         ...style,
       }}
     >
@@ -228,15 +239,11 @@ function BentoCard({ label, children, style }: {
       {/* Label overlay */}
       <div
         className="absolute bottom-0 left-0 right-0 px-3 py-2"
-        style={{ background: 'linear-gradient(to top,rgba(220,238,250,0.97) 60%,transparent)' }}
+        style={{ background: `linear-gradient(to top,${th.overlay} 60%,transparent)` }}
       >
         <span
           className="inline-block text-[10px] font-semibold tracking-[0.12em] px-2.5 py-1 rounded"
-          style={{
-            background: 'rgba(6,148,209,0.12)',
-            border: '1px solid rgba(6,148,209,0.32)',
-            color: '#076d9d',
-          }}
+          style={{ background: th.badge, border: `1px solid ${th.badgeBorder}`, color: th.text }}
         >{label}</span>
       </div>
     </div>
@@ -1225,22 +1232,22 @@ function HeroRightPanel() {
                 key={s.label}
                 className="rounded-2xl text-center"
                 style={{
-                  background: 'rgba(6,12,24,0.80)',
-                  border: '1.5px solid rgba(6,148,209,0.55)',
+                  background: 'rgba(255,255,255,0.82)',
+                  border: '1.5px solid rgba(6,148,209,0.30)',
                   backdropFilter: 'blur(18px)',
                   WebkitBackdropFilter: 'blur(18px)',
-                  boxShadow: '0 0 32px rgba(6,148,209,0.25), 0 8px 40px rgba(0,0,0,0.55)',
+                  boxShadow: '0 4px 24px rgba(6,148,209,0.14), 0 8px 32px rgba(0,0,0,0.08)',
                   padding: '22px 18px',
                   minWidth: 140,
                 }}
               >
                 <div
                   className="text-3xl font-black leading-none"
-                  style={{ color: '#38bdf8', textShadow: '0 0 24px rgba(56,189,248,0.6)' }}
+                  style={{ color: '#0694d1' }}
                 >
                   {s.num}
                 </div>
-                <div className="mt-2 text-xs font-semibold text-white/65">{s.label}</div>
+                <div className="mt-2 text-xs font-semibold" style={{ color: '#4a7a99' }}>{s.label}</div>
               </div>
             ))}
           </div>
