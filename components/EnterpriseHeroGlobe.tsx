@@ -3,12 +3,12 @@ import { useEffect, useRef, useState } from 'react'
 
 /* ─── Orbit Node Config ──────────────────────────────────────── */
 const ORBIT_NODES = [
-  { label: 'Gen AI',       color: '#ef4444', r: 115, speed: 0.00080, tilt:  22, phase: 0.00, icon: '🤖' },
-  { label: 'Technology',   color: '#3b82f6', r: 140, speed: 0.00058, tilt: -18, phase: 1.05, icon: '💻' },
-  { label: 'Finance',      color: '#22c55e', r: 126, speed: 0.00100, tilt:  35, phase: 2.10, icon: '💹' },
-  { label: 'Data Science', color: '#ec4899', r: 150, speed: 0.00068, tilt: -28, phase: 3.15, icon: '📊' },
-  { label: 'Management',   color: '#a855f7', r: 134, speed: 0.00090, tilt:  15, phase: 4.20, icon: '🏆' },
-  { label: 'Functional',   color: '#f59e0b', r: 122, speed: 0.00112, tilt: -40, phase: 5.25, icon: '⚙️' },
+  { label: 'Gen AI',       color: '#0694d1', r: 115, speed: 0.00080, tilt:  22, phase: 0.00, icon: '🤖' },
+  { label: 'Technology',   color: '#1a6fbf', r: 140, speed: 0.00058, tilt: -18, phase: 1.05, icon: '💻' },
+  { label: 'Finance',      color: '#13a8d4', r: 126, speed: 0.00100, tilt:  35, phase: 2.10, icon: '💹' },
+  { label: 'Data Science', color: '#076D9D', r: 150, speed: 0.00068, tilt: -28, phase: 3.15, icon: '📊' },
+  { label: 'Management',   color: '#4DBFEF', r: 134, speed: 0.00090, tilt:  15, phase: 4.20, icon: '🏆' },
+  { label: 'Functional',   color: '#0b2545', r: 122, speed: 0.00112, tilt: -40, phase: 5.25, icon: '⚙️' },
 ]
 
 /* ─── City Hotspots ──────────────────────────────────────────── */
