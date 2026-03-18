@@ -399,7 +399,7 @@ function CanvasNeuralNet() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
-/* ── Canvas 2: MANAGEMENT — animated org-chart hierarchy ── */
+/* ── Canvas 2: MANAGEMENT — card-based org chart with roles, depts & status ── */
 function CanvasManagement() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -407,62 +407,91 @@ function CanvasManagement() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    const ROLES = ['CEO', 'VP Eng', 'VP Ops', 'Lead', 'Lead', 'Dev', 'Dev']
+    type Nd = { rx: number; ry: number; role: string; dept: string; lvl: number; acc: string }
+    const NODES: Nd[] = [
+      { rx: 0.50, ry: 0.11, role: 'CEO',     dept: 'Executive',   lvl: 0, acc: '56,189,248' },
+      { rx: 0.27, ry: 0.42, role: 'VP Eng',  dept: 'Engineering', lvl: 1, acc: '6,148,209'  },
+      { rx: 0.73, ry: 0.42, role: 'VP Ops',  dept: 'Operations',  lvl: 1, acc: '6,148,209'  },
+      { rx: 0.12, ry: 0.76, role: 'Lead',    dept: 'Dev',         lvl: 2, acc: '7,109,157'  },
+      { rx: 0.40, ry: 0.76, role: 'Lead',    dept: 'QA',          lvl: 2, acc: '7,109,157'  },
+      { rx: 0.60, ry: 0.76, role: 'Lead',    dept: 'Ops',         lvl: 2, acc: '7,109,157'  },
+      { rx: 0.88, ry: 0.76, role: 'Analyst', dept: 'Data',        lvl: 2, acc: '7,109,157'  },
+    ]
+    const EDGES: [number, number][] = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]
     const loop = () => {
       const W = c.width, H = c.height, t = Date.now() / 1000
       ctx.clearRect(0, 0, W, H)
-      type Nd = { x: number; y: number }
-      const root: Nd = { x: W * 0.5, y: H * 0.13 }
-      const mid: Nd[] = [{ x: W * 0.27, y: H * 0.42 }, { x: W * 0.73, y: H * 0.42 }]
-      const leaves: Nd[] = [
-        { x: W * 0.12, y: H * 0.72 }, { x: W * 0.40, y: H * 0.72 },
-        { x: W * 0.60, y: H * 0.72 }, { x: W * 0.88, y: H * 0.72 },
-      ]
-      const allNodes = [root, ...mid, ...leaves]
-      const edges: [Nd, Nd][] = [
-        [root, mid[0]], [root, mid[1]],
-        [mid[0], leaves[0]], [mid[0], leaves[1]],
-        [mid[1], leaves[2]], [mid[1], leaves[3]],
-      ]
-      // Draw edges with animated particles
-      edges.forEach(([a, b], ei) => {
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y)
-        ctx.strokeStyle = 'rgba(6,148,209,0.22)'; ctx.lineWidth = 1.2; ctx.stroke()
-        const p = ((t * 0.52 + ei * 0.21) % 1)
-        const px = a.x + (b.x - a.x) * p, py = a.y + (b.y - a.y) * p
-        const g = ctx.createRadialGradient(px, py, 0, px, py, 7)
+      const baseW = Math.min(W * 0.25, 58), baseH = Math.min(H * 0.165, 26)
+      const SCALE = [1.28, 1.1, 1.1, 1.0, 1.0, 1.0, 1.0]
+      const nodes = NODES.map((n, i) => ({
+        ...n,
+        x: W * n.rx, y: H * n.ry,
+        w: baseW * SCALE[i], h: baseH * SCALE[i],
+      }))
+      // Bezier edges with arrowhead + animated particle
+      EDGES.forEach(([ai, bi], ei) => {
+        const a = nodes[ai], b = nodes[bi]
+        const ax = a.x, ay = a.y + a.h / 2
+        const bx = b.x, by = b.y - b.h / 2
+        const my = (ay + by) / 2
+        ctx.beginPath(); ctx.moveTo(ax, ay)
+        ctx.bezierCurveTo(ax, my, bx, my, bx, by)
+        ctx.strokeStyle = 'rgba(6,148,209,0.22)'; ctx.lineWidth = 1; ctx.stroke()
+        // Arrowhead
+        const ang = Math.atan2(by - my, bx - mx(ax, bx))
+        const as = 4.5
+        ctx.beginPath()
+        ctx.moveTo(bx, by)
+        ctx.lineTo(bx - as * Math.cos(ang - 0.45), by - as * Math.sin(ang - 0.45))
+        ctx.lineTo(bx - as * Math.cos(ang + 0.45), by - as * Math.sin(ang + 0.45))
+        ctx.closePath()
+        ctx.fillStyle = 'rgba(6,148,209,0.38)'; ctx.fill()
+        // Particle
+        const p = ((t * 0.55 + ei * 0.24) % 1)
+        const qx = (1-p)*(1-p)*(1-p)*ax + 3*(1-p)*(1-p)*p*ax + 3*(1-p)*p*p*bx + p*p*p*bx
+        const qy = (1-p)*(1-p)*(1-p)*ay + 3*(1-p)*(1-p)*p*my + 3*(1-p)*p*p*my + p*p*p*by
+        const g = ctx.createRadialGradient(qx, qy, 0, qx, qy, 5)
         g.addColorStop(0, 'rgba(56,189,248,0.9)'); g.addColorStop(1, 'rgba(56,189,248,0)')
-        ctx.beginPath(); ctx.arc(px, py, 7, 0, 6.28); ctx.fillStyle = g; ctx.fill()
-        ctx.beginPath(); ctx.arc(px, py, 2.2, 0, 6.28); ctx.fillStyle = '#38bdf8'; ctx.fill()
+        ctx.beginPath(); ctx.arc(qx, qy, 5, 0, 6.28); ctx.fillStyle = g; ctx.fill()
+        ctx.beginPath(); ctx.arc(qx, qy, 2, 0, 6.28); ctx.fillStyle = '#38bdf8'; ctx.fill()
       })
-      const radii = [13, 10, 10, 7, 7, 7, 7]
-      allNodes.forEach((n, i) => {
-        const pulse = 0.5 + 0.5 * Math.sin(t * 1.9 + i * 0.85)
-        const r = radii[i] + pulse * 2
-        // Glow halo
-        const ng = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 2.8)
-        ng.addColorStop(0, `rgba(6,148,209,${0.28 + pulse * 0.22})`); ng.addColorStop(1, 'rgba(6,148,209,0)')
-        ctx.beginPath(); ctx.arc(n.x, n.y, r * 2.8, 0, 6.28); ctx.fillStyle = ng; ctx.fill()
-        // Node background circle
-        ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 6.28)
-        ctx.fillStyle = 'rgba(6,20,40,0.94)'; ctx.fill()
-        ctx.strokeStyle = `rgba(56,189,248,${0.5 + pulse * 0.5})`; ctx.lineWidth = 1.5; ctx.stroke()
-        // Person icon — head + shoulders silhouette
-        const iconColor = `rgba(56,189,248,${0.7 + pulse * 0.3})`
-        const headR = r * 0.36
-        const headY = n.y - r * 0.22
-        const bodyR = r * 0.5
-        const bodyY = n.y + r * 0.32
-        ctx.beginPath(); ctx.arc(n.x, headY, headR, 0, 6.28)
-        ctx.fillStyle = iconColor; ctx.fill()
-        ctx.beginPath(); ctx.arc(n.x, bodyY, bodyR, Math.PI, 0)
-        ctx.fillStyle = iconColor; ctx.fill()
-        // Role label below node
-        const fontSize = Math.max(6, Math.round(r * 0.62))
-        ctx.font = `600 ${fontSize}px sans-serif`
-        ctx.textAlign = 'center'
-        ctx.fillStyle = `rgba(56,189,248,${0.55 + pulse * 0.25})`
-        ctx.fillText(ROLES[i], n.x, n.y + r * 2.3)
+      // Helper: mx used inline above
+      function mx(ax: number, bx: number) { return (ax + bx) / 2 }
+      // Draw node cards
+      nodes.forEach((n, i) => {
+        const pulse = 0.5 + 0.5 * Math.sin(t * 1.8 + i * 0.88)
+        const x = n.x - n.w / 2, y = n.y - n.h / 2
+        const rad = 5
+        // Card bg
+        ctx.beginPath(); ctx.roundRect(x, y, n.w, n.h, rad)
+        ctx.fillStyle = 'rgba(5,17,34,0.93)'; ctx.fill()
+        ctx.strokeStyle = `rgba(${n.acc},${0.42 + pulse * 0.32})`
+        ctx.lineWidth = n.lvl === 0 ? 1.4 : 1; ctx.stroke()
+        // Left accent strip
+        ctx.beginPath(); ctx.roundRect(x, y, 3, n.h, [rad, 0, 0, rad])
+        ctx.fillStyle = `rgba(${n.acc},${0.75 + pulse * 0.25})`; ctx.fill()
+        // Person icon
+        const iX = x + 10, iY = n.y
+        const hR = n.h * 0.17
+        const iCol = `rgba(${n.acc},0.85)`
+        ctx.beginPath(); ctx.arc(iX, iY - hR * 0.6, hR, 0, 6.28); ctx.fillStyle = iCol; ctx.fill()
+        ctx.beginPath(); ctx.arc(iX, iY + hR * 1.1, hR * 1.35, Math.PI, 0); ctx.fillStyle = iCol; ctx.fill()
+        // Role text
+        const fs = Math.max(5.5, n.h * 0.33)
+        ctx.font = `700 ${fs}px sans-serif`; ctx.textAlign = 'left'
+        ctx.fillStyle = 'rgba(215,238,255,0.92)'
+        ctx.fillText(n.role, x + 18, y + n.h * 0.50)
+        // Dept text
+        ctx.font = `500 ${Math.max(4.5, fs * 0.76)}px sans-serif`
+        ctx.fillStyle = `rgba(${n.acc},0.68)`
+        ctx.fillText(n.dept, x + 18, y + n.h * 0.80)
+        // Status dot (top-right, pulsing)
+        const dX = x + n.w - 7, dY = y + 7
+        const dR = 2.2 + pulse * 0.9
+        const dg = ctx.createRadialGradient(dX, dY, 0, dX, dY, dR * 2.2)
+        dg.addColorStop(0, `rgba(56,189,248,${0.65 + pulse * 0.35})`); dg.addColorStop(1, 'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(dX, dY, dR * 2.2, 0, 6.28); ctx.fillStyle = dg; ctx.fill()
+        ctx.beginPath(); ctx.arc(dX, dY, dR * 0.55, 0, 6.28); ctx.fillStyle = 'rgba(56,189,248,0.95)'; ctx.fill()
       })
       id = requestAnimationFrame(loop)
     }
@@ -542,7 +571,7 @@ function CanvasFinance() {
   return <canvas ref={ref} className="absolute inset-0 w-full h-full" />
 }
 
-/* ── Canvas 4: DATA SCIENCE — scatter plot with axes, grid, and distinct clusters ── */
+/* ── Canvas 4: DATA SCIENCE — scatter plot with shapes, regression line & accuracy ── */
 function CanvasDataScience() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -550,30 +579,41 @@ function CanvasDataScience() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    // Three clusters — Koenig brand blues (distinct brightness/saturation)
     const CLUSTERS = [
-      { cx: 0.26, cy: 0.28, r: [56,189,248],  label: 'Cluster A' },  // #38bdf8 bright cyan
-      { cx: 0.72, cy: 0.30, r: [6,148,209],   label: 'Cluster B' },  // #0694d1 koenig blue
-      { cx: 0.49, cy: 0.74, r: [77,191,239],  label: 'Cluster C' },  // #4DBFEF mid cyan
+      { cx: 0.26, cy: 0.28, col: [56,189,248],  label: '● Cluster A' },
+      { cx: 0.72, cy: 0.30, col: [6,148,209],   label: '■ Cluster B' },
+      { cx: 0.49, cy: 0.74, col: [77,191,239],  label: '▲ Cluster C' },
     ]
-    // Seeded (stable) scatter points — no Math.random in render loop
     const PTS = Array.from({ length: 42 }, (_, i) => {
       const cl = CLUSTERS[i % 3]
       const s1 = Math.sin(i * 127.1) * 0.5, s2 = Math.cos(i * 311.7) * 0.5
       return {
         clX: Math.max(0.09, Math.min(0.91, cl.cx + s1 * 0.15)),
         clY: Math.max(0.09, Math.min(0.91, cl.cy + s2 * 0.18)),
-        ci: i % 3,
-        ph: (i * 2.399) % 6.28,
+        ci: i % 3, ph: (i * 2.399) % 6.28,
       }
     })
+    // Draw marker shapes per cluster: 0=circle, 1=square, 2=triangle
+    const drawMarker = (x: number, y: number, r: number, ci: number, col: number[]) => {
+      const c3 = `${col[0]},${col[1]},${col[2]}`
+      const cg = ctx.createRadialGradient(x, y, 0, x, y, r * 2.4)
+      cg.addColorStop(0, `rgba(${c3},0.88)`); cg.addColorStop(1, `rgba(${c3},0)`)
+      ctx.beginPath(); ctx.arc(x, y, r * 2.4, 0, 6.28); ctx.fillStyle = cg; ctx.fill()
+      ctx.fillStyle = `rgba(${c3},1)`
+      if (ci === 0) {
+        ctx.beginPath(); ctx.arc(x, y, r, 0, 6.28); ctx.fill()
+      } else if (ci === 1) {
+        ctx.fillRect(x - r, y - r, r * 2, r * 2)
+      } else {
+        ctx.beginPath(); ctx.moveTo(x, y - r * 1.2); ctx.lineTo(x + r * 1.1, y + r * 0.8); ctx.lineTo(x - r * 1.1, y + r * 0.8); ctx.closePath(); ctx.fill()
+      }
+    }
     const loop = () => {
       const W = c.width, H = c.height, t = Date.now() / 1000
       ctx.clearRect(0, 0, W, H)
-      // Chart margins
-      const mL = W * 0.11, mB = H * 0.13, mT = H * 0.06, mR = W * 0.04
+      const mL = W * 0.12, mB = H * 0.15, mT = H * 0.07, mR = W * 0.04
       const cW = W - mL - mR, cH = H - mT - mB
-      // Grid lines
+      // Grid
       for (let g = 0; g <= 4; g++) {
         const gx = mL + (g / 4) * cW, gy = mT + (g / 4) * cH
         ctx.beginPath(); ctx.moveTo(gx, mT); ctx.lineTo(gx, mT + cH)
@@ -584,51 +624,72 @@ function CanvasDataScience() {
       // Axes
       ctx.beginPath(); ctx.moveTo(mL, mT); ctx.lineTo(mL, mT + cH); ctx.lineTo(mL + cW, mT + cH)
       ctx.strokeStyle = 'rgba(56,189,248,0.3)'; ctx.lineWidth = 1; ctx.stroke()
+      // Tick marks + labels
+      const fs = Math.max(5.5, W * 0.048)
+      ctx.font = `${fs}px sans-serif`; ctx.fillStyle = 'rgba(56,189,248,0.38)'
+      for (let tick = 1; tick <= 4; tick++) {
+        const xT = mL + (tick / 4) * cW, yT = mT + (tick / 4) * cH
+        ctx.beginPath(); ctx.moveTo(xT, mT + cH); ctx.lineTo(xT, mT + cH + 3); ctx.strokeStyle = 'rgba(56,189,248,0.25)'; ctx.lineWidth = 0.8; ctx.stroke()
+        ctx.textAlign = 'center'; ctx.fillText(`${tick * 25}`, xT, mT + cH + fs + 2)
+        ctx.beginPath(); ctx.moveTo(mL, yT); ctx.lineTo(mL - 3, yT); ctx.stroke()
+        ctx.textAlign = 'right'; ctx.fillText(`${(4 - tick) * 25}`, mL - 5, yT + fs * 0.35)
+      }
       // Axis labels
-      const fs = Math.max(6, W * 0.052)
-      ctx.font = `${fs}px sans-serif`; ctx.fillStyle = 'rgba(56,189,248,0.4)'
-      ctx.textAlign = 'center'
-      ctx.fillText('Feature X₁', mL + cW / 2, H - mB * 0.08)
-      ctx.save(); ctx.translate(mL * 0.26, mT + cH / 2); ctx.rotate(-Math.PI / 2)
+      ctx.fillStyle = 'rgba(56,189,248,0.4)'; ctx.textAlign = 'center'
+      ctx.fillText('Feature X₁', mL + cW / 2, H - mB * 0.05)
+      ctx.save(); ctx.translate(mL * 0.22, mT + cH / 2); ctx.rotate(-Math.PI / 2)
       ctx.fillText('Feature X₂', 0, 0); ctx.restore()
-      // Cluster boundaries (dashed ellipses) + centroid crosshairs
+      // Animated regression line (draws progressively then holds)
+      const regPhase = ((t * 0.18) % 1)
+      const regProgress = Math.min(1, regPhase < 0.6 ? regPhase / 0.6 : 1)
+      const rx1 = mL, ry1 = mT + cH * 0.18
+      const rx2 = mL + cW, ry2 = mT + cH * 0.78
+      if (regProgress > 0) {
+        const endX = rx1 + (rx2 - rx1) * regProgress
+        const endY = ry1 + (ry2 - ry1) * regProgress
+        ctx.beginPath(); ctx.moveTo(rx1, ry1); ctx.lineTo(endX, endY)
+        ctx.strokeStyle = `rgba(56,189,248,${0.22 * regProgress})`; ctx.lineWidth = 1.2
+        ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([])
+      }
+      // Cycling highlight (one cluster at a time)
+      const hilite = Math.floor(t * 0.4) % 3
+      // Cluster boundaries
       CLUSTERS.forEach((cl, ci) => {
         const cx = mL + cl.cx * cW, cy = mT + cl.cy * cH
+        const isHi = ci === hilite
         const pulse = 0.6 + 0.18 * Math.sin(t * 0.9 + ci * 1.2)
-        const rx = cW * 0.13 * pulse, ry = cH * 0.17 * pulse
+        const scale = isHi ? 1.15 + 0.05 * Math.sin(t * 2.0) : pulse
+        const rx = cW * 0.13 * scale, ry = cH * 0.17 * scale
         ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, 6.28)
-        ctx.strokeStyle = `rgba(${cl.r[0]},${cl.r[1]},${cl.r[2]},0.25)`
-        ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.setLineDash([])
-        // Centroid cross
+        ctx.strokeStyle = `rgba(${cl.col[0]},${cl.col[1]},${cl.col[2]},${isHi ? 0.45 : 0.18})`
+        ctx.lineWidth = isHi ? 1.2 : 0.8; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.setLineDash([])
         ctx.beginPath()
         ctx.moveTo(cx - 5, cy); ctx.lineTo(cx + 5, cy)
         ctx.moveTo(cx, cy - 5); ctx.lineTo(cx, cy + 5)
-        ctx.strokeStyle = `rgba(${cl.r[0]},${cl.r[1]},${cl.r[2]},0.6)`
-        ctx.lineWidth = 1.5; ctx.stroke()
+        ctx.strokeStyle = `rgba(${cl.col[0]},${cl.col[1]},${cl.col[2]},${isHi ? 0.75 : 0.45})`
+        ctx.lineWidth = 1.2; ctx.stroke()
       })
-      // Data points
+      // Data points with per-cluster shapes
       PTS.forEach(pt => {
         const cl = CLUSTERS[pt.ci]
         const x = mL + pt.clX * cW, y = mT + pt.clY * cH
         const pulse = 0.5 + 0.5 * Math.sin(t * 2.4 + pt.ph)
-        const r = 2.2 + pulse * 1.1
-        const cg = ctx.createRadialGradient(x, y, 0, x, y, r * 2.6)
-        cg.addColorStop(0, `rgba(${cl.r[0]},${cl.r[1]},${cl.r[2]},0.9)`)
-        cg.addColorStop(1, `rgba(${cl.r[0]},${cl.r[1]},${cl.r[2]},0)`)
-        ctx.beginPath(); ctx.arc(x, y, r * 2.6, 0, 6.28); ctx.fillStyle = cg; ctx.fill()
-        ctx.beginPath(); ctx.arc(x, y, r, 0, 6.28)
-        ctx.fillStyle = `rgba(${cl.r[0]},${cl.r[1]},${cl.r[2]},1)`; ctx.fill()
+        const r = 2.0 + pulse * 1.0
+        drawMarker(x, y, r, pt.ci, cl.col)
       })
-      // Legend (top-right inside chart)
-      const legX = mL + cW * 0.60, legY = mT + cH * 0.07
+      // Legend
+      const legX = mL + cW * 0.58, legY = mT + cH * 0.06
       CLUSTERS.forEach((cl, ci) => {
-        const ly = legY + ci * (fs + 5)
-        ctx.beginPath(); ctx.arc(legX, ly - fs * 0.2, 3, 0, 6.28)
-        ctx.fillStyle = `rgba(${cl.r[0]},${cl.r[1]},${cl.r[2]},0.85)`; ctx.fill()
+        const ly = legY + ci * (fs + 4.5)
         ctx.font = `${fs}px sans-serif`; ctx.textAlign = 'left'
-        ctx.fillStyle = `rgba(${cl.r[0]},${cl.r[1]},${cl.r[2]},0.7)`
-        ctx.fillText(cl.label, legX + 7, ly)
+        ctx.fillStyle = `rgba(${cl.col[0]},${cl.col[1]},${cl.col[2]},${ci === hilite ? 0.95 : 0.6})`
+        ctx.fillText(cl.label, legX, ly)
       })
+      // Accuracy badge (top-left of chart area)
+      const acc = Math.min(94.2, 94.2 * Math.min(1, (t % 8) / 2))
+      ctx.font = `600 ${fs}px sans-serif`; ctx.textAlign = 'left'
+      ctx.fillStyle = 'rgba(56,189,248,0.55)'
+      ctx.fillText(`Acc: ${acc.toFixed(1)}%`, mL + 2, mT - 2)
       id = requestAnimationFrame(loop)
     }
     loop()
