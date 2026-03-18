@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@keyframes aurora {
+  from { background-position: 50% 50%, 50% 50%; }
+  to   { background-position: 350% 50%, 350% 50%; }
+}
+
+@theme {
+  --animate-aurora: aurora 60s linear infinite;
+}
+
 @font-face {
   font-family: 'GT Walsheim Pro';
   src: url('/fonts/GTWalsheimPro-Thin.ttf') format('truetype');

@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
+import { AuroraBackground } from '@/components/ui/aurora-background'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
@@ -1837,14 +1838,17 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 lg:px-[50px] py-20 lg:py-28">
+      <AuroraBackground
+        className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-20 lg:py-28"
+        showRadialGradient={true}
+      >
         <div className="pointer-events-none absolute inset-0">
           <HeroTechWave />
           <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
           <div className="absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
         </div>
-        <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="relative z-10 mx-auto max-w-7xl w-full">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
             {/* Left */}
             <div className="flex-1 text-center lg:text-left">
@@ -1899,7 +1903,7 @@ export default function EnterprisePage() {
             </div>
           </div>
         </div>
-      </section>
+      </AuroraBackground>
 
       {/* ════════════════════════════════════════════════════════
            NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
