@@ -476,15 +476,11 @@ function CanvasManagement() {
         const iCol = `rgba(${n.acc},0.85)`
         ctx.beginPath(); ctx.arc(iX, iY - hR * 0.6, hR, 0, 6.28); ctx.fillStyle = iCol; ctx.fill()
         ctx.beginPath(); ctx.arc(iX, iY + hR * 1.1, hR * 1.35, Math.PI, 0); ctx.fillStyle = iCol; ctx.fill()
-        // Role text
+        // Role text (vertically centred in card)
         const fs = Math.max(5.5, n.h * 0.33)
         ctx.font = `700 ${fs}px sans-serif`; ctx.textAlign = 'left'
         ctx.fillStyle = 'rgba(215,238,255,0.92)'
-        ctx.fillText(n.role, x + 18, y + n.h * 0.50)
-        // Dept text
-        ctx.font = `500 ${Math.max(4.5, fs * 0.76)}px sans-serif`
-        ctx.fillStyle = `rgba(${n.acc},0.68)`
-        ctx.fillText(n.dept, x + 18, y + n.h * 0.80)
+        ctx.fillText(n.role, x + 18, y + n.h * 0.62)
         // Status dot (top-right, pulsing)
         const dX = x + n.w - 7, dY = y + 7
         const dR = 2.2 + pulse * 0.9
