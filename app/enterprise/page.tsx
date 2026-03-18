@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { AuroraBackground } from '@/components/ui/aurora-background'
+import { FallingPattern } from '@/components/ui/falling-pattern'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
@@ -1843,6 +1844,15 @@ export default function EnterprisePage() {
         showRadialGradient={true}
       >
         <div className="pointer-events-none absolute inset-0">
+          {/* Falling pattern — Koenig blue streaks on hero bg */}
+          <FallingPattern
+            color="rgba(6,148,209,0.55)"
+            backgroundColor="#E8F4FA"
+            duration={120}
+            blurIntensity="0.6em"
+            density={1.2}
+            className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,#E8F4FA_80%)]"
+          />
           <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
           <div className="absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
           <div className="absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.12) 0%, transparent 70%)' }} />
