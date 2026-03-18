@@ -826,9 +826,12 @@ function HeroStatsAnimation() {
           key={label}
           className="relative overflow-hidden rounded-2xl text-center"
           style={{
-            background: 'rgba(6,12,24,0.90)',
-            border: '1px solid rgba(6,148,209,0.40)',
-            backdropFilter: 'blur(10px)',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(6,148,209,0.06) 50%, rgba(255,255,255,0.04) 100%)',
+            border: '1px solid rgba(255,255,255,0.13)',
+            borderTop: '1px solid rgba(255,255,255,0.22)',
+            backdropFilter: 'blur(18px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(18px) saturate(160%)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(6,148,209,0.12)',
             minHeight: 140,
             padding: '22px 14px 18px',
           }}
