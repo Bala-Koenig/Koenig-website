@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
+import HeroParticles from '@/components/HeroParticles'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
@@ -1740,11 +1741,17 @@ export default function EnterprisePage() {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden px-4 lg:px-[50px] py-20 lg:py-28">
-        <div className="pointer-events-none absolute inset-0">
-          <ParticleBanner />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 60% 50%, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
-          <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Background image — same as homepage */}
+          <img src="/images/home-baner.png" alt="" className="h-full w-full object-cover object-center" style={{ opacity: 0.55 }} />
+          {/* Dark navy/teal gradient overlay */}
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', opacity: 0.78 }} />
+          {/* Animated blobs */}
+          <div className="ent-blob1 absolute -top-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+          <div className="ent-blob2 absolute top-1/2 -right-40 h-80 w-80 rounded-full bg-cyan-300/15 blur-3xl" />
+          <div className="ent-blob3 absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-sky-200/10 blur-3xl" />
+          {/* Interactive particle canvas */}
+          <HeroParticles />
         </div>
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
