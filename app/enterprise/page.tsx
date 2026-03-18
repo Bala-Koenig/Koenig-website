@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { FallingPattern } from '@/components/ui/falling-pattern'
+import HeroParticles from '@/components/HeroParticles'
+import EnterpriseHeroGlobe from '@/components/EnterpriseHeroGlobe'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
@@ -1838,74 +1840,197 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-20 lg:py-28">
-        <div className="pointer-events-none absolute inset-0">
-          {/* Falling pattern — Koenig blue streaks on hero bg */}
-          <FallingPattern
-            color="rgba(6,148,209,0.55)"
-            backgroundColor="#E8F4FA"
-            duration={120}
-            blurIntensity="0.6em"
-            density={1.2}
-            className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,#E8F4FA_80%)]"
-          />
-          <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
-          <div className="absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
-          <div className="absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.12) 0%, transparent 70%)' }} />
+      <section
+        className="relative overflow-hidden w-full px-4 lg:px-[50px] py-20 lg:py-28"
+        style={{ background: 'linear-gradient(145deg, #f4f9fe 0%, #e8f4fd 40%, #eef7ff 72%, #f0f8ff 100%)' }}
+      >
+        <style>{`
+          @keyframes entHeroFadeUp {
+            from { opacity:0; transform:translateY(26px) }
+            to   { opacity:1; transform:translateY(0) }
+          }
+          .ent-h-fade { animation: entHeroFadeUp 0.72s cubic-bezier(0.22,1,0.36,1) both; }
+          .ent-h-d1 { animation-delay:0.05s }
+          .ent-h-d2 { animation-delay:0.18s }
+          .ent-h-d3 { animation-delay:0.32s }
+          .ent-h-d4 { animation-delay:0.46s }
+          .ent-h-d5 { animation-delay:0.60s }
+
+          @keyframes entStatPop {
+            from { opacity:0; transform:translateY(14px) scale(0.95) }
+            to   { opacity:1; transform:translateY(0) scale(1) }
+          }
+          .ent-stat { animation: entStatPop 0.55s cubic-bezier(0.22,1,0.36,1) both; transition: box-shadow 0.25s, transform 0.25s; }
+          .ent-stat:nth-child(1) { animation-delay:0.62s }
+          .ent-stat:nth-child(2) { animation-delay:0.74s }
+          .ent-stat:nth-child(3) { animation-delay:0.86s }
+          .ent-stat:nth-child(4) { animation-delay:0.98s }
+          .ent-stat:hover { box-shadow: 0 6px 20px rgba(26,111,191,0.14) !important; transform: translateY(-2px); }
+
+          @keyframes entCTAShine {
+            0%   { background-position: -220% center }
+            42%  { background-position:  220% center }
+            100% { background-position:  220% center }
+          }
+          .ent-cta-primary-new {
+            background-image:
+              linear-gradient(135deg, #1a6fbf 0%, #0b2545 100%),
+              linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.40) 50%, transparent 62%);
+            background-size: 100% 100%, 240% 100%;
+            background-position: 0 0, -240% center;
+            animation: entCTAShine 3.2s ease-in-out infinite;
+          }
+          .ent-cta-primary-new:hover {
+            box-shadow: 0 8px 30px rgba(26,111,191,0.52) !important;
+            transform: translateY(-2px);
+          }
+        `}</style>
+
+        {/* Background: drifting dot-mesh particles + subtle glows */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <HeroParticles />
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 72% 58% at 70% 52%, rgba(19,168,212,0.08) 0%, transparent 65%)' }} />
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 42% 42% at 12% 18%, rgba(26,111,191,0.055) 0%, transparent 60%)' }} />
         </div>
+
         <div className="relative z-10 mx-auto max-w-7xl w-full">
-          <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
-            {/* Left */}
-            <div className="flex-1 text-center lg:text-left">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.30)', color: '#0694d1' }}>
-                <span className="h-2 w-2 rounded-full bg-[#0694D1]" />
-                Enterprise Training Solutions
-              </div>
-              <h1 className="mb-5 text-4xl font-bold leading-tight tracking-tight lg:text-5xl xl:text-6xl" style={{ color: '#093148' }}>
-                Upskill Your Workforce<br />
-                <span
-                  key={entMorphIdx}
-                  className={`inline-block ent-morph-gradient ${entMorphExiting ? 'ent-morph-out' : 'ent-morph-in'}`}
+          <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-4 xl:gap-8">
+
+            {/* ── LEFT SIDE ── */}
+            <div className="flex-1 text-center lg:text-left lg:max-w-[50%]">
+
+              {/* Badge */}
+              <div className="ent-h-fade ent-h-d1 mb-5 flex justify-center lg:justify-start">
+                <div
+                  className="flex items-center gap-2.5 rounded-full px-4 py-2"
+                  style={{
+                    background:     'rgba(255,255,255,0.88)',
+                    border:         '1px solid rgba(26,111,191,0.20)',
+                    boxShadow:      '0 2px 14px rgba(26,111,191,0.10)',
+                    backdropFilter: 'blur(10px)',
+                    color:          '#1a6fbf',
+                    fontSize:       '13px',
+                    fontWeight:     600,
+                    fontFamily:     'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+                  }}
                 >
-                  {ENT_MORPH_WORDS[entMorphIdx]}
+                  <span className="relative flex h-2.5 w-2.5 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
+                  </span>
+                  Enterprise Training Solutions
+                </div>
+              </div>
+
+              {/* Headline */}
+              <h1
+                className="ent-h-fade ent-h-d2 mb-5 font-bold leading-tight tracking-tight"
+                style={{ fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)' }}
+              >
+                <span className="block" style={{ color: '#0b2545', fontSize: 'clamp(1.9rem, 4.2vw, 3.2rem)' }}>
+                  Upskill Your Workforce
+                </span>
+                <span className="block" style={{ fontSize: 'clamp(1.9rem, 4.2vw, 3.2rem)' }}>
+                  <span
+                    key={entMorphIdx}
+                    className={`inline-block ${entMorphExiting ? 'ent-morph-out' : 'ent-morph-in'}`}
+                    style={{
+                      background:           'linear-gradient(135deg, #1a6fbf 0%, #13a8d4 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor:  'transparent',
+                      backgroundClip:       'text',
+                    }}
+                  >
+                    {ENT_MORPH_WORDS[entMorphIdx]}
+                  </span>
                 </span>
               </h1>
-              <p className="mb-8 max-w-xl text-base lg:text-lg" style={{ color: '#4a7a99' }}>
-                Tailored IT certification programmes for enterprises across 195+ countries. From needs assessment to certified outcomes — Koenig handles everything, so your team stays focused on what matters.
+
+              {/* Subtext */}
+              <p
+                className="ent-h-fade ent-h-d3 mx-auto mb-7 max-w-xl lg:mx-0"
+                style={{
+                  color:      '#475569',
+                  fontFamily: 'var(--font-inter, "Inter", sans-serif)',
+                  fontSize:   '15px',
+                  lineHeight: 1.72,
+                }}
+              >
+                Tailored IT certification programmes for enterprises across 195+ countries.
+                From needs assessment to certified outcomes — Koenig handles everything,
+                so your team stays focused on what matters.
               </p>
-              <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
-                <a href="#contact" className="ent-cta-btn rounded-xl px-7 py-3.5 text-base font-bold text-white">
+
+              {/* CTA buttons */}
+              <div className="ent-h-fade ent-h-d4 mb-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+                <a
+                  href="#contact"
+                  className="ent-cta-primary-new rounded-xl px-7 py-3.5 text-sm font-bold text-white transition-all duration-200 active:scale-[0.97]"
+                  style={{
+                    boxShadow:  '0 4px 18px rgba(26,111,191,0.34)',
+                    fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+                  }}
+                >
                   Get a Free Consultation
                 </a>
-                <a href="mailto:enterprise@koenig-solutions.com" className="rounded-xl border px-7 py-3.5 text-base font-medium transition-colors hover:bg-[#0694d1]/5" style={{ borderColor: 'rgba(6,148,209,0.40)', color: '#076d9d' }}>
-                  enterprise@koenig-solutions.com
+                <a
+                  href="mailto:enterprise@koenig-solutions.com"
+                  className="rounded-xl px-7 py-3.5 text-sm font-bold transition-all duration-200 hover:bg-white hover:-translate-y-0.5 active:scale-[0.97]"
+                  style={{
+                    border:        '1.5px solid rgba(26,111,191,0.28)',
+                    background:    'rgba(255,255,255,0.72)',
+                    color:         '#1a6fbf',
+                    backdropFilter:'blur(8px)',
+                    fontFamily:    'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+                  }}
+                >
+                  Talk to an Advisor
                 </a>
               </div>
 
-              {/* Stats — all 4 in one row below the CTAs */}
-              <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
-                {STATS.map((s, i) => (
+              {/* 4-column stats row */}
+              <div className="ent-h-fade ent-h-d5 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {STATS.map(s => (
                   <div
                     key={s.label}
-                    className="flex flex-col items-center rounded-xl px-5 py-3 text-center"
+                    className="ent-stat rounded-2xl bg-white p-4 text-center"
                     style={{
-                      background: 'rgba(255,255,255,0.70)',
-                      border: '1px solid rgba(6,148,209,0.22)',
-                      backdropFilter: 'blur(10px)',
-                      minWidth: 100,
+                      border:    '1px solid rgba(26,111,191,0.11)',
+                      boxShadow: '0 2px 10px rgba(11,37,69,0.06)',
                     }}
                   >
-                    <span className="text-xl font-black leading-none" style={{ color: '#0694d1' }}>{s.num}</span>
-                    <span className="mt-1 text-[11px] font-medium leading-tight" style={{ color: '#4a7a99' }}>{s.label}</span>
+                    <div
+                      className="text-xl md:text-2xl font-black"
+                      style={{
+                        color:      '#1a6fbf',
+                        fontFamily: 'var(--font-jakarta, "Plus Jakarta Sans", sans-serif)',
+                      }}
+                    >
+                      {s.num}
+                    </div>
+                    <div
+                      className="mt-1 text-xs leading-snug"
+                      style={{
+                        color:      '#64748b',
+                        fontFamily: 'var(--font-inter, "Inter", sans-serif)',
+                      }}
+                    >
+                      {s.label}
+                    </div>
                   </div>
                 ))}
               </div>
+
+            </div>{/* /left */}
+
+            {/* ── RIGHT SIDE: Full-spec holographic globe ── */}
+            <div
+              className="ent-h-fade ent-h-d3 relative shrink-0 w-full lg:w-[560px] xl:w-[600px]"
+              style={{ height: '510px' }}
+            >
+              <EnterpriseHeroGlobe />
             </div>
 
-            {/* Right — holographic globe */}
-            <div className="hidden w-full flex-shrink-0 lg:block lg:w-[480px] xl:w-[520px]" style={{ height: 480 }}>
-              <HeroGlobeCanvas />
-            </div>
           </div>
         </div>
       </section>
