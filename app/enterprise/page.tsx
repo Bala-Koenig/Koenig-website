@@ -243,7 +243,7 @@ function BentoCard({ label, children, style }: {
   )
 }
 
-/* ── Canvas 1: GEN AI — transformer token attention with streaming output ── */
+/* ── Canvas 1: GEN AI — human brain + AI neural network ── */
 function CanvasNeuralNet() {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
@@ -251,64 +251,140 @@ function CanvasNeuralNet() {
     const ctx = c.getContext('2d')!; let id: number
     const resize = () => { const r = c.getBoundingClientRect(); if (r.width) { c.width = r.width; c.height = r.height } }
     resize(); window.addEventListener('resize', resize)
-    const IN_TOKENS  = ['Prompt', 'Context', 'Tokens', 'Input', 'Query', 'Data']
-    const OUT_TOKENS = ['Model', 'Output', 'Stream', 'Answer', 'Result', 'Done']
+    const IN_TOKENS  = ['Prompt', 'Context', 'Query', 'Input', 'Data', 'Task']
+    const OUT_TOKENS = ['Answer', 'Output', 'Stream', 'Result', 'Code', 'Done']
+    // Fixed neural nodes inside brain (relative to brain center, -1..1)
+    const BNODES = [
+      { rx: -0.28, ry: -0.42 }, { rx: 0.28, ry: -0.42 },
+      { rx: -0.54, ry: -0.08 }, { rx: 0.00, ry: -0.18 }, { rx: 0.54, ry: -0.08 },
+      { rx: -0.38, ry:  0.22 }, { rx: 0.12, ry:  0.16 }, { rx: 0.42, ry:  0.22 },
+      { rx: -0.14, ry:  0.42 }, { rx: 0.22, ry:  0.40 },
+    ]
+    const BEDGES = [[0,1],[0,2],[0,3],[1,3],[1,4],[2,3],[3,4],[2,5],[3,6],[4,7],[5,6],[6,7],[5,8],[6,8],[7,9],[8,9]]
     const loop = () => {
       const W = c.width, H = c.height, t = Date.now() / 1000
       ctx.clearRect(0, 0, W, H)
       const N = IN_TOKENS.length
-      const tH = Math.min(H * 0.10, 17), tW = Math.min(W * 0.24, 50)
+      const tH = Math.min(H * 0.095, 16), tW = Math.min(W * 0.21, 44)
       const gapY = (H - N * tH) / (N + 1)
-      const inX = W * 0.05
-      const outX = W - tW - W * 0.05
+      const inX = W * 0.03, outX = W - tW - W * 0.03
       const inTks  = Array.from({ length: N }, (_, i) => ({ x: inX,  y: gapY + i * (tH + gapY) + tH / 2 }))
       const outTks = Array.from({ length: N }, (_, i) => ({ x: outX, y: gapY + i * (tH + gapY) + tH / 2 }))
-      // Attention arcs — Koenig blue palette
-      inTks.forEach((a, ai) => {
-        outTks.forEach((b, bi) => {
-          const w = 0.2 + 0.8 * Math.abs(Math.sin(t * 0.5 + ai * 1.3 + bi * 0.8))
-          if (w < 0.38) return
-          const mx = (a.x + tW + b.x) / 2
-          const my = (a.y + b.y) / 2 - 14 * Math.sign(ai - bi) * Math.abs(Math.sin(ai * 0.9 + bi))
-          ctx.beginPath()
-          ctx.moveTo(a.x + tW, a.y)
-          ctx.quadraticCurveTo(mx, my, b.x, b.y)
-          ctx.strokeStyle = `rgba(6,148,209,${w * 0.32})`
-          ctx.lineWidth = w * 1.6
-          ctx.stroke()
-          // Particle along arc
-          const p = ((t * 0.75 + ai * 0.16 + bi * 0.11) % 1)
-          const qx = (1-p)*(1-p)*(a.x+tW) + 2*(1-p)*p*mx + p*p*b.x
-          const qy = (1-p)*(1-p)*a.y     + 2*(1-p)*p*my + p*p*b.y
-          const g = ctx.createRadialGradient(qx, qy, 0, qx, qy, 5)
-          g.addColorStop(0, `rgba(56,189,248,${w})`); g.addColorStop(1, 'rgba(6,148,209,0)')
-          ctx.beginPath(); ctx.arc(qx, qy, 5, 0, 6.28); ctx.fillStyle = g; ctx.fill()
-        })
+      // Brain geometry
+      const bx = W * 0.5, by = H * 0.48
+      const bw = Math.min(W * 0.19, H * 0.26), bh = bw * 1.22
+      const glow = 0.5 + 0.5 * Math.sin(t * 1.3)
+      // Outer glow aura
+      const aura = ctx.createRadialGradient(bx, by, 0, bx, by, bw * 1.6)
+      aura.addColorStop(0, `rgba(6,148,209,${0.10 + glow * 0.09})`); aura.addColorStop(1, 'rgba(6,148,209,0)')
+      ctx.beginPath(); ctx.ellipse(bx, by, bw * 1.6, bh * 1.35, 0, 0, 6.28); ctx.fillStyle = aura; ctx.fill()
+      // Brain outline — two hemispheres
+      const ba = 0.30 + glow * 0.22
+      ctx.beginPath()
+      ctx.moveTo(bx - bw * 0.06, by - bh * 0.82)
+      ctx.bezierCurveTo(bx - bw * 0.28, by - bh * 1.02, bx - bw * 0.96, by - bh * 0.80, bx - bw, by - bh * 0.08)
+      ctx.bezierCurveTo(bx - bw, by + bh * 0.46, bx - bw * 0.52, by + bh * 0.58, bx - bw * 0.06, by + bh * 0.38)
+      ctx.bezierCurveTo(bx + bw * 0.52, by + bh * 0.58, bx + bw, by + bh * 0.46, bx + bw, by - bh * 0.08)
+      ctx.bezierCurveTo(bx + bw * 0.96, by - bh * 0.80, bx + bw * 0.28, by - bh * 1.02, bx + bw * 0.06, by - bh * 0.82)
+      ctx.closePath()
+      ctx.strokeStyle = `rgba(6,148,209,${ba})`; ctx.lineWidth = 1.4; ctx.stroke()
+      // Center fissure
+      ctx.beginPath()
+      ctx.moveTo(bx, by - bh * 0.82)
+      ctx.bezierCurveTo(bx - bw * 0.04, by - bh * 0.28, bx + bw * 0.04, by + bh * 0.08, bx, by + bh * 0.38)
+      ctx.strokeStyle = `rgba(6,148,209,${ba * 0.45})`; ctx.lineWidth = 0.8; ctx.stroke()
+      // Gyri / sulci details — left hemisphere
+      const gyriL: [number, number, number, number, number, number][] = [
+        [-0.72, -0.52, -0.48, -0.66, -0.12, -0.52],
+        [-0.88, -0.08, -0.60, -0.24, -0.10, -0.06],
+        [-0.62,  0.18, -0.40,  0.06, -0.08,  0.20],
+      ]
+      gyriL.forEach(([x1,y1,cx1,cy1,x2,y2]) => {
+        ctx.beginPath()
+        ctx.moveTo(bx + x1*bw, by + y1*bh)
+        ctx.quadraticCurveTo(bx + cx1*bw, by + cy1*bh, bx + x2*bw, by + y2*bh)
+        ctx.strokeStyle = `rgba(56,189,248,${0.18 + glow * 0.10})`; ctx.lineWidth = 0.7; ctx.stroke()
       })
-      // Draw a token box helper — Koenig navy/blue tones
+      // Mirror gyri for right hemisphere
+      gyriL.forEach(([x1,y1,cx1,cy1,x2,y2]) => {
+        ctx.beginPath()
+        ctx.moveTo(bx - x1*bw, by + y1*bh)
+        ctx.quadraticCurveTo(bx - cx1*bw, by + cy1*bh, bx - x2*bw, by + y2*bh)
+        ctx.strokeStyle = `rgba(56,189,248,${0.18 + glow * 0.10})`; ctx.lineWidth = 0.7; ctx.stroke()
+      })
+      // Neural nodes inside brain
+      const bNodes = BNODES.map(n => ({ x: bx + n.rx * bw, y: by + n.ry * bh }))
+      BEDGES.forEach(([ai, bi], ei) => {
+        const a = bNodes[ai], b = bNodes[bi]
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y)
+        ctx.strokeStyle = 'rgba(56,189,248,0.16)'; ctx.lineWidth = 0.7; ctx.stroke()
+        const p = ((t * 1.0 + ei * 0.21) % 1)
+        const px = a.x + (b.x - a.x) * p, py = a.y + (b.y - a.y) * p
+        const sg = ctx.createRadialGradient(px, py, 0, px, py, 3.5)
+        sg.addColorStop(0, 'rgba(56,189,248,0.85)'); sg.addColorStop(1, 'rgba(6,148,209,0)')
+        ctx.beginPath(); ctx.arc(px, py, 3.5, 0, 6.28); ctx.fillStyle = sg; ctx.fill()
+      })
+      bNodes.forEach((n, i) => {
+        const pulse = 0.5 + 0.5 * Math.sin(t * 2.1 + i * 0.9)
+        const r = 2.4 + pulse * 1.4
+        const ng = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 3)
+        ng.addColorStop(0, `rgba(6,148,209,${0.28 + pulse * 0.18})`); ng.addColorStop(1, 'rgba(6,148,209,0)')
+        ctx.beginPath(); ctx.arc(n.x, n.y, r * 3, 0, 6.28); ctx.fillStyle = ng; ctx.fill()
+        ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, 6.28)
+        ctx.fillStyle = 'rgba(5,18,36,0.92)'; ctx.fill()
+        ctx.strokeStyle = `rgba(56,189,248,${0.5 + pulse * 0.5})`; ctx.lineWidth = 1.1; ctx.stroke()
+        ctx.beginPath(); ctx.arc(n.x, n.y, r * 0.33, 0, 6.28)
+        ctx.fillStyle = `rgba(56,189,248,${0.7 + pulse * 0.3})`; ctx.fill()
+      })
+      // Input token → brain connections
+      const brainLX = bx - bw * 0.94
+      inTks.forEach((tk, i) => {
+        const bLy = by - bh * 0.52 + (i / (N - 1)) * bh * 0.82
+        ctx.beginPath(); ctx.moveTo(tk.x + tW, tk.y)
+        ctx.quadraticCurveTo((tk.x + tW + brainLX) / 2, (tk.y + bLy) / 2, brainLX, bLy)
+        ctx.strokeStyle = 'rgba(6,148,209,0.13)'; ctx.lineWidth = 0.8; ctx.stroke()
+        const p = ((t * 0.65 + i * 0.19) % 1)
+        const qx = (1-p)*(1-p)*(tk.x+tW) + 2*(1-p)*p*((tk.x+tW+brainLX)/2) + p*p*brainLX
+        const qy = (1-p)*(1-p)*tk.y + 2*(1-p)*p*((tk.y+bLy)/2) + p*p*bLy
+        const g = ctx.createRadialGradient(qx, qy, 0, qx, qy, 4)
+        g.addColorStop(0, 'rgba(56,189,248,0.8)'); g.addColorStop(1, 'rgba(56,189,248,0)')
+        ctx.beginPath(); ctx.arc(qx, qy, 4, 0, 6.28); ctx.fillStyle = g; ctx.fill()
+      })
+      // Brain → output token connections
+      const brainRX = bx + bw * 0.94
+      const streamed = Math.floor(t * 0.85) % (N + 3)
+      outTks.forEach((tk, i) => {
+        const bRy = by - bh * 0.52 + (i / (N - 1)) * bh * 0.82
+        ctx.beginPath(); ctx.moveTo(brainRX, bRy)
+        ctx.quadraticCurveTo((brainRX + tk.x) / 2, (bRy + tk.y) / 2, tk.x, tk.y)
+        ctx.strokeStyle = 'rgba(6,148,209,0.13)'; ctx.lineWidth = 0.8; ctx.stroke()
+        if (i < streamed) {
+          const p = ((t * 0.65 + i * 0.23 + 0.5) % 1)
+          const qx = (1-p)*(1-p)*brainRX + 2*(1-p)*p*((brainRX+tk.x)/2) + p*p*tk.x
+          const qy = (1-p)*(1-p)*bRy + 2*(1-p)*p*((bRy+tk.y)/2) + p*p*tk.y
+          const g = ctx.createRadialGradient(qx, qy, 0, qx, qy, 4)
+          g.addColorStop(0, 'rgba(56,189,248,0.8)'); g.addColorStop(1, 'rgba(56,189,248,0)')
+          ctx.beginPath(); ctx.arc(qx, qy, 4, 0, 6.28); ctx.fillStyle = g; ctx.fill()
+        }
+      })
+      // Token box helper
       const drawToken = (x: number, y: number, label: string, accent: string, alpha: number, cursor: boolean) => {
-        const bx = x, by = y - tH / 2
-        ctx.fillStyle = `rgba(${accent},${0.55 * alpha})`
-        ctx.fillRect(bx, by, tW, tH)
-        ctx.strokeStyle = `rgba(${accent},${0.8 * alpha})`
-        ctx.lineWidth = 1
-        ctx.strokeRect(bx, by, tW, tH)
-        ctx.font = `600 ${Math.max(6, tH * 0.52)}px monospace`
-        ctx.textAlign = 'center'
+        const by2 = y - tH / 2
+        ctx.fillStyle = `rgba(${accent},${0.52 * alpha})`; ctx.fillRect(x, by2, tW, tH)
+        ctx.strokeStyle = `rgba(${accent},${0.8 * alpha})`; ctx.lineWidth = 1; ctx.strokeRect(x, by2, tW, tH)
+        ctx.font = `600 ${Math.max(6, tH * 0.52)}px monospace`; ctx.textAlign = 'center'
         ctx.fillStyle = `rgba(220,240,255,${alpha})`
         ctx.fillText(label, x + tW / 2, y + tH * 0.18)
         if (cursor && Math.sin(t * 5) > 0) {
-          ctx.fillStyle = 'rgba(56,189,248,0.9)'
-          ctx.fillRect(x + tW - 4, by + 2, 2, tH - 4)
+          ctx.fillStyle = 'rgba(56,189,248,0.9)'; ctx.fillRect(x + tW - 4, by2 + 2, 2, tH - 4)
         }
       }
-      // Input tokens — dark navy
+      // Input tokens
       inTks.forEach((tk, i) => {
         const act = 0.5 + 0.5 * Math.abs(Math.sin(t * 1.6 + i * 0.9))
         drawToken(tk.x, tk.y, IN_TOKENS[i], '7,109,157', act, false)
       })
-      // Output tokens streaming in one by one — koenig blue
-      const streamed = Math.floor(t * 0.9) % (N + 3)
+      // Output tokens — streaming one by one
       outTks.forEach((tk, i) => {
         if (i >= streamed) return
         const isNew = i === streamed - 1
