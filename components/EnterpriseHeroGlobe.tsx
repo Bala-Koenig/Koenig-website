@@ -169,6 +169,56 @@ export default function EnterpriseHeroGlobe() {
         ctx.restore()
       }
 
+      // ── Branding ring floating above the globe ──────────────
+      const ringPulse = 0.72 + 0.28 * Math.sin(t * 1.8)
+      const bRingRx   = GR * 0.72
+      const bRingRy   = GR * 0.14
+      const bRingY    = CY - GR * 1.08          // sits above the globe
+
+      // outer glow pass
+      ctx.save()
+      ctx.beginPath()
+      ctx.ellipse(CX, bRingY, bRingRx + 5, bRingRy + 3, 0, 0, Math.PI * 2)
+      ctx.strokeStyle = `rgba(6,148,209,${0.18 * ringPulse})`
+      ctx.lineWidth   = 8
+      ctx.shadowBlur  = 18
+      ctx.shadowColor = 'rgba(6,148,209,0.55)'
+      ctx.stroke()
+      ctx.restore()
+
+      // main ring
+      ctx.save()
+      const bGrad = ctx.createLinearGradient(CX - bRingRx, bRingY, CX + bRingRx, bRingY)
+      bGrad.addColorStop(0,    `rgba(6,148,209,0)`)
+      bGrad.addColorStop(0.25, `rgba(6,148,209,${0.85 * ringPulse})`)
+      bGrad.addColorStop(0.5,  `rgba(77,191,239,${ringPulse})`)
+      bGrad.addColorStop(0.75, `rgba(6,148,209,${0.85 * ringPulse})`)
+      bGrad.addColorStop(1,    `rgba(6,148,209,0)`)
+      ctx.beginPath()
+      ctx.ellipse(CX, bRingY, bRingRx, bRingRy, 0, 0, Math.PI * 2)
+      ctx.strokeStyle = bGrad
+      ctx.lineWidth   = 2.5
+      ctx.shadowBlur  = 12
+      ctx.shadowColor = `rgba(6,148,209,${0.7 * ringPulse})`
+      ctx.stroke()
+      ctx.restore()
+
+      // small travelling dot on the ring
+      const dotAngle = (t * 0.9) % (Math.PI * 2)
+      const dotX = CX + Math.cos(dotAngle) * bRingRx
+      const dotY = bRingY + Math.sin(dotAngle) * bRingRy
+      const dg2  = ctx.createRadialGradient(dotX, dotY, 0, dotX, dotY, 5)
+      dg2.addColorStop(0, 'rgba(255,255,255,1)')
+      dg2.addColorStop(1, 'rgba(6,148,209,0)')
+      ctx.save()
+      ctx.fillStyle  = dg2
+      ctx.shadowBlur = 8
+      ctx.shadowColor = 'rgba(6,148,209,0.9)'
+      ctx.beginPath()
+      ctx.arc(dotX, dotY, 4, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.restore()
+
       // 3 concentric pulsing rings
       for (let r = 0; r < 3; r++) {
         const pulse = ((t * 0.54 + r * 0.56) % 1)
