@@ -414,7 +414,8 @@ export default function EnterpriseHeroGlobe() {
         const pw = tw + 12 * scale
         const lx = nx
         const ly = ny + nodeR + 9 * scale
-        ctx.fillStyle = 'rgba(255,255,255,0.94)'
+        // Pill bg — brand navy with blue border
+        ctx.fillStyle = 'rgba(11,37,69,0.88)'
         ctx.beginPath()
         if (ctx.roundRect) {
           ctx.roundRect(lx - pw / 2, ly - ph / 2, pw, ph, ph / 2)
@@ -422,10 +423,11 @@ export default function EnterpriseHeroGlobe() {
           ctx.rect(lx - pw / 2, ly - ph / 2, pw, ph)
         }
         ctx.fill()
-        ctx.strokeStyle = node.color + '88'
+        ctx.strokeStyle = 'rgba(6,148,209,0.70)'
         ctx.lineWidth   = 1
         ctx.stroke()
-        ctx.fillStyle   = node.color
+        // Pill text — Koenig cyan
+        ctx.fillStyle   = '#4DBFEF'
         ctx.fillText(node.label, lx, ly + 3.5 * scale)
         ctx.restore()
       })
