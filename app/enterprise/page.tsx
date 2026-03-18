@@ -1780,11 +1780,11 @@ export default function EnterprisePage() {
           background-size: 200% 100%, 100% 100%;
           background-position: -200% center, 0 0;
           animation: entBtnShine 2.4s ease-in-out infinite;
-          box-shadow: 0 0 18px rgba(6,148,209,0.45), 0 4px 24px rgba(6,148,209,0.25);
+          box-shadow: 0 2px 12px rgba(6,148,209,0.18), 0 1px 4px rgba(6,148,209,0.10);
           transition: box-shadow 0.2s ease, opacity 0.2s ease;
         }
         .ent-cta-btn:hover {
-          box-shadow: 0 0 28px rgba(6,148,209,0.65), 0 6px 32px rgba(6,148,209,0.35);
+          box-shadow: 0 4px 18px rgba(6,148,209,0.26), 0 2px 8px rgba(6,148,209,0.14);
           opacity: 0.95;
         }
 
