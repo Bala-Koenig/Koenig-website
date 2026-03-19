@@ -1659,6 +1659,13 @@ export default function EnterprisePage() {
   const [entMorphIdx, setEntMorphIdx] = useState(0)
   const [entMorphExiting, setEntMorphExiting] = useState(false)
 
+  // Nav state
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [navQuery, setNavQuery] = useState('')
+  const [navResultsOpen, setNavResultsOpen] = useState(false)
+  const navSearchRef = useRef<HTMLDivElement>(null)
+
   // Scroll-triggered fade-ins (same pattern as homepage)
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -1681,6 +1688,20 @@ export default function EnterprisePage() {
       }, 380)
     }, 2800)
     return () => clearInterval(cycle)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
   }, [])
 
   return (
@@ -1813,34 +1834,115 @@ export default function EnterprisePage() {
       `}</style>
 
       {/* ── Nav ── */}
-      <header className="sticky top-0 z-50 px-4 lg:px-[50px]" style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between py-3">
+      <header
+        className={`sticky top-0 z-50 px-4 lg:px-[50px] transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
+        style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
+
+          {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
             <div style={{ background: '#ffffff', borderRadius: '6px', padding: '8px' }}>
               <Image src="/images/koenig-logo.svg" alt="Koenig Solutions" width={120} height={32} className="h-7 w-auto lg:h-8" />
             </div>
           </Link>
-          <div className="flex items-center gap-4">
+
+          {/* Desktop nav links */}
+          <nav className="hidden items-center gap-4 lg:flex">
+            <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
+              <a href="/" className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]" style={{ background: '#0694D1', gap: '8px' }}>
+                <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
+                All Courses
+              </a>
+              {[{ label: 'Technologies', href: '/#technologies' }, { label: 'About', href: '/#about' }, { label: 'Contact', href: '#contact' }].map(({ label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                  style={{ color: '#ffffff' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = 'transparent'; }}
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </nav>
+
+          {/* Right */}
+          <div className="ml-auto flex items-center gap-2">
             {/* Individual / Enterprise toggle */}
             <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
-              <Link
-                href="/"
-                className="rounded-lg px-3 py-1.5 text-xs font-normal transition-all"
-                style={{ color: 'rgba(255,255,255,0.55)' }}
+              <Link href="/" className="rounded-lg px-3 py-1.5 text-xs font-normal transition-all" style={{ color: 'rgba(255,255,255,0.55)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-              >
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
                 Individual
               </Link>
-              <span className="rounded-lg px-3 py-1.5 text-xs font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
-                Enterprise
-              </span>
+              <span className="rounded-lg px-3 py-1.5 text-xs font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Enterprise</span>
             </div>
-            <a href="#contact" className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+            {/* Search */}
+            <div className="relative hidden lg:block" ref={navSearchRef}>
+              <div className="flex items-center gap-2 rounded-full px-4 py-1.5 transition-all focus-within:shadow-[0_0_0_2px_rgba(6,148,209,0.6)]" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.35)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+                <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0" style={{ color: '#38bdf8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input type="text" value={navQuery} onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true) }} onFocus={() => setNavResultsOpen(true)} placeholder="Search courses…" aria-label="Search courses" className="w-36 bg-transparent text-sm text-white placeholder-white/40 outline-none" />
+                {navQuery.length > 0 && (
+                  <button onClick={() => { setNavQuery(''); setNavResultsOpen(false); }} className="shrink-0 flex items-center justify-center w-4 h-4 rounded-full transition-colors hover:bg-white/20" aria-label="Clear search" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                )}
+              </div>
+              {navResultsOpen && navQuery.trim().length > 0 && (
+                <div className="absolute right-0 top-full z-50 mt-1.5 w-72 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+                  <div className="px-4 py-3 text-sm text-gray-500">Search on <a href={`/?q=${navQuery}`} className="font-medium text-[#0694D1] hover:underline">koenig-solutions.com</a></div>
+                </div>
+              )}
+            </div>
+            {/* Login */}
+            <a href="https://mykoenig.com" target="_blank" rel="noopener noreferrer" className="hidden rounded-lg border px-4 py-1.5 text-sm font-medium transition-colors lg:inline-block" style={{ borderColor: 'rgba(255,255,255,0.45)', color: '#ffffff' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}>
+              Login
+            </a>
+            {/* Get in Touch */}
+            <a href="#contact" className="hidden rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 lg:inline-block" style={{ background: '#0694D1' }}>
               Get in Touch
             </a>
+            {/* Hamburger */}
+            <button onClick={() => setMobileOpen(v => !v)} className="rounded-lg p-2 transition-colors hover:bg-white/10 lg:hidden" style={{ color: '#ffffff' }} aria-label="Toggle menu">
+              {mobileOpen
+                ? <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
+                : <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>}
+            </button>
           </div>
         </div>
+
+        {/* Mobile drawer */}
+        {mobileOpen && (
+          <div className="-mx-4 lg:-mx-[50px] border-t lg:hidden" style={{ background: '#0d3a5c', borderColor: '#0D4A6B' }}>
+            <div className="mx-auto max-w-7xl space-y-0.5 px-4 py-3">
+              <div className="mb-3 space-y-1.5 pb-3 text-xs" style={{ borderBottom: '1px solid #0D4A6B' }}>
+                <a href="tel:+14129537506" className="flex items-center gap-2 transition-colors hover:text-white" style={{ color: '#A8C8E0' }}>
+                  <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+                  +1 412 953 7506
+                </a>
+                <a href="mailto:info@koenig-solutions.com" className="flex items-center gap-2 transition-colors hover:text-white" style={{ color: '#A8C8E0' }}>
+                  <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                  info@koenig-solutions.com
+                </a>
+              </div>
+              {['All Courses', 'Technologies', 'About Koenig', 'Contact Us'].map(item => (
+                <a key={item} href={item === 'Contact Us' ? '#contact' : '/'} className="block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white" style={{ color: '#A8C8E0' }}>{item}</a>
+              ))}
+              <div className="pt-2">
+                <div className="flex items-center gap-2 rounded-lg border border-white/20 px-3 py-2" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                  <svg aria-hidden="true" className="h-4 w-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <input type="text" placeholder="Search courses…" aria-label="Search courses" className="flex-1 bg-transparent text-sm text-white placeholder-white/60 outline-none" />
+                </div>
+              </div>
+              <a href="https://mykoenig.com" target="_blank" rel="noopener noreferrer" className="mt-2 block rounded-lg border border-white/30 px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-white/10">Login</a>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* ════════════════════════════════════════════════════════
@@ -1848,7 +1950,7 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-20 lg:py-28">
+      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-[60px]">
         <div className="pointer-events-none absolute inset-0">
           {/* Falling pattern — Koenig blue streaks on hero bg */}
           <FallingPattern
