@@ -91,6 +91,28 @@ const WHY = [
 
 /* ─── New Data ───────────────────────────────────────────── */
 
+const TW_LOGOS = [
+  { name: 'HSBC',         img: 'hsbc.png'      },
+  { name: 'Shell',        img: 'shell 1.png'   },
+  { name: 'Emirates',     img: 'Emirates.png'  },
+  { name: 'Capgemini',    img: 'capeg.png'     },
+  { name: 'Saudi Aramco', img: 'aramco.png'    },
+  { name: 'Google',       img: 'google.png'    },
+  { name: 'Microsoft',    img: 'ms.png'        },
+  { name: 'Adobe',        img: 'adobe.png'     },
+  { name: 'Dell',         img: 'dell.png'      },
+  { name: 'HP',           img: 'hp.png'        },
+  { name: 'IBM',          img: ''              },
+  { name: 'Oracle',       img: ''              },
+]
+
+const CERT_CARDS = [
+  { accent: 'linear-gradient(90deg,#f59e0b,#d97706)', iconBg: '#fef3c7', icon: '🏆', stat: '#1',    title: 'Microsoft Partner Award',  sub: 'Training Services Partner of the Year 2025'     },
+  { accent: 'linear-gradient(90deg,#22c55e,#16a34a)', iconBg: '#dcfce7', icon: '✅', stat: '14+',   title: 'Great Place to Work',       sub: 'Certified consecutively since 2011'              },
+  { accent: 'linear-gradient(90deg,#3b82f6,#2563eb)', iconBg: '#dbeafe', icon: '🌍', stat: '195+',  title: 'Countries Served',          sub: 'Global delivery across every continent'          },
+  { accent: 'linear-gradient(90deg,#a855f7,#7c3aed)', iconBg: '#f3e8ff', icon: '🏢', stat: '1,000+',title: 'Enterprise Clients',        sub: 'Fortune 500s to fast-growing scale-ups'          },
+]
+
 const ENTERPRISE_CLIENTS = [
   { name: 'Google',             img: 'google.png'               },
   { name: 'Microsoft',          img: 'ms.png'                   },
@@ -1919,52 +1941,91 @@ export default function EnterprisePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
-           NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
-           Inspired by Simplilearn's client marquee strip
+           TRUSTED WORLDWIDE — 3-layer card
       ════════════════════════════════════════════════════════ */}
-      <section className="py-16 bg-white">
-        <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
-          <div className="io-fade mb-10 text-center">
-            <p className="mb-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Trusted Worldwide</p>
-            <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
-              Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
-            </h2>
-            <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
+      <section className="py-12 bg-white px-4 lg:px-[50px]">
+        <style>{`
+          @keyframes tw-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+          .tw-track { animation: tw-scroll 28s linear infinite; display: flex; width: max-content; }
+          .tw-track:hover { animation-play-state: paused; }
+          .tw-wrap { position: relative; overflow: hidden; }
+          .tw-wrap::before, .tw-wrap::after { content:''; position:absolute; top:0; bottom:0; width:80px; z-index:2; pointer-events:none; }
+          .tw-wrap::before { left:0; background:linear-gradient(to right,#fafcff,transparent); }
+          .tw-wrap::after  { right:0; background:linear-gradient(to left,#fafcff,transparent); }
+        `}</style>
+
+        <div className="mx-auto max-w-7xl" style={{ borderRadius: 24, border: '1.5px solid #bfdbfe', boxShadow: '0 4px 32px rgba(37,99,235,0.08),0 1px 4px rgba(37,99,235,0.04)', overflow: 'hidden', background: '#fff' }}>
+
+          {/* ── Layer 1: Top band ── */}
+          <div style={{ background: 'linear-gradient(135deg,#f0f7ff 0%,#e8f4fd 50%,#f0fdf4 100%)', padding: '40px 48px' }}>
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              {/* Left */}
+              <div className="flex-1">
+                <div className="mb-3 flex items-center gap-2">
+                  <div style={{ width: 20, height: 2, borderRadius: 2, background: '#2563eb' }} />
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Trusted Worldwide</span>
+                </div>
+                <h2 style={{ fontSize: 30, fontWeight: 800, color: '#0f172a', lineHeight: 1.25, marginBottom: 10 }}>
+                  Training <span style={{ color: '#2563eb' }}>Fortune 500 Teams</span> &amp; Global Enterprises
+                </h2>
+                <p style={{ fontSize: 14, color: '#64748b', lineHeight: 1.6, maxWidth: 480 }}>
+                  From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling across 195+ countries.
+                </p>
+              </div>
+              {/* Right — Score card */}
+              <div style={{ background: '#fff', border: '1.5px solid #bfdbfe', borderRadius: 16, padding: '24px 36px', textAlign: 'center', boxShadow: '0 2px 12px rgba(37,99,235,0.06)', flexShrink: 0 }}>
+                <div style={{ fontSize: 56, fontWeight: 900, color: '#0f172a', lineHeight: 1 }}>4.9<span style={{ fontSize: 28, fontWeight: 600, color: '#64748b' }}>/5</span></div>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 3, margin: '8px 0' }}>
+                  {[...Array(5)].map((_, i) => <span key={i} style={{ color: '#f59e0b', fontSize: 20 }}>★</span>)}
+                </div>
+                <div style={{ fontSize: 13, color: '#64748b', fontWeight: 500 }}>Avg. client satisfaction</div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="ent-marquee-wrap py-2">
-          <div className="ent-marquee-track gap-6 px-6">
-            {[...ENTERPRISE_CLIENTS, ...ENTERPRISE_CLIENTS].map((c, i) => (
+
+          {/* ── Layer 2: Logo marquee ── */}
+          <div style={{ background: '#fafcff', borderBottom: '1px solid #e8f0fe' }}>
+            <div className="tw-wrap">
+              <div className="tw-track">
+                {[...TW_LOGOS, ...TW_LOGOS].map((l, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 18, paddingBottom: 18, paddingLeft: 32, paddingRight: 32, borderRight: '1px solid #e8f0fe', minWidth: 140, gap: 8 }}>
+                    {l.img
+                      ? <img src={`/images/companies/${encodeURIComponent(l.img)}`} alt={l.name} style={{ maxHeight: 28, maxWidth: 100, objectFit: 'contain', filter: 'grayscale(0.3)', opacity: 0.75 }} onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; const next = e.currentTarget.nextElementSibling as HTMLElement; if (next) next.style.display = 'block'; }} />
+                      : null}
+                    <span style={{ display: l.img ? 'none' : 'block', fontSize: 13, fontWeight: 700, color: '#1e293b', letterSpacing: '0.02em' }}>{l.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ── Layer 3: Cert cards grid ── */}
+          <div style={{ padding: '32px 40px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 20 }}>
+            {CERT_CARDS.map((c, i) => (
               <div
                 key={i}
-                className="flex shrink-0 items-center justify-center rounded-xl bg-white px-6 py-4"
-                style={{ height: '72px', minWidth: '160px', border: '1.5px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}
+                style={{ borderRadius: 14, border: '1px solid #f1f5f9', overflow: 'hidden', transition: 'background 0.2s', cursor: 'default' }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#fafcff')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
-                <img
-                  src={`/images/companies/${encodeURIComponent(c.img)}`}
-                  alt={c.name}
-                  className="max-h-9 max-w-[120px] object-contain grayscale opacity-60 transition-all duration-300 hover:grayscale-0 hover:opacity-100"
-                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
-                />
+                <div style={{ height: 3, background: c.accent }} />
+                <div style={{ padding: '20px 20px 18px' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, fontSize: 22 }}>{c.icon}</div>
+                  <div style={{ fontSize: 28, fontWeight: 900, color: '#0f172a', lineHeight: 1 }}>{c.stat}</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#1e293b', marginTop: 4 }}>{c.title}</div>
+                  <div style={{ fontSize: 12, color: '#64748b', marginTop: 3, marginBottom: 12 }}>{c.sub}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ position: 'relative', display: 'inline-flex', width: 8, height: 8 }}>
+                      <span className="animate-ping" style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#22c55e', opacity: 0.75 }} />
+                      <span style={{ position: 'relative', width: 8, height: 8, borderRadius: '50%', background: '#22c55e', display: 'inline-flex' }} />
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: '#16a34a' }}>Active</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-        </div>
-        {/* Trust badges */}
-        <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-[50px]">
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            {[
-              { icon: '🏆', text: 'Microsoft Training Partner of the Year 2025' },
-              { icon: '✅', text: 'Certified Great Place to Work 2011–2025' },
-              { icon: '🌍', text: 'Training delivered in 195+ Countries' },
-              { icon: '⭐', text: '4.9/5 Average Client Satisfaction Score' },
-            ].map((b, i) => (
-              <div key={i} className="io-fade flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium" style={{ background: '#F0FAFF', border: '1px solid #CAEFFF', color: '#093148' }}>
-                <span>{b.icon}</span>
-                {b.text}
-              </div>
-            ))}
-          </div>
+
         </div>
       </section>
 
