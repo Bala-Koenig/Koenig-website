@@ -1755,8 +1755,10 @@ export default function EnterprisePage() {
 
         /* Infinite client logo marquee */
         @keyframes ent-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes ent-marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
         .ent-marquee-track { animation: ent-marquee 38s linear infinite; display:flex; width:max-content; }
-        .ent-marquee-track:hover { animation-play-state: paused; }
+        .ent-marquee-track-rev { animation: ent-marquee-rev 38s linear infinite; display:flex; width:max-content; }
+        .ent-marquee-track:hover, .ent-marquee-track-rev:hover { animation-play-state: paused; }
         .ent-marquee-wrap { overflow:hidden; mask-image:linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%); -webkit-mask-image:linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%); }
 
         /* Hero blob floats (same as homepage) */
@@ -2057,22 +2059,25 @@ export default function EnterprisePage() {
           </div>
         </div>
         <div
-          className="relative overflow-x-hidden py-2"
+          className="relative overflow-x-hidden"
           style={{
             maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
           }}
         >
-          <div className="ent-marquee-track items-center gap-2">
+          {/* Row 1 — scrolls left */}
+          <div className="ent-marquee-track items-center gap-2 py-2">
             {[...ENTERPRISE_CLIENTS, ...ENTERPRISE_CLIENTS].map((c, i) => (
               <div key={i} className="flex shrink-0 items-center justify-center px-2">
-                <img
-                  src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
-                  alt={c.name}
-                  className="h-14 w-auto object-contain"
-                  style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }}
-                  title={c.name}
-                />
+                <img src={`/images/trusted-logos/${encodeURIComponent(c.img)}`} alt={c.name} className="h-12 w-auto object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }} title={c.name} />
+              </div>
+            ))}
+          </div>
+          {/* Row 2 — scrolls right */}
+          <div className="ent-marquee-track-rev items-center gap-2 py-2">
+            {[...ENTERPRISE_CLIENTS.slice().reverse(), ...ENTERPRISE_CLIENTS.slice().reverse()].map((c, i) => (
+              <div key={i} className="flex shrink-0 items-center justify-center px-2">
+                <img src={`/images/trusted-logos/${encodeURIComponent(c.img)}`} alt={c.name} className="h-12 w-auto object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }} title={c.name} />
               </div>
             ))}
           </div>
