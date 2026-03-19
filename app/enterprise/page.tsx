@@ -2245,6 +2245,21 @@ export default function EnterprisePage() {
           .adde-card:hover .icon-circle { background:rgba(19,168,212,.16);border-color:#13a8d4;box-shadow:0 0 0 6px rgba(19,168,212,.10),0 0 24px rgba(19,168,212,.35); }
           .adde-card:hover .icon-circle svg { stroke:#fff;transform:scale(1.1); }
           .adde-card .icon-circle svg { transition:stroke .25s,transform .25s; }
+          @keyframes arrowFlow { 0%{opacity:.25;transform:translateY(-50%) translateX(-4px)} 50%{opacity:.9;transform:translateY(-50%) translateX(4px)} 100%{opacity:.25;transform:translateY(-50%) translateX(-4px)} }
+          @keyframes arrowDot { 0%{left:0;opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{left:calc(100% - 6px);opacity:0} }
+          @keyframes arrowDownFlow { 0%{opacity:.25;transform:translateX(-50%) translateY(-4px)} 50%{opacity:.9;transform:translateX(-50%) translateY(4px)} 100%{opacity:.25;transform:translateX(-50%) translateY(-4px)} }
+          .adde-connector-h { position:absolute;right:-18px;top:50%;transform:translateY(-50%);z-index:10;display:none;flex-direction:column;align-items:center;gap:2px; }
+          @media(min-width:1024px){ .adde-connector-h{display:flex} }
+          .adde-connector-v { display:flex;justify-content:center;margin:4px 0;pointer-events:none; }
+          @media(min-width:640px){ .adde-connector-v{display:none} }
+          .adde-line-h { position:relative;width:28px;height:2px;border-radius:2px;overflow:visible;background:linear-gradient(90deg,rgba(19,168,212,.15),rgba(19,168,212,.5),rgba(19,168,212,.15)); }
+          .adde-line-h::after { content:'';position:absolute;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:#13a8d4;box-shadow:0 0 6px #13a8d4;animation:arrowDot 1.6s ease-in-out infinite; }
+          .adde-chevrons { display:flex;gap:2px;animation:arrowFlow 1.6s ease-in-out infinite; }
+          .adde-chevron { width:7px;height:7px;border-top:1.5px solid #13a8d4;border-right:1.5px solid #13a8d4;transform:rotate(45deg); }
+          .adde-chevron:nth-child(1){opacity:.35} .adde-chevron:nth-child(2){opacity:.65} .adde-chevron:nth-child(3){opacity:1}
+          .adde-chevrons-v { display:flex;flex-direction:column;gap:2px;animation:arrowDownFlow 1.6s ease-in-out infinite; }
+          .adde-chevron-v { width:7px;height:7px;border-bottom:1.5px solid #13a8d4;border-right:1.5px solid #13a8d4;transform:rotate(45deg); }
+          .adde-chevron-v:nth-child(1){opacity:.35} .adde-chevron-v:nth-child(2){opacity:.65} .adde-chevron-v:nth-child(3){opacity:1}
         `}</style>
         <canvas ref={addeCanvasRef} className="absolute inset-0 w-full h-full" style={{ display:'block' }} />
         <div className="relative z-10 mx-auto max-w-7xl">
@@ -2275,10 +2290,15 @@ export default function EnterprisePage() {
                   <p className="text-sm leading-relaxed text-white/55 relative z-10">{a.desc}</p>
                   {/* Bottom cyan line */}
                   <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, #13a8d4 40%, #38bdf8 60%, transparent)' }} />
-                  {/* Connector arrow */}
+                  {/* Desktop horizontal connector */}
                   {i < APPROACH.length - 1 && (
-                    <div className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 lg:block">
-                      <svg className="h-6 w-6" style={{ color: 'rgba(19,168,212,0.4)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
+                    <div className="adde-connector-h" style={{ animationDelay: `${i * 0.4}s` }}>
+                      <div className="adde-line-h" />
+                      <div className="adde-chevrons" style={{ animationDelay: `${i * 0.4}s` }}>
+                        <div className="adde-chevron" />
+                        <div className="adde-chevron" />
+                        <div className="adde-chevron" />
+                      </div>
                     </div>
                   )}
                 </div>
@@ -2287,6 +2307,7 @@ export default function EnterprisePage() {
           </div>
         </div>
       </section>
+
 
       {/* ════════════════════════════════════════════════════════
            NEW SECTION 2 — Industries We Serve (DARK NAVY)
