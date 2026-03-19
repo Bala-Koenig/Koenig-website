@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { FallingPattern } from '@/components/ui/falling-pattern'
 import EnterpriseHeroGlobe from '@/components/EnterpriseHeroGlobe'
-import AuroraCanvas from '@/components/AuroraCanvas'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
@@ -1697,48 +1696,6 @@ export default function EnterprisePage() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // ADDE canvas
-  const addeCanvasRef = useRef<HTMLCanvasElement>(null)
-  useEffect(() => {
-    const canvas = addeCanvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')!
-    let raf: number
-    let tick = 0
-    const orbs = [
-      { cx:.28, cy:.45, r:.40, col:'19,168,212', spd:.00018, fx:.7, fy:.5, ax:.30, ay:.22, ph:0 },
-      { cx:.72, cy:.55, r:.38, col:'19,168,212', spd:.00014, fx:.5, fy:.8, ax:.25, ay:.28, ph:2.1 },
-      { cx:.50, cy:.25, r:.30, col:'19,168,212', spd:.00022, fx:.9, fy:.6, ax:.18, ay:.14, ph:4.2 },
-      { cx:.18, cy:.70, r:.45, col:'11,37,69',   spd:.00012, fx:.6, fy:.4, ax:.20, ay:.32, ph:1.1 },
-      { cx:.82, cy:.30, r:.35, col:'11,37,69',   spd:.00016, fx:.4, fy:.9, ax:.28, ay:.16, ph:3.3 },
-    ]
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
-    resize()
-    window.addEventListener('resize', resize)
-    const draw = () => {
-      const W = canvas.width, H = canvas.height
-      tick++
-      const bg = ctx.createLinearGradient(0,0,W,H)
-      bg.addColorStop(0,'#0c1a28'); bg.addColorStop(.5,'#0d1e30'); bg.addColorStop(1,'#080f18')
-      ctx.fillStyle = bg; ctx.fillRect(0,0,W,H)
-      ctx.save(); ctx.globalCompositeOperation = 'screen'
-      orbs.forEach(o => {
-        const x = (o.cx + Math.sin(tick * o.spd * o.fx + o.ph) * o.ax) * W
-        const y = (o.cy + Math.cos(tick * o.spd * o.fy + o.ph) * o.ay) * H
-        const r = o.r * Math.min(W,H)
-        const g = ctx.createRadialGradient(x,y,0,x,y,r)
-        g.addColorStop(0,   `rgba(${o.col},.18)`)
-        g.addColorStop(.4,  `rgba(${o.col},.10)`)
-        g.addColorStop(.75, `rgba(${o.col},.03)`)
-        g.addColorStop(1,   `rgba(${o.col},0)`)
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill()
-      })
-      ctx.restore()
-      raf = requestAnimationFrame(draw)
-    }
-    draw()
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize) }
-  }, [])
 
 
   useEffect(() => {
@@ -2259,7 +2216,6 @@ export default function EnterprisePage() {
           .adde-chev-v { width:8px;height:8px;border-bottom:2px solid #13a8d4;border-right:2px solid #13a8d4;transform:rotate(45deg); }
           .adde-chev-v:nth-child(1){opacity:.3}.adde-chev-v:nth-child(2){opacity:.6}.adde-chev-v:nth-child(3){opacity:1}
         `}</style>
-        <canvas ref={addeCanvasRef} className="absolute inset-0 w-full h-full" style={{ display:'block' }} />
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#13a8d4' }}>Our Methodology</p>
@@ -2325,7 +2281,6 @@ export default function EnterprisePage() {
            NEW SECTION 2 — Industries We Serve (DARK NAVY)
       ════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#07121e' }}>
-        <AuroraCanvas />
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Sector Expertise</p>
