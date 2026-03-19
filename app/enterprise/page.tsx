@@ -2350,23 +2350,82 @@ export default function EnterprisePage() {
             </h2>
             <p className="mt-3 max-w-2xl mx-auto text-base text-white/55">Deep domain knowledge across the sectors that depend most on certified IT expertise — delivered with precision, at scale.</p>
           </div>
+          <style>{`
+            @keyframes indIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
+            @keyframes indCardIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+            .ind-card { position:relative;overflow:hidden;border-radius:18px;padding:28px;cursor:default;
+              background:linear-gradient(145deg,rgba(13,32,53,.92) 0%,rgba(10,22,40,.96) 60%,rgba(11,37,69,.88) 100%);
+              border:1px solid rgba(19,168,212,.18);
+              transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease;
+              opacity:0; }
+            .ind-card.ind-visible { animation:indCardIn .55s cubic-bezier(.22,1,.36,1) forwards; }
+            .ind-card:hover { transform:translateY(-7px); border-color:rgba(19,168,212,.55); box-shadow:0 0 0 1px rgba(19,168,212,.2),0 16px 40px rgba(0,0,0,.4),0 0 32px rgba(19,168,212,.12); }
+            /* Radial flood from top on hover */
+            .ind-card::before { content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:220px;border-radius:50%;
+              background:radial-gradient(ellipse,rgba(19,168,212,.13) 0%,transparent 70%);
+              opacity:0;transition:opacity .4s ease;pointer-events:none; }
+            .ind-card:hover::before { opacity:1; }
+            /* Top accent line slides in from centre */
+            .ind-accent { position:absolute;top:0;left:50%;transform:translateX(-50%);height:2.5px;width:0;border-radius:2px;
+              background:linear-gradient(90deg,transparent,#13a8d4,#38bdf8,#13a8d4,transparent);
+              transition:width .45s cubic-bezier(.22,1,.36,1);pointer-events:none; }
+            .ind-card:hover .ind-accent { width:100%; }
+            /* Icon box */
+            .ind-icon-box { width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+              background:rgba(19,168,212,.08);border:1px solid rgba(19,168,212,.28);
+              animation:indIconPulse 3s ease-in-out infinite;
+              transition:background .3s,border-color .3s,transform .3s; }
+            .ind-card:hover .ind-icon-box { background:rgba(19,168,212,.22);border-color:#13a8d4;transform:rotate(-4deg) scale(1.08); }
+            .ind-icon-box svg { transition:stroke .25s; }
+            .ind-card:hover .ind-icon-box svg { stroke:#fff; }
+            /* Divider */
+            .ind-divider { height:1px;background:rgba(19,168,212,.18);border-radius:1px;margin:12px 0;width:40px;transition:width .4s cubic-bezier(.22,1,.36,1); }
+            .ind-card:hover .ind-divider { width:100%; }
+            /* Ghost number */
+            .ind-ghost { position:absolute;bottom:8px;right:14px;font-size:88px;font-weight:900;line-height:1;
+              color:rgba(19,168,212,.045);letter-spacing:-4px;pointer-events:none;select:none;
+              transition:transform .4s ease,color .4s ease; }
+            .ind-card:hover .ind-ghost { transform:translateY(-4px);color:rgba(19,168,212,.08); }
+            /* Tags */
+            .ind-tag { border-radius:100px;padding:3px 10px;font-size:11px;font-weight:600;
+              background:rgba(19,168,212,.10);color:rgba(19,168,212,.7);border:1px solid rgba(19,168,212,.2);
+              transition:background .3s,color .3s,border-color .3s; }
+            .ind-card:hover .ind-tag { background:rgba(19,168,212,.22);color:#7de8ff;border-color:rgba(19,168,212,.45); }
+          `}</style>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {INDUSTRIES.map((ind, i) => (
               <div
                 key={i}
-                className={`ent-ind-card io-fade delay-${i + 1} rounded-2xl p-6`}
-                style={{ background: 'rgba(6,148,209,0.07)', border: '1px solid rgba(6,148,209,0.2)', backdropFilter: 'blur(8px)' }}
+                className="ind-card"
+                style={{ animationDelay: `${i * 0.1}s` }}
+                ref={(el) => {
+                  if (!el) return
+                  const obs = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) { el.classList.add('ind-visible'); obs.disconnect() }
+                  }, { threshold: 0.12 })
+                  obs.observe(el)
+                }}
               >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(6,148,209,0.25), rgba(7,109,157,0.35))', border: '1px solid rgba(6,148,209,0.3)' }}>
-                  <svg className="h-6 w-6" style={{ color: '#38bdf8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{ind.icon}</svg>
+                {/* Top accent line */}
+                <div className="ind-accent" />
+                {/* Icon */}
+                <div className="ind-icon-box mb-4" style={{ animationDelay: `${i * 0.6}s` }}>
+                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#13a8d4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{ind.icon}</svg>
                 </div>
-                <h3 className="mb-2 text-base font-bold text-white">{ind.name}</h3>
-                <p className="mb-4 text-sm leading-relaxed text-white/55">{ind.desc}</p>
+                {/* Title */}
+                <h3 className="text-base font-bold text-white">{ind.name}</h3>
+                {/* Expanding divider */}
+                <div className="ind-divider" />
+                {/* Description */}
+                <p className="mb-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{ind.desc}</p>
+                {/* Tags */}
                 <div className="flex flex-wrap gap-1.5">
                   {ind.tags.map(tag => (
-                    <span key={tag} className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.25)' }}>{tag}</span>
+                    <span key={tag} className="ind-tag">{tag}</span>
                   ))}
                 </div>
+                {/* Ghost step number */}
+                <div className="ind-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</div>
               </div>
             ))}
           </div>
