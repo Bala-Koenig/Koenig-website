@@ -2367,14 +2367,38 @@ export default function EnterprisePage() {
               background:linear-gradient(90deg,transparent,#13a8d4,#38bdf8,#13a8d4,transparent);
               transition:width .45s cubic-bezier(.22,1,.36,1);pointer-events:none; }
             .ind-card:hover .ind-accent { width:100%; }
+            /* ── Icon draw-in ── */
+            @keyframes indDraw { from{stroke-dashoffset:500} to{stroke-dashoffset:0} }
+            /* ── Icon float ── */
+            @keyframes indFloat { from{transform:translateY(0px)} to{transform:translateY(-5px)} }
+            /* ── Hover shake/bounce ── */
+            @keyframes indShake { 0%{transform:translateY(var(--fy,0px)) rotate(0deg) scale(1)} 15%{transform:translateY(var(--fy,0px)) rotate(-6deg) scale(1.06)} 30%{transform:translateY(var(--fy,0px)) rotate(5deg) scale(1.1)} 45%{transform:translateY(var(--fy,0px)) rotate(-3deg) scale(1.08)} 60%{transform:translateY(var(--fy,0px)) rotate(2deg) scale(1.09)} 75%{transform:translateY(var(--fy,0px)) rotate(-1deg) scale(1.1)} 100%{transform:translateY(var(--fy,0px)) rotate(-3deg) scale(1.08)} }
             /* Icon box */
             .ind-icon-box { width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;
               background:rgba(19,168,212,.08);border:1px solid rgba(19,168,212,.28);
               animation:indIconPulse 3s ease-in-out infinite;
-              transition:background .3s,border-color .3s,transform .3s; }
-            .ind-card:hover .ind-icon-box { background:rgba(19,168,212,.22);border-color:#13a8d4;transform:rotate(-4deg) scale(1.08); }
-            .ind-icon-box svg { transition:stroke .25s; }
-            .ind-card:hover .ind-icon-box svg { stroke:#fff; }
+              transition:background .3s,border-color .3s; }
+            .ind-card:hover .ind-icon-box { background:rgba(19,168,212,.22);border-color:#13a8d4; }
+            /* SVG wrapper handles float + hover shake */
+            .ind-icon-svg { display:flex;align-items:center;justify-content:center;
+              animation:indFloat 3s ease-in-out infinite alternate; }
+            .ind-card:hover .ind-icon-svg { animation:indShake .55s cubic-bezier(.36,.07,.19,.97) both; }
+            /* Path draw-in + stroke colour transition */
+            .ind-icon-svg svg path, .ind-icon-svg svg circle, .ind-icon-svg svg line, .ind-icon-svg svg polyline, .ind-icon-svg svg rect {
+              stroke-dasharray:500;
+              stroke-dashoffset:500;
+              stroke:#13a8d4;
+              transition:stroke .3s ease; }
+            .ind-card.ind-visible .ind-icon-svg svg path,
+            .ind-card.ind-visible .ind-icon-svg svg circle,
+            .ind-card.ind-visible .ind-icon-svg svg line,
+            .ind-card.ind-visible .ind-icon-svg svg polyline,
+            .ind-card.ind-visible .ind-icon-svg svg rect { animation:indDraw 1.2s ease-in-out var(--draw-delay,0s) forwards; }
+            .ind-card:hover .ind-icon-svg svg path,
+            .ind-card:hover .ind-icon-svg svg circle,
+            .ind-card:hover .ind-icon-svg svg line,
+            .ind-card:hover .ind-icon-svg svg polyline,
+            .ind-card:hover .ind-icon-svg svg rect { stroke:#fff; }
             /* Divider */
             .ind-divider { height:1px;background:rgba(19,168,212,.18);border-radius:1px;margin:12px 0;width:40px;transition:width .4s cubic-bezier(.22,1,.36,1); }
             .ind-card:hover .ind-divider { width:100%; }
@@ -2407,7 +2431,9 @@ export default function EnterprisePage() {
                 <div className="ind-accent" />
                 {/* Icon */}
                 <div className="ind-icon-box mb-4" style={{ animationDelay: `${i * 0.6}s` }}>
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#13a8d4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{ind.icon}</svg>
+                  <div className="ind-icon-svg" style={{ animationDelay: `${i * 0.4}s`, ['--fy' as string]: `${i % 2 === 0 ? '0px' : '-2px'}`, ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ overflow:'visible' }}>{ind.icon}</svg>
+                  </div>
                 </div>
                 {/* Title */}
                 <h3 className="text-base font-bold text-white">{ind.name}</h3>
