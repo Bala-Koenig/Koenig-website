@@ -1696,6 +1696,56 @@ export default function EnterprisePage() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // ADDE canvas
+  const addeCanvasRef = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    const canvas = addeCanvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')!
+    let raf: number
+    let tick = 0
+    const orbs = [
+      { cx:.28, cy:.45, r:.40, col:'19,168,212', spd:.00018, fx:.7, fy:.5, ax:.30, ay:.22, ph:0 },
+      { cx:.72, cy:.55, r:.38, col:'19,168,212', spd:.00014, fx:.5, fy:.8, ax:.25, ay:.28, ph:2.1 },
+      { cx:.50, cy:.25, r:.30, col:'19,168,212', spd:.00022, fx:.9, fy:.6, ax:.18, ay:.14, ph:4.2 },
+      { cx:.18, cy:.70, r:.45, col:'11,37,69',   spd:.00012, fx:.6, fy:.4, ax:.20, ay:.32, ph:1.1 },
+      { cx:.82, cy:.30, r:.35, col:'11,37,69',   spd:.00016, fx:.4, fy:.9, ax:.28, ay:.16, ph:3.3 },
+    ]
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
+    resize()
+    window.addEventListener('resize', resize)
+    const draw = () => {
+      const W = canvas.width, H = canvas.height
+      tick++
+      const bg = ctx.createLinearGradient(0,0,W,H)
+      bg.addColorStop(0,'#0c1a28'); bg.addColorStop(.5,'#0d1e30'); bg.addColorStop(1,'#080f18')
+      ctx.fillStyle = bg; ctx.fillRect(0,0,W,H)
+      ctx.save(); ctx.globalCompositeOperation = 'screen'
+      orbs.forEach(o => {
+        const x = (o.cx + Math.sin(tick * o.spd * o.fx + o.ph) * o.ax) * W
+        const y = (o.cy + Math.cos(tick * o.spd * o.fy + o.ph) * o.ay) * H
+        const r = o.r * Math.min(W,H)
+        const g = ctx.createRadialGradient(x,y,0,x,y,r)
+        g.addColorStop(0,   `rgba(${o.col},.18)`)
+        g.addColorStop(.4,  `rgba(${o.col},.10)`)
+        g.addColorStop(.75, `rgba(${o.col},.03)`)
+        g.addColorStop(1,   `rgba(${o.col},0)`)
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill()
+      })
+      ctx.restore()
+      for (let i=0;i<60;i++) {
+        const px = (.05 + (i*0.016%1)*.9) * W + Math.sin(i*2.4 + tick*.0003)*18
+        const py = (.05 + (i*0.017%1)*.9) * H + Math.cos(i*1.7 + tick*.0004)*14
+        const op = .06 + (i%6)*.008
+        ctx.beginPath(); ctx.arc(px,py,1,0,Math.PI*2)
+        ctx.fillStyle = `rgba(19,168,212,${op})`; ctx.fill()
+      }
+      raf = requestAnimationFrame(draw)
+    }
+    draw()
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize) }
+  }, [])
+
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
@@ -2180,29 +2230,47 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── ADDE Framework (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-[40px]" style={{ background: 'rgba(255,255,255,0.02)' }}>
-        <div className="mx-auto max-w-7xl">
+      {/* ── ADDE Framework ── */}
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#0d1b2a' }}>
+        <style>{`
+          @keyframes circlePulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.3)} 50%{box-shadow:0 0 0 8px rgba(19,168,212,.07),0 0 18px rgba(19,168,212,.22)} }
+          @keyframes spinRing { to{transform:rotate(360deg)} }
+          .adde-card .icon-circle { width:54px;height:54px;border-radius:50%;background:rgba(19,168,212,.08);border:1.5px solid rgba(19,168,212,.35);display:flex;align-items:center;justify-content:center;position:relative;animation:circlePulse 3s ease-in-out infinite; }
+          .adde-card:nth-child(1) .icon-circle{animation-delay:0s}
+          .adde-card:nth-child(2) .icon-circle{animation-delay:.6s}
+          .adde-card:nth-child(3) .icon-circle{animation-delay:1.2s}
+          .adde-card:nth-child(4) .icon-circle{animation-delay:1.8s}
+          .adde-card .spin-ring { position:absolute;inset:-7px;border-radius:50%;border:1px dashed rgba(19,168,212,.25);animation:spinRing 8s linear infinite; }
+          .adde-card .spin-ring::after { content:'';position:absolute;inset:-5px;border-radius:50%;border:1px dashed rgba(19,168,212,.10);animation:spinRing 13s linear infinite reverse; }
+          .adde-card:hover .icon-circle { background:rgba(19,168,212,.16);border-color:#13a8d4;box-shadow:0 0 0 6px rgba(19,168,212,.10),0 0 24px rgba(19,168,212,.35); }
+          .adde-card:hover .icon-circle svg { stroke:#fff;transform:scale(1.1); }
+          .adde-card .icon-circle svg { transition:stroke .25s,transform .25s; }
+        `}</style>
+        <canvas ref={addeCanvasRef} className="absolute inset-0 w-full h-full" style={{ display:'block' }} />
+        <div className="relative z-10 mx-auto max-w-7xl">
           <div className="mb-12 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Our Methodology</p>
+            <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#13a8d4' }}>Our Methodology</p>
             <h2 className="text-3xl font-bold text-white lg:text-4xl">The Koenig <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">A.D.D.E.</span> Framework</h2>
             <p className="mt-3 text-white/50">A structured 4-step approach that ensures every enterprise training programme delivers measurable results.</p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {APPROACH.map((a, i) => (
-              <div key={a.step} className="relative rounded-2xl p-6" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.18)' }}>
-                <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)' }}>
-                    <svg className="h-5 w-5" style={{ color: '#38bdf8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{a.icon}</svg>
+              <div key={a.step} className="adde-card relative rounded-2xl p-6 transition-all duration-300" style={{ background: 'rgba(19,168,212,0.05)', border: '1px solid rgba(19,168,212,0.18)', backdropFilter:'blur(6px)' }}>
+                <div className="mb-5 flex items-center gap-4">
+                  <div className="relative shrink-0">
+                    <div className="spin-ring" />
+                    <div className="icon-circle">
+                      <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#13a8d4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{a.icon}</svg>
+                    </div>
                   </div>
-                  <span className="text-2xl font-black" style={{ color: 'rgba(6,148,209,0.3)' }}>{a.step}</span>
+                  <span className="text-2xl font-black" style={{ color: 'rgba(19,168,212,0.35)' }}>{a.step}</span>
                 </div>
                 <h3 className="mb-1 text-lg font-bold text-white">{a.title}</h3>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: '#0694D1' }}>{a.sub}</p>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: '#13a8d4' }}>{a.sub}</p>
                 <p className="text-sm leading-relaxed text-white/55">{a.desc}</p>
                 {i < APPROACH.length - 1 && (
                   <div className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 lg:block">
-                    <svg className="h-6 w-6" style={{ color: 'rgba(6,148,209,0.4)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
+                    <svg className="h-6 w-6" style={{ color: 'rgba(19,168,212,0.4)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
                   </div>
                 )}
               </div>
