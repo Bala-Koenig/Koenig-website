@@ -1850,9 +1850,9 @@ export default function EnterprisePage() {
             density={1.2}
             className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,#E8F4FA_80%)]"
           />
-          <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.58) 0%, transparent 65%)' }} />
-          <div className="absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.50) 0%, transparent 70%)' }} />
-          <div className="absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.45) 0%, transparent 70%)' }} />
+          <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.42) 0%, transparent 65%)' }} />
+          <div className="absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.35) 0%, transparent 70%)' }} />
+          <div className="absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.30) 0%, transparent 70%)' }} />
         </div>
         <div className="relative z-10 mx-auto max-w-7xl w-full">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
