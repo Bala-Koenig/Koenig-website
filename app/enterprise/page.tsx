@@ -1850,9 +1850,9 @@ export default function EnterprisePage() {
             density={1.2}
             className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,#E8F4FA_80%)]"
           />
-          <div className="absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
-          <div className="absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
-          <div className="absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.12) 0%, transparent 70%)' }} />
+          <div className="ent-blob1 absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.38) 0%, transparent 65%)' }} />
+          <div className="ent-blob2 absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.30) 0%, transparent 70%)' }} />
+          <div className="ent-blob3 absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.26) 0%, transparent 70%)' }} />
         </div>
         <div className="relative z-10 mx-auto max-w-7xl w-full">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
@@ -1862,11 +1862,11 @@ export default function EnterprisePage() {
                 <span className="h-2 w-2 rounded-full bg-[#0694D1]" />
                 Enterprise Training Solutions
               </div>
-              <h1 className="mb-5 text-4xl font-bold leading-tight tracking-tight lg:text-5xl xl:text-6xl" style={{ color: '#093148' }}>
-                Upskill Your Workforce<br />
+              <h1 className="mb-5 font-bold leading-[1.15] tracking-tight text-[clamp(1.5rem,5vw,2.5rem)] lg:text-[clamp(1.4rem,2.4vw,2.6rem)] xl:text-[clamp(2rem,3vw,3.5rem)]" style={{ color: '#093148' }}>
+                <span className="block whitespace-nowrap">Upskill Your Workforce</span>
                 <span
                   key={entMorphIdx}
-                  className={`inline-block ent-morph-gradient ${entMorphExiting ? 'ent-morph-out' : 'ent-morph-in'}`}
+                  className={`whitespace-nowrap inline-block ent-morph-gradient ${entMorphExiting ? 'ent-morph-out' : 'ent-morph-in'}`}
                 >
                   {ENT_MORPH_WORDS[entMorphIdx]}
                 </span>
