@@ -2084,12 +2084,12 @@ export default function EnterprisePage() {
               {
                 accent: 'linear-gradient(90deg,#0694D1,#4DBFEF)', iconBg: 'rgba(6,148,209,0.10)',
                 iconEl: <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" style={{ width: 44, height: 44, objectFit: 'contain' }} />,
-                stat: '#1', title: 'Microsoft Partner Award', sub: 'Training Services Partner of the Year 2025',
+                stat: '#1', title: 'Microsoft Partner Award', sub: 'Training Services Partner of the Year 2025', bottom: 'Active partner',
               },
               {
                 accent: 'linear-gradient(90deg,#0694D1,#076D9D)', iconBg: 'rgba(7,109,157,0.10)',
                 iconEl: <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" style={{ width: 44, height: 44, objectFit: 'contain' }} />,
-                stat: '14+', title: 'Great Place to Work', sub: 'Certified consecutively since 2011',
+                stat: '14+', title: 'Great Place to Work', sub: 'Certified consecutively since 2011', bottom: 'Certified active',
               },
               {
                 accent: 'linear-gradient(90deg,#38bdf8,#0694D1)', iconBg: 'rgba(56,189,248,0.10)',
@@ -2099,7 +2099,7 @@ export default function EnterprisePage() {
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                   </svg>
                 ),
-                stat: '195+', title: 'Countries Served', sub: 'Global delivery across every continent',
+                stat: '195+', title: 'Countries Served', sub: 'Global delivery across every continent', bottom: 'Live sessions daily',
               },
               {
                 accent: 'linear-gradient(90deg,#076D9D,#093148)', iconBg: 'rgba(9,49,72,0.10)',
@@ -2108,7 +2108,7 @@ export default function EnterprisePage() {
                     <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>
                   </svg>
                 ),
-                stat: '1,000+', title: 'Enterprise Clients', sub: 'Fortune 500s to fast-growing scale-ups',
+                stat: '1,000+', title: 'Enterprise Clients', sub: 'Fortune 500s to fast-growing scale-ups', bottom: 'Growing network',
               },
             ] as const).map((c, i) => (
               <div
@@ -2129,7 +2129,7 @@ export default function EnterprisePage() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#22c55e' }} />
                       <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: '#22c55e' }} />
                     </span>
-                    <span className="text-[11px] font-semibold" style={{ color: '#076D9D' }}>Active</span>
+                    <span className="text-[11px] font-semibold" style={{ color: '#076D9D' }}>{c.bottom}</span>
                   </div>
                 </div>
               </div>
