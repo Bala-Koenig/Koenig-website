@@ -1734,13 +1734,6 @@ export default function EnterprisePage() {
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill()
       })
       ctx.restore()
-      for (let i=0;i<60;i++) {
-        const px = (.05 + (i*0.016%1)*.9) * W + Math.sin(i*2.4 + tick*.0003)*18
-        const py = (.05 + (i*0.017%1)*.9) * H + Math.cos(i*1.7 + tick*.0004)*14
-        const op = .06 + (i%6)*.008
-        ctx.beginPath(); ctx.arc(px,py,1,0,Math.PI*2)
-        ctx.fillStyle = `rgba(19,168,212,${op})`; ctx.fill()
-      }
       raf = requestAnimationFrame(draw)
     }
     draw()
@@ -2323,11 +2316,15 @@ export default function EnterprisePage() {
       </section>
 
 
+      {/* Section divider */}
+      <div className="relative h-px overflow-visible" style={{ background: 'linear-gradient(90deg,transparent 0%,rgba(19,168,212,.35) 30%,rgba(56,189,248,.55) 50%,rgba(19,168,212,.35) 70%,transparent 100%)' }}>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-2 w-2 rounded-full" style={{ background:'#13a8d4', boxShadow:'0 0 10px 3px rgba(19,168,212,.6)' }} />
+      </div>
+
       {/* ════════════════════════════════════════════════════════
            NEW SECTION 2 — Industries We Serve (DARK NAVY)
-           Inspired by Simplilearn's industry verticals section
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#060f1a' }}>
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#07121e' }}>
         <AuroraCanvas />
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
