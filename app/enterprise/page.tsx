@@ -1903,9 +1903,16 @@ export default function EnterprisePage() {
               </div>
             </div>
 
-            {/* Right — full-spec holographic globe */}
-            <div className="relative shrink-0 w-full lg:w-[520px] xl:w-[560px]" style={{ height: 510 }}>
-              <EnterpriseHeroGlobe />
+            {/* Right — banner image */}
+            <div className="relative shrink-0 w-full lg:w-[520px] xl:w-[560px] flex items-center justify-center">
+              <Image
+                src="/images/banner-enterprise.png"
+                alt="Enterprise Training"
+                width={560}
+                height={510}
+                className="w-full h-auto object-contain"
+                priority
+              />
             </div>
           </div>
         </div>
