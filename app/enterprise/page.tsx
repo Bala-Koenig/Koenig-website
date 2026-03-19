@@ -2073,15 +2073,20 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl px-4 lg:px-[50px] relative z-10">
           <div className="io-fade mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
             {/* Left — heading */}
-            <div className="text-center lg:text-left">
-              <p className="mb-1.5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1', animation: 'twSlide 3s ease-in-out infinite' }}>
-                <span style={{ display:'inline-block', width:20, height:2, borderRadius:2, background:'#0694D1', flexShrink:0 }} />
-                Trusted Worldwide
-              </p>
-              <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
-                Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
-              </h2>
-              <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
+            <div className="relative text-center lg:text-left">
+              {/* Title glow orbs */}
+              <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:360, height:180, borderRadius:'50%', background:'radial-gradient(ellipse, rgba(6,148,209,0.13) 0%, rgba(77,191,239,0.07) 45%, transparent 70%)', filter:'blur(18px)', pointerEvents:'none', zIndex:0 }} />
+              <div style={{ position:'absolute', top:'30%', left:'10%', width:160, height:100, borderRadius:'50%', background:'radial-gradient(ellipse, rgba(56,189,248,0.09) 0%, transparent 70%)', filter:'blur(12px)', pointerEvents:'none', zIndex:0 }} />
+              <div className="relative z-10">
+                <p className="mb-1.5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1', animation: 'twSlide 3s ease-in-out infinite' }}>
+                  <span style={{ display:'inline-block', width:20, height:2, borderRadius:2, background:'#0694D1', flexShrink:0 }} />
+                  Trusted Worldwide
+                </p>
+                <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
+                  Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
+                </h2>
+                <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
+              </div>
             </div>
             {/* Right — Score card */}
             <div className="shrink-0 rounded-2xl px-8 py-5 text-center" style={{ background: '#fff', border: '1.5px solid #CAEFFF', boxShadow: '0 0 22px 6px rgba(6,148,209,0.10), 0 4px 16px rgba(6,148,209,0.07)', minWidth: 180 }}>
