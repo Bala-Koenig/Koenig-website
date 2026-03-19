@@ -2245,21 +2245,24 @@ export default function EnterprisePage() {
           .adde-card:hover .icon-circle { background:rgba(19,168,212,.16);border-color:#13a8d4;box-shadow:0 0 0 6px rgba(19,168,212,.10),0 0 24px rgba(19,168,212,.35); }
           .adde-card:hover .icon-circle svg { stroke:#fff;transform:scale(1.1); }
           .adde-card .icon-circle svg { transition:stroke .25s,transform .25s; }
-          @keyframes arrowFlow { 0%{opacity:.25;transform:translateY(-50%) translateX(-4px)} 50%{opacity:.9;transform:translateY(-50%) translateX(4px)} 100%{opacity:.25;transform:translateY(-50%) translateX(-4px)} }
-          @keyframes arrowDot { 0%{left:0;opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{left:calc(100% - 6px);opacity:0} }
-          @keyframes arrowDownFlow { 0%{opacity:.25;transform:translateX(-50%) translateY(-4px)} 50%{opacity:.9;transform:translateX(-50%) translateY(4px)} 100%{opacity:.25;transform:translateX(-50%) translateY(-4px)} }
-          .adde-connector-h { position:absolute;right:-18px;top:50%;transform:translateY(-50%);z-index:10;display:none;flex-direction:column;align-items:center;gap:2px; }
-          @media(min-width:1024px){ .adde-connector-h{display:flex} }
-          .adde-connector-v { display:flex;justify-content:center;margin:4px 0;pointer-events:none; }
-          @media(min-width:640px){ .adde-connector-v{display:none} }
-          .adde-line-h { position:relative;width:28px;height:2px;border-radius:2px;overflow:visible;background:linear-gradient(90deg,rgba(19,168,212,.15),rgba(19,168,212,.5),rgba(19,168,212,.15)); }
-          .adde-line-h::after { content:'';position:absolute;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:#13a8d4;box-shadow:0 0 6px #13a8d4;animation:arrowDot 1.6s ease-in-out infinite; }
-          .adde-chevrons { display:flex;gap:2px;animation:arrowFlow 1.6s ease-in-out infinite; }
-          .adde-chevron { width:7px;height:7px;border-top:1.5px solid #13a8d4;border-right:1.5px solid #13a8d4;transform:rotate(45deg); }
-          .adde-chevron:nth-child(1){opacity:.35} .adde-chevron:nth-child(2){opacity:.65} .adde-chevron:nth-child(3){opacity:1}
-          .adde-chevrons-v { display:flex;flex-direction:column;gap:2px;animation:arrowDownFlow 1.6s ease-in-out infinite; }
-          .adde-chevron-v { width:7px;height:7px;border-bottom:1.5px solid #13a8d4;border-right:1.5px solid #13a8d4;transform:rotate(45deg); }
-          .adde-chevron-v:nth-child(1){opacity:.35} .adde-chevron-v:nth-child(2){opacity:.65} .adde-chevron-v:nth-child(3){opacity:1}
+          @keyframes arrowDot { 0%{left:2px;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{left:calc(100% - 8px);opacity:0} }
+          @keyframes arrowChevron { 0%,100%{opacity:.3;transform:translateX(-3px)} 50%{opacity:1;transform:translateX(3px)} }
+          @keyframes arrowDotV { 0%{top:2px;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{top:calc(100% - 8px);opacity:0} }
+          @keyframes arrowChevronV { 0%,100%{opacity:.3;transform:translateY(-3px)} 50%{opacity:1;transform:translateY(3px)} }
+          .adde-conn-h { display:none;align-items:center;justify-content:center;flex-direction:column;gap:4px;width:32px;flex-shrink:0;align-self:center; }
+          @media(min-width:1024px){.adde-conn-h{display:flex}}
+          .adde-conn-v { display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;height:28px;width:100%; }
+          @media(min-width:640px){.adde-conn-v{display:none}}
+          .adde-tline-h { position:relative;width:100%;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(19,168,212,.1),rgba(19,168,212,.55),rgba(19,168,212,.1));overflow:hidden; }
+          .adde-tline-h::after { content:'';position:absolute;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#13a8d4;box-shadow:0 0 8px #13a8d4;animation:arrowDot 1.8s ease-in-out infinite; }
+          .adde-chev-row { display:flex;gap:3px;animation:arrowChevron 1.8s ease-in-out infinite; }
+          .adde-chev { width:8px;height:8px;border-top:2px solid #13a8d4;border-right:2px solid #13a8d4;transform:rotate(45deg); }
+          .adde-chev:nth-child(1){opacity:.3}.adde-chev:nth-child(2){opacity:.6}.adde-chev:nth-child(3){opacity:1}
+          .adde-tline-v { position:relative;height:100%;width:2px;border-radius:2px;background:linear-gradient(180deg,rgba(19,168,212,.1),rgba(19,168,212,.55),rgba(19,168,212,.1));overflow:hidden; }
+          .adde-tline-v::after { content:'';position:absolute;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:#13a8d4;box-shadow:0 0 8px #13a8d4;animation:arrowDotV 1.8s ease-in-out infinite; }
+          .adde-chev-col { display:flex;flex-direction:column;gap:3px;animation:arrowChevronV 1.8s ease-in-out infinite; }
+          .adde-chev-v { width:8px;height:8px;border-bottom:2px solid #13a8d4;border-right:2px solid #13a8d4;transform:rotate(45deg); }
+          .adde-chev-v:nth-child(1){opacity:.3}.adde-chev-v:nth-child(2){opacity:.6}.adde-chev-v:nth-child(3){opacity:1}
         `}</style>
         <canvas ref={addeCanvasRef} className="absolute inset-0 w-full h-full" style={{ display:'block' }} />
         <div className="relative z-10 mx-auto max-w-7xl">
@@ -2268,38 +2271,47 @@ export default function EnterprisePage() {
             <h2 className="text-3xl font-bold text-white lg:text-4xl">The Koenig <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">A.D.D.E.</span> Framework</h2>
             <p className="mt-3 text-white/50">A structured 4-step approach that ensures every enterprise training programme delivers measurable results.</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Desktop: flex row with connectors between. Mobile: flex col */}
+          <div className="flex flex-col lg:flex-row lg:items-stretch gap-0">
             {APPROACH.map((a, i) => {
               const letter = ['A','D','D','E'][i]
               return (
-                <div key={a.step} className="adde-card relative overflow-hidden rounded-2xl p-6 pb-8 transition-all duration-300" style={{ background: 'rgba(19,168,212,0.05)', border: '1px solid rgba(19,168,212,0.18)', backdropFilter:'blur(6px)' }}>
-                  {/* Watermark letter */}
-                  <div aria-hidden className="pointer-events-none absolute bottom-2 right-3 select-none font-black leading-none" style={{ fontSize: 120, color: 'rgba(19,168,212,0.07)', lineHeight:1 }}>{letter}</div>
-                  {/* Icon + step */}
-                  <div className="mb-5 flex items-center gap-4 relative z-10">
-                    <div className="relative shrink-0">
-                      <div className="spin-ring" />
-                      <div className="icon-circle">
-                        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#13a8d4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{a.icon}</svg>
+                <div key={a.step} className="flex flex-col lg:flex-row lg:items-stretch flex-1 min-w-0">
+                  {/* Card */}
+                  <div className="adde-card relative overflow-hidden rounded-2xl p-6 pb-8 transition-all duration-300 flex-1" style={{ background: 'rgba(19,168,212,0.05)', border: '1px solid rgba(19,168,212,0.18)', backdropFilter:'blur(6px)' }}>
+                    <div aria-hidden className="pointer-events-none absolute bottom-2 right-3 select-none font-black leading-none" style={{ fontSize: 120, color: 'rgba(19,168,212,0.07)', lineHeight:1 }}>{letter}</div>
+                    <div className="mb-5 flex items-center gap-4 relative z-10">
+                      <div className="relative shrink-0">
+                        <div className="spin-ring" />
+                        <div className="icon-circle">
+                          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#13a8d4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{a.icon}</svg>
+                        </div>
                       </div>
+                      <span className="text-2xl font-black" style={{ color: 'rgba(19,168,212,0.35)' }}>{a.step}</span>
                     </div>
-                    <span className="text-2xl font-black" style={{ color: 'rgba(19,168,212,0.35)' }}>{a.step}</span>
+                    <h3 className="mb-1 text-lg font-bold text-white relative z-10">{a.title}</h3>
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wider relative z-10" style={{ color: '#13a8d4' }}>{a.sub}</p>
+                    <p className="text-sm leading-relaxed text-white/55 relative z-10">{a.desc}</p>
+                    <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, #13a8d4 40%, #38bdf8 60%, transparent)' }} />
                   </div>
-                  <h3 className="mb-1 text-lg font-bold text-white relative z-10">{a.title}</h3>
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider relative z-10" style={{ color: '#13a8d4' }}>{a.sub}</p>
-                  <p className="text-sm leading-relaxed text-white/55 relative z-10">{a.desc}</p>
-                  {/* Bottom cyan line */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, #13a8d4 40%, #38bdf8 60%, transparent)' }} />
-                  {/* Desktop horizontal connector */}
+                  {/* Connector — horizontal on desktop, vertical on mobile */}
                   {i < APPROACH.length - 1 && (
-                    <div className="adde-connector-h" style={{ animationDelay: `${i * 0.4}s` }}>
-                      <div className="adde-line-h" />
-                      <div className="adde-chevrons" style={{ animationDelay: `${i * 0.4}s` }}>
-                        <div className="adde-chevron" />
-                        <div className="adde-chevron" />
-                        <div className="adde-chevron" />
+                    <>
+                      {/* Desktop horizontal */}
+                      <div className="adde-conn-h px-1" style={{ animationDelay:`${i*.4}s` }}>
+                        <div className="adde-tline-h w-full" />
+                        <div className="adde-chev-row" style={{ animationDelay:`${i*.4}s` }}>
+                          <div className="adde-chev"/><div className="adde-chev"/><div className="adde-chev"/>
+                        </div>
                       </div>
-                    </div>
+                      {/* Mobile vertical */}
+                      <div className="adde-conn-v py-1 lg:hidden" style={{ animationDelay:`${i*.4}s` }}>
+                        <div className="adde-tline-v h-full" />
+                        <div className="adde-chev-col" style={{ animationDelay:`${i*.4}s` }}>
+                          <div className="adde-chev-v"/><div className="adde-chev-v"/><div className="adde-chev-v"/>
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
               )
