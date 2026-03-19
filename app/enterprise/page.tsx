@@ -2033,7 +2033,7 @@ export default function EnterprisePage() {
            NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
            Inspired by Simplilearn's client marquee strip
       ════════════════════════════════════════════════════════ */}
-      <section className="py-[40px]" style={{ background: 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 35%, #eaf5fb 60%, #f0fdf8 100%)' }}>
+      <section className="py-[40px] bg-white">
         <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
           <div className="io-fade mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
             {/* Left — heading */}
