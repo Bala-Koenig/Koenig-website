@@ -2087,7 +2087,7 @@ export default function EnterprisePage() {
                   Trusted Worldwide
                 </p>
                 <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
-                  Training <span className="ent-dark-grad-text">Fortune </span><span className="ent-shimmer-text">500 Teams</span> & Global Enterprises
+                  Training <span className="ent-dark-grad-text">Fortune </span><span className="ent-shimmer-text">500+</span><span className="ent-dark-grad-text"> Teams</span> & Global Enterprises
                 </h2>
                 <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
               </div>
