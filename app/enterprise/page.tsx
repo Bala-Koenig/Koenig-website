@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { FallingPattern } from '@/components/ui/falling-pattern'
 import EnterpriseHeroGlobe from '@/components/EnterpriseHeroGlobe'
+import AuroraCanvas from '@/components/AuroraCanvas'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
@@ -1746,79 +1747,6 @@ export default function EnterprisePage() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize) }
   }, [])
 
-  // Industries canvas
-  const indCanvasRef = useRef<HTMLCanvasElement>(null)
-  useEffect(() => {
-    const canvas = indCanvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')!
-    let raf: number
-    let tick = 0
-    const orbs = [
-      { cx:.30, cy:.40, r:.42, col:'19,168,212', spd:.00015, fx:.6, fy:.5, ax:.28, ay:.20, ph:0 },
-      { cx:.70, cy:.60, r:.38, col:'19,168,212', spd:.00012, fx:.8, fy:.6, ax:.22, ay:.26, ph:2.3 },
-      { cx:.50, cy:.20, r:.32, col:'19,168,212', spd:.00020, fx:.5, fy:.9, ax:.16, ay:.12, ph:4.5 },
-      { cx:.15, cy:.75, r:.48, col:'11,37,69',   spd:.00010, fx:.7, fy:.4, ax:.18, ay:.30, ph:1.2 },
-      { cx:.85, cy:.35, r:.36, col:'8,50,100',   spd:.00014, fx:.4, fy:.7, ax:.26, ay:.14, ph:3.0 },
-      { cx:.55, cy:.80, r:.28, col:'11,37,69',   spd:.00018, fx:.9, fy:.5, ax:.20, ay:.22, ph:5.1 },
-    ]
-    type Star = { x:number; y:number; vx:number; vy:number; len:number; life:number; maxLife:number }
-    const stars: Star[] = []
-    const spawnStar = () => {
-      const W = canvas.width, H = canvas.height
-      stars.push({ x: Math.random()*W*.6, y: Math.random()*H*.4, vx: 3.5+Math.random()*2, vy: 1.2+Math.random()*.8, len: 90+Math.random()*60, life: 0, maxLife: 80+Math.random()*40 })
-    }
-    const interval = setInterval(spawnStar, 2200)
-    spawnStar()
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
-    resize()
-    window.addEventListener('resize', resize)
-    const draw = () => {
-      const W = canvas.width, H = canvas.height
-      tick++
-      // Radial gradient base
-      const bg = ctx.createRadialGradient(W*.35,H*.30,0,W*.35,H*.30,Math.max(W,H)*.9)
-      bg.addColorStop(0,'#0d2035'); bg.addColorStop(.45,'#0a1628'); bg.addColorStop(1,'#060f1a')
-      ctx.fillStyle = bg; ctx.fillRect(0,0,W,H)
-      // Dot grid
-      ctx.strokeStyle = 'rgba(19,168,212,.025)'; ctx.lineWidth = 1
-      for (let x=0;x<W;x+=72){ ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke() }
-      for (let y=0;y<H;y+=72){ ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke() }
-      // Aurora orbs
-      ctx.save(); ctx.globalCompositeOperation = 'screen'
-      orbs.forEach(o => {
-        const x = (o.cx + Math.sin(tick*o.spd*o.fx+o.ph)*o.ax)*W
-        const y = (o.cy + Math.cos(tick*o.spd*o.fy+o.ph)*o.ay)*H
-        const r = o.r*Math.min(W,H)
-        const g = ctx.createRadialGradient(x,y,0,x,y,r)
-        g.addColorStop(0,`rgba(${o.col},.17)`); g.addColorStop(.35,`rgba(${o.col},.09)`)
-        g.addColorStop(.7,`rgba(${o.col},.03)`);  g.addColorStop(1,`rgba(${o.col},0)`)
-        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill()
-      })
-      ctx.restore()
-      // Shooting stars
-      for (let s=stars.length-1;s>=0;s--) {
-        const st = stars[s]
-        st.x += st.vx; st.y += st.vy; st.life++
-        const progress = st.life/st.maxLife
-        const opacity = progress < .15 ? progress/.15 : 1 - (progress-.15)/.85
-        const tailX = st.x - st.vx/st.len*st.len
-        const tailY = st.y - st.vy/st.len*st.len
-        const sg = ctx.createLinearGradient(tailX,tailY,st.x,st.y)
-        sg.addColorStop(0,`rgba(19,168,212,0)`)
-        sg.addColorStop(.6,`rgba(100,210,240,${opacity*.4})`)
-        sg.addColorStop(1,`rgba(255,255,255,${opacity})`)
-        ctx.beginPath(); ctx.moveTo(tailX,tailY); ctx.lineTo(st.x,st.y)
-        ctx.strokeStyle=sg; ctx.lineWidth=1.5; ctx.stroke()
-        ctx.beginPath(); ctx.arc(st.x,st.y,1.5,0,Math.PI*2)
-        ctx.fillStyle=`rgba(255,255,255,${opacity})`; ctx.fill()
-        if (st.life>=st.maxLife) stars.splice(s,1)
-      }
-      raf = requestAnimationFrame(draw)
-    }
-    draw()
-    return () => { cancelAnimationFrame(raf); clearInterval(interval); window.removeEventListener('resize', resize) }
-  }, [])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -2400,7 +2328,7 @@ export default function EnterprisePage() {
            Inspired by Simplilearn's industry verticals section
       ════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#060f1a' }}>
-        <canvas ref={indCanvasRef} className="absolute inset-0 w-full h-full" style={{ display:'block' }} />
+        <AuroraCanvas />
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Sector Expertise</p>
