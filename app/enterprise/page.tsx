@@ -2033,7 +2033,7 @@ export default function EnterprisePage() {
            NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
            Inspired by Simplilearn's client marquee strip
       ════════════════════════════════════════════════════════ */}
-      <section className="py-16 bg-white">
+      <section className="py-[40px] bg-white">
         <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
           <div className="io-fade mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
             {/* Left — heading */}
@@ -2114,7 +2114,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── ADDE Framework (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-20" style={{ background: 'rgba(255,255,255,0.02)' }}>
+      <section className="px-4 lg:px-[50px] py-[40px]" style={{ background: 'rgba(255,255,255,0.02)' }}>
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Our Methodology</p>
@@ -2148,7 +2148,7 @@ export default function EnterprisePage() {
            NEW SECTION 2 — Industries We Serve (DARK NAVY)
            Inspired by Simplilearn's industry verticals section
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px]" style={{ background: '#093148' }}>
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#093148' }}>
         {/* Blob decorations (same as homepage) */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="ent-blob1 absolute -top-32 -right-32 h-96 w-96 rounded-full opacity-20 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
@@ -2185,7 +2185,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Training Domains (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-20">
+      <section className="px-4 lg:px-[50px] py-[40px]">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
@@ -2210,7 +2210,7 @@ export default function EnterprisePage() {
            NEW SECTION 3 — Training ROI & Business Impact (WHITE)
            Inspired by Simplilearn's impact/metrics section
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px] bg-white">
         {/* Subtle background gradient blobs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="ent-blob1 absolute -top-20 -right-20 h-80 w-80 rounded-full opacity-10 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
@@ -2261,7 +2261,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Why Koenig (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-20" style={{ background: 'rgba(255,255,255,0.02)' }}>
+      <section className="px-4 lg:px-[50px] py-[40px]" style={{ background: 'rgba(255,255,255,0.02)' }}>
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Why Enterprises Choose Us</p>
@@ -2287,7 +2287,7 @@ export default function EnterprisePage() {
            NEW SECTION 4 — How Corporate Training Works (WHITE)
            Inspired by Simplilearn's "How it works" process section
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px] bg-white">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="ent-blob3 absolute top-1/3 right-0 h-72 w-72 rounded-full opacity-8 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
         </div>
@@ -2337,7 +2337,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Learning Formats (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-20">
+      <section className="px-4 lg:px-[50px] py-[40px]">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Flexible Delivery</p>
@@ -2358,7 +2358,7 @@ export default function EnterprisePage() {
       {/* ════════════════════════════════════════════════════════
            NEW: 2025 Technology Radar (WHITE — featured + staggered grid)
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px] bg-white">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 right-0 h-[500px] w-[500px] rounded-full blur-3xl opacity-20" style={{ background: 'radial-gradient(circle, #CAEFFF, transparent)' }} />
         </div>
@@ -2444,7 +2444,7 @@ export default function EnterprisePage() {
       {/* ════════════════════════════════════════════════════════
            NEW: Vendor Certification Ecosystem (DARK NAVY — tiered rows)
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px]" style={{ background: '#093148' }}>
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#093148' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(6,148,209,0.035) 1px,transparent 1px)', backgroundSize: '30px 30px' }} />
           <div className="ent-blob1 absolute -top-28 -right-28 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: 'radial-gradient(circle,#0694D1,transparent)' }} />
@@ -2495,7 +2495,7 @@ export default function EnterprisePage() {
       {/* ════════════════════════════════════════════════════════
            NEW: L&D Intelligence Dashboard (WHITE — split-screen with CSS mockup)
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px] bg-white">
         <div className="pointer-events-none absolute inset-0">
           <div className="ent-blob3 absolute bottom-0 left-1/3 h-72 w-72 rounded-full opacity-15 blur-3xl" style={{ background: 'radial-gradient(circle,#0694D1,transparent)' }} />
         </div>
@@ -2583,7 +2583,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Testimonials (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-20" style={{ background: 'rgba(255,255,255,0.02)' }}>
+      <section className="px-4 lg:px-[50px] py-[40px]" style={{ background: 'rgba(255,255,255,0.02)' }}>
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Client Stories</p>
@@ -2611,7 +2611,7 @@ export default function EnterprisePage() {
            NEW SECTION 5 — FAQ (WHITE)
            Inspired by Simplilearn's FAQ accordion section
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-20 px-4 lg:px-[50px] bg-white">
+      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px] bg-white">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="ent-blob1 absolute -top-24 -left-24 h-72 w-72 rounded-full opacity-8 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
           <div className="ent-blob2 absolute -bottom-20 -right-20 h-64 w-64 rounded-full opacity-6 blur-3xl" style={{ background: 'radial-gradient(circle, #076D9D, transparent)' }} />
@@ -2664,7 +2664,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Contact Form (existing, unchanged) ── */}
-      <section id="contact" className="px-4 lg:px-[50px] py-20">
+      <section id="contact" className="px-4 lg:px-[50px] py-[40px]">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Let's Talk</p>
