@@ -2083,18 +2083,18 @@ export default function EnterprisePage() {
             {([
               {
                 accent: 'linear-gradient(90deg,#0694D1,#4DBFEF)', iconBg: 'rgba(6,148,209,0.10)',
-                iconEl: <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" style={{ width: 36, height: 36, objectFit: 'contain' }} />,
+                iconEl: <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" style={{ width: 44, height: 44, objectFit: 'contain' }} />,
                 stat: '#1', title: 'Microsoft Partner Award', sub: 'Training Services Partner of the Year 2025',
               },
               {
                 accent: 'linear-gradient(90deg,#0694D1,#076D9D)', iconBg: 'rgba(7,109,157,0.10)',
-                iconEl: <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" style={{ width: 40, height: 40, objectFit: 'contain' }} />,
+                iconEl: <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" style={{ width: 44, height: 44, objectFit: 'contain' }} />,
                 stat: '14+', title: 'Great Place to Work', sub: 'Certified consecutively since 2011',
               },
               {
                 accent: 'linear-gradient(90deg,#38bdf8,#0694D1)', iconBg: 'rgba(56,189,248,0.10)',
                 iconEl: (
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                   </svg>
@@ -2104,7 +2104,7 @@ export default function EnterprisePage() {
               {
                 accent: 'linear-gradient(90deg,#076D9D,#093148)', iconBg: 'rgba(9,49,72,0.10)',
                 iconEl: (
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>
                   </svg>
                 ),
@@ -2120,7 +2120,7 @@ export default function EnterprisePage() {
               >
                 <div style={{ height: 3, background: c.accent }} />
                 <div className="p-5">
-                  <div style={{ width: 48, height: 48, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>{c.iconEl}</div>
+                  <div style={{ width: 60, height: 60, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>{c.iconEl}</div>
                   <div className="text-2xl font-black leading-none" style={{ color: '#093148' }}>{c.stat}</div>
                   <div className="mt-1 text-sm font-bold" style={{ color: '#093148' }}>{c.title}</div>
                   <div className="mt-0.5 text-xs" style={{ color: '#4a7a9b' }}>{c.sub}</div>
