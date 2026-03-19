@@ -2254,27 +2254,36 @@ export default function EnterprisePage() {
             <p className="mt-3 text-white/50">A structured 4-step approach that ensures every enterprise training programme delivers measurable results.</p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {APPROACH.map((a, i) => (
-              <div key={a.step} className="adde-card relative rounded-2xl p-6 transition-all duration-300" style={{ background: 'rgba(19,168,212,0.05)', border: '1px solid rgba(19,168,212,0.18)', backdropFilter:'blur(6px)' }}>
-                <div className="mb-5 flex items-center gap-4">
-                  <div className="relative shrink-0">
-                    <div className="spin-ring" />
-                    <div className="icon-circle">
-                      <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#13a8d4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{a.icon}</svg>
+            {APPROACH.map((a, i) => {
+              const letter = ['A','D','D','E'][i]
+              return (
+                <div key={a.step} className="adde-card relative overflow-hidden rounded-2xl p-6 pb-8 transition-all duration-300" style={{ background: 'rgba(19,168,212,0.05)', border: '1px solid rgba(19,168,212,0.18)', backdropFilter:'blur(6px)' }}>
+                  {/* Watermark letter */}
+                  <div aria-hidden className="pointer-events-none absolute bottom-2 right-3 select-none font-black leading-none" style={{ fontSize: 120, color: 'rgba(19,168,212,0.07)', lineHeight:1 }}>{letter}</div>
+                  {/* Icon + step */}
+                  <div className="mb-5 flex items-center gap-4 relative z-10">
+                    <div className="relative shrink-0">
+                      <div className="spin-ring" />
+                      <div className="icon-circle">
+                        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#13a8d4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{a.icon}</svg>
+                      </div>
                     </div>
+                    <span className="text-2xl font-black" style={{ color: 'rgba(19,168,212,0.35)' }}>{a.step}</span>
                   </div>
-                  <span className="text-2xl font-black" style={{ color: 'rgba(19,168,212,0.35)' }}>{a.step}</span>
+                  <h3 className="mb-1 text-lg font-bold text-white relative z-10">{a.title}</h3>
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider relative z-10" style={{ color: '#13a8d4' }}>{a.sub}</p>
+                  <p className="text-sm leading-relaxed text-white/55 relative z-10">{a.desc}</p>
+                  {/* Bottom cyan line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, #13a8d4 40%, #38bdf8 60%, transparent)' }} />
+                  {/* Connector arrow */}
+                  {i < APPROACH.length - 1 && (
+                    <div className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 lg:block">
+                      <svg className="h-6 w-6" style={{ color: 'rgba(19,168,212,0.4)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                  )}
                 </div>
-                <h3 className="mb-1 text-lg font-bold text-white">{a.title}</h3>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: '#13a8d4' }}>{a.sub}</p>
-                <p className="text-sm leading-relaxed text-white/55">{a.desc}</p>
-                {i < APPROACH.length - 1 && (
-                  <div className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 lg:block">
-                    <svg className="h-6 w-6" style={{ color: 'rgba(19,168,212,0.4)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
-                  </div>
-                )}
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
