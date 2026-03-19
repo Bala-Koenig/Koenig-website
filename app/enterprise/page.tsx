@@ -2335,7 +2335,22 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Sector Expertise</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">Industries We <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Specialise In</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">Industries We{' '}
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Specialise In</span>
+                <style>{`
+                  @keyframes lineExpand { 0%{width:0;opacity:0} 60%{opacity:1} 100%{width:100%;opacity:1} }
+                  @keyframes lineSweep { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+                  .si-underline { position:absolute;bottom:-4px;left:0;height:2px;border-radius:2px;width:0;animation:lineExpand 1s cubic-bezier(.4,0,.2,1) 0.3s forwards; background:linear-gradient(90deg,#0694D1,#38bdf8,#0694D1); background-size:200% auto; }
+                  .si-underline-sweep { position:absolute;bottom:-4px;left:0;height:2px;border-radius:2px;width:100%;background:linear-gradient(90deg,#0694D1 0%,#38bdf8 50%,#0694D1 100%);background-size:200% auto;animation:lineSweep 2.5s linear infinite; opacity:0; animation-delay:1.3s; }
+                  @keyframes siDotPing { 0%{transform:translateX(-50%) scale(1);opacity:.9} 100%{transform:translateX(-50%) scale(2.5);opacity:0} }
+                  .si-dot { position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8; animation:siDotPing 1.5s ease-out 1.1s infinite; }
+                `}</style>
+                <span className="si-underline" />
+                <span className="si-underline-sweep" style={{ animationFillMode:'forwards' }} />
+                <span className="si-dot" />
+              </span>
+            </h2>
             <p className="mt-3 max-w-2xl mx-auto text-base text-white/55">Deep domain knowledge across the sectors that depend most on certified IT expertise — delivered with precision, at scale.</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
