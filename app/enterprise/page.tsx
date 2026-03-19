@@ -2146,13 +2146,13 @@ export default function EnterprisePage() {
             ] as const).map((c, i) => (
               <div
                 key={i}
-                className="io-fade rounded-xl overflow-hidden transition-colors duration-200"
-                style={{ border: '1px solid #CAEFFF', cursor: 'default' }}
-                onMouseEnter={e => (e.currentTarget.style.background = '#fafcff')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                className="io-fade rounded-xl overflow-hidden transition-all duration-200"
+                style={{ border: '1px solid #CAEFFF', background: '#ffffff', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', cursor: 'default' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 28px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLDivElement).style.background = '#f5fbff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px rgba(6,148,209,0.10)'; (e.currentTarget as HTMLDivElement).style.background = '#ffffff'; }}
               >
                 <div style={{ height: 3, background: c.accent }} />
-                <div className="p-5">
+                <div className="p-5" style={{ background: 'linear-gradient(160deg, rgba(240,250,255,0.7) 0%, rgba(255,255,255,1) 60%)' }}>
                   <div style={{ width: 60, height: 60, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>{c.iconEl}</div>
                   <div className="text-2xl font-black leading-none" style={{ color: '#093148' }}>{c.stat}</div>
                   <div className="mt-1 text-sm font-bold" style={{ color: '#093148' }}>{c.title}</div>
