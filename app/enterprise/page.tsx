@@ -104,12 +104,21 @@ const ENTERPRISE_CLIENTS = [
   { name: 'Cognizant',          img: 'cts.png'                  },
   { name: 'EY',                 img: 'EY.png'                   },
   { name: 'PwC',                img: 'pwc.png'                  },
-  { name: 'McKinsey',           img: 'mcKinsey-and-company.png' },
+  { name: 'McKinsey & Company', img: 'mcKinsey-and-company.png' },
+  { name: 'Bain & Company',     img: 'Bain-and-Company.png'     },
   { name: 'HSBC',               img: 'hsbc.png'                 },
   { name: 'Shell',              img: 'shell 1.png'              },
-  { name: 'Emirates',           img: 'Emirates.png'             },
-  { name: 'Capgemini',          img: 'capeg.png'                },
+  { name: 'Chevron',            img: 'chevron.png'              },
   { name: 'Saudi Aramco',       img: 'aramco.png'               },
+  { name: 'Bharat Petroleum',   img: 'Bharat-Petroleum.png'     },
+  { name: 'GE',                 img: 'ge.png'                   },
+  { name: 'Fujifilm',           img: 'fuji.png'                 },
+  { name: 'DHL',                img: 'dhl.png'                  },
+  { name: 'Emirates',           img: 'Emirates.png'             },
+  { name: 'NTT',                img: 'NTT.png'                  },
+  { name: 'NHS',                img: 'NHS.png'                  },
+  { name: 'United Nations',     img: 'united-nations.png'       },
+  { name: 'Capgemini',          img: 'capeg.png'                },
 ]
 
 const INDUSTRIES = [
@@ -1941,7 +1950,7 @@ export default function EnterprisePage() {
                 style={{ height: '72px', minWidth: '160px', border: '1.5px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}
               >
                 <img
-                  src={`/images/companies/${encodeURIComponent(c.img)}`}
+                  src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
                   alt={c.name}
                   className="max-h-9 max-w-[120px] object-contain grayscale opacity-60 transition-all duration-300 hover:grayscale-0 hover:opacity-100"
                   onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
