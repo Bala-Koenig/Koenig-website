@@ -2043,6 +2043,7 @@ export default function EnterprisePage() {
           @keyframes glowPulse2 { 0%,100%{opacity:0.35;transform:scale(1) translate(0,0)} 50%{opacity:0.60;transform:scale(1.22) translate(10px,-14px)} }
           @keyframes glowPulse3 { 0%,100%{opacity:0.25;transform:scale(1) translate(0,0)} 50%{opacity:0.50;transform:scale(1.15) translate(-8px,8px)} }
           @keyframes glowSweep  { 0%{transform:translateX(-120%) skewX(-20deg)} 100%{transform:translateX(260%) skewX(-20deg)} }
+          @keyframes twSlide { 0%,100%{transform:translateX(0)} 50%{transform:translateX(10px)} }
           @keyframes borderSpin { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
           .tw-glow-border {
             position:absolute;inset:-2px;border-radius:20px;z-index:0;
@@ -2068,7 +2069,10 @@ export default function EnterprisePage() {
           <div className="io-fade mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
             {/* Left — heading */}
             <div className="text-center lg:text-left">
-              <p className="mb-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Trusted Worldwide</p>
+              <p className="mb-1.5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1', animation: 'twSlide 3s ease-in-out infinite' }}>
+                <span style={{ display:'inline-block', width:20, height:2, borderRadius:2, background:'#0694D1', flexShrink:0 }} />
+                Trusted Worldwide
+              </p>
               <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
                 Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
               </h2>
@@ -2093,17 +2097,8 @@ export default function EnterprisePage() {
             WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
           }}
         >
-          {/* Row 1 — scrolls left */}
           <div className="ent-marquee-track items-center gap-2 py-2">
             {[...ENTERPRISE_CLIENTS, ...ENTERPRISE_CLIENTS].map((c, i) => (
-              <div key={i} className="flex shrink-0 items-center justify-center px-2">
-                <img src={`/images/trusted-logos/${encodeURIComponent(c.img)}`} alt={c.name} className="h-12 w-auto object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }} title={c.name} />
-              </div>
-            ))}
-          </div>
-          {/* Row 2 — scrolls right */}
-          <div className="ent-marquee-track-rev items-center gap-2 py-2">
-            {[...ENTERPRISE_CLIENTS.slice().reverse(), ...ENTERPRISE_CLIENTS.slice().reverse()].map((c, i) => (
               <div key={i} className="flex shrink-0 items-center justify-center px-2">
                 <img src={`/images/trusted-logos/${encodeURIComponent(c.img)}`} alt={c.name} className="h-12 w-auto object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }} title={c.name} />
               </div>
