@@ -2429,22 +2429,24 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Training Domains (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-[40px]">
+      {/* ── Training Domains ── */}
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[40px]" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+        <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">5,000+ Courses Across <span style={{ color: '#38bdf8' }}>8 Core Domains</span></h2>
+            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>5,000+ Courses Across <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">8 Core Domains</span></h2>
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-4">
             {DOMAINS.map(d => (
-              <div key={d.name} className="group cursor-pointer rounded-2xl p-5 transition-all hover:-translate-y-1" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.15)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.03)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
+              <div key={d.name} className="group cursor-pointer rounded-2xl p-5 transition-all hover:-translate-y-1" style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(6,148,209,0.15)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.7)'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF'; (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 10px rgba(6,148,209,0.07)'; }}
               >
                 <svg className="mb-3 h-6 w-6" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{d.icon}</svg>
-                <h3 className="mb-1 text-sm font-semibold text-white">{d.name}</h3>
-                <p className="text-xs" style={{ color: '#38bdf8' }}>{d.count} Courses</p>
+                <h3 className="mb-1 text-sm font-semibold" style={{ color: '#093148' }}>{d.name}</h3>
+                <p className="text-xs font-medium" style={{ color: '#0694D1' }}>{d.count} Courses</p>
               </div>
             ))}
           </div>
