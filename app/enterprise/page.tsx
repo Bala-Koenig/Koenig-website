@@ -1841,14 +1841,6 @@ export default function EnterprisePage() {
       {/* ── Hero ── */}
       <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0">
-          {/* E-banner background image at low opacity */}
-          <Image
-            src="/images/E-banner-bg.png"
-            alt=""
-            fill
-            className="object-cover opacity-[0.08]"
-            priority
-          />
           {/* Falling pattern — Koenig blue streaks on hero bg */}
           <FallingPattern
             color="rgba(6,148,209,0.55)"
