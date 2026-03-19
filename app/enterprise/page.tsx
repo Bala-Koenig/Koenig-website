@@ -2066,11 +2066,8 @@ export default function EnterprisePage() {
           <div style={{ position:'absolute', bottom:-60, right:-60, width:280, height:280, borderRadius:'50%', background:'radial-gradient(circle, rgba(6,148,209,0.30) 0%, transparent 70%)', animation:'glowPulse1 8s ease-in-out 2s infinite' }} />
           {/* Centre bloom */}
           <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:480, height:480, borderRadius:'50%', background:'radial-gradient(circle, rgba(6,148,209,0.14) 0%, rgba(56,189,248,0.08) 40%, transparent 70%)', animation:'glowPulse3 13s ease-in-out infinite' }} />
-          {/* Mid-left & mid-right green tint glows */}
-          <div style={{ position:'absolute', top:'50%', left:-40, transform:'translateY(-50%)', width:220, height:220, borderRadius:'50%', background:'radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%)', animation:'glowPulse2 10s ease-in-out 1s infinite' }} />
-          <div style={{ position:'absolute', top:'50%', right:-40, transform:'translateY(-50%)', width:220, height:220, borderRadius:'50%', background:'radial-gradient(circle, rgba(16,185,129,0.10) 0%, transparent 70%)', animation:'glowPulse1 10s ease-in-out 3s infinite' }} />
-          {/* Centre-bottom green accent */}
-          <div style={{ position:'absolute', bottom:-20, left:'50%', transform:'translateX(-50%)', width:260, height:260, borderRadius:'50%', background:'radial-gradient(circle, rgba(34,197,94,0.09) 0%, transparent 70%)', animation:'glowPulse3 14s ease-in-out 2s infinite' }} />
+          {/* Very mild green near title area (top-left) only */}
+          <div style={{ position:'absolute', top:10, left:'15%', width:220, height:220, borderRadius:'50%', background:'radial-gradient(circle, rgba(34,197,94,0.05) 0%, transparent 70%)', animation:'glowPulse2 12s ease-in-out 2s infinite' }} />
         </div>
 
         <div className="mx-auto max-w-7xl px-4 lg:px-[50px] relative z-10">
