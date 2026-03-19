@@ -2057,6 +2057,8 @@ export default function EnterprisePage() {
           .tw-sweep::after { content:'';position:absolute;top:0;left:0;height:100%;width:30%;background:linear-gradient(90deg,transparent,rgba(6,148,209,0.06),transparent);animation:glowSweep 6s ease-in-out infinite; }
           .award-card-icon { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease; }
           .award-card:hover .award-card-icon { transform: scale(1.18) rotate(-4deg); box-shadow: 0 6px 18px rgba(6,148,209,0.22); }
+          @keyframes ent-shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+          .ent-shimmer-text { background: linear-gradient(90deg, #076D9D 0%, #0694D1 25%, #38bdf8 50%, #0694D1 75%, #076D9D 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: ent-shimmer 2.8s linear infinite; }
         `}</style>
 
         {/* Section bg glow orbs */}
@@ -2085,7 +2087,7 @@ export default function EnterprisePage() {
                   Trusted Worldwide
                 </p>
                 <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
-                  Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
+                  Training <span className="ent-dark-grad-text">Fortune </span><span className="ent-shimmer-text">500 Teams</span> & Global Enterprises
                 </h2>
                 <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
               </div>
