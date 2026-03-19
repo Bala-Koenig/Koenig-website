@@ -2055,6 +2055,8 @@ export default function EnterprisePage() {
           .tw-glow-border-inner { background:#fff; border-radius:18px; width:100%; height:100%; }
           .tw-sweep { position:absolute;inset:0;overflow:hidden;border-radius:18px;pointer-events:none;z-index:1; }
           .tw-sweep::after { content:'';position:absolute;top:0;left:0;height:100%;width:30%;background:linear-gradient(90deg,transparent,rgba(6,148,209,0.06),transparent);animation:glowSweep 6s ease-in-out infinite; }
+          .award-card-icon { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease; }
+          .award-card:hover .award-card-icon { transform: scale(1.18) rotate(-4deg); box-shadow: 0 6px 18px rgba(6,148,209,0.22); }
         `}</style>
 
         {/* Section bg glow orbs */}
@@ -2151,14 +2153,14 @@ export default function EnterprisePage() {
             ] as const).map((c, i) => (
               <div
                 key={i}
-                className="io-fade rounded-xl overflow-hidden transition-all duration-200"
+                className="io-fade award-card rounded-xl overflow-hidden transition-all duration-200"
                 style={{ border: '1px solid #CAEFFF', background: '#ffffff', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', cursor: 'default' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 28px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLDivElement).style.background = '#f5fbff'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px rgba(6,148,209,0.10)'; (e.currentTarget as HTMLDivElement).style.background = '#ffffff'; }}
               >
                 <div style={{ height: 3, background: c.accent }} />
                 <div className="p-5" style={{ background: 'linear-gradient(160deg, rgba(240,250,255,0.7) 0%, rgba(255,255,255,1) 60%)' }}>
-                  <div style={{ width: 60, height: 60, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>{c.iconEl}</div>
+                  <div className="award-card-icon" style={{ width: 60, height: 60, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>{c.iconEl}</div>
                   <div className="text-2xl font-black leading-none" style={{ color: '#093148' }}>{c.stat}</div>
                   <div className="mt-1 text-sm font-bold" style={{ color: '#093148' }}>{c.title}</div>
                   <div className="mt-0.5 text-xs" style={{ color: '#4a7a9b' }}>{c.sub}</div>
