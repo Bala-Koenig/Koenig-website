@@ -1734,7 +1734,7 @@ export default function EnterprisePage() {
 
         /* Infinite client logo marquee */
         @keyframes ent-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .ent-marquee-track { animation: ent-marquee 55s linear infinite; display:flex; width:max-content; }
+        .ent-marquee-track { animation: ent-marquee 38s linear infinite; display:flex; width:max-content; }
         .ent-marquee-track:hover { animation-play-state: paused; }
         .ent-marquee-wrap { overflow:hidden; mask-image:linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%); -webkit-mask-image:linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%); }
 
@@ -1954,19 +1954,22 @@ export default function EnterprisePage() {
             </div>
           </div>
         </div>
-        <div className="ent-marquee-wrap py-2">
-          <div className="ent-marquee-track gap-6 px-6">
+        <div
+          className="relative overflow-x-hidden py-2"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+          }}
+        >
+          <div className="ent-marquee-track items-center gap-2">
             {[...ENTERPRISE_CLIENTS, ...ENTERPRISE_CLIENTS].map((c, i) => (
-              <div
-                key={i}
-                className="flex shrink-0 items-center justify-center rounded-xl bg-white px-6 py-4"
-                style={{ height: '72px', minWidth: '160px', border: '1.5px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}
-              >
+              <div key={i} className="flex shrink-0 items-center justify-center px-2">
                 <img
                   src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
                   alt={c.name}
-                  className="max-h-9 max-w-[120px] object-contain grayscale opacity-60 transition-all duration-300 hover:grayscale-0 hover:opacity-100"
-                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+                  className="h-14 w-auto object-contain"
+                  style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }}
+                  title={c.name}
                 />
               </div>
             ))}
