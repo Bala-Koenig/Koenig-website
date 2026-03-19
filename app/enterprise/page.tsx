@@ -2335,7 +2335,7 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Sector Expertise</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">Industries We <span style={{ color: '#38bdf8' }}>Specialise In</span></h2>
+            <h2 className="text-3xl font-bold text-white lg:text-4xl">Industries We <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Specialise In</span></h2>
             <p className="mt-3 max-w-2xl mx-auto text-base text-white/55">Deep domain knowledge across the sectors that depend most on certified IT expertise — delivered with precision, at scale.</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
