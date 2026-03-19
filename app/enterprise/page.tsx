@@ -2045,7 +2045,7 @@ export default function EnterprisePage() {
               <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
             </div>
             {/* Right — Score card */}
-            <div className="shrink-0 rounded-2xl px-8 py-5 text-center" style={{ background: '#fff', border: '1.5px solid #CAEFFF', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', minWidth: 180 }}>
+            <div className="shrink-0 rounded-2xl px-8 py-5 text-center" style={{ background: '#fff', border: '1.5px solid #CAEFFF', boxShadow: '0 0 40px 12px rgba(6,148,209,0.18), 0 0 80px 24px rgba(6,148,209,0.08), 0 4px 20px rgba(6,148,209,0.12)', minWidth: 180 }}>
               <div className="leading-none" style={{ fontSize: 56, fontWeight: 900, color: '#093148' }}>
                 4.9<span style={{ fontSize: 26, fontWeight: 600, color: '#64748b' }}>/5</span>
               </div>
