@@ -2126,10 +2126,10 @@ export default function EnterprisePage() {
                   <div className="mt-0.5 text-xs" style={{ color: '#4a7a9b' }}>{c.sub}</div>
                   <div className="mt-3 flex items-center gap-1.5">
                     <span className="relative inline-flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#0694D1' }} />
-                      <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: '#0694D1' }} />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#22c55e' }} />
+                      <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: '#22c55e' }} />
                     </span>
-                    <span className="text-[11px] font-semibold" style={{ color: '#076D9D' }}>Active</span>
+                    <span className="text-[11px] font-semibold" style={{ color: '#16a34a' }}>Active</span>
                   </div>
                 </div>
               </div>
