@@ -2035,8 +2035,36 @@ export default function EnterprisePage() {
            NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
            Inspired by Simplilearn's client marquee strip
       ════════════════════════════════════════════════════════ */}
-      <section className="py-[40px] bg-white">
-        <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
+      <section className="py-[40px] bg-white relative overflow-hidden">
+
+        {/* ── Brand glow effect system ── */}
+        <style>{`
+          @keyframes glowPulse1 { 0%,100%{opacity:0.45;transform:scale(1) translate(0,0)} 50%{opacity:0.75;transform:scale(1.18) translate(-12px,10px)} }
+          @keyframes glowPulse2 { 0%,100%{opacity:0.35;transform:scale(1) translate(0,0)} 50%{opacity:0.60;transform:scale(1.22) translate(10px,-14px)} }
+          @keyframes glowPulse3 { 0%,100%{opacity:0.25;transform:scale(1) translate(0,0)} 50%{opacity:0.50;transform:scale(1.15) translate(-8px,8px)} }
+          @keyframes glowSweep  { 0%{transform:translateX(-120%) skewX(-20deg)} 100%{transform:translateX(260%) skewX(-20deg)} }
+          @keyframes borderSpin { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+          .tw-glow-border {
+            position:absolute;inset:-2px;border-radius:20px;z-index:0;
+            background: linear-gradient(120deg, #0694D1, #4DBFEF, #076D9D, #38bdf8, #093148, #0694D1);
+            background-size: 300% 300%;
+            animation: borderSpin 5s ease infinite;
+            padding: 2px;
+          }
+          .tw-glow-border-inner { background:#fff; border-radius:18px; width:100%; height:100%; }
+          .tw-sweep { position:absolute;inset:0;overflow:hidden;border-radius:18px;pointer-events:none;z-index:1; }
+          .tw-sweep::after { content:'';position:absolute;top:0;left:0;height:100%;width:30%;background:linear-gradient(90deg,transparent,rgba(6,148,209,0.06),transparent);animation:glowSweep 6s ease-in-out infinite; }
+        `}</style>
+
+        {/* Corner glow orbs */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div style={{ position:'absolute', top:-60, left:-60, width:220, height:220, borderRadius:'50%', background:'radial-gradient(circle, rgba(6,148,209,0.22) 0%, transparent 70%)', animation:'glowPulse1 7s ease-in-out infinite' }} />
+          <div style={{ position:'absolute', top:-40, right:-80, width:260, height:260, borderRadius:'50%', background:'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)', animation:'glowPulse2 9s ease-in-out infinite' }} />
+          <div style={{ position:'absolute', bottom:-60, left:'35%', width:200, height:200, borderRadius:'50%', background:'radial-gradient(circle, rgba(7,109,157,0.14) 0%, transparent 70%)', animation:'glowPulse3 11s ease-in-out infinite' }} />
+          <div style={{ position:'absolute', bottom:-40, right:-40, width:180, height:180, borderRadius:'50%', background:'radial-gradient(circle, rgba(6,148,209,0.16) 0%, transparent 70%)', animation:'glowPulse1 8s ease-in-out 2s infinite' }} />
+        </div>
+
+        <div className="mx-auto max-w-7xl px-4 lg:px-[50px] relative z-10">
           <div className="io-fade mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
             {/* Left — heading */}
             <div className="text-center lg:text-left">
