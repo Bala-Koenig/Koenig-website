@@ -1972,18 +1972,36 @@ export default function EnterprisePage() {
             ))}
           </div>
         </div>
-        {/* Trust badges */}
+        {/* Award cards */}
         <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-[50px]">
-          <div className="flex flex-wrap items-center justify-center gap-6">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {[
-              { icon: '🏆', text: 'Microsoft Training Partner of the Year 2025' },
-              { icon: '✅', text: 'Certified Great Place to Work 2011–2025' },
-              { icon: '🌍', text: 'Training delivered in 195+ Countries' },
-              { icon: '⭐', text: '4.9/5 Average Client Satisfaction Score' },
-            ].map((b, i) => (
-              <div key={i} className="io-fade flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium" style={{ background: '#F0FAFF', border: '1px solid #CAEFFF', color: '#093148' }}>
-                <span>{b.icon}</span>
-                {b.text}
+              { accent: 'linear-gradient(90deg,#0694D1,#4DBFEF)', iconBg: 'rgba(6,148,209,0.10)', icon: '🏆', stat: '#1',    title: 'Microsoft Partner Award',  sub: 'Training Services Partner of the Year 2025'  },
+              { accent: 'linear-gradient(90deg,#0694D1,#076D9D)', iconBg: 'rgba(7,109,157,0.10)', icon: '✅', stat: '14+',   title: 'Great Place to Work',       sub: 'Certified consecutively since 2011'           },
+              { accent: 'linear-gradient(90deg,#38bdf8,#0694D1)', iconBg: 'rgba(56,189,248,0.10)',icon: '🌍', stat: '195+',  title: 'Countries Served',          sub: 'Global delivery across every continent'       },
+              { accent: 'linear-gradient(90deg,#076D9D,#093148)', iconBg: 'rgba(9,49,72,0.10)',   icon: '🏢', stat: '1,000+',title: 'Enterprise Clients',        sub: 'Fortune 500s to fast-growing scale-ups'      },
+            ].map((c, i) => (
+              <div
+                key={i}
+                className="io-fade rounded-xl overflow-hidden transition-colors duration-200"
+                style={{ border: '1px solid #CAEFFF', cursor: 'default' }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#fafcff')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+              >
+                <div style={{ height: 3, background: c.accent }} />
+                <div className="p-5">
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 12 }}>{c.icon}</div>
+                  <div className="text-2xl font-black leading-none" style={{ color: '#093148' }}>{c.stat}</div>
+                  <div className="mt-1 text-sm font-bold" style={{ color: '#093148' }}>{c.title}</div>
+                  <div className="mt-0.5 text-xs" style={{ color: '#4a7a9b' }}>{c.sub}</div>
+                  <div className="mt-3 flex items-center gap-1.5">
+                    <span className="relative inline-flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#0694D1' }} />
+                      <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: '#0694D1' }} />
+                    </span>
+                    <span className="text-[11px] font-semibold" style={{ color: '#076D9D' }}>Active</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
