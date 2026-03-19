@@ -2129,7 +2129,7 @@ export default function EnterprisePage() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#22c55e' }} />
                       <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: '#22c55e' }} />
                     </span>
-                    <span className="text-[11px] font-semibold" style={{ color: '#16a34a' }}>Active</span>
+                    <span className="text-[11px] font-semibold" style={{ color: '#076D9D' }}>Active</span>
                   </div>
                 </div>
               </div>
