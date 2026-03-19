@@ -1933,12 +1933,25 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
       <section className="py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 lg:px-[50px]">
-          <div className="io-fade mb-10 text-center">
-            <p className="mb-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Trusted Worldwide</p>
-            <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
-              Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
-            </h2>
-            <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
+          <div className="io-fade mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
+            {/* Left — heading */}
+            <div className="text-center lg:text-left">
+              <p className="mb-1.5 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Trusted Worldwide</p>
+              <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
+                Training <span className="ent-dark-grad-text">Fortune 500 Teams</span> & Global Enterprises
+              </h2>
+              <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
+            </div>
+            {/* Right — Score card */}
+            <div className="shrink-0 rounded-2xl px-8 py-5 text-center" style={{ background: '#fff', border: '1.5px solid #CAEFFF', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', minWidth: 180 }}>
+              <div className="leading-none" style={{ fontSize: 56, fontWeight: 900, color: '#093148' }}>
+                4.9<span style={{ fontSize: 26, fontWeight: 600, color: '#64748b' }}>/5</span>
+              </div>
+              <div className="mt-2 flex justify-center gap-0.5">
+                {[...Array(5)].map((_, i) => <span key={i} style={{ color: '#f59e0b', fontSize: 20 }}>★</span>)}
+              </div>
+              <p className="mt-1.5 text-xs font-medium" style={{ color: '#64748b' }}>Avg. client satisfaction</p>
+            </div>
           </div>
         </div>
         <div className="ent-marquee-wrap py-2">
