@@ -1846,7 +1846,7 @@ export default function EnterprisePage() {
             src="/images/E-banner-bg.png"
             alt=""
             fill
-            className="object-cover opacity-[0.08]"
+            className="object-cover opacity-[0.25]"
             priority
           />
           {/* Falling pattern — Koenig blue streaks on hero bg */}
