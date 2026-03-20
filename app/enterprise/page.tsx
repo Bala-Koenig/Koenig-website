@@ -2702,7 +2702,7 @@ export default function EnterprisePage() {
                   <button
                     key={d.name}
                     onClick={() => setActiveDomain(i)}
-                    className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-3.5 text-left transition-all duration-200 lg:rounded-none lg:rounded-none"
+                    className="relative flex w-full cursor-pointer items-center gap-3 overflow-hidden rounded-xl px-4 py-3.5 text-left transition-all duration-200"
                     style={{
                       background: active ? '#0694D1' : '#fff',
                       color: active ? '#fff' : '#093148',
@@ -2713,10 +2713,43 @@ export default function EnterprisePage() {
                       boxShadow: active ? '0 4px 16px rgba(6,148,209,0.25)' : '0 1px 4px rgba(6,148,209,0.06)',
                     }}
                   >
-                    <svg className="h-4 w-4 shrink-0" style={{ color: active ? '#fff' : '#0694D1', opacity: active ? 1 : 0.7 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    {/* Decorative circuit pattern — right side */}
+                    <svg
+                      className="pointer-events-none absolute right-0 top-0 h-full"
+                      width="72" viewBox="0 0 72 52" fill="none"
+                      style={{ opacity: active ? 0.18 : 0.07, color: active ? '#fff' : '#0694D1' }}
+                    >
+                      <circle cx="62" cy="9"  r="2.5" stroke="currentColor" strokeWidth="1.4"/>
+                      <circle cx="62" cy="26" r="2.5" stroke="currentColor" strokeWidth="1.4"/>
+                      <circle cx="62" cy="43" r="2.5" stroke="currentColor" strokeWidth="1.4"/>
+                      <circle cx="46" cy="17" r="2"   stroke="currentColor" strokeWidth="1.2"/>
+                      <circle cx="46" cy="35" r="2"   stroke="currentColor" strokeWidth="1.2"/>
+                      <path d="M62 11.5v12M62 28.5v12" stroke="currentColor" strokeWidth="1.2"/>
+                      <path d="M62 26H48" stroke="currentColor" strokeWidth="1.2"/>
+                      <path d="M62 9H50M50 9v8M50 17H48" stroke="currentColor" strokeWidth="1.2"/>
+                      <path d="M62 43H50M50 43v-8M50 35H48" stroke="currentColor" strokeWidth="1.2"/>
+                      <path d="M30 17h10M30 35h10" stroke="currentColor" strokeWidth="1" strokeDasharray="2 3"/>
+                    </svg>
+
+                    {/* Domain icon */}
+                    <svg className="h-4 w-4 shrink-0" style={{ color: active ? '#fff' : '#0694D1', opacity: active ? 1 : 0.75 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       {d.icon}
                     </svg>
+
+                    {/* Name */}
                     <span className="text-sm leading-snug">{d.name}</span>
+
+                    {/* Course count badge */}
+                    <span
+                      className="ml-auto shrink-0 rounded-full px-2 py-0.5 text-sm font-bold"
+                      style={{
+                        background: active ? 'rgba(255,255,255,0.22)' : 'rgba(6,148,209,0.08)',
+                        color: active ? '#fff' : '#0694D1',
+                        border: active ? '1px solid rgba(255,255,255,0.3)' : '1px solid rgba(6,148,209,0.18)',
+                      }}
+                    >
+                      {d.count}
+                    </span>
                   </button>
                 )
               })}
