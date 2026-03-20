@@ -56,14 +56,14 @@ const APPROACH = [
 ]
 
 const DOMAINS = [
-  { name: 'Cloud Computing',    count: '840+', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
-  { name: 'Cybersecurity',      count: '620+', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
-  { name: 'Data & AI',          count: '280+', icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></> },
-  { name: 'Networking',         count: '510+', icon: <><circle cx="12" cy="5" r="2" strokeWidth={1.8}/><circle cx="5" cy="19" r="2" strokeWidth={1.8}/><circle cx="19" cy="19" r="2" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 7v4M8.5 17.5l3-2.5M15.5 17.5l-3-2.5"/></> },
-  { name: 'Project Management', count: '390+', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/> },
-  { name: 'DevOps',             count: '210+', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/> },
-  { name: 'ERP Systems',        count: '180+', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/> },
-  { name: 'Linux & Open Source',count: '110+', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/> },
+  { name: 'Cloud Computing',    count: '840+', vendors: ['AWS', 'Azure', 'Google Cloud', 'Oracle', 'IBM'],             icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
+  { name: 'Cybersecurity',      count: '620+', vendors: ['CompTIA', 'EC-Council', 'ISC2', 'Cisco', 'Palo Alto'],      icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
+  { name: 'Data & AI',          count: '280+', vendors: ['Microsoft', 'Databricks', 'Google', 'AWS', 'Tableau'],      icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></> },
+  { name: 'Networking',         count: '510+', vendors: ['Cisco', 'Juniper', 'CompTIA', 'HP', 'Aruba'],              icon: <><circle cx="12" cy="5" r="2" strokeWidth={1.8}/><circle cx="5" cy="19" r="2" strokeWidth={1.8}/><circle cx="19" cy="19" r="2" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 7v4M8.5 17.5l3-2.5M15.5 17.5l-3-2.5"/></> },
+  { name: 'Project Management', count: '390+', vendors: ['PMI', 'PRINCE2', 'Scrum.org', 'AXELOS', 'Agile'],         icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/> },
+  { name: 'DevOps',             count: '210+', vendors: ['AWS', 'Azure DevOps', 'Docker', 'HashiCorp', 'Red Hat'],   icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/> },
+  { name: 'ERP Systems',        count: '180+', vendors: ['SAP', 'Oracle', 'Microsoft', 'Salesforce', 'ServiceNow'],  icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/> },
+  { name: 'Linux & Open Source',count: '110+', vendors: ['Red Hat', 'Linux Foundation', 'CompTIA', 'SUSE', 'Ubuntu'], icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/> },
 ]
 
 const FORMATS = [
@@ -2464,15 +2464,71 @@ export default function EnterprisePage() {
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
             <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>5,000+ Courses Across <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">8 Core Domains</span></h2>
           </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-4">
-            {DOMAINS.map(d => (
-              <div key={d.name} className="group cursor-pointer rounded-2xl p-5 transition-all hover:-translate-y-1" style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(6,148,209,0.15)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.7)'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF'; (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 10px rgba(6,148,209,0.07)'; }}
+          <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+            {DOMAINS.map((d, i) => (
+              <div
+                key={d.name}
+                className="io-fade group flex cursor-pointer flex-col rounded-2xl transition-all duration-300"
+                style={{
+                  background: '#fff',
+                  border: '1.5px solid transparent',
+                  backgroundImage: 'linear-gradient(#fff, #fff), linear-gradient(135deg, #13A8D4 0%, #093148 55%, #4DBFEF 100%)',
+                  backgroundOrigin: 'border-box',
+                  backgroundClip: 'padding-box, border-box',
+                  boxShadow: '0 2px 14px rgba(19,168,212,0.07)',
+                  transitionDelay: `${i * 0.07}s`,
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.backgroundImage = 'linear-gradient(#fff, #fff), linear-gradient(135deg, #07C8EE 0%, #065A87 50%, #07C8EE 100%)'
+                  el.style.boxShadow = '0 8px 32px rgba(19,168,212,0.22)'
+                  el.style.transform = 'translateY(-5px)'
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.backgroundImage = 'linear-gradient(#fff, #fff), linear-gradient(135deg, #13A8D4 0%, #093148 55%, #4DBFEF 100%)'
+                  el.style.boxShadow = '0 2px 14px rgba(19,168,212,0.07)'
+                  el.style.transform = 'translateY(0)'
+                }}
               >
-                <svg className="mb-3 h-6 w-6" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{d.icon}</svg>
-                <h3 className="mb-1 text-sm font-semibold" style={{ color: '#093148' }}>{d.name}</h3>
-                <p className="text-xs font-medium" style={{ color: '#0694D1' }}>{d.count} Courses</p>
+                {/* Zone 1 — icon box + title + badge */}
+                <div className="flex items-start gap-3 p-4 pb-3">
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+                    style={{ background: 'rgba(19,168,212,0.08)', border: '1px solid rgba(19,168,212,0.18)' }}
+                  >
+                    <svg className="h-5 w-5" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      {d.icon}
+                    </svg>
+                  </div>
+                  <div className="min-w-0 flex-1 pt-0.5">
+                    <h3 className="mb-1.5 text-[13px] font-bold leading-snug" style={{ color: '#093148' }}>{d.name}</h3>
+                    <span
+                      className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold"
+                      style={{ background: 'rgba(19,168,212,0.1)', color: '#0694D1', border: '1px solid rgba(19,168,212,0.18)' }}
+                    >
+                      {d.count} Courses
+                    </span>
+                  </div>
+                </div>
+                {/* Zone 2 — top vendors panel */}
+                <div
+                  className="mx-3 mb-3 rounded-xl p-3"
+                  style={{ background: 'rgba(19,168,212,0.06)', border: '1px solid rgba(19,168,212,0.12)' }}
+                >
+                  <p className="mb-2 text-[9px] font-bold uppercase tracking-widest" style={{ color: '#93b8cc' }}>Top Vendors</p>
+                  <div className="flex flex-wrap gap-1">
+                    {d.vendors.map(v => (
+                      <span
+                        key={v}
+                        className="rounded-full px-2 py-0.5 text-[10px] font-medium"
+                        style={{ background: '#fff', border: '1px solid rgba(19,168,212,0.18)', color: '#4a7a9b' }}
+                      >
+                        {v}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
