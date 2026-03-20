@@ -2826,8 +2826,8 @@ export default function EnterprisePage() {
               {/* WHAT YOU GET label */}
               <p className="mb-4 text-sm font-black uppercase tracking-widest" style={{ color: '#13a8d4' }}>What You Get</p>
 
-              {/* Feature cards */}
-              <div className="flex flex-col gap-3">
+              {/* Feature cards — scrollable */}
+              <div className="flex flex-col gap-3 overflow-y-auto pr-1" style={{ maxHeight: '320px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(19,168,212,0.3) transparent' }}>
                 {[
                   { title: 'Dedicated L&D Dashboard',      desc: 'Real-time visibility into team progress, certifications, and upcoming sessions — all in one portal.',         icon: <><rect x="3" y="3" width="18" height="18" rx="2" strokeWidth={1.7}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M8 12h.01M12 9v3M16 12h.01"/></>, delay: '0s'    },
                   { title: 'Compliance-Ready Training',     desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements — available on demand.',        icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></>, delay: '0.08s' },
