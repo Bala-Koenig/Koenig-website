@@ -2529,18 +2529,51 @@ export default function EnterprisePage() {
         <div className="relative mx-auto max-w-7xl">
 
           {/* ── Header ── */}
-          <div className="io-fade mb-10">
-            <p className="mb-1 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
-            <h2 className="mb-5 text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
-              Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
-            </h2>
-            <div className="flex flex-wrap items-center gap-6">
-              {[['5,000+','Courses'],['50+','Vendor Partners'],['195+','Countries'],['8','Core Domains']].map(([n,l]) => (
-                <div key={l} className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black" style={{ color: '#093148' }}>{n}</span>
-                  <span className="text-base font-medium" style={{ color: '#4a7a9b' }}>{l}</span>
+          <div className="io-fade mb-10 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+
+            {/* Left — title */}
+            <div className="max-w-lg">
+              <p className="mb-1 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
+              <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
+                Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
+              </h2>
+            </div>
+
+            {/* Right — 2×2 stat cards */}
+            <div className="grid grid-cols-2 gap-3 lg:w-[420px] lg:shrink-0">
+
+              {/* Courses */}
+              <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
+                <p className="text-2xl font-black" style={{ color: '#093148' }}>5,000+</p>
+                <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Courses</p>
+              </div>
+
+              {/* Vendor Partners — with logos */}
+              <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
+                <p className="text-2xl font-black" style={{ color: '#093148' }}>50+</p>
+                <p className="mt-0.5 mb-2.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Vendor Partners</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <img src="/images/top-six-vendors/amazon-authorized.png" alt="AWS" className="h-5 w-auto object-contain" />
+                  <img src="/images/top-six-vendors/Microsoft.png" alt="Microsoft" className="h-5 w-auto object-contain" />
+                  <img src="/images/top-six-vendors/Cisco.png" alt="Cisco" className="h-5 w-auto object-contain" />
+                  <img src="/images/top-six-vendors/oracle.png" alt="Oracle" className="h-5 w-auto object-contain" />
+                  <img src="/images/top-six-vendors/VMware-Broadcom.png" alt="VMware Broadcom" className="h-5 w-auto object-contain" />
+                  <img src="/images/partners/comptia.png" alt="CompTIA" className="h-5 w-auto object-contain" />
                 </div>
-              ))}
+              </div>
+
+              {/* Countries */}
+              <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
+                <p className="text-2xl font-black" style={{ color: '#093148' }}>195+</p>
+                <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Countries</p>
+              </div>
+
+              {/* Core Domains */}
+              <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
+                <p className="text-2xl font-black" style={{ color: '#093148' }}>8</p>
+                <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Core Domains</p>
+              </div>
+
             </div>
           </div>
 
