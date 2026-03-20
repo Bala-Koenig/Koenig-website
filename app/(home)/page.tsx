@@ -233,7 +233,7 @@ const WEBINARS = [
 /* ─── Helpers ───────────────────────────────────────────────── */
 
 function StarsFilled({ n = 5 }: { n?: number }) {
-  return <span className="text-yellow-400 text-xs">{'★'.repeat(n)}</span>
+  return <span className="text-yellow-400 text-sm">{'★'.repeat(n)}</span>
 }
 
 function VendorCard({ v }: { v: { name: string; tier: string; courses: string; initial: string; img?: string; imgLg?: boolean } }) {
@@ -260,8 +260,8 @@ function VendorCard({ v }: { v: { name: string; tier: string; courses: string; i
       {/* Info section — full-width mild blue */}
       <div className="flex flex-1 flex-col items-center justify-center w-full px-3 py-3 text-center" style={{ background: '#EBF8FE' }}>
         <p className="mb-1 text-sm font-medium leading-tight" style={{ color: '#093148' }}>{v.name}</p>
-        <p className="mb-1 text-xs font-medium" style={{ color: '#076D9D' }}>{v.tier}</p>
-        <p className="text-xs font-medium" style={{ color: '#0694d1' }}>{v.courses} Courses</p>
+        <p className="mb-1 text-sm font-medium" style={{ color: '#076D9D' }}>{v.tier}</p>
+        <p className="text-sm font-medium" style={{ color: '#0694d1' }}>{v.courses} Courses</p>
       </div>
     </div>
   )
@@ -311,20 +311,20 @@ function TestimonialCardV2({ t, delay }: { t: typeof TESTIMONIALS[0]; delay: str
           </div>
           <div>
             <div className="text-sm sm:text-base font-bold text-koenig-dark">{t.name}</div>
-            <div className="text-xs font-semibold text-koenig-blue">{t.location}</div>
+            <div className="text-sm font-semibold text-koenig-blue">{t.location}</div>
           </div>
           <span className="ml-auto self-start text-2xl sm:text-3xl md:text-4xl font-black leading-none text-[#E8F4FA]">&ldquo;</span>
         </div>
         {/* Stars */}
         <div className="mb-3 text-sm text-yellow-400">★★★★★</div>
         {/* Review text */}
-        <p className={`mb-4 flex-1 text-xs sm:text-sm leading-relaxed text-[#444] ${!expanded && isLong ? 'line-clamp-3' : ''}`}>
+        <p className={`mb-4 flex-1 text-sm leading-relaxed text-[#444] ${!expanded && isLong ? 'line-clamp-3' : ''}`}>
           {t.quote}
         </p>
         {isLong && (
           <button
             onClick={() => setExpanded(v => !v)}
-            className="w-fit rounded-full border border-koenig-blue px-4 py-1.5 text-xs font-semibold text-koenig-blue transition-all hover:bg-koenig-blue hover:text-white"
+            className="w-fit rounded-full border border-koenig-blue px-4 py-1.5 text-sm font-semibold text-koenig-blue transition-all hover:bg-koenig-blue hover:text-white"
           >
             {expanded ? 'Show Less ↑' : 'Show More ↓'}
           </button>
@@ -333,10 +333,10 @@ function TestimonialCardV2({ t, delay }: { t: typeof TESTIMONIALS[0]; delay: str
       {/* Bottom */}
       <div className="flex items-center justify-between border-t border-[#E8F4FA] bg-[#F8FCFF] px-7 py-4">
         <div>
-          <div className="text-xs sm:text-sm font-bold text-koenig-dark">{t.course}</div>
-          <div className="mt-0.5 text-xs text-[#999]">{t.date}</div>
+          <div className="text-sm font-bold text-koenig-dark">{t.course}</div>
+          <div className="mt-0.5 text-sm text-[#999]">{t.date}</div>
         </div>
-        <span className="rounded-full bg-[#E8F4FA] px-3 py-1 text-xs font-bold text-koenig-blue">✓ Verified</span>
+        <span className="rounded-full bg-[#E8F4FA] px-3 py-1 text-sm font-bold text-koenig-blue">✓ Verified</span>
       </div>
     </div>
   )
@@ -350,16 +350,16 @@ function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
       {/* Top: quote body */}
       <div className="flex flex-1 flex-col p-6">
         <span className="mb-2 block text-3xl sm:text-4xl md:text-5xl font-black leading-none text-gray-200">&ldquo;</span>
-        <h3 className="mb-0.5 text-center text-xs sm:text-sm font-bold text-koenig-dark">{t.name}</h3>
-        <p className="mb-4 text-center text-xs font-semibold text-koenig-blue">{t.location}</p>
-        <p className={`flex-1 text-center text-xs sm:text-sm leading-relaxed text-gray-500 ${!expanded && isLong ? 'line-clamp-4' : ''}`}>
+        <h3 className="mb-0.5 text-center text-sm font-bold text-koenig-dark">{t.name}</h3>
+        <p className="mb-4 text-center text-sm font-semibold text-koenig-blue">{t.location}</p>
+        <p className={`flex-1 text-center text-sm leading-relaxed text-gray-500 ${!expanded && isLong ? 'line-clamp-4' : ''}`}>
           {t.quote}
         </p>
         {isLong && !expanded && (
           <div className="mt-4 flex justify-center">
             <button
               onClick={() => setExpanded(true)}
-              className="flex items-center gap-1.5 rounded-full border border-koenig-blue px-5 py-1.5 text-xs font-semibold text-koenig-blue transition-colors hover:bg-koenig-blue hover:text-white"
+              className="flex items-center gap-1.5 rounded-full border border-koenig-blue px-5 py-1.5 text-sm font-semibold text-koenig-blue transition-colors hover:bg-koenig-blue hover:text-white"
             >
               Show More <span className="text-base leading-none">↓</span>
             </button>
@@ -368,8 +368,8 @@ function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
       </div>
       {/* Bottom: course + date */}
       <div className="border-t border-dashed border-gray-200 px-6 py-4 text-center">
-        <p className="mb-1 text-xs sm:text-sm font-semibold text-koenig-dark">{t.course}</p>
-        <p className="text-xs text-koenig-muted">{t.date}</p>
+        <p className="mb-1 text-sm font-semibold text-koenig-dark">{t.course}</p>
+        <p className="text-sm text-koenig-muted">{t.date}</p>
       </div>
     </div>
   )
@@ -412,17 +412,17 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
     >
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${badgeColor}`}>
+          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-bold ${badgeColor}`}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             {c.vendor}
           </span>
-          <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
+          <span className={`rounded-full px-2 py-0.5 text-sm font-bold ${
             c.level === 'Beginner'     ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
             c.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
                                          'bg-[#076d9d] text-white'
           }`}>{c.level}</span>
         </div>
-        {c.hot && <span className="animate-pulse rounded-full bg-koenig-blue px-2 py-0.5 text-[11px] font-medium text-white">Popular</span>}
+        {c.hot && <span className="animate-pulse rounded-full bg-koenig-blue px-2 py-0.5 text-sm font-medium text-white">Popular</span>}
       </div>
       <div className="group/name relative mb-1.5">
         <h3
@@ -433,7 +433,7 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
         {/* Tooltip — only renders when text is actually truncated */}
         {isClamped && (
           <div
-            className="pointer-events-none absolute bottom-full left-0 z-50 mb-2 w-64 rounded-xl px-3 py-2.5 text-xs font-medium text-white opacity-0 shadow-2xl transition-all duration-200 group-hover/name:opacity-100 group-hover/name:translate-y-0 translate-y-1"
+            className="pointer-events-none absolute bottom-full left-0 z-50 mb-2 w-64 rounded-xl px-3 py-2.5 text-sm font-medium text-white opacity-0 shadow-2xl transition-all duration-200 group-hover/name:opacity-100 group-hover/name:translate-y-0 translate-y-1"
             style={{ background: 'rgba(5,18,38,0.97)', border: '1px solid rgba(6,148,209,0.35)', backdropFilter: 'blur(12px)', lineHeight: '1.6', boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(6,148,209,0.15) inset' }}
           >
             {c.name}
@@ -441,7 +441,7 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
           </div>
         )}
       </div>
-      <div className="mb-3 flex items-center gap-2 text-xs text-white/50">
+      <div className="mb-3 flex items-center gap-2 text-sm text-white/50">
         <span>{c.enrolled} enrolled</span>
         <span>·</span>
         <span className="flex items-center gap-1">
@@ -451,10 +451,10 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
       </div>
       <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
         <div>
-          <p className="text-xs text-white/40">From</p>
+          <p className="text-sm text-white/40">From</p>
           <p className="text-sm sm:text-base font-bold text-white">{c.price}</p>
         </div>
-        <button className="rounded-lg px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all group-hover:shadow-lg" style={{ background: 'linear-gradient(135deg, #0694d1, #076D9D)' }}>
+        <button className="rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all group-hover:shadow-lg" style={{ background: 'linear-gradient(135deg, #0694d1, #076D9D)' }}>
           Enroll Now →
         </button>
       </div>
@@ -475,11 +475,11 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
       {/* Row 1 — vendor badge + format badge | seats badge */}
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${badgeColor}`}>
+          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-bold ${badgeColor}`}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             {s.vendor}
           </span>
-          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${
+          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-sm font-bold ${
             isLive ? 'bg-[#EBF8FE] text-[#0694d1]' : 'bg-[#076d9d] text-white'
           }`}>
             {isLive
@@ -489,7 +489,7 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
             {isLive ? 'Live Online' : 'Classroom'}
           </span>
         </div>
-        <span className={`${urgent ? 'animate-pulse' : ''} rounded-full px-2 py-0.5 text-[11px] font-medium ${s.seatColor}`}>
+        <span className={`${urgent ? 'animate-pulse' : ''} rounded-full px-2 py-0.5 text-sm font-medium ${s.seatColor}`}>
           {s.seats} seats left
         </span>
       </div>
@@ -498,7 +498,7 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
       <h3 className="mb-1.5 text-sm sm:text-base font-semibold text-koenig-navy transition-colors group-hover:text-koenig-blue">{s.name}</h3>
 
       {/* Row 3 — meta: date · hrs · timezone */}
-      <div className="mb-3 flex items-center gap-2 text-xs sm:text-sm text-koenig-gray">
+      <div className="mb-3 flex items-center gap-2 text-sm text-koenig-gray">
         <span className="flex items-center gap-1">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           {s.date}
@@ -518,7 +518,7 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
       {/* Row 4 — footer: location | button */}
       <div className="flex items-center justify-between border-t border-koenig-border pt-3">
         <div>
-          <p className="text-xs text-koenig-muted">Location</p>
+          <p className="text-sm text-koenig-muted">Location</p>
           <p className="flex items-center gap-1 text-sm sm:text-base font-bold text-koenig-dark">
             {isLive
               ? <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
@@ -527,7 +527,7 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
             {s.format}
           </p>
         </div>
-        <button className="rounded-lg px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all group-hover:shadow-lg" style={{ background: '#093148' }}>
+        <button className="rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all group-hover:shadow-lg" style={{ background: '#093148' }}>
           Reserve My Seat →
         </button>
       </div>
@@ -857,7 +857,7 @@ function AwardsMarquee({ awards }: { awards: typeof AWARDS }) {
                   : null}
               </div>
               <p className="text-sm sm:text-base font-bold leading-snug text-koenig-dark">{a.title}</p>
-              <span className="rounded-full border border-[#CAEFFF] px-3 py-0.5 text-xs font-semibold text-koenig-muted">{a.year}</span>
+              <span className="rounded-full border border-[#CAEFFF] px-3 py-0.5 text-sm font-semibold text-koenig-muted">{a.year}</span>
             </div>
           </div>
         ))}
@@ -1187,7 +1187,7 @@ export default function Design4Page() {
               {/* All Courses */}
               <button
                 onClick={() => { setMegaMenuOpen(v => !v); setTechMenuOpen(false); }}
-                className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
+                className="flex items-center px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
                 style={{ background: megaMenuOpen ? '#076D9D' : '#0694D1', gap: '8px' }}
               >
                 <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -1220,12 +1220,12 @@ export default function Design4Page() {
           <div className="ml-auto flex items-center gap-2">
             {/* Individual / Enterprise toggle */}
             <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
-              <span className="rounded-lg px-3 py-1.5 text-xs font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
+              <span className="rounded-lg px-3 py-1.5 text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
                 Individual
               </span>
               <Link
                 href="/enterprise"
-                className="rounded-lg px-3 py-1.5 text-xs font-normal transition-all"
+                className="rounded-lg px-3 py-1.5 text-sm font-normal transition-all"
                 style={{ color: 'rgba(255,255,255,0.55)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
@@ -1268,9 +1268,9 @@ export default function Design4Page() {
                       <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-medium text-gray-800">{c.name}</p>
-                          <p className="mt-0.5 text-xs text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
+                          <p className="mt-0.5 text-sm text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
                         </div>
-                        <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${c.levelColor}`}>{c.level}</span>
+                        <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-sm font-medium ${c.levelColor}`}>{c.level}</span>
                       </div>
                     )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for "{navQuery}"</div>
                   })()}
@@ -1310,7 +1310,7 @@ export default function Design4Page() {
           <div className="-mx-4 lg:-mx-[50px] border-t lg:hidden" style={{ background: '#0d3a5c', borderColor: '#0D4A6B' }}>
             <div className="mx-auto max-w-7xl space-y-0.5 px-4 py-3">
               {/* Contact info mobile */}
-              <div className="mb-3 space-y-1.5 pb-3 text-xs" style={{ borderBottom: '1px solid #0D4A6B' }}>
+              <div className="mb-3 space-y-1.5 pb-3 text-sm" style={{ borderBottom: '1px solid #0D4A6B' }}>
                 <a href="tel:+14129537506" className="flex items-center gap-2 transition-colors hover:text-white" style={{ color: '#A8C8E0' }}>
                   <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
                   +1 412 953 7506
@@ -1351,7 +1351,7 @@ export default function Design4Page() {
           >
             {/* Left — vendor list */}
             <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
-              <div className="px-4 py-3 text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
+              <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
               {MEGA_MENU_VENDORS.map(v => (
                 <button
                   key={v.name}
@@ -1368,12 +1368,12 @@ export default function Design4Page() {
                     {v.img ? (
                       <img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" />
                     ) : (
-                      <span className="text-[11px] font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
+                      <span className="text-sm font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
                     )}
                   </div>
                   <div className="min-w-0">
                     <div className="truncate text-sm font-medium leading-tight">{v.name}</div>
-                    <div className="text-[11px]" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses} Courses</div>
+                    <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses} Courses</div>
                   </div>
                   {megaMenuVendor === v.name && (
                     <svg className="ml-auto h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
@@ -1388,11 +1388,11 @@ export default function Design4Page() {
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-base font-bold text-white">{megaMenuVendor} Courses</h3>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
                     {MEGA_MENU_VENDORS.find(v => v.name === megaMenuVendor)?.courses} courses available
                   </p>
                 </div>
-                <a href="#" className="flex items-center gap-1 text-xs font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
+                <a href="#" className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
                   View all {megaMenuVendor} courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
@@ -1410,11 +1410,11 @@ export default function Design4Page() {
                   >
                     <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2">{course.name}</p>
                     <div className="flex items-center gap-2 mt-auto">
-                      <span className="flex items-center gap-1 text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      <span className="flex items-center gap-1 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {course.days} days
                       </span>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                      <span className={`rounded-full px-2 py-0.5 text-sm font-semibold ${
                         course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
                         course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
                         'bg-[#076d9d] text-white'
@@ -1425,8 +1425,8 @@ export default function Design4Page() {
               </div>
               {/* Footer CTA */}
               <div className="mt-5 flex items-center justify-between border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-                <span className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {megaMenuVendor}</span>
-                <a href="#" className="rounded-lg px-4 py-2 text-xs font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {megaMenuVendor}</span>
+                <a href="#" className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
                   Browse All {megaMenuVendor} Courses →
                 </a>
               </div>
@@ -1443,7 +1443,7 @@ export default function Design4Page() {
           >
             {/* Left — technology categories */}
             <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
-              <div className="px-4 py-3 text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Technologies</div>
+              <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Technologies</div>
               {([
                 { name: 'Cloud Computing',    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
                 { name: 'Cybersecurity',      icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
@@ -1470,7 +1470,7 @@ export default function Design4Page() {
                     <svg className="h-4 w-4 shrink-0" style={{ color: techMenuCategory === name ? '#38bdf8' : 'rgba(6,148,209,0.6)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icon}</svg>
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium leading-tight">{name}</div>
-                      <div className="text-[11px]" style={{ color: 'rgba(6,148,209,0.7)' }}>{t.count} Courses</div>
+                      <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{t.count} Courses</div>
                     </div>
                     {techMenuCategory === name && (
                       <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
@@ -1485,11 +1485,11 @@ export default function Design4Page() {
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-base font-bold text-white">{techMenuCategory}</h3>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
                     {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.partners.join(', ')}
                   </p>
                 </div>
-                <a href="#" className="flex items-center gap-1 text-xs font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
+                <a href="#" className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
                   View all {techMenuCategory} courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
@@ -1506,20 +1506,20 @@ export default function Design4Page() {
                   >
                     <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2">{course.name}</p>
                     <div className="flex items-center gap-2 mt-auto">
-                      <span className="text-[11px]" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.vendor}</span>
-                      <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
-                      <span className="flex items-center gap-1 text-[11px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      <span className="text-sm" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.vendor}</span>
+                      <span className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
+                      <span className="flex items-center gap-1 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {course.days}d
                       </span>
-                      <span className={`ml-auto rounded-full px-2 py-0.5 text-[10px] font-semibold ${course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' : 'bg-[#076d9d] text-white'}`}>{course.level}</span>
+                      <span className={`ml-auto rounded-full px-2 py-0.5 text-sm font-semibold ${course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' : 'bg-[#076d9d] text-white'}`}>{course.level}</span>
                     </div>
                   </a>
                 ))}
               </div>
               <div className="mt-5 flex items-center justify-between border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-                <span className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {techMenuCategory}</span>
-                <a href="#" className="rounded-lg px-4 py-2 text-xs font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {techMenuCategory}</span>
+                <a href="#" className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
                   Browse All {techMenuCategory} Courses →
                 </a>
               </div>
@@ -1598,7 +1598,7 @@ export default function Design4Page() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
                   </span>
-                  <span><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold" style={{ color: '#053148' }}>47 seats remaining</span></span>
+                  <span><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-sm font-bold" style={{ color: '#053148' }}>47 seats remaining</span></span>
                 </div>
               </div>
 
@@ -1656,7 +1656,7 @@ export default function Design4Page() {
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                   )}
-                  <button className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
+                  <button className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
                     Search
                   </button>
                 </div>
@@ -1671,9 +1671,9 @@ export default function Design4Page() {
                         <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-white/5 px-4 py-3 transition-colors hover:bg-white/5 last:border-0">
                           <div className="min-w-0 flex-1">
                             <p className="truncate text-sm font-medium text-white">{c.name}</p>
-                            <p className="mt-0.5 text-xs text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
+                            <p className="mt-0.5 text-sm text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
                           </div>
-                          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${c.levelColor}`}>{c.level}</span>
+                          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-sm font-medium ${c.levelColor}`}>{c.level}</span>
                         </div>
                       )) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
                     })()}
@@ -1683,11 +1683,11 @@ export default function Design4Page() {
 
               {/* Popular tags */}
               <div className="h-fade-up h-d4 mb-5 flex max-w-2xl flex-wrap items-center justify-center gap-2 lg:justify-start">
-                <span className="text-xs sm:text-sm font-semibold text-white/80">Popular:</span>
+                <span className="text-sm font-semibold text-white/80">Popular:</span>
                 {['Azure Administrator', 'AWS Solutions Architect', 'CISSP', 'PMP', 'CCNA', 'Kubernetes', 'CompTIA Security+'].map(t => (
                   <span
                     key={t}
-                    className="cursor-pointer rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-white/20 hover:text-white"
+                    className="cursor-pointer rounded-full border border-white/25 bg-white/10 px-3 py-1 text-sm font-medium text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-white/20 hover:text-white"
                   >
                     {t}
                   </span>
@@ -1715,13 +1715,13 @@ export default function Design4Page() {
                         />
                       ))}
                     </div>
-                    <span className="text-xs sm:text-sm text-white"><span className="font-bold">3,200+</span> enrolled this month</span>
+                    <span className="text-sm text-white"><span className="font-bold">3,200+</span> enrolled this month</span>
                   </div>
                   <span className="hidden h-4 w-px bg-white/25 sm:block" />
                   <div className="flex items-center gap-2">
                     <span className="text-yellow-400 text-base leading-none">★★★★★</span>
-                    <span className="text-xs sm:text-sm text-white font-bold">4.9/5</span>
-                    <span className="text-xs sm:text-sm text-white/80">(18,400+ reviews)</span>
+                    <span className="text-sm text-white font-bold">4.9/5</span>
+                    <span className="text-sm text-white/80">(18,400+ reviews)</span>
                   </div>
                 </div>
               </div>
@@ -1736,7 +1736,7 @@ export default function Design4Page() {
                 ].map(s => (
                   <div key={s.label} className="rounded-2xl border border-white/20 bg-white/10 p-4 text-center backdrop-blur-md">
                     <div className="text-lg sm:text-xl md:text-2xl font-black text-white">{s.num}</div>
-                    <div className="mt-1 text-xs text-white/60">{s.label}</div>
+                    <div className="mt-1 text-sm text-white/60">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -1849,7 +1849,7 @@ export default function Design4Page() {
                           </div>
                           <div>
                             <div className="font-bold text-white text-sm">{row.stat}</div>
-                            <div className="text-xs text-white/60">{row.label}</div>
+                            <div className="text-sm text-white/60">{row.label}</div>
                           </div>
                         </div>
                         <span className="font-bold text-sm text-white/50">›</span>
@@ -1884,9 +1884,9 @@ export default function Design4Page() {
                           >
                             <img src={row.img} alt="" className="h-3 w-3 object-contain" />
                           </div>
-                          <span className="font-medium text-white/90" style={{ fontSize: '11px' }}>{row.name}</span>
+                          <span className="font-medium text-white/90" style={{ fontSize: '14px' }}>{row.name}</span>
                         </div>
-                        <span className="rounded-full px-1.5 py-0.5 font-normal text-white" style={{ fontSize: '10px', background: 'rgba(7,109,157,0.75)', border: '1px solid rgba(6,148,209,0.30)' }}>Free</span>
+                        <span className="rounded-full px-1.5 py-0.5 font-normal text-white" style={{ fontSize: '14px', background: 'rgba(7,109,157,0.75)', border: '1px solid rgba(6,148,209,0.30)' }}>Free</span>
                       </div>
                     ))}
                   </div>
@@ -1961,7 +1961,7 @@ export default function Design4Page() {
               <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-koenig-dark">
                 <CountUp key={`${s.label}-${statsCount}`} end={s.end} suffix={s.suffix} duration={1800 + statIdx * 150} />
               </div>
-              <div className={`io-fade mt-1 text-xs font-medium text-koenig-muted delay-${statIdx + 1}`}>{s.label}</div>
+              <div className={`io-fade mt-1 text-sm font-medium text-koenig-muted delay-${statIdx + 1}`}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -1978,7 +1978,7 @@ export default function Design4Page() {
         </div>
         <div className="relative mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: "35px" }}>
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.30)' }}>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-white" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.30)' }}>
               5,000+ Courses
             </span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Explore Our <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Course Catalogue</span></h2>
@@ -2027,14 +2027,14 @@ export default function Design4Page() {
                     </span>
                   </div>
                   {/* Count */}
-                  <p className="mb-4 text-xs font-medium text-[#3AB6EB]">{t.count} Courses</p>
+                  <p className="mb-4 text-sm font-medium text-[#3AB6EB]">{t.count} Courses</p>
                   {/* Divider */}
                   <div className="mb-3 h-px" style={{ background: 'rgba(6,148,209,0.18)' }} />
                   {/* Partners */}
-                  <p className="mb-2 text-[10px] font-normal text-white/40">Top Partners</p>
+                  <p className="mb-2 text-sm font-normal text-white/40">Top Partners</p>
                   <div className="flex flex-wrap gap-1.5">
                     {t.partners.map(p => (
-                      <span key={p} className={`rounded-full px-2.5 py-1 text-[10px] font-semibold ${VENDOR_BADGE_COLORS[p] ?? 'bg-[#0694d1]/20 text-[#3AB6EB]'}`}>{p}</span>
+                      <span key={p} className={`rounded-full px-2.5 py-1 text-sm font-semibold ${VENDOR_BADGE_COLORS[p] ?? 'bg-[#0694d1]/20 text-[#3AB6EB]'}`}>{p}</span>
                     ))}
                   </div>
                 </div>
@@ -2048,11 +2048,11 @@ export default function Design4Page() {
           )}
 
           <div className="io-fade mt-12 flex flex-col items-center gap-3">
-            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3.5 text-xs sm:text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Browse All 5,000+ Courses
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
             </button>
-            <p className="text-xs text-white/50">Across 50+ global vendors · All skill levels</p>
+            <p className="text-sm text-white/50">Across 50+ global vendors · All skill levels</p>
           </div>
         </div>
       </section>
@@ -2070,7 +2070,7 @@ export default function Design4Page() {
 
         <div className="mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
-            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue">
+            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">
               Official Partnerships
             </span>
             <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Authorized by <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">50+ Global Vendors</span></h2>
@@ -2118,7 +2118,7 @@ export default function Design4Page() {
         </div>
         <div className="relative mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: "35px" }}>
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.18)' }}>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.18)' }}>
               Learning Formats
             </span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Learning That <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Fits Your Life</span></h2>
@@ -2211,16 +2211,16 @@ export default function Design4Page() {
                     <div className="relative h-44 w-full shrink-0 overflow-hidden">
                       <img src={f.img} alt={f.name} className="h-full w-full object-cover" />
                       {/* Badge */}
-                      <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
+                      <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-sm font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
                     </div>
                     {/* Front content */}
                     <div className="flex flex-1 flex-col px-5 pt-4">
                       <div className="flex-1">
                         <h3 className="mb-2 text-sm sm:text-base md:text-lg font-medium text-white">{f.name}</h3>
-                        <p className="text-xs sm:text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
+                        <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
                       </div>
                       <div className="pb-[20px] pt-[20px]">
-                        <button className="lf-btn-glow w-full rounded-xl py-2.5 text-xs sm:text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
+                        <button className="lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
                       </div>
                     </div>
                   </div>
@@ -2242,7 +2242,7 @@ export default function Design4Page() {
                     {/* Bullets */}
                     <ul className="mb-4 space-y-2.5">
                       {f.bullets.map(b => (
-                        <li key={b} className="flex items-center gap-2.5 text-xs sm:text-sm" style={{ color: 'rgba(255,255,255,0.78)' }}>
+                        <li key={b} className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.78)' }}>
                           <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="shrink-0">
                             <circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/>
                             <path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -2253,7 +2253,7 @@ export default function Design4Page() {
                     </ul>
                     {/* CTA */}
                     <button
-                      className="lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-xs sm:text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90"
+                      className="lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90"
                       style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}
                     >{f.btnLabel}</button>
                   </div>
@@ -2278,7 +2278,7 @@ export default function Design4Page() {
         <div className="relative mx-auto max-w-7xl">
           {/* Heading */}
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.25)' }}>Why Koenig</span>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.25)' }}>Why Koenig</span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">The <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Koenig Difference</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-white/55">What makes 1M+ professionals choose Koenig over everyone else</p>
           </div>
@@ -2301,7 +2301,7 @@ export default function Design4Page() {
                 {[{ val: '2x', label: 'Faster', d: 'd1' }, { val: '95%', label: 'Pass Rate', d: 'd2' }, { val: '100%', label: 'Dedicated', d: 'd3' }].map(s => (
                   <div key={s.label} className={`diff-stat ${s.d} rounded-xl px-4 py-3 text-center`} style={{ background: 'rgba(255,255,255,0.15)' }}>
                     <div className="text-sm sm:text-base md:text-lg font-bold text-white">{s.val}</div>
-                    <div className="text-xs sm:text-sm text-white/70">{s.label}</div>
+                    <div className="text-sm text-white/70">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -2375,7 +2375,7 @@ export default function Design4Page() {
           {/* Header */}
           <div className="io-fade mb-10 text-center">
             <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Join Our Live <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Expert Webinars</span></h2>
-            <p className="text-xs sm:text-sm text-koenig-muted">Free live sessions led by certified instructors — register and attend from anywhere</p>
+            <p className="text-sm text-koenig-muted">Free live sessions led by certified instructors — register and attend from anywhere</p>
           </div>
 
           {/* Cards — 3 per page */}
@@ -2409,7 +2409,7 @@ export default function Design4Page() {
                   {/* Gradient overlay behind name */}
                   <div className="absolute bottom-0 inset-x-0 h-16 pointer-events-none" style={{ background: 'linear-gradient(to bottom, transparent, rgba(6,148,209,0.18))' }} />
                   {/* Speaker name */}
-                  <p className="relative mt-3 text-xs sm:text-sm font-semibold text-koenig-dark">{w.speaker}</p>
+                  <p className="relative mt-3 text-sm font-semibold text-koenig-dark">{w.speaker}</p>
                 </div>
 
                 {/* Bottom — content */}
@@ -2427,7 +2427,7 @@ export default function Design4Page() {
                     </span>
                   </div>
                   {/* Register Now — outlined pill */}
-                  <button className="w-full rounded-full border-2 border-koenig-blue py-2.5 text-xs sm:text-sm font-semibold text-koenig-blue transition-all duration-200 hover:bg-koenig-blue hover:text-white">
+                  <button className="w-full rounded-full border-2 border-koenig-blue py-2.5 text-sm font-semibold text-koenig-blue transition-all duration-200 hover:bg-koenig-blue hover:text-white">
                     Register Now
                   </button>
                 </div>
@@ -2464,7 +2464,7 @@ export default function Design4Page() {
 
           {/* View All Webinars CTA */}
           <div className="mt-6 flex justify-center">
-            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-xs sm:text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               View All Webinars
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
             </button>
@@ -2482,7 +2482,7 @@ export default function Design4Page() {
 
           {/* Header */}
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
-            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue">Simple Process</span>
+            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Simple Process</span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">How It <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Works</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-koenig-muted">From choosing your path to getting certified — four steps that have worked for over a million professionals.</p>
           </div>
@@ -2521,7 +2521,7 @@ export default function Design4Page() {
                       >{s.icon}</div>
                       {/* Step number badge */}
                       <span
-                        className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white transition-all duration-300"
+                        className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold text-white transition-all duration-300"
                         style={{ background: isActive ? '#0694d1' : '#093148', transform: isActive ? 'scale(1.2)' : 'scale(1)' }}
                       >{i + 1}</span>
                       {isActive && <div className="hiw-pulse-ring pointer-events-none absolute inset-0 rounded-full" />}
@@ -2537,7 +2537,7 @@ export default function Design4Page() {
                         transform: isActive ? 'translateY(-4px)' : 'none',
                       }}
                     >
-                      <div className="mb-2 text-xs font-bold tracking-widest text-koenig-blue">STEP {s.num}</div>
+                      <div className="mb-2 text-sm font-bold tracking-widest text-koenig-blue">STEP {s.num}</div>
                       <h3 className="mb-2 text-sm sm:text-base md:text-lg font-semibold transition-colors duration-300" style={{ color: isActive ? '#076D9D' : '#093148' }}>{s.title}</h3>
                       <p className="mb-4 text-sm sm:text-base font-light leading-relaxed text-koenig-muted">{s.desc}</p>
                       {/* Progress dots */}
@@ -2555,11 +2555,11 @@ export default function Design4Page() {
 
           {/* Bottom CTA */}
           <div className="io-fade mt-12 flex flex-wrap items-center justify-center gap-4">
-            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-xs sm:text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Start Your Journey
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
             </button>
-            <button className="hiw-outline-btn rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-xs sm:text-sm font-bold text-[#076D9D] transition-all duration-300 hover:bg-[#076D9D] hover:text-white">
+            <button className="hiw-outline-btn rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all duration-300 hover:bg-[#076D9D] hover:text-white">
               Talk to an Advisor
             </button>
           </div>
@@ -2576,7 +2576,7 @@ export default function Design4Page() {
 
           {/* Header */}
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
-            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue">Real Transformations</span>
+            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Real Transformations</span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">Stories That <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Speak for Themselves</span></h2>
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-koenig-muted">Every number is real. Every name is used with permission. These are your peers — people who were exactly where you are and made the leap.</p>
           </div>
@@ -2605,7 +2605,7 @@ export default function Design4Page() {
                 <div key={s.label} className="px-8 py-1 text-center first:pl-0 last:pr-0">
                   <div className="mb-1.5 flex items-center justify-center">{s.icon}</div>
                   <div className="text-lg sm:text-xl md:text-2xl font-bold text-[#093148]">{s.val}</div>
-                  <div className="mt-1 text-xs text-[#666]">{s.label}</div>
+                  <div className="mt-1 text-sm text-[#666]">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -2663,11 +2663,11 @@ export default function Design4Page() {
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue">Guaranteed Schedules</span>
+              <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Guaranteed Schedules</span>
               <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Upcoming Batches — <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">March 2026</span></h2>
-              <p className="text-xs sm:text-sm text-koenig-muted">Every batch listed here is guaranteed to run. No cancellations.</p>
+              <p className="text-sm text-koenig-muted">Every batch listed here is guaranteed to run. No cancellations.</p>
             </div>
-            <button className="group inline-flex shrink-0 items-center gap-3 rounded-2xl px-6 py-3 text-xs sm:text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+            <button className="group inline-flex shrink-0 items-center gap-3 rounded-2xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               View Full Schedule
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
             </button>
@@ -2693,7 +2693,7 @@ export default function Design4Page() {
           {/* Tab header row */}
           <div className="io-fade mb-3 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue">Solutions</span>
+              <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Solutions</span>
               <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">
                 {orgTab === 'enterprise'
                   ? <>Upskill Your <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Entire Workforce</span></>
@@ -2735,10 +2735,10 @@ export default function Design4Page() {
                     { title: 'Real-Time Progress Dashboard', sub: 'L&D managers track certifications, completion, and ROI' },
                   ].map((f, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-koenig-blue text-[10px] text-white">✓</span>
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-koenig-blue text-sm text-white">✓</span>
                       <div>
-                        <div className="text-xs sm:text-sm font-semibold text-koenig-dark">{f.title}</div>
-                        <div className="text-xs text-koenig-muted">{f.sub}</div>
+                        <div className="text-sm font-semibold text-koenig-dark">{f.title}</div>
+                        <div className="text-sm text-koenig-muted">{f.sub}</div>
                       </div>
                     </div>
                   ))}
@@ -2747,38 +2747,38 @@ export default function Design4Page() {
                   <div className="flex items-center gap-6">
                     <div className="text-center">
                       <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">500+</div>
-                      <div className="text-[11px] text-koenig-muted">Enterprise clients</div>
+                      <div className="text-sm text-koenig-muted">Enterprise clients</div>
                     </div>
                     <div className="h-10 w-px bg-koenig-border" />
                   </div>
                   <div className="flex items-center gap-6">
                     <div className="text-center">
                       <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">50K+</div>
-                      <div className="text-[11px] text-koenig-muted">Employees trained</div>
+                      <div className="text-sm text-koenig-muted">Employees trained</div>
                     </div>
                     <div className="h-10 w-px bg-koenig-border" />
                   </div>
                   <div className="text-center">
                     <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">4.8/5</div>
-                    <div className="text-[11px] text-koenig-muted">Satisfaction score</div>
+                    <div className="text-sm text-koenig-muted">Satisfaction score</div>
                   </div>
                 </div>
               </div>
               <div className="rounded-2xl bg-koenig-navy p-6 md:p-10 shadow-2xl shadow-koenig-navy/20">
                 <div className="mb-6 text-4xl">🏢</div>
                 <h3 className="mb-2 text-lg sm:text-xl md:text-2xl font-bold text-white">Ready to Transform Your Team?</h3>
-                <p className="mb-6 text-xs sm:text-sm leading-relaxed text-white/80">Get a customized training proposal for your organization. Our enterprise team will assess your needs and recommend the optimal program, format, and schedule.</p>
+                <p className="mb-6 text-sm leading-relaxed text-white/80">Get a customized training proposal for your organization. Our enterprise team will assess your needs and recommend the optimal program, format, and schedule.</p>
                 <ul className="mb-8 space-y-2">
                   {['Free skills gap assessment', 'Custom training roadmap', 'Dedicated account manager', 'Flexible payment terms'].map(f => (
-                    <li key={f} className="flex items-center gap-2 text-xs sm:text-sm text-white/60">
+                    <li key={f} className="flex items-center gap-2 text-sm text-white/60">
                       <span className="text-koenig-blue">✓</span>{f}
                     </li>
                   ))}
                 </ul>
-                <button className="w-full rounded-xl bg-koenig-blue py-4 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-koenig-blue/25 transition-shadow hover:shadow-xl hover:shadow-koenig-blue/35">
+                <button className="w-full rounded-xl bg-koenig-blue py-4 text-sm font-semibold text-white shadow-lg shadow-koenig-blue/25 transition-shadow hover:shadow-xl hover:shadow-koenig-blue/35">
                   Request Enterprise Quote
                 </button>
-                <p className="mt-4 text-center text-xs text-white/30">No commitment required · Response within 24 hours</p>
+                <p className="mt-4 text-center text-sm text-white/30">No commitment required · Response within 24 hours</p>
               </div>
             </div>
           ) : (
@@ -2813,10 +2813,10 @@ export default function Design4Page() {
                         <div className="mb-2 text-3xl leading-none">{c.flag}</div>
 
                         {/* Country name */}
-                        <div className={`mb-1.5 text-xs sm:text-sm font-bold transition-colors ${isHovered ? 'text-koenig-blue' : 'text-koenig-dark'}`}>{c.name}</div>
+                        <div className={`mb-1.5 text-sm font-bold transition-colors ${isHovered ? 'text-koenig-blue' : 'text-koenig-dark'}`}>{c.name}</div>
 
                         {/* Cities with map pin */}
-                        <div className="flex items-center justify-center gap-1 text-xs text-koenig-muted">
+                        <div className="flex items-center justify-center gap-1 text-sm text-koenig-muted">
                           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                           {c.cities}
                         </div>
@@ -2826,7 +2826,7 @@ export default function Design4Page() {
                 })}
               </div>
               <div className="mt-8 rounded-xl border border-koenig-border bg-koenig-light p-5 text-center">
-                <p className="text-xs sm:text-sm text-koenig-muted">
+                <p className="text-sm text-koenig-muted">
                   Can&apos;t travel?{' '}
                   <span className="font-semibold text-koenig-dark">Live Online delivery reaches every country and every timezone</span>
                   {' '}— with the same instructor quality and guaranteed schedules.
@@ -2846,9 +2846,9 @@ export default function Design4Page() {
         {/* Header */}
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-10 text-center">
-            <span className="mb-2 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-koenig-blue">Recognition</span>
+            <span className="mb-2 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Recognition</span>
             <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Awards &amp; <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Recognition</span></h2>
-            <p className="text-xs sm:text-sm text-koenig-muted">Recognized by global vendors and quality bodies for training excellence</p>
+            <p className="text-sm text-koenig-muted">Recognized by global vendors and quality bodies for training excellence</p>
           </div>
         </div>
 
@@ -2920,7 +2920,7 @@ export default function Design4Page() {
           </div>
           <div className="mt-8 text-center">
             <p className="mb-3 text-sm sm:text-base text-koenig-muted">Still have questions?</p>
-            <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-xs sm:text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
+            <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
               Chat with a Training Advisor
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
             </button>
@@ -3000,7 +3000,7 @@ export default function Design4Page() {
                   <ul className="space-y-2">
                     {col.links.map(link => (
                       <li key={link}>
-                        <a href="#" className="text-xs leading-snug text-white/80 transition-colors hover:text-white">{link}</a>
+                        <a href="#" className="text-sm leading-snug text-white/80 transition-colors hover:text-white">{link}</a>
                       </li>
                     ))}
                   </ul>
@@ -3016,7 +3016,7 @@ export default function Design4Page() {
                   <ul className="space-y-2">
                     {col.links.map(link => (
                       <li key={link}>
-                        <a href="#" className="text-xs leading-snug text-white/80 transition-colors hover:text-white">{link}</a>
+                        <a href="#" className="text-sm leading-snug text-white/80 transition-colors hover:text-white">{link}</a>
                       </li>
                     ))}
                   </ul>
@@ -3028,12 +3028,12 @@ export default function Design4Page() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                   <ul className="space-y-2">
                     {TOP_COURSES_COL1.map(link => (
-                      <li key={link}><a href="#" className="text-xs leading-snug text-white/80 transition-colors hover:text-white">{link}</a></li>
+                      <li key={link}><a href="#" className="text-sm leading-snug text-white/80 transition-colors hover:text-white">{link}</a></li>
                     ))}
                   </ul>
                   <ul className="space-y-2">
                     {TOP_COURSES_COL2.map(link => (
-                      <li key={link}><a href="#" className="text-xs leading-snug text-white/80 transition-colors hover:text-white">{link}</a></li>
+                      <li key={link}><a href="#" className="text-sm leading-snug text-white/80 transition-colors hover:text-white">{link}</a></li>
                     ))}
                   </ul>
                 </div>
@@ -3046,7 +3046,7 @@ export default function Design4Page() {
         {/* Legal disclaimers */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-8">
           <div className="mx-auto max-w-7xl flex flex-col lg:flex-row gap-8 items-start">
-            <ul className="flex-1 space-y-1.5 list-disc list-outside pl-4 text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>
+            <ul className="flex-1 space-y-1.5 list-disc list-outside pl-4 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
               <li>All rights reserved. ©1997 - 2026, Koenig Solutions Pvt. Ltd.</li>
               <li>PMP ® is a registered trademark of the Project Management Institute.</li>
               <li>ITIL, PRINCE2 and IAASC are registered trademarks of the PeopleCert group. PeopleCert DevOps and PeopleCert SCRUM are trademarks of the PeopleCert group. Used under licence from PeopleCert. All rights reserved.</li>
@@ -3068,7 +3068,7 @@ export default function Design4Page() {
 
         {/* Philosophy tagline */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-5">
-          <p className="mx-auto max-w-7xl text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          <p className="mx-auto max-w-7xl text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
             We believe in the philosophy To Err is Human, to Admit Divine! We are not perfect but we are trying. Keep visiting our website, you will see improvements and occasional blunders, Feel free to tell us how we can improve by writing to{' '}
             <a href="mailto:webmaster@koenig-solutions.com" className="text-[#0694D1] hover:underline">webmaster@koenig-solutions.com</a>
           </p>
@@ -3097,7 +3097,7 @@ export default function Design4Page() {
             <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
             <div>
               <p className="text-sm font-bold text-white">KOENIG Solutions</p>
-              <p className="text-xs text-gray-300">Online | Typically replies instantly</p>
+              <p className="text-sm text-gray-300">Online | Typically replies instantly</p>
             </div>
           </div>
           <button

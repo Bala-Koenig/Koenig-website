@@ -254,7 +254,7 @@ function BentoCard({ label, children, style }: {
         style={{ background: `linear-gradient(to top,${th.overlay} 60%,transparent)` }}
       >
         <span
-          className="inline-block text-[10px] font-semibold tracking-[0.12em] px-2.5 py-1 rounded"
+          className="inline-block text-sm font-semibold tracking-[0.12em] px-2.5 py-1 rounded"
           style={{ background: th.badge, border: `1px solid ${th.badgeBorder}`, color: th.text }}
         >{label}</span>
       </div>
@@ -876,7 +876,7 @@ function HeroStatsAnimation() {
             >
               {num}
             </div>
-            <div className="mt-2 text-xs font-semibold leading-tight text-white/65">{label}</div>
+            <div className="mt-2 text-sm font-semibold leading-tight text-white/65">{label}</div>
           </div>
         </div>
       ))}
@@ -1350,7 +1350,7 @@ function HeroRightPanel() {
                 >
                   {s.num}
                 </div>
-                <div className="mt-2 text-xs font-semibold" style={{ color: '#4a7a99' }}>{s.label}</div>
+                <div className="mt-2 text-sm font-semibold" style={{ color: '#4a7a99' }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -1923,7 +1923,7 @@ export default function EnterprisePage() {
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-4 lg:flex">
             <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
-              <a href="/" className="flex items-center px-3 py-1.5 text-xs sm:text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]" style={{ background: '#0694D1', gap: '8px' }}>
+              <a href="/" className="flex items-center px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]" style={{ background: '#0694D1', gap: '8px' }}>
                 <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
                 All Courses
               </a>
@@ -1946,12 +1946,12 @@ export default function EnterprisePage() {
           <div className="ml-auto flex items-center gap-2">
             {/* Individual / Enterprise toggle */}
             <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
-              <Link href="/" className="rounded-lg px-3 py-1.5 text-xs font-normal transition-all" style={{ color: 'rgba(255,255,255,0.55)' }}
+              <Link href="/" className="rounded-lg px-3 py-1.5 text-sm font-normal transition-all" style={{ color: 'rgba(255,255,255,0.55)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
                 Individual
               </Link>
-              <span className="rounded-lg px-3 py-1.5 text-xs font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Enterprise</span>
+              <span className="rounded-lg px-3 py-1.5 text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Enterprise</span>
             </div>
             {/* Search */}
             <div className="relative hidden lg:block" ref={navSearchRef}>
@@ -1993,7 +1993,7 @@ export default function EnterprisePage() {
         {mobileOpen && (
           <div className="-mx-4 lg:-mx-[50px] border-t lg:hidden" style={{ background: '#0d3a5c', borderColor: '#0D4A6B' }}>
             <div className="mx-auto max-w-7xl space-y-0.5 px-4 py-3">
-              <div className="mb-3 space-y-1.5 pb-3 text-xs" style={{ borderBottom: '1px solid #0D4A6B' }}>
+              <div className="mb-3 space-y-1.5 pb-3 text-sm" style={{ borderBottom: '1px solid #0D4A6B' }}>
                 <a href="tel:+14129537506" className="flex items-center gap-2 transition-colors hover:text-white" style={{ color: '#A8C8E0' }}>
                   <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
                   +1 412 953 7506
@@ -2081,7 +2081,7 @@ export default function EnterprisePage() {
                     }}
                   >
                     <span className="text-xl font-black leading-none" style={{ color: '#0694d1' }}>{s.num}</span>
-                    <span className="mt-1 text-[11px] font-medium leading-tight" style={{ color: '#4a7a99' }}>{s.label}</span>
+                    <span className="mt-1 text-sm font-medium leading-tight" style={{ color: '#4a7a99' }}>{s.label}</span>
                   </div>
                 ))}
               </div>
@@ -2153,7 +2153,7 @@ export default function EnterprisePage() {
               <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:360, height:180, borderRadius:'50%', background:'radial-gradient(ellipse, rgba(6,148,209,0.13) 0%, rgba(77,191,239,0.07) 45%, transparent 70%)', filter:'blur(18px)', pointerEvents:'none', zIndex:0 }} />
               <div style={{ position:'absolute', top:'30%', left:'10%', width:160, height:100, borderRadius:'50%', background:'radial-gradient(ellipse, rgba(56,189,248,0.09) 0%, transparent 70%)', filter:'blur(12px)', pointerEvents:'none', zIndex:0 }} />
               <div className="relative z-10">
-                <p className="mb-1.5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1', animation: 'twSlide 3s ease-in-out infinite' }}>
+                <p className="mb-1.5 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1', animation: 'twSlide 3s ease-in-out infinite' }}>
                   <span style={{ display:'inline-block', width:20, height:2, borderRadius:2, background:'#0694D1', flexShrink:0 }} />
                   Trusted Worldwide
                 </p>
@@ -2171,7 +2171,7 @@ export default function EnterprisePage() {
               <div className="mt-2 flex justify-center gap-0.5">
                 {[...Array(5)].map((_, i) => <span key={i} style={{ color: '#f59e0b', fontSize: 20 }}>★</span>)}
               </div>
-              <p className="mt-1.5 text-xs font-medium" style={{ color: '#64748b' }}>Avg. client satisfaction</p>
+              <p className="mt-1.5 text-sm font-medium" style={{ color: '#64748b' }}>Avg. client satisfaction</p>
             </div>
           </div>
         </div>
@@ -2236,13 +2236,13 @@ export default function EnterprisePage() {
                   <div className="award-card-icon" style={{ width: 60, height: 60, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>{c.iconEl}</div>
                   <div className="text-2xl font-black leading-none" style={{ color: '#093148' }}>{c.stat}</div>
                   <div className="mt-1 text-sm font-bold" style={{ color: '#093148' }}>{c.title}</div>
-                  <div className="mt-0.5 text-xs" style={{ color: '#4a7a9b' }}>{c.sub}</div>
+                  <div className="mt-0.5 text-sm" style={{ color: '#4a7a9b' }}>{c.sub}</div>
                   <div className="mt-3 flex items-center gap-1.5">
                     <span className="relative inline-flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#22c55e' }} />
                       <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: '#22c55e' }} />
                     </span>
-                    <span className="text-[11px] font-semibold" style={{ color: '#076D9D' }}>{c.bottom}</span>
+                    <span className="text-sm font-semibold" style={{ color: '#076D9D' }}>{c.bottom}</span>
                   </div>
                 </div>
               </div>
@@ -2311,7 +2311,7 @@ export default function EnterprisePage() {
                       <span className="text-2xl font-black" style={{ color: 'rgba(19,168,212,0.35)' }}>{a.step}</span>
                     </div>
                     <h3 className="mb-1 text-lg font-bold text-white relative z-10">{a.title}</h3>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wider relative z-10" style={{ color: '#13a8d4' }}>{a.sub}</p>
+                    <p className="mb-2 text-sm font-semibold uppercase tracking-wider relative z-10" style={{ color: '#13a8d4' }}>{a.sub}</p>
                     <p className="text-sm leading-relaxed text-white/55 relative z-10">{a.desc}</p>
                     <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, #13a8d4 40%, #38bdf8 60%, transparent)' }} />
                   </div>
@@ -2508,9 +2508,9 @@ export default function EnterprisePage() {
                     </svg>
                   </div>
                   <div className="min-w-0 flex-1 pt-0.5">
-                    <h3 className="mb-1.5 text-[13px] font-bold leading-snug" style={{ color: '#093148' }}>{d.name}</h3>
+                    <h3 className="mb-1.5 text-sm font-bold leading-snug" style={{ color: '#093148' }}>{d.name}</h3>
                     <span
-                      className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold"
+                      className="inline-flex items-center rounded-full px-2 py-0.5 text-sm font-semibold"
                       style={{ background: 'rgba(19,168,212,0.1)', color: '#0694D1', border: '1px solid rgba(19,168,212,0.18)' }}
                     >
                       {d.count} Courses
@@ -2522,12 +2522,12 @@ export default function EnterprisePage() {
                   className="mx-3 mb-3 rounded-xl p-3"
                   style={{ background: 'rgba(19,168,212,0.06)', border: '1px solid rgba(19,168,212,0.12)' }}
                 >
-                  <p className="mb-2 text-[9px] font-bold uppercase tracking-widest" style={{ color: '#93b8cc' }}>Top Vendors</p>
+                  <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#93b8cc' }}>Top Vendors</p>
                   <div className="flex flex-wrap gap-1">
                     {d.vendors.map(v => (
                       <span
                         key={v}
-                        className="rounded-full px-2 py-0.5 text-[10px] font-medium"
+                        className="rounded-full px-2 py-0.5 text-sm font-medium"
                         style={{ background: '#fff', border: '1px solid rgba(19,168,212,0.18)', color: '#4a7a9b' }}
                       >
                         {v}
@@ -2553,7 +2553,7 @@ export default function EnterprisePage() {
         </div>
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-14 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Proven Results</p>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Proven Results</p>
             <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
               The Business Impact of <span className="ent-dark-grad-text">Koenig Enterprise Training</span>
             </h2>
@@ -2569,7 +2569,7 @@ export default function EnterprisePage() {
               >
                 <div className="mb-2 text-4xl font-black lg:text-5xl ent-dark-grad-text">{m.value}</div>
                 <p className="mb-1 text-sm font-bold" style={{ color: '#093148' }}>{m.label}</p>
-                <p className="text-xs" style={{ color: '#4a7a9b' }}>{m.sub}</p>
+                <p className="text-sm" style={{ color: '#4a7a9b' }}>{m.sub}</p>
               </div>
             ))}
           </div>
@@ -2587,7 +2587,7 @@ export default function EnterprisePage() {
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg" style={{ background: '#EBF8FE', border: '1px solid #CAEFFF' }}>{b.icon}</div>
                 <div>
                   <h4 className="mb-1 text-sm font-bold" style={{ color: '#093148' }}>{b.title}</h4>
-                  <p className="text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{b.desc}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{b.desc}</p>
                 </div>
               </div>
             ))}
@@ -2628,7 +2628,7 @@ export default function EnterprisePage() {
         </div>
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-14 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Simple Onboarding</p>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Simple Onboarding</p>
             <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
               From Brief to Certified — <span className="ent-dark-grad-text">In 4 Simple Steps</span>
             </h2>
@@ -2652,7 +2652,7 @@ export default function EnterprisePage() {
                       <svg className="h-5 w-5" style={{ color: step.color }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{step.icon}</svg>
                     </div>
                     <h3 className="mb-2 text-sm font-bold" style={{ color: '#093148' }}>{step.title}</h3>
-                    <p className="text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{step.desc}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{step.desc}</p>
                   </div>
                 </div>
               ))}
@@ -2701,7 +2701,7 @@ export default function EnterprisePage() {
           {/* Header row */}
           <div className="io-fade mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <span className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-widest" style={{ background: 'rgba(255,107,53,0.10)', border: '1px solid rgba(255,107,53,0.32)', color: '#FF6B35' }}>
+              <span className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-black uppercase tracking-widest" style={{ background: 'rgba(255,107,53,0.10)', border: '1px solid rgba(255,107,53,0.32)', color: '#FF6B35' }}>
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#FF6B35]" style={{ animation: 'pulse 1.5s infinite' }} />
                 Live Demand Intelligence · 2025
               </span>
@@ -2721,7 +2721,7 @@ export default function EnterprisePage() {
             <div className="relative flex min-h-[340px] flex-col justify-between overflow-hidden rounded-3xl p-8" style={{ background: 'linear-gradient(145deg,#06111E 0%,#0a2440 55%,#071a30 100%)', border: '1.5px solid rgba(255,107,53,0.35)' }}>
               <div className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(255,107,53,0.05) 1px, transparent 1px)', backgroundSize: '22px 22px' }} />
               <div className="relative z-10">
-                <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-widest" style={{ background: 'rgba(255,107,53,0.18)', color: '#FF6B35', border: '1px solid rgba(255,107,53,0.4)' }}>
+                <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-black uppercase tracking-widest" style={{ background: 'rgba(255,107,53,0.18)', color: '#FF6B35', border: '1px solid rgba(255,107,53,0.4)' }}>
                   🔥 #1 Trending Globally
                 </span>
                 <h3 className="mt-5 text-3xl font-bold leading-tight text-white">Generative AI<br />&amp; LLMs</h3>
@@ -2734,7 +2734,7 @@ export default function EnterprisePage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-semibold text-white/60">120+ Courses</span>
-                  <a href="#contact" className="rounded-lg px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-80" style={{ background: 'rgba(255,107,53,0.22)', border: '1px solid rgba(255,107,53,0.45)' }}>Explore →</a>
+                  <a href="#contact" className="rounded-lg px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-80" style={{ background: 'rgba(255,107,53,0.22)', border: '1px solid rgba(255,107,53,0.45)' }}>Explore →</a>
                 </div>
               </div>
             </div>
@@ -2750,12 +2750,12 @@ export default function EnterprisePage() {
                   onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#F4FBFF'; el.style.borderColor = '#CAEFFF' }}
                 >
                   {/* Trend badge */}
-                  <span className="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest" style={{ background: `${t.accent}18`, color: t.accent, border: `1px solid ${t.accent}44` }}>
+                  <span className="mb-3 inline-block rounded-full px-2.5 py-0.5 text-sm font-black uppercase tracking-widest" style={{ background: `${t.accent}18`, color: t.accent, border: `1px solid ${t.accent}44` }}>
                     {t.label}
                   </span>
                   <h4 className="mb-1.5 text-sm font-bold leading-tight" style={{ color: '#093148' }}>{t.name}</h4>
                   <div className="mb-2 text-2xl font-black leading-none" style={{ color: t.accent }}>{t.growth}</div>
-                  <p className="text-[11px] leading-relaxed" style={{ color: '#4a7a9b' }}>{t.courses} courses · YoY</p>
+                  <p className="text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{t.courses} courses · YoY</p>
                   {/* animated bottom bar */}
                   <div className="absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-500 group-hover:w-full" style={{ background: `linear-gradient(90deg,${t.accent},transparent)` }} />
                 </div>
@@ -2767,7 +2767,7 @@ export default function EnterprisePage() {
           <div className="io-fade mt-6 flex flex-col items-center justify-between gap-4 rounded-2xl p-5 sm:flex-row" style={{ background: '#F0FAFF', border: '1.5px solid #CAEFFF' }}>
             <div>
               <p className="text-sm font-bold" style={{ color: '#093148' }}>Don&apos;t see your technology?</p>
-              <p className="text-xs" style={{ color: '#4a7a9b' }}>We cover 5,000+ courses across 50+ vendors — our team builds custom curricula for any tech stack.</p>
+              <p className="text-sm" style={{ color: '#4a7a9b' }}>We cover 5,000+ courses across 50+ vendors — our team builds custom curricula for any tech stack.</p>
             </div>
             <a href="#contact" className="shrink-0 rounded-xl px-6 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 whitespace-nowrap" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
               Request Custom Training
@@ -2787,7 +2787,7 @@ export default function EnterprisePage() {
         </div>
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Official Vendor Partners</p>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Official Vendor Partners</p>
             <h2 className="text-3xl font-bold text-white lg:text-4xl">50+ Authorised <span style={{ color: '#38bdf8' }}>Certification Partners</span></h2>
             <p className="mt-3 max-w-xl mx-auto text-sm text-white/50">Train and certify your team on the industry's most in-demand platforms — all under one roof, with one account manager.</p>
           </div>
@@ -2802,13 +2802,13 @@ export default function EnterprisePage() {
               <div key={ri} className="io-fade overflow-hidden rounded-2xl" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.18)' }}>
                 <div className="flex flex-col gap-4 p-5 lg:flex-row lg:items-center">
                   <div className="shrink-0 lg:w-[160px]">
-                    <span className="text-xs font-black uppercase tracking-widest" style={{ color: row.accentColor }}>{row.tier}</span>
+                    <span className="text-sm font-black uppercase tracking-widest" style={{ color: row.accentColor }}>{row.tier}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {row.vendors.map(v => (
-                      <span key={v} className="rounded-full px-3.5 py-1.5 text-xs font-semibold text-white/80 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.11)' }}>{v}</span>
+                      <span key={v} className="rounded-full px-3.5 py-1.5 text-sm font-semibold text-white/80 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.11)' }}>{v}</span>
                     ))}
-                    <span className="rounded-full px-3.5 py-1.5 text-xs font-semibold" style={{ background: `${row.accentColor}18`, color: row.accentColor, border: `1px solid ${row.accentColor}38` }}>+ more</span>
+                    <span className="rounded-full px-3.5 py-1.5 text-sm font-semibold" style={{ background: `${row.accentColor}18`, color: row.accentColor, border: `1px solid ${row.accentColor}38` }}>+ more</span>
                   </div>
                 </div>
               </div>
@@ -2820,7 +2820,7 @@ export default function EnterprisePage() {
             {[['50+','Vendor Partnerships'],['300+','Certifications Available'],['94%','First-Attempt Pass Rate']].map(([n, l], i) => (
               <div key={i} className="rounded-2xl py-5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.25)' }}>
                 <div className="text-2xl font-black" style={{ color: '#38bdf8' }}>{n}</div>
-                <div className="mt-1 text-xs text-white/50">{l}</div>
+                <div className="mt-1 text-sm text-white/50">{l}</div>
               </div>
             ))}
           </div>
@@ -2838,7 +2838,7 @@ export default function EnterprisePage() {
           <div className="flex flex-col gap-14 lg:flex-row lg:items-center">
             {/* Left copy */}
             <div className="flex-1">
-              <p className="mb-3 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Enterprise Reporting</p>
+              <p className="mb-3 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Enterprise Reporting</p>
               <h2 className="mb-5 text-3xl font-bold leading-tight lg:text-4xl" style={{ color: '#093148' }}>
                 Full Visibility Into<br /><span className="ent-dark-grad-text">Every Training Engagement</span>
               </h2>
@@ -2856,7 +2856,7 @@ export default function EnterprisePage() {
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg" style={{ background: '#EBF8FE', border: '1px solid #CAEFFF' }}>{f.icon}</div>
                     <div>
                       <h4 className="text-sm font-bold" style={{ color: '#093148' }}>{f.title}</h4>
-                      <p className="mt-0.5 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{f.desc}</p>
+                      <p className="mt-0.5 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{f.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -2874,23 +2874,23 @@ export default function EnterprisePage() {
                   <div className="h-2.5 w-2.5 rounded-full bg-red-400 opacity-80" />
                   <div className="h-2.5 w-2.5 rounded-full bg-yellow-400 opacity-80" />
                   <div className="h-2.5 w-2.5 rounded-full bg-green-400 opacity-80" />
-                  <span className="ml-3 text-[11px] text-white/30">L&D Training Portal — Koenig Enterprise</span>
+                  <span className="ml-3 text-sm text-white/30">L&D Training Portal — Koenig Enterprise</span>
                 </div>
                 {/* Stat row */}
                 <div className="mb-4 grid grid-cols-3 gap-3">
                   {[['847','Enrolled'],['234','Certified'],['94%','Pass Rate']].map(([v,l],i) => (
                     <div key={i} className="rounded-xl p-3 text-center" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.22)' }}>
                       <div className="text-lg font-black" style={{ color: '#38bdf8' }}>{v}</div>
-                      <div className="text-[10px] text-white/45">{l}</div>
+                      <div className="text-sm text-white/45">{l}</div>
                     </div>
                   ))}
                 </div>
                 {/* Progress bars */}
                 <div className="mb-4 rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                  <p className="mb-3 text-xs font-semibold text-white/50">Completion by Department</p>
+                  <p className="mb-3 text-sm font-semibold text-white/50">Completion by Department</p>
                   {[{ d:'Cloud Engineering',pct:87 },{ d:'Security Ops',pct:74 },{ d:'Data Science',pct:91 },{ d:'DevOps',pct:68 }].map((r,i) => (
                     <div key={i} className="mb-2.5 last:mb-0">
-                      <div className="mb-1 flex justify-between text-[10px]">
+                      <div className="mb-1 flex justify-between text-sm">
                         <span className="text-white/55">{r.d}</span>
                         <span style={{ color: '#38bdf8' }}>{r.pct}%</span>
                       </div>
@@ -2902,12 +2902,12 @@ export default function EnterprisePage() {
                 </div>
                 {/* Exam schedule */}
                 <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                  <p className="mb-3 text-xs font-semibold text-white/50">Upcoming Exams</p>
+                  <p className="mb-3 text-sm font-semibold text-white/50">Upcoming Exams</p>
                   {[{ n:'AZ-900',d:'Mar 22',s:'On Track' },{ n:'CKA',d:'Mar 28',s:'At Risk' },{ n:'CISSP',d:'Apr 3',s:'On Track' }].map((ex,i) => (
                     <div key={i} className="flex items-center justify-between border-b py-1.5 last:border-0" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                      <span className="text-xs font-semibold text-white">{ex.n}</span>
-                      <span className="text-xs text-white/40">{ex.d}</span>
-                      <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ background: ex.s==='On Track' ? 'rgba(16,185,129,0.16)' : 'rgba(245,158,11,0.16)', color: ex.s==='On Track' ? '#10B981' : '#F59E0B' }}>{ex.s}</span>
+                      <span className="text-sm font-semibold text-white">{ex.n}</span>
+                      <span className="text-sm text-white/40">{ex.d}</span>
+                      <span className="rounded-full px-2 py-0.5 text-sm font-semibold" style={{ background: ex.s==='On Track' ? 'rgba(16,185,129,0.16)' : 'rgba(245,158,11,0.16)', color: ex.s==='On Track' ? '#10B981' : '#F59E0B' }}>{ex.s}</span>
                     </div>
                   ))}
                 </div>
@@ -2933,7 +2933,7 @@ export default function EnterprisePage() {
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>{t.initials}</div>
                   <div>
                     <p className="text-sm font-semibold text-white">{t.name}</p>
-                    <p className="text-xs text-white/45">{t.company}</p>
+                    <p className="text-sm text-white/45">{t.company}</p>
                   </div>
                 </div>
               </div>
@@ -2953,7 +2953,7 @@ export default function EnterprisePage() {
         </div>
         <div className="relative z-10 mx-auto max-w-4xl">
           <div className="io-fade mb-12 text-center">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Common Questions</p>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Common Questions</p>
             <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
               Everything You Need to <span className="ent-dark-grad-text">Know</span>
             </h2>
@@ -3050,7 +3050,7 @@ export default function EnterprisePage() {
               <button type="submit" className="mt-6 w-full rounded-xl py-4 text-base font-bold text-white transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 24px rgba(6,148,209,0.35)' }}>
                 Submit — Get a Free Consultation
               </button>
-              <p className="mt-3 text-center text-xs text-white/35">We'll respond within 1 business day. No spam, ever.</p>
+              <p className="mt-3 text-center text-sm text-white/35">We'll respond within 1 business day. No spam, ever.</p>
             </form>
           )}
         </div>

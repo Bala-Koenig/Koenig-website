@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-4 lg:col-span-2">
             <div className="flex items-baseline gap-1.5 mb-4">
               <span className="font-black text-xl text-white">KOENIG</span>
-              <span className="text-[10px] text-blue-400 font-semibold tracking-widest uppercase">step forward</span>
+              <span className="text-sm text-blue-400 font-semibold tracking-widest uppercase">step forward</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed max-w-xs">
               Global IT training leader since 1993. Delivering 5,000+ courses across 13+ countries with 50+ technology vendor partnerships.
@@ -55,8 +55,8 @@ export default function Footer() {
               ))}
             </ul>
             <div>
-              <p className="text-white/40 text-xs">info@koenig-solutions.com</p>
-              <p className="text-white/40 text-xs mt-1">+91-984-072-2417</p>
+              <p className="text-white/40 text-sm">info@koenig-solutions.com</p>
+              <p className="text-white/40 text-sm mt-1">+91-984-072-2417</p>
             </div>
           </div>
         </div>

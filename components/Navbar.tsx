@@ -7,7 +7,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-baseline gap-1.5 shrink-0">
           <span className="font-black text-xl tracking-tight text-white">KOENIG</span>
-          <span className="text-[10px] text-blue-400 font-semibold uppercase tracking-widest">step forward</span>
+          <span className="text-sm text-blue-400 font-semibold uppercase tracking-widest">step forward</span>
         </div>
 
         {/* Nav Links */}
