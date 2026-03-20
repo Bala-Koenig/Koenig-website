@@ -1798,6 +1798,32 @@ export default function EnterprisePage() {
         .io-fade.delay-5 { transition-delay: 0.20s; }
         .io-fade.delay-6 { transition-delay: 0.24s; }
 
+        /* Domain card — animated gradient border */
+        @property --domain-angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+        @keyframes domain-border-spin {
+          to { --domain-angle: 360deg; }
+        }
+        .domain-card {
+          --domain-angle: 0deg;
+          background: #fff;
+          border: 1.5px solid transparent;
+          background-image: linear-gradient(#fff, #fff), conic-gradient(from var(--domain-angle), #13A8D4 0%, #4DBFEF 25%, #e8f8ff 42%, #093148 55%, #07C8EE 75%, #13A8D4 100%);
+          background-origin: border-box;
+          background-clip: padding-box, border-box;
+          animation: domain-border-spin 5s linear infinite;
+          box-shadow: 0 2px 14px rgba(19,168,212,0.07);
+          transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.22s ease-out;
+        }
+        .domain-card:hover {
+          box-shadow: 0 8px 32px rgba(19,168,212,0.22), 0 0 18px rgba(19,168,212,0.18);
+          transform: translateY(-5px);
+          animation: domain-border-spin 2s linear infinite;
+        }
+
         /* Infinite client logo marquee */
         @keyframes ent-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes ent-marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
@@ -2468,28 +2494,8 @@ export default function EnterprisePage() {
             {DOMAINS.map((d, i) => (
               <div
                 key={d.name}
-                className="io-fade group flex cursor-pointer flex-col rounded-2xl transition-all duration-300"
-                style={{
-                  background: '#fff',
-                  border: '1.5px solid transparent',
-                  backgroundImage: 'linear-gradient(#fff, #fff), linear-gradient(135deg, #13A8D4 0%, #093148 55%, #4DBFEF 100%)',
-                  backgroundOrigin: 'border-box',
-                  backgroundClip: 'padding-box, border-box',
-                  boxShadow: '0 2px 14px rgba(19,168,212,0.07)',
-                  transitionDelay: `${i * 0.07}s`,
-                }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.backgroundImage = 'linear-gradient(#fff, #fff), linear-gradient(135deg, #07C8EE 0%, #065A87 50%, #07C8EE 100%)'
-                  el.style.boxShadow = '0 8px 32px rgba(19,168,212,0.22)'
-                  el.style.transform = 'translateY(-5px)'
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.backgroundImage = 'linear-gradient(#fff, #fff), linear-gradient(135deg, #13A8D4 0%, #093148 55%, #4DBFEF 100%)'
-                  el.style.boxShadow = '0 2px 14px rgba(19,168,212,0.07)'
-                  el.style.transform = 'translateY(0)'
-                }}
+                className="io-fade domain-card group flex cursor-pointer flex-col rounded-2xl"
+                style={{ transitionDelay: `${i * 0.07}s` }}
               >
                 {/* Zone 1 — icon box + title + badge */}
                 <div className="flex items-start gap-3 p-4 pb-3">
