@@ -2835,7 +2835,7 @@ export default function EnterprisePage() {
                   <div
                     key={i}
                     className="bi-feat-card flex items-start gap-4 rounded-2xl p-5"
-                    style={{ transitionDelay: f.delay }}
+                    style={{ transitionDelay: f.delay, minHeight: '100px', flex: '0 0 auto' }}
                   >
                     {/* Icon box */}
                     <div
