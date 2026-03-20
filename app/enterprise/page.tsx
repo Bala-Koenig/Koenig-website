@@ -2548,18 +2548,10 @@ export default function EnterprisePage() {
                 <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Courses</p>
               </div>
 
-              {/* Vendor Partners — with logos */}
+              {/* Vendor Partners */}
               <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
                 <p className="text-2xl font-black" style={{ color: '#093148' }}>50+</p>
-                <p className="mt-0.5 mb-2.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Vendor Partners</p>
-                <div className="flex flex-wrap items-center gap-2">
-                  <img src="/images/top-six-vendors/amazon-authorized.png" alt="AWS" className="h-5 w-auto object-contain" />
-                  <img src="/images/top-six-vendors/Microsoft.png" alt="Microsoft" className="h-5 w-auto object-contain" />
-                  <img src="/images/top-six-vendors/Cisco.png" alt="Cisco" className="h-5 w-auto object-contain" />
-                  <img src="/images/top-six-vendors/oracle.png" alt="Oracle" className="h-5 w-auto object-contain" />
-                  <img src="/images/top-six-vendors/VMware-Broadcom.png" alt="VMware Broadcom" className="h-5 w-auto object-contain" />
-                  <img src="/images/partners/comptia.png" alt="CompTIA" className="h-5 w-auto object-contain" />
-                </div>
+                <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Vendor Partners</p>
               </div>
 
               {/* Countries */}
