@@ -1947,6 +1947,13 @@ export default function EnterprisePage() {
         .bi-feat-icon { transition: transform 0.3s ease; animation: bi-icon-pulse 2.5s ease-in-out infinite; }
         .bi-feat-card:hover .bi-feat-icon { transform: rotate(14deg); }
 
+        /* What You Get scrollable area */
+        .bi-scroll { scrollbar-width: thin; scrollbar-color: rgba(19,168,212,0.45) rgba(19,168,212,0.06); }
+        .bi-scroll::-webkit-scrollbar { width: 5px; }
+        .bi-scroll::-webkit-scrollbar-track { background: rgba(19,168,212,0.06); border-radius: 6px; }
+        .bi-scroll::-webkit-scrollbar-thumb { background: rgba(19,168,212,0.40); border-radius: 6px; }
+        .bi-scroll::-webkit-scrollbar-thumb:hover { background: rgba(19,168,212,0.75); }
+
         .bi-blob-a { animation: bi-blob-a  8s ease-in-out infinite; }
         .bi-blob-b { animation: bi-blob-b 11s ease-in-out infinite; }
         .bi-scan-line { position:absolute; left:0; right:0; height:2px; pointer-events:none; animation: bi-scan 3.2s linear infinite; }
@@ -2816,7 +2823,7 @@ export default function EnterprisePage() {
               <p className="mb-4 text-sm font-black uppercase tracking-widest" style={{ color: '#13a8d4' }}>What You Get</p>
 
               {/* Feature cards — scrollable */}
-              <div className="flex flex-col gap-3 overflow-y-auto pr-1" style={{ maxHeight: '320px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(19,168,212,0.3) transparent' }}>
+              <div className="bi-scroll flex flex-col gap-3 overflow-y-auto pr-2" style={{ maxHeight: '210px' }}>
                 {[
                   { title: 'Dedicated L&D Dashboard',      desc: 'Real-time visibility into team progress, certifications, and upcoming sessions — all in one portal.',         icon: <><rect x="3" y="3" width="18" height="18" rx="2" strokeWidth={1.7}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M8 12h.01M12 9v3M16 12h.01"/></>, delay: '0s'    },
                   { title: 'Compliance-Ready Training',     desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements — available on demand.',        icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></>, delay: '0.08s' },
