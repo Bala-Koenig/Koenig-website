@@ -2812,17 +2812,6 @@ export default function EnterprisePage() {
                 Numbers that matter to L&D leaders, CISOs, and CFOs — backed by 30+ years of enterprise outcomes.
               </p>
 
-              {/* 4-col stat grid */}
-              <div className="io-fade mb-10 grid grid-cols-2 gap-4">
-                {ROI_METRICS.map((m, i) => (
-                  <div key={i} className={`bi-grad-border rounded-2xl p-5 text-center`} style={{ boxShadow: '0 2px 14px rgba(19,168,212,0.07)' }}>
-                    <p className={`bi-stat-num d${i+1} mb-1 text-4xl font-black lg:text-5xl`} style={{ color: '#0b2545' }}>{m.value}</p>
-                    <p className="text-sm font-bold" style={{ color: '#0b2545' }}>{m.label}</p>
-                    <p className="mt-0.5 text-sm" style={{ color: '#4a7a9b' }}>{m.sub}</p>
-                  </div>
-                ))}
-              </div>
-
               {/* WHAT YOU GET label */}
               <p className="mb-4 text-sm font-black uppercase tracking-widest" style={{ color: '#13a8d4' }}>What You Get</p>
 
