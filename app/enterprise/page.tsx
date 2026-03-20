@@ -2823,7 +2823,7 @@ export default function EnterprisePage() {
               <p className="mb-4 text-sm font-black uppercase tracking-widest" style={{ color: '#13a8d4' }}>What You Get</p>
 
               {/* Feature cards — scrollable */}
-              <div className="bi-scroll flex flex-col gap-3 overflow-y-auto pr-2" style={{ maxHeight: '210px' }}>
+              <div className="bi-scroll flex flex-col gap-4 overflow-y-auto pr-2" style={{ maxHeight: '280px' }}>
                 {[
                   { title: 'Dedicated L&D Dashboard',      desc: 'Real-time visibility into team progress, certifications, and upcoming sessions — all in one portal.',         icon: <><rect x="3" y="3" width="18" height="18" rx="2" strokeWidth={1.7}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M8 12h.01M12 9v3M16 12h.01"/></>, delay: '0s'    },
                   { title: 'Compliance-Ready Training',     desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements — available on demand.',        icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></>, delay: '0.08s' },
@@ -2834,12 +2834,12 @@ export default function EnterprisePage() {
                 ].map((f, i) => (
                   <div
                     key={i}
-                    className="bi-feat-card flex items-start gap-4 rounded-2xl p-4"
+                    className="bi-feat-card flex items-start gap-4 rounded-2xl p-5"
                     style={{ transitionDelay: f.delay }}
                   >
                     {/* Icon box */}
                     <div
-                      className="bi-feat-icon flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                      className="bi-feat-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
                       style={{ background: 'rgba(19,168,212,0.08)', border: '1px solid rgba(19,168,212,0.2)' }}
                     >
                       <svg className="h-5 w-5" style={{ color: '#13a8d4' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{f.icon}</svg>
