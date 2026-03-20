@@ -56,14 +56,54 @@ const APPROACH = [
 ]
 
 const DOMAINS = [
-  { name: 'Cloud Computing',    count: '840+', vendors: ['AWS', 'Azure', 'Google Cloud', 'Oracle', 'IBM'],             icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
-  { name: 'Cybersecurity',      count: '620+', vendors: ['CompTIA', 'EC-Council', 'ISC2', 'Cisco', 'Palo Alto'],      icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
-  { name: 'Data & AI',          count: '280+', vendors: ['Microsoft', 'Databricks', 'Google', 'AWS', 'Tableau'],      icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></> },
-  { name: 'Networking',         count: '510+', vendors: ['Cisco', 'Juniper', 'CompTIA', 'HP', 'Aruba'],              icon: <><circle cx="12" cy="5" r="2" strokeWidth={1.8}/><circle cx="5" cy="19" r="2" strokeWidth={1.8}/><circle cx="19" cy="19" r="2" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 7v4M8.5 17.5l3-2.5M15.5 17.5l-3-2.5"/></> },
-  { name: 'Project Management', count: '390+', vendors: ['PMI', 'PRINCE2', 'Scrum.org', 'AXELOS', 'Agile'],         icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/> },
-  { name: 'DevOps',             count: '210+', vendors: ['AWS', 'Azure DevOps', 'Docker', 'HashiCorp', 'Red Hat'],   icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/> },
-  { name: 'ERP Systems',        count: '180+', vendors: ['SAP', 'Oracle', 'Microsoft', 'Salesforce', 'ServiceNow'],  icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/> },
-  { name: 'Linux & Open Source',count: '110+', vendors: ['Red Hat', 'Linux Foundation', 'CompTIA', 'SUSE', 'Ubuntu'], icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/> },
+  {
+    name: 'Cloud Computing', count: '840+',
+    skills: ['AWS Solutions Architecture', 'Azure Administration', 'Google Cloud Platform', 'Cloud Security', 'Serverless Computing', 'Container Orchestration', 'Infrastructure as Code', 'Multi-Cloud Strategy', 'Cloud Networking', 'Cost Optimisation'],
+    tools: ['AWS', 'Microsoft Azure', 'Google Cloud', 'Terraform', 'Kubernetes'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>,
+  },
+  {
+    name: 'Cybersecurity', count: '620+',
+    skills: ['Ethical Hacking & Pen Testing', 'Network Security', 'Security Operations (SOC)', 'Cloud Security', 'Incident Response', 'Malware Analysis', 'Zero Trust Architecture', 'Risk & Compliance', 'Digital Forensics'],
+    tools: ['CompTIA Security+', 'EC-Council CEH', 'ISC2 CISSP', 'Palo Alto PCNSA', 'Cisco CyberOps'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
+  },
+  {
+    name: 'Data & AI', count: '280+',
+    skills: ['Machine Learning', 'Deep Learning', 'Natural Language Processing', 'Computer Vision', 'Data Engineering', 'MLOps & AI Ops', 'Statistical Analysis', 'Generative AI', 'Big Data Platforms'],
+    tools: ['Python', 'TensorFlow', 'Databricks', 'Microsoft Power BI', 'Tableau'],
+    icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></>,
+  },
+  {
+    name: 'Networking', count: '510+',
+    skills: ['Network Design & Architecture', 'Routing & Switching', 'SD-WAN', 'Network Automation', 'Wireless Networking', 'VoIP & Collaboration', 'IPv6 Implementation', 'QoS & Traffic Engineering', 'Network Virtualisation'],
+    tools: ['Cisco CCNA / CCNP', 'Juniper JNCIA', 'CompTIA Network+', 'Aruba ACSA', 'Fortinet NSE'],
+    icon: <><circle cx="12" cy="5" r="2" strokeWidth={1.8}/><circle cx="5" cy="19" r="2" strokeWidth={1.8}/><circle cx="19" cy="19" r="2" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 7v4M8.5 17.5l3-2.5M15.5 17.5l-3-2.5"/></>,
+  },
+  {
+    name: 'Project Management', count: '390+',
+    skills: ['PMP Certification', 'Agile & Scrum', 'PRINCE2', 'Programme & Portfolio Management', 'Risk Management', 'Stakeholder Engagement', 'Change Management', 'Lean Six Sigma', 'ITIL Service Management'],
+    tools: ['PMI PMP / CAPM', 'PRINCE2 Foundation', 'Scrum.org PSM', 'SAFe Agile', 'AXELOS ITIL 4'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>,
+  },
+  {
+    name: 'DevOps', count: '210+',
+    skills: ['CI/CD Pipeline Design', 'Docker & Kubernetes', 'Infrastructure as Code', 'GitOps Workflows', 'Site Reliability Engineering', 'DevSecOps', 'Platform Engineering', 'Observability & Monitoring', 'Microservices Architecture'],
+    tools: ['Docker', 'Kubernetes (CKA)', 'Terraform', 'GitHub Actions', 'HashiCorp Vault'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>,
+  },
+  {
+    name: 'ERP Systems', count: '180+',
+    skills: ['SAP S/4HANA Implementation', 'Oracle ERP Cloud', 'Salesforce CRM', 'ServiceNow ITSM', 'Microsoft Dynamics 365', 'SAP FICO & MM', 'Workflow Automation', 'ERP Integration & Migration', 'Business Process Optimisation'],
+    tools: ['SAP S/4HANA', 'Oracle Cloud ERP', 'Salesforce Platform', 'ServiceNow CSA', 'Microsoft Dynamics'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>,
+  },
+  {
+    name: 'Linux & Open Source', count: '110+',
+    skills: ['Linux System Administration', 'Shell Scripting & Automation', 'Kernel Tuning & Optimisation', 'Container Management', 'OpenStack Administration', 'Configuration Management', 'Security Hardening', 'High Availability Clusters', 'RHEL Certification'],
+    tools: ['Red Hat RHCSA / RHCE', 'Linux Foundation LFCS', 'Ubuntu Administration', 'Ansible Automation', 'Kubernetes (CKAD)'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>,
+  },
 ]
 
 const FORMATS = [
@@ -1654,6 +1694,7 @@ function HeroGlobeCanvas() {
 /* ─── Component ──────────────────────────────────────────── */
 
 export default function EnterprisePage() {
+  const [activeDomain, setActiveDomain] = useState(0)
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
@@ -2481,62 +2522,125 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Training Domains ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[40px]" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
-        <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
-            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>5,000+ Courses Across <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">8 Core Domains</span></h2>
+      {/* ── What We Train ── */}
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-16" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 60%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+        <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.14) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
+        <div className="relative mx-auto max-w-7xl">
+
+          {/* ── Header ── */}
+          <div className="io-fade mb-10">
+            <p className="mb-1 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
+            <h2 className="mb-5 text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
+              Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
+            </h2>
+            <div className="flex flex-wrap items-center gap-6">
+              {[['5,000+','Courses'],['50+','Vendor Partners'],['195+','Countries'],['8','Core Domains']].map(([n,l]) => (
+                <div key={l} className="flex items-baseline gap-2">
+                  <span className="text-3xl font-black" style={{ color: '#093148' }}>{n}</span>
+                  <span className="text-base font-medium" style={{ color: '#4a7a9b' }}>{l}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
-            {DOMAINS.map((d, i) => (
-              <div
-                key={d.name}
-                className="io-fade domain-card group flex cursor-pointer flex-col rounded-2xl"
-                style={{ transitionDelay: `${i * 0.07}s` }}
-              >
-                {/* Zone 1 — icon box + title + badge */}
-                <div className="flex items-start gap-3 p-4 pb-3">
-                  <div
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-                    style={{ background: 'rgba(19,168,212,0.08)', border: '1px solid rgba(19,168,212,0.18)' }}
+
+          {/* ── Tab layout ── */}
+          <div className="io-fade flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+
+            {/* Left — domain tabs */}
+            <div className="flex shrink-0 flex-row flex-wrap gap-2 lg:w-64 lg:flex-col lg:gap-0">
+              {DOMAINS.map((d, i) => {
+                const active = activeDomain === i
+                return (
+                  <button
+                    key={d.name}
+                    onClick={() => setActiveDomain(i)}
+                    className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-3.5 text-left transition-all duration-200 lg:rounded-none lg:rounded-none"
+                    style={{
+                      background: active ? '#0694D1' : '#fff',
+                      color: active ? '#fff' : '#093148',
+                      border: active ? '1px solid #0694D1' : '1px solid #CAEFFF',
+                      fontWeight: active ? 700 : 500,
+                      marginBottom: '6px',
+                      borderRadius: '10px',
+                      boxShadow: active ? '0 4px 16px rgba(6,148,209,0.25)' : '0 1px 4px rgba(6,148,209,0.06)',
+                    }}
                   >
-                    <svg className="h-5 w-5" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-4 w-4 shrink-0" style={{ color: active ? '#fff' : '#0694D1', opacity: active ? 1 : 0.7 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       {d.icon}
                     </svg>
+                    <span className="text-sm leading-snug">{d.name}</span>
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Right — content panel */}
+            {(() => {
+              const d = DOMAINS[activeDomain]
+              const half = Math.ceil(d.skills.length / 2)
+              const col1 = d.skills.slice(0, half)
+              const col2 = d.skills.slice(half)
+              return (
+                <div className="flex-1 rounded-2xl bg-white p-7" style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.09)' }}>
+                  {/* Panel header */}
+                  <div className="mb-5 flex items-center gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.18)' }}>
+                      <svg className="h-6 w-6" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        {d.icon}
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold" style={{ color: '#093148' }}>{d.name}</h3>
+                      <span className="text-sm font-semibold" style={{ color: '#0694D1' }}>{d.count} Courses Available</span>
+                    </div>
                   </div>
-                  <div className="min-w-0 flex-1 pt-0.5">
-                    <h3 className="mb-1.5 text-sm font-bold leading-snug" style={{ color: '#093148' }}>{d.name}</h3>
-                    <span
-                      className="inline-flex items-center rounded-full px-2 py-0.5 text-sm font-semibold"
-                      style={{ background: 'rgba(19,168,212,0.1)', color: '#0694D1', border: '1px solid rgba(19,168,212,0.18)' }}
-                    >
-                      {d.count} Courses
-                    </span>
+                  <div style={{ borderTop: '1px solid #E8F5FC', marginBottom: '20px' }} />
+
+                  {/* Skills */}
+                  <p className="mb-4 text-base font-bold" style={{ color: '#093148' }}>Skills</p>
+                  <div className="mb-6 grid grid-cols-1 gap-x-8 gap-y-2.5 sm:grid-cols-2">
+                    {col1.map((s, i) => (
+                      <div key={s} className="flex items-center gap-2.5">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full" style={{ background: '#0694D1' }}>
+                          <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </span>
+                        <span className="text-sm" style={{ color: '#2d5470' }}>{s}</span>
+                      </div>
+                    ))}
+                    {col2.map((s, i) => (
+                      <div key={s} className="flex items-center gap-2.5">
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full" style={{ background: '#0694D1' }}>
+                          <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </span>
+                        <span className="text-sm" style={{ color: '#2d5470' }}>{s}</span>
+                      </div>
+                    ))}
+                    <div className="flex items-center gap-2.5 sm:col-start-2">
+                      <span className="text-sm font-semibold" style={{ color: '#4a7a9b' }}>& Many More</span>
+                    </div>
                   </div>
-                </div>
-                {/* Zone 2 — top vendors panel */}
-                <div
-                  className="mx-3 mb-3 rounded-xl p-3"
-                  style={{ background: 'rgba(19,168,212,0.06)', border: '1px solid rgba(19,168,212,0.12)' }}
-                >
-                  <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#93b8cc' }}>Top Vendors</p>
-                  <div className="flex flex-wrap gap-1">
-                    {d.vendors.map(v => (
-                      <span
-                        key={v}
-                        className="rounded-full px-2 py-0.5 text-sm font-medium"
-                        style={{ background: '#fff', border: '1px solid rgba(19,168,212,0.18)', color: '#4a7a9b' }}
-                      >
-                        {v}
+
+                  {/* Tools / Certifications */}
+                  <p className="mb-3 text-base font-bold" style={{ color: '#093148' }}>Certifications & Tools</p>
+                  <div className="flex flex-wrap gap-2">
+                    {d.tools.map(t => (
+                      <span key={t} className="rounded-lg px-3.5 py-1.5 text-sm font-semibold" style={{ background: 'rgba(6,148,209,0.07)', border: '1px solid rgba(6,148,209,0.18)', color: '#076D9D' }}>
+                        {t}
                       </span>
                     ))}
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })()}
+          </div>
+
+          {/* ── CTA ── */}
+          <div className="io-fade mt-10 text-center">
+            <a href="#contact" className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-bold text-white transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}>
+              Request Training Plan
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
           </div>
         </div>
       </section>
