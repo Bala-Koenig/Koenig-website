@@ -124,16 +124,16 @@ const ENTERPRISE_CLIENTS = [
 
 const INDUSTRIES = [
   {
+    name: 'Technology & Software',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>,
+    desc: 'Accelerate product delivery with DevOps, cloud-native, and AI/ML certifications at scale for engineering teams.',
+    tags: ['Kubernetes', 'AWS / Azure', 'DevSecOps'],
+  },
+  {
     name: 'Financial Services',
     icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>,
     desc: 'Upskill risk analysts, compliance officers, and cloud architects across banking, insurance, and fintech.',
     tags: ['Cloud Security', 'Risk & Compliance', 'AI/ML'],
-  },
-  {
-    name: 'Healthcare & Life Sciences',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>,
-    desc: 'Equip IT teams with HIPAA-compliant cloud, data management, and cybersecurity expertise at scale.',
-    tags: ['Data Privacy', 'Cloud Computing', 'DevOps'],
   },
   {
     name: 'Manufacturing & Engineering',
@@ -142,10 +142,10 @@ const INDUSTRIES = [
     tags: ['SAP S/4HANA', 'IoT & Automation', 'PMP'],
   },
   {
-    name: 'Technology & Software',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>,
-    desc: 'Accelerate product delivery with DevOps, cloud-native, and AI/ML certifications at scale for engineering teams.',
-    tags: ['Kubernetes', 'AWS / Azure', 'DevSecOps'],
+    name: 'Healthcare & Life Sciences',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>,
+    desc: 'Equip IT teams with HIPAA-compliant cloud, data management, and cybersecurity expertise at scale.',
+    tags: ['Data Privacy', 'Cloud Computing', 'DevOps'],
   },
   {
     name: 'Government & Defence',
