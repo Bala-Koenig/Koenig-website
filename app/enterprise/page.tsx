@@ -2266,7 +2266,7 @@ export default function EnterprisePage() {
                 }}
               >
                 <Image
-                  src="/images/banner-enterprise1.png"
+                  src="/images/banner-enterprise2.png"
                   alt="Enterprise Training"
                   width={400}
                   height={380}
