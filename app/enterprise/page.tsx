@@ -2186,7 +2186,7 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-[50px]">
+      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px]">
         <div className="pointer-events-none absolute inset-0">
           {/* Falling pattern — Koenig blue streaks on hero bg */}
           <FallingPattern
@@ -2201,7 +2201,7 @@ export default function EnterprisePage() {
           <div className="ent-blob2 absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.30) 0%, transparent 70%)' }} />
           <div className="ent-blob3 absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.26) 0%, transparent 70%)' }} />
         </div>
-        <div className="relative z-10 mx-auto max-w-7xl w-full">
+        <div className="relative z-10 mx-auto max-w-7xl w-full pt-[50px]">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
             {/* Left */}
             <div className="flex-1 text-center lg:text-left">
@@ -2231,7 +2231,7 @@ export default function EnterprisePage() {
               </div>
 
               {/* Stats — all 4 in one row below the CTAs */}
-              <div className="mt-8 inline-grid grid-cols-4 gap-2">
+              <div className="mt-8 pb-[50px] inline-grid grid-cols-4 gap-2">
                 {STATS.map((s, i) => (
                   <div
                     key={s.label}
