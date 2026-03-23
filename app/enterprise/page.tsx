@@ -2231,7 +2231,7 @@ export default function EnterprisePage() {
               </div>
 
               {/* Stats — all 4 in one row below the CTAs */}
-              <div className="mt-8 grid grid-cols-4 gap-2 w-full">
+              <div className="mt-8 inline-grid grid-cols-4 gap-2">
                 {STATS.map((s, i) => (
                   <div
                     key={s.label}
