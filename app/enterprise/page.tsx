@@ -2256,31 +2256,40 @@ export default function EnterprisePage() {
             <div className="hidden shrink-0 lg:block">
               <div className="relative" style={{ width: '460px', padding: '36px' }}>
 
+                <style>{`
+                  @keyframes vFloat1 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-10px) rotate(1deg)} }
+                  @keyframes vFloat2 { 0%,100%{transform:translateY(0) rotate(1deg)} 50%{transform:translateY(-8px) rotate(-1deg)} }
+                  @keyframes vFloat3 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(9px) translateX(3px)} }
+                  @keyframes vFloat4 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(8px) rotate(1.5deg)} }
+                  @keyframes vFloat5 { 0%,100%{transform:translateX(0) rotate(0deg)} 50%{transform:translateX(-8px) rotate(-2deg)} }
+                  @keyframes vGlow   { 0%,100%{box-shadow:0 4px 18px rgba(6,109,157,0.22),inset 0 1px 0 rgba(255,255,255,0.18)} 50%{box-shadow:0 4px 28px rgba(6,148,209,0.50),0 0 16px rgba(58,182,235,0.30),inset 0 1px 0 rgba(255,255,255,0.28)} }
+                `}</style>
+
                 {/* Floating vendor logo cards */}
                 {[
-                  { src: '/images/top-six-vendors/Microsoft.png',        alt: 'Microsoft',  style: { top: 0,    left: 0,    animationDelay: '0s'    } },
-                  { src: '/images/top-six-vendors/amazon-authorized.png', alt: 'AWS',        style: { top: 0,    right: 0,   animationDelay: '0.6s'  } },
-                  { src: '/images/top-six-vendors/Cisco.png',             alt: 'Cisco',      style: { bottom: 0, left: 0,    animationDelay: '1.2s'  } },
-                  { src: '/images/top-six-vendors/oracle.png',            alt: 'Oracle',     style: { bottom: 0, right: 0,   animationDelay: '1.8s'  } },
-                  { src: '/images/top-six-vendors/VMware-Broadcom.png',   alt: 'VMware',     style: { top: 'calc(50% - 22px)', right: -8, animationDelay: '2.4s' } },
-                ].map(({ src, alt, style }) => (
+                  { src: '/images/top-six-vendors/Microsoft.png',        alt: 'Microsoft', pos: { top: 4,    left: 4    }, anim: 'vFloat1 3.4s ease-in-out infinite' },
+                  { src: '/images/top-six-vendors/amazon-authorized.png', alt: 'AWS',       pos: { top: 4,    right: 4   }, anim: 'vFloat2 3.8s ease-in-out infinite 0.5s' },
+                  { src: '/images/top-six-vendors/Cisco.png',             alt: 'Cisco',     pos: { bottom: 4, left: 4    }, anim: 'vFloat3 4.0s ease-in-out infinite 1.0s' },
+                  { src: '/images/top-six-vendors/oracle.png',            alt: 'Oracle',    pos: { bottom: 4, right: 4   }, anim: 'vFloat4 3.6s ease-in-out infinite 1.5s' },
+                  { src: '/images/top-six-vendors/VMware-Broadcom.png',   alt: 'VMware',    pos: { top: 'calc(50% - 30px)', right: -4 }, anim: 'vFloat5 3.2s ease-in-out infinite 2.0s' },
+                ].map(({ src, alt, pos, anim }) => (
                   <div
                     key={alt}
-                    className="absolute flex items-center justify-center rounded-xl p-2"
+                    className="absolute flex items-center justify-center rounded-2xl p-3"
                     style={{
-                      ...style,
-                      width: 64,
-                      height: 44,
-                      background: 'rgba(255,255,255,0.12)',
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
-                      border: '1px solid rgba(255,255,255,0.22)',
-                      boxShadow: '0 4px 16px rgba(6,109,157,0.18), inset 0 1px 0 rgba(255,255,255,0.15)',
-                      animation: 'vendorFloat 3s ease-in-out infinite',
+                      ...pos,
+                      width: 90,
+                      height: 60,
+                      background: 'rgba(255,255,255,0.15)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                      border: '1px solid rgba(255,255,255,0.30)',
+                      boxShadow: '0 4px 18px rgba(6,109,157,0.22), inset 0 1px 0 rgba(255,255,255,0.18)',
+                      animation: `${anim}, vGlow 3s ease-in-out infinite`,
                       zIndex: 10,
                     }}
                   >
-                    <Image src={src} alt={alt} width={48} height={28} className="object-contain w-full h-full" />
+                    <Image src={src} alt={alt} width={68} height={40} className="object-contain w-full h-full" />
                   </div>
                 ))}
 
@@ -2304,13 +2313,6 @@ export default function EnterprisePage() {
                     priority
                   />
                 </div>
-
-                <style>{`
-                  @keyframes vendorFloat {
-                    0%,100% { transform: translateY(0); }
-                    50%     { transform: translateY(-6px); }
-                  }
-                `}</style>
               </div>
             </div>
           </div>
