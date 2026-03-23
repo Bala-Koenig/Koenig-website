@@ -2252,16 +2252,28 @@ export default function EnterprisePage() {
               </div>
             </div>
 
-            {/* Right — banner image */}
-            <div className="relative shrink-0 w-full lg:w-[520px] xl:w-[560px] flex items-center justify-center">
-              <Image
-                src="/images/banner-enterprise1.png"
-                alt="Enterprise Training"
-                width={560}
-                height={510}
-                className="w-full h-auto object-contain"
-                priority
-              />
+            {/* Right — banner image card */}
+            <div className="hidden shrink-0 lg:block">
+              <div
+                className="relative overflow-hidden rounded-2xl"
+                style={{
+                  width: '400px',
+                  background: 'rgba(6,25,45,0.52)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(6,148,209,0.25)',
+                  boxShadow: '0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.12)',
+                }}
+              >
+                <Image
+                  src="/images/banner-enterprise1.png"
+                  alt="Enterprise Training"
+                  width={400}
+                  height={380}
+                  className="w-full h-auto object-contain"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>
