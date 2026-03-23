@@ -1738,6 +1738,8 @@ function HeroGlobeCanvas() {
 
 export default function EnterprisePage() {
   const [activeDomain, setActiveDomain] = useState(0)
+  const [activeHiwStep, setActiveHiwStep] = useState(0)
+  const [hiwPaused, setHiwPaused] = useState(false)
   const [biSlide, setBiSlide] = useState(0)
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -1791,6 +1793,12 @@ export default function EnterprisePage() {
     }, 2800)
     return () => clearInterval(cycle)
   }, [])
+
+  useEffect(() => {
+    if (hiwPaused) return
+    const t = setInterval(() => setActiveHiwStep(s => (s + 1) % 4), 2500)
+    return () => clearInterval(t)
+  }, [hiwPaused])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -3143,54 +3151,79 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-           NEW SECTION 4 — How Corporate Training Works (WHITE)
-           Inspired by Simplilearn's "How it works" process section
-      ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px] bg-white">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="ent-blob3 absolute top-1/3 right-0 h-72 w-72 rounded-full opacity-8 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
-        </div>
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="io-fade mb-14 text-center">
-            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Simple Onboarding</p>
-            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
-              From Brief to Certified — <span className="ent-dark-grad-text">In 4 Simple Steps</span>
-            </h2>
-            <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#4a7a9b' }}>We handle every detail so your HR and L&D teams can focus on strategy, not logistics.</p>
+      {/* ── How Corporate Training Works ── */}
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
+        <div className="pointer-events-none absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -left-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[250px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
+        <div className="mx-auto max-w-7xl">
+          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.2)' }}>Simple Onboarding</span>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">From Brief to Certified — <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">In 4 Simple Steps</span></h2>
+            <p className="mx-auto max-w-xl text-sm sm:text-base text-koenig-muted">We handle every detail so your HR and L&D teams can focus on strategy, not logistics.</p>
           </div>
+
           <div className="relative">
-            {/* Connector line (desktop) */}
-            <div className="absolute top-10 left-[12.5%] right-[12.5%] h-0.5 hidden lg:block" style={{ background: 'linear-gradient(90deg, #CAEFFF, #0694D1, #CAEFFF)' }} />
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {HOW_IT_WORKS.map((step, i) => (
-                <div key={i} className={`ent-hiw-card io-fade d${i + 1} relative flex flex-col items-center text-center`}>
-                  {/* Circle number */}
+            <div className="pointer-events-none absolute hidden lg:block" style={{ top: '52px', left: '12.5%', right: '12.5%', height: '2px', background: 'linear-gradient(to right,#076D9D,#4DBFEF,#076D9D)' }} />
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
+              {HOW_IT_WORKS.map((step, i) => {
+                const isActive = activeHiwStep === i
+                return (
                   <div
-                    className="relative z-10 mb-5 flex h-20 w-20 items-center justify-center rounded-full font-black text-white text-xl shadow-lg"
-                    style={{ background: `linear-gradient(135deg, ${step.color}, #093148)`, boxShadow: `0 0 28px ${step.color}50` }}
+                    key={i}
+                    className="io-fade flex h-full cursor-pointer flex-col items-center"
+                    onMouseEnter={() => { setActiveHiwStep(i); setHiwPaused(true) }}
+                    onMouseLeave={() => setHiwPaused(false)}
                   >
-                    {step.step}
-                  </div>
-                  <div className="rounded-2xl p-5 w-full" style={{ background: '#F0FAFF', border: '1.5px solid #CAEFFF' }}>
-                    <div className="mb-3 flex h-10 w-10 mx-auto items-center justify-center rounded-xl" style={{ background: 'white', border: '1px solid #CAEFFF' }}>
-                      <svg className="h-5 w-5" style={{ color: step.color }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{step.icon}</svg>
+                    <div className="relative z-10 mb-6">
+                      <div
+                        className="flex h-20 w-20 items-center justify-center rounded-full text-2xl font-black text-white transition-all duration-300"
+                        style={{
+                          background: isActive ? step.color : 'white',
+                          border: '4px solid #f0f9ff',
+                          boxShadow: isActive ? `0 8px 30px ${step.color}55` : '0 4px 20px rgba(0,0,0,0.08)',
+                          transform: isActive ? 'scale(1.1) translateY(-6px)' : 'scale(1)',
+                          color: isActive ? 'white' : step.color,
+                        }}
+                      >
+                        <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">{step.icon}</svg>
+                      </div>
+                      <span
+                        className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold text-white transition-all duration-300"
+                        style={{ background: isActive ? step.color : '#093148', transform: isActive ? 'scale(1.2)' : 'scale(1)' }}
+                      >{i + 1}</span>
                     </div>
-                    <h3 className="mb-2 text-sm font-bold" style={{ color: '#093148' }}>{step.title}</h3>
-                    <p className="text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{step.desc}</p>
+                    <div
+                      className="w-full flex-1 rounded-2xl border-2 p-6 text-center transition-all duration-300"
+                      style={{
+                        background: 'white',
+                        borderColor: isActive ? step.color : '#e8f4fa',
+                        boxShadow: isActive ? `0 20px 40px ${step.color}20` : '0 2px 12px rgba(0,0,0,0.04)',
+                        transform: isActive ? 'translateY(-4px)' : 'none',
+                      }}
+                    >
+                      <div className="mb-2 text-sm font-bold tracking-widest" style={{ color: step.color }}>STEP {step.step}</div>
+                      <h3 className="mb-2 text-sm sm:text-base md:text-lg font-semibold transition-colors duration-300" style={{ color: isActive ? step.color : '#093148' }}>{step.title}</h3>
+                      <p className="mb-4 text-sm font-light leading-relaxed text-koenig-muted">{step.desc}</p>
+                      <div className="flex items-center justify-center gap-1.5">
+                        {[0,1,2,3].map(d => (
+                          <div key={d} className="rounded-full transition-all duration-300" style={{ width: d <= i ? '16px' : '8px', height: '8px', background: d <= i ? step.color : '#CAEFFF' }} />
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
-          <div className="io-fade mt-12 text-center">
-            <a
-              href="#contact"
-              className="ent-shimmer inline-flex items-center gap-2 rounded-xl px-8 py-4 text-base font-bold text-white shadow-lg transition-opacity hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 28px rgba(6,148,209,0.35)' }}
-            >
+
+          <div className="io-fade mt-12 flex flex-wrap items-center justify-center gap-4">
+            <a href="#contact" className="inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Start Your Programme Today
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
+            </a>
+            <a href="mailto:enterprise@koenig-solutions.com" className="rounded-2xl border-2 px-7 py-3 text-sm font-bold transition-all duration-300 hover:text-white" style={{ borderColor: '#076D9D', color: '#076D9D' }} onMouseEnter={e => (e.currentTarget.style.background='#076D9D')} onMouseLeave={e => (e.currentTarget.style.background='')}>
+              Talk to an Advisor
             </a>
           </div>
         </div>
