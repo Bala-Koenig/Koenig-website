@@ -2321,7 +2321,7 @@ export default function EnterprisePage() {
 
             {/* Right — banner image card with floating vendor logos */}
             <div className="hidden shrink-0 lg:block">
-              <div className="relative" style={{ width: '460px', padding: '36px' }}>
+              <div className="relative" style={{ width: '520px', padding: '36px' }}>
 
                 <style>{`
                   @keyframes vFloat1 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-10px) rotate(1deg)} }
@@ -2374,8 +2374,8 @@ export default function EnterprisePage() {
                   <Image
                     src="/images/banner-enterprise2.png"
                     alt="Enterprise Training"
-                    width={388}
-                    height={380}
+                    width={448}
+                    height={440}
                     className="w-full h-auto object-contain"
                     priority
                   />
