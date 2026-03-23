@@ -3153,12 +3153,21 @@ export default function EnterprisePage() {
 
       {/* ── How Corporate Training Works ── */}
       <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
+        <style>{`
+          @keyframes entHiwFadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+          .ent-hiw-step { opacity:0; animation: entHiwFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both; }
+          .ent-hiw-step.io-visible { opacity:1; }
+          @keyframes entHiwPulse { 0%{box-shadow:0 0 0 0 rgba(7,109,157,0.5)} 70%{box-shadow:0 0 0 18px rgba(7,109,157,0)} 100%{box-shadow:0 0 0 0 rgba(7,109,157,0)} }
+          .ent-hiw-pulse { animation: entHiwPulse 1.8s ease-out infinite; border: 2px solid rgba(7,109,157,0.4); }
+          .ent-hiw-outline-btn { transition: background .3s, color .3s; }
+          .ent-hiw-outline-btn:hover { background: #076D9D !important; color: white !important; }
+        `}</style>
         <div className="pointer-events-none absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[250px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.2)' }}>Simple Onboarding</span>
+            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Simple Onboarding</span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">From Brief to Certified — <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">In 4 Simple Steps</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-koenig-muted">We handle every detail so your HR and L&D teams can focus on strategy, not logistics.</p>
           </div>
@@ -3166,48 +3175,48 @@ export default function EnterprisePage() {
           <div className="relative">
             <div className="pointer-events-none absolute hidden lg:block" style={{ top: '52px', left: '12.5%', right: '12.5%', height: '2px', background: 'linear-gradient(to right,#076D9D,#4DBFEF,#076D9D)' }} />
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
-              {HOW_IT_WORKS.map((step, i) => {
+              {(['📋','📊','📅','🏆'] as const).map((emoji, i) => {
+                const step = HOW_IT_WORKS[i]
                 const isActive = activeHiwStep === i
                 return (
                   <div
                     key={i}
-                    className="io-fade flex h-full cursor-pointer flex-col items-center"
+                    className="ent-hiw-step io-fade flex h-full cursor-pointer flex-col items-center"
+                    style={{ animationDelay: `${0.1 + i * 0.15}s` }}
                     onMouseEnter={() => { setActiveHiwStep(i); setHiwPaused(true) }}
                     onMouseLeave={() => setHiwPaused(false)}
                   >
                     <div className="relative z-10 mb-6">
                       <div
-                        className="flex h-20 w-20 items-center justify-center rounded-full text-2xl font-black text-white transition-all duration-300"
+                        className="flex h-20 w-20 items-center justify-center rounded-full text-3xl transition-all duration-300"
                         style={{
-                          background: isActive ? step.color : 'white',
+                          background: isActive ? '#076D9D' : 'white',
                           border: '4px solid #f0f9ff',
-                          boxShadow: isActive ? `0 8px 30px ${step.color}55` : '0 4px 20px rgba(0,0,0,0.08)',
+                          boxShadow: isActive ? '0 8px 30px rgba(7,109,157,0.35)' : '0 4px 20px rgba(0,0,0,0.08)',
                           transform: isActive ? 'scale(1.1) translateY(-6px)' : 'scale(1)',
-                          color: isActive ? 'white' : step.color,
                         }}
-                      >
-                        <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">{step.icon}</svg>
-                      </div>
+                      >{emoji}</div>
                       <span
                         className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold text-white transition-all duration-300"
-                        style={{ background: isActive ? step.color : '#093148', transform: isActive ? 'scale(1.2)' : 'scale(1)' }}
+                        style={{ background: isActive ? '#0694d1' : '#093148', transform: isActive ? 'scale(1.2)' : 'scale(1)' }}
                       >{i + 1}</span>
+                      {isActive && <div className="ent-hiw-pulse pointer-events-none absolute inset-0 rounded-full" />}
                     </div>
                     <div
                       className="w-full flex-1 rounded-2xl border-2 p-6 text-center transition-all duration-300"
                       style={{
                         background: 'white',
-                        borderColor: isActive ? step.color : '#e8f4fa',
-                        boxShadow: isActive ? `0 20px 40px ${step.color}20` : '0 2px 12px rgba(0,0,0,0.04)',
+                        borderColor: isActive ? '#076D9D' : '#e8f4fa',
+                        boxShadow: isActive ? '0 20px 40px rgba(7,109,157,0.12)' : '0 2px 12px rgba(0,0,0,0.04)',
                         transform: isActive ? 'translateY(-4px)' : 'none',
                       }}
                     >
-                      <div className="mb-2 text-sm font-bold tracking-widest" style={{ color: step.color }}>STEP {step.step}</div>
-                      <h3 className="mb-2 text-sm sm:text-base md:text-lg font-semibold transition-colors duration-300" style={{ color: isActive ? step.color : '#093148' }}>{step.title}</h3>
-                      <p className="mb-4 text-sm font-light leading-relaxed text-koenig-muted">{step.desc}</p>
+                      <div className="mb-2 text-sm font-bold tracking-widest text-koenig-blue">STEP {step.step}</div>
+                      <h3 className="mb-2 text-sm sm:text-base md:text-lg font-semibold transition-colors duration-300" style={{ color: isActive ? '#076D9D' : '#093148' }}>{step.title}</h3>
+                      <p className="mb-4 text-sm sm:text-base font-light leading-relaxed text-koenig-muted">{step.desc}</p>
                       <div className="flex items-center justify-center gap-1.5">
                         {[0,1,2,3].map(d => (
-                          <div key={d} className="rounded-full transition-all duration-300" style={{ width: d <= i ? '16px' : '8px', height: '8px', background: d <= i ? step.color : '#CAEFFF' }} />
+                          <div key={d} className="rounded-full transition-all duration-300" style={{ width: d < i + 1 ? '16px' : '8px', height: '8px', background: d < i + 1 ? '#076D9D' : '#CAEFFF' }} />
                         ))}
                       </div>
                     </div>
@@ -3218,11 +3227,11 @@ export default function EnterprisePage() {
           </div>
 
           <div className="io-fade mt-12 flex flex-wrap items-center justify-center gap-4">
-            <a href="#contact" className="inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+            <a href="#contact" className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Start Your Programme Today
-              <span className="flex h-6 w-6 items-center justify-center rounded-full" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
             </a>
-            <a href="mailto:enterprise@koenig-solutions.com" className="rounded-2xl border-2 px-7 py-3 text-sm font-bold transition-all duration-300 hover:text-white" style={{ borderColor: '#076D9D', color: '#076D9D' }} onMouseEnter={e => (e.currentTarget.style.background='#076D9D')} onMouseLeave={e => (e.currentTarget.style.background='')}>
+            <a href="mailto:enterprise@koenig-solutions.com" className="ent-hiw-outline-btn rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D]">
               Talk to an Advisor
             </a>
           </div>
