@@ -3175,8 +3175,7 @@ export default function EnterprisePage() {
           <div className="relative">
             <div className="pointer-events-none absolute hidden lg:block" style={{ top: '52px', left: '12.5%', right: '12.5%', height: '2px', background: 'linear-gradient(to right,#076D9D,#4DBFEF,#076D9D)' }} />
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
-              {(['📋','📊','📅','🏆'] as const).map((emoji, i) => {
-                const step = HOW_IT_WORKS[i]
+              {HOW_IT_WORKS.map((step, i) => {
                 const isActive = activeHiwStep === i
                 return (
                   <div
@@ -3188,14 +3187,16 @@ export default function EnterprisePage() {
                   >
                     <div className="relative z-10 mb-6">
                       <div
-                        className="flex h-20 w-20 items-center justify-center rounded-full text-3xl transition-all duration-300"
+                        className="flex h-20 w-20 items-center justify-center rounded-full transition-all duration-300"
                         style={{
                           background: isActive ? '#076D9D' : 'white',
                           border: '4px solid #f0f9ff',
                           boxShadow: isActive ? '0 8px 30px rgba(7,109,157,0.35)' : '0 4px 20px rgba(0,0,0,0.08)',
                           transform: isActive ? 'scale(1.1) translateY(-6px)' : 'scale(1)',
                         }}
-                      >{emoji}</div>
+                      >
+                        <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke={isActive ? 'white' : '#076D9D'} strokeWidth={1.8}>{step.icon}</svg>
+                      </div>
                       <span
                         className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold text-white transition-all duration-300"
                         style={{ background: isActive ? '#0694d1' : '#093148', transform: isActive ? 'scale(1.2)' : 'scale(1)' }}
