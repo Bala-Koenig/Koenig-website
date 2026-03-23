@@ -2289,9 +2289,7 @@ export default function EnterprisePage() {
                       zIndex: 10,
                     }}
                   >
-                    {/* Glow behind logo */}
-                    <div style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', background: 'radial-gradient(ellipse at center, rgba(6,148,209,0.18) 0%, transparent 70%)', pointerEvents: 'none' }} />
-                    <Image src={src} alt={alt} width={logoW} height={logoH} className="relative z-10 object-contain w-full h-full" />
+                    <Image src={src} alt={alt} width={logoW} height={logoH} className="object-contain w-full h-full" />
                   </div>
                 ))}
 
