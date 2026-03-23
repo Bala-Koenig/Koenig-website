@@ -2242,8 +2242,10 @@ export default function EnterprisePage() {
                       backdropFilter: 'blur(10px)',
                     }}
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#0694d1" className="mb-1 h-4 w-4 shrink-0">{s.icon}</svg>
-                    <span className="text-base font-black leading-none" style={{ color: '#0694d1' }}>{s.num}</span>
+                    <div className="flex items-center gap-1">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#0694d1" className="h-4 w-4 shrink-0">{s.icon}</svg>
+                      <span className="text-base font-black leading-none" style={{ color: '#0694d1' }}>{s.num}</span>
+                    </div>
                     <span className="mt-1 text-[10px] font-medium leading-tight" style={{ color: '#4a7a99' }}>{s.label}</span>
                   </div>
                 ))}
