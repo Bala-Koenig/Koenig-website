@@ -2278,7 +2278,7 @@ export default function EnterprisePage() {
                     className="absolute flex items-center justify-center rounded-xl p-2"
                     style={{
                       ...pos,
-                      width: 76,
+                      width: 68,
                       height: 50,
                       background: 'rgba(255,255,255,0.95)',
                       backdropFilter: 'blur(16px)',
