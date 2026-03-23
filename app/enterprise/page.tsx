@@ -107,12 +107,70 @@ const DOMAINS = [
 ]
 
 const FORMATS = [
-  { title: 'Live Online Training',   icon: '🌐', desc: 'Instructor-led virtual sessions across all timezones. Teams join from any location.' },
-  { title: '1-on-1 Training',        icon: '🎯', desc: 'Dedicated instructor assigned exclusively to your employee. Maximum focus, zero distractions.' },
-  { title: 'Classroom Training',     icon: '🏫', desc: 'Onsite delivery at your premises or our training centres across 195+ countries.' },
-  { title: 'Fly-Me-a-Trainer',       icon: '✈️', desc: 'We send a certified trainer to your location — ideal for large team deployments.' },
-  { title: 'Customised Programmes',  icon: '⚙️', desc: 'Bespoke curricula tailored to your tech stack, business processes, and learning objectives.' },
-  { title: 'Flexi Training',         icon: '📅', desc: 'Flexible scheduling that adapts to your team\'s workload — start anytime, pause anytime.' },
+  {
+    title: 'Live Online Training', badge: 'Best Value', badgeBg: '#076D9D',
+    img: '/images/home-banner/Live-Online-Classes.png',
+    icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.649v6.7a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg>,
+    desc: 'Flexible virtual learning with expert instructors from the comfort of any location.',
+    bullets: ['Live instructor-led sessions', 'Interactive Q&A & labs', 'Train from anywhere'],
+    cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+  },
+  {
+    title: 'Classroom Training', badge: 'Most Popular', badgeBg: '#0694d1',
+    img: '/images/home-banner/classroom-training.png',
+    icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+    desc: 'Traditional instructor-led learning in global training centres or at your premises.',
+    bullets: ['Hands-on lab sessions', 'Face-to-face expert instructors', 'Global training centres'],
+    cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+  },
+  {
+    title: 'Fly-Me-a-Trainer', badge: 'Fastest', badgeBg: '#0694d1',
+    img: '/images/home-banner/FMAT.png',
+    icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 19-7z"/></svg>,
+    desc: 'We fly a certified trainer to your site — ideal for large on-site team deployments.',
+    bullets: ['Expert trainer at your site', 'Custom schedule & pace', 'Any location worldwide'],
+    cardBg: 'linear-gradient(145deg,#0c4a72,#093148)',
+  },
+  {
+    title: 'Flexi Training', badge: 'Most Flexible', badgeBg: '#076D9D',
+    img: '/images/home-banner/Flexi.png',
+    icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+    desc: 'Self-paced learning with edited lectures, labs, courseware, and optional doubt clearing.',
+    bullets: ['Edited video lectures', 'Hands-on labs & courseware', 'Optional doubt clearing'],
+    cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+  },
+  {
+    title: '1-on-1 Training', badge: 'Most Focused', badgeBg: '#0694d1',
+    img: '/images/home-banner/pre-req.png',
+    icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+    desc: 'Dedicated instructor assigned exclusively to one employee for maximum focus.',
+    bullets: ['Personalised curriculum', 'Flexible scheduling', 'Zero distractions'],
+    cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+  },
+  {
+    title: 'Customised Programmes', badge: 'Bespoke', badgeBg: '#076D9D',
+    img: '/images/home-banner/revision.png',
+    icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+    desc: 'Bespoke curricula tailored to your tech stack, business processes, and learning goals.',
+    bullets: ['Custom content design', 'Blended topic support', 'Branded materials'],
+    cardBg: 'linear-gradient(145deg,#0c4a72,#093148)',
+  },
+  {
+    title: 'Webinar as a Service', badge: 'New', badgeBg: '#0694d1',
+    img: '/images/home-banner/classrecord.png',
+    icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+    desc: 'Professionally hosted live webinars delivered to your global workforce at scale.',
+    bullets: ['Expert-hosted live sessions', 'Interactive polls & Q&A', 'On-demand recording'],
+    cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+  },
+  {
+    title: 'Qubits', badge: 'Assessment', badgeBg: '#076D9D',
+    img: '/images/home-banner/qubit.png',
+    icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
+    desc: 'AI-powered assessments to benchmark skills, identify gaps, and measure training ROI.',
+    bullets: ['Pre & post training assessments', 'AI-driven skill gap analysis', 'ROI measurement'],
+    cardBg: 'linear-gradient(145deg,#0c4a72,#093148)',
+  },
 ]
 
 const TESTIMONIALS = [
@@ -1740,6 +1798,7 @@ export default function EnterprisePage() {
   const [activeDomain, setActiveDomain] = useState(0)
   const [activeHiwStep, setActiveHiwStep] = useState(0)
   const [hiwPaused, setHiwPaused] = useState(false)
+  const [formatsSlide, setFormatsSlide] = useState(0)
   const [biSlide, setBiSlide] = useState(0)
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -3264,17 +3323,80 @@ export default function EnterprisePage() {
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Training That Fits <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Your Way of Working</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.55)' }}>Six formats. One quality standard. Every option comes with the same expert instructors, official courseware, and money-back guarantee.</p>
           </div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {FORMATS.map((f, i) => (
-              <div
-                key={i}
-                className="io-fade flex flex-col rounded-2xl p-6"
-                style={{ background: 'linear-gradient(145deg,#0a3d5c,#072d44)', border: '1px solid rgba(6,148,209,0.22)' }}
-              >
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl text-2xl" style={{ background: 'rgba(6,148,209,0.18)' }}>{f.icon}</div>
-                <h3 className="mb-2 text-base font-semibold text-white">{f.title}</h3>
-                <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.60)' }}>{f.desc}</p>
-              </div>
+          <style>{`
+            .ent-lf-flip-inner { transform-style:preserve-3d; transition:transform 0.65s cubic-bezier(0.4,0.2,0.2,1); }
+            .ent-lf-flip:hover .ent-lf-flip-inner { transform:rotateY(180deg); }
+            .ent-lf-face { backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+            .ent-lf-back { transform:rotateY(180deg); }
+            @keyframes entLfBtnGlow { 0%,100%{box-shadow:0 0 0 0 rgba(6,148,209,0),0 4px 14px rgba(6,148,209,0.3)} 50%{box-shadow:0 0 22px 7px rgba(6,148,209,0.5),0 4px 14px rgba(6,148,209,0.3)} }
+            .ent-lf-btn-glow { animation:entLfBtnGlow 2.8s ease-in-out infinite; }
+          `}</style>
+
+          {/* Slide */}
+          <div className="overflow-hidden">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {FORMATS.slice(formatsSlide * 4, formatsSlide * 4 + 4).map((f, i) => (
+                <div key={i} className="ent-lf-flip io-fade" style={{ perspective: '1000px', height: '400px' }}>
+                  <div className="ent-lf-flip-inner relative h-full w-full">
+
+                    {/* FRONT */}
+                    <div className="ent-lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
+                      <div className="relative h-44 w-full shrink-0 overflow-hidden">
+                        <img src={f.img} alt={f.title} className="h-full w-full object-cover" />
+                        <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-sm font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
+                      </div>
+                      <div className="flex flex-1 flex-col px-5 pt-4">
+                        <div className="flex-1">
+                          <h3 className="mb-2 text-base font-medium text-white">{f.title}</h3>
+                          <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
+                        </div>
+                        <div className="pb-5 pt-4">
+                          <button className="ent-lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>Learn More →</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* BACK */}
+                    <div className="ent-lf-face ent-lf-back absolute inset-0 flex flex-col rounded-2xl p-5" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.35)' }}>
+                      <div className="mb-3 flex items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>{f.icon}</div>
+                        <h3 className="text-sm font-bold text-white leading-tight">{f.title}</h3>
+                      </div>
+                      <div className="mb-3 h-px" style={{ background: 'rgba(6,148,209,0.25)' }} />
+                      <ul className="mb-4 space-y-2.5">
+                        {f.bullets.map(b => (
+                          <li key={b} className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.78)' }}>
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="shrink-0">
+                              <circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/>
+                              <path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                      <button className="ent-lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>Learn More →</button>
+                    </div>
+
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Slide dots */}
+          <div className="mt-8 flex items-center justify-center gap-3">
+            {[0, 1].map(idx => (
+              <button
+                key={idx}
+                onClick={() => setFormatsSlide(idx)}
+                className="rounded-full transition-all duration-300"
+                style={{
+                  width: formatsSlide === idx ? 28 : 10,
+                  height: 10,
+                  background: formatsSlide === idx ? 'linear-gradient(to right,#3AB6EB,#076D9D)' : 'rgba(255,255,255,0.25)',
+                  border: '1px solid rgba(6,148,209,0.4)',
+                }}
+              />
             ))}
           </div>
         </div>
