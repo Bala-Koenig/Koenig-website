@@ -3239,19 +3239,41 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Learning Formats (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-[40px]">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Flexible Delivery</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">Training That Fits <span style={{ color: '#38bdf8' }}>Your Way of Working</span></h2>
+      {/* ── Learning Formats ── */}
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+        {/* Glow orbs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-20 left-1/4 h-[380px] w-[380px] rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
+          <div className="absolute bottom-0 right-1/4 h-[320px] w-[320px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#076d9d,transparent 70%)', filter: 'blur(55px)' }} />
+          <div className="absolute top-1/2 left-10 h-[200px] w-[200px] -translate-y-1/2 rounded-full opacity-15" style={{ background: 'radial-gradient(circle,#00a4ef,transparent 70%)', filter: 'blur(45px)' }} />
+          <div className="absolute top-1/3 right-10 h-[180px] w-[180px] rounded-full opacity-15" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(40px)' }} />
+          <div className="ent-lf-ring d1" style={{ top: '50%', left: '50%', width: '420px', height: '420px' }} />
+          <div className="ent-lf-ring d2" style={{ top: '50%', left: '50%', width: '420px', height: '420px' }} />
+          <div className="ent-lf-ring d3" style={{ top: '50%', left: '50%', width: '420px', height: '420px' }} />
+        </div>
+        <style>{`
+          @keyframes entLfRipple { 0%{transform:translate(-50%,-50%) scale(0.25);opacity:0.55} 100%{transform:translate(-50%,-50%) scale(2.8);opacity:0} }
+          .ent-lf-ring { position:absolute; border-radius:50%; pointer-events:none; border:1px solid rgba(6,148,209,0.35); animation:entLfRipple 5s ease-out infinite; }
+          .ent-lf-ring.d1 { animation-delay:0s; }
+          .ent-lf-ring.d2 { animation-delay:1.6s; }
+          .ent-lf-ring.d3 { animation-delay:3.2s; }
+        `}</style>
+        <div className="relative mx-auto max-w-7xl">
+          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.18)' }}>Flexible Delivery</span>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Training That Fits <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Your Way of Working</span></h2>
+            <p className="mx-auto max-w-xl text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.55)' }}>Six formats. One quality standard. Every option comes with the same expert instructors, official courseware, and money-back guarantee.</p>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {FORMATS.map((f, i) => (
-              <div key={i} className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.15)' }}>
-                <div className="mb-3 text-2xl">{f.icon}</div>
-                <h3 className="mb-2 text-base font-bold text-white">{f.title}</h3>
-                <p className="text-sm leading-relaxed text-white/55">{f.desc}</p>
+              <div
+                key={i}
+                className="io-fade flex flex-col rounded-2xl p-6"
+                style={{ background: 'linear-gradient(145deg,#0a3d5c,#072d44)', border: '1px solid rgba(6,148,209,0.22)' }}
+              >
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl text-2xl" style={{ background: 'rgba(6,148,209,0.18)' }}>{f.icon}</div>
+                <h3 className="mb-2 text-base font-semibold text-white">{f.title}</h3>
+                <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.60)' }}>{f.desc}</p>
               </div>
             ))}
           </div>
