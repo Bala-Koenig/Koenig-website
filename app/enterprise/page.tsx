@@ -2266,13 +2266,52 @@ export default function EnterprisePage() {
                 `}</style>
 
                 {/* Floating vendor logo cards */}
-                {[
-                  { src: '/images/top-six-vendors/Microsoft.png',        alt: 'Microsoft', pos: { top: 4,    left: 4    }, anim: 'vFloat1 3.4s ease-in-out infinite',          logoW: 68, logoH: 40 },
-                  { src: '/images/top-six-vendors/amazon-authorized.png', alt: 'AWS',       pos: { top: 4,    right: 4   }, anim: 'vFloat2 3.8s ease-in-out infinite 0.5s',     logoW: 68, logoH: 40 },
-                  { src: '/images/top-six-vendors/Cisco.png',             alt: 'Cisco',     pos: { bottom: 4, left: 4    }, anim: 'vFloat3 4.0s ease-in-out infinite 1.0s',     logoW: 68, logoH: 40 },
-                  { src: '/images/top-six-vendors/oracle.png',            alt: 'Oracle',    pos: { bottom: 4, right: 4   }, anim: 'vFloat4 3.6s ease-in-out infinite 1.5s',     logoW: 88, logoH: 52 },
-                  { src: '/images/top-six-vendors/VMware-Broadcom.png',   alt: 'VMware',    pos: { top: 'calc(50% - 30px)', right: -4 }, anim: 'vFloat5 3.2s ease-in-out infinite 2.0s', logoW: 68, logoH: 40 },
-                ].map(({ src, alt, pos, anim, logoW, logoH }) => (
+                {([
+                  {
+                    alt: 'Microsoft',
+                    pos: { top: 4, left: 4 },
+                    anim: 'vFloat1 3.4s ease-in-out infinite',
+                    logo: (
+                      <svg viewBox="0 0 21 21" width="32" height="32"><rect x="0" y="0" width="10" height="10" fill="#F25022"/><rect x="11" y="0" width="10" height="10" fill="#7FBA00"/><rect x="0" y="11" width="10" height="10" fill="#00A4EF"/><rect x="11" y="11" width="10" height="10" fill="#FFB900"/></svg>
+                    ),
+                  },
+                  {
+                    alt: 'AWS',
+                    pos: { top: 4, right: 4 },
+                    anim: 'vFloat2 3.8s ease-in-out infinite 0.5s',
+                    logo: (
+                      <svg viewBox="0 0 80 30" width="56" height="22"><text x="0" y="22" fontFamily="Arial Black,Arial" fontWeight="900" fontSize="22" fill="#FF9900">aws</text></svg>
+                    ),
+                  },
+                  {
+                    alt: 'Cisco',
+                    pos: { bottom: 4, left: 4 },
+                    anim: 'vFloat3 4.0s ease-in-out infinite 1.0s',
+                    logo: (
+                      <svg viewBox="0 0 80 30" width="56" height="22">
+                        <g fill="#049fd9">
+                          {[0,8,16,24,32,40,48].map((x,i) => <rect key={i} x={x} y={i===0||i===6?8:i===1||i===5?4:0} width="6" height={i===0||i===6?14:i===1||i===5?18:22} rx="3"/>)}
+                        </g>
+                      </svg>
+                    ),
+                  },
+                  {
+                    alt: 'Oracle',
+                    pos: { bottom: 4, right: 4 },
+                    anim: 'vFloat4 3.6s ease-in-out infinite 1.5s',
+                    logo: (
+                      <svg viewBox="0 0 90 28" width="60" height="22"><text x="0" y="22" fontFamily="Arial,sans-serif" fontWeight="700" fontSize="22" fill="#C74634">ORACLE</text></svg>
+                    ),
+                  },
+                  {
+                    alt: 'VMware',
+                    pos: { top: 'calc(50% - 30px)', right: -4 },
+                    anim: 'vFloat5 3.2s ease-in-out infinite 2.0s',
+                    logo: (
+                      <svg viewBox="0 0 90 28" width="58" height="20"><text x="0" y="21" fontFamily="Arial,sans-serif" fontWeight="700" fontSize="20" fill="#607078">VM</text><text x="29" y="21" fontFamily="Arial,sans-serif" fontWeight="400" fontSize="20" fill="#607078">ware</text></svg>
+                    ),
+                  },
+                ] as { alt: string; pos: React.CSSProperties; anim: string; logo: React.ReactNode }[]).map(({ alt, pos, anim, logo }) => (
                   <div
                     key={alt}
                     className="absolute flex items-center justify-center rounded-xl p-2"
@@ -2289,9 +2328,8 @@ export default function EnterprisePage() {
                       zIndex: 10,
                     }}
                   >
-                    {/* Glow behind logo */}
                     <div style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', background: 'radial-gradient(ellipse at center, rgba(6,148,209,0.18) 0%, transparent 70%)', pointerEvents: 'none' }} />
-                    <Image src={src} alt={alt} width={logoW} height={logoH} className="relative z-10 object-contain w-full h-full" />
+                    <div className="relative z-10 flex items-center justify-center">{logo}</div>
                   </div>
                 ))}
 
