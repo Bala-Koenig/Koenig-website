@@ -2270,7 +2270,7 @@ export default function EnterprisePage() {
                   { src: '/images/top-six-vendors/Microsoft.png',        alt: 'Microsoft', pos: { top: 4,    left: 4    }, anim: 'vFloat1 3.4s ease-in-out infinite',          logoW: 68, logoH: 40 },
                   { src: '/images/top-six-vendors/amazon-authorized.png', alt: 'AWS',       pos: { top: 4,    right: 4   }, anim: 'vFloat2 3.8s ease-in-out infinite 0.5s',     logoW: 68, logoH: 40 },
                   { src: '/images/top-six-vendors/Cisco.png',             alt: 'Cisco',     pos: { bottom: 4, left: 4    }, anim: 'vFloat3 4.0s ease-in-out infinite 1.0s',     logoW: 68, logoH: 40 },
-                  { src: '/images/top-six-vendors/oracle.png',            alt: 'Oracle',    pos: { bottom: 4, right: 4   }, anim: 'vFloat4 3.6s ease-in-out infinite 1.5s',     logoW: 88, logoH: 52 },
+                  { src: '/images/top-six-vendors/oracle.png',            alt: 'Oracle',    pos: { bottom: 4, right: 4   }, anim: 'vFloat4 3.6s ease-in-out infinite 1.5s',     logoW: 108, logoH: 64 },
                   { src: '/images/top-six-vendors/VMware-Broadcom.png',   alt: 'VMware',    pos: { top: 'calc(50% - 30px)', right: -4 }, anim: 'vFloat5 3.2s ease-in-out infinite 2.0s', logoW: 68, logoH: 40 },
                 ].map(({ src, alt, pos, anim, logoW, logoH }) => (
                   <div
