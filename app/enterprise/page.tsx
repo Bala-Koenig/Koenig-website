@@ -2267,12 +2267,12 @@ export default function EnterprisePage() {
 
                 {/* Floating vendor logo cards */}
                 {[
-                  { src: '/images/top-six-vendors/Microsoft.png',        alt: 'Microsoft', pos: { top: 4,    left: 4    }, anim: 'vFloat1 3.4s ease-in-out infinite' },
-                  { src: '/images/top-six-vendors/amazon-authorized.png', alt: 'AWS',       pos: { top: 4,    right: 4   }, anim: 'vFloat2 3.8s ease-in-out infinite 0.5s' },
-                  { src: '/images/top-six-vendors/Cisco.png',             alt: 'Cisco',     pos: { bottom: 4, left: 4    }, anim: 'vFloat3 4.0s ease-in-out infinite 1.0s' },
-                  { src: '/images/top-six-vendors/oracle.png',            alt: 'Oracle',    pos: { bottom: 4, right: 4   }, anim: 'vFloat4 3.6s ease-in-out infinite 1.5s' },
-                  { src: '/images/top-six-vendors/VMware-Broadcom.png',   alt: 'VMware',    pos: { top: 'calc(50% - 30px)', right: -4 }, anim: 'vFloat5 3.2s ease-in-out infinite 2.0s' },
-                ].map(({ src, alt, pos, anim }) => (
+                  { src: '/images/top-six-vendors/Microsoft.png',        alt: 'Microsoft', pos: { top: 4,    left: 4    }, anim: 'vFloat1 3.4s ease-in-out infinite',          logoW: 68, logoH: 40 },
+                  { src: '/images/top-six-vendors/amazon-authorized.png', alt: 'AWS',       pos: { top: 4,    right: 4   }, anim: 'vFloat2 3.8s ease-in-out infinite 0.5s',     logoW: 68, logoH: 40 },
+                  { src: '/images/top-six-vendors/Cisco.png',             alt: 'Cisco',     pos: { bottom: 4, left: 4    }, anim: 'vFloat3 4.0s ease-in-out infinite 1.0s',     logoW: 68, logoH: 40 },
+                  { src: '/images/top-six-vendors/oracle.png',            alt: 'Oracle',    pos: { bottom: 4, right: 4   }, anim: 'vFloat4 3.6s ease-in-out infinite 1.5s',     logoW: 88, logoH: 52 },
+                  { src: '/images/top-six-vendors/VMware-Broadcom.png',   alt: 'VMware',    pos: { top: 'calc(50% - 30px)', right: -4 }, anim: 'vFloat5 3.2s ease-in-out infinite 2.0s', logoW: 68, logoH: 40 },
+                ].map(({ src, alt, pos, anim, logoW, logoH }) => (
                   <div
                     key={alt}
                     className="absolute flex items-center justify-center rounded-xl p-2"
@@ -2291,7 +2291,7 @@ export default function EnterprisePage() {
                   >
                     {/* Glow behind logo */}
                     <div style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', background: 'radial-gradient(ellipse at center, rgba(6,148,209,0.18) 0%, transparent 70%)', pointerEvents: 'none' }} />
-                    <Image src={src} alt={alt} width={68} height={40} className="relative z-10 object-contain w-full h-full" />
+                    <Image src={src} alt={alt} width={logoW} height={logoH} className="relative z-10 object-contain w-full h-full" />
                   </div>
                 ))}
 
