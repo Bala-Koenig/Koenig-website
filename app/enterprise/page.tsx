@@ -2252,27 +2252,65 @@ export default function EnterprisePage() {
               </div>
             </div>
 
-            {/* Right — banner image card */}
+            {/* Right — banner image card with floating vendor logos */}
             <div className="hidden shrink-0 lg:block">
-              <div
-                className="relative overflow-hidden rounded-2xl"
-                style={{
-                  width: '400px',
-                  background: 'rgba(6,25,45,0.52)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1.5px solid rgba(6,148,209,0.55)',
-                  boxShadow: '0 0 0 4px rgba(6,148,209,0.08), 0 0 30px 6px rgba(6,148,209,0.25), 0 0 60px 12px rgba(58,182,235,0.12), 0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.18)',
-                }}
-              >
-                <Image
-                  src="/images/banner-enterprise2.png"
-                  alt="Enterprise Training"
-                  width={400}
-                  height={380}
-                  className="w-full h-auto object-contain"
-                  priority
-                />
+              <div className="relative" style={{ width: '460px', padding: '36px' }}>
+
+                {/* Floating vendor logo cards */}
+                {[
+                  { src: '/images/top-six-vendors/Microsoft.png',        alt: 'Microsoft',  style: { top: 0,    left: 0,    animationDelay: '0s'    } },
+                  { src: '/images/top-six-vendors/amazon-authorized.png', alt: 'AWS',        style: { top: 0,    right: 0,   animationDelay: '0.6s'  } },
+                  { src: '/images/top-six-vendors/Cisco.png',             alt: 'Cisco',      style: { bottom: 0, left: 0,    animationDelay: '1.2s'  } },
+                  { src: '/images/top-six-vendors/oracle.png',            alt: 'Oracle',     style: { bottom: 0, right: 0,   animationDelay: '1.8s'  } },
+                  { src: '/images/top-six-vendors/VMware-Broadcom.png',   alt: 'VMware',     style: { top: 'calc(50% - 22px)', right: -8, animationDelay: '2.4s' } },
+                ].map(({ src, alt, style }) => (
+                  <div
+                    key={alt}
+                    className="absolute flex items-center justify-center rounded-xl p-2"
+                    style={{
+                      ...style,
+                      width: 64,
+                      height: 44,
+                      background: 'rgba(255,255,255,0.12)',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
+                      border: '1px solid rgba(255,255,255,0.22)',
+                      boxShadow: '0 4px 16px rgba(6,109,157,0.18), inset 0 1px 0 rgba(255,255,255,0.15)',
+                      animation: 'vendorFloat 3s ease-in-out infinite',
+                      zIndex: 10,
+                    }}
+                  >
+                    <Image src={src} alt={alt} width={48} height={28} className="object-contain w-full h-full" />
+                  </div>
+                ))}
+
+                {/* Main image card */}
+                <div
+                  className="relative overflow-hidden rounded-2xl"
+                  style={{
+                    background: 'rgba(6,25,45,0.52)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1.5px solid rgba(6,148,209,0.55)',
+                    boxShadow: '0 0 0 4px rgba(6,148,209,0.08), 0 0 30px 6px rgba(6,148,209,0.25), 0 0 60px 12px rgba(58,182,235,0.12), 0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.18)',
+                  }}
+                >
+                  <Image
+                    src="/images/banner-enterprise2.png"
+                    alt="Enterprise Training"
+                    width={388}
+                    height={380}
+                    className="w-full h-auto object-contain"
+                    priority
+                  />
+                </div>
+
+                <style>{`
+                  @keyframes vendorFloat {
+                    0%,100% { transform: translateY(0); }
+                    50%     { transform: translateY(-6px); }
+                  }
+                `}</style>
               </div>
             </div>
           </div>
