@@ -2231,20 +2231,19 @@ export default function EnterprisePage() {
               </div>
 
               {/* Stats — all 4 in one row below the CTAs */}
-              <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+              <div className="mt-8 grid grid-cols-4 gap-2 w-full">
                 {STATS.map((s, i) => (
                   <div
                     key={s.label}
-                    className="flex flex-col items-center rounded-xl px-5 py-3 text-center"
+                    className="flex flex-col items-center rounded-xl px-2 py-2.5 text-center"
                     style={{
                       background: 'rgba(255,255,255,0.70)',
                       border: '1px solid rgba(6,148,209,0.22)',
                       backdropFilter: 'blur(10px)',
-                      minWidth: 100,
                     }}
                   >
-                    <span className="text-xl font-black leading-none" style={{ color: '#0694d1' }}>{s.num}</span>
-                    <span className="mt-1 text-sm font-medium leading-tight" style={{ color: '#4a7a99' }}>{s.label}</span>
+                    <span className="text-base font-black leading-none" style={{ color: '#0694d1' }}>{s.num}</span>
+                    <span className="mt-1 text-[10px] font-medium leading-tight" style={{ color: '#4a7a99' }}>{s.label}</span>
                   </div>
                 ))}
               </div>
