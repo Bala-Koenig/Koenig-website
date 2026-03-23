@@ -3051,25 +3051,94 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Why Koenig (existing, unchanged) ── */}
-      <section className="px-4 lg:px-[50px] py-[40px]" style={{ background: 'rgba(255,255,255,0.02)' }}>
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Why Enterprises Choose Us</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">The Koenig <span style={{ color: '#38bdf8' }}>Difference</span></h2>
+      {/* ── Why Koenig ── */}
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: '#061e30' }}>
+        <style>{`
+          @keyframes entDiffShimmer { 0%{transform:translateX(-110%) skewX(-18deg)} 100%{transform:translateX(220%) skewX(-18deg)} }
+          .ent-diff-banner { position:relative; overflow:hidden; }
+          .ent-diff-banner::after { content:''; position:absolute; top:0; left:0; height:100%; width:40%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent); animation:entDiffShimmer 4s ease-in-out infinite; pointer-events:none; border-radius:inherit; }
+          .ent-diff-card { transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+          .ent-diff-card:hover { transform:translateY(-5px); box-shadow:0 12px 36px rgba(6,148,209,0.18),0 0 0 1px rgba(6,148,209,0.45); }
+        `}</style>
+        {/* BG effects */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-0 left-1/3 h-[500px] w-[500px] -translate-x-1/2 rounded-full opacity-10" style={{ background: 'radial-gradient(circle,#0694d1,transparent 65%)', filter: 'blur(80px)' }} />
+          <div className="absolute bottom-0 right-1/4 h-[350px] w-[350px] rounded-full opacity-8" style={{ background: 'radial-gradient(circle,#076d9d,transparent 65%)', filter: 'blur(70px)' }} />
+          <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle,#ffffff 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl">
+          {/* Heading */}
+          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.25)', color: '#0694d1' }}>Why Enterprises Choose Us</span>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">The <span className="bg-gradient-to-r from-[#0694d1] to-cyan-400 bg-clip-text text-transparent">Koenig Difference</span></h2>
+            <p className="mx-auto max-w-xl text-sm sm:text-base text-white/55">What makes 1M+ professionals and global enterprises choose Koenig</p>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {WHY.map((w, i) => (
-              <div key={i} className="flex gap-4 rounded-2xl p-5" style={{ background: 'rgba(6,148,209,0.05)', border: '1px solid rgba(6,148,209,0.15)' }}>
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: 'rgba(6,148,209,0.2)' }}>
-                  <svg className="h-4 w-4" style={{ color: '#38bdf8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/></svg>
+
+          <div className="flex flex-col gap-4">
+            {/* Row 1 — full-width banner: 50+ Vendor Partnerships */}
+            <div className="ent-diff-banner io-fade flex flex-col gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between" style={{ background: 'linear-gradient(135deg,#0a6ebd 0%,#0694d1 50%,#00b4d8 100%)' }}>
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(255,255,255,0.18)' }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
                 <div>
-                  <h3 className="mb-1 text-sm font-bold text-white">{w.title}</h3>
-                  <p className="text-sm text-white/50">{w.desc}</p>
+                  <h3 className="mb-1 text-base md:text-lg font-bold text-white">{WHY[0].title}</h3>
+                  <p className="text-sm sm:text-base text-white/80">{WHY[0].desc}</p>
                 </div>
               </div>
-            ))}
+              <div className="flex shrink-0 gap-3">
+                {[{ val: '50+', label: 'Vendors' }, { val: '195+', label: 'Countries' }, { val: '30+', label: 'Years' }].map(s => (
+                  <div key={s.label} className="rounded-xl px-4 py-3 text-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
+                    <div className="text-base md:text-lg font-bold text-white">{s.val}</div>
+                    <div className="text-sm text-white/70">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 2 — 3 cards */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="ent-diff-card io-fade flex flex-col rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,#071c2e,#0a2a42)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <h3 className="mb-2 text-base md:text-lg font-medium text-white">{WHY[1].title}</h3>
+                <p className="text-sm font-light leading-relaxed text-white/60">{WHY[1].desc}</p>
+              </div>
+              <div className="ent-diff-card io-fade flex flex-col rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,#062038,#083250)', border: '1px solid rgba(0,180,216,0.2)' }}>
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'rgba(0,180,216,0.16)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00b4d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h3 className="mb-2 text-base md:text-lg font-medium text-white">{WHY[2].title}</h3>
+                <p className="text-sm font-light leading-relaxed text-white/60">{WHY[2].desc}</p>
+              </div>
+              <div className="ent-diff-card io-fade flex flex-col rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,#072440,#093556)', border: '1px solid rgba(6,148,209,0.2)' }}>
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/><path d="M9 11l2 2 4-4"/></svg>
+                </div>
+                <h3 className="mb-2 text-base md:text-lg font-medium text-white">{WHY[3].title}</h3>
+                <p className="text-sm font-light leading-relaxed text-white/60">{WHY[3].desc}</p>
+              </div>
+            </div>
+
+            {/* Row 3 — 2 cards */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="ent-diff-card io-fade flex flex-col rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,#061828,#082438)', border: '1px solid rgba(7,109,157,0.25)' }}>
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'rgba(7,109,157,0.22)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#076d9d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 7h5M7 11h3"/></svg>
+                </div>
+                <h3 className="mb-2 text-base md:text-lg font-medium text-white">{WHY[4].title}</h3>
+                <p className="text-sm font-light leading-relaxed text-white/60">{WHY[4].desc}</p>
+              </div>
+              <div className="ent-diff-card io-fade flex flex-col rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,#062030,#083048)', border: '1px solid rgba(0,180,216,0.18)' }}>
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'rgba(0,180,216,0.15)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00b4d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.06 1.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.1a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16z"/></svg>
+                </div>
+                <h3 className="mb-2 text-base md:text-lg font-medium text-white">{WHY[5].title}</h3>
+                <p className="text-sm font-light leading-relaxed text-white/60">{WHY[5].desc}</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
