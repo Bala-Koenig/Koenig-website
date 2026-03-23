@@ -2275,11 +2275,11 @@ export default function EnterprisePage() {
                 ].map(({ src, alt, pos, anim }) => (
                   <div
                     key={alt}
-                    className="absolute flex items-center justify-center rounded-2xl p-3"
+                    className="absolute flex items-center justify-center rounded-xl p-2"
                     style={{
                       ...pos,
-                      width: 90,
-                      height: 60,
+                      width: 76,
+                      height: 50,
                       background: 'rgba(255,255,255,0.95)',
                       backdropFilter: 'blur(16px)',
                       WebkitBackdropFilter: 'blur(16px)',
@@ -2289,7 +2289,9 @@ export default function EnterprisePage() {
                       zIndex: 10,
                     }}
                   >
-                    <Image src={src} alt={alt} width={68} height={40} className="object-contain w-full h-full" />
+                    {/* Glow behind logo */}
+                    <div style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', background: 'radial-gradient(ellipse at center, rgba(6,148,209,0.18) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                    <Image src={src} alt={alt} width={68} height={40} className="relative z-10 object-contain w-full h-full" />
                   </div>
                 ))}
 
