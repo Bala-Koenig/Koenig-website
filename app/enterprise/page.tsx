@@ -2261,8 +2261,8 @@ export default function EnterprisePage() {
                   background: 'rgba(6,25,45,0.52)',
                   backdropFilter: 'blur(20px)',
                   WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(6,148,209,0.25)',
-                  boxShadow: '0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.12)',
+                  border: '1.5px solid rgba(6,148,209,0.55)',
+                  boxShadow: '0 0 0 4px rgba(6,148,209,0.08), 0 0 30px 6px rgba(6,148,209,0.25), 0 0 60px 12px rgba(58,182,235,0.12), 0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.18)',
                 }}
               >
                 <Image
