@@ -2255,7 +2255,7 @@ export default function EnterprisePage() {
             {/* Right — banner image */}
             <div className="relative shrink-0 w-full lg:w-[520px] xl:w-[560px] flex items-center justify-center">
               <Image
-                src="/images/banner-enterprise.png"
+                src="/images/banner-enterprise1.png"
                 alt="Enterprise Training"
                 width={560}
                 height={510}
