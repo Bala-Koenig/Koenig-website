@@ -2835,10 +2835,18 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Business Impact ── */}
-      <section className="relative overflow-hidden px-4 py-20 lg:px-[50px]" style={{ background: '#07111c' }}>
-        {/* Radial glows */}
-        <div className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(19,168,212,0.12) 0%,transparent 65%)', filter: 'blur(60px)' }} />
-        <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(19,168,212,0.10) 0%,transparent 65%)', filter: 'blur(60px)' }} />
+      <section className="relative overflow-hidden px-4 py-20 lg:px-[50px]" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
+        {/* Floating squares — right half decorative */}
+        {[
+          { w: 110, h: 110, top: '12%',  left: '46%' },
+          { w:  80, h:  80, top: '52%',  left: '56%' },
+          { w: 100, h: 100, top: '10%',  left: '70%' },
+          { w: 130, h: 130, top: '5%',   left: '84%' },
+          { w:  90, h: 130, top: '40%',  left: '91%' },
+          { w:  70, h:  70, top: '68%',  left: '74%' },
+        ].map((sq, i) => (
+          <div key={i} className="pointer-events-none absolute" style={{ width: sq.w, height: sq.h, top: sq.top, left: sq.left, border: '1.5px solid rgba(255,255,255,0.55)', borderRadius: '6px', background: 'rgba(255,255,255,0.08)' }} />
+        ))}
 
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="flex flex-col gap-12 lg:flex-row lg:items-center">
@@ -2852,7 +2860,7 @@ export default function EnterprisePage() {
               </p>
 
               {/* Heading */}
-              <h2 className="mb-4 text-3xl font-extrabold leading-tight text-white lg:text-4xl">
+              <h2 className="mb-4 text-3xl font-extrabold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
                 The Business Impact of{' '}
                 <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
                   Koenig Enterprise Training
@@ -2860,7 +2868,7 @@ export default function EnterprisePage() {
               </h2>
 
               {/* Sub-text */}
-              <p className="mb-8 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.50)' }}>
+              <p className="mb-8 text-sm leading-relaxed" style={{ color: '#3a6080' }}>
                 Trusted by 500+ enterprises worldwide to upskill teams, close certification gaps, and deliver measurable ROI across every region.
               </p>
 
@@ -2880,8 +2888,8 @@ export default function EnterprisePage() {
                         <path d="M2 5l2.5 2.5L8 3" stroke="#13a8d4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </span>
-                    <span className="text-sm leading-snug text-white/80"
-                      dangerouslySetInnerHTML={{ __html: line.replace(/^([^—]+—)/, '<strong style="color:#fff">$1</strong>') }}
+                    <span className="text-sm leading-snug" style={{ color: '#1e4060' }}
+                      dangerouslySetInnerHTML={{ __html: line.replace(/^([^—]+—)/, '<strong style="color:#0b2545">$1</strong>') }}
                     />
                   </li>
                 ))}
@@ -2900,7 +2908,7 @@ export default function EnterprisePage() {
             <div className="relative flex-1">
               <div
                 className="relative overflow-hidden rounded-2xl"
-                style={{ border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 60px rgba(0,0,0,0.55)', minHeight: '420px' }}
+                style={{ border: '1px solid rgba(255,255,255,0.4)', boxShadow: '0 24px 60px rgba(11,37,69,0.18)', minHeight: '420px' }}
               >
                 {/* Slides */}
                 {[
