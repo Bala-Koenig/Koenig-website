@@ -2828,112 +2828,132 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Business Impact ── */}
-      <section className="relative overflow-hidden px-4 py-20 lg:px-[50px]" style={{ background: '#eef6fd' }}>
-        {/* Subtle background orbs */}
-        <div className="pointer-events-none absolute -left-32 top-10 h-80 w-80 rounded-full opacity-40" style={{ background: 'radial-gradient(circle,rgba(19,168,212,0.18) 0%,transparent 70%)', filter: 'blur(40px)' }} />
-        <div className="pointer-events-none absolute -right-20 bottom-10 h-72 w-72 rounded-full opacity-30" style={{ background: 'radial-gradient(circle,rgba(77,191,239,0.20) 0%,transparent 70%)', filter: 'blur(40px)' }} />
+      <section className="relative overflow-hidden px-4 py-20 lg:px-[50px]" style={{ background: '#07111c' }}>
+        {/* Radial glows */}
+        <div className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(19,168,212,0.12) 0%,transparent 65%)', filter: 'blur(60px)' }} />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(19,168,212,0.10) 0%,transparent 65%)', filter: 'blur(60px)' }} />
 
         <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="flex flex-col gap-14 lg:flex-row lg:items-center">
 
-          {/* Section header */}
-          <div className="mb-12 text-center">
-            <div className="mb-4 inline-flex items-center gap-3">
-              <span className="h-px w-8 rounded-full" style={{ background: '#13a8d4' }} />
-              <p className="text-sm font-bold uppercase tracking-widest" style={{ color: '#13a8d4' }}>Proven Results</p>
-              <span className="h-px w-8 rounded-full" style={{ background: '#13a8d4' }} />
-            </div>
-            <h2 className="text-3xl font-extrabold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
-              The Business Impact of{' '}
-              <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
-                Koenig Enterprise Training
-              </span>
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-base" style={{ color: '#4a7a9b' }}>
-              Numbers that matter to L&amp;D leaders, CISOs, and CFOs — backed by 30+ years of enterprise outcomes.
-            </p>
-          </div>
+            {/* ══ LEFT — Text ══ */}
+            <div className="flex-1 lg:max-w-[520px]">
 
-          {/* Cards grid */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                img: '/images/home-banner/classrecord.png',
-                badge: 'Analytics',
-                title: 'Dedicated L&D Dashboard',
-                desc: 'Real-time visibility into team progress, certifications, and upcoming sessions — all in one portal.',
-              },
-              {
-                img: '/images/home-banner/revision.png',
-                badge: 'Compliance',
-                title: 'Compliance-Ready Training',
-                desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements — available on demand.',
-              },
-              {
-                img: '/images/home-banner/pre-req.png',
-                badge: 'Support',
-                title: 'Dedicated Account Manager',
-                desc: 'A single point of contact handles scheduling, logistics, and escalation — zero admin burden on your team.',
-              },
-              {
-                img: '/images/home-banner/Live-Online-Classes.png',
-                badge: 'Global',
-                title: 'Multi-Region Delivery',
-                desc: 'Run identical programmes across APAC, EMEA, and Americas simultaneously with region-specific instructors.',
-              },
-              {
-                img: '/images/home-banner/classroom-training.png',
-                badge: 'Certified',
-                title: 'Vendor-Certified Instructors',
-                desc: 'Every trainer holds active vendor certs and real-world experience — no theory-only instructors, ever.',
-              },
-              {
-                img: '/images/home-banner/lab-extn.png',
-                badge: 'Reliable',
-                title: 'Guaranteed Schedule',
-                desc: 'Every confirmed batch runs. No last-minute cancellations. Your team plans around training, not the other way.',
-              },
-            ].map((card, i) => (
-              <div
-                key={i}
-                className="ent-lf-flip io-fade"
-                style={{ perspective: '1000px', height: '360px' }}
+              {/* Eyebrow */}
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em]" style={{ color: '#13a8d4' }}>
+                Strengthen Your Business Edge
+              </p>
+
+              {/* Heading */}
+              <h2 className="mb-5 text-3xl font-extrabold leading-tight text-white lg:text-4xl">
+                The Business Impact of{' '}
+                <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
+                  Koenig Enterprise Training
+                </span>
+              </h2>
+
+              {/* Sub-text */}
+              <p className="mb-8 text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                Trusted by 500+ enterprises worldwide to upskill teams, close certification gaps, and deliver measurable ROI across every region.
+              </p>
+
+              {/* Bullet points */}
+              <ul className="mb-10 space-y-4">
+                {[
+                  { label: 'Dedicated L&D Dashboard',     desc: 'Real-time visibility into team progress, certifications and upcoming sessions.' },
+                  { label: 'Compliance-Ready Training',    desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA — available on demand.' },
+                  { label: 'Dedicated Account Manager',    desc: 'One contact handles scheduling, logistics and escalation — zero admin overhead.' },
+                  { label: 'Multi-Region Delivery',        desc: 'Identical programmes across APAC, EMEA and Americas simultaneously.' },
+                  { label: 'Vendor-Certified Instructors', desc: 'Active vendor certs and real-world experience — no theory-only trainers.' },
+                  { label: 'Guaranteed Schedule',          desc: 'Every confirmed batch runs. No cancellations, no surprises.' },
+                ].map((pt, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="mt-[5px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(19,168,212,0.15)', border: '1px solid rgba(19,168,212,0.4)' }}>
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                        <path d="M2 5l2.5 2.5L8 3" stroke="#13a8d4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                    <div>
+                      <span className="text-sm font-semibold text-white">{pt.label}</span>
+                      <span className="ml-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>— {pt.desc}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              <button
+                className="rounded-xl px-8 py-3 text-sm font-bold text-white transition-all hover:opacity-90 hover:shadow-lg"
+                style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}
               >
-                <div className="ent-lf-flip-inner relative h-full w-full">
+                Learn More
+              </button>
+            </div>
 
-                  {/* FRONT */}
-                  <div
-                    className="ent-lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl"
-                    style={{ background: 'linear-gradient(145deg,#0a3d5c,#072d44)', border: '1px solid rgba(6,148,209,0.22)' }}
-                  >
-                    {/* Image */}
-                    <div className="relative h-44 w-full shrink-0 overflow-hidden">
-                      <img src={card.img} alt={card.title} className="h-full w-full object-cover" />
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(7,45,68,0.75))' }} />
-                      <span
-                        className="absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold text-white"
-                        style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', border: '1px solid rgba(6,148,209,0.3)' }}
-                      >
-                        {card.badge}
-                      </span>
-                    </div>
-                    {/* Info */}
-                    <div className="flex flex-1 flex-col px-5 pt-4 pb-5">
-                      <h3 className="mb-2 text-base font-semibold text-white">{card.title}</h3>
-                      <p className="flex-1 text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{card.desc}</p>
-                      <button
-                        className="ent-lf-btn-glow mt-4 w-full rounded-xl py-2.5 text-sm font-bold text-white"
-                        style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}
-                      >
-                        Learn More →
-                      </button>
-                    </div>
-                  </div>
+            {/* ══ RIGHT — Stacked image cards ══ */}
+            <div className="relative flex-1 lg:min-h-[480px]">
 
+              {/* Main large card */}
+              <div
+                className="relative overflow-hidden rounded-2xl"
+                style={{
+                  width: '72%',
+                  marginLeft: 'auto',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
+                }}
+              >
+                <img
+                  src="/images/banner-enterprise2.png"
+                  alt="Enterprise Training"
+                  className="h-auto w-full object-cover"
+                  style={{ minHeight: '320px', objectPosition: 'center' }}
+                />
+                {/* Stat overlay badge — top-left */}
+                <div
+                  className="absolute left-4 top-4 rounded-xl px-4 py-3"
+                  style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(10px)', minWidth: '130px' }}
+                >
+                  <p className="text-2xl font-black" style={{ color: '#13a8d4', lineHeight: 1 }}>94%</p>
+                  <p className="mt-0.5 text-xs font-semibold text-gray-700">First-Attempt</p>
+                  <p className="text-xs text-gray-500">Pass Rate</p>
                 </div>
               </div>
-            ))}
-          </div>
 
+              {/* Secondary card — overlapping bottom-left */}
+              <div
+                className="absolute bottom-0 left-0 overflow-hidden rounded-2xl"
+                style={{
+                  width: '46%',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  boxShadow: '0 16px 40px rgba(0,0,0,0.55)',
+                  transform: 'translateY(10%)',
+                }}
+              >
+                <img
+                  src="/images/banner-enterprise1.png"
+                  alt="Enterprise Classroom"
+                  className="h-auto w-full object-cover"
+                  style={{ minHeight: '190px' }}
+                />
+                {/* Stat overlay badge — top-left */}
+                <div
+                  className="absolute left-3 top-3 rounded-lg px-3 py-2"
+                  style={{ background: 'rgba(255,255,255,0.90)', backdropFilter: 'blur(10px)' }}
+                >
+                  <p className="text-xl font-black" style={{ color: '#13a8d4', lineHeight: 1 }}>3×</p>
+                  <p className="text-[10px] font-semibold text-gray-700">Faster</p>
+                  <p className="text-[10px] text-gray-500">Skill Acquisition</p>
+                </div>
+                {/* Koenig watermark */}
+                <div className="absolute bottom-2 right-3">
+                  <p className="text-xs font-black tracking-tight text-white/70">Koenig<span className="text-[9px] font-normal opacity-60"> Solutions</span></p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
         </div>
       </section>
 
