@@ -2438,40 +2438,60 @@ export default function EnterprisePage() {
             ))}
           </div>
         </div>
-        {/* Award cards — same style as homepage */}
+        {/* Award cards */}
         <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-[50px]">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {([
-              { vendorLogo: 'microsoft-cloud-t.png', awardImg: 'MS-Partner-of-the-year-2025-popup.webp',                    title: 'Winner of Microsoft Training Services Partner of the Year Award', year: '2025' },
-              { vendorLogo: 'microsoft-cloud-t.png', awardImg: 'Microsoft-FY2024-Superstar-Award.webp',                     title: "Winner of Microsoft's ANZ Superstar Campaign",                    year: '2024' },
-              { vendorLogo: 'microsoft-cloud-t.png', awardImg: 'Microsoft-Superstar-Award-2022.webp',                       title: "Winner of Microsoft's Asia Superstar Campaign",                   year: '2022' },
-              { vendorLogo: 'amazon-authorized.png', awardImg: 'Finalist–AWS-Partner-of-the-Year-2024.webp',                title: 'Finalist – AWS Partner of the Year',                               year: '2024' },
-              { vendorLogo: 'EC-Council-logo.png',   awardImg: 'Winner-of-EC-Council-ATC-of-the-Year-Award-2024.webp',     title: 'Winner of EC-Council ATC of the Year Award',                      year: '2024' },
-              { vendorLogo: 'Authorized PECB Certification Courses Training badge.png', awardImg: 'Winner-of-the-PECB-Titanium-Partner-Award-2024.webp', title: 'Winner of the PECB Titanium Partner Award', year: '2024' },
-              { vendorLogo: 'GPTW',                  awardImg: 'Certified-as-great-place-to-work.webp',                    title: 'Certified as a Great Place to Work',                               year: '2011–2025' },
-              { vendorLogo: 'Redvendorlogo.png',     awardImg: 'RED-25.png',                                               title: 'Winner of RedHat Gold Partner of the Year – Non-Retail (GLS India)', year: '2025' },
-              { vendorLogo: 'Redvendorlogo.png',     awardImg: 'RED-24.png',                                               title: 'Winner of RedHat Gold Partner of the Year – Non-Retail (GLS India)', year: '2024' },
-              { vendorLogo: 'Redvendorlogo.png',     awardImg: 'Redhat-23.png',                                            title: 'Winner of the Red Hat Partner of the Year Award',                   year: '2023' },
-            ]).map((a, i) => (
+              {
+                accent: 'linear-gradient(90deg,#0694D1,#4DBFEF)', iconBg: 'rgba(6,148,209,0.10)',
+                iconEl: <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" style={{ width: 44, height: 44, objectFit: 'contain' }} />,
+                stat: '#1', title: 'Microsoft Partner Award', sub: 'Training Services Partner of the Year 2025', bottom: 'Active partner',
+              },
+              {
+                accent: 'linear-gradient(90deg,#0694D1,#076D9D)', iconBg: 'rgba(7,109,157,0.10)',
+                iconEl: <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" style={{ width: 44, height: 44, objectFit: 'contain' }} />,
+                stat: '14+', title: 'Great Place to Work', sub: 'Certified consecutively since 2011', bottom: 'Certified active',
+              },
+              {
+                accent: 'linear-gradient(90deg,#38bdf8,#0694D1)', iconBg: 'rgba(56,189,248,0.10)',
+                iconEl: (
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                  </svg>
+                ),
+                stat: '195+', title: 'Countries Served', sub: 'Global delivery across every continent', bottom: 'Live sessions daily',
+              },
+              {
+                accent: 'linear-gradient(90deg,#076D9D,#093148)', iconBg: 'rgba(9,49,72,0.10)',
+                iconEl: (
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>
+                  </svg>
+                ),
+                stat: '1,000+', title: 'Enterprise Clients', sub: 'Fortune 500s to fast-growing scale-ups', bottom: 'Growing network',
+              },
+            ] as const).map((c, i) => (
               <div
                 key={i}
-                className="io-fade flex overflow-hidden rounded-2xl bg-white"
-                style={{ border: '1.5px solid #CAEFFF', boxShadow: '0 2px 12px rgba(0,0,0,0.07), 0 4px 16px rgba(6,148,209,0.10)', height: '180px' }}
+                className="io-fade award-card rounded-xl overflow-hidden transition-all duration-200"
+                style={{ border: '1px solid #CAEFFF', background: '#ffffff', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', cursor: 'default' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 28px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLDivElement).style.background = '#f5fbff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 20px rgba(6,148,209,0.10)'; (e.currentTarget as HTMLDivElement).style.background = '#ffffff'; }}
               >
-                {/* Left — award image */}
-                <div className="flex w-[100px] shrink-0 items-center justify-center overflow-hidden" style={{ background: '#F0FAFF', borderRight: '1.5px solid #CAEFFF' }}>
-                  <img src={`/images/awards/${encodeURIComponent(a.awardImg)}`} alt="" className="h-[88%] w-[88%] object-contain" />
-                </div>
-                {/* Right — vendor logo + title + year */}
-                <div className="flex flex-1 flex-col items-center justify-center gap-2 px-3 py-4 text-center">
-                  <div className="flex h-10 items-center justify-center">
-                    {a.vendorLogo === 'GPTW'
-                      ? <img src={`/images/awards/${encodeURIComponent(a.awardImg)}`} alt="Great Place to Work" className="max-h-10 max-w-[110px] object-contain" />
-                      : <img src={`/images/partners/${encodeURIComponent(a.vendorLogo)}`} alt="" className="max-h-10 max-w-[110px] object-contain" />
-                    }
+                <div style={{ height: 3, background: c.accent }} />
+                <div className="p-5" style={{ background: 'linear-gradient(160deg, rgba(240,250,255,0.7) 0%, rgba(255,255,255,1) 60%)' }}>
+                  <div className="award-card-icon" style={{ width: 60, height: 60, borderRadius: 14, background: c.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>{c.iconEl}</div>
+                  <div className="text-2xl font-black leading-none" style={{ color: '#093148' }}>{c.stat}</div>
+                  <div className="mt-1 text-sm font-bold" style={{ color: '#093148' }}>{c.title}</div>
+                  <div className="mt-0.5 text-xs" style={{ color: '#4a7a9b' }}>{c.sub}</div>
+                  <div className="mt-3 flex items-center gap-1.5">
+                    <span className="relative inline-flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: '#22c55e' }} />
+                      <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: '#22c55e' }} />
+                    </span>
+                    <span className="text-[11px] font-semibold" style={{ color: '#076D9D' }}>{c.bottom}</span>
                   </div>
-                  <p className="text-xs font-bold leading-snug" style={{ color: '#093148' }}>{a.title}</p>
-                  <span className="rounded-full border border-[#CAEFFF] px-2.5 py-0.5 text-xs font-semibold" style={{ color: '#4a7a9b' }}>{a.year}</span>
                 </div>
               </div>
             ))}
