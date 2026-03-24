@@ -3371,57 +3371,61 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-           NEW SECTION 5 — FAQ (WHITE)
-           Inspired by Simplilearn's FAQ accordion section
-      ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px] bg-white">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="ent-blob1 absolute -top-24 -left-24 h-72 w-72 rounded-full opacity-8 blur-3xl" style={{ background: 'radial-gradient(circle, #0694D1, transparent)' }} />
-          <div className="ent-blob2 absolute -bottom-20 -right-20 h-64 w-64 rounded-full opacity-6 blur-3xl" style={{ background: 'radial-gradient(circle, #076D9D, transparent)' }} />
-        </div>
-        <div className="relative z-10 mx-auto max-w-4xl">
-          <div className="io-fade mb-12 text-center">
-            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Common Questions</p>
-            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
-              Everything You Need to <span className="ent-dark-grad-text">Know</span>
-            </h2>
-            <p className="mt-3 text-sm" style={{ color: '#4a7a9b' }}>Quick answers to the questions L&D leaders ask before launching enterprise training with Koenig.</p>
+      {/* ── FAQ ── */}
+      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-[60px]">
+        <div className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
+        <div className="mx-auto max-w-7xl">
+          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+            <h2 className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Everything You Need to <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Know</span></h2>
+            <p className="text-sm sm:text-base text-koenig-muted">Quick answers to the questions L&D leaders ask before launching enterprise training with Koenig.</p>
           </div>
-          <div className="space-y-3">
+          <div className="io-fade delay-1 grid grid-cols-1 gap-3 md:grid-cols-2">
             {FAQS.map((faq, i) => {
               const isOpen = openFaq === i
               return (
                 <div
                   key={i}
-                  className="io-fade overflow-hidden rounded-2xl transition-all duration-200"
-                  style={{ border: isOpen ? '1.5px solid #0694D1' : '1.5px solid #CAEFFF', background: isOpen ? '#F0FAFF' : '#FAFCFF', boxShadow: isOpen ? '0 4px 20px rgba(6,148,209,0.12)' : 'none' }}
+                  className="overflow-hidden rounded-xl border bg-white transition-all duration-200"
+                  style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none' }}
                 >
                   <button
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
                     onClick={() => setOpenFaq(isOpen ? null : i)}
+                    className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left sm:px-6 sm:py-4"
                   >
-                    <span className="text-sm font-semibold lg:text-base" style={{ color: isOpen ? '#076D9D' : '#093148' }}>{faq.q}</span>
+                    <span className={`text-sm font-semibold leading-snug transition-colors sm:text-base ${isOpen ? 'text-koenig-blue' : 'text-koenig-dark'}`}>
+                      {faq.q}
+                    </span>
                     <span
                       className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all duration-300"
-                      style={{ background: isOpen ? '#0694D1' : '#EBF8FE', transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
+                      style={{
+                        background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE',
+                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                      }}
                     >
-                      <svg className="h-3.5 w-3.5" style={{ color: isOpen ? 'white' : '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4"/>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="6 9 12 15 18 9" />
                       </svg>
                     </span>
                   </button>
-                  <div className={`ent-faq-answer px-6${isOpen ? ' open' : ''}`}>
-                    <p className="pb-5 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{faq.a}</p>
+                  <div
+                    className="transition-all duration-300 ease-in-out"
+                    style={{ maxHeight: isOpen ? '200px' : '0px', opacity: isOpen ? 1 : 0 }}
+                  >
+                    <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">
+                      {faq.a}
+                    </p>
                   </div>
                 </div>
               )
             })}
           </div>
-          <div className="io-fade mt-10 text-center">
-            <p className="mb-4 text-sm" style={{ color: '#4a7a9b' }}>Still have questions? Our enterprise team is here to help.</p>
-            <a href="#contact" className="inline-flex items-center gap-2 rounded-xl px-7 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.3)' }}>
-              Talk to Our Team →
+          <div className="mt-8 text-center">
+            <p className="mb-3 text-sm sm:text-base text-koenig-muted">Still have questions?</p>
+            <a href="#contact" className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
+              Talk to Our Enterprise Team
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
             </a>
           </div>
         </div>
