@@ -2868,32 +2868,9 @@ export default function EnterprisePage() {
               </h2>
 
               {/* Sub-text */}
-              <p className="mb-8 text-sm leading-relaxed" style={{ color: '#3a6080' }}>
+              <p className="mb-10 text-sm leading-relaxed" style={{ color: '#3a6080' }}>
                 Trusted by 500+ enterprises worldwide to upskill teams, close certification gaps, and deliver measurable ROI across every region.
               </p>
-
-              {/* Bullet points — 1 line each */}
-              <ul className="mb-10 space-y-3">
-                {[
-                  'Dedicated L&D Dashboard — Real-time team progress & certification visibility.',
-                  'Compliance-Ready Training — ISO, SOC 2, GDPR & HIPAA audit reports on demand.',
-                  'Dedicated Account Manager — Single contact for scheduling & escalation.',
-                  'Multi-Region Delivery — APAC, EMEA & Americas programmes simultaneously.',
-                  'Vendor-Certified Instructors — Active vendor certs, real-world trainers only.',
-                  'Guaranteed Schedule — Every batch confirmed. Zero cancellations.',
-                ].map((line, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <span className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(19,168,212,0.15)', border: '1px solid rgba(19,168,212,0.45)' }}>
-                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
-                        <path d="M2 5l2.5 2.5L8 3" stroke="#13a8d4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </span>
-                    <span className="text-sm leading-snug" style={{ color: '#1e4060' }}
-                      dangerouslySetInnerHTML={{ __html: line.replace(/^([^—]+—)/, '<strong style="color:#0b2545">$1</strong>') }}
-                    />
-                  </li>
-                ))}
-              </ul>
 
               {/* CTA */}
               <button
@@ -2904,58 +2881,60 @@ export default function EnterprisePage() {
               </button>
             </div>
 
-            {/* ══ RIGHT — Auto-sliding single image ══ */}
+            {/* ══ RIGHT — Auto-sliding image ══ */}
             <div className="relative flex-1">
-              <div
-                className="relative overflow-hidden rounded-2xl"
-                style={{ border: '1px solid rgba(255,255,255,0.4)', boxShadow: '0 24px 60px rgba(11,37,69,0.18)', minHeight: '420px' }}
-              >
-                {/* Slides */}
-                {[
-                  { img: '/images/home-banner/classrecord.png',       stat: '94%',  label: 'First-Attempt Pass Rate' },
-                  { img: '/images/home-banner/revision.png',           stat: 'ISO',  label: 'Compliance-Ready Reports' },
-                  { img: '/images/home-banner/pre-req.png',            stat: '1:1',  label: 'Dedicated Account Manager' },
-                  { img: '/images/home-banner/Live-Online-Classes.png',stat: '195+', label: 'Countries Delivered' },
-                  { img: '/images/home-banner/classroom-training.png', stat: '500+', label: 'Vendor Certifications' },
-                  { img: '/images/home-banner/lab-extn.png',           stat: '100%', label: 'Batch Guarantee' },
-                ].map((sl, idx) => (
-                  <div
-                    key={idx}
-                    className="absolute inset-0 transition-opacity duration-700"
-                    style={{ opacity: biSlide === idx ? 1 : 0, pointerEvents: biSlide === idx ? 'auto' : 'none' }}
-                  >
+              {[
+                { img: '/images/home-banner/classrecord.png',        title: 'Dedicated L&D Dashboard',     stat: '94%',  sublabel: 'First-Attempt Pass Rate' },
+                { img: '/images/home-banner/revision.png',            title: 'Compliance-Ready Training',   stat: 'ISO',  sublabel: 'Compliance-Ready Reports' },
+                { img: '/images/home-banner/pre-req.png',             title: 'Dedicated Account Manager',   stat: '1:1',  sublabel: 'Dedicated Account Manager' },
+                { img: '/images/home-banner/Live-Online-Classes.png', title: 'Multi-Region Delivery',       stat: '195+', sublabel: 'Countries Delivered' },
+                { img: '/images/home-banner/classroom-training.png',  title: 'Vendor-Certified Instructors',stat: '500+', sublabel: 'Vendor Certifications' },
+                { img: '/images/home-banner/lab-extn.png',            title: 'Guaranteed Schedule',         stat: '100%', sublabel: 'Batch Guarantee' },
+              ].map((sl, idx) => (
+                <div
+                  key={idx}
+                  className="transition-opacity duration-700"
+                  style={{ opacity: biSlide === idx ? 1 : 0, position: biSlide === idx ? 'relative' : 'absolute', inset: 0, pointerEvents: biSlide === idx ? 'auto' : 'none' }}
+                >
+                  {/* Feature title — above image */}
+                  <p className="mb-3 text-sm font-bold uppercase tracking-wider" style={{ color: '#0b2545' }}>
+                    {sl.title}
+                  </p>
+
+                  {/* Image */}
+                  <div className="overflow-hidden rounded-2xl" style={{ border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 16px 48px rgba(11,37,69,0.15)' }}>
                     <img
                       src={sl.img}
-                      alt={sl.label}
-                      className="h-full w-full object-cover"
-                      style={{ minHeight: '420px' }}
+                      alt={sl.title}
+                      className="h-72 w-full object-cover lg:h-80"
                     />
-                    {/* Stat badge — top-left */}
-                    <div
-                      className="absolute left-4 top-4 rounded-xl px-4 py-3"
-                      style={{ background: 'rgba(255,255,255,0.93)', backdropFilter: 'blur(12px)', minWidth: '120px', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}
-                    >
-                      <p className="text-2xl font-black leading-none" style={{ color: '#13a8d4' }}>{sl.stat}</p>
-                      <p className="mt-1 text-xs font-medium text-gray-600">{sl.label}</p>
-                    </div>
                   </div>
-                ))}
 
-                {/* Dot nav — bottom centre */}
-                <div className="absolute bottom-4 left-0 right-0 z-10 flex items-center justify-center gap-2">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setBiSlide(i)}
-                      className="rounded-full transition-all duration-300"
-                      style={{
-                        width:  biSlide === i ? 22 : 8,
-                        height: 8,
-                        background: biSlide === i ? '#13a8d4' : 'rgba(255,255,255,0.35)',
-                      }}
-                    />
-                  ))}
+                  {/* Stat badge — below image */}
+                  <div
+                    className="mt-4 inline-flex items-center gap-4 rounded-xl px-5 py-3"
+                    style={{ background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 16px rgba(11,37,69,0.10)' }}
+                  >
+                    <p className="text-3xl font-black leading-none" style={{ color: '#13a8d4' }}>{sl.stat}</p>
+                    <p className="text-sm font-medium" style={{ color: '#1e4060' }}>{sl.sublabel}</p>
+                  </div>
                 </div>
+              ))}
+
+              {/* Dot nav */}
+              <div className="mt-5 flex items-center gap-2">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setBiSlide(i)}
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width:  biSlide === i ? 22 : 8,
+                      height: 8,
+                      background: biSlide === i ? '#13a8d4' : 'rgba(11,37,69,0.25)',
+                    }}
+                  />
+                ))}
               </div>
             </div>
 
