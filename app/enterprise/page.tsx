@@ -3324,18 +3324,6 @@ export default function EnterprisePage() {
           </div>
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl">
-
-          {/* Mini stat strip */}
-          <div className="io-fade mt-8 grid gap-4 text-center sm:grid-cols-3">
-            {[['50+','Vendor Partnerships'],['300+','Certifications Available'],['94%','First-Attempt Pass Rate']].map(([n, l], i) => (
-              <div key={i} className="rounded-2xl py-5" style={{ background: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.7)', backdropFilter: 'blur(8px)' }}>
-                <div className="text-2xl font-black" style={{ color: '#0694d1' }}>{n}</div>
-                <div className="mt-1 text-sm" style={{ color: '#3a6080' }}>{l}</div>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════
