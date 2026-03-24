@@ -2884,12 +2884,12 @@ export default function EnterprisePage() {
             {/* ══ RIGHT — Auto-sliding image ══ */}
             <div className="relative flex-1">
               {[
-                { img: '/images/home-banner/classrecord.png',        title: 'Dedicated L&D Dashboard',     stat: '94%',  sublabel: 'First-Attempt Pass Rate' },
-                { img: '/images/home-banner/revision.png',            title: 'Compliance-Ready Training',   stat: 'ISO',  sublabel: 'Compliance-Ready Reports' },
-                { img: '/images/home-banner/pre-req.png',             title: 'Dedicated Account Manager',   stat: '1:1',  sublabel: 'Dedicated Account Manager' },
-                { img: '/images/home-banner/Live-Online-Classes.png', title: 'Multi-Region Delivery',       stat: '195+', sublabel: 'Countries Delivered' },
-                { img: '/images/home-banner/classroom-training.png',  title: 'Vendor-Certified Instructors',stat: '500+', sublabel: 'Vendor Certifications' },
-                { img: '/images/home-banner/lab-extn.png',            title: 'Guaranteed Schedule',         stat: '100%', sublabel: 'Batch Guarantee' },
+                { img: '/images/enterprise/94.png',                       title: 'Dedicated L&D Dashboard',     stat: '94%',  sublabel: 'First-Attempt Pass Rate' },
+                { img: '/images/enterprise/ISO.png',                      title: 'Compliance-Ready Training',   stat: 'ISO',  sublabel: 'Compliance-Ready Reports' },
+                { img: '/images/enterprise/dedicated-account-manager.png',title: 'Dedicated Account Manager',   stat: '1:1',  sublabel: 'Dedicated Account Manager' },
+                { img: '/images/enterprise/multi-region-delivery.png',    title: 'Multi-Region Delivery',       stat: '195+', sublabel: 'Countries Delivered' },
+                { img: '/images/enterprise/vendor-certified-instructors.png', title: 'Vendor-Certified Instructors', stat: '500+', sublabel: 'Vendor Certifications' },
+                { img: '/images/enterprise/GTR.png',                      title: 'Guaranteed Schedule',         stat: '100%', sublabel: 'Batch Guarantee' },
               ].map((sl, idx) => (
                 <div
                   key={idx}
