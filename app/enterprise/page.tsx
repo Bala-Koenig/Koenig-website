@@ -2884,12 +2884,12 @@ export default function EnterprisePage() {
             {/* ══ RIGHT — Auto-sliding image ══ */}
             {(() => {
               const BI_ITEMS = [
-                { img: '/images/enterprise/94.png',                           title: 'Dedicated L&D Dashboard',      stat: '94%',  sublabel: 'First-Attempt Pass Rate' },
-                { img: '/images/enterprise/ISO.png',                          title: 'Compliance-Ready Training',    stat: 'ISO',  sublabel: 'Compliance-Ready Reports' },
-                { img: '/images/enterprise/dedicated-account-manager.png',    title: 'Dedicated Account Manager',    stat: '1:1',  sublabel: 'Dedicated Account Manager' },
-                { img: '/images/enterprise/multi-region-delivery.png',        title: 'Multi-Region Delivery',        stat: '195+', sublabel: 'Countries Delivered' },
-                { img: '/images/enterprise/vendor-certified-instructors.png', title: 'Vendor-Certified Instructors', stat: '500+', sublabel: 'Vendor Certifications' },
-                { img: '/images/enterprise/GTR.png',                          title: 'Guaranteed Schedule',          stat: '100%', sublabel: 'Batch Guarantee' },
+                { img: '/images/enterprise/94.png',                           title: 'Dedicated L&D Dashboard',      stat: '94%',  sublabel: 'First-Attempt Pass Rate',    objPos: 'center 30%' },
+                { img: '/images/enterprise/ISO.png',                          title: 'Compliance-Ready Training',    stat: 'ISO',  sublabel: 'Compliance-Ready Reports',   objPos: 'center center' },
+                { img: '/images/enterprise/dedicated-account-manager.png',    title: 'Dedicated Account Manager',    stat: '1:1',  sublabel: 'Dedicated Account Manager',  objPos: 'center 30%' },
+                { img: '/images/enterprise/multi-region-delivery.png',        title: 'Multi-Region Delivery',        stat: '195+', sublabel: 'Countries Delivered',        objPos: 'center center' },
+                { img: '/images/enterprise/vendor-certified-instructors.png', title: 'Vendor-Certified Instructors', stat: '500+', sublabel: 'Vendor Certifications',      objPos: 'center 30%' },
+                { img: '/images/enterprise/GTR.png',                          title: 'Guaranteed Schedule',          stat: '100%', sublabel: 'Batch Guarantee',            objPos: 'center center' },
               ]
               return (
                 <div className="flex-1">
@@ -2909,7 +2909,7 @@ export default function EnterprisePage() {
                         className="absolute inset-0 transition-opacity duration-700"
                         style={{ opacity: biSlide === idx ? 1 : 0, pointerEvents: biSlide === idx ? 'auto' : 'none' }}
                       >
-                        <img src={sl.img} alt={sl.title} className="h-full w-full object-cover" />
+                        <img src={sl.img} alt={sl.title} className="h-full w-full object-cover" style={{ objectPosition: sl.objPos }} />
                         {/* Stat badge — bottom-right inside image */}
                         <div
                           className="absolute bottom-4 right-4 rounded-xl px-4 py-3 text-right"
