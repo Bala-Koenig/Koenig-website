@@ -2860,7 +2860,7 @@ export default function EnterprisePage() {
               </p>
 
               {/* Heading */}
-              <h2 className="mb-4 text-3xl font-extrabold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
+              <h2 className="mb-4 text-3xl font-bold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
                 The Business Impact of{' '}
                 <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
                   Koenig Enterprise Training
