@@ -2,9 +2,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
-import { FallingPattern } from '../components/ui/falling-pattern'
-import EnterpriseHeroGlobe from '../components/EnterpriseHeroGlobe'
-import AuroraCanvas from '../components/AuroraCanvas'
+import { FallingPattern } from '@/components/ui/falling-pattern'
+import EnterpriseHeroGlobe from '@/components/EnterpriseHeroGlobe'
+import AuroraCanvas from '@/components/AuroraCanvas'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
