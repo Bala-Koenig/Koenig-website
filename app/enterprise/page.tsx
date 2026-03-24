@@ -182,6 +182,137 @@ const DOMAINS = [
   },
 ]
 
+const CAT_DOMAINS = [
+  {
+    name: 'Cloud Computing',
+    desc: 'Master multi-cloud platforms — AWS, Azure, and GCP — from core IaaS/PaaS fundamentals to advanced architecture, DevSecOps, and cost optimisation.',
+    features: ['8 Courses', 'CLF-C02 — AZ-305', 'Cloud Roles'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>,
+    courses: [
+      { level: 'Fundamentals', title: 'AWS Cloud Practitioner',             code: 'CLF-C02',      price: '398',   days: 2 },
+      { level: 'Fundamentals', title: 'Microsoft Azure Fundamentals',        code: 'AZ-900',       price: '398',   days: 2 },
+      { level: 'Associate',    title: 'AWS Solutions Architect Associate',   code: 'SAA-C03',      price: '996',   days: 4 },
+      { level: 'Associate',    title: 'Microsoft Azure Administrator',       code: 'AZ-104',       price: '1,245', days: 5 },
+      { level: 'Associate',    title: 'Google Associate Cloud Engineer',     code: 'ACE',          price: '747',   days: 3 },
+      { level: 'Professional', title: 'AWS Solutions Architect Professional',code: 'SAP-C02',      price: '1,495', days: 5 },
+      { level: 'Professional', title: 'Azure Solutions Architect Expert',    code: 'AZ-305',       price: '1,495', days: 5 },
+      { level: 'Professional', title: 'Google Professional Cloud Architect', code: 'PCA',          price: '1,495', days: 5 },
+    ],
+  },
+  {
+    name: 'Cybersecurity',
+    desc: 'Build world-class security expertise — from ethical hacking and network defence to SOC operations, threat intelligence, and zero-trust architecture.',
+    features: ['8 Courses', 'SY0-701 — CISSP', 'Security Roles'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
+    courses: [
+      { level: 'Fundamentals', title: 'CompTIA Security+',                      code: 'SY0-701', price: '597',   days: 5 },
+      { level: 'Fundamentals', title: 'ISC2 Certified in Cybersecurity',         code: 'CC',      price: '398',   days: 3 },
+      { level: 'Associate',    title: 'Cisco CyberOps Associate',                code: '200-201', price: '747',   days: 4 },
+      { level: 'Associate',    title: 'CompTIA CySA+',                           code: 'CS0-003', price: '747',   days: 5 },
+      { level: 'Professional', title: 'EC-Council Certified Ethical Hacker',     code: '312-50',  price: '1,245', days: 5 },
+      { level: 'Professional', title: 'Fortinet NSE 4 Network Security',         code: 'NSE4',    price: '996',   days: 4 },
+      { level: 'Expert',       title: 'ISC2 CISSP',                              code: 'CISSP',   price: '1,495', days: 5 },
+      { level: 'Expert',       title: 'Palo Alto Networks PCNSE',                code: 'PCNSE',   price: '1,245', days: 5 },
+    ],
+  },
+  {
+    name: 'Data & AI',
+    desc: 'Equip teams with data engineering, machine learning, and generative AI skills — from foundational analytics to enterprise-scale MLOps deployments.',
+    features: ['8 Courses', 'AI-900 — DP-600', 'AI & Data Roles'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>,
+    courses: [
+      { level: 'Fundamentals', title: 'Azure AI Fundamentals',                    code: 'AI-900',  price: '398',   days: 2 },
+      { level: 'Fundamentals', title: 'AWS Machine Learning Foundations',         code: 'MLS-C01', price: '398',   days: 2 },
+      { level: 'Associate',    title: 'Azure Data Engineer Associate',            code: 'DP-203',  price: '996',   days: 5 },
+      { level: 'Associate',    title: 'AWS Certified ML Associate',               code: 'MLA-C01', price: '747',   days: 3 },
+      { level: 'Professional', title: 'Azure AI Engineer Associate',              code: 'AI-102',  price: '1,245', days: 4 },
+      { level: 'Professional', title: 'Google Professional ML Engineer',          code: 'PMLE',    price: '1,495', days: 5 },
+      { level: 'Expert',       title: 'Microsoft Fabric Analytics Engineer',      code: 'DP-600',  price: '1,245', days: 4 },
+      { level: 'Expert',       title: 'Databricks Data Engineer Professional',    code: 'DE-PRO',  price: '996',   days: 3 },
+    ],
+  },
+  {
+    name: 'Networking',
+    desc: 'Design and manage enterprise networks — from CCNA routing and switching to SD-WAN, CCNP enterprise architecture, and expert-level CCIE certification.',
+    features: ['8 Courses', 'N10-009 — CCIE', 'Network Roles'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/>,
+    courses: [
+      { level: 'Fundamentals', title: 'CompTIA Network+',                         code: 'N10-009', price: '597',   days: 5 },
+      { level: 'Associate',    title: 'Cisco CCNA',                               code: '200-301', price: '747',   days: 5 },
+      { level: 'Associate',    title: 'Juniper JNCIA-Junos',                      code: 'JN0-104', price: '597',   days: 3 },
+      { level: 'Associate',    title: 'CompTIA Network Specialist',               code: 'CAS-005', price: '747',   days: 4 },
+      { level: 'Professional', title: 'Cisco CCNP Enterprise',                    code: 'ENCOR',   price: '1,245', days: 5 },
+      { level: 'Professional', title: 'Cisco CCNP Security',                      code: 'SCOR',    price: '1,245', days: 5 },
+      { level: 'Expert',       title: 'Cisco CCIE Enterprise Infrastructure',     code: 'CCIE-E',  price: '1,995', days: 5 },
+      { level: 'Expert',       title: 'Fortinet NSE 7 Enterprise Firewall',       code: 'NSE7',    price: '1,245', days: 4 },
+    ],
+  },
+  {
+    name: 'Project Management',
+    desc: 'Certify project leaders and agile teams — from ITIL and Scrum foundations to PMP, PRINCE2 Practitioner, and SAFe programme management.',
+    features: ['8 Courses', 'ITIL-4F — PMI-ACP', 'PM Roles'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>,
+    courses: [
+      { level: 'Fundamentals', title: 'ITIL 4 Foundation',                        code: 'ITIL-4F', price: '597',   days: 2 },
+      { level: 'Fundamentals', title: 'Project Management Fundamentals',          code: 'PMF-101', price: '398',   days: 2 },
+      { level: 'Associate',    title: 'PRINCE2 Foundation',                       code: 'PR2-F',   price: '597',   days: 3 },
+      { level: 'Associate',    title: 'Certified Scrum Master',                   code: 'CSM',     price: '597',   days: 2 },
+      { level: 'Professional', title: 'PMI Project Management Professional',      code: 'PMP',     price: '1,245', days: 5 },
+      { level: 'Professional', title: 'PRINCE2 Practitioner',                     code: 'PR2-P',   price: '747',   days: 2 },
+      { level: 'Expert',       title: 'PMI Agile Certified Practitioner',         code: 'PMI-ACP', price: '747',   days: 3 },
+      { level: 'Expert',       title: 'SAFe 6.0 Program Consultant',              code: 'SPC',     price: '1,495', days: 4 },
+    ],
+  },
+  {
+    name: 'DevOps',
+    desc: 'Train engineering teams in CI/CD pipelines, Docker, Kubernetes, Infrastructure as Code, GitOps, and Site Reliability Engineering at enterprise scale.',
+    features: ['8 Courses', 'DOF-101 — CKS', 'DevOps Roles'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>,
+    courses: [
+      { level: 'Fundamentals', title: 'DevOps Foundations',                       code: 'DOF-101', price: '398',   days: 2 },
+      { level: 'Fundamentals', title: 'Docker for Developers',                    code: 'DCA-E',   price: '597',   days: 3 },
+      { level: 'Associate',    title: 'HashiCorp Terraform Associate',            code: 'TA-003',  price: '747',   days: 3 },
+      { level: 'Associate',    title: 'Kubernetes and Cloud Native Associate',    code: 'KCNA',    price: '597',   days: 2 },
+      { level: 'Professional', title: 'Certified Kubernetes Administrator',       code: 'CKA',     price: '996',   days: 4 },
+      { level: 'Professional', title: 'Certified Kubernetes App Developer',       code: 'CKAD',    price: '996',   days: 3 },
+      { level: 'Expert',       title: 'Certified Kubernetes Security Specialist', code: 'CKS',     price: '1,245', days: 4 },
+      { level: 'Expert',       title: 'GitLab Professional Services Engineer',    code: 'GPSE',    price: '996',   days: 3 },
+    ],
+  },
+  {
+    name: 'ERP Systems',
+    desc: 'Upskill ERP and CRM teams across SAP S/4HANA, Salesforce, ServiceNow, and Oracle — from fundamentals through advanced certified professional roles.',
+    features: ['8 Courses', 'BTP-100 — SAP-EA', 'ERP Roles'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>,
+    courses: [
+      { level: 'Fundamentals', title: 'SAP Business Technology Platform',         code: 'BTP-100',      price: '597',   days: 3 },
+      { level: 'Fundamentals', title: 'Salesforce Administrator',                 code: 'ADM-201',      price: '597',   days: 5 },
+      { level: 'Associate',    title: 'SAP S/4HANA Fundamentals',                 code: 'S4H-100',      price: '747',   days: 3 },
+      { level: 'Associate',    title: 'ServiceNow System Administrator',          code: 'CSA',          price: '747',   days: 3 },
+      { level: 'Professional', title: 'SAP Certified Assoc – Financial Accounting',code: 'C_TS4FI_2023',price: '1,245', days: 5 },
+      { level: 'Professional', title: 'Salesforce Platform Developer I',          code: 'PD1',          price: '996',   days: 4 },
+      { level: 'Expert',       title: 'SAP Certified Professional – Solution Arch.',code: 'P_SAPEA_2023',price: '1,495', days: 5 },
+      { level: 'Expert',       title: 'Oracle ERP Cloud Financials Professional', code: '1Z0-1055',     price: '1,245', days: 4 },
+    ],
+  },
+  {
+    name: 'Linux & Open Source',
+    desc: 'Certify Linux administrators and open source engineers — from RHEL foundations and shell scripting to advanced RHCE, Kubernetes, and OpenStack.',
+    features: ['8 Courses', 'LPI LE-1 — RHCE', 'Linux Roles'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>,
+    courses: [
+      { level: 'Fundamentals', title: 'Linux Essentials (LPI LE-1)',              code: 'LPI LE-1', price: '398',   days: 3 },
+      { level: 'Fundamentals', title: 'CompTIA Linux+',                           code: 'XK0-005',  price: '747',   days: 5 },
+      { level: 'Associate',    title: 'Red Hat System Administration I',          code: 'RH124',    price: '996',   days: 5 },
+      { level: 'Associate',    title: 'Linux Foundation LFCA',                    code: 'LFCA',     price: '597',   days: 3 },
+      { level: 'Professional', title: 'Red Hat Certified System Administrator',   code: 'EX200',    price: '1,245', days: 5 },
+      { level: 'Professional', title: 'Red Hat Certified Engineer',               code: 'EX294',    price: '1,495', days: 5 },
+      { level: 'Expert',       title: 'Certified Kubernetes Administrator',       code: 'CKA',      price: '996',   days: 4 },
+      { level: 'Expert',       title: 'OpenStack Certified Administrator',        code: 'COA',      price: '1,245', days: 5 },
+    ],
+  },
+]
+
 const FORMATS = [
   {
     title: 'Live Online Training', badge: 'Best Value', badgeBg: '#076D9D',
@@ -1837,6 +1968,8 @@ export default function EnterprisePage() {
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [catSearch, setCatSearch] = useState('')
+  const [catLevel, setCatLevel] = useState('All')
   const [entMorphIdx, setEntMorphIdx] = useState(0)
   const [entMorphExiting, setEntMorphExiting] = useState(false)
 
@@ -2730,178 +2863,198 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── What We Train ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-16" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 60%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
-        <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.14) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
+      <section className="relative px-4 lg:px-[50px] py-14" style={{ background: '#eef3f8', borderTop: '1px solid #d1e5f5', borderBottom: '1px solid #d1e5f5' }}>
         <div className="relative mx-auto max-w-7xl">
 
-          {/* ── Header ── */}
-          <div className="io-fade mb-10 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-
-            {/* Left — title */}
-            <div className="max-w-lg">
-              <p className="mb-1 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
-              <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#093148' }}>
-                Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
-              </h2>
-            </div>
-
-            {/* Right — 2×2 stat cards */}
-            <div className="grid grid-cols-2 gap-3 lg:w-[420px] lg:shrink-0">
-
-              {/* Courses */}
-              <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
-                <p className="text-2xl font-black" style={{ color: '#093148' }}>5,000+</p>
-                <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Courses</p>
-              </div>
-
-              {/* Vendor Partners */}
-              <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
-                <p className="text-2xl font-black" style={{ color: '#093148' }}>50+</p>
-                <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Vendor Partners</p>
-              </div>
-
-              {/* Countries */}
-              <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
-                <p className="text-2xl font-black" style={{ color: '#093148' }}>195+</p>
-                <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Countries</p>
-              </div>
-
-              {/* Core Domains */}
-              <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
-                <p className="text-2xl font-black" style={{ color: '#093148' }}>8</p>
-                <p className="mt-0.5 text-sm font-medium" style={{ color: '#4a7a9b' }}>Core Domains</p>
-              </div>
-
-            </div>
+          {/* Header */}
+          <div className="io-fade mb-6 text-center">
+            <p className="mb-1 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
+            <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
+              Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
+            </h2>
           </div>
 
-          {/* ── Tab layout ── */}
-          <div className="io-fade flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+          {/* Search bar */}
+          <div className="io-fade mb-5 flex items-center gap-3 rounded-xl bg-white px-4 py-3" style={{ border: '1.5px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a7a9b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input
+              type="text"
+              value={catSearch}
+              onChange={e => setCatSearch(e.target.value)}
+              placeholder="Search certifications or exam codes... e.g. AZ-900, Kubernetes, Security"
+              className="flex-1 bg-transparent text-sm outline-none"
+              style={{ color: '#093148' }}
+            />
+            {catSearch && (
+              <button onClick={() => setCatSearch('')} className="rounded px-2 py-0.5 text-xs font-medium" style={{ background: '#EBF8FE', color: '#4a7a9b' }}>
+                Esc to clear
+              </button>
+            )}
+          </div>
 
-            {/* Left — domain tabs */}
-            <div className="flex shrink-0 flex-row flex-wrap gap-2 lg:w-64 lg:flex-col lg:gap-0">
-              {DOMAINS.map((d, i) => {
-                const active = activeDomain === i
-                return (
-                  <button
-                    key={d.name}
-                    onClick={() => setActiveDomain(i)}
-                    className="relative flex w-full cursor-pointer items-center gap-3 overflow-hidden rounded-xl px-4 py-3.5 text-left transition-all duration-200"
-                    style={{
-                      background: active ? '#0694D1' : '#fff',
-                      color: active ? '#fff' : '#093148',
-                      border: active ? '1px solid #0694D1' : '1px solid #CAEFFF',
-                      fontWeight: active ? 700 : 500,
-                      marginBottom: '6px',
-                      borderRadius: '10px',
-                      boxShadow: active ? '0 4px 16px rgba(6,148,209,0.25)' : '0 1px 4px rgba(6,148,209,0.06)',
-                    }}
-                  >
-                    {/* Decorative circuit pattern — right side */}
-                    <svg
-                      className="pointer-events-none absolute right-0 top-0 h-full"
-                      width="72" viewBox="0 0 72 52" fill="none"
-                      style={{ opacity: active ? 0.18 : 0.07, color: active ? '#fff' : '#0694D1' }}
-                    >
-                      <circle cx="62" cy="9"  r="2.5" stroke="currentColor" strokeWidth="1.4"/>
-                      <circle cx="62" cy="26" r="2.5" stroke="currentColor" strokeWidth="1.4"/>
-                      <circle cx="62" cy="43" r="2.5" stroke="currentColor" strokeWidth="1.4"/>
-                      <circle cx="46" cy="17" r="2"   stroke="currentColor" strokeWidth="1.2"/>
-                      <circle cx="46" cy="35" r="2"   stroke="currentColor" strokeWidth="1.2"/>
-                      <path d="M62 11.5v12M62 28.5v12" stroke="currentColor" strokeWidth="1.2"/>
-                      <path d="M62 26H48" stroke="currentColor" strokeWidth="1.2"/>
-                      <path d="M62 9H50M50 9v8M50 17H48" stroke="currentColor" strokeWidth="1.2"/>
-                      <path d="M62 43H50M50 43v-8M50 35H48" stroke="currentColor" strokeWidth="1.2"/>
-                      <path d="M30 17h10M30 35h10" stroke="currentColor" strokeWidth="1" strokeDasharray="2 3"/>
-                    </svg>
+          {/* Main layout */}
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
 
-                    {/* Domain icon */}
-                    <svg className="h-4 w-4 shrink-0" style={{ color: active ? '#fff' : '#0694D1', opacity: active ? 1 : 0.75 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      {d.icon}
-                    </svg>
-
-                    {/* Name */}
-                    <span className="text-sm leading-snug">{d.name}</span>
-
-                    {/* Course count badge */}
-                    <span
-                      className="ml-auto shrink-0 rounded-full px-2 py-0.5 text-sm font-bold"
+            {/* Left sidebar */}
+            <div className="shrink-0 overflow-hidden rounded-2xl bg-white lg:w-[230px]" style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.05)' }}>
+              <div className="px-4 py-2.5" style={{ borderBottom: '1px solid #EBF8FE' }}>
+                <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#8aabb8' }}>Technologies</p>
+              </div>
+              <div className="flex flex-row flex-wrap lg:flex-col">
+                {CAT_DOMAINS.map((d, i) => {
+                  const active = activeDomain === i
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => { setActiveDomain(i); setCatLevel('All') }}
+                      className="flex w-full items-center gap-2.5 py-3 text-left transition-colors"
                       style={{
-                        background: active ? 'rgba(255,255,255,0.22)' : 'rgba(6,148,209,0.08)',
-                        color: active ? '#fff' : '#0694D1',
-                        border: active ? '1px solid rgba(255,255,255,0.3)' : '1px solid rgba(6,148,209,0.18)',
+                        background: active ? '#EBF8FE' : 'transparent',
+                        borderLeft: active ? '3px solid #0694D1' : '3px solid transparent',
+                        paddingLeft: '13px', paddingRight: '12px',
                       }}
                     >
-                      {d.count}
-                    </span>
-                  </button>
-                )
-              })}
+                      <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke={active ? '#0694D1' : '#4a7a9b'} strokeWidth="1.8">{d.icon}</svg>
+                      <span className="flex-1 truncate text-sm" style={{ color: active ? '#0569a8' : '#093148', fontWeight: active ? 700 : 500 }}>{d.name}</span>
+                      <span className="shrink-0 rounded-full px-1.5 py-0.5 text-xs font-bold" style={{ background: active ? '#0694D1' : 'rgba(6,148,209,0.08)', color: active ? '#fff' : '#0694D1', minWidth: '22px', textAlign: 'center' as const }}>
+                        {d.courses.length}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
 
-            {/* Right — content panel */}
+            {/* Right content panel */}
             {(() => {
-              const d = DOMAINS[activeDomain]
-              const half = Math.ceil(d.skills.length / 2)
-              const col1 = d.skills.slice(0, half)
-              const col2 = d.skills.slice(half)
+              const d = CAT_DOMAINS[activeDomain]
+              const allLevels = Array.from(new Set(d.courses.map(c => c.level)))
+              const levelCounts: Record<string, number> = { All: d.courses.length }
+              allLevels.forEach(l => { levelCounts[l] = d.courses.filter(c => c.level === l).length })
+              const bySearch = catSearch
+                ? d.courses.filter(c => c.title.toLowerCase().includes(catSearch.toLowerCase()) || c.code.toLowerCase().includes(catSearch.toLowerCase()))
+                : d.courses
+              const displayed = catLevel === 'All' ? bySearch : bySearch.filter(c => c.level === catLevel)
+              const LCOLORS: Record<string, { bg: string; color: string }> = {
+                Fundamentals: { bg: 'rgba(0,150,136,0.10)',  color: '#007a6a' },
+                Associate:    { bg: 'rgba(6,148,209,0.10)',  color: '#0569a8' },
+                Professional: { bg: 'rgba(230,81,0,0.10)',   color: '#c55a02' },
+                Expert:       { bg: 'rgba(124,58,237,0.10)', color: '#6d28d9' },
+              }
               return (
-                <div className="flex-1 rounded-2xl bg-white p-7" style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.09)' }}>
-                  {/* Panel header */}
-                  <div className="mb-5 flex items-center gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.18)' }}>
-                      <svg className="h-6 w-6" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                        {d.icon}
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold" style={{ color: '#093148' }}>{d.name}</h3>
-                      <span className="text-sm font-semibold" style={{ color: '#0694D1' }}>{d.count} Courses Available</span>
-                    </div>
-                  </div>
-                  <div style={{ borderTop: '1px solid #E8F5FC', marginBottom: '20px' }} />
+                <div className="flex-1 min-w-0 overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.05)' }}>
 
-                  {/* Skills */}
-                  <p className="mb-4 text-base font-bold" style={{ color: '#093148' }}>Skills</p>
-                  <div className="mb-6 grid grid-cols-1 gap-x-8 gap-y-2.5 sm:grid-cols-2">
-                    {col1.map((s, i) => (
-                      <div key={s} className="flex items-center gap-2.5">
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full" style={{ background: '#0694D1' }}>
-                          <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                        </span>
-                        <span className="text-sm" style={{ color: '#2d5470' }}>{s}</span>
+                  {/* Domain header */}
+                  <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-start sm:justify-between" style={{ borderBottom: '1px solid #EBF8FE' }}>
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.18)' }}>
+                        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8">{d.icon}</svg>
                       </div>
-                    ))}
-                    {col2.map((s, i) => (
-                      <div key={s} className="flex items-center gap-2.5">
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full" style={{ background: '#0694D1' }}>
-                          <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                        </span>
-                        <span className="text-sm" style={{ color: '#2d5470' }}>{s}</span>
+                      <div className="min-w-0">
+                        <h3 className="text-lg font-bold leading-tight" style={{ color: '#0d1b2a' }}>{d.name}</h3>
+                        <p className="mt-0.5 text-sm leading-snug" style={{ color: '#4a7a9b' }}>{d.desc}</p>
                       </div>
-                    ))}
-                    <div className="flex items-center gap-2.5 sm:col-start-2">
-                      <span className="text-sm font-semibold" style={{ color: '#4a7a9b' }}>& Many More</span>
                     </div>
+                    <a href="#contact" className="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-5 py-2 text-sm font-bold text-white" style={{ background: '#0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.3)' }}>
+                      Enquire Now →
+                    </a>
                   </div>
 
-                  {/* Tools / Certifications */}
-                  <p className="mb-3 text-base font-bold" style={{ color: '#093148' }}>Certifications & Tools</p>
-                  <div className="flex flex-wrap gap-2">
-                    {d.tools.map(t => (
-                      <span key={t} className="rounded-lg px-3.5 py-1.5 text-sm font-semibold" style={{ background: 'rgba(6,148,209,0.07)', border: '1px solid rgba(6,148,209,0.18)', color: '#076D9D' }}>
-                        {t}
+                  {/* Feature pills + level filter tabs */}
+                  <div className="flex flex-wrap items-center gap-2 px-5 py-2.5" style={{ borderBottom: '1px solid #EBF8FE', background: '#FAFCFF' }}>
+                    {d.features.map((f, fi) => (
+                      <span key={fi} className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ background: 'rgba(0,150,136,0.08)', color: '#007a6a', border: '1px solid rgba(0,150,136,0.18)' }}>
+                        <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#007a6a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                        {f}
                       </span>
                     ))}
+                    <div className="ml-auto flex flex-wrap items-center gap-1">
+                      {(['All', ...allLevels] as string[]).map(l => {
+                        const isActive = catLevel === l
+                        return (
+                          <button key={l} onClick={() => setCatLevel(l)} className="rounded-full px-3 py-0.5 text-xs font-bold transition-colors"
+                            style={{ background: isActive ? '#0d1b2a' : '#fff', color: isActive ? '#fff' : '#093148', border: isActive ? '1px solid #0d1b2a' : '1px solid #CAEFFF' }}>
+                            {l} <span style={{ opacity: 0.7 }}>{levelCounts[l] ?? 0}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Breadcrumb row */}
+                  <div className="flex items-center justify-between px-5 py-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full px-3 py-0.5 text-xs font-bold text-white" style={{ background: '#0694D1' }}>
+                        {displayed.length} {catLevel === 'All' ? 'All Courses' : catLevel}
+                      </span>
+                      <span className="text-sm" style={{ color: '#8aabb8' }}>›</span>
+                      <span className="text-sm font-medium" style={{ color: '#093148' }}>{d.name}</span>
+                    </div>
+                    <span className="text-xs font-semibold" style={{ color: '#0694D1' }}>↓ Scroll for more</span>
+                  </div>
+
+                  {/* Course cards — scrollable grid */}
+                  <div className="overflow-y-auto p-4" style={{ maxHeight: '460px' }}>
+                    {displayed.length === 0 ? (
+                      <div className="flex h-28 items-center justify-center text-sm" style={{ color: '#4a7a9b' }}>No courses found for your search.</div>
+                    ) : (
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                        {displayed.map((course, ci) => {
+                          const lc = LCOLORS[course.level] ?? LCOLORS.Fundamentals
+                          return (
+                            <div
+                              key={ci}
+                              className="flex flex-col rounded-xl bg-white p-4"
+                              style={{ border: '1px solid #DCE9F5', boxShadow: '0 1px 6px rgba(6,148,209,0.07)', transition: 'box-shadow 0.2s,border-color 0.2s' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(6,148,209,0.14)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#A8D4EF' }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 6px rgba(6,148,209,0.07)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#DCE9F5' }}
+                            >
+                              {/* Level badge + Cert Details */}
+                              <div className="mb-2.5 flex items-center justify-between">
+                                <span className="rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-wide" style={{ background: lc.bg, color: lc.color }}>{course.level}</span>
+                                <a href="#contact" className="text-xs font-semibold" style={{ color: '#0694D1' }}>Cert Details →</a>
+                              </div>
+                              {/* Title */}
+                              <h4 className="mb-2 text-sm font-bold leading-snug" style={{ color: '#0d1b2a', minHeight: '34px' }}>{course.title}</h4>
+                              {/* Exam code */}
+                              <span className="mb-3 inline-block rounded px-2 py-0.5 text-xs font-bold" style={{ background: 'rgba(6,148,209,0.08)', color: '#0569a8' }}>{course.code}</span>
+                              {/* Bottom section */}
+                              <div className="mt-auto pt-3" style={{ borderTop: '1px solid #EBF8FE' }}>
+                                {/* Price */}
+                                <div className="mb-1 flex items-baseline gap-2">
+                                  <span className="text-xl font-black leading-none" style={{ color: '#0d1b2a' }}>
+                                    <sup className="text-xs font-bold" style={{ position: 'relative', top: '-0.2em' }}>$</sup>{course.price}
+                                  </span>
+                                  <span className="text-xs" style={{ color: '#8aabb8' }}>per person · USD</span>
+                                </div>
+                                {/* Duration */}
+                                <div className="mb-3 flex items-center gap-1 text-xs" style={{ color: '#4a7a9b' }}>
+                                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                  {course.days} {course.days === 1 ? 'day' : 'days'}
+                                </div>
+                                {/* Buttons */}
+                                <div className="flex gap-2">
+                                  <button className="flex-1 rounded-lg py-2 text-xs font-bold transition-colors hover:bg-blue-50" style={{ background: '#fff', border: '1.5px solid #CAEFFF', color: '#0569a8' }}>
+                                    Download Brochure
+                                  </button>
+                                  <button className="flex-1 rounded-lg py-2 text-xs font-bold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                                    Enroll Now
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
               )
             })()}
           </div>
 
-          {/* ── CTA ── */}
-          <div className="io-fade mt-10 text-center">
+          {/* CTA */}
+          <div className="io-fade mt-8 text-center">
             <a href="#contact" className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-bold text-white transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}>
               Request Training Plan
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
