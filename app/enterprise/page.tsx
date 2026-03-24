@@ -2368,32 +2368,23 @@ export default function EnterprisePage() {
             {([
               {
                 accent: 'linear-gradient(90deg,#0694D1,#4DBFEF)', iconBg: 'rgba(6,148,209,0.10)',
-                iconEl: <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" style={{ width: 44, height: 44, objectFit: 'contain' }} />,
-                stat: '#1', title: 'Microsoft Partner Award', sub: 'Training Services Partner of the Year 2025', bottom: 'Active partner',
+                iconEl: <img src="/images/awards/MS-Partner-of-the-year-2025-popup.webp" alt="Microsoft Partner 2025" style={{ width: 52, height: 52, objectFit: 'contain' }} />,
+                stat: '2025', title: 'Microsoft Partner of the Year', sub: 'Training Services Partner of the Year Award', bottom: 'Winner',
               },
               {
-                accent: 'linear-gradient(90deg,#0694D1,#076D9D)', iconBg: 'rgba(7,109,157,0.10)',
-                iconEl: <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" style={{ width: 44, height: 44, objectFit: 'contain' }} />,
-                stat: '14+', title: 'Great Place to Work', sub: 'Certified consecutively since 2011', bottom: 'Certified active',
+                accent: 'linear-gradient(90deg,#F59E0B,#EF4444)', iconBg: 'rgba(245,158,11,0.10)',
+                iconEl: <img src="/images/awards/Winner-of-EC-Council-ATC-of-the-Year-Award-2024.webp" alt="EC-Council ATC 2024" style={{ width: 52, height: 52, objectFit: 'contain' }} />,
+                stat: '2024', title: 'EC-Council ATC of the Year', sub: 'Authorised Training Centre of the Year Award', bottom: 'Winner',
               },
               {
-                accent: 'linear-gradient(90deg,#38bdf8,#0694D1)', iconBg: 'rgba(56,189,248,0.10)',
-                iconEl: (
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                  </svg>
-                ),
-                stat: '195+', title: 'Countries Served', sub: 'Global delivery across every continent', bottom: 'Live sessions daily',
+                accent: 'linear-gradient(90deg,#7C3AED,#0694D1)', iconBg: 'rgba(124,58,237,0.10)',
+                iconEl: <img src="/images/awards/Winner-of-the-PECB-Titanium-Partner-Award-2024.webp" alt="PECB Titanium 2024" style={{ width: 52, height: 52, objectFit: 'contain' }} />,
+                stat: '2024', title: 'PECB Titanium Partner', sub: 'Winner of the PECB Titanium Partner Award', bottom: 'Winner',
               },
               {
-                accent: 'linear-gradient(90deg,#076D9D,#093148)', iconBg: 'rgba(9,49,72,0.10)',
-                iconEl: (
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/>
-                  </svg>
-                ),
-                stat: '1,000+', title: 'Enterprise Clients', sub: 'Fortune 500s to fast-growing scale-ups', bottom: 'Growing network',
+                accent: 'linear-gradient(90deg,#EF4444,#b91c1c)', iconBg: 'rgba(239,68,68,0.10)',
+                iconEl: <img src="/images/awards/RED-25.png" alt="Red Hat 2025" style={{ width: 52, height: 52, objectFit: 'contain' }} />,
+                stat: '2025', title: 'Red Hat Gold Partner', sub: 'Gold Partner of the Year – Non-Retail (GLS India)', bottom: 'Winner',
               },
             ] as const).map((c, i) => (
               <div
@@ -3229,36 +3220,43 @@ export default function EnterprisePage() {
       {/* ════════════════════════════════════════════════════════
            NEW: Vendor Certification Ecosystem (DARK NAVY — tiered rows)
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#093148' }}>
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(6,148,209,0.035) 1px,transparent 1px)', backgroundSize: '30px 30px' }} />
-          <div className="ent-blob1 absolute -top-28 -right-28 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: 'radial-gradient(circle,#0694D1,transparent)' }} />
-          <div className="ent-blob2 absolute -bottom-20 -left-20 h-72 w-72 rounded-full opacity-10 blur-3xl" style={{ background: 'radial-gradient(circle,#38bdf8,transparent)' }} />
-        </div>
+      <section className="relative overflow-hidden py-[60px] px-4 lg:px-[50px]" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
+        {/* Floating squares */}
+        {[
+          { w: 110, h: 110, top: '10%',  left: '47%' },
+          { w:  80, h:  80, top: '55%',  left: '57%' },
+          { w: 100, h: 100, top: '8%',   left: '71%' },
+          { w: 130, h: 130, top: '4%',   left: '84%' },
+          { w:  90, h: 130, top: '42%',  left: '91%' },
+          { w:  70, h:  70, top: '70%',  left: '75%' },
+        ].map((sq, i) => (
+          <div key={i} className="pointer-events-none absolute" style={{ width: sq.w, height: sq.h, top: sq.top, left: sq.left, border: '1.5px solid rgba(255,255,255,0.55)', borderRadius: '6px', background: 'rgba(255,255,255,0.08)' }} />
+        ))}
+
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
-            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Official Vendor Partners</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">50+ Authorised <span style={{ color: '#38bdf8' }}>Certification Partners</span></h2>
-            <p className="mt-3 max-w-xl mx-auto text-sm text-white/50">Train and certify your team on the industry's most in-demand platforms — all under one roof, with one account manager.</p>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694d1' }}>Official Vendor Partners</p>
+            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#0b2545' }}>50+ Authorised <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">Certification Partners</span></h2>
+            <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#3a6080' }}>Train and certify your team on the industry's most in-demand platforms — all under one roof, with one account manager.</p>
           </div>
 
           {/* Tier rows */}
           <div className="space-y-4">
             {([
-              { tier: '🏆 ELITE', vendors: ['Microsoft', 'AWS', 'Cisco', 'VMware', 'Red Hat', 'Google Cloud'], accentColor: '#F59E0B' },
-              { tier: '⭐ PREMIER', vendors: ['CompTIA', 'PMI', 'EC-Council', 'Salesforce', 'ServiceNow', 'SAP', 'Oracle'], accentColor: '#38bdf8' },
-              { tier: '✅ CERTIFIED', vendors: ['IBM', 'Fortinet', 'Palo Alto Networks', 'HashiCorp', 'Nutanix', 'Juniper', 'Citrix', 'ISACA', 'AXELOS'], accentColor: '#10B981' },
-            ] as { tier: string; vendors: string[]; accentColor: string }[]).map((row, ri) => (
-              <div key={ri} className="io-fade overflow-hidden rounded-2xl" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.18)' }}>
+              { tier: '🏆 ELITE',     vendors: ['Microsoft', 'AWS', 'Cisco', 'VMware', 'Red Hat', 'Google Cloud'],                                  accentColor: '#b45309', bg: 'rgba(245,158,11,0.08)',  border: 'rgba(245,158,11,0.25)' },
+              { tier: '⭐ PREMIER',   vendors: ['CompTIA', 'PMI', 'EC-Council', 'Salesforce', 'ServiceNow', 'SAP', 'Oracle'],                        accentColor: '#0694d1', bg: 'rgba(6,148,209,0.07)',   border: 'rgba(6,148,209,0.22)'  },
+              { tier: '✅ CERTIFIED', vendors: ['IBM', 'Fortinet', 'Palo Alto Networks', 'HashiCorp', 'Nutanix', 'Juniper', 'Citrix', 'ISACA', 'AXELOS'], accentColor: '#059669', bg: 'rgba(16,185,129,0.07)', border: 'rgba(16,185,129,0.22)' },
+            ] as { tier: string; vendors: string[]; accentColor: string; bg: string; border: string }[]).map((row, ri) => (
+              <div key={ri} className="io-fade overflow-hidden rounded-2xl" style={{ background: row.bg, border: `1px solid ${row.border}`, backdropFilter: 'blur(4px)' }}>
                 <div className="flex flex-col gap-4 p-5 lg:flex-row lg:items-center">
                   <div className="shrink-0 lg:w-[160px]">
                     <span className="text-sm font-black uppercase tracking-widest" style={{ color: row.accentColor }}>{row.tier}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {row.vendors.map(v => (
-                      <span key={v} className="rounded-full px-3.5 py-1.5 text-sm font-semibold text-white/80 transition-colors hover:text-white" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.11)' }}>{v}</span>
+                      <span key={v} className="rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors" style={{ background: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.7)', color: '#0b2545' }}>{v}</span>
                     ))}
-                    <span className="rounded-full px-3.5 py-1.5 text-sm font-semibold" style={{ background: `${row.accentColor}18`, color: row.accentColor, border: `1px solid ${row.accentColor}38` }}>+ more</span>
+                    <span className="rounded-full px-3.5 py-1.5 text-sm font-semibold" style={{ background: `rgba(255,255,255,0.4)`, color: row.accentColor, border: `1px solid ${row.border}` }}>+ more</span>
                   </div>
                 </div>
               </div>
@@ -3268,9 +3266,9 @@ export default function EnterprisePage() {
           {/* Mini stat strip */}
           <div className="io-fade mt-8 grid gap-4 text-center sm:grid-cols-3">
             {[['50+','Vendor Partnerships'],['300+','Certifications Available'],['94%','First-Attempt Pass Rate']].map(([n, l], i) => (
-              <div key={i} className="rounded-2xl py-5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.25)' }}>
-                <div className="text-2xl font-black" style={{ color: '#38bdf8' }}>{n}</div>
-                <div className="mt-1 text-sm text-white/50">{l}</div>
+              <div key={i} className="rounded-2xl py-5" style={{ background: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.7)', backdropFilter: 'blur(8px)' }}>
+                <div className="text-2xl font-black" style={{ color: '#0694d1' }}>{n}</div>
+                <div className="mt-1 text-sm" style={{ color: '#3a6080' }}>{l}</div>
               </div>
             ))}
           </div>
