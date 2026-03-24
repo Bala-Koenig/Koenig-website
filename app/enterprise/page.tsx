@@ -2,9 +2,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
-import { FallingPattern } from '@/components/ui/falling-pattern'
-import EnterpriseHeroGlobe from '@/components/EnterpriseHeroGlobe'
-import AuroraCanvas from '@/components/AuroraCanvas'
+import { FallingPattern } from '../components/ui/falling-pattern'
+import EnterpriseHeroGlobe from '../components/EnterpriseHeroGlobe'
+import AuroraCanvas from '../components/AuroraCanvas'
 
 /* ─── Existing Data ──────────────────────────────────────── */
 
@@ -328,48 +328,6 @@ const BENTO_THEMES: Record<string, { card: string; border: string; overlay: stri
   'FUNCTIONAL SKILLS': { card: 'rgba(255,228,240,0.82)', border: 'rgba(236,72,153,0.28)',  overlay: 'rgba(255,228,240,0.97)', badge: 'rgba(236,72,153,0.11)', badgeBorder: 'rgba(236,72,153,0.30)', text: '#be185d' },
 }
 
-/* ── Business Impact Aurora Canvas ── */
-function BiAuroraCanvas() {
-  const ref = useRef<HTMLCanvasElement>(null)
-  useEffect(() => {
-    const c = ref.current; if (!c) return
-    const ctx = c.getContext('2d')!
-    const resize = () => { c.width = c.offsetWidth; c.height = c.offsetHeight }
-    resize()
-    window.addEventListener('resize', resize)
-    type Orb = { x: number; y: number; r: number; vx: number; vy: number; color: string }
-    const orbs: Orb[] = [
-      { x: 0.15, y: 0.25, r: 320, vx: 0.00018, vy: 0.00012, color: 'rgba(19,168,212,0.13)' },
-      { x: 0.82, y: 0.70, r: 260, vx: -0.00013, vy: 0.00016, color: 'rgba(11,37,69,0.16)' },
-      { x: 0.50, y: 0.05, r: 210, vx: 0.00016, vy: 0.00019, color: 'rgba(77,191,239,0.11)' },
-      { x: 0.08, y: 0.85, r: 290, vx: 0.00011, vy: -0.00014, color: 'rgba(19,168,212,0.09)' },
-    ]
-    let id: number
-    const draw = () => {
-      ctx.clearRect(0, 0, c.width, c.height)
-      orbs.forEach(o => {
-        o.x += o.vx; o.y += o.vy
-        if (o.x < -0.1 || o.x > 1.1) o.vx *= -1
-        if (o.y < -0.1 || o.y > 1.1) o.vy *= -1
-        const g = ctx.createRadialGradient(o.x * c.width, o.y * c.height, 0, o.x * c.width, o.y * c.height, o.r)
-        g.addColorStop(0, o.color); g.addColorStop(1, 'transparent')
-        ctx.globalCompositeOperation = 'screen'
-        ctx.fillStyle = g
-        ctx.beginPath(); ctx.arc(o.x * c.width, o.y * c.height, o.r, 0, Math.PI * 2); ctx.fill()
-      })
-      id = requestAnimationFrame(draw)
-    }
-    draw()
-    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize) }
-  }, [])
-  return <canvas ref={ref} className="pointer-events-none absolute inset-0 h-full w-full" />
-}
-
-const BI_SLIDES = [
-  { gradient: 'linear-gradient(135deg,#0b2545 0%,#0d3d72 50%,#0a4d8f 100%)', label: 'Certification Success',  badge: '🏆 Industry-Leading', stat: '94%', unit: '',       desc: 'First-attempt pass rate across 5,000+ courses worldwide' },
-  { gradient: 'linear-gradient(135deg,#0a2d54 0%,#083d6b 50%,#0b4d80 100%)', label: 'Speed of Learning',      badge: '⚡ Accelerated',      stat: '3×',  unit: 'faster', desc: 'Skill acquisition vs. self-study or e-learning platforms' },
-  { gradient: 'linear-gradient(135deg,#071e3d 0%,#0a3060 50%,#0d3d78 100%)', label: 'Rapid Deployment',       badge: '🚀 Fast Launch',       stat: '48h', unit: '',       desc: 'Average programme launch — from brief to live training' },
-]
 
 /* Shared card wrapper */
 function BentoCard({ label, children, style }: {
@@ -1799,7 +1757,6 @@ export default function EnterprisePage() {
   const [activeHiwStep, setActiveHiwStep] = useState(0)
   const [hiwPaused, setHiwPaused] = useState(false)
   const [formatsSlide, setFormatsSlide] = useState(0)
-  const [biSlide, setBiSlide] = useState(0)
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
@@ -1826,21 +1783,6 @@ export default function EnterprisePage() {
     return () => observer.disconnect()
   }, [])
 
-  // Business impact — auto-advance slider
-  useEffect(() => {
-    const t = setInterval(() => setBiSlide(s => (s + 1) % BI_SLIDES.length), 5000)
-    return () => clearInterval(t)
-  }, [])
-
-  // Business impact — feature card slide-in observer
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('bi-visible') }),
-      { threshold: 0.12 }
-    )
-    document.querySelectorAll('.bi-feat-card').forEach(el => obs.observe(el))
-    return () => obs.disconnect()
-  }, [])
 
   useEffect(() => {
     const cycle = setInterval(() => {
@@ -1966,67 +1908,6 @@ export default function EnterprisePage() {
         .io-fade.delay-5 { transition-delay: 0.20s; }
         .io-fade.delay-6 { transition-delay: 0.24s; }
 
-        /* ── Business Impact ── */
-        @keyframes bi-stat-glow {
-          0%,100% { text-shadow: 0 0 8px rgba(19,168,212,0.25); }
-          50%     { text-shadow: 0 0 20px rgba(19,168,212,0.75), 0 0 44px rgba(19,168,212,0.30); }
-        }
-        @keyframes bi-shimmer { from{left:-80%} to{left:160%} }
-        @keyframes bi-icon-pulse {
-          0%,100% { box-shadow: 0 0 0 0 rgba(19,168,212,0.45); }
-          60%     { box-shadow: 0 0 0 9px rgba(19,168,212,0); }
-        }
-        @keyframes bi-blob-a { 0%,100%{transform:translate(0,0)} 50%{transform:translate(22px,-18px)} }
-        @keyframes bi-blob-b { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-18px,24px)} }
-        @keyframes bi-scan   { from{top:-6%} to{top:108%} }
-        @keyframes bi-bob    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-        @keyframes bi-spin-slow { to{transform:rotate(360deg)} }
-        @keyframes bi-progress  { from{width:0%} to{width:100%} }
-
-        .bi-grad-border {
-          background: #fff;
-          border: 1.5px solid transparent;
-          background-image: linear-gradient(#fff,#fff), linear-gradient(135deg,#13a8d4 0%,#0b2545 55%,#4dbfef 100%);
-          background-origin: border-box;
-          background-clip: padding-box, border-box;
-        }
-        .bi-stat-num { animation: bi-stat-glow 2.5s ease-in-out infinite; }
-        .bi-stat-num.d2 { animation-delay:.45s } .bi-stat-num.d3 { animation-delay:.9s } .bi-stat-num.d4 { animation-delay:1.35s }
-
-        .bi-feat-card {
-          position: relative; overflow: hidden;
-          background: #fff;
-          border: 1.5px solid transparent;
-          background-image: linear-gradient(#fff,#fff), linear-gradient(135deg,#13a8d4 0%,#0b2545 55%,#4dbfef 100%);
-          background-origin: border-box;
-          background-clip: padding-box, border-box;
-          opacity: 0; transform: translateX(-14px);
-          transition: opacity 0.42s ease, transform 0.42s ease, box-shadow 0.3s ease;
-        }
-        .bi-feat-card.bi-visible { opacity:1; transform:translateX(0); }
-        .bi-feat-card::after {
-          content:''; position:absolute; top:0; left:-80%; width:50%; height:100%;
-          background: linear-gradient(90deg,transparent,rgba(255,255,255,0.52),transparent);
-          transform: skewX(-20deg); pointer-events:none;
-        }
-        .bi-feat-card:hover::after { animation: bi-shimmer 0.65s ease forwards; }
-        .bi-feat-card:hover { box-shadow: 0 6px 26px rgba(19,168,212,0.16); }
-        .bi-feat-icon { transition: transform 0.3s ease; animation: bi-icon-pulse 2.5s ease-in-out infinite; }
-        .bi-feat-card:hover .bi-feat-icon { transform: rotate(14deg); }
-
-        /* What You Get scrollable area */
-        .bi-scroll { scrollbar-width: thin; scrollbar-color: rgba(19,168,212,0.45) rgba(19,168,212,0.06); }
-        .bi-scroll::-webkit-scrollbar { width: 5px; }
-        .bi-scroll::-webkit-scrollbar-track { background: rgba(19,168,212,0.06); border-radius: 6px; }
-        .bi-scroll::-webkit-scrollbar-thumb { background: rgba(19,168,212,0.40); border-radius: 6px; }
-        .bi-scroll::-webkit-scrollbar-thumb:hover { background: rgba(19,168,212,0.75); }
-
-        .bi-blob-a { animation: bi-blob-a  8s ease-in-out infinite; }
-        .bi-blob-b { animation: bi-blob-b 11s ease-in-out infinite; }
-        .bi-scan-line { position:absolute; left:0; right:0; height:2px; pointer-events:none; animation: bi-scan 3.2s linear infinite; }
-        .bi-pill-bob  { animation: bi-bob 2.5s ease-in-out infinite; }
-        .bi-spin-slow { animation: bi-spin-slow 22s linear infinite; }
-        .bi-progress-bar { animation: bi-progress 5s linear forwards; }
 
         /* Domain card — animated gradient border */
         @property --domain-angle {
@@ -2948,172 +2829,80 @@ export default function EnterprisePage() {
 
       {/* ── Business Impact ── */}
       <section className="relative overflow-hidden px-4 py-20 lg:px-[50px]" style={{ background: '#eef6fd' }}>
-        <BiAuroraCanvas />
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="grid gap-14 lg:grid-cols-2 lg:items-start">
+          <div
+            className="overflow-hidden rounded-3xl"
+            style={{
+              background: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+              border: '1px solid rgba(6,148,209,0.22)',
+              boxShadow: '0 24px 60px rgba(11,37,69,0.18)',
+            }}
+          >
+            <div className="grid lg:grid-cols-2">
 
-            {/* ══ LEFT COLUMN ══ */}
-            <div>
-              {/* Eyebrow */}
-              <div className="io-fade mb-5 flex items-center gap-3">
-                <span className="h-px w-8 rounded-full" style={{ background: '#13a8d4' }} />
-                <p className="text-sm font-bold uppercase tracking-widest" style={{ color: '#13a8d4' }}>Proven Results</p>
+              {/* ══ LEFT — Image ══ */}
+              <div className="relative h-64 lg:h-auto overflow-hidden">
+                <img
+                  src="/images/banner-enterprise1.png"
+                  alt="Business Impact of Koenig Enterprise Training"
+                  className="h-full w-full object-cover"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{ background: 'linear-gradient(to right, transparent 55%, rgba(7,45,68,0.85))' }}
+                />
+                <span
+                  className="absolute left-4 top-4 rounded-full px-3 py-1 text-sm font-normal text-white"
+                  style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)' }}
+                >
+                  Proven Results
+                </span>
               </div>
 
-              {/* Heading */}
-              <div className="io-fade mb-3">
-                <h2 className="text-3xl font-extrabold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
+              {/* ══ RIGHT — Details ══ */}
+              <div className="flex flex-col px-7 py-8 lg:px-10 lg:py-10">
+
+                {/* Heading */}
+                <h2 className="mb-3 text-2xl font-extrabold leading-tight text-white lg:text-3xl">
                   The Business Impact of{' '}
                   <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
                     Koenig Enterprise Training
                   </span>
                 </h2>
-              </div>
-              <p className="io-fade mb-10 max-w-lg text-base" style={{ color: '#4a7a9b' }}>
-                Numbers that matter to L&D leaders, CISOs, and CFOs — backed by 30+ years of enterprise outcomes.
-              </p>
+                <p className="mb-7 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  Numbers that matter to L&amp;D leaders, CISOs, and CFOs — backed by 30+ years of enterprise outcomes.
+                </p>
 
-              {/* WHAT YOU GET label */}
-              <p className="mb-4 text-sm font-black uppercase tracking-widest" style={{ color: '#13a8d4' }}>What You Get</p>
-
-              {/* Feature cards — scrollable */}
-              <div className="bi-scroll flex flex-col gap-4 overflow-y-auto pr-2" style={{ maxHeight: '280px' }}>
-                {[
-                  { title: 'Dedicated L&D Dashboard',      desc: 'Real-time visibility into team progress, certifications, and upcoming sessions — all in one portal.',         icon: <><rect x="3" y="3" width="18" height="18" rx="2" strokeWidth={1.7}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M8 12h.01M12 9v3M16 12h.01"/></>, delay: '0s'    },
-                  { title: 'Compliance-Ready Training',     desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements — available on demand.',        icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></>, delay: '0.08s' },
-                  { title: 'Dedicated Account Manager',     desc: 'A single point of contact handles scheduling, logistics, and escalation — zero admin burden on your team.',    icon: <><circle cx="12" cy="8" r="4" strokeWidth={1.7}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M4 20c0-4 3.582-7 8-7s8 3 8 7"/></>, delay: '0.16s' },
-                  { title: 'Multi-Region Delivery',         desc: 'Run identical programmes across APAC, EMEA, and Americas simultaneously with region-specific instructors.',     icon: <><circle cx="12" cy="12" r="9" strokeWidth={1.7}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></>, delay: '0.24s' },
-                  { title: 'Vendor-Certified Instructors',  desc: 'Every trainer holds active vendor certs and real-world experience — no theory-only instructors, ever.',         icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M12 14l9-5-9-5-9 5 9 5z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M12 14l6.16-3.422A12.083 12.083 0 0121 13c0 5.523-4.03 10-9 10S3 18.523 3 13c0-.67.053-1.329.157-1.972L9 14"/></>, delay: '0.32s' },
-                  { title: 'Guaranteed Schedule',           desc: 'Every confirmed batch runs. No last-minute cancellations. Your team plans around training, not the other way.', icon: <><rect x="3" y="4" width="18" height="18" rx="2" strokeWidth={1.7}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01"/></>, delay: '0.40s' },
-                ].map((f, i) => (
-                  <div
-                    key={i}
-                    className="bi-feat-card flex items-start gap-4 rounded-2xl p-5"
-                    style={{ transitionDelay: f.delay, minHeight: '100px', flex: '0 0 auto' }}
-                  >
-                    {/* Icon box */}
-                    <div
-                      className="bi-feat-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-                      style={{ background: 'rgba(19,168,212,0.08)', border: '1px solid rgba(19,168,212,0.2)' }}
-                    >
-                      <svg className="h-5 w-5" style={{ color: '#13a8d4' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{f.icon}</svg>
-                    </div>
-                    {/* Text */}
-                    <div className="flex-1">
-                      <div className="mb-0.5 flex items-center gap-2">
-                        <h4 className="text-sm font-bold" style={{ color: '#0b2545' }}>{f.title}</h4>
-                        <span className="flex h-2 w-2 rounded-full" style={{ background: '#22c55e', boxShadow: '0 0 0 3px rgba(34,197,94,0.2)', animation: 'bi-bob 2s ease-in-out infinite', animationDelay: `${i * 0.2}s` }} />
+                {/* Feature list */}
+                <ul className="mb-8 space-y-4 flex-1">
+                  {[
+                    { title: 'Dedicated L&D Dashboard',     desc: 'Real-time visibility into team progress, certifications, and upcoming sessions — all in one portal.' },
+                    { title: 'Compliance-Ready Training',    desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements — available on demand.' },
+                    { title: 'Dedicated Account Manager',    desc: 'A single point of contact handles scheduling, logistics, and escalation — zero admin burden on your team.' },
+                    { title: 'Multi-Region Delivery',        desc: 'Run identical programmes across APAC, EMEA, and Americas simultaneously with region-specific instructors.' },
+                    { title: 'Vendor-Certified Instructors', desc: 'Every trainer holds active vendor certs and real-world experience — no theory-only instructors, ever.' },
+                    { title: 'Guaranteed Schedule',          desc: 'Every confirmed batch runs. No last-minute cancellations. Your team plans around training, not the other way.' },
+                  ].map((f, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <svg className="mt-0.5 h-[17px] w-[17px] shrink-0" viewBox="0 0 17 17" fill="none">
+                        <circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/>
+                        <path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      <div>
+                        <span className="text-sm font-bold text-white">{f.title}</span>
+                        <span className="ml-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>— {f.desc}</span>
                       </div>
-                      <p className="text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{f.desc}</p>
-                    </div>
-                  </div>
-                ))}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA */}
+                <button className="ent-lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>
+                  Learn More →
+                </button>
               </div>
+
             </div>
-
-            {/* ══ RIGHT COLUMN — Slider ══ */}
-            <div className="lg:sticky lg:top-24">
-              <div
-                className="relative overflow-hidden rounded-3xl"
-                style={{
-                  height: '540px',
-                  border: '1.5px solid transparent',
-                  backgroundImage: 'linear-gradient(#0b2545,#0b2545), linear-gradient(135deg,#13a8d4,#0b2545,#4dbfef)',
-                  backgroundOrigin: 'border-box',
-                  backgroundClip: 'padding-box, border-box',
-                  boxShadow: '0 24px 60px rgba(11,37,69,0.28)',
-                }}
-              >
-                {/* Dot grid overlay */}
-                <div className="pointer-events-none absolute inset-0" style={{
-                  backgroundImage: 'radial-gradient(circle, rgba(19,168,212,0.18) 1px, transparent 1px)',
-                  backgroundSize: '28px 28px',
-                }} />
-
-                {/* Slides */}
-                {BI_SLIDES.map((sl, idx) => (
-                  <div
-                    key={idx}
-                    className="absolute inset-0 flex flex-col justify-between p-8 transition-opacity duration-700"
-                    style={{ opacity: biSlide === idx ? 1 : 0, background: sl.gradient, pointerEvents: biSlide === idx ? 'auto' : 'none' }}
-                  >
-                    {/* Blobs */}
-                    <div className="bi-blob-a pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full" style={{ background: 'radial-gradient(circle, rgba(19,168,212,0.22) 0%, transparent 70%)' }} />
-                    <div className="bi-blob-b pointer-events-none absolute -bottom-12 -left-12 h-48 w-48 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
-
-                    {/* Rotating dashed ring */}
-                    <div className="bi-spin-slow pointer-events-none absolute right-10 top-1/3 h-32 w-32 rounded-full" style={{ border: '1.5px dashed rgba(19,168,212,0.35)' }} />
-
-                    {/* Scan line */}
-                    <div className="bi-scan-line" style={{ background: 'linear-gradient(90deg, transparent, rgba(19,168,212,0.3), transparent)' }} />
-
-                    {/* Top row: frosted label + pill badge */}
-                    <div className="relative z-10 flex items-start justify-between">
-                      <span className="rounded-xl px-4 py-2 text-sm font-bold text-white/90 backdrop-blur-md" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)' }}>
-                        {sl.label}
-                      </span>
-                      <span className="bi-pill-bob rounded-full px-3.5 py-1.5 text-sm font-bold text-white" style={{ background: 'rgba(19,168,212,0.35)', border: '1px solid rgba(19,168,212,0.55)', backdropFilter: 'blur(8px)' }}>
-                        {sl.badge}
-                      </span>
-                    </div>
-
-                    {/* Centre — large stat */}
-                    <div className="relative z-10 flex flex-col items-center justify-center flex-1 py-6">
-                      <p className="font-black leading-none" style={{ fontSize: '7rem', color: '#fff', textShadow: '0 0 40px rgba(19,168,212,0.6)' }}>{sl.stat}</p>
-                      {sl.unit && <p className="mt-1 text-xl font-bold" style={{ color: '#13a8d4' }}>{sl.unit}</p>}
-                    </div>
-
-                    {/* Bottom-left frosted stat badge */}
-                    <div className="relative z-10 inline-flex max-w-xs flex-col rounded-2xl px-5 py-3 backdrop-blur-md" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.13)' }}>
-                      <p className="text-sm text-white/60">{sl.desc}</p>
-                    </div>
-                  </div>
-                ))}
-
-                {/* Progress bar + nav — bottom strip */}
-                <div className="absolute bottom-0 left-0 right-0 z-20 px-6 pb-5">
-                  {/* Progress bar */}
-                  <div className="mb-4 h-0.5 w-full overflow-hidden rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }}>
-                    <div
-                      key={biSlide}
-                      className="bi-progress-bar h-full rounded-full"
-                      style={{ background: 'linear-gradient(90deg,#13a8d4,#4dbfef)', width: '0%' }}
-                    />
-                  </div>
-                  {/* Arrows + dots */}
-                  <div className="flex items-center justify-end gap-4">
-                    <button
-                      onClick={() => setBiSlide(s => (s - 1 + BI_SLIDES.length) % BI_SLIDES.length)}
-                      className="flex h-8 w-8 items-center justify-center rounded-full transition-all hover:scale-110"
-                      style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}
-                    >
-                      <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
-                    </button>
-                    <div className="flex items-center gap-2">
-                      {BI_SLIDES.map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setBiSlide(i)}
-                          className="h-2 rounded-full transition-all duration-300"
-                          style={{
-                            width: biSlide === i ? '24px' : '8px',
-                            background: biSlide === i ? '#13a8d4' : 'rgba(255,255,255,0.3)',
-                          }}
-                        />
-                      ))}
-                    </div>
-                    <button
-                      onClick={() => setBiSlide(s => (s + 1) % BI_SLIDES.length)}
-                      className="flex h-8 w-8 items-center justify-center rounded-full transition-all hover:scale-110"
-                      style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}
-                    >
-                      <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </section>
