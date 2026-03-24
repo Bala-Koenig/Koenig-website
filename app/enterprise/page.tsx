@@ -2901,22 +2901,21 @@ export default function EnterprisePage() {
                     {sl.title}
                   </p>
 
-                  {/* Image */}
-                  <div className="overflow-hidden rounded-2xl" style={{ border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 16px 48px rgba(11,37,69,0.15)' }}>
+                  {/* Image with stat badge inside bottom-right */}
+                  <div className="relative overflow-hidden rounded-2xl" style={{ border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 16px 48px rgba(11,37,69,0.15)' }}>
                     <img
                       src={sl.img}
                       alt={sl.title}
                       className="h-72 w-full object-cover lg:h-80"
                     />
-                  </div>
-
-                  {/* Stat badge — below image */}
-                  <div
-                    className="mt-4 inline-flex items-center gap-4 rounded-xl px-5 py-3"
-                    style={{ background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 4px 16px rgba(11,37,69,0.10)' }}
-                  >
-                    <p className="text-3xl font-black leading-none" style={{ color: '#13a8d4' }}>{sl.stat}</p>
-                    <p className="text-sm font-medium" style={{ color: '#1e4060' }}>{sl.sublabel}</p>
+                    {/* Stat badge — bottom-right inside image */}
+                    <div
+                      className="absolute bottom-4 right-4 rounded-xl px-4 py-3 text-right"
+                      style={{ background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(14px)', border: '1px solid rgba(255,255,255,0.7)', boxShadow: '0 4px 16px rgba(11,37,69,0.18)' }}
+                    >
+                      <p className="text-2xl font-black leading-none" style={{ color: '#13a8d4' }}>{sl.stat}</p>
+                      <p className="mt-1 text-xs font-medium" style={{ color: '#1e4060' }}>{sl.sublabel}</p>
+                    </div>
                   </div>
                 </div>
               ))}
