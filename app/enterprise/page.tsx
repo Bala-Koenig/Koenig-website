@@ -6,6 +6,82 @@ import { FallingPattern } from '@/components/ui/falling-pattern'
 import EnterpriseHeroGlobe from '@/components/EnterpriseHeroGlobe'
 import AuroraCanvas from '@/components/AuroraCanvas'
 
+/* ─── Vendor Partner Data ────────────────────────────────── */
+
+const ENT_VENDORS_ROW1 = [
+  { name: 'Microsoft',        tier: 'Gold Partner',        courses: '380+', initial: 'M', img: 'microsoft-cloud-t.png' },
+  { name: 'Cisco',            tier: 'Premier Partner',     courses: '210+', initial: 'C', img: 'Cisco.png' },
+  { name: 'AWS',              tier: 'Training Partner',    courses: '290+', initial: 'A', img: 'amazon-authorized.png' },
+  { name: 'VMware',           tier: 'Principal Partner',   courses: '120+', initial: 'V', img: 'VMware-Broadcom.png' },
+  { name: 'Oracle',           tier: 'Gold Partner',        courses: '160+', initial: 'O', img: 'o-prtnr-clr-rgb (1).png' },
+  { name: 'PECB',             tier: 'Authorized Partner',  courses: '80+',  initial: 'P', img: 'Authorized PECB Certification Courses Training badge.png' },
+  { name: 'ISACA',            tier: 'Authorized Partner',  courses: '60+',  initial: 'I', img: undefined },
+  { name: 'PeopleCert',       tier: 'ATO Partner',         courses: '90+',  initial: 'P', img: 'PeopleCert.png' },
+  { name: 'CompTIA',          tier: 'Platinum Partner',    courses: '180+', initial: 'C', img: 'comptia.png' },
+  { name: 'SAP',              tier: 'Gold Partner',        courses: '140+', initial: 'S', img: 'SAP.jpg' },
+  { name: 'EC-Council',       tier: 'ATC Partner',         courses: '120+', initial: 'E', img: 'EC-Council-logo.png' },
+  { name: 'ISC2',             tier: 'Official Partner',    courses: '50+',  initial: 'I', img: 'OTP-Preferred-Badge.png' },
+  { name: 'PMI',              tier: 'Premier Partner',     courses: '140+', initial: 'P', img: 'PMI1115-ATP-Badge-2024-rgb.png' },
+  { name: 'ISTQB',            tier: 'Authorized Partner',  courses: '40+',  initial: 'I', img: 'ISTQB.png' },
+  { name: 'Broadcom',         tier: 'Partner',             courses: '70+',  initial: 'B', img: 'Broadcom.png' },
+  { name: 'Check Point',      tier: 'Authorized Partner',  courses: '55+',  initial: 'C', img: 'Checkpoint ATC 2026 PLATINUM Badge.png' },
+  { name: 'Red Hat',          tier: 'Advanced Partner',    courses: '110+', initial: 'R', img: 'Redvendorlogo.png' },
+  { name: 'The Open Group',   tier: 'Authorized Partner',  courses: '45+',  initial: 'T', img: 'Vendor-OG-logo.png' },
+  { name: 'Python Institute', tier: 'Authorized Partner',  courses: '35+',  initial: 'P', img: 'Python-logo.png' },
+  { name: 'Linux Foundation', tier: 'Training Partner',    courses: '60+',  initial: 'L', img: 'Linux-Foundation.png' },
+]
+const ENT_VENDORS_ROW2 = [
+  { name: 'Autodesk',                 tier: 'Authorized Partner',  courses: '45+',  initial: 'A', img: 'AutodeskCertification.png' },
+  { name: 'BCS',                      tier: 'ATO Partner',         courses: '35+',  initial: 'B', img: 'BCS partner logo (1).png' },
+  { name: 'ServiceNow',               tier: 'Training Partner',    courses: '40+',  initial: 'S', img: 'ServiceNow.png' },
+  { name: 'CertNexus',                tier: 'Authorized Partner',  courses: '30+',  initial: 'C', img: 'cnxatpweb-small.png' },
+  { name: 'CWNP',                     tier: 'Authorized Partner',  courses: '25+',  initial: 'C', img: 'alc-standard-Basic-Logo.jpg' },
+  { name: 'SUSE',                     tier: 'Training Partner',    courses: '20+',  initial: 'S', img: 'suse.jpg' },
+  { name: 'Android ATC',              tier: 'Authorized Partner',  courses: '30+',  initial: 'A', img: 'Android ATC Authorized Training Center.jpg' },
+  { name: 'SCRUMstudy',               tier: 'Authorized Partner',  courses: '25+',  initial: 'S', img: 'scrumstudy.png', imgLg: true },
+  { name: 'TÜV SÜD',                 tier: 'Authorized Partner',  courses: '35+',  initial: 'T', img: 'Web-TS_Cobranding_Cooperation_partner_RGB_TS_Blue.png' },
+  { name: 'GSDC',                     tier: 'Authorized Partner',  courses: '20+',  initial: 'G', img: 'ATP badge.png' },
+  { name: 'Dell EMC',                 tier: 'Training Partner',    courses: '50+',  initial: 'D', img: 'emc.png' },
+  { name: 'AI CERTs',                 tier: 'Authorized Partner',  courses: '30+',  initial: 'A', img: 'AICerts (1).png' },
+  { name: 'EXIN',                     tier: 'Authorized Partner',  courses: '40+',  initial: 'E', img: 'EXIN.png' },
+  { name: 'Cloud Security Alliance',  tier: 'Authorized Partner',  courses: '25+',  initial: 'C', img: 'cloud-security-alliance.png' },
+  { name: 'OffSec Training',          tier: 'Learning Partner',    courses: '20+',  initial: 'O', img: 'OffSecLearningPartnerDarkPNG (1).png' },
+  { name: 'Cloudera',                 tier: 'Training Partner',    courses: '30+',  initial: 'C', img: 'cloudera (1).png' },
+  { name: 'Cloud Credential Council', tier: 'Authorized Partner',  courses: '20+',  initial: 'C', img: 'CCC_Logo.png' },
+  { name: 'LPI',                      tier: 'Authorized Partner',  courses: '15+',  initial: 'L', img: 'Linux.png' },
+  { name: 'C++ Institute',            tier: 'Authorized Partner',  courses: '10+',  initial: 'C', img: 'c-plus-2-logo.png' },
+  { name: 'Omnissa',                  tier: 'Partner',             courses: '30+',  initial: 'O', img: 'Omnissa.png' },
+]
+
+function EntVendorCard({ v }: { v: { name: string; tier: string; courses: string; initial: string; img?: string; imgLg?: boolean } }) {
+  return (
+    <div
+      className="group flex w-48 shrink-0 flex-col overflow-hidden rounded-2xl bg-white"
+      style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(0,164,239,0.07)', transition: 'box-shadow 0.3s ease, border-color 0.3s ease' }}
+      onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 14px rgba(6,148,209,0.14)'; e.currentTarget.style.borderColor = '#A8D8F0' }}
+      onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,164,239,0.07)'; e.currentTarget.style.borderColor = '#CAEFFF' }}
+    >
+      <div className={`flex h-28 w-full items-center justify-center bg-white ${v.imgLg ? 'p-1' : 'p-3'}`}>
+        {v.img ? (
+          <img
+            src={`/images/partners/${encodeURIComponent(v.img)}`}
+            alt={v.name}
+            className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
+            style={{ maxHeight: v.imgLg ? '116px' : '88px' }}
+          />
+        ) : (
+          <span className="text-2xl sm:text-3xl md:text-4xl font-black transition-transform duration-300 group-hover:scale-110 inline-block" style={{ color: '#076D9D' }}>{v.initial}</span>
+        )}
+      </div>
+      <div className="flex flex-col gap-1 border-t border-[#EEF6FF] bg-[#FAFCFF] px-3 pb-3 pt-2.5">
+        <p className="truncate text-center text-sm font-bold" style={{ color: '#0b2545' }}>{v.name}</p>
+        <p className="truncate text-center text-xs" style={{ color: '#4a90b8' }}>{v.tier}</p>
+        <p className="text-center text-xs font-semibold" style={{ color: '#13a8d4' }}>{v.courses} Courses</p>
+      </div>
+    </div>
+  )
+}
+
 /* ─── Existing Data ──────────────────────────────────────── */
 
 const ENT_MORPH_WORDS = [
@@ -3228,29 +3304,27 @@ export default function EnterprisePage() {
             <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#0b2545' }}>50+ Authorised <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">Certification Partners</span></h2>
             <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#3a6080' }}>Train and certify your team on the industry's most in-demand platforms — all under one roof, with one account manager.</p>
           </div>
+        </div>
 
-          {/* Tier rows */}
-          <div className="space-y-4">
-            {([
-              { tier: '🏆 ELITE',     vendors: ['Microsoft', 'AWS', 'Cisco', 'VMware', 'Red Hat', 'Google Cloud'],                                  accentColor: '#b45309', bg: 'rgba(245,158,11,0.08)',  border: 'rgba(245,158,11,0.25)' },
-              { tier: '⭐ PREMIER',   vendors: ['CompTIA', 'PMI', 'EC-Council', 'Salesforce', 'ServiceNow', 'SAP', 'Oracle'],                        accentColor: '#0694d1', bg: 'rgba(6,148,209,0.07)',   border: 'rgba(6,148,209,0.22)'  },
-              { tier: '✅ CERTIFIED', vendors: ['IBM', 'Fortinet', 'Palo Alto Networks', 'HashiCorp', 'Nutanix', 'Juniper', 'Citrix', 'ISACA', 'AXELOS'], accentColor: '#059669', bg: 'rgba(16,185,129,0.07)', border: 'rgba(16,185,129,0.22)' },
-            ] as { tier: string; vendors: string[]; accentColor: string; bg: string; border: string }[]).map((row, ri) => (
-              <div key={ri} className="io-fade overflow-hidden rounded-2xl" style={{ background: row.bg, border: `1px solid ${row.border}`, backdropFilter: 'blur(4px)' }}>
-                <div className="flex flex-col gap-4 p-5 lg:flex-row lg:items-center">
-                  <div className="shrink-0 lg:w-[160px]">
-                    <span className="text-sm font-black uppercase tracking-widest" style={{ color: row.accentColor }}>{row.tier}</span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {row.vendors.map(v => (
-                      <span key={v} className="rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors" style={{ background: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.7)', color: '#0b2545' }}>{v}</span>
-                    ))}
-                    <span className="rounded-full px-3.5 py-1.5 text-sm font-semibold" style={{ background: `rgba(255,255,255,0.4)`, color: row.accentColor, border: `1px solid ${row.border}` }}>+ more</span>
-                  </div>
-                </div>
-              </div>
+        {/* Row 1 — scrolls left */}
+        <div className="ent-marquee-wrap relative mb-4 py-3">
+          <div className="ent-marquee-track gap-4 px-2">
+            {[...ENT_VENDORS_ROW1, ...ENT_VENDORS_ROW1].map((v, i) => (
+              <EntVendorCard key={i} v={v} />
             ))}
           </div>
+        </div>
+
+        {/* Row 2 — scrolls right (reverse) */}
+        <div className="ent-marquee-wrap relative py-3">
+          <div className="ent-marquee-track-rev gap-4 px-2">
+            {[...ENT_VENDORS_ROW2, ...ENT_VENDORS_ROW2].map((v, i) => (
+              <EntVendorCard key={i} v={v} />
+            ))}
+          </div>
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-7xl">
 
           {/* Mini stat strip */}
           <div className="io-fade mt-8 grid gap-4 text-center sm:grid-cols-3">
