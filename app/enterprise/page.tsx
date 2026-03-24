@@ -2922,9 +2922,6 @@ export default function EnterprisePage() {
                       className="h-full w-full object-cover"
                       style={{ minHeight: '420px' }}
                     />
-                    {/* Dark gradient overlay */}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(7,17,28,0.25) 0%, rgba(7,17,28,0.55) 100%)' }} />
-
                     {/* Stat badge — top-left */}
                     <div
                       className="absolute left-4 top-4 rounded-xl px-4 py-3"
