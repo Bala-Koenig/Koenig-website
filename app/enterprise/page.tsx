@@ -2829,81 +2829,111 @@ export default function EnterprisePage() {
 
       {/* ── Business Impact ── */}
       <section className="relative overflow-hidden px-4 py-20 lg:px-[50px]" style={{ background: '#eef6fd' }}>
+        {/* Subtle background orbs */}
+        <div className="pointer-events-none absolute -left-32 top-10 h-80 w-80 rounded-full opacity-40" style={{ background: 'radial-gradient(circle,rgba(19,168,212,0.18) 0%,transparent 70%)', filter: 'blur(40px)' }} />
+        <div className="pointer-events-none absolute -right-20 bottom-10 h-72 w-72 rounded-full opacity-30" style={{ background: 'radial-gradient(circle,rgba(77,191,239,0.20) 0%,transparent 70%)', filter: 'blur(40px)' }} />
+
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div
-            className="overflow-hidden rounded-3xl"
-            style={{
-              background: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-              border: '1px solid rgba(6,148,209,0.22)',
-              boxShadow: '0 24px 60px rgba(11,37,69,0.18)',
-            }}
-          >
-            <div className="grid lg:grid-cols-2">
 
-              {/* ══ LEFT — Image ══ */}
-              <div className="relative h-64 lg:h-auto overflow-hidden">
-                <img
-                  src="/images/banner-enterprise1.png"
-                  alt="Business Impact of Koenig Enterprise Training"
-                  className="h-full w-full object-cover"
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{ background: 'linear-gradient(to right, transparent 55%, rgba(7,45,68,0.85))' }}
-                />
-                <span
-                  className="absolute left-4 top-4 rounded-full px-3 py-1 text-sm font-normal text-white"
-                  style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)' }}
-                >
-                  Proven Results
-                </span>
-              </div>
-
-              {/* ══ RIGHT — Details ══ */}
-              <div className="flex flex-col px-7 py-8 lg:px-10 lg:py-10">
-
-                {/* Heading */}
-                <h2 className="mb-3 text-2xl font-extrabold leading-tight text-white lg:text-3xl">
-                  The Business Impact of{' '}
-                  <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
-                    Koenig Enterprise Training
-                  </span>
-                </h2>
-                <p className="mb-7 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  Numbers that matter to L&amp;D leaders, CISOs, and CFOs — backed by 30+ years of enterprise outcomes.
-                </p>
-
-                {/* Feature list */}
-                <ul className="mb-8 space-y-4 flex-1">
-                  {[
-                    { title: 'Dedicated L&D Dashboard',     desc: 'Real-time visibility into team progress, certifications, and upcoming sessions — all in one portal.' },
-                    { title: 'Compliance-Ready Training',    desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements — available on demand.' },
-                    { title: 'Dedicated Account Manager',    desc: 'A single point of contact handles scheduling, logistics, and escalation — zero admin burden on your team.' },
-                    { title: 'Multi-Region Delivery',        desc: 'Run identical programmes across APAC, EMEA, and Americas simultaneously with region-specific instructors.' },
-                    { title: 'Vendor-Certified Instructors', desc: 'Every trainer holds active vendor certs and real-world experience — no theory-only instructors, ever.' },
-                    { title: 'Guaranteed Schedule',          desc: 'Every confirmed batch runs. No last-minute cancellations. Your team plans around training, not the other way.' },
-                  ].map((f, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <svg className="mt-0.5 h-[17px] w-[17px] shrink-0" viewBox="0 0 17 17" fill="none">
-                        <circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/>
-                        <path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      <div>
-                        <span className="text-sm font-bold text-white">{f.title}</span>
-                        <span className="ml-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>— {f.desc}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA */}
-                <button className="ent-lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>
-                  Learn More →
-                </button>
-              </div>
-
+          {/* Section header */}
+          <div className="mb-12 text-center">
+            <div className="mb-4 inline-flex items-center gap-3">
+              <span className="h-px w-8 rounded-full" style={{ background: '#13a8d4' }} />
+              <p className="text-sm font-bold uppercase tracking-widest" style={{ color: '#13a8d4' }}>Proven Results</p>
+              <span className="h-px w-8 rounded-full" style={{ background: '#13a8d4' }} />
             </div>
+            <h2 className="text-3xl font-extrabold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
+              The Business Impact of{' '}
+              <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
+                Koenig Enterprise Training
+              </span>
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-base" style={{ color: '#4a7a9b' }}>
+              Numbers that matter to L&amp;D leaders, CISOs, and CFOs — backed by 30+ years of enterprise outcomes.
+            </p>
           </div>
+
+          {/* Cards grid */}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                img: '/images/home-banner/classrecord.png',
+                badge: 'Analytics',
+                title: 'Dedicated L&D Dashboard',
+                desc: 'Real-time visibility into team progress, certifications, and upcoming sessions — all in one portal.',
+              },
+              {
+                img: '/images/home-banner/revision.png',
+                badge: 'Compliance',
+                title: 'Compliance-Ready Training',
+                desc: 'Audit-friendly reports for ISO, SOC 2, GDPR, and HIPAA compliance requirements — available on demand.',
+              },
+              {
+                img: '/images/home-banner/pre-req.png',
+                badge: 'Support',
+                title: 'Dedicated Account Manager',
+                desc: 'A single point of contact handles scheduling, logistics, and escalation — zero admin burden on your team.',
+              },
+              {
+                img: '/images/home-banner/Live-Online-Classes.png',
+                badge: 'Global',
+                title: 'Multi-Region Delivery',
+                desc: 'Run identical programmes across APAC, EMEA, and Americas simultaneously with region-specific instructors.',
+              },
+              {
+                img: '/images/home-banner/classroom-training.png',
+                badge: 'Certified',
+                title: 'Vendor-Certified Instructors',
+                desc: 'Every trainer holds active vendor certs and real-world experience — no theory-only instructors, ever.',
+              },
+              {
+                img: '/images/home-banner/lab-extn.png',
+                badge: 'Reliable',
+                title: 'Guaranteed Schedule',
+                desc: 'Every confirmed batch runs. No last-minute cancellations. Your team plans around training, not the other way.',
+              },
+            ].map((card, i) => (
+              <div
+                key={i}
+                className="ent-lf-flip io-fade"
+                style={{ perspective: '1000px', height: '360px' }}
+              >
+                <div className="ent-lf-flip-inner relative h-full w-full">
+
+                  {/* FRONT */}
+                  <div
+                    className="ent-lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl"
+                    style={{ background: 'linear-gradient(145deg,#0a3d5c,#072d44)', border: '1px solid rgba(6,148,209,0.22)' }}
+                  >
+                    {/* Image */}
+                    <div className="relative h-44 w-full shrink-0 overflow-hidden">
+                      <img src={card.img} alt={card.title} className="h-full w-full object-cover" />
+                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 50%, rgba(7,45,68,0.75))' }} />
+                      <span
+                        className="absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold text-white"
+                        style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', border: '1px solid rgba(6,148,209,0.3)' }}
+                      >
+                        {card.badge}
+                      </span>
+                    </div>
+                    {/* Info */}
+                    <div className="flex flex-1 flex-col px-5 pt-4 pb-5">
+                      <h3 className="mb-2 text-base font-semibold text-white">{card.title}</h3>
+                      <p className="flex-1 text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{card.desc}</p>
+                      <button
+                        className="ent-lf-btn-glow mt-4 w-full rounded-xl py-2.5 text-sm font-bold text-white"
+                        style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}
+                      >
+                        Learn More →
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </section>
 
