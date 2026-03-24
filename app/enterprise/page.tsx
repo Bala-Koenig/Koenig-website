@@ -2882,60 +2882,60 @@ export default function EnterprisePage() {
             </div>
 
             {/* ══ RIGHT — Auto-sliding image ══ */}
-            <div className="relative flex-1">
-              {[
-                { img: '/images/enterprise/94.png',                       title: 'Dedicated L&D Dashboard',     stat: '94%',  sublabel: 'First-Attempt Pass Rate' },
-                { img: '/images/enterprise/ISO.png',                      title: 'Compliance-Ready Training',   stat: 'ISO',  sublabel: 'Compliance-Ready Reports' },
-                { img: '/images/enterprise/dedicated-account-manager.png',title: 'Dedicated Account Manager',   stat: '1:1',  sublabel: 'Dedicated Account Manager' },
-                { img: '/images/enterprise/multi-region-delivery.png',    title: 'Multi-Region Delivery',       stat: '195+', sublabel: 'Countries Delivered' },
+            {(() => {
+              const BI_ITEMS = [
+                { img: '/images/enterprise/94.png',                           title: 'Dedicated L&D Dashboard',      stat: '94%',  sublabel: 'First-Attempt Pass Rate' },
+                { img: '/images/enterprise/ISO.png',                          title: 'Compliance-Ready Training',    stat: 'ISO',  sublabel: 'Compliance-Ready Reports' },
+                { img: '/images/enterprise/dedicated-account-manager.png',    title: 'Dedicated Account Manager',    stat: '1:1',  sublabel: 'Dedicated Account Manager' },
+                { img: '/images/enterprise/multi-region-delivery.png',        title: 'Multi-Region Delivery',        stat: '195+', sublabel: 'Countries Delivered' },
                 { img: '/images/enterprise/vendor-certified-instructors.png', title: 'Vendor-Certified Instructors', stat: '500+', sublabel: 'Vendor Certifications' },
-                { img: '/images/enterprise/GTR.png',                      title: 'Guaranteed Schedule',         stat: '100%', sublabel: 'Batch Guarantee' },
-              ].map((sl, idx) => (
-                <div
-                  key={idx}
-                  className="transition-opacity duration-700"
-                  style={{ opacity: biSlide === idx ? 1 : 0, position: biSlide === idx ? 'relative' : 'absolute', inset: 0, pointerEvents: biSlide === idx ? 'auto' : 'none' }}
-                >
-                  {/* Feature title — above image */}
-                  <p className="mb-3 text-sm font-bold uppercase tracking-wider" style={{ color: '#0b2545' }}>
-                    {sl.title}
+                { img: '/images/enterprise/GTR.png',                          title: 'Guaranteed Schedule',          stat: '100%', sublabel: 'Batch Guarantee' },
+              ]
+              return (
+                <div className="flex-1">
+                  {/* Feature title — updates per slide */}
+                  <p className="mb-3 text-sm font-bold uppercase tracking-wider" style={{ color: '#0b2545', minHeight: '20px' }}>
+                    {BI_ITEMS[biSlide].title}
                   </p>
 
-                  {/* Image with stat badge inside bottom-right */}
-                  <div className="relative overflow-hidden rounded-2xl" style={{ border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 16px 48px rgba(11,37,69,0.15)' }}>
-                    <img
-                      src={sl.img}
-                      alt={sl.title}
-                      className="h-72 w-full object-cover lg:h-80"
-                    />
-                    {/* Stat badge — bottom-right inside image */}
-                    <div
-                      className="absolute bottom-4 right-4 rounded-xl px-4 py-3 text-right"
-                      style={{ background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(14px)', border: '1px solid rgba(255,255,255,0.7)', boxShadow: '0 4px 16px rgba(11,37,69,0.18)' }}
-                    >
-                      <p className="text-2xl font-black leading-none" style={{ color: '#13a8d4' }}>{sl.stat}</p>
-                      <p className="mt-1 text-xs font-medium" style={{ color: '#1e4060' }}>{sl.sublabel}</p>
-                    </div>
+                  {/* Fixed-height image container — all slides stacked */}
+                  <div
+                    className="relative overflow-hidden rounded-2xl"
+                    style={{ height: '340px', border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 16px 48px rgba(11,37,69,0.15)' }}
+                  >
+                    {BI_ITEMS.map((sl, idx) => (
+                      <div
+                        key={idx}
+                        className="absolute inset-0 transition-opacity duration-700"
+                        style={{ opacity: biSlide === idx ? 1 : 0, pointerEvents: biSlide === idx ? 'auto' : 'none' }}
+                      >
+                        <img src={sl.img} alt={sl.title} className="h-full w-full object-cover" />
+                        {/* Stat badge — bottom-right inside image */}
+                        <div
+                          className="absolute bottom-4 right-4 rounded-xl px-4 py-3 text-right"
+                          style={{ background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(14px)', border: '1px solid rgba(255,255,255,0.7)', boxShadow: '0 4px 16px rgba(11,37,69,0.18)' }}
+                        >
+                          <p className="text-2xl font-black leading-none" style={{ color: '#13a8d4' }}>{sl.stat}</p>
+                          <p className="mt-1 text-xs font-medium" style={{ color: '#1e4060' }}>{sl.sublabel}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Dot nav */}
+                  <div className="mt-4 flex items-center gap-2">
+                    {BI_ITEMS.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setBiSlide(i)}
+                        className="rounded-full transition-all duration-300"
+                        style={{ width: biSlide === i ? 22 : 8, height: 8, background: biSlide === i ? '#13a8d4' : 'rgba(11,37,69,0.25)' }}
+                      />
+                    ))}
                   </div>
                 </div>
-              ))}
-
-              {/* Dot nav */}
-              <div className="mt-5 flex items-center gap-2">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setBiSlide(i)}
-                    className="rounded-full transition-all duration-300"
-                    style={{
-                      width:  biSlide === i ? 22 : 8,
-                      height: 8,
-                      background: biSlide === i ? '#13a8d4' : 'rgba(11,37,69,0.25)',
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
+              )
+            })()}
 
           </div>
         </div>
