@@ -3134,7 +3134,7 @@ export default function EnterprisePage() {
                 { img: '/images/enterprise/GTR.png',                          title: 'Guaranteed Schedule',          stat: '100%', sublabel: 'Batch Guarantee',            objPos: 'center center' },
               ]
               return (
-                <div className="flex-1 lg:max-w-[420px]">
+                <div className="flex-1">
                   {/* Feature title — updates per slide */}
                   <p className="mb-3 text-sm font-bold uppercase tracking-wider" style={{ color: '#0b2545', minHeight: '20px' }}>
                     {BI_ITEMS[biSlide].title}
