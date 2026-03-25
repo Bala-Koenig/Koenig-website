@@ -444,6 +444,7 @@ function EntTestimonialCard({ t }: { t: EntTestimonial }) {
 function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; speed: number }) {
   const innerRef = useRef<HTMLDivElement>(null)
   const pos = useRef(0)
+  const paused = useRef(false)
 
   useEffect(() => {
     const inner = innerRef.current
@@ -453,10 +454,12 @@ function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; spee
     function tick(now: number) {
       const dt = now - prev
       prev = now
-      pos.current += speed * dt
-      const half = inner.scrollHeight / 2
-      if (half > 0 && pos.current >= half) pos.current -= half
-      inner.style.transform = `translateY(-${pos.current}px)`
+      if (!paused.current) {
+        pos.current += speed * dt
+        const half = inner.scrollHeight / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateY(-${pos.current}px)`
+      }
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
@@ -464,7 +467,11 @@ function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; spee
   }, [speed])
 
   return (
-    <div style={{ height: '520px', overflow: 'hidden' }}>
+    <div
+      style={{ height: '520px', overflow: 'hidden' }}
+      onMouseEnter={() => { paused.current = true }}
+      onMouseLeave={() => { paused.current = false }}
+    >
       <div ref={innerRef} className="flex flex-col gap-4 pb-4">
         {[...items, ...items].map((t, i) => <EntTestimonialCard key={i} t={t} />)}
       </div>
@@ -3608,10 +3615,10 @@ export default function EnterprisePage() {
               WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
             }}
           >
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 h-full">
-              <div className="hidden sm:block"><DraggableScrollColumn items={TESTIMONIALS_COL1} speed={0.03} /></div>
-              <div><DraggableScrollColumn items={TESTIMONIALS_COL2} speed={0.025} /></div>
-              <div className="hidden sm:block"><DraggableScrollColumn items={TESTIMONIALS_COL3} speed={0.038} /></div>
+            <div className="grid grid-cols-3 gap-4 h-full">
+              <DraggableScrollColumn items={TESTIMONIALS_COL1} speed={0.03} />
+              <DraggableScrollColumn items={TESTIMONIALS_COL2} speed={0.025} />
+              <DraggableScrollColumn items={TESTIMONIALS_COL3} speed={0.038} />
             </div>
           </div>
         </div>
