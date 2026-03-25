@@ -399,6 +399,42 @@ const TESTIMONIALS_COL3 = [
   { quote: '"The custom SAP curriculum matched our exact S/4HANA implementation. The most relevant enterprise training we have ever run."', name: 'Fatima A.', country: 'Saudi Arabia', badge: 'SAP S/4HANA', date: '3 months ago', img: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
 ]
 
+type EntTestimonial = { quote: string; name: string; country: string; badge: string; date: string; img: string }
+function EntTestimonialCard({ t }: { t: EntTestimonial }) {
+  const [expanded, setExpanded] = useState(false)
+  const isLong = t.quote.length > 130
+  return (
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+      <div className="p-5">
+        <p className={`mb-4 text-sm leading-relaxed${!expanded && isLong ? ' line-clamp-3' : ''}`} style={{ color: '#2d4a6a' }}>{t.quote}</p>
+        {isLong && (
+          <button
+            onClick={() => setExpanded(v => !v)}
+            className="mb-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold transition-all hover:bg-[#0694D1] hover:text-white"
+            style={{ borderColor: '#0694D1', color: '#0694D1' }}
+          >
+            {expanded ? 'Show Less ↑' : 'Show More ↓'}
+          </button>
+        )}
+        <div className="flex items-center gap-3">
+          <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
+          <div className="min-w-0">
+            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
+            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.country}</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
+        <div>
+          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.badge}</p>
+          <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
+        </div>
+        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
+      </div>
+    </div>
+  )
+}
+
 const WHY = [
   { title: '50+ Vendor Partnerships',    desc: 'Microsoft Gold, AWS, Cisco, Cisco, VMware, Red Hat, and 45+ more — all under one roof.' },
   { title: 'Guaranteed Scheduling',      desc: 'Every batch confirmed. We never cancel or postpone. Your training plan runs on time, every time.' },
@@ -3548,25 +3584,7 @@ export default function EnterprisePage() {
               <div className="overflow-hidden hidden sm:block">
                 <div className="t-col-1 flex flex-col gap-4">
                   {[...TESTIMONIALS_COL1, ...TESTIMONIALS_COL1].map((t, i) => (
-                    <div key={i} className="flex flex-col overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                      <div className="p-5">
-                        <p className="mb-4 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
-                        <div className="flex items-center gap-3">
-                          <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
-                          <div className="min-w-0">
-                            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
-                            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.country}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
-                        <div>
-                          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.badge}</p>
-                          <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
-                        </div>
-                        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
-                      </div>
-                    </div>
+                    <EntTestimonialCard key={i} t={t} />
                   ))}
                 </div>
               </div>
@@ -3575,25 +3593,7 @@ export default function EnterprisePage() {
               <div className="overflow-hidden">
                 <div className="t-col-2 flex flex-col gap-4">
                   {[...TESTIMONIALS_COL2, ...TESTIMONIALS_COL2].map((t, i) => (
-                    <div key={i} className="flex flex-col overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                      <div className="p-5">
-                        <p className="mb-4 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
-                        <div className="flex items-center gap-3">
-                          <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
-                          <div className="min-w-0">
-                            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
-                            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.country}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
-                        <div>
-                          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.badge}</p>
-                          <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
-                        </div>
-                        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
-                      </div>
-                    </div>
+                    <EntTestimonialCard key={i} t={t} />
                   ))}
                 </div>
               </div>
@@ -3602,25 +3602,7 @@ export default function EnterprisePage() {
               <div className="overflow-hidden hidden sm:block">
                 <div className="t-col-3 flex flex-col gap-4">
                   {[...TESTIMONIALS_COL3, ...TESTIMONIALS_COL3].map((t, i) => (
-                    <div key={i} className="flex flex-col overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                      <div className="p-5">
-                        <p className="mb-4 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
-                        <div className="flex items-center gap-3">
-                          <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
-                          <div className="min-w-0">
-                            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
-                            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.country}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
-                        <div>
-                          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.badge}</p>
-                          <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
-                        </div>
-                        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
-                      </div>
-                    </div>
+                    <EntTestimonialCard key={i} t={t} />
                   ))}
                 </div>
               </div>
