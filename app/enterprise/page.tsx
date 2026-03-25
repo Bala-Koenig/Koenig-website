@@ -3634,49 +3634,48 @@ export default function EnterprisePage() {
             <h2 className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Everything You Need to <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Know</span></h2>
             <p className="text-sm sm:text-base text-koenig-muted">Quick answers to the questions L&D leaders ask before launching enterprise training with Koenig.</p>
           </div>
-          {(() => {
-            const FaqItem = ({ faq, i }: { faq: typeof FAQS[0]; i: number }) => {
-              const isOpen = openFaq === i
-              return (
-                <div
-                  className="overflow-hidden rounded-xl border bg-white transition-all duration-200"
-                  style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none' }}
-                >
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : i)}
-                    className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left sm:px-6 sm:py-4"
-                  >
-                    <span className={`text-sm font-semibold leading-snug transition-colors sm:text-base ${isOpen ? 'text-koenig-blue' : 'text-koenig-dark'}`}>
-                      {faq.q}
-                    </span>
-                    <span
-                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all duration-300"
-                      style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                    >
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="6 9 12 15 18 9" />
-                      </svg>
-                    </span>
-                  </button>
-                  <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease', opacity: isOpen ? 1 : 0 }}>
-                    <div style={{ overflow: 'hidden' }}>
-                      <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{faq.a}</p>
+          <div className="io-fade delay-1 flex flex-col gap-3 md:flex-row">
+            <div className="flex flex-1 flex-col gap-3">
+              {FAQS.filter((_, i) => i % 2 === 0).map((faq, j) => {
+                const i = j * 2; const isOpen = openFaq === i
+                return (
+                  <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                    <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left sm:px-6 sm:py-4">
+                      <span className={`text-sm font-semibold leading-snug sm:text-base ${isOpen ? 'text-koenig-blue' : 'text-koenig-dark'}`} style={{ transition: 'color 0.3s' }}>{faq.q}</span>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                      </span>
+                    </button>
+                    <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                      <div style={{ overflow: 'hidden' }}>
+                        <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{faq.a}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            }
-            return (
-              <div className="io-fade delay-1 flex flex-col gap-3 md:flex-row">
-                <div className="flex flex-1 flex-col gap-3">
-                  {FAQS.filter((_, i) => i % 2 === 0).map((faq, j) => <FaqItem key={j * 2} faq={faq} i={j * 2} />)}
-                </div>
-                <div className="flex flex-1 flex-col gap-3">
-                  {FAQS.filter((_, i) => i % 2 !== 0).map((faq, j) => <FaqItem key={j * 2 + 1} faq={faq} i={j * 2 + 1} />)}
-                </div>
-              </div>
-            )
-          })()}
+                )
+              })}
+            </div>
+            <div className="flex flex-1 flex-col gap-3">
+              {FAQS.filter((_, i) => i % 2 !== 0).map((faq, j) => {
+                const i = j * 2 + 1; const isOpen = openFaq === i
+                return (
+                  <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                    <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left sm:px-6 sm:py-4">
+                      <span className={`text-sm font-semibold leading-snug sm:text-base ${isOpen ? 'text-koenig-blue' : 'text-koenig-dark'}`} style={{ transition: 'color 0.3s' }}>{faq.q}</span>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                      </span>
+                    </button>
+                    <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                      <div style={{ overflow: 'hidden' }}>
+                        <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{faq.a}</p>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
           <div className="mt-8 text-center">
             <p className="mb-3 text-sm sm:text-base text-koenig-muted">Still have questions?</p>
             <a href="#contact" className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
