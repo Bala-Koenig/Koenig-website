@@ -466,7 +466,7 @@ function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; spee
     <div
       ref={ref}
       className="ent-drag-col"
-      style={{ height: '520px', overflowY: 'scroll', scrollbarWidth: 'none' }}
+      style={{ height: '520px', overflowY: 'hidden' }}
     >
       <div className="flex flex-col gap-4 pb-4">
         {[...items, ...items].map((t, i) => <EntTestimonialCard key={i} t={t} />)}
@@ -3590,7 +3590,6 @@ export default function EnterprisePage() {
 
       {/* ── Testimonials ── */}
       <section className="relative overflow-hidden py-16 px-4 lg:px-[50px]" style={{ background: '#f0f5fa' }}>
-        <style>{`.ent-drag-col::-webkit-scrollbar { display: none; }`}</style>
 
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-10 text-center">
