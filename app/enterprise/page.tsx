@@ -381,22 +381,22 @@ const FORMATS = [
 ]
 
 const TESTIMONIALS_COL1 = [
-  { quote: '"Koenig delivered Azure training for 120 engineers across three continents simultaneously. Quality was consistent and scheduling was flawless."', name: 'Rahul M.', role: 'Azure Administrator', badge: 'AZ-104 Certified', initials: 'RM', color: '#0569a8' },
-  { quote: '"I trained 15 of my team members for SC-200. Koenig\'s on-site delivery was seamless and all 15 passed within 3 months."', name: 'Sarah K.', role: 'CISO, Financial Services', badge: 'Enterprise Client', initials: 'SK', color: '#076D9D' },
-  { quote: '"The 1-on-1 format was a game changer. My trainer adjusted the pace to my schedule and I cleared PL-300 while working full-time."', name: 'Ahmed R.', role: 'Business Intelligence Lead', badge: 'PL-300 Certified', initials: 'AR', color: '#0694D1' },
-  { quote: '"Koenig\'s guaranteed batch delivery meant zero last-minute cancellations. Our Q1 certification targets were met exactly on schedule."', name: 'Priya S.', role: 'L&D Manager, APAC', badge: 'Enterprise Client', initials: 'PS', color: '#0569a8' },
+  { quote: '"Koenig delivered Azure training for 120 engineers across three continents simultaneously. Quality was consistent and scheduling was flawless."', name: 'Rahul M.', role: 'Azure Administrator', badge: 'AZ-104 Certified', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"I trained 15 of my team members for SC-200. Koenig\'s on-site delivery was seamless and all 15 passed within 3 months."', name: 'Sarah K.', role: 'CISO, Financial Services', badge: 'Enterprise Client', img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"The 1-on-1 format was a game changer. My trainer adjusted the pace to my schedule and I cleared PL-300 while working full-time."', name: 'Ahmed R.', role: 'Business Intelligence Lead', badge: 'PL-300 Certified', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"Koenig\'s guaranteed batch delivery meant zero last-minute cancellations. Our Q1 certification targets were met exactly on schedule."', name: 'Priya S.', role: 'L&D Manager, APAC', badge: 'Enterprise Client', img: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
 ]
 const TESTIMONIALS_COL2 = [
-  { quote: '"As an L&D head I\'ve used 5 training vendors. Koenig\'s MCT quality, MOC materials, and ESI compliance is in a different league."', name: 'James T.', role: 'Head of L&D, UK Enterprise', badge: '100+ Learners Trained', initials: 'JT', color: '#076D9D' },
-  { quote: '"SC-900 and SC-300 back to back — both cleared first try. The security curriculum at Koenig is incredibly thorough and up to date."', name: 'Aisha N.', role: 'Security Analyst', badge: 'SC-300 Certified', initials: 'AN', color: '#0694D1' },
-  { quote: '"From AZ-900 to AZ-305 in 6 months. Koenig\'s structured roadmap and MCT mentoring made the expert level genuinely achievable."', name: 'Li W.', role: 'Cloud Architect', badge: 'AZ-305 Expert', initials: 'LW', color: '#0569a8' },
-  { quote: '"We needed CISSP for our security team fast. Koenig\'s 1-on-1 model got all 12 candidates certified in under 6 weeks."', name: 'Mark D.', role: 'CISO, Tech Firm', badge: 'CISSP Certified', initials: 'MD', color: '#076D9D' },
+  { quote: '"As an L&D head I\'ve used 5 training vendors. Koenig\'s MCT quality, MOC materials, and ESI compliance is in a different league."', name: 'James T.', role: 'Head of L&D, UK Enterprise', badge: '100+ Learners Trained', img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"SC-900 and SC-300 back to back — both cleared first try. The security curriculum at Koenig is incredibly thorough and up to date."', name: 'Aisha N.', role: 'Security Analyst', badge: 'SC-300 Certified', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"From AZ-900 to AZ-305 in 6 months. Koenig\'s structured roadmap and MCT mentoring made the expert level genuinely achievable."', name: 'Li W.', role: 'Cloud Architect', badge: 'AZ-305 Expert', img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"We needed CISSP for our security team fast. Koenig\'s 1-on-1 model got all 12 candidates certified in under 6 weeks."', name: 'Mark D.', role: 'CISO, Tech Firm', badge: 'CISSP Certified', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
 ]
 const TESTIMONIALS_COL3 = [
-  { quote: '"Used Azure OpenAI labs extensively. The real-world scenarios and the labs were exactly what Microsoft tests. Worth every penny."', name: 'David L.', role: 'AI Engineer', badge: 'AI-102 Certified', initials: 'DL', color: '#0694D1' },
-  { quote: '"DP-600 Fabric certification done in 3 weeks of part-time study. The customised schedule around my timezone was a lifesaver."', name: 'Mei W.', role: 'Data Platform Engineer', badge: 'DP-600 Certified', initials: 'MW', color: '#0569a8' },
-  { quote: '"Our whole DevOps team got AZ-400 certified through Koenig\'s corporate training. Smooth logistics and top-tier MCTs throughout."', name: 'Carlos R.', role: 'Engineering Manager', badge: 'AZ-400 Team Training', initials: 'CR', color: '#076D9D' },
-  { quote: '"The custom SAP curriculum matched our exact S/4HANA implementation. The most relevant enterprise training we have ever run."', name: 'Fatima A.', role: 'VP of IT, Manufacturing', badge: 'SAP S/4HANA', initials: 'FA', color: '#0694D1' },
+  { quote: '"AI-102 was daunting but the trainer broke it down perfectly. Real Azure OpenAI labs made the difference. Highly recommend."', name: 'David L.', role: 'AI Engineer', badge: 'AI-102 Certified', img: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"DP-600 Fabric certification done in 3 weeks of part-time study. The customised schedule around my timezone was a lifesaver."', name: 'Mei W.', role: 'Data Platform Engineer', badge: 'DP-600 Certified', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"Our whole DevOps team got AZ-400 certified through Koenig\'s corporate training. Smooth logistics and top-tier MCTs throughout."', name: 'Carlos R.', role: 'Engineering Manager', badge: 'AZ-400 Team Training', img: 'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
+  { quote: '"The custom SAP curriculum matched our exact S/4HANA implementation. The most relevant enterprise training we have ever run."', name: 'Fatima A.', role: 'VP of IT, Manufacturing', badge: 'SAP S/4HANA', img: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&h=80&fit=crop&crop=faces&auto=format&q=80' },
 ]
 
 const WHY = [
@@ -3551,7 +3551,7 @@ export default function EnterprisePage() {
                     <div key={i} className="rounded-2xl bg-white p-5" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
                       <p className="mb-4 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: `linear-gradient(135deg,${t.color},#093148)` }}>{t.initials}</div>
+                        <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
                         <div className="min-w-0">
                           <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
                           <p className="text-xs" style={{ color: '#4a7a9b' }}>{t.role}</p>
@@ -3572,7 +3572,7 @@ export default function EnterprisePage() {
                     <div key={i} className="rounded-2xl bg-white p-5" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
                       <p className="mb-4 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: `linear-gradient(135deg,${t.color},#093148)` }}>{t.initials}</div>
+                        <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
                         <div className="min-w-0">
                           <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
                           <p className="text-xs" style={{ color: '#4a7a9b' }}>{t.role}</p>
@@ -3593,7 +3593,7 @@ export default function EnterprisePage() {
                     <div key={i} className="rounded-2xl bg-white p-5" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
                       <p className="mb-4 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: `linear-gradient(135deg,${t.color},#093148)` }}>{t.initials}</div>
+                        <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
                         <div className="min-w-0">
                           <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
                           <p className="text-xs" style={{ color: '#4a7a9b' }}>{t.role}</p>
