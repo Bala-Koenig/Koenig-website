@@ -446,10 +446,6 @@ function EntTestimonialCard({ t }: { t: EntTestimonial }) {
 
 function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; speed: number }) {
   const ref = useRef<HTMLDivElement>(null)
-  const isDragging = useRef(false)
-  const startY = useRef(0)
-  const startScroll = useRef(0)
-  const paused = useRef(false)
 
   useEffect(() => {
     const el = ref.current
@@ -459,7 +455,7 @@ function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; spee
     function tick(now: number) {
       const dt = now - prev
       prev = now
-      if (!paused.current && el) {
+      if (el) {
         el.scrollTop += speed * dt
         if (el.scrollTop >= el.scrollHeight / 2) el.scrollTop -= el.scrollHeight / 2
       }
@@ -469,40 +465,11 @@ function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; spee
     return () => cancelAnimationFrame(raf)
   }, [speed])
 
-  const onPointerDown = (e: React.PointerEvent) => {
-    startY.current = e.clientY
-    startScroll.current = ref.current?.scrollTop ?? 0
-    isDragging.current = false
-  }
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!ref.current) return
-    const delta = startY.current - e.clientY
-    if (!isDragging.current && Math.abs(delta) > 5) {
-      isDragging.current = true
-      paused.current = true
-    }
-    if (isDragging.current) {
-      const half = ref.current.scrollHeight / 2
-      let next = startScroll.current + delta
-      if (next < 0) next += half
-      if (next >= half) next -= half
-      ref.current.scrollTop = next
-    }
-  }
-  const onPointerUp = () => {
-    if (isDragging.current) setTimeout(() => { paused.current = false }, 800)
-    isDragging.current = false
-  }
-
   return (
     <div
       ref={ref}
       className="ent-drag-col"
-      style={{ height: '520px', overflowY: 'scroll', scrollbarWidth: 'none', cursor: 'grab' }}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerLeave={onPointerUp}
+      style={{ height: '520px', overflowY: 'scroll', scrollbarWidth: 'none' }}
     >
       <div className="flex flex-col gap-4 pb-4">
         {[...items, ...items].map((t, i) => <EntTestimonialCard key={i} t={t} />)}
