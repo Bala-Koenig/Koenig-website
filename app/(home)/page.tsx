@@ -20,34 +20,40 @@ const COURSE_TABS = ['Top Courses', 'Top Technologies', 'New & Trending']
 
 const TOP_COURSES = [
   {
-    vendor: 'Microsoft', vendorBadge: 'Advanced', name: 'Microsoft Azure Solutions Architect Expert – Designing and Implementing Infrastructure Solutions for Enterprise-Scale Cloud Environments (AZ-305)',
-    days: 5, rating: 4.9, enrolled: '2,400+', price: '$1,495',
-    levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Advanced',
+    vendor: 'Microsoft', name: 'Microsoft Azure Fundamentals',
+    examCode: 'AZ-900', category: 'FUNDAMENTALS',
+    days: 3, rating: 4.9, enrolled: '2,400+', price: '$597',
+    levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
   },
   {
-    vendor: 'AWS', vendorBadge: 'Associate', name: 'AWS Certified Solutions Architect – Associate (SAA-C03)',
-    days: 4, rating: 4.8, enrolled: '3,100+', price: '$1,195',
-    levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Intermediate',
+    vendor: 'Microsoft', name: 'Microsoft Azure Data Fundamentals',
+    examCode: 'DP-900', category: 'FUNDAMENTALS',
+    days: 2, rating: 4.8, enrolled: '1,800+', price: '$398',
+    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Beginner',
   },
   {
-    vendor: 'Cisco', vendorBadge: 'Professional', name: 'Cisco CCNP Enterprise Core (ENCOR) 350-401',
-    days: 5, rating: 4.9, enrolled: '1,800+', price: '$1,295',
-    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Advanced',
+    vendor: 'Microsoft', name: 'Microsoft Azure AI Fundamentals',
+    examCode: 'AI-900', category: 'FUNDAMENTALS',
+    days: 2, rating: 4.8, enrolled: '1,600+', price: '$398',
+    levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
   },
   {
-    vendor: 'CompTIA', vendorBadge: 'Foundation', name: 'CompTIA Security+ Certification Training (SY0-701)',
-    days: 5, rating: 4.7, enrolled: '4,200+', price: '$895',
-    levelColor: 'bg-green-100 text-green-700', hot: false, level: 'Beginner',
+    vendor: 'Microsoft', name: 'Microsoft Azure Administrator',
+    examCode: 'AZ-104', category: 'ASSOCIATE',
+    days: 5, rating: 4.9, enrolled: '2,100+', price: '$1,245',
+    levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Intermediate',
   },
   {
-    vendor: 'PMI', vendorBadge: 'Professional', name: 'Project Management Professional (PMP) Certification',
-    days: 3, rating: 4.8, enrolled: '2,900+', price: '$995',
-    levelColor: 'bg-purple-100 text-purple-700', hot: false, level: 'Intermediate',
+    vendor: 'Microsoft', name: 'Configuring and Operating Microsoft Azure Virtual Desktop',
+    examCode: 'AZ-140', category: 'ASSOCIATE',
+    days: 4, rating: 4.7, enrolled: '980+', price: '$996',
+    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
   },
   {
-    vendor: 'EC-Council', vendorBadge: 'Intermediate', name: 'Certified Ethical Hacker v13 (CEH) – Master Advanced Penetration Testing, Ethical Hacking & Cyber Defence Strategies',
-    days: 5, rating: 4.8, enrolled: '2,100+', price: '$1,095',
-    levelColor: 'bg-indigo-100 text-indigo-700', hot: false, level: 'Intermediate',
+    vendor: 'Microsoft', name: 'Designing and Implementing Microsoft Azure Networking Solutions',
+    examCode: 'AZ-700', category: 'ASSOCIATE',
+    days: 3, rating: 4.8, enrolled: '1,200+', price: '$747',
+    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
   },
 ]
 
@@ -64,32 +70,38 @@ const TOP_TECHNOLOGIES = [
 
 const NEW_TRENDING = [
   {
-    vendor: 'Microsoft', vendorBadge: 'New', name: 'Microsoft Copilot Studio – Build AI-Powered Chatbots',
+    vendor: 'Microsoft', name: 'Microsoft Copilot Studio – Build AI-Powered Chatbots',
+    examCode: 'PL-100', category: 'NEW',
     days: 3, rating: 4.8, enrolled: '890+', price: '$895',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
   },
   {
-    vendor: 'Google Cloud', vendorBadge: 'Updated', name: 'Google Cloud Professional Data Engineer – Building Scalable Data Pipelines & ML Solutions on GCP',
+    vendor: 'Google Cloud', name: 'Google Cloud Professional Data Engineer – Building Scalable Data Pipelines & ML Solutions on GCP',
+    examCode: 'GPDE', category: 'UPDATED',
     days: 4, rating: 4.7, enrolled: '1,200+', price: '$1,095',
     levelColor: 'bg-green-100 text-green-700', hot: false, level: 'Advanced',
   },
   {
-    vendor: 'Kubernetes', vendorBadge: 'Trending', name: 'Certified Kubernetes Administrator (CKA) Exam Prep',
+    vendor: 'Kubernetes', name: 'Certified Kubernetes Administrator (CKA) Exam Prep',
+    examCode: 'CKA', category: 'TRENDING',
     days: 4, rating: 4.9, enrolled: '1,600+', price: '$995',
     levelColor: 'bg-pink-100 text-pink-700', hot: true, level: 'Advanced',
   },
   {
-    vendor: 'HashiCorp', vendorBadge: 'New', name: 'HashiCorp Certified: Terraform Associate (003)',
+    vendor: 'HashiCorp', name: 'HashiCorp Certified: Terraform Associate (003)',
+    examCode: 'TA-003', category: 'NEW',
     days: 3, rating: 4.7, enrolled: '720+', price: '$795',
     levelColor: 'bg-purple-100 text-purple-700', hot: false, level: 'Intermediate',
   },
   {
-    vendor: 'AWS', vendorBadge: 'Updated', name: 'AWS Certified AI Practitioner – Foundations (AIF-C01)',
+    vendor: 'AWS', name: 'AWS Certified AI Practitioner – Foundations (AIF-C01)',
+    examCode: 'AIF-C01', category: 'UPDATED',
     days: 3, rating: 4.8, enrolled: '1,100+', price: '$895',
     levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Beginner',
   },
   {
-    vendor: 'Microsoft', vendorBadge: 'New', name: 'Azure AI Engineer Associate (AI-102) Certification',
+    vendor: 'Microsoft', name: 'Azure AI Engineer Associate (AI-102) Certification',
+    examCode: 'AI-102', category: 'NEW',
     days: 4, rating: 4.8, enrolled: '960+', price: '$995',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
   },
@@ -404,6 +416,8 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
     const el = nameRef.current
     if (el) setIsClamped(el.scrollHeight > el.clientHeight)
   }, [c.name])
+  const examCode = (c as { examCode?: string }).examCode
+  const category = (c as { category?: string }).category
   return (
     <div
       role="button" tabIndex={0}
@@ -416,13 +430,21 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             {c.vendor}
           </span>
-          <span className={`rounded-full px-2 py-0.5 text-sm font-bold ${
-            c.level === 'Beginner'     ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
-            c.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
-                                         'bg-[#076d9d] text-white'
-          }`}>{c.level}</span>
+          {examCode ? (
+            <span className="rounded-full px-2 py-0.5 text-sm font-bold bg-[#0694d1]/20 text-[#3AB6EB]">{examCode}</span>
+          ) : (
+            <span className={`rounded-full px-2 py-0.5 text-sm font-bold ${
+              c.level === 'Beginner'     ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
+              c.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
+                                           'bg-[#076d9d] text-white'
+            }`}>{c.level}</span>
+          )}
         </div>
-        {c.hot && <span className="animate-pulse rounded-full bg-koenig-blue px-2 py-0.5 text-sm font-medium text-white">Popular</span>}
+        {category ? (
+          <span className="rounded-full bg-white/10 px-2 py-0.5 text-sm font-semibold text-white/70">{category}</span>
+        ) : c.hot ? (
+          <span className="animate-pulse rounded-full bg-koenig-blue px-2 py-0.5 text-sm font-medium text-white">Popular</span>
+        ) : null}
       </div>
       <div className="group/name relative mb-1.5">
         <h3
@@ -449,14 +471,34 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
           {c.days * 8} Hrs ({c.days} days)
         </span>
       </div>
-      <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-        <div>
-          <p className="text-sm text-white/40">From</p>
-          <p className="text-sm sm:text-base font-bold text-white">{c.price}</p>
+      <div className="border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+        <div className="mb-2.5 flex items-baseline gap-1">
+          <span className="text-sm text-white/40">From</span>
+          <span className="text-sm sm:text-base font-bold text-white">{c.price}</span>
         </div>
-        <button className="rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all group-hover:shadow-lg" style={{ background: 'linear-gradient(135deg, #0694d1, #076D9D)' }}>
-          Enroll Now →
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={(e) => { e.stopPropagation(); window.open('https://www.koenig-solutions.com', '_blank') }}
+            className="flex-1 rounded-lg border py-1.5 text-sm font-semibold text-[#3AB6EB] transition-all hover:bg-[#0694d1]/10"
+            style={{ borderColor: 'rgba(6,148,209,0.35)' }}
+          >
+            Cert Details →
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); window.open('https://www.koenig-solutions.com', '_blank') }}
+            className="flex-1 rounded-lg border py-1.5 text-sm font-semibold text-white/70 transition-all hover:bg-white/5"
+            style={{ borderColor: 'rgba(255,255,255,0.15)' }}
+          >
+            Brochure
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); window.open('https://www.koenig-solutions.com', '_blank') }}
+            className="flex-1 rounded-lg py-1.5 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #0694d1, #076D9D)' }}
+          >
+            Enroll Now
+          </button>
+        </div>
       </div>
     </div>
   )
