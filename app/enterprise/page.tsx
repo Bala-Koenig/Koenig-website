@@ -416,8 +416,8 @@ function EntTestimonialCard({ t }: { t: EntTestimonial }) {
         {t.showMore && (
           <button
             onClick={() => setExpanded(v => !v)}
-            className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold transition-all hover:bg-[#0694D1] hover:text-white"
-            style={{ borderColor: '#0694D1', color: '#0694D1' }}
+            className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
+            style={{ borderColor: '#0694D1' }}
           >
             {expanded ? 'Show Less ↑' : 'Show More ↓'}
           </button>
