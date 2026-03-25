@@ -2866,7 +2866,7 @@ export default function Design4Page() {
             <h2 className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Frequently <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Asked Questions</span></h2>
             <p className="text-sm sm:text-base text-koenig-muted">Everything you need to know before booking your training</p>
           </div>
-          <div className="io-fade delay-1 grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div className="io-fade delay-1 grid grid-cols-1 gap-3 md:grid-cols-2 md:items-start">
             {[
               { q: 'What is 1-on-1 training and how does it actually work?', a: '1-on-1 training pairs you with a dedicated certified instructor who delivers the entire course exclusively to you. You set the pace, ask unlimited questions, and customize focus areas. Sessions are live and interactive via video conferencing or in-person at our training centers.' },
               { q: 'Are Koenig certifications recognized globally?', a: 'Absolutely. Koenig is an authorized training partner for 50+ global technology vendors including Microsoft, Cisco, AWS, and CompTIA. All certifications are issued directly by the vendor and recognized worldwide.' },
