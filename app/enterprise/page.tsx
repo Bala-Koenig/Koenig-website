@@ -3658,8 +3658,10 @@ export default function EnterprisePage() {
                       </svg>
                     </span>
                   </button>
-                  <div className="transition-all duration-300 ease-in-out" style={{ maxHeight: isOpen ? '200px' : '0px', opacity: isOpen ? 1 : 0 }}>
-                    <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{faq.a}</p>
+                  <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease', opacity: isOpen ? 1 : 0 }}>
+                    <div style={{ overflow: 'hidden' }}>
+                      <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{faq.a}</p>
+                    </div>
                   </div>
                 </div>
               )
