@@ -454,7 +454,7 @@ function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; spee
     function tick(now: number) {
       const dt = now - prev
       prev = now
-      if (!paused.current) {
+      if (!paused.current && inner) {
         pos.current += speed * dt
         const half = inner.scrollHeight / 2
         if (half > 0 && pos.current >= half) pos.current -= half
