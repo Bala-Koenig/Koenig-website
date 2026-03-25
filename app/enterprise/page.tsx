@@ -442,20 +442,21 @@ function EntTestimonialCard({ t }: { t: EntTestimonial }) {
 }
 
 function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; speed: number }) {
-  const ref = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
+    const inner = innerRef.current
+    if (!inner) return
     let prev = performance.now()
     let raf: number
     function tick(now: number) {
       const dt = now - prev
       prev = now
-      if (el) {
-        el.scrollTop += speed * dt
-        if (el.scrollTop >= el.scrollHeight / 2) el.scrollTop -= el.scrollHeight / 2
-      }
+      pos.current += speed * dt
+      const half = inner.scrollHeight / 2
+      if (half > 0 && pos.current >= half) pos.current -= half
+      inner.style.transform = `translateY(-${pos.current}px)`
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
@@ -463,12 +464,8 @@ function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; spee
   }, [speed])
 
   return (
-    <div
-      ref={ref}
-      className="ent-drag-col"
-      style={{ height: '520px', overflowY: 'hidden' }}
-    >
-      <div className="flex flex-col gap-4 pb-4">
+    <div style={{ height: '520px', overflow: 'hidden' }}>
+      <div ref={innerRef} className="flex flex-col gap-4 pb-4">
         {[...items, ...items].map((t, i) => <EntTestimonialCard key={i} t={t} />)}
       </div>
     </div>
