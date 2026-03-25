@@ -402,45 +402,13 @@ const TESTIMONIALS_COL3 = [
 type EntTestimonial = { quote: string; extra: string; highlights: string[]; name: string; country: string; badge: string; date: string; img: string }
 function EntTestimonialCard({ t }: { t: EntTestimonial }) {
   const [expanded, setExpanded] = useState(false)
-  const dragStartY = useRef<number | null>(null)
-  const dragging = useRef(false)
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    dragStartY.current = e.clientY
-    dragging.current = false
-  }
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (dragStartY.current === null) return
-    if (Math.abs(e.clientY - dragStartY.current) > 8) dragging.current = true
-  }
-  const handlePointerUp = (e: React.PointerEvent) => {
-    if (dragStartY.current === null) return
-    const delta = e.clientY - dragStartY.current
-    if (dragging.current) {
-      if (delta < -40) setExpanded(true)
-      else if (delta > 40) setExpanded(false)
-    }
-    dragStartY.current = null
-    dragging.current = false
-  }
-
   return (
-    <div
-      className="flex flex-col overflow-hidden rounded-2xl bg-white select-none"
-      style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)', cursor: 'grab', transition: 'box-shadow 0.2s' }}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerUp}
-    >
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
       <div className="p-5">
-        {/* Stars */}
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
-        {/* Quote */}
         <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
-        {/* Expanded content */}
         <div
-          className="overflow-hidden transition-all duration-400 ease-in-out"
+          className="overflow-hidden transition-all duration-300 ease-in-out"
           style={{ maxHeight: expanded ? '220px' : '0px', opacity: expanded ? 1 : 0 }}
         >
           <p className="mb-3 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{t.extra}</p>
@@ -450,16 +418,13 @@ function EntTestimonialCard({ t }: { t: EntTestimonial }) {
             ))}
           </div>
         </div>
-        {/* Show More / Less button */}
         <button
           onClick={() => setExpanded(v => !v)}
           className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold transition-all hover:bg-[#0694D1] hover:text-white"
           style={{ borderColor: '#0694D1', color: '#0694D1' }}
-          onPointerDown={e => e.stopPropagation()}
         >
           {expanded ? 'Show Less ↑' : 'Show More ↓'}
         </button>
-        {/* Author */}
         <div className="flex items-center gap-3">
           <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
           <div className="min-w-0">
@@ -474,6 +439,73 @@ function EntTestimonialCard({ t }: { t: EntTestimonial }) {
           <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
         </div>
         <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
+      </div>
+    </div>
+  )
+}
+
+function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; speed: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isDragging = useRef(false)
+  const startY = useRef(0)
+  const startScroll = useRef(0)
+  const paused = useRef(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    let prev = performance.now()
+    let raf: number
+    function tick(now: number) {
+      const dt = now - prev
+      prev = now
+      if (!paused.current && el) {
+        el.scrollTop += speed * dt
+        if (el.scrollTop >= el.scrollHeight / 2) el.scrollTop -= el.scrollHeight / 2
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [speed])
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    startY.current = e.clientY
+    startScroll.current = ref.current?.scrollTop ?? 0
+    isDragging.current = false
+  }
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!ref.current) return
+    const delta = startY.current - e.clientY
+    if (!isDragging.current && Math.abs(delta) > 5) {
+      isDragging.current = true
+      paused.current = true
+    }
+    if (isDragging.current) {
+      const half = ref.current.scrollHeight / 2
+      let next = startScroll.current + delta
+      if (next < 0) next += half
+      if (next >= half) next -= half
+      ref.current.scrollTop = next
+    }
+  }
+  const onPointerUp = () => {
+    if (isDragging.current) setTimeout(() => { paused.current = false }, 800)
+    isDragging.current = false
+  }
+
+  return (
+    <div
+      ref={ref}
+      className="ent-drag-col"
+      style={{ height: '520px', overflowY: 'scroll', scrollbarWidth: 'none', cursor: 'grab' }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerLeave={onPointerUp}
+    >
+      <div className="flex flex-col gap-4 pb-4">
+        {[...items, ...items].map((t, i) => <EntTestimonialCard key={i} t={t} />)}
       </div>
     </div>
   )
@@ -3594,13 +3626,7 @@ export default function EnterprisePage() {
 
       {/* ── Testimonials ── */}
       <section className="relative overflow-hidden py-16 px-4 lg:px-[50px]" style={{ background: '#f0f5fa' }}>
-        <style>{`
-          @keyframes tScrollUp { from { transform: translateY(0); } to { transform: translateY(-50%); } }
-          .t-col-1 { animation: tScrollUp 26s linear infinite; }
-          .t-col-2 { animation: tScrollUp 32s linear infinite; animation-delay: -12s; }
-          .t-col-3 { animation: tScrollUp 22s linear infinite; animation-delay: -6s; }
-          .t-col-1:hover, .t-col-2:hover, .t-col-3:hover { animation-play-state: paused; }
-        `}</style>
+        <style>{`.ent-drag-col::-webkit-scrollbar { display: none; }`}</style>
 
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-10 text-center">
@@ -3623,34 +3649,9 @@ export default function EnterprisePage() {
             }}
           >
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 h-full">
-
-              {/* Column 1 */}
-              <div className="overflow-hidden hidden sm:block">
-                <div className="t-col-1 flex flex-col gap-4">
-                  {[...TESTIMONIALS_COL1, ...TESTIMONIALS_COL1].map((t, i) => (
-                    <EntTestimonialCard key={i} t={t} />
-                  ))}
-                </div>
-              </div>
-
-              {/* Column 2 — middle, different speed */}
-              <div className="overflow-hidden">
-                <div className="t-col-2 flex flex-col gap-4">
-                  {[...TESTIMONIALS_COL2, ...TESTIMONIALS_COL2].map((t, i) => (
-                    <EntTestimonialCard key={i} t={t} />
-                  ))}
-                </div>
-              </div>
-
-              {/* Column 3 */}
-              <div className="overflow-hidden hidden sm:block">
-                <div className="t-col-3 flex flex-col gap-4">
-                  {[...TESTIMONIALS_COL3, ...TESTIMONIALS_COL3].map((t, i) => (
-                    <EntTestimonialCard key={i} t={t} />
-                  ))}
-                </div>
-              </div>
-
+              <div className="hidden sm:block"><DraggableScrollColumn items={TESTIMONIALS_COL1} speed={0.03} /></div>
+              <div><DraggableScrollColumn items={TESTIMONIALS_COL2} speed={0.025} /></div>
+              <div className="hidden sm:block"><DraggableScrollColumn items={TESTIMONIALS_COL3} speed={0.038} /></div>
             </div>
           </div>
         </div>
