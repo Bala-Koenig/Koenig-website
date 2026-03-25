@@ -412,11 +412,6 @@ function EntTestimonialCard({ t }: { t: EntTestimonial }) {
           style={{ maxHeight: expanded ? '220px' : '0px', opacity: expanded ? 1 : 0 }}
         >
           <p className="mb-3 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{t.extra}</p>
-          <div className="mb-3 flex flex-wrap gap-1.5">
-            {t.highlights.map((h, i) => (
-              <span key={i} className="rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ background: 'rgba(6,148,209,0.10)', color: '#076d9d', border: '1px solid rgba(6,148,209,0.20)' }}>{h}</span>
-            ))}
-          </div>
         </div>
         {t.showMore && (
           <button
