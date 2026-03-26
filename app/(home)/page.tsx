@@ -601,7 +601,7 @@ function BrochureModal({ course, onClose }: { course: { name: string; vendor: st
         </div>
       </div>
     </div>
-  ), document.body)
+  , document.body)
 }
 
 function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
