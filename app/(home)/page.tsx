@@ -232,13 +232,13 @@ const COUNTRIES = [
 ]
 
 const TESTIMONIALS = [
-  { quote: 'I went from IT support to Cloud Architect in 6 months. The 1-on-1 format was a game-changer — my instructor built every session around my specific gaps, not a generic syllabus.', name: 'Ravi Mehta', location: '🇮🇳 India', course: 'Azure Solutions Architect Expert', date: '18th Feb 2026', initials: 'RM', avatarBg: 'linear-gradient(135deg,#076D9D,#4DBFEF)', avatar: '/images/headshots/headshot-1.webp', ringColor: '#4F8EF7' },
+  { quote: 'I went from IT support to Cloud Architect in 6 months. The 1-on-1 format was a game-changer — my instructor built every session around my specific gaps, not a generic syllabus.', extra: 'The structured 1-on-1 curriculum meant every session built directly on the last. My instructor had real Azure enterprise deployments behind him — not just exam coaching. I passed the Solutions Architect exam with 890/1000.', showMore: true, name: 'Ravi Mehta', location: '🇮🇳 India', course: 'Azure Solutions Architect Expert', date: '18th Feb 2026', initials: 'RM', avatarBg: 'linear-gradient(135deg,#076D9D,#4DBFEF)', avatar: '/images/headshots/headshot-1.webp', ringColor: '#4F8EF7' },
   { quote: 'The guaranteed schedule gave me the confidence to hand in my notice and make the career change. My instructor had real enterprise experience — not just textbook knowledge.', name: "James O'Brien", location: '🇬🇧 United Kingdom', course: 'CompTIA Security+ SY0-701', date: '17th Feb 2026', initials: 'JO', avatarBg: 'linear-gradient(135deg,#093148,#076D9D)', avatar: '/images/headshots/headshot-4.png', ringColor: '#F59E0B' },
   { quote: "Koenig's FMAT format let me complete CCNP in under 2 weeks. Same quality, same dedication — just compressed for my timeline. My employer was shocked.", name: 'Farah Zahir', location: '🇦🇪 UAE', course: 'CCNP Enterprise Core (ENCOR)', date: '16th Feb 2026', initials: 'FZ', avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)', avatar: '/images/headshots/headshot-2.webp', ringColor: '#EC4899' },
-  { quote: 'Rahul was an excellent trainer. His deep knowledge of the subject and patient teaching style made complex topics easy to understand.', name: 'Elena Mancini', location: '🇮🇹 Italy', course: 'SC-300 Microsoft Identity', date: '18th Feb 2026', initials: 'EM', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)', avatar: '/images/headshots/headshot-5.webp', ringColor: '#8B5CF6' },
+  { quote: 'Rahul was an excellent trainer. His deep knowledge of the subject and patient teaching style made complex topics easy to understand.', extra: 'Rahul covered every Microsoft Identity scenario in depth — Conditional Access, PIM, and Defender integration. The labs mirrored real enterprise setups. I passed SC-300 first attempt with high confidence.', showMore: true, name: 'Elena Mancini', location: '🇮🇹 Italy', course: 'SC-300 Microsoft Identity', date: '18th Feb 2026', initials: 'EM', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)', avatar: '/images/headshots/headshot-5.webp', ringColor: '#8B5CF6' },
   { quote: 'Fantastic course, great instructor. The PMP prep was thorough and the practice exams were spot on. Passed first attempt!', name: 'Jackson Tate', location: '🇺🇸 USA', course: 'PMP Certification', date: '11th Feb 2026', initials: 'JT', avatarBg: 'linear-gradient(135deg,#093148,#F47920)', avatar: '/images/headshots/headshot-3.webp', ringColor: '#10B981' },
   { quote: 'The AWS course exceeded all expectations. The instructor had real-world cloud experience and the hands-on labs were invaluable. I landed a senior cloud role within a month of certifying.', name: 'Priya Sharma', location: '🇸🇬 Singapore', course: 'AWS Solutions Architect – Associate', date: '5th Feb 2026', initials: 'PS', avatarBg: 'linear-gradient(135deg,#F47920,#076D9D)', avatar: '/images/headshots/headshot-2.webp', ringColor: '#F59E0B' },
-  { quote: 'Koenig made the impossible possible. I completed my CISSP in 3 weeks with their intensive 1-on-1 training. The instructor adapted the pace perfectly to my background.', name: 'Ahmed Al-Rashid', location: '🇦🇪 UAE', course: 'CISSP Certification', date: '2nd Feb 2026', initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)', avatar: '/images/headshots/headshot-4.png', ringColor: '#06B6D4' },
+  { quote: 'Koenig made the impossible possible. I completed my CISSP in 3 weeks with their intensive 1-on-1 training. The instructor adapted the pace perfectly to my background.', extra: 'The intensive 1-on-1 format let me cover 3 weeks of CISSP content in the time I had available. My instructor focused on my weak domains identified in a pre-assessment. All 10 domains felt manageable by exam day.', showMore: true, name: 'Ahmed Al-Rashid', location: '🇦🇪 UAE', course: 'CISSP Certification', date: '2nd Feb 2026', initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)', avatar: '/images/headshots/headshot-4.png', ringColor: '#06B6D4' },
   { quote: 'Best training investment I have ever made. The DevOps course was hands-on from day one. Our entire team is now deploying to Kubernetes confidently.', name: 'Sophie Laurent', location: '🇫🇷 France', course: 'Certified Kubernetes Administrator', date: '28th Jan 2026', initials: 'SL', avatarBg: 'linear-gradient(135deg,#093148,#0694d1)', avatar: '/images/headshots/headshot-5.webp', ringColor: '#8B5CF6' },
   { quote: 'The Google Cloud course gave me exactly what I needed to transition from on-prem to cloud. Real labs, real scenarios, and a trainer who genuinely cared about my success.', name: 'Carlos Mendez', location: '🇲🇽 Mexico', course: 'Google Cloud Professional Architect', date: '20th Jan 2026', initials: 'CM', avatarBg: 'linear-gradient(135deg,#4285F4,#0694d1)', avatar: '/images/headshots/headshot-1.webp', ringColor: '#10B981' },
 ]
@@ -359,6 +359,92 @@ function TestimonialCardV2({ t, delay }: { t: typeof TESTIMONIALS[0]; delay: str
           <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
         </div>
         <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
+      </div>
+    </div>
+  )
+}
+
+function HomeTestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
+  const [expanded, setExpanded] = useState(false)
+  const extra = (t as { extra?: string }).extra
+  const showMore = (t as { showMore?: boolean }).showMore
+  return (
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+      <div className="p-5">
+        <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
+        <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
+        <div
+          className="overflow-hidden transition-all duration-300 ease-in-out"
+          style={{ maxHeight: expanded ? '200px' : '0px', opacity: expanded ? 1 : 0 }}
+        >
+          <p className="mb-3 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{extra}</p>
+        </div>
+        {showMore && (
+          <button
+            onClick={() => setExpanded(v => !v)}
+            className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
+            style={{ borderColor: '#0694D1' }}
+          >
+            {expanded ? 'Show Less ↑' : 'Show More ↓'}
+          </button>
+        )}
+        <div className="flex items-center gap-3">
+          <div
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+            style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}
+          >
+            {t.initials}
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
+            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.location}</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
+        <div>
+          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
+          <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
+        </div>
+        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
+      </div>
+    </div>
+  )
+}
+
+function HomeScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
+  const innerRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+
+  useEffect(() => {
+    const inner = innerRef.current
+    if (!inner) return
+    let prev = performance.now()
+    let raf: number
+    function tick(now: number) {
+      const dt = now - prev
+      prev = now
+      if (!paused.current && inner) {
+        pos.current += speed * dt
+        const half = inner.scrollHeight / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateY(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [speed])
+
+  return (
+    <div
+      style={{ height: '520px', overflow: 'hidden' }}
+      onMouseEnter={() => { paused.current = true }}
+      onMouseLeave={() => { paused.current = false }}
+    >
+      <div ref={innerRef} className="flex flex-col gap-4 pb-4">
+        {[...items, ...items].map((t, i) => <HomeTestimonialCard key={i} t={t} />)}
       </div>
     </div>
   )
@@ -1199,7 +1285,6 @@ export default function Design4Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [morphIdx, setMorphIdx] = useState(0)
   const [morphExiting, setMorphExiting] = useState(false)
-  const [testimStart, setTestimStart] = useState(0)
   const [webinarStart, setWebinarStart] = useState(0)
   const statsRef = useRef<HTMLDivElement>(null)
   const [navQuery, setNavQuery] = useState('')
@@ -2922,46 +3007,20 @@ export default function Design4Page() {
             </div>
           </div>
 
-          {/* Cards carousel — 3 per page, clean paging */}
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {TESTIMONIALS.slice(testimStart, testimStart + 3).map((t, i) => (
-              <TestimonialCardV2 key={testimStart + i} t={t} delay={`${i * 0.08}s`} />
-            ))}
-          </div>
-
-          {/* Arrow navigation */}
-          <div className="mt-8 flex items-center justify-center gap-4">
-            {/* Prev */}
-            <button
-              onClick={() => setTestimStart(s => Math.max(0, s - 3))}
-              disabled={testimStart === 0}
-              className="flex h-11 w-11 items-center justify-center rounded-full transition-all duration-200"
-              style={testimStart === 0
-                ? { background: '#F3F4F6', border: '1.5px solid #E5E7EB', cursor: 'not-allowed' }
-                : { background: '#093148', border: '1.5px solid #093148', boxShadow: '0 4px 14px rgba(9,49,72,0.25)', cursor: 'pointer' }
-              }
-              aria-label="Previous"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={testimStart === 0 ? '#D1D5DB' : '#ffffff'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-
-            {/* Next */}
-            <button
-              onClick={() => setTestimStart(s => s + 3 < TESTIMONIALS.length ? s + 3 : s)}
-              disabled={testimStart + 3 >= TESTIMONIALS.length}
-              className="flex h-11 w-11 items-center justify-center rounded-full transition-all duration-200"
-              style={testimStart + 3 >= TESTIMONIALS.length
-                ? { background: '#F3F4F6', border: '1.5px solid #E5E7EB', cursor: 'not-allowed' }
-                : { background: '#093148', border: '1.5px solid #093148', boxShadow: '0 4px 14px rgba(9,49,72,0.25)', cursor: 'pointer' }
-              }
-              aria-label="Next"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={testimStart + 3 >= TESTIMONIALS.length ? '#D1D5DB' : '#ffffff'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
+          {/* 3-column auto-scroll */}
+          <div
+            className="relative overflow-hidden"
+            style={{
+              height: '520px',
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+            }}
+          >
+            <div className="grid grid-cols-1 gap-4 h-full sm:grid-cols-3">
+              <HomeScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} />
+              <HomeScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} />
+              <HomeScrollColumn items={TESTIMONIALS.slice(6, 9)} speed={0.038} />
+            </div>
           </div>
 
         </div>
