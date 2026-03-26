@@ -421,14 +421,8 @@ const VENDOR_BADGE_COLORS: Record<string, string> = {
   'Linux Foundation': KOENIG_BADGE,
 }
 
-function BrochureModal({ course, onClose }: { course: { name: string; vendor: string; examCode?: string }; onClose: () => void }) {
-  const [step, setStep] = useState(1)
+function BrochureModal({ onClose }: { onClose: () => void }) {
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '' })
-  const [interests, setInterests] = useState<string[]>([])
-  const [goal, setGoal] = useState('')
-
-  const INTEREST_OPTIONS = ['Cloud & Infrastructure', 'Cybersecurity', 'Networking', 'Data & AI', 'DevOps', 'Project Management']
-  const GOAL_OPTIONS = ['Get certified ASAP', 'Career transition', 'Upskill my team', 'Explore course options']
 
   useEffect(() => {
     const prev = document.body.style.overflow
@@ -436,21 +430,15 @@ function BrochureModal({ course, onClose }: { course: { name: string; vendor: st
     return () => { document.body.style.overflow = prev }
   }, [])
 
-  function toggleInterest(v: string) {
-    setInterests(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])
-  }
-
-  const steps = ['YOU', 'INTERESTS', 'GOALS']
-
   return createPortal(
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
-      style={{ background: 'rgba(0,0,0,0.4)' }}
+      style={{ background: 'rgba(0,0,0,0.72)' }}
       onClick={onClose}
     >
       <div
         className="relative w-full max-w-[420px] rounded-2xl p-6"
-        style={{ background: 'linear-gradient(160deg, #0D2137 0%, #081828 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 24px 64px rgba(0,0,0,0.6)' }}
+        style={{ background: 'linear-gradient(160deg, #0D2137 0%, #081828 100%)', border: '1px solid rgba(6,148,209,0.30)', boxShadow: '0 0 0 1px rgba(6,148,209,0.08), 0 32px 80px rgba(0,0,0,0.8)' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Close */}
@@ -474,125 +462,48 @@ function BrochureModal({ course, onClose }: { course: { name: string; vendor: st
           <p className="mt-1.5 text-xs text-white/40">Curriculum · Pricing · Exam prep — all in one PDF</p>
         </div>
 
-        {/* Steps */}
-        <div className="mb-6 flex items-center gap-0">
-          {steps.map((s, i) => {
-            const n = i + 1
-            const done = step > n
-            const active = step === n
-            return (
-              <div key={s} className="flex flex-1 items-center">
-                <div className="flex flex-col items-center gap-1">
-                  <div className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-all ${
-                    active ? 'text-white' : done ? 'bg-[#0694d1] text-white' : 'bg-white/10 text-white/30'
-                  }`} style={active ? { background: 'linear-gradient(135deg,#0694d1,#076D9D)', boxShadow: '0 0 0 3px rgba(6,148,209,0.25)' } : {}}>
-                    {done ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> : n}
-                  </div>
-                  <span className={`text-[9px] font-semibold tracking-wider uppercase ${active ? 'text-[#3AB6EB]' : done ? 'text-white/50' : 'text-white/25'}`}>{s}</span>
-                </div>
-                {i < steps.length - 1 && (
-                  <div className="mb-4 h-px flex-1 mx-1 transition-all" style={{ background: done ? '#0694d1' : 'rgba(255,255,255,0.12)' }} />
-                )}
+        {/* Form */}
+        <div className="space-y-3">
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-white/40">First Name <span className="text-[#0694d1]">*</span></label>
+              <div className="flex items-center gap-2 rounded-lg px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-white/30"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input value={form.firstName} onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))} placeholder="Rahul" className="w-full bg-transparent text-sm text-white placeholder-white/25 outline-none" />
               </div>
-            )
-          })}
+            </div>
+            <div className="flex-1">
+              <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-white/40">Last Name</label>
+              <div className="flex items-center gap-2 rounded-lg px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-white/30"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input value={form.lastName} onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))} placeholder="Sharma" className="w-full bg-transparent text-sm text-white placeholder-white/25 outline-none" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-white/40">Work Email <span className="text-[#0694d1]">*</span></label>
+            <div className="flex items-center gap-2 rounded-lg px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-white/30"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+              <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="you@company.com" type="email" className="w-full bg-transparent text-sm text-white placeholder-white/25 outline-none" />
+            </div>
+          </div>
+          <div>
+            <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-white/40">Phone / WhatsApp <span className="text-[#0694d1]">*</span></label>
+            <div className="flex items-center gap-2 rounded-lg px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-white/30"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6.29 6.29l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="+91 98400 00000" type="tel" className="w-full bg-transparent text-sm text-white placeholder-white/25 outline-none" />
+            </div>
+          </div>
         </div>
-
-        {/* Step 1 — YOU */}
-        {step === 1 && (
-          <div className="space-y-3">
-            <div className="flex gap-3">
-              <div className="flex-1">
-                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-white/40">First Name <span className="text-[#0694d1]">*</span></label>
-                <div className="flex items-center gap-2 rounded-lg px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-white/30"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  <input value={form.firstName} onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))} placeholder="Rahul" className="w-full bg-transparent text-sm text-white placeholder-white/25 outline-none" />
-                </div>
-              </div>
-              <div className="flex-1">
-                <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-white/40">Last Name</label>
-                <div className="flex items-center gap-2 rounded-lg px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-white/30"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  <input value={form.lastName} onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))} placeholder="Sharma" className="w-full bg-transparent text-sm text-white placeholder-white/25 outline-none" />
-                </div>
-              </div>
-            </div>
-            <div>
-              <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-white/40">Work Email <span className="text-[#0694d1]">*</span></label>
-              <div className="flex items-center gap-2 rounded-lg px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-white/30"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
-                <input value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="you@company.com" type="email" className="w-full bg-transparent text-sm text-white placeholder-white/25 outline-none" />
-              </div>
-            </div>
-            <div>
-              <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-white/40">Phone / WhatsApp <span className="text-[#0694d1]">*</span></label>
-              <div className="flex items-center gap-2 rounded-lg px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-white/30"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6.29 6.29l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="+91 98400 00000" type="tel" className="w-full bg-transparent text-sm text-white placeholder-white/25 outline-none" />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Step 2 — INTERESTS */}
-        {step === 2 && (
-          <div className="space-y-3">
-            <p className="text-sm text-white/50">Which areas interest you most?</p>
-            <div className="grid grid-cols-2 gap-2">
-              {INTEREST_OPTIONS.map(opt => (
-                <button
-                  key={opt}
-                  onClick={() => toggleInterest(opt)}
-                  className={`rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-all ${
-                    interests.includes(opt)
-                      ? 'text-white'
-                      : 'text-white/50 hover:text-white/70'
-                  }`}
-                  style={{
-                    background: interests.includes(opt) ? 'rgba(6,148,209,0.20)' : 'rgba(255,255,255,0.05)',
-                    border: interests.includes(opt) ? '1px solid rgba(6,148,209,0.50)' : '1px solid rgba(255,255,255,0.08)',
-                  }}
-                >
-                  {opt}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Step 3 — GOALS */}
-        {step === 3 && (
-          <div className="space-y-2">
-            <p className="text-sm text-white/50">What is your primary goal?</p>
-            {GOAL_OPTIONS.map(opt => (
-              <button
-                key={opt}
-                onClick={() => setGoal(opt)}
-                className={`w-full rounded-lg px-4 py-3 text-left text-sm font-medium transition-all ${
-                  goal === opt ? 'text-white' : 'text-white/50 hover:text-white/70'
-                }`}
-                style={{
-                  background: goal === opt ? 'rgba(6,148,209,0.20)' : 'rgba(255,255,255,0.05)',
-                  border: goal === opt ? '1px solid rgba(6,148,209,0.50)' : '1px solid rgba(255,255,255,0.08)',
-                }}
-              >
-                {opt}
-              </button>
-            ))}
-          </div>
-        )}
 
         {/* CTA */}
         <div className="mt-5">
           <button
-            onClick={() => {
-              if (step < 3) setStep(s => s + 1)
-              else onClose()
-            }}
+            onClick={onClose}
             className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
             style={{ background: 'linear-gradient(90deg, #0694d1, #3AB6EB)' }}
           >
-            {step < 3 ? 'Continue →' : 'Get My Brochure →'}
+            Get My Brochure →
           </button>
           <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-white/25">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -695,7 +606,7 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
           </button>
         </div>
       </div>
-      {showBrochure && <BrochureModal course={{ name: c.name, vendor: c.vendor, examCode }} onClose={() => setShowBrochure(false)} />}
+      {showBrochure && <BrochureModal onClose={() => setShowBrochure(false)} />}
     </div>
   )
 }
