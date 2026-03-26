@@ -426,12 +426,12 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
     >
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-bold ${badgeColor}`}>
+          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium ${badgeColor}`}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             {c.vendor}
           </span>
           {category && (
-            <span className="rounded-full px-2 py-0.5 text-xs font-bold bg-[#0694d1]/20 text-[#3AB6EB]">
+            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/20 text-[#3AB6EB]">
               {category.charAt(0) + category.slice(1).toLowerCase()}
             </span>
           )}
