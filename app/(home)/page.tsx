@@ -55,6 +55,18 @@ const TOP_COURSES = [
     days: 3, rating: 4.8, enrolled: '1,200+', price: '$747',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
   },
+  {
+    vendor: 'AWS', name: 'AWS Certified Solutions Architect – Professional: Designing Resilient, High-Performance Cloud Architectures on AWS',
+    examCode: 'SAP-C02', category: 'ASSOCIATE',
+    days: 5, rating: 4.9, enrolled: '1,900+', price: '$1,395',
+    levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Advanced',
+  },
+  {
+    vendor: 'Cisco', name: 'Implementing and Operating Cisco Enterprise Network Core Technologies – ENCOR Certification Training',
+    examCode: '350-401', category: 'ASSOCIATE',
+    days: 5, rating: 4.8, enrolled: '1,100+', price: '$1,195',
+    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Advanced',
+  },
 ]
 
 const TOP_TECHNOLOGIES = [
