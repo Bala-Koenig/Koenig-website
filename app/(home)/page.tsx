@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import VendorStack from '@/components/VendorStack'
@@ -411,6 +411,11 @@ const VENDOR_BADGE_COLORS: Record<string, string> = {
 function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
   const badgeColor = VENDOR_BADGE_COLORS[c.vendor] ?? KOENIG_BADGE
   const nameRef = useRef<HTMLHeadingElement>(null)
+  const [isClamped, setIsClamped] = useState(false)
+  useLayoutEffect(() => {
+    const el = nameRef.current
+    if (el) setIsClamped(el.scrollHeight > el.clientHeight)
+  }, [c.name])
   const examCode = (c as { examCode?: string }).examCode
   const category = (c as { category?: string }).category
   return (
@@ -444,14 +449,16 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
         {examCode && (
           <p className="mt-1 text-[11px] font-medium text-white/40">{examCode}</p>
         )}
-        {/* Tooltip — always rendered, shown on hover via CSS */}
-        <div
-          className="pointer-events-none absolute bottom-full left-0 z-50 mb-2 w-64 rounded-xl px-3 py-2.5 text-sm font-medium text-white opacity-0 shadow-2xl transition-all duration-200 group-hover/name:opacity-100 group-hover/name:translate-y-0 translate-y-1"
-          style={{ background: 'rgba(5,18,38,0.97)', border: '1px solid rgba(6,148,209,0.35)', backdropFilter: 'blur(12px)', lineHeight: '1.6', boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(6,148,209,0.15) inset' }}
-        >
-          {c.name}
-          <span className="absolute -bottom-[5px] left-5 h-2.5 w-2.5 rotate-45" style={{ background: 'rgba(5,18,38,0.97)', borderRight: '1px solid rgba(6,148,209,0.35)', borderBottom: '1px solid rgba(6,148,209,0.35)' }} />
-        </div>
+        {/* Tooltip — only shown when name is clamped beyond 2 lines */}
+        {isClamped && (
+          <div
+            className="pointer-events-none absolute bottom-full left-0 z-50 mb-2 w-64 rounded-xl px-3 py-2.5 text-sm font-medium text-white opacity-0 shadow-2xl transition-all duration-200 group-hover/name:opacity-100 group-hover/name:translate-y-0 translate-y-1"
+            style={{ background: 'rgba(5,18,38,0.97)', border: '1px solid rgba(6,148,209,0.35)', backdropFilter: 'blur(12px)', lineHeight: '1.6', boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(6,148,209,0.15) inset' }}
+          >
+            {c.name}
+            <span className="absolute -bottom-[5px] left-5 h-2.5 w-2.5 rotate-45" style={{ background: 'rgba(5,18,38,0.97)', borderRight: '1px solid rgba(6,148,209,0.35)', borderBottom: '1px solid rgba(6,148,209,0.35)' }} />
+          </div>
+        )}
       </div>
       <div className="mb-3 flex items-center gap-2 text-sm text-white/50">
         <span>{c.enrolled} enrolled</span>
