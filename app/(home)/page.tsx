@@ -796,6 +796,11 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
               New
             </span>
           )}
+          {c.level === 'Advanced' && (
+            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">
+              Expert
+            </span>
+          )}
         </div>
         {c.hot ? (
           <span className="animate-pulse rounded-full bg-koenig-blue px-2 py-0.5 text-xs font-medium text-white">Popular</span>
