@@ -1677,7 +1677,11 @@ export default function Design4Page() {
                           <p className="truncate text-sm font-medium text-gray-800">{c.name}</p>
                           <p className="mt-0.5 text-sm text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
                         </div>
-                        <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-sm font-medium ${c.levelColor}`}>{c.level}</span>
+                        <div className="flex shrink-0 items-center gap-1">
+                          {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/15 text-[#0694d1]">New</span>}
+                          {c.level === 'Advanced' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">Expert</span>}
+                          {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-koenig-blue text-white">Popular</span>}
+                        </div>
                       </div>
                     )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for "{navQuery}"</div>
                   })()}
@@ -2080,7 +2084,11 @@ export default function Design4Page() {
                             <p className="truncate text-sm font-medium text-white">{c.name}</p>
                             <p className="mt-0.5 text-sm text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
                           </div>
-                          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-sm font-medium ${c.levelColor}`}>{c.level}</span>
+                          <div className="flex shrink-0 items-center gap-1">
+                            {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/20 text-[#3AB6EB]">New</span>}
+                            {c.level === 'Advanced' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">Expert</span>}
+                            {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-koenig-blue text-white">Popular</span>}
+                          </div>
                         </div>
                       )) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
                     })()}
