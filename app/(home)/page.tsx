@@ -430,16 +430,14 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             {c.vendor}
           </span>
-          <span className={`rounded-full px-2 py-0.5 text-sm font-bold ${
-            c.level === 'Beginner'     ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
-            c.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
-                                         'bg-[#076d9d] text-white'
-          }`}>{c.level}</span>
+          {category && (
+            <span className="rounded-full px-2 py-0.5 text-xs font-bold bg-[#0694d1]/20 text-[#3AB6EB]">
+              {category.charAt(0) + category.slice(1).toLowerCase()}
+            </span>
+          )}
         </div>
-        {category ? (
-          <span className="rounded-full bg-white/10 px-2 py-0.5 text-sm font-semibold text-white/70">{category}</span>
-        ) : c.hot ? (
-          <span className="animate-pulse rounded-full bg-koenig-blue px-2 py-0.5 text-sm font-medium text-white">Popular</span>
+        {c.hot ? (
+          <span className="animate-pulse rounded-full bg-koenig-blue px-2 py-0.5 text-xs font-medium text-white">Popular</span>
         ) : null}
       </div>
       <div className="group/name relative mb-1.5">
