@@ -430,15 +430,11 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             {c.vendor}
           </span>
-          {examCode ? (
-            <span className="rounded-full px-2 py-0.5 text-sm font-bold bg-[#0694d1]/20 text-[#3AB6EB]">{examCode}</span>
-          ) : (
-            <span className={`rounded-full px-2 py-0.5 text-sm font-bold ${
-              c.level === 'Beginner'     ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
-              c.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
-                                           'bg-[#076d9d] text-white'
-            }`}>{c.level}</span>
-          )}
+          <span className={`rounded-full px-2 py-0.5 text-sm font-bold ${
+            c.level === 'Beginner'     ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
+            c.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
+                                         'bg-[#076d9d] text-white'
+          }`}>{c.level}</span>
         </div>
         {category ? (
           <span className="rounded-full bg-white/10 px-2 py-0.5 text-sm font-semibold text-white/70">{category}</span>
@@ -452,6 +448,9 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
           className="text-sm font-semibold text-white transition-colors group-hover:text-[#3AB6EB] leading-5 cursor-default"
           style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', textOverflow: 'ellipsis' }}
         >{c.name}</h3>
+        {examCode && (
+          <p className="mt-1 text-[11px] font-medium text-white/40">{examCode}</p>
+        )}
         {/* Tooltip — only renders when text is actually truncated */}
         {isClamped && (
           <div
@@ -472,18 +471,20 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
         </span>
       </div>
       <div className="border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-        <div className="mb-2.5 flex items-baseline gap-1">
-          <span className="text-sm text-white/40">From</span>
-          <span className="text-sm sm:text-base font-bold text-white">{c.price}</span>
-        </div>
-        <div className="flex items-center gap-2">
+        <div className="mb-2.5 flex items-baseline justify-between">
+          <div className="flex items-baseline gap-1">
+            <span className="text-sm text-white/40">From</span>
+            <span className="text-sm sm:text-base font-bold text-white">{c.price}</span>
+          </div>
           <button
             onClick={(e) => { e.stopPropagation(); window.open('https://www.koenig-solutions.com', '_blank') }}
-            className="flex-1 rounded-lg border py-1.5 text-sm font-semibold text-[#3AB6EB] transition-all hover:bg-[#0694d1]/10"
-            style={{ borderColor: 'rgba(6,148,209,0.35)' }}
+            className="text-[#3AB6EB] transition-colors hover:text-[#0694d1]"
+            style={{ fontSize: '13px', fontWeight: 600 }}
           >
             Cert Details →
           </button>
+        </div>
+        <div className="flex items-center gap-2">
           <button
             onClick={(e) => { e.stopPropagation(); window.open('https://www.koenig-solutions.com', '_blank') }}
             className="flex-1 rounded-lg border py-1.5 text-sm font-semibold text-white/70 transition-all hover:bg-white/5"
