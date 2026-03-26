@@ -471,7 +471,6 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
       <div className="border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
         <div className="mb-2.5 flex items-baseline justify-between">
           <div className="flex items-baseline gap-1">
-            <span className="text-sm text-white/40">From</span>
             <span className="text-sm sm:text-base font-bold text-white">{c.price}</span>
           </div>
           <button
