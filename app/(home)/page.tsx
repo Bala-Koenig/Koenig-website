@@ -313,55 +313,52 @@ function CountUp({ end, suffix = '', duration = 1800 }: { end: number; suffix?: 
 
 function TestimonialCardV2({ t, delay }: { t: typeof TESTIMONIALS[0]; delay: string }) {
   const [expanded, setExpanded] = useState(false)
-  const isLong = t.quote.length > 120
-  const [hovered, setHovered] = useState(false)
+  const isLong = t.quote.length > 140
   return (
     <div
-      className="flex flex-col overflow-hidden rounded-2xl border-2 bg-white transition-all duration-300"
-      style={{
-        borderColor: hovered ? '#076D9D' : 'transparent',
-        boxShadow: hovered ? '0 20px 50px rgba(7,109,157,0.18)' : '0 2px 12px rgba(0,0,0,0.06)',
-        transform: hovered ? 'translateY(-8px)' : 'none',
-        animation: `cardFadeUp 0.45s cubic-bezier(0.22,1,0.36,1) ${delay} both`,
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="flex flex-col overflow-hidden rounded-2xl bg-white"
+      style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)', animation: `cardFadeUp 0.45s cubic-bezier(0.22,1,0.36,1) ${delay} both` }}
     >
-      {/* Top */}
-      <div className="flex flex-1 flex-col p-7">
-        {/* User row */}
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-sm sm:text-base font-bold text-white shadow-md" style={{ background: t.avatarBg, border: '3px solid white' }}>
-            {t.initials}
-          </div>
-          <div>
-            <div className="text-sm sm:text-base font-bold text-koenig-dark">{t.name}</div>
-            <div className="text-sm font-semibold text-koenig-blue">{t.location}</div>
-          </div>
-          <span className="ml-auto self-start text-2xl sm:text-3xl md:text-4xl font-black leading-none text-[#E8F4FA]">&ldquo;</span>
-        </div>
+      <div className="flex flex-1 flex-col p-5">
         {/* Stars */}
-        <div className="mb-3 text-sm text-yellow-400">★★★★★</div>
-        {/* Review text */}
-        <p className={`mb-4 flex-1 text-sm leading-relaxed text-[#444] ${!expanded && isLong ? 'line-clamp-3' : ''}`}>
-          {t.quote}
+        <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
+
+        {/* Quote */}
+        <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>
+          {isLong && !expanded ? `${t.quote.slice(0, 140)}…` : t.quote}
         </p>
         {isLong && (
           <button
             onClick={() => setExpanded(v => !v)}
-            className="w-fit rounded-full border border-koenig-blue px-4 py-1.5 text-sm font-semibold text-koenig-blue transition-all hover:bg-koenig-blue hover:text-white"
+            className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
+            style={{ borderColor: '#0694D1' }}
           >
             {expanded ? 'Show Less ↑' : 'Show More ↓'}
           </button>
         )}
-      </div>
-      {/* Bottom */}
-      <div className="flex items-center justify-between border-t border-[#E8F4FA] bg-[#F8FCFF] px-7 py-4">
-        <div>
-          <div className="text-sm font-bold text-koenig-dark">{t.course}</div>
-          <div className="mt-0.5 text-sm text-[#999]">{t.date}</div>
+
+        {/* Avatar row */}
+        <div className="mt-auto flex items-center gap-3">
+          <div
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+            style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}
+          >
+            {t.initials}
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
+            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.location}</p>
+          </div>
         </div>
-        <span className="rounded-full bg-[#E8F4FA] px-3 py-1 text-sm font-bold text-koenig-blue">✓ Verified</span>
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
+        <div>
+          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
+          <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
+        </div>
+        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
       </div>
     </div>
   )
