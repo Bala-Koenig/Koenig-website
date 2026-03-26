@@ -1676,15 +1676,17 @@ export default function Design4Page() {
                     return results.length > 0 ? results.map((c, i) => (
                       <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
                         <div className="min-w-0 flex-1">
+                          <div className="mb-0.5 flex items-center gap-1">
+                            {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-600">New</span>}
+                            {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-blue-50 text-blue-600">Popular</span>}
+                          </div>
                           <p className="truncate text-sm font-medium text-gray-800">{c.name}</p>
-                          <p className="mt-0.5 text-sm text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
+                          <p className="mt-0.5 text-xs text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
                         </div>
                         <div className="flex shrink-0 items-center gap-1">
                           {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-blue-50 text-blue-600">Fundamentals</span>}
                           {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-sky-50 text-sky-600">Associate</span>}
                           {c.level === 'Advanced' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">Expert</span>}
-                          {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-600">New</span>}
-                          {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-koenig-blue text-white">Popular</span>}
                         </div>
                       </div>
                     )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for "{navQuery}"</div>
@@ -2085,15 +2087,17 @@ export default function Design4Page() {
                       return results.length > 0 ? results.map((c, i) => (
                         <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-white/5 px-4 py-3 transition-colors hover:bg-white/5 last:border-0">
                           <div className="min-w-0 flex-1">
+                            <div className="mb-0.5 flex items-center gap-1">
+                              {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300">New</span>}
+                              {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/20 text-[#3AB6EB]">Popular</span>}
+                            </div>
                             <p className="truncate text-sm font-medium text-white">{c.name}</p>
-                            <p className="mt-0.5 text-sm text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
+                            <p className="mt-0.5 text-xs text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
                           </div>
                           <div className="flex shrink-0 items-center gap-1">
                             {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/20 text-[#3AB6EB]">Fundamentals</span>}
                             {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d]/30 text-[#6CCFEE]">Associate</span>}
                             {c.level === 'Advanced' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">Expert</span>}
-                            {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300">New</span>}
-                            {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-koenig-blue text-white">Popular</span>}
                           </div>
                         </div>
                       )) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
