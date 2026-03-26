@@ -83,16 +83,22 @@ const TOP_TECHNOLOGIES = [
 
 const NEW_TRENDING = [
   {
+    vendor: 'Google Cloud', name: 'Google Cloud Professional Data Engineer – Building Resilient, Scalable Data Pipelines and Machine Learning Solutions on GCP',
+    examCode: 'GPDE', category: 'TRENDING',
+    days: 4, rating: 4.8, enrolled: '1,400+', price: '$1,095',
+    levelColor: 'bg-green-100 text-green-700', hot: true, level: 'Advanced',
+  },
+  {
+    vendor: 'AWS', name: 'AWS Certified Machine Learning Engineer – Associate: Building and Deploying ML Models on Amazon Web Services',
+    examCode: 'MLA-C01', category: 'NEW',
+    days: 4, rating: 4.9, enrolled: '1,200+', price: '$1,195',
+    levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Advanced',
+  },
+  {
     vendor: 'Microsoft', name: 'Microsoft Copilot Studio – Build AI-Powered Chatbots',
     examCode: 'PL-100', category: 'NEW',
     days: 3, rating: 4.8, enrolled: '890+', price: '$895',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
-  },
-  {
-    vendor: 'Google Cloud', name: 'Google Cloud Professional Data Engineer – Building Scalable Data Pipelines & ML Solutions on GCP',
-    examCode: 'GPDE', category: 'UPDATED',
-    days: 4, rating: 4.7, enrolled: '1,200+', price: '$1,095',
-    levelColor: 'bg-green-100 text-green-700', hot: false, level: 'Advanced',
   },
   {
     vendor: 'Kubernetes', name: 'Certified Kubernetes Administrator (CKA) Exam Prep',
@@ -2439,7 +2445,7 @@ export default function Design4Page() {
           )}
           {tab === 'New & Trending' && (
             <div key="trending" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {NEW_TRENDING.map((c, i) => <CourseCard key={i} c={c} />)}
+              {NEW_TRENDING.slice(0, 6).map((c, i) => <CourseCard key={i} c={c} />)}
             </div>
           )}
 
