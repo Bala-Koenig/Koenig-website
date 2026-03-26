@@ -791,15 +791,17 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             {c.vendor}
           </span>
-          {category === 'NEW' && (
-            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/20 text-[#3AB6EB]">
-              New
-            </span>
+          {category === 'FUNDAMENTALS' && (
+            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/20 text-[#3AB6EB]">Fundamentals</span>
+          )}
+          {category === 'ASSOCIATE' && (
+            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d]/30 text-[#6CCFEE]">Associate</span>
           )}
           {c.level === 'Advanced' && (
-            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">
-              Expert
-            </span>
+            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">Expert</span>
+          )}
+          {category === 'NEW' && (
+            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300">New</span>
           )}
         </div>
         {c.hot ? (
@@ -1678,8 +1680,10 @@ export default function Design4Page() {
                           <p className="mt-0.5 text-sm text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
                         </div>
                         <div className="flex shrink-0 items-center gap-1">
-                          {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/15 text-[#0694d1]">New</span>}
+                          {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-blue-50 text-blue-600">Fundamentals</span>}
+                          {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-sky-50 text-sky-600">Associate</span>}
                           {c.level === 'Advanced' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">Expert</span>}
+                          {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-600">New</span>}
                           {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-koenig-blue text-white">Popular</span>}
                         </div>
                       </div>
@@ -2085,8 +2089,10 @@ export default function Design4Page() {
                             <p className="mt-0.5 text-sm text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
                           </div>
                           <div className="flex shrink-0 items-center gap-1">
-                            {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/20 text-[#3AB6EB]">New</span>}
+                            {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#0694d1]/20 text-[#3AB6EB]">Fundamentals</span>}
+                            {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d]/30 text-[#6CCFEE]">Associate</span>}
                             {c.level === 'Advanced' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-[#076d9d] text-white">Expert</span>}
+                            {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300">New</span>}
                             {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-koenig-blue text-white">Popular</span>}
                           </div>
                         </div>
