@@ -20,6 +20,36 @@ const COURSE_TABS = ['Top Courses', 'Top Technologies', 'New & Trending']
 
 const TOP_COURSES = [
   {
+    vendor: 'AWS', name: 'AWS Certified Solutions Architect – Professional: Designing Resilient, High-Performance Cloud Architectures on AWS',
+    examCode: 'SAP-C02', category: 'ASSOCIATE',
+    days: 5, rating: 4.9, enrolled: '1,900+', price: '$1,395',
+    levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Advanced',
+  },
+  {
+    vendor: 'Cisco', name: 'Implementing and Operating Cisco Enterprise Network Core Technologies – ENCOR Certification Training',
+    examCode: '350-401', category: 'ASSOCIATE',
+    days: 5, rating: 4.8, enrolled: '1,100+', price: '$1,195',
+    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Advanced',
+  },
+  {
+    vendor: 'Microsoft', name: 'Configuring and Operating Microsoft Azure Virtual Desktop',
+    examCode: 'AZ-140', category: 'ASSOCIATE',
+    days: 4, rating: 4.7, enrolled: '980+', price: '$996',
+    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
+  },
+  {
+    vendor: 'Microsoft', name: 'Designing and Implementing Microsoft Azure Networking Solutions',
+    examCode: 'AZ-700', category: 'ASSOCIATE',
+    days: 3, rating: 4.8, enrolled: '1,200+', price: '$747',
+    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
+  },
+  {
+    vendor: 'Microsoft', name: 'Microsoft Azure Administrator',
+    examCode: 'AZ-104', category: 'ASSOCIATE',
+    days: 5, rating: 4.9, enrolled: '2,100+', price: '$1,245',
+    levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Intermediate',
+  },
+  {
     vendor: 'Microsoft', name: 'Microsoft Azure Fundamentals',
     examCode: 'AZ-900', category: 'FUNDAMENTALS',
     days: 3, rating: 4.9, enrolled: '2,400+', price: '$597',
@@ -36,36 +66,6 @@ const TOP_COURSES = [
     examCode: 'AI-900', category: 'FUNDAMENTALS',
     days: 2, rating: 4.8, enrolled: '1,600+', price: '$398',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
-  },
-  {
-    vendor: 'Microsoft', name: 'Microsoft Azure Administrator',
-    examCode: 'AZ-104', category: 'ASSOCIATE',
-    days: 5, rating: 4.9, enrolled: '2,100+', price: '$1,245',
-    levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Intermediate',
-  },
-  {
-    vendor: 'Microsoft', name: 'Configuring and Operating Microsoft Azure Virtual Desktop',
-    examCode: 'AZ-140', category: 'ASSOCIATE',
-    days: 4, rating: 4.7, enrolled: '980+', price: '$996',
-    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
-  },
-  {
-    vendor: 'Microsoft', name: 'Designing and Implementing Microsoft Azure Networking Solutions',
-    examCode: 'AZ-700', category: 'ASSOCIATE',
-    days: 3, rating: 4.8, enrolled: '1,200+', price: '$747',
-    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
-  },
-  {
-    vendor: 'AWS', name: 'AWS Certified Solutions Architect – Professional: Designing Resilient, High-Performance Cloud Architectures on AWS',
-    examCode: 'SAP-C02', category: 'ASSOCIATE',
-    days: 5, rating: 4.9, enrolled: '1,900+', price: '$1,395',
-    levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Advanced',
-  },
-  {
-    vendor: 'Cisco', name: 'Implementing and Operating Cisco Enterprise Network Core Technologies – ENCOR Certification Training',
-    examCode: '350-401', category: 'ASSOCIATE',
-    days: 5, rating: 4.8, enrolled: '1,100+', price: '$1,195',
-    levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Advanced',
   },
 ]
 
@@ -2060,7 +2060,7 @@ export default function Design4Page() {
           {/* Course cards */}
           {tab === 'Top Courses' && (
             <div key="top" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {TOP_COURSES.map((c, i) => <CourseCard key={i} c={c} />)}
+              {TOP_COURSES.slice(0, 6).map((c, i) => <CourseCard key={i} c={c} />)}
             </div>
           )}
           {tab === 'Top Technologies' && (
