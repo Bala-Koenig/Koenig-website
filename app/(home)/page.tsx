@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useLayoutEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Image from 'next/image'
 import VendorStack from '@/components/VendorStack'
@@ -441,10 +442,10 @@ function BrochureModal({ course, onClose }: { course: { name: string; vendor: st
 
   const steps = ['YOU', 'INTERESTS', 'GOALS']
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
-      style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
+      style={{ background: 'rgba(0,0,0,0.4)' }}
       onClick={onClose}
     >
       <div
@@ -600,7 +601,7 @@ function BrochureModal({ course, onClose }: { course: { name: string; vendor: st
         </div>
       </div>
     </div>
-  )
+  ), document.body)
 }
 
 function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
