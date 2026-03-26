@@ -797,7 +797,7 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
           {category === 'ASSOCIATE' && (
             <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-500/20 text-indigo-300">Associate</span>
           )}
-          {c.level === 'Advanced' && (
+          {c.level === 'Advanced' && category !== 'FUNDAMENTALS' && category !== 'ASSOCIATE' && (
             <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>
           )}
           {category === 'NEW' && (
@@ -1686,7 +1686,7 @@ export default function Design4Page() {
                         <div className="flex shrink-0 items-center gap-1">
                           {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-50 text-cyan-600">Fundamentals</span>}
                           {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-50 text-indigo-600">Associate</span>}
-                          {c.level === 'Advanced' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-50 text-violet-600">Expert</span>}
+                          {c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-50 text-violet-600">Expert</span>}
                         </div>
                       </div>
                     )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for "{navQuery}"</div>
@@ -2097,7 +2097,7 @@ export default function Design4Page() {
                           <div className="flex shrink-0 items-center gap-1">
                             {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-500/20 text-cyan-300">Fundamentals</span>}
                             {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-500/20 text-indigo-300">Associate</span>}
-                            {c.level === 'Advanced' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>}
+                            {c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>}
                           </div>
                         </div>
                       )) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
