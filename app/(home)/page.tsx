@@ -84,43 +84,43 @@ const TOP_TECHNOLOGIES = [
 const NEW_TRENDING = [
   {
     vendor: 'Google Cloud', name: 'Google Cloud Professional Data Engineer – Building Resilient, Scalable Data Pipelines and Machine Learning Solutions on GCP',
-    examCode: 'GPDE', category: 'TRENDING',
+    examCode: 'GPDE', category: 'EXPERT',
     days: 4, rating: 4.8, enrolled: '1,400+', price: '$1,095',
     levelColor: 'bg-green-100 text-green-700', hot: true, level: 'Advanced',
   },
   {
     vendor: 'AWS', name: 'AWS Certified Machine Learning Engineer – Associate: Building and Deploying ML Models on Amazon Web Services',
-    examCode: 'MLA-C01', category: 'NEW',
+    examCode: 'MLA-C01', category: 'ASSOCIATE',
     days: 4, rating: 4.9, enrolled: '1,200+', price: '$1,195',
     levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Advanced',
   },
   {
     vendor: 'Microsoft', name: 'Microsoft Copilot Studio – Build AI-Powered Chatbots',
-    examCode: 'PL-100', category: 'NEW',
+    examCode: 'PL-100', category: 'FUNDAMENTALS',
     days: 3, rating: 4.8, enrolled: '890+', price: '$895',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
   },
   {
     vendor: 'Kubernetes', name: 'Certified Kubernetes Administrator (CKA) Exam Prep',
-    examCode: 'CKA', category: 'TRENDING',
+    examCode: 'CKA', category: 'EXPERT',
     days: 4, rating: 4.9, enrolled: '1,600+', price: '$995',
     levelColor: 'bg-pink-100 text-pink-700', hot: true, level: 'Advanced',
   },
   {
     vendor: 'HashiCorp', name: 'HashiCorp Certified: Terraform Associate (003)',
-    examCode: 'TA-003', category: 'NEW',
+    examCode: 'TA-003', category: 'ASSOCIATE',
     days: 3, rating: 4.7, enrolled: '720+', price: '$795',
     levelColor: 'bg-purple-100 text-purple-700', hot: false, level: 'Intermediate',
   },
   {
     vendor: 'AWS', name: 'AWS Certified AI Practitioner – Foundations (AIF-C01)',
-    examCode: 'AIF-C01', category: 'UPDATED',
+    examCode: 'AIF-C01', category: 'FUNDAMENTALS',
     days: 3, rating: 4.8, enrolled: '1,100+', price: '$895',
     levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Beginner',
   },
   {
     vendor: 'Microsoft', name: 'Azure AI Engineer Associate (AI-102) Certification',
-    examCode: 'AI-102', category: 'NEW',
+    examCode: 'AI-102', category: 'ASSOCIATE',
     days: 4, rating: 4.8, enrolled: '960+', price: '$995',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
   },
@@ -797,7 +797,7 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
           {category === 'ASSOCIATE' && (
             <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-500/20 text-indigo-300">Associate</span>
           )}
-          {c.level === 'Advanced' && category !== 'FUNDAMENTALS' && category !== 'ASSOCIATE' && (
+          {(category === 'EXPERT' || (c.level === 'Advanced' && category !== 'FUNDAMENTALS' && category !== 'ASSOCIATE')) && (
             <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>
           )}
           {category === 'NEW' && (
@@ -1686,7 +1686,7 @@ export default function Design4Page() {
                         <div className="flex shrink-0 items-center gap-1">
                           {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-50 text-cyan-600">Fundamentals</span>}
                           {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-50 text-indigo-600">Associate</span>}
-                          {c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-50 text-violet-600">Expert</span>}
+                          {((c as { category?: string }).category === 'EXPERT' || (c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE')) && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-50 text-violet-600">Expert</span>}
                         </div>
                       </div>
                     )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for "{navQuery}"</div>
@@ -2097,7 +2097,7 @@ export default function Design4Page() {
                           <div className="flex shrink-0 items-center gap-1">
                             {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-500/20 text-cyan-300">Fundamentals</span>}
                             {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-500/20 text-indigo-300">Associate</span>}
-                            {c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>}
+                            {((c as { category?: string }).category === 'EXPERT' || (c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE')) && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>}
                           </div>
                         </div>
                       )) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
