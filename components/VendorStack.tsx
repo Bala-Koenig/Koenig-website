@@ -618,7 +618,7 @@ export default function VendorStack() {
             .vs-mobile-tabs { display: flex; margin: 8px 0 10px; }
             .vs-layout { flex-direction: column; gap: 0; padding: 0 10px; }
             .vs-sidebar { display: none !important; }
-            .vs-deck-col { padding-top: 4px; }
+            .vs-deck-col { padding-top: 4px; width: 100%; }
             .vs-viewport { height: 470px; }
             .vs-card-wrapper { height: 470px; }
             .vs-card-content { padding: 12px 10px 58px !important; }
@@ -638,7 +638,7 @@ export default function VendorStack() {
             .vs-mobile-tabs { display: flex; margin: 10px 0 12px; }
             .vs-layout { flex-direction: column; gap: 0; padding: 0 12px; }
             .vs-sidebar { display: none !important; }
-            .vs-deck-col { padding-top: 4px; }
+            .vs-deck-col { padding-top: 4px; width: 100%; }
             .vs-viewport { height: 460px; }
             .vs-card-wrapper { height: 460px; }
             .vs-card-content { padding: 14px 12px 60px !important; }
@@ -658,7 +658,7 @@ export default function VendorStack() {
             .vs-mobile-tabs { display: flex; margin: 10px 0 14px; }
             .vs-layout { flex-direction: column; gap: 0; padding: 0 12px; }
             .vs-sidebar { display: none !important; }
-            .vs-deck-col { padding-top: 6px; }
+            .vs-deck-col { padding-top: 6px; width: 100%; }
             .vs-viewport { height: 450px; }
             .vs-card-wrapper { height: 450px; }
             .vs-card-content { padding: 16px 14px 62px !important; }
@@ -678,7 +678,7 @@ export default function VendorStack() {
             .vs-mobile-tabs { display: flex; margin: 12px 0 16px; }
             .vs-layout { flex-direction: column; gap: 0; padding: 0 16px; }
             .vs-sidebar { display: none !important; }
-            .vs-deck-col { padding-top: 6px; }
+            .vs-deck-col { padding-top: 6px; width: 100%; }
             .vs-viewport { height: 440px; }
             .vs-card-wrapper { height: 440px; }
             .vs-card-content { padding: 18px 16px 64px !important; }
@@ -698,7 +698,7 @@ export default function VendorStack() {
             .vs-mobile-tabs { display: flex; margin: 12px 0 16px; }
             .vs-layout { flex-direction: column; gap: 0; padding: 0 20px; }
             .vs-sidebar { display: none !important; }
-            .vs-deck-col { padding-top: 8px; }
+            .vs-deck-col { padding-top: 8px; width: 100%; }
             .vs-viewport { height: 430px; }
             .vs-card-wrapper { height: 430px; }
             .vs-card-content { padding: 20px 20px 66px !important; }
