@@ -2882,7 +2882,7 @@ export default function EnterprisePage() {
             </a>
             {/* Contact CTA */}
             <a href="#contact" className="hidden rounded-lg px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 lg:inline-block" style={{ background: '#0694D1' }}>
-              Contact Us
+              Enquire
             </a>
             {/* Hamburger */}
             <button
