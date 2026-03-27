@@ -376,13 +376,16 @@ export default function VendorStack() {
       const stickyTop = NAV_H + TITLE_GAP - titleOffsetInSection
       stickyEl.style.top = `${stickyTop}px`
 
-      // Pull the next section up to overlap the trigger area so it's visible below the sticky section
-      const totalTriggerH = triggers.reduce((sum, t) => sum + t.offsetHeight, 0)
-      const nextSection   = wrapperEl.nextElementSibling as HTMLElement | null
+      // Pull the next section up and pin it below the sticky vendor section
+      // so it stays visible but doesn't scroll while triggers are being consumed
+      const totalTriggerH    = triggers.reduce((sum, t) => sum + t.offsetHeight, 0)
+      const nextSection      = wrapperEl.nextElementSibling as HTMLElement | null
+      const vendorBottomInVP = stickyTop + stickyEl.offsetHeight  // px from viewport top
       if (nextSection) {
-        nextSection.style.marginTop    = `-${totalTriggerH}px`
-        nextSection.style.position     = 'relative'
-        nextSection.style.zIndex       = '1'
+        nextSection.style.marginTop = `-${totalTriggerH}px`
+        nextSection.style.position  = 'sticky'
+        nextSection.style.top       = `${vendorBottomInVP}px`
+        nextSection.style.zIndex    = '1'
       }
 
       // Precompute each trigger's absolute position (stable after layout)
