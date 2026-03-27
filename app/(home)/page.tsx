@@ -2217,7 +2217,7 @@ export default function Design4Page() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
                   </span>
-                  <span><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-sm font-bold" style={{ color: '#053148' }}>47 seats remaining</span></span>
+                  <span className="text-xs sm:text-sm"><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-xs sm:text-sm font-bold" style={{ color: '#053148' }}>47 seats remaining</span></span>
                 </div>
               </div>
 
@@ -2323,7 +2323,7 @@ export default function Design4Page() {
 
               {/* Social proof */}
               <div className="h-fade-up h-d4 mb-3 flex justify-center lg:justify-start">
-                <div className="flex flex-wrap items-center gap-6 rounded-full px-6 py-3" style={{ background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(8px)' }}>
+                <div className="flex flex-wrap items-center gap-3 rounded-2xl px-4 py-2.5 sm:gap-6 sm:rounded-full sm:px-6 sm:py-3" style={{ background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(8px)' }}>
                   <div className="flex items-center gap-3">
                     <div className="flex -space-x-2">
                       {[
@@ -2570,7 +2570,7 @@ export default function Design4Page() {
       {/* ── Stats Bar ────────────────────────────────────────── */}
       <div ref={statsRef} className="bg-white px-4 lg:px-[50px]" style={{ paddingBottom: '40px' }}>
         <div className="mx-auto max-w-7xl px-6 py-6" style={{ background: '#EBF8FE', borderRadius: '0 1.5rem 0 1.5rem' }}>
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5 lg:gap-8">
           {[
             { end: 30,   suffix: '+',  label: 'Years Training Excellence', barColor: '#0694d1', icon: '/images/home-banner/icon-infographic-30+.svg' },
             { end: 5000, suffix: '+',  label: 'Courses Offered',           barColor: '#076d9d', icon: '/images/home-banner/icon-infographic-5000+.svg' },
@@ -3710,7 +3710,7 @@ export default function Design4Page() {
           <div className="mx-auto max-w-7xl">
 
             {/* Row 1: Company, Learning Options, Resources, Others */}
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4 mb-10">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 mb-10">
               {FOOTER_COLS.map(col => (
                 <div key={col.heading}>
                   <h4 className="mb-4 text-sm font-semibold" style={{ color: '#0694D1' }}>{col.heading}</h4>
@@ -3726,7 +3726,7 @@ export default function Design4Page() {
             </div>
 
             {/* Row 2: Top Technologies, Top Partners, Top Courses (spans 2 cols) */}
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
               {FOOTER_BOTTOM_COLS.map(col => (
                 <div key={col.heading}>
                   <h4 className="mb-4 text-sm font-semibold" style={{ color: '#0694D1' }}>{col.heading}</h4>

@@ -3297,7 +3297,7 @@ export default function EnterprisePage() {
               </div>
 
               {/* Stats — all 4 in one row below the CTAs */}
-              <div className="mt-8 pb-[50px] inline-grid grid-cols-4 gap-2">
+              <div className="mt-8 pb-[50px] grid grid-cols-2 gap-2 sm:grid-cols-4 w-full">
                 {STATS.map((s, i) => (
                   <div
                     key={s.label}
@@ -4424,7 +4424,7 @@ export default function EnterprisePage() {
               WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
             }}
           >
-            <div className="grid grid-cols-3 gap-4 h-full">
+            <div className="grid grid-cols-1 gap-4 h-full sm:grid-cols-2 md:grid-cols-3">
               <DraggableScrollColumn items={TESTIMONIALS_COL1} speed={0.03} />
               <DraggableScrollColumn items={TESTIMONIALS_COL2} speed={0.025} />
               <DraggableScrollColumn items={TESTIMONIALS_COL3} speed={0.038} />
@@ -4614,7 +4614,7 @@ export default function EnterprisePage() {
         {/* Main link columns */}
         <div className="px-4 lg:px-[50px] py-10">
           <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4 mb-10">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 mb-10">
               {FOOTER_COLS.map(col => (
                 <div key={col.heading}>
                   <h4 className="mb-4 text-sm font-semibold" style={{ color: '#0694D1' }}>{col.heading}</h4>
@@ -4626,7 +4626,7 @@ export default function EnterprisePage() {
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
               {FOOTER_BOTTOM_COLS.map(col => (
                 <div key={col.heading}>
                   <h4 className="mb-4 text-sm font-semibold" style={{ color: '#0694D1' }}>{col.heading}</h4>
