@@ -3798,6 +3798,9 @@ export default function EnterprisePage() {
         </div>
       </section>
 
+      {/* Divider */}
+      <div style={{ height: '1px', background: 'linear-gradient(to right, transparent, rgba(6,148,209,0.5), transparent)' }} />
+
       {/* ── Footer ── */}
       <footer style={{ background: '#071929' }} className="text-white">
 
