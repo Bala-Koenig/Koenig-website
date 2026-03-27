@@ -1638,7 +1638,10 @@ export default function Design4Page() {
                       <a
                         key={link}
                         href="#"
-                        className="block px-5 py-2.5 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                        className="block px-5 py-2.5 text-sm transition-colors"
+                        style={{ color: '#374151' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                         onClick={() => setAboutMenuOpen(false)}
                       >
                         {link}
