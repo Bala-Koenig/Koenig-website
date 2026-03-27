@@ -411,7 +411,7 @@ export default function VendorStack() {
   }
 
   return (
-    <div className="vs-wrapper" style={{ position: 'relative', background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+    <div className="vs-wrapper" style={{ position: 'relative' }}>
 
       {/* ── Sticky section ── */}
       <section
