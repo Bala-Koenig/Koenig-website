@@ -2680,18 +2680,27 @@ export default function EnterprisePage() {
               info@koenig-solutions.com
             </a>
           </div>
-          {/* Right — Login */}
-          <a
-            href="https://mykoenig.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg border px-3 py-1 text-xs font-medium transition-colors"
-            style={{ borderColor: 'rgba(255,255,255,0.45)', color: '#ffffff' }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-          >
-            Login
-          </a>
+          {/* Right — Login + Enquire */}
+          <div className="flex items-center gap-2">
+            <a
+              href="https://mykoenig.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border px-3 py-1 text-xs font-medium transition-colors"
+              style={{ borderColor: 'rgba(255,255,255,0.45)', color: '#ffffff' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+            >
+              Login
+            </a>
+            <a
+              href="#contact"
+              className="rounded-lg px-3 py-1 text-xs font-semibold text-white transition-opacity hover:opacity-90"
+              style={{ background: '#0694D1' }}
+            >
+              Enquire
+            </a>
+          </div>
         </div>
       </div>
 
@@ -2880,10 +2889,6 @@ export default function EnterprisePage() {
                 </div>
               )}
             </div>
-            {/* Contact CTA */}
-            <a href="#contact" className="hidden rounded-lg px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 lg:inline-block" style={{ background: '#0694D1' }}>
-              Enquire
-            </a>
             {/* Hamburger */}
             <button
               onClick={() => setMobileOpen(v => !v)}
