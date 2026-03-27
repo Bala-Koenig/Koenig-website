@@ -1312,6 +1312,8 @@ export default function Design4Page() {
   const [techMenuOpen, setTechMenuOpen] = useState(false)
   const [techMenuCategory, setTechMenuCategory] = useState('Cloud Computing')
   const techMenuRef = useRef<HTMLDivElement>(null)
+  const [aboutMenuOpen, setAboutMenuOpen] = useState(false)
+  const aboutMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (heroPaused) return
@@ -1390,6 +1392,7 @@ export default function Design4Page() {
       if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) setHeroResultsOpen(false)
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
       if (techMenuRef.current && !techMenuRef.current.contains(e.target as Node)) setTechMenuOpen(false)
+      if (aboutMenuRef.current && !aboutMenuRef.current.contains(e.target as Node)) setAboutMenuOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -1604,24 +1607,56 @@ export default function Design4Page() {
                 <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </button>
               {/* Nav links */}
-              {[
-                { label: 'Technologies', arrow: true,  href: '#' },
-                { label: 'About',        arrow: true,  href: '#' },
-                { label: 'Contact',      arrow: false, href: '#' },
-              ].map(({ label, arrow, href }) => (
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); setAboutMenuOpen(false); }}
+                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                style={{ color: techMenuOpen ? '#38bdf8' : '#ffffff', background: techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = techMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
+              >
+                Technologies
+                <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+              </a>
+
+              {/* About with dropdown */}
+              <div className="relative" ref={aboutMenuRef}>
                 <a
-                  key={label}
-                  href={href}
-                  onClick={label === 'Technologies' ? (e) => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); } : undefined}
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); }}
                   className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
-                  style={{ color: label === 'Technologies' && techMenuOpen ? '#38bdf8' : '#ffffff', background: label === 'Technologies' && techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+                  style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
                   onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = label === 'Technologies' && techMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = label === 'Technologies' && techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
                 >
-                  {label}
-                  {arrow && <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>}
+                  About
+                  <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
                 </a>
-              ))}
+                {aboutMenuOpen && (
+                  <div className="absolute left-0 top-full mt-2 z-[300] rounded-xl shadow-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}>
+                    {ABOUT_LINKS.map((link) => (
+                      <a
+                        key={link}
+                        href="#"
+                        className="block px-5 py-2.5 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                        onClick={() => setAboutMenuOpen(false)}
+                      >
+                        {link}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <a
+                href="#"
+                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                style={{ color: '#ffffff', background: 'transparent' }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = 'transparent'; }}
+              >
+                Contact
+              </a>
             </div>
           </nav>
 
@@ -2787,6 +2822,95 @@ export default function Design4Page() {
 
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* ── Course Explorer ───────────────────────────────────── */}
+      <section className="relative overflow-hidden px-4 lg:px-[50px]" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', paddingTop: '50px', paddingBottom: '50px' }}>
+        {/* Glow orbs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-24 -left-20 h-[350px] w-[350px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(70px)' }} />
+          <div className="absolute top-1/2 right-0 h-[280px] w-[280px] -translate-y-1/2 rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#38bdf8,transparent 70%)', filter: 'blur(60px)' }} />
+          <div className="absolute bottom-0 left-1/3 h-[240px] w-[240px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#076d9d,transparent 70%)', filter: 'blur(55px)' }} />
+        </div>
+        <div className="relative mx-auto max-w-7xl">
+          <div className="io-fade text-center" style={{ marginBottom: "35px" }}>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-white" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.30)' }}>
+              5,000+ Courses
+            </span>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Explore Our <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Course Catalogue</span></h2>
+            <p className="mx-auto max-w-2xl text-sm sm:text-base text-white/60">
+              Find your certification across cloud, security, networking, project management, and more.
+            </p>
+          </div>
+
+          {/* Tab switcher */}
+          <div className="io-fade delay-1 mb-8 flex flex-nowrap overflow-x-auto justify-center gap-1 rounded-2xl p-1.5 [&::-webkit-scrollbar]:hidden sm:mx-auto sm:w-max" style={{ background: 'rgba(8,24,42,0.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.20)' }}>
+            {COURSE_TABS.map(t => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-200 ${
+                  tab === t
+                    ? 'text-white shadow-md'
+                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                }`}
+                style={tab === t ? { background: 'linear-gradient(135deg, #0694d1, #076d9d)', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' } : {}}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+
+          {/* Course cards */}
+          {tab === 'Top Courses' && (
+            <div key="top" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {TOP_COURSES.slice(0, 6).map((c, i) => <CourseCard key={i} c={c} />)}
+            </div>
+          )}
+          {tab === 'Top Technologies' && (
+            <div key="tech" className="tab-enter grid grid-cols-2 gap-4 md:grid-cols-4">
+              {TOP_TECHNOLOGIES.map((t, i) => (
+                <div
+                  key={i} role="button" tabIndex={0}
+                  className="group cursor-pointer rounded-xl p-5 transition-all duration-300 hover:-translate-y-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue"
+                  style={{ background: 'rgba(8,24,42,0.60)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.20)', boxShadow: '0 4px 16px rgba(0,0,0,0.30)' }}
+                >
+                  {/* Title row */}
+                  <div className="mb-1 flex items-start justify-between gap-2">
+                    <h3 className="text-sm font-bold text-white transition-colors group-hover:text-[#3AB6EB] leading-snug">{t.name}</h3>
+                    <span className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-koenig-blue/40 text-[#3AB6EB] transition-all group-hover:bg-koenig-blue group-hover:text-white group-hover:border-koenig-blue">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+                    </span>
+                  </div>
+                  {/* Count */}
+                  <p className="mb-4 text-sm font-medium text-[#3AB6EB]">{t.count} Courses</p>
+                  {/* Divider */}
+                  <div className="mb-3 h-px" style={{ background: 'rgba(6,148,209,0.18)' }} />
+                  {/* Partners */}
+                  <p className="mb-2 text-sm font-normal text-white/40">Top Partners</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {t.partners.map(p => (
+                      <span key={p} className={`rounded-full px-2.5 py-1 text-sm font-semibold ${VENDOR_BADGE_COLORS[p] ?? 'bg-[#0694d1]/20 text-[#3AB6EB]'}`}>{p}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {tab === 'New & Trending' && (
+            <div key="trending" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {NEW_TRENDING.slice(0, 6).map((c, i) => <CourseCard key={i} c={c} />)}
+            </div>
+          )}
+
+          <div className="io-fade mt-12 flex flex-col items-center gap-3">
+            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+              Browse All 5,000+ Courses
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
+            </button>
+            <p className="text-sm text-white/50">Across 50+ global vendors · All skill levels</p>
           </div>
         </div>
       </section>
