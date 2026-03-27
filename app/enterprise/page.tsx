@@ -348,7 +348,7 @@ const FORMATS = [
   },
   {
     title: '1-on-1 Training', badge: 'Most Focused', badgeBg: '#0694d1',
-    img: '/images/home-banner/1on1.png',
+    img: '/images/home-banner/1on1.png', objPos: 'top',
     icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
     desc: 'Dedicated instructor assigned exclusively to one employee for maximum focus.',
     bullets: ['Personalised curriculum', 'Flexible scheduling', 'Zero distractions'],
@@ -3493,7 +3493,7 @@ export default function EnterprisePage() {
                     {/* FRONT */}
                     <div className="ent-lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
                       <div className="relative h-44 w-full shrink-0 overflow-hidden">
-                        <img src={f.img} alt={f.title} className="h-full w-full object-cover" />
+                        <img src={f.img} alt={f.title} className="h-full w-full object-cover" style={f.objPos ? { objectPosition: f.objPos } : undefined} />
                         <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-sm font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
                       </div>
                       <div className="flex flex-1 flex-col px-5 pt-4">
