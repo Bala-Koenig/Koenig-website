@@ -1309,7 +1309,9 @@ export default function Design4Page() {
   const [heroQuery, setHeroQuery] = useState('')
   const [navResultsOpen, setNavResultsOpen] = useState(false)
   const [heroResultsOpen, setHeroResultsOpen] = useState(false)
+  const [navSearchOpen, setNavSearchOpen] = useState(false)
   const navSearchRef = useRef<HTMLDivElement>(null)
+  const navSearchInputRef = useRef<HTMLInputElement>(null)
   const heroSearchRef = useRef<HTMLDivElement>(null)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [megaMenuVendor, setMegaMenuVendor] = useState('Microsoft')
@@ -1395,7 +1397,7 @@ export default function Design4Page() {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
+      if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) { setNavResultsOpen(false); setNavSearchOpen(false); setNavQuery(''); }
       if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) setHeroResultsOpen(false)
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
       if (techMenuRef.current && !techMenuRef.current.contains(e.target as Node)) setTechMenuOpen(false)
@@ -1721,29 +1723,42 @@ export default function Design4Page() {
               </Link>
             </div>
             {/* Search */}
-            <div className="relative hidden lg:block" ref={navSearchRef}>
-              <div className="flex items-center gap-2 rounded-full px-4 py-1.5 transition-all focus-within:shadow-[0_0_0_2px_rgba(6,148,209,0.6)]" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.35)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
-                <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0" style={{ color: '#38bdf8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                <input
-                  type="text"
-                  value={navQuery}
-                  onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true) }}
-                  onFocus={() => setNavResultsOpen(true)}
-                  placeholder="Search courses…"
-                  aria-label="Search courses"
-                  className="w-36 bg-transparent text-sm text-white placeholder-white/40 outline-none"
-                />
-                {navQuery.length > 0 && (
+            <div className="relative hidden lg:flex items-center" ref={navSearchRef}>
+              {/* Collapsed: icon button */}
+              {!navSearchOpen && (
+                <button
+                  onClick={() => { setNavSearchOpen(true); setTimeout(() => navSearchInputRef.current?.focus(), 50); }}
+                  className="flex items-center justify-center w-8 h-8 rounded-full transition-all hover:bg-white/10"
+                  aria-label="Open search"
+                  style={{ color: '#38bdf8' }}
+                >
+                  <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                </button>
+              )}
+              {/* Expanded: full-width input */}
+              {navSearchOpen && (
+                <div className="flex items-center gap-2 rounded-full px-4 py-1.5 transition-all" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.5)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', width: '280px', boxShadow: '0 0 0 2px rgba(6,148,209,0.25)' }}>
+                  <svg aria-hidden="true" className="h-3.5 w-3.5 shrink-0" style={{ color: '#38bdf8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <input
+                    ref={navSearchInputRef}
+                    type="text"
+                    value={navQuery}
+                    onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true) }}
+                    onFocus={() => setNavResultsOpen(true)}
+                    placeholder="Search courses…"
+                    aria-label="Search courses"
+                    className="flex-1 bg-transparent text-sm text-white placeholder-white/40 outline-none"
+                  />
                   <button
-                    onClick={() => { setNavQuery(''); setNavResultsOpen(false); }}
+                    onClick={() => { setNavSearchOpen(false); setNavQuery(''); setNavResultsOpen(false); }}
                     className="shrink-0 flex items-center justify-center w-4 h-4 rounded-full transition-colors hover:bg-white/20"
-                    aria-label="Clear search"
+                    aria-label="Close search"
                     style={{ color: 'rgba(255,255,255,0.5)' }}
                   >
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
                   </button>
-                )}
-              </div>
+                </div>
+              )}
               {navResultsOpen && navQuery.trim().length > 0 && (
                 <div className="absolute right-0 top-full z-50 mt-1.5 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
                   {(() => {
