@@ -417,6 +417,13 @@ export default function VendorStack() {
           lastActive = active
           applyCards(active)
           setActiveTab(active)
+          // Scroll active tab pill into view (left-aligned) in mobile tab bar
+          const tabsEl = document.querySelector<HTMLElement>('.vs-mobile-tabs')
+          const activeBtn = document.querySelector<HTMLElement>(`.vs-mobile-tabs [data-tab="${active}"]`)
+          if (tabsEl && activeBtn) {
+            const btnLeft = activeBtn.offsetLeft
+            tabsEl.scrollTo({ left: btnLeft - 16, behavior: 'smooth' })
+          }
         }
       }
 
