@@ -3265,9 +3265,27 @@ export default function Design4Page() {
           </div>
         </div>
 
-        {/* Row 1 — scrolls left */}
+        {/* ── Mobile: freely draggable horizontal strip ── */}
+        <div className="sm:hidden overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: 'touch', cursor: 'grab' }}
+          onMouseDown={e => {
+            const el = e.currentTarget; el.style.cursor = 'grabbing'; el.dataset.down = '1'; el.dataset.startX = String(e.pageX - el.offsetLeft); el.dataset.scrollLeft = String(el.scrollLeft)
+          }}
+          onMouseMove={e => {
+            const el = e.currentTarget; if (!el.dataset.down) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; el.scrollLeft = Number(el.dataset.scrollLeft) - (x - Number(el.dataset.startX)) * 1.5
+          }}
+          onMouseUp={e => { const el = e.currentTarget; el.style.cursor = 'grab'; delete el.dataset.down }}
+          onMouseLeave={e => { const el = e.currentTarget; el.style.cursor = 'grab'; delete el.dataset.down }}
+        >
+          <div className="flex gap-3 px-1" style={{ width: 'max-content' }}>
+            {[...VENDORS_ROW1, ...VENDORS_ROW2].map((v, i) => (
+              <VendorCard key={i} v={v} />
+            ))}
+          </div>
+        </div>
+
+        {/* Row 1 — scrolls left (desktop only) */}
         <div
-          className="relative mb-4 overflow-x-hidden py-3"
+          className="relative mb-4 overflow-x-hidden py-3 hidden sm:block"
           style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
         >
           <div className="marquee-track flex gap-4 px-2" style={{ width: 'max-content' }}>
@@ -3277,9 +3295,9 @@ export default function Design4Page() {
           </div>
         </div>
 
-        {/* Row 2 — scrolls right (reverse) */}
+        {/* Row 2 — scrolls right (desktop only) */}
         <div
-          className="relative overflow-x-hidden pt-3 pb-0"
+          className="relative overflow-x-hidden pt-3 pb-0 hidden sm:block"
           style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
         >
           <div className="marquee-rev flex gap-4 px-2" style={{ width: 'max-content' }}>
