@@ -3589,7 +3589,7 @@ export default function Design4Page() {
               ]
               return (
                 <div className="sm:hidden">
-                  <div className="overflow-hidden"
+                  <div className="overflow-hidden pt-3"
                     onTouchStart={e => { hiwDragStartX.current = e.touches[0].clientX }}
                     onTouchEnd={e => {
                       const delta = e.changedTouches[0].clientX - hiwDragStartX.current
