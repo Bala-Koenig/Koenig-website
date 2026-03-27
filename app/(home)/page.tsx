@@ -3309,19 +3309,11 @@ export default function Design4Page() {
           </div>
         </div>
 
-        {/* ── Mobile: auto-scrolling draggable strip ── */}
-        <div
-          ref={vendorScrollRef}
-          className="sm:hidden overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden"
-          style={{ WebkitOverflowScrolling: 'touch' }}
-          onTouchStart={() => { vendorPausedRef.current = true }}
-          onTouchEnd={() => { vendorPausedRef.current = false }}
-        >
-          <div className="flex gap-3 px-1" style={{ width: 'max-content' }}>
-            {[...VENDORS_ROW1, ...VENDORS_ROW2, ...VENDORS_ROW1, ...VENDORS_ROW2].map((v, i) => (
-              <VendorCard key={i} v={v} />
-            ))}
-          </div>
+        {/* ── Mobile: 2-column scrollable grid ── */}
+        <div className="sm:hidden grid grid-cols-2 gap-3 px-1">
+          {[...VENDORS_ROW1, ...VENDORS_ROW2].map((v, i) => (
+            <VendorCard key={i} v={v} />
+          ))}
         </div>
 
         {/* Row 1 — scrolls left (desktop only) */}
