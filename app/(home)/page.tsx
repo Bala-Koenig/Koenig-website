@@ -2638,7 +2638,7 @@ export default function Design4Page() {
                 bullets: ['Personalised schedule', 'Instructor adapts to your pace', 'Max knowledge retention'],
                 btnLabel: 'Learn More →',
                 cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/pre-req.png',
+                img: '/images/home-banner/1on1.png',
                 icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
               },
               {
@@ -2648,7 +2648,7 @@ export default function Design4Page() {
                 bullets: ['Custom content & pace', 'Multi-vendor programme design', 'Aligned to business KPIs'],
                 btnLabel: 'Learn More →',
                 cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/revision.png',
+                img: '/images/home-banner/CT.png',
                 icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
               },
               {
@@ -2658,7 +2658,7 @@ export default function Design4Page() {
                 bullets: ['Expert-hosted live sessions', 'Interactive Q&A', 'Global audience delivery'],
                 btnLabel: 'Learn More →',
                 cardBg: 'linear-gradient(145deg,#0c4a72,#093148)',
-                img: '/images/home-banner/classrecord.png',
+                img: '/images/home-banner/Waas.png',
                 icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.649v6.7a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg>,
               },
               {
@@ -2668,7 +2668,7 @@ export default function Design4Page() {
                 bullets: ['AI-driven skill benchmarking', 'Gap analysis reports', 'Training ROI measurement'],
                 btnLabel: 'Learn More →',
                 cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/qubit.png',
+                img: '/images/home-banner/Qubits.png',
                 icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>,
               },
             ].map((f, i) => (
