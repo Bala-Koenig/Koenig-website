@@ -2374,6 +2374,8 @@ export default function EnterprisePage() {
   // Nav state
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null)
   const [mobileAllCoursesOpen, setMobileAllCoursesOpen] = useState(false)
   const [mobileTechOpen, setMobileTechOpen] = useState(false)
   const [mobileLearningOpen, setMobileLearningOpen] = useState(false)
@@ -2895,6 +2897,15 @@ export default function EnterprisePage() {
                 </div>
               )}
             </div>
+            {/* Mobile search icon */}
+            <button
+              onClick={() => { setMobileSearchOpen(true); setMobileOpen(false); setTimeout(() => mobileSearchInputRef.current?.focus(), 50); }}
+              className="rounded-lg p-2 transition-colors hover:bg-white/10 lg:hidden"
+              style={{ color: '#ffffff' }}
+              aria-label="Search"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </button>
             {/* Hamburger */}
             <button
               onClick={() => setMobileOpen(v => !v)}
@@ -2911,6 +2922,51 @@ export default function EnterprisePage() {
           </div>
         </div>
 
+        {/* Mobile search overlay bar */}
+        {mobileSearchOpen && (
+          <div className="relative lg:hidden px-3 pb-3" style={{ background: 'rgba(6,17,30,0.98)' }}>
+            <div className="flex items-center gap-2 rounded-xl border px-3 py-2" style={{ background: 'rgba(6,148,209,0.10)', borderColor: 'rgba(6,148,209,0.4)' }}>
+              <svg className="h-4 w-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input
+                ref={mobileSearchInputRef}
+                type="text"
+                value={navQuery}
+                onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true); }}
+                onFocus={() => setNavResultsOpen(true)}
+                placeholder="Search 5,000+ courses…"
+                aria-label="Search courses"
+                className="flex-1 bg-transparent text-sm text-white placeholder-white/50 outline-none"
+              />
+              <button
+                onClick={() => { setMobileSearchOpen(false); setNavQuery(''); setNavResultsOpen(false); }}
+                className="shrink-0 flex items-center justify-center w-6 h-6 rounded-full hover:bg-white/10"
+                style={{ color: 'rgba(255,255,255,0.6)' }}
+                aria-label="Close search"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+            {navResultsOpen && navQuery.trim().length > 0 && (
+              <div className="absolute left-3 right-3 top-full z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+                {(() => {
+                  const results = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
+                    c.name.toLowerCase().includes(navQuery.toLowerCase()) ||
+                    c.vendor.toLowerCase().includes(navQuery.toLowerCase())
+                  ).slice(0, 6)
+                  return results.length > 0 ? results.map((c, i) => (
+                    <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-gray-800">{c.name}</p>
+                        <p className="mt-0.5 text-xs text-gray-500">{c.vendor} · {c.days} days</p>
+                      </div>
+                    </div>
+                  )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for &ldquo;{navQuery}&rdquo;</div>
+                })()}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Mobile drawer */}
         {mobileOpen && (
           <div className="-mx-4 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '80vh', overflowY: 'auto' }}>
@@ -2920,12 +2976,6 @@ export default function EnterprisePage() {
               <div className="mb-2 flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
                 <Link href="/" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal transition-all" style={{ color: 'rgba(255,255,255,0.55)' }}>Individual</Link>
                 <span className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Enterprise</span>
-              </div>
-
-              {/* Search */}
-              <div className="mb-2 flex items-center gap-2 rounded-lg border border-white/20 px-3 py-2" style={{ background: 'rgba(6,148,209,0.08)' }}>
-                <svg aria-hidden="true" className="h-4 w-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                <input type="text" placeholder="Search courses…" aria-label="Search courses" className="flex-1 bg-transparent text-sm text-white placeholder-white/50 outline-none" />
               </div>
 
               {/* All Courses accordion */}
