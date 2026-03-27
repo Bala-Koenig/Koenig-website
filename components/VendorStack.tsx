@@ -373,9 +373,7 @@ export default function VendorStack() {
 
       // When sticky: sectionViewportTop + titleOffsetInSection = NAV_H + TITLE_GAP
       // → stickyTop = NAV_H + TITLE_GAP - titleOffsetInSection  (may be negative — that's fine)
-      const stickyTopRaw = NAV_H + TITLE_GAP - titleOffsetInSection
-      // Clamp so the sticky section never overflows below the viewport on small screens
-      const stickyTop = Math.max(stickyTopRaw, window.innerHeight - stickyEl.offsetHeight)
+      const stickyTop = NAV_H + TITLE_GAP - titleOffsetInSection
       stickyEl.style.top = `${stickyTop}px`
 
       // Pull the next section up and pin it below the sticky vendor section
@@ -393,7 +391,7 @@ export default function VendorStack() {
 
       // Precompute each trigger's absolute position (stable after layout)
       const triggerTops  = triggers.map(t => t.getBoundingClientRect().top + window.scrollY)
-      const stickyBottom = stickyTop + stickyEl.offsetHeight
+      const stickyBottom = (NAV_H + TITLE_GAP) + stickyEl.offsetHeight
 
       const onScroll = () => {
         const viewLine = window.scrollY + stickyBottom + 40
