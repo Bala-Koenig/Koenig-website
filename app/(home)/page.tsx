@@ -222,19 +222,19 @@ const SCHEDULE = [
 ]
 
 const COUNTRIES = [
-  { flag: '🇮🇳', name: 'India',          cities: 'Delhi · Bangalore', hub: true,  landmark: '🕌', landmarkLabel: 'Taj Mahal'         },
-  { flag: '🇺🇸', name: 'USA',            cities: 'New York · Chicago', hub: false, landmark: '🗽', landmarkLabel: 'Statue of Liberty'  },
-  { flag: '🇦🇪', name: 'UAE',            cities: 'Dubai',              hub: true,  landmark: '🏙️', landmarkLabel: 'Burj Khalifa'       },
-  { flag: '🇬🇧', name: 'United Kingdom', cities: 'London',             hub: false, landmark: '🎡', landmarkLabel: 'London Eye'         },
-  { flag: '🇸🇬', name: 'Singapore',      cities: 'Singapore',          hub: false, landmark: '🦁', landmarkLabel: 'Merlion'            },
-  { flag: '🇿🇦', name: 'South Africa',   cities: 'Johannesburg',       hub: false, landmark: '🏔️', landmarkLabel: 'Table Mountain'     },
-  { flag: '🇦🇺', name: 'Australia',      cities: 'Sydney',             hub: false, landmark: '🦘', landmarkLabel: 'Kangaroo'           },
-  { flag: '🇨🇦', name: 'Canada',         cities: 'Toronto',            hub: false, landmark: '🍁', landmarkLabel: 'Maple Leaf'         },
-  { flag: '🇩🇪', name: 'Germany',        cities: 'Frankfurt',          hub: false, landmark: '🏛️', landmarkLabel: 'Brandenburg Gate'   },
-  { flag: '🇳🇱', name: 'Netherlands',    cities: 'Amsterdam',          hub: false, landmark: '🌷', landmarkLabel: 'Tulip Fields'       },
-  { flag: '🇧🇭', name: 'Bahrain',        cities: 'Manama',             hub: false, landmark: '🌊', landmarkLabel: 'Pearl Monument'     },
-  { flag: '🇶🇦', name: 'Qatar',          cities: 'Doha',               hub: false, landmark: '🌴', landmarkLabel: 'The Pearl'          },
-  { flag: '🇰🇪', name: 'Kenya',          cities: 'Nairobi',            hub: false, landmark: '🐘', landmarkLabel: 'Safari Wildlife'    },
+  { flagCode: 'in', name: 'India',          cities: 'Delhi · Bangalore', hub: true  },
+  { flagCode: 'us', name: 'USA',            cities: 'New York · Chicago', hub: false },
+  { flagCode: 'ae', name: 'UAE',            cities: 'Dubai',              hub: true  },
+  { flagCode: 'gb', name: 'United Kingdom', cities: 'London',             hub: false },
+  { flagCode: 'sg', name: 'Singapore',      cities: 'Singapore',          hub: false },
+  { flagCode: 'za', name: 'South Africa',   cities: 'Johannesburg',       hub: false },
+  { flagCode: 'au', name: 'Australia',      cities: 'Sydney',             hub: false },
+  { flagCode: 'ca', name: 'Canada',         cities: 'Toronto',            hub: false },
+  { flagCode: 'de', name: 'Germany',        cities: 'Frankfurt',          hub: false },
+  { flagCode: 'nl', name: 'Netherlands',    cities: 'Amsterdam',          hub: false },
+  { flagCode: 'bh', name: 'Bahrain',        cities: 'Manama',             hub: false },
+  { flagCode: 'qa', name: 'Qatar',          cities: 'Doha',               hub: false },
+  { flagCode: 'ke', name: 'Kenya',          cities: 'Nairobi',            hub: false },
 ]
 
 const TESTIMONIALS = [
@@ -3278,11 +3278,18 @@ export default function Design4Page() {
                       />
 
                       <div className="p-4 text-center">
-                        {/* Landmark icon */}
-                        <div className="mb-1 text-4xl leading-none">{c.landmark}</div>
-
-                        {/* Flag */}
-                        <div className="mb-2 text-3xl leading-none">{c.flag}</div>
+                        {/* Realistic flag image */}
+                        <div className="mb-3 flex justify-center">
+                          <img
+                            src={`https://flagcdn.com/w80/${c.flagCode}.png`}
+                            srcSet={`https://flagcdn.com/w160/${c.flagCode}.png 2x`}
+                            width={56}
+                            height={38}
+                            alt={c.name}
+                            className="rounded-md object-cover"
+                            style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.18)', border: '1px solid rgba(0,0,0,0.08)' }}
+                          />
+                        </div>
 
                         {/* Country name */}
                         <div className={`mb-1.5 text-sm font-bold transition-colors ${isHovered ? 'text-koenig-blue' : 'text-koenig-dark'}`}>{c.name}</div>
