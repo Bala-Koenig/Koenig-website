@@ -3692,59 +3692,73 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── Contact Form (existing, unchanged) ── */}
-      <section id="contact" className="px-4 lg:px-[50px] py-[40px]">
-        <div className="mx-auto max-w-3xl">
+      {/* ── Contact Form ── */}
+      <section id="contact" className="relative overflow-hidden px-4 lg:px-[50px] py-[70px]" style={{ background: 'linear-gradient(160deg,#040f1a 0%,#061e30 50%,#051525 100%)' }}>
+        {/* Glow orbs */}
+        <div className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(6,148,209,0.14) 0%,transparent 70%)' }} />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(77,191,239,0.10) 0%,transparent 70%)' }} />
+
+        <div className="relative mx-auto max-w-3xl">
+          {/* Header */}
           <div className="mb-10 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Let's Talk</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">Start Your Enterprise <span style={{ color: '#38bdf8' }}>Training Journey</span></h2>
-            <p className="mt-3 text-white/50">Tell us about your workforce goals and we'll design a programme that delivers real, measurable outcomes.</p>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)' }}>Let&apos;s Talk</span>
+            <h2 className="mt-3 text-3xl font-bold text-white lg:text-4xl">Start Your Enterprise <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Training Journey</span></h2>
+            <p className="mt-3 text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.50)' }}>Tell us about your workforce goals and we&apos;ll design a programme that delivers real, measurable outcomes.</p>
           </div>
+
           {submitted ? (
-            <div className="rounded-2xl p-10 text-center" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.3)' }}>
-              <div className="mb-4 text-4xl">✅</div>
-              <h3 className="mb-2 text-xl font-bold text-white">Thank you!</h3>
-              <p className="text-white/60">Our enterprise team will reach out within 1 business day.</p>
+            <div className="rounded-2xl p-12 text-center" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.35)', boxShadow: '0 0 40px rgba(6,148,209,0.12)' }}>
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.4)' }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h3 className="mb-2 text-xl font-bold text-white">Message Received!</h3>
+              <p className="text-white/55">Our enterprise team will reach out within 1 business day.</p>
             </div>
           ) : (
-            <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.2)' }}>
-              <div className="grid gap-4 sm:grid-cols-2">
+            <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} className="rounded-2xl p-8" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 50px rgba(6,148,209,0.10)' }}>
+              <style>{`
+                .ent-input { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.10); transition: border-color 0.2s, box-shadow 0.2s; }
+                .ent-input:focus { border-color: #0694D1; box-shadow: 0 0 0 3px rgba(6,148,209,0.15); outline: none; }
+                .ent-input::placeholder { color: rgba(255,255,255,0.25); }
+              `}</style>
+
+              <div className="grid gap-5 sm:grid-cols-2">
                 {[
-                  { id: 'name',    label: 'Full Name',       type: 'text',  placeholder: 'John Smith'             },
-                  { id: 'company', label: 'Company Name',    type: 'text',  placeholder: 'Acme Corporation'       },
-                  { id: 'email',   label: 'Work Email',      type: 'email', placeholder: 'john@acme.com'          },
-                  { id: 'phone',   label: 'Phone Number',    type: 'tel',   placeholder: '+1 (555) 000-0000'      },
+                  { id: 'name',    label: 'Full Name',    type: 'text',  placeholder: 'John Smith'        },
+                  { id: 'company', label: 'Company Name', type: 'text',  placeholder: 'Acme Corporation'  },
+                  { id: 'email',   label: 'Work Email',   type: 'email', placeholder: 'john@acme.com'     },
+                  { id: 'phone',   label: 'Phone Number', type: 'tel',   placeholder: '+1 (555) 000-0000' },
                 ].map(f => (
                   <div key={f.id}>
-                    <label className="mb-1.5 block text-sm font-medium text-white/70">{f.label}</label>
+                    <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>{f.label}</label>
                     <input
                       type={f.type}
                       required
                       placeholder={f.placeholder}
                       value={formData[f.id as keyof typeof formData]}
                       onChange={e => setFormData(p => ({ ...p, [f.id]: e.target.value }))}
-                      className="w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition-all focus:border-[#0694D1]"
-                      style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                      className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white"
                     />
                   </div>
                 ))}
               </div>
-              <div className="mt-4">
-                <label className="mb-1.5 block text-sm font-medium text-white/70">Tell us about your training needs</label>
+
+              <div className="mt-5">
+                <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>Training Needs</label>
                 <textarea
                   rows={4}
                   required
                   placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..."
                   value={formData.message}
                   onChange={e => setFormData(p => ({ ...p, message: e.target.value }))}
-                  className="w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition-all resize-none focus:border-[#0694D1]"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                  className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white resize-none"
                 />
               </div>
-              <button type="submit" className="mt-6 w-full rounded-xl py-4 text-base font-bold text-white transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 24px rgba(6,148,209,0.35)' }}>
+
+              <button type="submit" className="mt-6 w-full rounded-xl py-4 text-base font-bold text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 24px rgba(6,148,209,0.40)' }}>
                 Submit — Get a Free Consultation
               </button>
-              <p className="mt-3 text-center text-sm text-white/35">We'll respond within 1 business day. No spam, ever.</p>
+              <p className="mt-4 text-center text-sm" style={{ color: 'rgba(255,255,255,0.30)' }}>We&apos;ll respond within 1 business day · No spam, ever.</p>
             </form>
           )}
         </div>
