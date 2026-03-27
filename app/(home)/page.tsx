@@ -1303,6 +1303,7 @@ export default function Design4Page() {
   const [chatMsg, setChatMsg] = useState('')
   const [heroSlide, setHeroSlide] = useState(0)
   const [heroPaused, setHeroPaused] = useState(false)
+  const heroTouchX = useRef<number | null>(null)
   const [activeStep, setActiveStep] = useState(0)
   const [stepPaused, setStepPaused] = useState(false)
   const [showAllReviews, setShowAllReviews] = useState(false)
@@ -2429,8 +2430,14 @@ export default function Design4Page() {
                     border: '1px solid rgba(6,148,209,0.25)',
                     boxShadow: '0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.12)',
                   }}
-                  onTouchStart={() => setHeroPaused(true)}
-                  onTouchEnd={() => setHeroPaused(false)}
+                  onTouchStart={e => { heroTouchX.current = e.touches[0].clientX; setHeroPaused(true) }}
+                  onTouchEnd={e => {
+                    setHeroPaused(false)
+                    if (heroTouchX.current === null) return
+                    const diff = heroTouchX.current - e.changedTouches[0].clientX
+                    if (Math.abs(diff) > 40) setHeroSlide(s => diff > 0 ? (s + 1) % 4 : (s + 3) % 4)
+                    heroTouchX.current = null
+                  }}
                 >
                   {/* dots */}
                   <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 py-2.5" style={{ background: 'rgba(6,40,65,0.72)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
