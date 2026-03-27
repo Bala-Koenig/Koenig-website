@@ -2938,14 +2938,14 @@ export default function Design4Page() {
                     const f = lfAllFormats[ci]
                     return (
                       <div key={ci} style={{ borderRadius: '14px', overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '10px 10px 10px' }}>
-                          <span style={{ alignSelf: 'flex-start', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', marginBottom: '6px', background: 'rgba(6,148,209,0.35)', color: '#fff' }}>{f.badge}</span>
+                        <div style={{ position: 'relative', height: '120px', flexShrink: 0, overflow: 'hidden' }}>
+                          <img src={f.img} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <span style={{ position: 'absolute', left: '7px', top: '7px', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', background: 'rgba(9,49,72,0.6)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '10px 10px 12px' }}>
                           <h3 style={{ fontSize: '11px', fontWeight: 700, color: '#fff', marginBottom: '5px', lineHeight: 1.3 }}>{f.name}</h3>
                           <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, flex: 1 }}>{f.desc}</p>
                           <button className="lf-btn-glow" style={{ marginTop: '10px', width: '100%', borderRadius: '9px', padding: '7px', fontSize: '10px', fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694d1,#076d9d)', border: 'none', cursor: 'pointer' }}>{f.btnLabel}</button>
-                        </div>
-                        <div style={{ position: 'relative', height: '110px', flexShrink: 0, overflow: 'hidden' }}>
-                          <img src={f.img} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </div>
                       </div>
                     )
