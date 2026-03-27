@@ -591,6 +591,12 @@ export default function VendorStack() {
 
           /* ── Responsive layout ── */
 
+          /* ── Disable sticky + triggers on all non-desktop screens ── */
+          @media (max-width: 1023px) {
+            .vs-section { position: relative !important; top: auto !important; }
+            .vs-trigger { height: 0 !important; display: none !important; }
+          }
+
           /* XXS — tiny phones: < 360px (iPhone SE 1st gen 320px, Galaxy A01) */
           @media (max-width: 359px) {
             .vs-section { padding: 18px 0; }
