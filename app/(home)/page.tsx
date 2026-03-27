@@ -2019,7 +2019,7 @@ export default function Design4Page() {
       </header>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative flex items-center px-4 lg:px-[50px] py-[80px]" style={{ background: '#06111E' }}>
+      <section className="relative flex items-center px-4 lg:px-[50px] py-[25px]" style={{ background: '#06111E' }}>
         {/* Hero keyframes */}
         <style>{`
           @keyframes heroFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
