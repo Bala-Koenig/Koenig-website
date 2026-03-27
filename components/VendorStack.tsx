@@ -2,9 +2,8 @@
 import { useEffect, useState } from 'react'
 
 /* ─── Constants ─────────────────────────────────────────────── */
-const NAV_H          = 56
-const CARD_BG        = '#0b1929'
-const AUTO_SPACER_VH = 30  // vh of spacer per vendor card (keeps section sticky while auto-cycling)
+const NAV_H   = 56
+const CARD_BG = '#0b1929'
 
 /* ─── Vendor Data ───────────────────────────────────────────── */
 const vendors = [
@@ -323,18 +322,15 @@ export default function VendorStack() {
   const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
-    const SHIFT      = 22
-    const SCALE      = 0.03
-    const FADE       = 0.12
-    const MAX_BG     = 4
-    const AUTO_DELAY = 3200  // ms per card
-    const TITLE_GAP  = 20   // px gap between navbar bottom and section title when sticky
+    const SHIFT     = 22
+    const SCALE     = 0.03
+    const FADE      = 0.12
+    const MAX_BG    = 4
+    const TITLE_GAP = 20   // px gap between navbar bottom and section title when sticky
 
     const allCards = Array.from(document.querySelectorAll<HTMLElement>('[data-index]'))
-    let currentActive = 0
-    let intervalId: ReturnType<typeof setInterval> | null = null
-    let userPaused    = false
-    let wasSticky     = false
+    let lastActive    = -1
+    let scrollCleanup: (() => void) | null = null
 
     function applyCards(active: number) {
       allCards.forEach((el, i) => {
@@ -362,38 +358,12 @@ export default function VendorStack() {
       })
     }
 
-    function startAutoScroll() {
-      if (intervalId || userPaused) return
-      intervalId = setInterval(() => {
-        currentActive = (currentActive + 1) % vendors.length
-        applyCards(currentActive)
-        setActiveTab(currentActive)
-      }, AUTO_DELAY)
-    }
-
-    function stopAutoScroll() {
-      if (intervalId) { clearInterval(intervalId); intervalId = null }
-    }
-
-    // Manual tab clicks pause auto-scroll for 8 s then resume
-    let resumeTimeout: ReturnType<typeof setTimeout> | null = null
-    const tabs = Array.from(document.querySelectorAll<HTMLElement>('[data-tab]'))
-    tabs.forEach(btn => {
-      btn.addEventListener('click', () => {
-        userPaused = true
-        stopAutoScroll()
-        if (resumeTimeout) clearTimeout(resumeTimeout)
-        resumeTimeout = setTimeout(() => { userPaused = false; startAutoScroll() }, 8000)
-      })
-    })
-
-    let scrollCleanup: (() => void) | null = null
-
     // Defer one frame so layout is fully painted before measuring
     const rafId = requestAnimationFrame(() => {
       const stickyEl    = document.querySelector<HTMLElement>('.vs-section')
       const wrapperEl   = document.querySelector<HTMLElement>('.vs-wrapper')
       const titleAnchor = document.querySelector<HTMLElement>('.vs-title-anchor')
+      const triggers    = Array.from(document.querySelectorAll<HTMLElement>('.vs-trigger'))
       if (!stickyEl || !wrapperEl || !titleAnchor) return
 
       // Measure how far the title sits below the section's top edge
@@ -406,28 +376,21 @@ export default function VendorStack() {
       const stickyTop = NAV_H + TITLE_GAP - titleOffsetInSection
       stickyEl.style.top = `${stickyTop}px`
 
-      // Absolute scrollY at which the title first reaches NAV_H + TITLE_GAP
-      const wrapperAbsTop = wrapperEl.getBoundingClientRect().top + window.scrollY
-      const stickyStartY  = wrapperAbsTop - stickyTop
-      const spacerHeight  = vendors.length * AUTO_SPACER_VH * window.innerHeight / 100
-      const stickyEndY    = stickyStartY + spacerHeight
+      // Precompute each trigger's absolute position (stable after layout)
+      const triggerTops  = triggers.map(t => t.getBoundingClientRect().top + window.scrollY)
+      const stickyBottom = (NAV_H + TITLE_GAP) + stickyEl.offsetHeight
 
       const onScroll = () => {
-        const y        = window.scrollY
-        const isSticky = y >= stickyStartY && y < stickyEndY
-
-        if (isSticky && !wasSticky) {
-          wasSticky = true
-          startAutoScroll()
-        } else if (!isSticky && wasSticky) {
-          wasSticky = false
-          stopAutoScroll()
-          if (y < stickyStartY) {
-            // Scrolled back above section — reset to first card
-            currentActive = 0
-            applyCards(0)
-            setActiveTab(0)
-          }
+        const viewLine = window.scrollY + stickyBottom + 40
+        let active = 0
+        for (let i = 0; i < triggerTops.length; i++) {
+          if (triggerTops[i] <= viewLine) active = i
+          else break
+        }
+        if (active !== lastActive) {
+          lastActive = active
+          applyCards(active)
+          setActiveTab(active)
         }
       }
 
@@ -438,15 +401,13 @@ export default function VendorStack() {
 
     return () => {
       cancelAnimationFrame(rafId)
-      stopAutoScroll()
-      if (resumeTimeout) clearTimeout(resumeTimeout)
       scrollCleanup?.()
     }
   }, [])
 
   const scrollToTrigger = (i: number) => {
-    // No scroll triggers — tab clicks are handled via the manual-pause logic in useEffect
-    void i
+    document.querySelector(`.vs-trigger[data-n="${i}"]`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 
   return (
@@ -834,8 +795,10 @@ export default function VendorStack() {
         `}</style>
       </section>
 
-      {/* ── Spacer — keeps section sticky while auto-scroll cycles through all vendors ── */}
-      <div style={{ height: `${vendors.length * AUTO_SPACER_VH}vh` }} />
+      {/* ── Scroll triggers — one per vendor, user scrolls through these to switch cards ── */}
+      {vendors.map((_, i) => (
+        <div key={i} data-n={i} className="vs-trigger" style={{ height: '60vh' }} />
+      ))}
 
     </div>
   )
