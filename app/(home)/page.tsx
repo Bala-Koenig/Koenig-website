@@ -2865,7 +2865,7 @@ export default function Design4Page() {
       </div>
 
       {/* ── Learning Formats ─────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] pt-8 pb-10 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] pt-14 pb-10 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 left-1/4 h-[380px] w-[380px] rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
