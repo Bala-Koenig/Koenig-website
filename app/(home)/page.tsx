@@ -1304,7 +1304,9 @@ export default function Design4Page() {
   const [heroSlide, setHeroSlide] = useState(0)
   const [heroPaused, setHeroPaused] = useState(false)
   const heroTouchX = useRef<number | null>(null)
-  const logosDragRef = useRef<{ el: HTMLDivElement | null; dragging: boolean; startX: number; scrollLeft: number }>({ el: null, dragging: false, startX: 0, scrollLeft: 0 })
+  const logosScrollRef = useRef<HTMLDivElement | null>(null)
+  const logosRafRef = useRef<number | null>(null)
+  const logosState = useRef<{ paused: boolean; touchStartX: number; touchStartScroll: number }>({ paused: false, touchStartX: 0, touchStartScroll: 0 })
   const [activeStep, setActiveStep] = useState(0)
   const [stepPaused, setStepPaused] = useState(false)
   const [showAllReviews, setShowAllReviews] = useState(false)
@@ -1402,6 +1404,22 @@ export default function Design4Page() {
   }, [])
 
 
+
+  // Mobile logos auto-scroll with touch-to-interrupt
+  useEffect(() => {
+    const el = logosScrollRef.current
+    if (!el) return
+    const tick = () => {
+      if (!logosState.current.paused) {
+        el.scrollLeft += 0.6
+        // Loop: when we reach halfway (duplicated list), reset to start
+        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0
+      }
+      logosRafRef.current = requestAnimationFrame(tick)
+    }
+    logosRafRef.current = requestAnimationFrame(tick)
+    return () => { if (logosRafRef.current) cancelAnimationFrame(logosRafRef.current) }
+  }, [])
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -2737,38 +2755,24 @@ export default function Design4Page() {
           </div>
         </div>
 
-        {/* Mobile draggable strip */}
+        {/* Mobile auto-scroll strip — swipe to interrupt, resumes after release */}
         <div
-          ref={el => { logosDragRef.current.el = el }}
+          ref={logosScrollRef}
           className="lg:hidden flex items-center gap-4 overflow-x-auto py-2 px-2 select-none"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', cursor: 'grab' }}
-          onMouseDown={e => {
-            const d = logosDragRef.current
-            d.dragging = true
-            d.startX = e.pageX - (d.el?.offsetLeft ?? 0)
-            d.scrollLeft = d.el?.scrollLeft ?? 0
-            if (d.el) d.el.style.cursor = 'grabbing'
-          }}
-          onMouseMove={e => {
-            const d = logosDragRef.current
-            if (!d.dragging || !d.el) return
-            e.preventDefault()
-            d.el.scrollLeft = d.scrollLeft - (e.pageX - (d.el.offsetLeft ?? 0) - d.startX)
-          }}
-          onMouseUp={() => { logosDragRef.current.dragging = false; if (logosDragRef.current.el) logosDragRef.current.el.style.cursor = 'grab' }}
-          onMouseLeave={() => { logosDragRef.current.dragging = false; if (logosDragRef.current.el) logosDragRef.current.el.style.cursor = 'grab' }}
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           onTouchStart={e => {
-            const d = logosDragRef.current
-            d.startX = e.touches[0].pageX
-            d.scrollLeft = d.el?.scrollLeft ?? 0
+            logosState.current.paused = true
+            logosState.current.touchStartX = e.touches[0].pageX
+            logosState.current.touchStartScroll = logosScrollRef.current?.scrollLeft ?? 0
           }}
           onTouchMove={e => {
-            const d = logosDragRef.current
-            if (!d.el) return
-            d.el.scrollLeft = d.scrollLeft - (e.touches[0].pageX - d.startX)
+            const el = logosScrollRef.current
+            if (!el) return
+            el.scrollLeft = logosState.current.touchStartScroll - (e.touches[0].pageX - logosState.current.touchStartX)
           }}
+          onTouchEnd={() => { logosState.current.paused = false }}
         >
-          {TRUSTED_COMPANIES.map((c, i) => (
+          {[...TRUSTED_COMPANIES, ...TRUSTED_COMPANIES].map((c, i) => (
             <div key={i} className="flex shrink-0 items-center justify-center">
               <img
                 src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
