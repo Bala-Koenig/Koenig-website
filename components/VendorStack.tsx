@@ -376,18 +376,7 @@ export default function VendorStack() {
       const stickyTop = NAV_H + TITLE_GAP - titleOffsetInSection
       stickyEl.style.top = `${stickyTop}px`
 
-      // Pull the next section up and pin it below the sticky vendor section
-      // so it stays visible but doesn't scroll while triggers are being consumed
       const totalTriggerH    = triggers.reduce((sum, t) => sum + t.offsetHeight, 0)
-      const nextSection      = wrapperEl.nextElementSibling as HTMLElement | null
-      const vendorBottomInVP = stickyTop + stickyEl.offsetHeight  // px from viewport top
-      if (nextSection) {
-        nextSection.style.marginTop    = `-${totalTriggerH}px`
-        nextSection.style.marginBottom = `${totalTriggerH}px`  // compensate so footer stays in place
-        nextSection.style.position     = 'sticky'
-        nextSection.style.top          = `${vendorBottomInVP}px`
-        nextSection.style.zIndex       = '1'
-      }
 
       // Precompute each trigger's absolute position (stable after layout)
       const triggerTops  = triggers.map(t => t.getBoundingClientRect().top + window.scrollY)
@@ -415,10 +404,6 @@ export default function VendorStack() {
     return () => {
       cancelAnimationFrame(rafId)
       scrollCleanup?.()
-      // Restore next section styles on unmount
-      const wrapper = document.querySelector<HTMLElement>('.vs-wrapper')
-      const next = wrapper?.nextElementSibling as HTMLElement | null
-      if (next) { next.style.marginTop = ''; next.style.position = ''; next.style.zIndex = '' }
     }
   }, [])
 
@@ -428,7 +413,7 @@ export default function VendorStack() {
   }
 
   return (
-    <div className="vs-wrapper" style={{ position: 'relative' }}>
+    <div className="vs-wrapper" style={{ position: 'relative', background: CARD_BG }}>
 
       {/* ── Sticky section ── */}
       <section
