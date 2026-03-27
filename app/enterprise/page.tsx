@@ -348,7 +348,7 @@ const FORMATS = [
   },
   {
     title: '1-on-1 Training', badge: 'Most Focused', badgeBg: '#0694d1',
-    img: '/images/home-banner/pre-req.png',
+    img: '/images/home-banner/1on1.png',
     icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
     desc: 'Dedicated instructor assigned exclusively to one employee for maximum focus.',
     bullets: ['Personalised curriculum', 'Flexible scheduling', 'Zero distractions'],
@@ -356,7 +356,7 @@ const FORMATS = [
   },
   {
     title: 'Customised Programmes', badge: 'Bespoke', badgeBg: '#076D9D',
-    img: '/images/home-banner/revision.png',
+    img: '/images/home-banner/CT.png',
     icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
     desc: 'Bespoke curricula tailored to your tech stack, business processes, and learning goals.',
     bullets: ['Custom content design', 'Blended topic support', 'Branded materials'],
@@ -364,7 +364,7 @@ const FORMATS = [
   },
   {
     title: 'Webinar as a Service', badge: 'New', badgeBg: '#0694d1',
-    img: '/images/home-banner/classrecord.png',
+    img: '/images/home-banner/Waas.png',
     icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
     desc: 'Professionally hosted live webinars delivered to your global workforce at scale.',
     bullets: ['Expert-hosted live sessions', 'Interactive polls & Q&A', 'On-demand recording'],
@@ -372,7 +372,7 @@ const FORMATS = [
   },
   {
     title: 'Qubits', badge: 'Assessment', badgeBg: '#076D9D',
-    img: '/images/home-banner/qubit.png',
+    img: '/images/home-banner/Qubits.png',
     icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
     desc: 'AI-powered assessments to benchmark skills, identify gaps, and measure training ROI.',
     bullets: ['Pre & post training assessments', 'AI-driven skill gap analysis', 'ROI measurement'],
