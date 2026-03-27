@@ -169,13 +169,17 @@ function VendorCard({ v }: { v: VendorItem }) {
             >
               {v.tag}
             </span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={v.image}
-              alt={v.title}
+            <div
               className="vs-inline-logo"
-              style={{ height: 40, width: 'auto', maxWidth: 80, objectFit: 'contain', flexShrink: 0 }}
-            />
+              style={{ flexShrink: 0, background: '#EAF6FB', borderRadius: 8, padding: '6px 10px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 48, minWidth: 64 }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={v.image}
+                alt={v.title}
+                style={{ height: 36, width: 'auto', maxWidth: 72, objectFit: 'contain' }}
+              />
+            </div>
           </div>
           <h3 className="vs-card-title" style={{ fontWeight: 700, color: 'white', lineHeight: 1.1, marginBottom: 8, marginTop: 0 }}>
             {v.title}
