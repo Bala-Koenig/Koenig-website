@@ -3896,22 +3896,17 @@ export default function Design4Page() {
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-wrap items-center gap-6">
-                  <div className="flex items-center gap-6">
-                    <div className="text-center">
-                      <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">500+</div>
-                      <div className="text-sm text-koenig-muted">Enterprise clients</div>
-                    </div>
-                    <div className="h-10 w-px bg-koenig-border" />
+                {/* Stats — 2-col grid on mobile with border, flex row on desktop */}
+                <div className="grid grid-cols-2 gap-px bg-[#CAEFFF] rounded-xl overflow-hidden border border-[#CAEFFF] sm:flex sm:flex-wrap sm:items-center sm:gap-6 sm:rounded-none sm:overflow-visible sm:border-0 sm:bg-transparent">
+                  <div className="bg-white px-4 py-4 text-center sm:px-0 sm:py-0 sm:bg-transparent sm:text-left">
+                    <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">500+</div>
+                    <div className="text-sm text-koenig-muted">Enterprise clients</div>
                   </div>
-                  <div className="flex items-center gap-6">
-                    <div className="text-center">
-                      <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">50K+</div>
-                      <div className="text-sm text-koenig-muted">Employees trained</div>
-                    </div>
-                    <div className="h-10 w-px bg-koenig-border" />
+                  <div className="bg-white px-4 py-4 text-center sm:px-0 sm:py-0 sm:bg-transparent sm:text-left">
+                    <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">50K+</div>
+                    <div className="text-sm text-koenig-muted">Employees trained</div>
                   </div>
-                  <div className="text-center">
+                  <div className="col-span-2 bg-white px-4 py-4 text-center sm:col-span-1 sm:px-0 sm:py-0 sm:bg-transparent sm:text-left">
                     <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">4.8/5</div>
                     <div className="text-sm text-koenig-muted">Satisfaction score</div>
                   </div>
