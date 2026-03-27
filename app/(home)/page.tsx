@@ -2417,19 +2417,117 @@ export default function Design4Page() {
                 </div>
               </div>
 
-              {/* Mobile stats 2×2 grid */}
-              <div className="mt-6 grid grid-cols-2 gap-3 lg:hidden">
-                {[
-                  { num: '1M+', label: 'Trained' },
-                  { num: '95%', label: 'Pass Rate' },
-                  { num: '30+', label: 'Years' },
-                  { num: '50+', label: 'Vendors' },
-                ].map(s => (
-                  <div key={s.label} className="rounded-2xl border border-white/20 bg-white/10 p-4 text-center backdrop-blur-md">
-                    <div className="text-lg sm:text-xl md:text-2xl font-black text-white">{s.num}</div>
-                    <div className="mt-1 text-sm text-white/60">{s.label}</div>
+              {/* Mobile Hero Carousel — same as desktop slider */}
+              <div className="mt-6 lg:hidden">
+                <div
+                  className="relative w-full overflow-hidden rounded-2xl cursor-pointer"
+                  style={{
+                    height: '320px',
+                    background: 'rgba(6, 25, 45, 0.52)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(6,148,209,0.25)',
+                    boxShadow: '0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.12)',
+                  }}
+                  onTouchStart={() => setHeroPaused(true)}
+                  onTouchEnd={() => setHeroPaused(false)}
+                >
+                  {/* dots */}
+                  <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 py-2.5" style={{ background: 'rgba(6,40,65,0.72)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
+                    {[0,1,2,3].map(i => (
+                      <button
+                        key={i}
+                        onClick={() => setHeroSlide(i)}
+                        style={i === heroSlide ? { background: 'linear-gradient(to right, #3AB6EB, #076D9D)' } : {}}
+                        className={`rounded-full transition-all duration-300 ${i === heroSlide ? 'w-6 h-2' : 'h-2 w-2 bg-white/25 border border-[#0694D1]/40'}`}
+                      />
+                    ))}
                   </div>
-                ))}
+
+                  {/* Slide 1 — MS Award */}
+                  <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 0 ? 1 : 0, pointerEvents: heroSlide === 0 ? 'auto' : 'none' }}>
+                    <div className="flex flex-1 flex-col items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.88) 100%)' }}>
+                      <img src="/images/MS-award-banner.png" alt="Microsoft 2025 Partner of the Year Award" className="w-full object-contain object-top" />
+                      <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(6,40,65,0.72)' }}>
+                        <p className="font-bold" style={{ fontSize: '15px', lineHeight: '1.6' }}>
+                          Koenig Solutions is the Global Winner<br />
+                          of 2025 Microsoft Training Services<br />
+                          Partner of the Year Award!
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Slide 2 — RedHat */}
+                  <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 1 ? 1 : 0, pointerEvents: heroSlide === 1 ? 'auto' : 'none' }}>
+                    <div className="flex flex-1 flex-col items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(180,0,0,0.55) 0%, rgba(5,18,35,0.92) 100%)' }}>
+                      <div className="w-full overflow-hidden" style={{ height: '62%', flexShrink: 0 }}>
+                        <img src="/images/awards/RED-25-1.png" alt="RedHat Gold Partner of the Year 2025" className="w-full h-full object-contain object-top" style={{ marginTop: '5px' }} />
+                      </div>
+                      <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(6,40,65,0.72)' }}>
+                        <p className="font-bold" style={{ fontSize: '15px', lineHeight: '1.6' }}>
+                          Winner of Red Hat Gold Partner<br />
+                          of the Year 2025 – Non-Retail<br />
+                          (GLS India)
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Slide 3 — Partner Stats */}
+                  <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 2 ? 1 : 0, pointerEvents: heroSlide === 2 ? 'auto' : 'none' }}>
+                    <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
+                      <div className="font-bold text-sm leading-snug">Koenig is globally authorized by leading vendors, offering extensive courses delivered by certified trainers</div>
+                    </div>
+                    <div className="flex flex-1 flex-col justify-evenly gap-1.5 p-2 pb-8">
+                      {[
+                        { stat: '35+',    label: 'Partner Authorizations',                img: '/images/home-banner/35+.svg' },
+                        { stat: '5,000+', label: 'Courses (Across technologies)',          img: '/images/home-banner/5000+.svg' },
+                        { stat: '350+',   label: 'Certified Trainers (Real-world experts)', img: '/images/home-banner/350+.svg' },
+                      ].map((row, i) => (
+                        <div key={i} className="flex items-center justify-between rounded-xl px-3 py-2" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                          <div className="flex items-center gap-2">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg, #076D9D, #0C5A7F)', border: '1px solid rgba(58,182,235,0.30)' }}>
+                              <img src={row.img} alt={row.stat} className="h-5 w-5 object-contain" />
+                            </div>
+                            <div>
+                              <div className="font-bold text-white text-sm">{row.stat}</div>
+                              <div className="text-sm text-white/60">{row.label}</div>
+                            </div>
+                          </div>
+                          <span className="font-bold text-sm text-white/50">›</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Slide 4 — Learning Stack */}
+                  <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 3 ? 1 : 0, pointerEvents: heroSlide === 3 ? 'auto' : 'none' }}>
+                    <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
+                      <div className="font-bold text-sm leading-snug">Koenig&apos;s learning stack ensures structured training with hands-on labs, guided practice, and certification pathways</div>
+                    </div>
+                    <div className="flex flex-1 flex-col justify-evenly gap-1 p-2 pb-8">
+                      {[
+                        { name: 'Pre-requisite Training', img: '/images/home-banner/pre-req.png' },
+                        { name: 'Assessments (Qubits)',   img: '/images/home-banner/qubit.png' },
+                        { name: 'Class Recordings',       img: '/images/home-banner/classrecord.png' },
+                        { name: 'Lab Extensions',         img: '/images/home-banner/lab-extn.png' },
+                        { name: 'Revision Classes',       img: '/images/home-banner/revision.png' },
+                      ].map((row, i) => (
+                        <div key={i} className="flex items-center justify-between rounded-lg px-2 py-1" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                          <div className="flex items-center gap-1.5">
+                            <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md" style={{ background: 'linear-gradient(135deg, #076D9D, #0C5A7F)', border: '1px solid rgba(58,182,235,0.30)' }}>
+                              <img src={row.img} alt="" className="h-3 w-3 object-contain" />
+                            </div>
+                            <span className="font-medium text-white/90" style={{ fontSize: '14px' }}>{row.name}</span>
+                          </div>
+                          <span className="rounded-full px-1.5 py-0.5 font-normal text-white" style={{ fontSize: '14px', background: 'rgba(7,109,157,0.75)', border: '1px solid rgba(6,148,209,0.30)' }}>Free</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
               </div>
 
             </div>{/* /left */}
