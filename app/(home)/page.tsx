@@ -1295,6 +1295,21 @@ export default function Design4Page() {
   const startDiffTimer = () => { diffTimerRef.current = setInterval(() => setDiffMobilePage(p => (p + 1) % 3), 3500) }
   const stopDiffTimer  = () => { if (diffTimerRef.current) { clearInterval(diffTimerRef.current); diffTimerRef.current = null } }
   useEffect(() => { startDiffTimer(); return stopDiffTimer }, [])
+  const vendorScrollRef = useRef<HTMLDivElement>(null)
+  const vendorPausedRef = useRef(false)
+  const vendorRafRef = useRef<number | null>(null)
+  useEffect(() => {
+    const animate = () => {
+      const el = vendorScrollRef.current
+      if (el && !vendorPausedRef.current) {
+        el.scrollLeft += 0.6
+        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0
+      }
+      vendorRafRef.current = requestAnimationFrame(animate)
+    }
+    vendorRafRef.current = requestAnimationFrame(animate)
+    return () => { if (vendorRafRef.current) cancelAnimationFrame(vendorRafRef.current) }
+  }, [])
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const mobileSearchInputRef = useRef<HTMLInputElement>(null)
@@ -3267,19 +3282,16 @@ export default function Design4Page() {
           </div>
         </div>
 
-        {/* ── Mobile: freely draggable horizontal strip ── */}
-        <div className="sm:hidden overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: 'touch', cursor: 'grab' }}
-          onMouseDown={e => {
-            const el = e.currentTarget; el.style.cursor = 'grabbing'; el.dataset.down = '1'; el.dataset.startX = String(e.pageX - el.offsetLeft); el.dataset.scrollLeft = String(el.scrollLeft)
-          }}
-          onMouseMove={e => {
-            const el = e.currentTarget; if (!el.dataset.down) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; el.scrollLeft = Number(el.dataset.scrollLeft) - (x - Number(el.dataset.startX)) * 1.5
-          }}
-          onMouseUp={e => { const el = e.currentTarget; el.style.cursor = 'grab'; delete el.dataset.down }}
-          onMouseLeave={e => { const el = e.currentTarget; el.style.cursor = 'grab'; delete el.dataset.down }}
+        {/* ── Mobile: auto-scrolling draggable strip ── */}
+        <div
+          ref={vendorScrollRef}
+          className="sm:hidden overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden"
+          style={{ WebkitOverflowScrolling: 'touch' }}
+          onTouchStart={() => { vendorPausedRef.current = true }}
+          onTouchEnd={() => { vendorPausedRef.current = false }}
         >
           <div className="flex gap-3 px-1" style={{ width: 'max-content' }}>
-            {[...VENDORS_ROW1, ...VENDORS_ROW2].map((v, i) => (
+            {[...VENDORS_ROW1, ...VENDORS_ROW2, ...VENDORS_ROW1, ...VENDORS_ROW2].map((v, i) => (
               <VendorCard key={i} v={v} />
             ))}
           </div>
