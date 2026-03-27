@@ -153,19 +153,30 @@ function VendorCard({ v }: { v: VendorItem }) {
       {/* Left content */}
       <div className="vs-card-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 0 }}>
         <div>
-          <span
-            style={{
-              display: 'inline-flex',
-              borderRadius: 9999,
-              border: '1px solid rgba(77,191,239,0.3)',
-              padding: '4px 12px',
-              fontSize: 12,
-              color: '#4DBFEF',
-              marginBottom: 12,
-            }}
-          >
-            {v.tag}
-          </span>
+          {/* Top row: tag badge + logo (mobile only) */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
+            <span
+              style={{
+                display: 'inline-flex',
+                borderRadius: 9999,
+                border: '1px solid rgba(77,191,239,0.3)',
+                padding: '4px 12px',
+                fontSize: 12,
+                color: '#4DBFEF',
+                flexShrink: 1,
+                minWidth: 0,
+              }}
+            >
+              {v.tag}
+            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={v.image}
+              alt={v.title}
+              className="vs-inline-logo"
+              style={{ height: 40, width: 'auto', maxWidth: 80, objectFit: 'contain', flexShrink: 0 }}
+            />
+          </div>
           <h3 className="vs-card-title" style={{ fontWeight: 700, color: 'white', lineHeight: 1.1, marginBottom: 8, marginTop: 0 }}>
             {v.title}
           </h3>
@@ -190,21 +201,10 @@ function VendorCard({ v }: { v: VendorItem }) {
               </li>
             ))}
           </ul>
-          <div
-            className="vs-inline-logo"
-            style={{ marginTop: 16, background: '#EAF6FB', borderRadius: 10, padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: 80 }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={v.image}
-              alt={v.title}
-              style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }}
-            />
-          </div>
         </div>
         <button
           className="vs-cta-btn"
-          style={{ background: '#076D9D', borderRadius: 28, fontSize: 13, fontWeight: 400, color: 'white', border: 'none', cursor: 'pointer', width: 'fit-content' }}
+          style={{ background: '#076D9D', borderRadius: 28, fontSize: 13, fontWeight: 400, color: 'white', border: 'none', cursor: 'pointer', width: '100%', textAlign: 'center' }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0694D1' }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#076D9D' }}
         >
@@ -821,6 +821,9 @@ export default function VendorStack() {
           /* Inline logo: visible on mobile only, hidden when side panel shows */
           .vs-inline-logo { display: block; }
           @media (min-width: 768px) { .vs-inline-logo { display: none !important; } }
+
+          /* CTA button: full-width on mobile, fit-content on desktop */
+          @media (max-width: 767px) { .vs-cta-btn { width: 100% !important; text-align: center !important; box-sizing: border-box !important; } }
         `}</style>
       </section>
 
