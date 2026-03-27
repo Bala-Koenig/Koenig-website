@@ -1,5 +1,17 @@
 import Link from 'next/link'
 
+const aboutMenuItems = [
+  { label: 'About Us', href: '#' },
+  { label: 'Our Clientele', href: '#' },
+  { label: 'Leadership', href: '#' },
+  { label: 'Our Partners', href: '#' },
+  { label: 'Happiness Guarantee', href: '#' },
+  { label: 'Student Feedback', href: '#' },
+  { label: 'Testimonials', href: '#' },
+  { label: 'Koenig Koshish', href: '#' },
+  { label: 'Our Awards', href: '#' },
+]
+
 export default function Navbar() {
   return (
     <nav className="bg-[#0a1628] text-white sticky top-0 z-50 border-b border-white/10">
@@ -15,7 +27,30 @@ export default function Navbar() {
           <Link href="#" className="text-sm text-white/70 hover:text-white transition-colors whitespace-nowrap">All Courses</Link>
           <Link href="#" className="text-sm text-white/70 hover:text-white transition-colors">Technologies</Link>
           <Link href="#" className="text-sm text-white/70 hover:text-white transition-colors">Vendors</Link>
-          <Link href="#" className="text-sm text-white/70 hover:text-white transition-colors">About</Link>
+
+          {/* About dropdown */}
+          <div className="relative group">
+            <button className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-1">
+              About
+              <svg className="w-3.5 h-3.5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div className="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
+              <div className="bg-white rounded-xl shadow-xl py-2 min-w-[200px] border border-gray-100">
+                {aboutMenuItems.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="block px-5 py-2.5 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <Link href="#" className="text-sm text-white/70 hover:text-white transition-colors">Contact</Link>
         </div>
 
