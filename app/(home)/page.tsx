@@ -3844,8 +3844,8 @@ export default function Design4Page() {
         <div className="mx-auto max-w-7xl">
 
           {/* Tab header row */}
-          <div className="io-fade mb-3 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
+          <div className="io-fade mb-3 flex flex-col items-center sm:items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div className="text-center sm:text-left">
               <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Solutions</span>
               <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">
                 {orgTab === 'enterprise'
