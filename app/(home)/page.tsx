@@ -1314,6 +1314,8 @@ export default function Design4Page() {
   const techMenuRef = useRef<HTMLDivElement>(null)
   const [aboutMenuOpen, setAboutMenuOpen] = useState(false)
   const aboutMenuRef = useRef<HTMLDivElement>(null)
+  const [learningMenuOpen, setLearningMenuOpen] = useState(false)
+  const learningMenuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (heroPaused) return
@@ -1393,6 +1395,7 @@ export default function Design4Page() {
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
       if (techMenuRef.current && !techMenuRef.current.contains(e.target as Node)) setTechMenuOpen(false)
       if (aboutMenuRef.current && !aboutMenuRef.current.contains(e.target as Node)) setAboutMenuOpen(false)
+      if (learningMenuRef.current && !learningMenuRef.current.contains(e.target as Node)) setLearningMenuOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -1609,7 +1612,7 @@ export default function Design4Page() {
               {/* Nav links */}
               <a
                 href="#"
-                onClick={(e) => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); setAboutMenuOpen(false); }}
+                onClick={(e) => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); setAboutMenuOpen(false); setLearningMenuOpen(false); }}
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: techMenuOpen ? '#38bdf8' : '#ffffff', background: techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
@@ -1619,11 +1622,43 @@ export default function Design4Page() {
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </a>
 
+              {/* Learning Options with dropdown */}
+              <div className="relative" ref={learningMenuRef}>
+                <a
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); setLearningMenuOpen(v => !v); setAboutMenuOpen(false); setTechMenuOpen(false); setMegaMenuOpen(false); }}
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                  style={{ color: learningMenuOpen ? '#38bdf8' : '#ffffff', background: learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
+                >
+                  Learning Options
+                  <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+                </a>
+                {learningMenuOpen && (
+                  <div className="absolute left-0 top-full mt-2 z-[300] rounded-xl shadow-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}>
+                    {LEARNING_LINKS.map((link) => (
+                      <a
+                        key={link}
+                        href="#"
+                        className="block px-5 py-2.5 text-sm transition-colors"
+                        style={{ color: '#374151' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                        onClick={() => setLearningMenuOpen(false)}
+                      >
+                        {link}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* About with dropdown */}
               <div className="relative" ref={aboutMenuRef}>
                 <a
                   href="#"
-                  onClick={(e) => { e.preventDefault(); setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); }}
+                  onClick={(e) => { e.preventDefault(); setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); setLearningMenuOpen(false); }}
                   className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                   style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
                   onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
