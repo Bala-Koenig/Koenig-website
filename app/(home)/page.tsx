@@ -1304,6 +1304,7 @@ export default function Design4Page() {
   const [heroSlide, setHeroSlide] = useState(0)
   const [heroPaused, setHeroPaused] = useState(false)
   const heroTouchX = useRef<number | null>(null)
+  const logosDragRef = useRef<{ el: HTMLDivElement | null; dragging: boolean; startX: number; scrollLeft: number }>({ el: null, dragging: false, startX: 0, scrollLeft: 0 })
   const [activeStep, setActiveStep] = useState(0)
   const [stepPaused, setStepPaused] = useState(false)
   const [showAllReviews, setShowAllReviews] = useState(false)
@@ -2712,9 +2713,10 @@ export default function Design4Page() {
           </div>
         </div>
 
-        {/* Scrolling logo strip */}
+        {/* Scrolling logo strip — desktop: auto-marquee | mobile: drag/swipe */}
+        {/* Desktop marquee */}
         <div
-          className="relative overflow-x-hidden"
+          className="relative hidden lg:block overflow-x-hidden"
           style={{
             maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
@@ -2733,6 +2735,50 @@ export default function Design4Page() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Mobile draggable strip */}
+        <div
+          ref={el => { logosDragRef.current.el = el }}
+          className="lg:hidden flex items-center gap-4 overflow-x-auto py-2 px-2 select-none"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', cursor: 'grab' }}
+          onMouseDown={e => {
+            const d = logosDragRef.current
+            d.dragging = true
+            d.startX = e.pageX - (d.el?.offsetLeft ?? 0)
+            d.scrollLeft = d.el?.scrollLeft ?? 0
+            if (d.el) d.el.style.cursor = 'grabbing'
+          }}
+          onMouseMove={e => {
+            const d = logosDragRef.current
+            if (!d.dragging || !d.el) return
+            e.preventDefault()
+            d.el.scrollLeft = d.scrollLeft - (e.pageX - (d.el.offsetLeft ?? 0) - d.startX)
+          }}
+          onMouseUp={() => { logosDragRef.current.dragging = false; if (logosDragRef.current.el) logosDragRef.current.el.style.cursor = 'grab' }}
+          onMouseLeave={() => { logosDragRef.current.dragging = false; if (logosDragRef.current.el) logosDragRef.current.el.style.cursor = 'grab' }}
+          onTouchStart={e => {
+            const d = logosDragRef.current
+            d.startX = e.touches[0].pageX
+            d.scrollLeft = d.el?.scrollLeft ?? 0
+          }}
+          onTouchMove={e => {
+            const d = logosDragRef.current
+            if (!d.el) return
+            d.el.scrollLeft = d.scrollLeft - (e.touches[0].pageX - d.startX)
+          }}
+        >
+          {TRUSTED_COMPANIES.map((c, i) => (
+            <div key={i} className="flex shrink-0 items-center justify-center">
+              <img
+                src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
+                alt={c.name}
+                className="h-10 w-auto object-contain"
+                style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }}
+                title={c.name}
+              />
+            </div>
+          ))}
         </div>
       </section>
 
