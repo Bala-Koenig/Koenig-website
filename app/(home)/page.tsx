@@ -1286,7 +1286,7 @@ export default function Design4Page() {
   const [lfMobilePage, setLfMobilePage] = useState(0)
   const lfDragStartX = useRef(0)
   useEffect(() => {
-    const t = setInterval(() => setLfMobilePage(p => (p + 1) % 4), 3500)
+    const t = setInterval(() => setLfMobilePage(p => (p + 1) % 2), 3500)
     return () => clearInterval(t)
   }, [])
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -2902,7 +2902,7 @@ export default function Design4Page() {
             onTouchStart={e => { lfDragStartX.current = e.touches[0].clientX }}
             onTouchEnd={e => {
               const delta = e.changedTouches[0].clientX - lfDragStartX.current
-              if (delta < -40) setLfMobilePage(p => Math.min(p + 1, 3))
+              if (delta < -40) setLfMobilePage(p => Math.min(p + 1, 1))
               else if (delta > 40) setLfMobilePage(p => Math.max(p - 1, 0))
             }}
           >
@@ -2910,13 +2910,13 @@ export default function Design4Page() {
               className="flex"
               style={{ transform: `translateX(-${lfMobilePage * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
             >
-              {([[0,1],[2,3],[4,5],[6,7]] as [number,number][]).map((pair, pageIdx) => (
-                <div key={pageIdx} className="min-w-full flex gap-3">
-                  {pair.map(ci => {
+              {([[0,1,2,3],[4,5,6,7]] as number[][]).map((group, pageIdx) => (
+                <div key={pageIdx} className="min-w-full grid grid-cols-2 gap-3">
+                  {group.map(ci => {
                     const f = lfAllFormats[ci]
                     return (
-                      <div key={ci} style={{ flex: '0 0 calc(50% - 6px)', borderRadius: '14px', overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ position: 'relative', height: '140px', flexShrink: 0, overflow: 'hidden' }}>
+                      <div key={ci} style={{ borderRadius: '14px', overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ position: 'relative', height: '120px', flexShrink: 0, overflow: 'hidden' }}>
                           <img src={f.img} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           <span style={{ position: 'absolute', left: '7px', top: '7px', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', background: 'rgba(9,49,72,0.6)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
                         </div>
@@ -2934,7 +2934,7 @@ export default function Design4Page() {
           </div>
           {/* Mobile dots */}
           <div className="mt-5 flex justify-center gap-3 sm:hidden">
-            {[0,1,2,3].map(p => (
+            {[0,1].map(p => (
               <button
                 key={p}
                 onClick={() => setLfMobilePage(p)}
