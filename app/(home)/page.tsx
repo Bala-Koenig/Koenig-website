@@ -1283,6 +1283,12 @@ export default function Design4Page() {
     const t = setInterval(() => setLfSlide(s => (s + 1) % 2), 3000)
     return () => clearInterval(t)
   }, [])
+  const [lfMobilePage, setLfMobilePage] = useState(0)
+  const lfDragStartX = useRef(0)
+  useEffect(() => {
+    const t = setInterval(() => setLfMobilePage(p => (p + 1) % 4), 3500)
+    return () => clearInterval(t)
+  }, [])
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const mobileSearchInputRef = useRef<HTMLInputElement>(null)
@@ -1433,6 +1439,17 @@ export default function Design4Page() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  const lfAllFormats = [
+    { name: 'Classroom Training',       badge: 'Most Popular',   desc: 'Traditional, instructor-led learning in popular global destinations.',                                                                           bullets: ['Hands-on lab sessions','Face-to-face with expert instructors','Global training centers'],       btnLabel: 'Learn More →', cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)', img: '/images/home-banner/classroom-training.png',  icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
+    { name: 'Live Online Classes',      badge: 'Best Value',     desc: 'Flexible virtual learning with expert instructors from the comfort of your own space.',                                                          bullets: ['Live instructor-led sessions','Interactive Q&A & labs','Train from anywhere'],                  btnLabel: 'Learn More →', cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)', img: '/images/home-banner/Live-Online-Classes.png', icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.649v6.7a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg> },
+    { name: 'Fly-Me-A-Trainer (FMAT)',  badge: 'Fastest',        desc: 'Flexible on-site learning for larger groups. Fly an expert to your location anywhere in the world.',                                            bullets: ['Expert trainer at your site','Custom schedule & pace','Any location worldwide'],                  btnLabel: 'Learn More →', cardBg: 'linear-gradient(145deg,#0c4a72,#093148)', img: '/images/home-banner/FMAT.png',               icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 19-7z"/></svg> },
+    { name: 'Flexi (Self-Paced)',       badge: 'Most Flexible',  desc: 'Self-paced learning with edited lectures, courseware, hands-on labs, and optional doubt clearing sessions.',                                    bullets: ['Edited video lectures','Hands-on labs & courseware','Optional doubt clearing sessions'],          btnLabel: 'Learn More →', cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)', img: '/images/home-banner/Flexi.png',              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> },
+    { name: '1-on-1 Training',          badge: 'Most Focused',   desc: 'Dedicated instructor assigned exclusively to one employee for maximum focus.',                                                                    bullets: ['Personalised schedule','Instructor adapts to your pace','Max knowledge retention'],               btnLabel: 'Learn More →', cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)', img: '/images/home-banner/1on1.png',               icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> },
+    { name: 'Customised Programmes',    badge: 'Bespoke',        desc: 'Bespoke curricula tailored to your tech stack, business processes, and learning goals.',                                                          bullets: ['Custom content & pace','Multi-vendor programme design','Aligned to business KPIs'],               btnLabel: 'Learn More →', cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)', img: '/images/home-banner/CT.png',                 icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> },
+    { name: 'Webinar as a Service',     badge: 'New',            desc: 'Professionally hosted live webinars delivered to your global workforce at scale.',                                                               bullets: ['Expert-hosted live sessions','Interactive Q&A','Global audience delivery'],                       btnLabel: 'Learn More →', cardBg: 'linear-gradient(145deg,#0c4a72,#093148)', img: '/images/home-banner/Waas.png',               icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.649v6.7a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg> },
+    { name: 'Qubits',                   badge: 'Assessment',     desc: 'AI-powered assessments to benchmark skills, identify gaps, and measure training ROI.',                                                           bullets: ['AI-driven skill benchmarking','Gap analysis reports','Training ROI measurement'],                 btnLabel: 'Learn More →', cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)', img: '/images/home-banner/Qubits.png',             icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> },
+  ]
 
   return (
     <div className="min-h-screen overflow-x-clip bg-white" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -2879,159 +2896,60 @@ export default function Design4Page() {
             @media (hover: none) { .lf-card .lf-reveal { transform: translateY(0) !important; } }
           `}</style>
 
-          {/* Slide 1 */}
-          {lfSlide === 0 && <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                name: 'Classroom Training',
-                badge: 'Most Popular', badgeBg: '#0694d1', badgeText: '#fff',
-                desc: 'Traditional, instructor-led learning in popular global destinations.',
-                bullets: ['Hands-on lab sessions', 'Face-to-face with expert instructors', 'Global training centers'],
-                btnLabel: 'Learn More →',
-                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/classroom-training.png',
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
-              },
-              {
-                name: 'Live Online Classes',
-                badge: 'Best Value', badgeBg: '#076D9D', badgeText: '#fff',
-                desc: 'Flexible virtual learning with expert instructors from the comfort of your own space.',
-                bullets: ['Live instructor-led sessions', 'Interactive Q&A & labs', 'Train from anywhere'],
-                btnLabel: 'Learn More →',
-                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/Live-Online-Classes.png',
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.649v6.7a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg>,
-              },
-              {
-                name: 'Fly-Me-A-Trainer (FMAT)',
-                badge: 'Fastest', badgeBg: '#0694d1', badgeText: '#fff',
-                desc: 'Flexible on-site learning for larger groups. Fly an expert to your location anywhere in the world.',
-                bullets: ['Expert trainer at your site', 'Custom schedule & pace', 'Any location worldwide'],
-                btnLabel: 'Learn More →',
-                cardBg: 'linear-gradient(145deg,#0c4a72,#093148)',
-                img: '/images/home-banner/FMAT.png',
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 19-7z"/></svg>,
-              },
-              {
-                name: 'Flexi (Self-Paced Learning)',
-                badge: 'Most Flexible', badgeBg: '#076D9D', badgeText: '#fff',
-                desc: 'Self-paced learning with edited lectures, courseware, hands-on labs, and optional doubt clearing sessions.',
-                bullets: ['Edited video lectures', 'Hands-on labs & courseware', 'Optional doubt clearing sessions'],
-                btnLabel: 'Learn More →',
-                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/Flexi.png',
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-              },
-            ].map((f, i) => (
-              <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
-                <div className="lf-flip-inner relative h-full w-full">
-
-                  {/* ── FRONT ── */}
-                  <div
-                    className="lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl"
-                    style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}
-                  >
-                    {/* Image */}
-                    <div className="relative h-44 w-full shrink-0 overflow-hidden">
-                      <img src={f.img} alt={f.name} className="h-full w-full object-cover" />
-                      {/* Badge */}
-                      <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-sm font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
-                    </div>
-                    {/* Front content */}
-                    <div className="flex flex-1 flex-col px-5 pt-4">
-                      <div className="flex-1">
-                        <h3 className="mb-2 text-sm sm:text-base md:text-lg font-medium text-white">{f.name}</h3>
-                        <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
+          {/* ── Mobile carousel: 2 cards per page ── */}
+          <div
+            className="sm:hidden overflow-hidden"
+            onTouchStart={e => { lfDragStartX.current = e.touches[0].clientX }}
+            onTouchEnd={e => {
+              const delta = e.changedTouches[0].clientX - lfDragStartX.current
+              if (delta < -40) setLfMobilePage(p => Math.min(p + 1, 3))
+              else if (delta > 40) setLfMobilePage(p => Math.max(p - 1, 0))
+            }}
+          >
+            <div
+              className="flex"
+              style={{ transform: `translateX(-${lfMobilePage * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
+            >
+              {([[0,1],[2,3],[4,5],[6,7]] as [number,number][]).map((pair, pageIdx) => (
+                <div key={pageIdx} className="min-w-full flex gap-3">
+                  {pair.map(ci => {
+                    const f = lfAllFormats[ci]
+                    return (
+                      <div key={ci} style={{ flex: '0 0 calc(50% - 6px)', borderRadius: '14px', overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ position: 'relative', height: '140px', flexShrink: 0, overflow: 'hidden' }}>
+                          <img src={f.img} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <span style={{ position: 'absolute', left: '7px', top: '7px', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', background: 'rgba(9,49,72,0.6)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '10px 10px 12px' }}>
+                          <h3 style={{ fontSize: '11px', fontWeight: 700, color: '#fff', marginBottom: '5px', lineHeight: 1.3 }}>{f.name}</h3>
+                          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, flex: 1 }}>{f.desc}</p>
+                          <button className="lf-btn-glow" style={{ marginTop: '10px', width: '100%', borderRadius: '9px', padding: '7px', fontSize: '10px', fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694d1,#076d9d)', border: 'none', cursor: 'pointer' }}>{f.btnLabel}</button>
+                        </div>
                       </div>
-                      <div className="pb-[20px] pt-[20px]">
-                        <button className="lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* ── BACK ── */}
-                  <div
-                    className="lf-face lf-back absolute inset-0 flex flex-col rounded-2xl p-5"
-                    style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.35)' }}
-                  >
-                    {/* Icon + title */}
-                    <div className="mb-3 flex items-center gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>
-                        {f.icon}
-                      </div>
-                      <h3 className="text-sm sm:text-base font-bold text-white leading-tight">{f.name}</h3>
-                    </div>
-                    {/* Bullets */}
-                    <ul className="flex-1 space-y-2.5">
-                      {f.bullets.map(b => (
-                        <li key={b} className="flex items-start gap-2 text-sm text-white/75">
-                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mt-0.5 shrink-0">
-                            <circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/>
-                            <path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                    {/* CTA */}
-                    <button
-                      className="lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90"
-                      style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}
-                    >{f.btnLabel}</button>
-                  </div>
-
+                    )
+                  })}
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
+          {/* Mobile dots */}
+          <div className="mt-5 flex justify-center gap-3 sm:hidden">
+            {[0,1,2,3].map(p => (
+              <button
+                key={p}
+                onClick={() => setLfMobilePage(p)}
+                className="transition-all duration-300"
+                style={{ width: lfMobilePage === p ? '32px' : '10px', height: '10px', borderRadius: '999px', background: lfMobilePage === p ? '#0694d1' : 'rgba(255,255,255,0.25)', border: 'none', cursor: 'pointer' }}
+              />
             ))}
-          </div>}
+          </div>
 
-          {/* Slide 2 */}
-          {lfSlide === 1 && <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                name: '1-on-1 Training',
-                badge: 'Most Focused', badgeBg: '#0694d1', badgeText: '#fff',
-                desc: 'Dedicated instructor assigned exclusively to one employee for maximum focus.',
-                bullets: ['Personalised schedule', 'Instructor adapts to your pace', 'Max knowledge retention'],
-                btnLabel: 'Learn More →',
-                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/1on1.png',
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
-              },
-              {
-                name: 'Customised Programmes',
-                badge: 'Bespoke', badgeBg: '#076D9D', badgeText: '#fff',
-                desc: 'Bespoke curricula tailored to your tech stack, business processes, and learning goals.',
-                bullets: ['Custom content & pace', 'Multi-vendor programme design', 'Aligned to business KPIs'],
-                btnLabel: 'Learn More →',
-                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/CT.png',
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
-              },
-              {
-                name: 'Webinar as a Service',
-                badge: 'New', badgeBg: '#0694d1', badgeText: '#fff',
-                desc: 'Professionally hosted live webinars delivered to your global workforce at scale.',
-                bullets: ['Expert-hosted live sessions', 'Interactive Q&A', 'Global audience delivery'],
-                btnLabel: 'Learn More →',
-                cardBg: 'linear-gradient(145deg,#0c4a72,#093148)',
-                img: '/images/home-banner/Waas.png',
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.649v6.7a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg>,
-              },
-              {
-                name: 'Qubits',
-                badge: 'Assessment', badgeBg: '#076D9D', badgeText: '#fff',
-                desc: 'AI-powered assessments to benchmark skills, identify gaps, and measure training ROI.',
-                bullets: ['AI-driven skill benchmarking', 'Gap analysis reports', 'Training ROI measurement'],
-                btnLabel: 'Learn More →',
-                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
-                img: '/images/home-banner/Qubits.png',
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>,
-              },
-            ].map((f, i) => (
+          {/* ── Desktop grid (hidden on mobile) ── */}
+          <div className="hidden sm:block">
+          {lfSlide === 0 && <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+            {lfAllFormats.slice(0, 4).map((f, i) => (
               <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
                 <div className="lf-flip-inner relative h-full w-full">
-                  {/* ── FRONT ── */}
                   <div className="lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
                     <div className="relative h-44 w-full shrink-0 overflow-hidden">
                       <img src={f.img} alt={f.name} className="h-full w-full object-cover" />
@@ -3047,19 +2965,15 @@ export default function Design4Page() {
                       </div>
                     </div>
                   </div>
-                  {/* ── BACK ── */}
                   <div className="lf-face lf-back absolute inset-0 flex flex-col rounded-2xl p-5" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.35)' }}>
                     <div className="mb-3 flex items-center gap-3">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>{f.icon}</div>
                       <h3 className="text-sm sm:text-base font-bold text-white leading-tight">{f.name}</h3>
                     </div>
                     <ul className="flex-1 space-y-2.5">
-                      {f.bullets.map((b, bi) => (
-                        <li key={bi} className="flex items-start gap-2 text-sm text-white/75">
-                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mt-0.5 shrink-0">
-                            <circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/>
-                            <path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
+                      {f.bullets.map(b => (
+                        <li key={b} className="flex items-start gap-2 text-sm text-white/75">
+                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mt-0.5 shrink-0"><circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/><path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                           {b}
                         </li>
                       ))}
@@ -3071,8 +2985,49 @@ export default function Design4Page() {
             ))}
           </div>}
 
-          {/* Pagination dots */}
-          <div className="mt-8 flex justify-center gap-3">
+          {/* Slide 2 — desktop only, uses lfAllFormats */}
+          {lfSlide === 1 && <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+            {lfAllFormats.slice(4, 8).map((f, i) => (
+              <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
+                <div className="lf-flip-inner relative h-full w-full">
+                  <div className="lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
+                    <div className="relative h-44 w-full shrink-0 overflow-hidden">
+                      <img src={f.img} alt={f.name} className="h-full w-full object-cover" />
+                      <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-sm font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
+                    </div>
+                    <div className="flex flex-1 flex-col px-5 pt-4">
+                      <div className="flex-1">
+                        <h3 className="mb-2 text-sm sm:text-base md:text-lg font-medium text-white">{f.name}</h3>
+                        <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
+                      </div>
+                      <div className="pb-[20px] pt-[20px]">
+                        <button className="lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="lf-face lf-back absolute inset-0 flex flex-col rounded-2xl p-5" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.35)' }}>
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>{f.icon}</div>
+                      <h3 className="text-sm sm:text-base font-bold text-white leading-tight">{f.name}</h3>
+                    </div>
+                    <ul className="flex-1 space-y-2.5">
+                      {f.bullets.map(b => (
+                        <li key={b} className="flex items-start gap-2 text-sm text-white/75">
+                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mt-0.5 shrink-0"><circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/><path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                    <button className="lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>}
+          </div>{/* end hidden sm:block */}
+
+          {/* Desktop pagination dots */}
+          <div className="hidden sm:flex mt-8 justify-center gap-3">
             {[0, 1].map(s => (
               <button
                 key={s}
