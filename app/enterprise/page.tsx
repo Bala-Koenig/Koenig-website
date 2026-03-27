@@ -2880,9 +2880,9 @@ export default function EnterprisePage() {
             >
               Login
             </a>
-            {/* Get in Touch */}
-            <a href="#contact" className="hidden rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 lg:inline-block" style={{ background: '#0694D1' }}>
-              Get in Touch
+            {/* Contact CTA */}
+            <a href="#contact" className="hidden rounded-lg px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 lg:inline-block" style={{ background: '#0694D1' }}>
+              Contact Us
             </a>
             {/* Hamburger */}
             <button
