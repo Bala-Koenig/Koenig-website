@@ -418,10 +418,12 @@ function HomeTestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
   )
 }
 
-function HomeScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
+function HomeScrollColumn({ items, speed, draggable }: { items: typeof TESTIMONIALS; speed: number; draggable?: boolean }) {
   const innerRef = useRef<HTMLDivElement>(null)
   const pos = useRef(0)
   const paused = useRef(false)
+  const dragStartY = useRef(0)
+  const dragStartPos = useRef(0)
 
   useEffect(() => {
     const inner = innerRef.current
@@ -443,11 +445,32 @@ function HomeScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed:
     return () => cancelAnimationFrame(raf)
   }, [speed])
 
+  const touchHandlers = draggable ? {
+    onTouchStart: (e: React.TouchEvent) => {
+      paused.current = true
+      dragStartY.current = e.touches[0].clientY
+      dragStartPos.current = pos.current
+    },
+    onTouchMove: (e: React.TouchEvent) => {
+      const delta = dragStartY.current - e.touches[0].clientY
+      const inner = innerRef.current
+      if (!inner) return
+      const half = inner.scrollHeight / 2
+      let newPos = dragStartPos.current + delta
+      if (newPos < 0) newPos = 0
+      if (half > 0 && newPos >= half) newPos = half - 1
+      pos.current = newPos
+      inner.style.transform = `translateY(-${pos.current}px)`
+    },
+    onTouchEnd: () => { paused.current = false },
+  } : {}
+
   return (
     <div
       style={{ height: '520px', overflow: 'hidden' }}
       onMouseEnter={() => { paused.current = true }}
       onMouseLeave={() => { paused.current = false }}
+      {...touchHandlers}
     >
       <div ref={innerRef} className="flex flex-col gap-4 pb-4">
         {[...items, ...items].map((t, i) => <HomeTestimonialCard key={i} t={t} />)}
@@ -3755,16 +3778,28 @@ export default function Design4Page() {
             </div>
           </div>
 
-          {/* 3-column auto-scroll */}
+          {/* Mobile: single auto-scroll column with drag */}
           <div
-            className="relative overflow-hidden"
+            className="sm:hidden relative overflow-hidden"
             style={{
               height: '520px',
               maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
             }}
           >
-            <div className="grid grid-cols-1 gap-4 h-full sm:grid-cols-3">
+            <HomeScrollColumn items={TESTIMONIALS} speed={0.030} draggable />
+          </div>
+
+          {/* Desktop: 3-column auto-scroll */}
+          <div
+            className="hidden sm:block relative overflow-hidden"
+            style={{
+              height: '520px',
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+            }}
+          >
+            <div className="grid grid-cols-3 gap-4 h-full">
               <HomeScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} />
               <HomeScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} />
               <HomeScrollColumn items={TESTIMONIALS.slice(6, 9)} speed={0.038} />
