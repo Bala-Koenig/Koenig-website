@@ -1278,6 +1278,7 @@ function AwardsMarquee({ awards }: { awards: typeof AWARDS }) {
 
 export default function Design4Page() {
   const [tab, setTab] = useState('Top Courses')
+  const [lfSlide, setLfSlide] = useState(0)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -2519,7 +2520,8 @@ export default function Design4Page() {
             @media (hover: none) { .lf-card .lf-reveal { transform: translateY(0) !important; } }
           `}</style>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Slide 1 */}
+          {lfSlide === 0 && <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 name: 'Classroom Training',
@@ -2624,7 +2626,113 @@ export default function Design4Page() {
                 </div>
               </div>
             ))}
+          </div>}
+
+          {/* Slide 2 */}
+          {lfSlide === 1 && <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                name: '1-on-1 Training',
+                badge: 'Most Focused', badgeBg: '#0694d1', badgeText: '#fff',
+                desc: 'Dedicated instructor assigned exclusively to one employee for maximum focus.',
+                bullets: ['Personalised schedule', 'Instructor adapts to your pace', 'Max knowledge retention'],
+                btnLabel: 'Learn More →',
+                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+                img: '/images/home-banner/pre-req.png',
+                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+              },
+              {
+                name: 'Customised Programmes',
+                badge: 'Bespoke', badgeBg: '#076D9D', badgeText: '#fff',
+                desc: 'Bespoke curricula tailored to your tech stack, business processes, and learning goals.',
+                bullets: ['Custom content & pace', 'Multi-vendor programme design', 'Aligned to business KPIs'],
+                btnLabel: 'Learn More →',
+                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+                img: '/images/home-banner/revision.png',
+                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+              },
+              {
+                name: 'Webinar as a Service',
+                badge: 'New', badgeBg: '#0694d1', badgeText: '#fff',
+                desc: 'Professionally hosted live webinars delivered to your global workforce at scale.',
+                bullets: ['Expert-hosted live sessions', 'Interactive Q&A', 'Global audience delivery'],
+                btnLabel: 'Learn More →',
+                cardBg: 'linear-gradient(145deg,#0c4a72,#093148)',
+                img: '/images/home-banner/classrecord.png',
+                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.649v6.7a1 1 0 0 1-1.447.894L15 14"/><rect x="1" y="6" width="14" height="12" rx="2"/></svg>,
+              },
+              {
+                name: 'Qubits',
+                badge: 'Assessment', badgeBg: '#076D9D', badgeText: '#fff',
+                desc: 'AI-powered assessments to benchmark skills, identify gaps, and measure training ROI.',
+                bullets: ['AI-driven skill benchmarking', 'Gap analysis reports', 'Training ROI measurement'],
+                btnLabel: 'Learn More →',
+                cardBg: 'linear-gradient(145deg,#0a3d5c,#072d44)',
+                img: '/images/home-banner/qubit.png',
+                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>,
+              },
+            ].map((f, i) => (
+              <div key={i} className={`lf-flip io-fade delay-${i + 1}`} style={{ perspective: '1000px', height: '400px' }}>
+                <div className="lf-flip-inner relative h-full w-full">
+                  {/* ── FRONT ── */}
+                  <div className="lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
+                    <div className="relative h-44 w-full shrink-0 overflow-hidden">
+                      <img src={f.img} alt={f.name} className="h-full w-full object-cover" />
+                      <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-sm font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
+                    </div>
+                    <div className="flex flex-1 flex-col px-5 pt-4">
+                      <div className="flex-1">
+                        <h3 className="mb-2 text-sm sm:text-base md:text-lg font-medium text-white">{f.name}</h3>
+                        <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
+                      </div>
+                      <div className="pb-[20px] pt-[20px]">
+                        <button className="lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
+                      </div>
+                    </div>
+                  </div>
+                  {/* ── BACK ── */}
+                  <div className="lf-face lf-back absolute inset-0 flex flex-col rounded-2xl p-5" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.35)' }}>
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>{f.icon}</div>
+                      <h3 className="text-sm sm:text-base font-bold text-white leading-tight">{f.name}</h3>
+                    </div>
+                    <ul className="flex-1 space-y-2.5">
+                      {f.bullets.map((b, bi) => (
+                        <li key={bi} className="flex items-start gap-2 text-sm text-white/75">
+                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mt-0.5 shrink-0">
+                            <circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/>
+                            <path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                    <button className="lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>}
+
+          {/* Pagination dots */}
+          <div className="mt-8 flex justify-center gap-3">
+            {[0, 1].map(s => (
+              <button
+                key={s}
+                onClick={() => setLfSlide(s)}
+                className="transition-all duration-300"
+                style={{
+                  width: lfSlide === s ? '32px' : '10px',
+                  height: '10px',
+                  borderRadius: '999px',
+                  background: lfSlide === s ? '#0694d1' : 'rgba(255,255,255,0.25)',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              />
+            ))}
           </div>
+
         </div>
       </section>
 
