@@ -1345,6 +1345,8 @@ export default function Design4Page() {
   const [webinarStart, setWebinarStart] = useState(0)
   const [webinarMobilePage, setWebinarMobilePage] = useState(0)
   const webinarDragStartX = useRef(0)
+  const [hiwMobilePage, setHiwMobilePage] = useState(0)
+  const hiwDragStartX = useRef(0)
   const statsRef = useRef<HTMLDivElement>(null)
   const [navQuery, setNavQuery] = useState('')
   const [heroQuery, setHeroQuery] = useState('')
@@ -3577,7 +3579,64 @@ export default function Design4Page() {
             {/* Connecting line — desktop only */}
             <div className="pointer-events-none absolute hidden lg:block" style={{ top: '52px', left: '12.5%', right: '12.5%', height: '2px', background: 'linear-gradient(to right,#076D9D,#4DBFEF,#076D9D)' }} />
 
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
+            {/* ── Mobile: 2 steps per page ── */}
+            {(() => {
+              const steps = [
+                { icon: '🧭', num: '01', title: 'Tell Us Your Goal',        desc: 'Share where you are and where you want to be. Use our course finder, talk to a training advisor, or start with one of our curated career pathways.',    dots: 1 },
+                { icon: '📋', num: '02', title: 'Pick Your Format & Date',  desc: 'Choose 1-on-1, Public Batch, or Flexi. Select dates from guaranteed schedules that fit your life. Lock in your spot with flexible payment options.',     dots: 2 },
+                { icon: '🎓', num: '03', title: 'Train with a Real Expert', desc: 'A vendor-certified instructor teaches you live. Hands-on labs mirror real enterprise environments. Sessions are recorded so you can review later.',      dots: 3 },
+                { icon: '🚀', num: '04', title: 'Certify & Advance',        desc: 'Pass your exam with dedicated prep and practice tests. Join 1M+ certified professionals who used Koenig to land promotions and salary increases.',          dots: 4 },
+              ]
+              return (
+                <div className="sm:hidden">
+                  <div className="overflow-hidden"
+                    onTouchStart={e => { hiwDragStartX.current = e.touches[0].clientX }}
+                    onTouchEnd={e => {
+                      const delta = e.changedTouches[0].clientX - hiwDragStartX.current
+                      if (delta < -40) setHiwMobilePage(p => Math.min(p + 1, 1))
+                      else if (delta > 40) setHiwMobilePage(p => Math.max(p - 1, 0))
+                    }}
+                  >
+                    <div className="flex" style={{ transform: `translateX(-${hiwMobilePage * 100}%)`, transition: 'transform 0.45s cubic-bezier(0.4,0,0.2,1)' }}>
+                      {[[0,1],[2,3]].map((pair, pageIdx) => (
+                        <div key={pageIdx} className="min-w-full flex flex-col gap-6">
+                          {pair.map(si => {
+                            const s = steps[si]
+                            return (
+                              <div key={si} className="flex flex-col items-center">
+                                <div className="relative z-10 mb-4">
+                                  <div className="flex h-16 w-16 items-center justify-center rounded-full text-2xl" style={{ background: 'white', border: '4px solid #f0f9ff', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>{s.icon}</div>
+                                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: '#093148' }}>{si + 1}</span>
+                                </div>
+                                <div className="w-full rounded-2xl border-2 p-5 text-center" style={{ background: 'white', borderColor: '#e8f4fa', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+                                  <div className="mb-1.5 text-xs font-bold tracking-widest text-koenig-blue">STEP {s.num}</div>
+                                  <h3 className="mb-2 text-sm font-semibold text-koenig-dark">{s.title}</h3>
+                                  <p className="mb-3 text-xs font-light leading-relaxed text-koenig-muted">{s.desc}</p>
+                                  <div className="flex items-center justify-center gap-1.5">
+                                    {[0,1,2,3].map(d => (
+                                      <div key={d} className="rounded-full" style={{ width: d < s.dots ? '16px' : '8px', height: '8px', background: d < s.dots ? '#076D9D' : '#CAEFFF' }} />
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-5 flex justify-center gap-3">
+                    {[0,1].map(p => (
+                      <button key={p} onClick={() => setHiwMobilePage(p)} className="transition-all duration-300"
+                        style={{ width: hiwMobilePage === p ? '32px' : '10px', height: '10px', borderRadius: '999px', background: hiwMobilePage === p ? '#0694d1' : '#CAEFFF', border: 'none', cursor: 'pointer' }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+            })()}
+
+            <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
               {[
                 { icon: '🧭', num: '01', title: 'Tell Us Your Goal',        desc: 'Share where you are and where you want to be. Use our course finder, talk to a training advisor, or start with one of our curated career pathways.',              dots: 1, delay: '0.10s' },
                 { icon: '📋', num: '02', title: 'Pick Your Format & Date',  desc: 'Choose 1-on-1, Public Batch, or Flexi. Select dates from guaranteed schedules that fit your life. Lock in your spot with flexible payment options.',           dots: 2, delay: '0.25s' },
