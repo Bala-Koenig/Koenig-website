@@ -2104,6 +2104,12 @@ export default function EnterprisePage() {
     return () => clearInterval(t)
   }, [])
 
+  // Learning Formats — auto-advance every 3s
+  useEffect(() => {
+    const t = setInterval(() => setFormatsSlide(s => (s + 1) % 2), 3000)
+    return () => clearInterval(t)
+  }, [])
+
   useEffect(() => {
     if (hiwPaused) return
     const t = setInterval(() => setActiveHiwStep(s => (s + 1) % 4), 2500)
