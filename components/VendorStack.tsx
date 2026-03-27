@@ -378,6 +378,15 @@ export default function VendorStack() {
 
       const totalTriggerH    = triggers.reduce((sum, t) => sum + t.offsetHeight, 0)
 
+      // Bottom of vendor section in the viewport (px from top)
+      const vendorBottomInVP = stickyTop + stickyEl.offsetHeight
+      // Extend the wrapper so its bottom never enters the viewport during the sticky zone.
+      // Without this, the Enterprise section bleeds in from below before the last card is shown.
+      const bottomPad = document.querySelector<HTMLElement>('.vs-bottom-pad')
+      if (bottomPad) {
+        bottomPad.style.height = `${Math.max(0, window.innerHeight - vendorBottomInVP)}px`
+      }
+
       // Precompute each trigger's absolute position (stable after layout)
       const triggerTops  = triggers.map(t => t.getBoundingClientRect().top + window.scrollY)
       const stickyBottom = (NAV_H + TITLE_GAP) + stickyEl.offsetHeight
@@ -804,6 +813,9 @@ export default function VendorStack() {
       {vendors.map((_, i) => (
         <div key={i} data-n={i} className="vs-trigger" style={{ height: 'clamp(350px, 60vh, 600px)' }} />
       ))}
+
+      {/* Bottom pad — height set by JS to keep wrapper below viewport during entire sticky zone */}
+      <div className="vs-bottom-pad" />
 
     </div>
   )
