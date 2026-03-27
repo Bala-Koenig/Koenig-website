@@ -800,7 +800,7 @@ export default function VendorStack() {
 
       {/* ── Scroll triggers — one per vendor, user scrolls through these to switch cards ── */}
       {vendors.map((_, i) => (
-        <div key={i} data-n={i} className="vs-trigger" style={{ height: '60vh' }} />
+        <div key={i} data-n={i} className="vs-trigger" style={{ height: 'clamp(250px, 40vh, 420px)' }} />
       ))}
 
     </div>
