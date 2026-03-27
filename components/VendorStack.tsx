@@ -817,7 +817,7 @@ export default function VendorStack() {
 
       {/* ── Scroll triggers — in normal flow so wrapper stays tall enough for sticky ── */}
       {vendors.map((_, i) => (
-        <div key={i} data-n={i} className="vs-trigger" style={{ height: 'clamp(200px, 28vh, 320px)' }} />
+        <div key={i} data-n={i} className="vs-trigger" style={{ height: 'clamp(350px, 60vh, 600px)' }} />
       ))}
 
     </div>
