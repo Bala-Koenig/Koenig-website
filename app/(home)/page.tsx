@@ -1285,16 +1285,16 @@ export default function Design4Page() {
   }, [])
   const [lfMobilePage, setLfMobilePage] = useState(0)
   const lfDragStartX = useRef(0)
-  useEffect(() => {
-    const t = setInterval(() => setLfMobilePage(p => (p + 1) % 4), 3500)
-    return () => clearInterval(t)
-  }, [])
+  const lfTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const startLfTimer = () => { lfTimerRef.current = setInterval(() => setLfMobilePage(p => (p + 1) % 4), 3500) }
+  const stopLfTimer  = () => { if (lfTimerRef.current) { clearInterval(lfTimerRef.current); lfTimerRef.current = null } }
+  useEffect(() => { startLfTimer(); return stopLfTimer }, [])
   const [diffMobilePage, setDiffMobilePage] = useState(0)
   const diffDragStartX = useRef(0)
-  useEffect(() => {
-    const t = setInterval(() => setDiffMobilePage(p => (p + 1) % 3), 3500)
-    return () => clearInterval(t)
-  }, [])
+  const diffTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const startDiffTimer = () => { diffTimerRef.current = setInterval(() => setDiffMobilePage(p => (p + 1) % 3), 3500) }
+  const stopDiffTimer  = () => { if (diffTimerRef.current) { clearInterval(diffTimerRef.current); diffTimerRef.current = null } }
+  useEffect(() => { startDiffTimer(); return stopDiffTimer }, [])
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const mobileSearchInputRef = useRef<HTMLInputElement>(null)
@@ -2905,11 +2905,12 @@ export default function Design4Page() {
           {/* ── Mobile carousel: 2 cards per page ── */}
           <div
             className="sm:hidden overflow-hidden"
-            onTouchStart={e => { lfDragStartX.current = e.touches[0].clientX }}
+            onTouchStart={e => { stopLfTimer(); lfDragStartX.current = e.touches[0].clientX }}
             onTouchEnd={e => {
               const delta = e.changedTouches[0].clientX - lfDragStartX.current
               if (delta < -40) setLfMobilePage(p => Math.min(p + 1, 3))
               else if (delta > 40) setLfMobilePage(p => Math.max(p - 1, 0))
+              startLfTimer()
             }}
           >
             <div
@@ -3075,11 +3076,12 @@ export default function Design4Page() {
           {/* ── Mobile carousel ── */}
           <div
             className="sm:hidden overflow-hidden"
-            onTouchStart={e => { diffDragStartX.current = e.touches[0].clientX }}
+            onTouchStart={e => { stopDiffTimer(); diffDragStartX.current = e.touches[0].clientX }}
             onTouchEnd={e => {
               const delta = e.changedTouches[0].clientX - diffDragStartX.current
               if (delta < -40) setDiffMobilePage(p => Math.min(p + 1, 2))
               else if (delta > 40) setDiffMobilePage(p => Math.max(p - 1, 0))
+              startDiffTimer()
             }}
           >
             <div className="flex" style={{ transform: `translateX(-${diffMobilePage * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}>
