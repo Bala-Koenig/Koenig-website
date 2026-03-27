@@ -1582,34 +1582,18 @@ export default function Design4Page() {
               info@koenig-solutions.com
             </a>
           </div>
-          {/* Right — Individual/Enterprise toggle + Login */}
-          <div className="flex items-center gap-2">
-            <div className="flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
-              <span className="rounded-lg px-3 py-1 text-xs font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
-                Individual
-              </span>
-              <Link
-                href="/enterprise"
-                className="rounded-lg px-3 py-1 text-xs font-normal transition-all"
-                style={{ color: 'rgba(255,255,255,0.55)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-              >
-                Enterprise
-              </Link>
-            </div>
-            <a
-              href="https://mykoenig.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border px-3 py-1 text-xs font-medium transition-colors"
-              style={{ borderColor: 'rgba(255,255,255,0.45)', color: '#ffffff' }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-            >
-              Login
-            </a>
-          </div>
+          {/* Right — Login */}
+          <a
+            href="https://mykoenig.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg border px-3 py-1 text-xs font-medium transition-colors"
+            style={{ borderColor: 'rgba(255,255,255,0.45)', color: '#ffffff' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+          >
+            Login
+          </a>
         </div>
       </div>
 
@@ -1733,6 +1717,21 @@ export default function Design4Page() {
 
           {/* Right — search + hamburger */}
           <div className="ml-auto flex items-center gap-2">
+            {/* Individual / Enterprise toggle */}
+            <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
+              <span className="rounded-lg px-3 py-1.5 text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
+                Individual
+              </span>
+              <Link
+                href="/enterprise"
+                className="rounded-lg px-3 py-1.5 text-sm font-normal transition-all"
+                style={{ color: 'rgba(255,255,255,0.55)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#38bdf8'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.15)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              >
+                Enterprise
+              </Link>
+            </div>
             {/* Search */}
             <div className="relative hidden lg:block" ref={navSearchRef}>
               <div className="flex items-center gap-2 rounded-full px-4 py-1.5 transition-all focus-within:shadow-[0_0_0_2px_rgba(6,148,209,0.6)]" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.35)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
