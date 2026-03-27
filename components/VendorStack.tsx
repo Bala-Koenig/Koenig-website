@@ -449,7 +449,7 @@ export default function VendorStack() {
               Industry Leaders
             </span>
           </h2>
-          <p style={{ margin: '0 auto', maxWidth: 520, fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
+          <p style={{ margin: '0 auto', maxWidth: 520, fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: 20 }}>
             Koenig is an authorized training partner for the world&apos;s leading technology vendors,
             delivering globally recognized certifications.
           </p>
@@ -760,6 +760,9 @@ export default function VendorStack() {
             .vs-more-title { font-size: 34px !important; }
             .vs-more-panel { display: block !important; width: 340px !important; }
           }
+
+          /* ── Header spacing — paragraph provides the 20px gap ── */
+          .vs-header { margin-bottom: 0 !important; }
 
           /* ── Tab states ── */
           [data-tab] {
