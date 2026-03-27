@@ -190,6 +190,13 @@ function VendorCard({ v }: { v: VendorItem }) {
               </li>
             ))}
           </ul>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={v.image}
+            alt={v.title}
+            className="vs-inline-logo"
+            style={{ display: 'block', height: 64, width: 'auto', maxWidth: '100%', objectFit: 'contain', marginTop: 16, background: '#EAF6FB', borderRadius: 10, padding: '8px 12px' }}
+          />
         </div>
         <button
           className="vs-cta-btn"
@@ -806,6 +813,10 @@ export default function VendorStack() {
 
           /* Hide scrollbar on mobile tabs */
           .vs-mobile-tabs::-webkit-scrollbar { display: none; }
+
+          /* Inline logo: visible on mobile only, hidden when side panel shows */
+          .vs-inline-logo { display: block; }
+          @media (min-width: 768px) { .vs-inline-logo { display: none !important; } }
         `}</style>
       </section>
 
