@@ -2374,6 +2374,12 @@ export default function EnterprisePage() {
   // Nav state
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileAllCoursesOpen, setMobileAllCoursesOpen] = useState(false)
+  const [mobileTechOpen, setMobileTechOpen] = useState(false)
+  const [mobileLearningOpen, setMobileLearningOpen] = useState(false)
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false)
+  const [mobileMegaVendor, setMobileMegaVendor] = useState(MEGA_MENU_VENDORS[0]?.name ?? '')
+  const [mobileTechCategory, setMobileTechCategory] = useState(TOP_TECHNOLOGIES[0]?.name ?? '')
   const [navQuery, setNavQuery] = useState('')
   const [navResultsOpen, setNavResultsOpen] = useState(false)
   const navSearchRef = useRef<HTMLDivElement>(null)
@@ -2907,38 +2913,147 @@ export default function EnterprisePage() {
 
         {/* Mobile drawer */}
         {mobileOpen && (
-          <div className="-mx-4 lg:-mx-[50px] border-t lg:hidden" style={{ background: '#0d3a5c', borderColor: '#0D4A6B' }}>
-            <div className="mx-auto max-w-7xl space-y-0.5 px-4 py-3">
-              {/* Contact info mobile */}
-              <div className="mb-3 space-y-1.5 pb-3 text-sm" style={{ borderBottom: '1px solid #0D4A6B' }}>
-                <a href="tel:+14129537506" className="flex items-center gap-2 transition-colors hover:text-white" style={{ color: '#A8C8E0' }}>
-                  <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
-                  +1 412 953 7506
-                </a>
-                <a href="mailto:info@koenig-solutions.com" className="flex items-center gap-2 transition-colors hover:text-white" style={{ color: '#A8C8E0' }}>
-                  <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                  info@koenig-solutions.com
-                </a>
+          <div className="-mx-4 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '80vh', overflowY: 'auto' }}>
+            <div className="px-4 py-3 space-y-1">
+
+              {/* Search */}
+              <div className="mb-2 flex items-center gap-2 rounded-lg border border-white/20 px-3 py-2" style={{ background: 'rgba(6,148,209,0.08)' }}>
+                <svg aria-hidden="true" className="h-4 w-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input type="text" placeholder="Search courses…" aria-label="Search courses" className="flex-1 bg-transparent text-sm text-white placeholder-white/50 outline-none" />
               </div>
-              {/* Nav links */}
-              {['All Courses','About Koenig','Learning Options','Contact Us'].map(item => (
-                <a key={item} href="#" className="block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white" style={{ color: '#A8C8E0' }}>{item}</a>
-              ))}
-              {/* Search mobile */}
-              <div className="pt-2">
-                <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/8 px-3 py-2">
-                  <svg aria-hidden="true" className="h-4 w-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                  <input type="text" placeholder="Search courses…" aria-label="Search courses" className="flex-1 bg-transparent text-sm text-white placeholder-white/60 outline-none" />
-                </div>
+
+              {/* All Courses accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileAllCoursesOpen(v => !v)}
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5"
+                  style={{ color: mobileAllCoursesOpen ? '#38bdf8' : '#ffffff' }}
+                >
+                  All Courses
+                  <svg className={`h-4 w-4 transition-transform ${mobileAllCoursesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                {mobileAllCoursesOpen && (
+                  <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
+                    <div className="flex overflow-x-auto gap-1 p-2 border-b" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+                      {MEGA_MENU_VENDORS.map(v => (
+                        <button
+                          key={v.name}
+                          onClick={() => setMobileMegaVendor(v.name)}
+                          className="shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
+                          style={{
+                            background: mobileMegaVendor === v.name ? '#0694D1' : 'rgba(255,255,255,0.06)',
+                            color: mobileMegaVendor === v.name ? '#fff' : 'rgba(255,255,255,0.65)',
+                          }}
+                        >
+                          {v.img && <div className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded bg-white"><img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" /></div>}
+                          {v.name}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="p-3 space-y-2">
+                      <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(6,148,209,0.8)' }}>
+                        {MEGA_MENU_VENDORS.find(v => v.name === mobileMegaVendor)?.courses} courses available
+                      </p>
+                      {(MEGA_MENU_COURSES[mobileMegaVendor] ?? []).map((c, i) => (
+                        <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                          <span>{c.name}</span>
+                          <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{c.days}d</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              <a
-                href="https://mykoenig.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 block rounded-lg border border-white/30 px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-white/10"
-              >
-                Login
-              </a>
+
+              {/* Technologies accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileTechOpen(v => !v)}
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5"
+                  style={{ color: mobileTechOpen ? '#38bdf8' : '#ffffff' }}
+                >
+                  Technologies
+                  <svg className={`h-4 w-4 transition-transform ${mobileTechOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                {mobileTechOpen && (
+                  <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
+                    <div className="flex overflow-x-auto gap-1 p-2 border-b" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+                      {TOP_TECHNOLOGIES.map(t => (
+                        <button
+                          key={t.name}
+                          onClick={() => setMobileTechCategory(t.name)}
+                          className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
+                          style={{
+                            background: mobileTechCategory === t.name ? '#0694D1' : 'rgba(255,255,255,0.06)',
+                            color: mobileTechCategory === t.name ? '#fff' : 'rgba(255,255,255,0.65)',
+                          }}
+                        >
+                          {t.name}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="p-3 space-y-2">
+                      <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(6,148,209,0.8)' }}>
+                        {TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)?.partners.join(', ')}
+                      </p>
+                      {(TECH_MENU_COURSES[mobileTechCategory] ?? []).map((course, i) => (
+                        <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                          <span>{course.name}</span>
+                          <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.days}d</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Learning Options accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileLearningOpen(v => !v)}
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5"
+                  style={{ color: mobileLearningOpen ? '#38bdf8' : '#ffffff' }}
+                >
+                  Learning Options
+                  <svg className={`h-4 w-4 transition-transform ${mobileLearningOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                {mobileLearningOpen && (
+                  <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
+                    {LEARNING_LINKS.map(link => (
+                      <a key={link} href="#" className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }}>{link}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* About accordion */}
+              <div>
+                <button
+                  onClick={() => setMobileAboutOpen(v => !v)}
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5"
+                  style={{ color: mobileAboutOpen ? '#38bdf8' : '#ffffff' }}
+                >
+                  About
+                  <svg className={`h-4 w-4 transition-transform ${mobileAboutOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                {mobileAboutOpen && (
+                  <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
+                    {ABOUT_LINKS.map(link => (
+                      <a key={link} href="#" className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }}>{link}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Contact */}
+              <a href="#" className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/5">Contact</a>
+
+              {/* Bottom actions */}
+              <div className="flex gap-2 pt-2 pb-1">
+                <a href="https://mykoenig.com" target="_blank" rel="noopener noreferrer" className="flex-1 rounded-lg border border-white/30 px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-white/10">Login</a>
+                <a href="#contact" className="flex-1 rounded-lg px-4 py-2.5 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>Enquire</a>
+              </div>
+
             </div>
           </div>
         )}
