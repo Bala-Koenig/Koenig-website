@@ -1304,7 +1304,6 @@ export default function Design4Page() {
   const [heroSlide, setHeroSlide] = useState(0)
   const [heroPaused, setHeroPaused] = useState(false)
   const heroTouchX = useRef<number | null>(null)
-  const bannerDragRef = useRef<{ el: HTMLDivElement | null; dragging: boolean; startX: number; scrollLeft: number }>({ el: null, dragging: false, startX: 0, scrollLeft: 0 })
   const [activeStep, setActiveStep] = useState(0)
   const [stepPaused, setStepPaused] = useState(false)
   const [showAllReviews, setShowAllReviews] = useState(false)
@@ -1828,63 +1827,6 @@ export default function Design4Page() {
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
               )}
             </button>
-          </div>
-        </div>
-
-        {/* Mobile learning options banner strip — drag both sides */}
-        <div
-          className="lg:hidden"
-          style={{ borderTop: '1px solid rgba(6,148,209,0.15)' }}
-        >
-          <div
-            ref={el => { bannerDragRef.current.el = el }}
-            className="flex gap-2.5 overflow-x-auto px-3 py-2 select-none"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', cursor: 'grab' }}
-            onMouseDown={e => {
-              const d = bannerDragRef.current
-              d.dragging = true
-              d.startX = e.pageX - (d.el?.offsetLeft ?? 0)
-              d.scrollLeft = d.el?.scrollLeft ?? 0
-              if (d.el) d.el.style.cursor = 'grabbing'
-            }}
-            onMouseMove={e => {
-              const d = bannerDragRef.current
-              if (!d.dragging || !d.el) return
-              e.preventDefault()
-              const x = e.pageX - (d.el.offsetLeft ?? 0)
-              d.el.scrollLeft = d.scrollLeft - (x - d.startX)
-            }}
-            onMouseUp={() => { bannerDragRef.current.dragging = false; if (bannerDragRef.current.el) bannerDragRef.current.el.style.cursor = 'grab' }}
-            onMouseLeave={() => { bannerDragRef.current.dragging = false; if (bannerDragRef.current.el) bannerDragRef.current.el.style.cursor = 'grab' }}
-            onTouchStart={e => {
-              const d = bannerDragRef.current
-              d.startX = e.touches[0].pageX
-              d.scrollLeft = d.el?.scrollLeft ?? 0
-            }}
-            onTouchMove={e => {
-              const d = bannerDragRef.current
-              if (!d.el) return
-              d.el.scrollLeft = d.scrollLeft - (e.touches[0].pageX - d.startX)
-            }}
-          >
-            {[
-              { label: 'Live Online',       img: '/images/Home-banner/Live-Online-Classes.png' },
-              { label: '1-on-1 Training',   img: '/images/Home-banner/1on1.png' },
-              { label: 'Classroom',         img: '/images/Home-banner/CT.png' },
-              { label: 'Qubits',            img: '/images/Home-banner/Qubits.png' },
-              { label: 'WaaS',              img: '/images/Home-banner/Waas.png' },
-              { label: 'Flexi',             img: '/images/Home-banner/Flexi.png' },
-              { label: 'FMAT',              img: '/images/Home-banner/FMAT.png' },
-            ].map(item => (
-              <div
-                key={item.label}
-                className="flex shrink-0 flex-col items-center gap-1 rounded-xl px-3 py-1.5"
-                style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.18)' }}
-              >
-                <img src={item.img} alt={item.label} className="h-7 w-7 object-contain" />
-                <span className="whitespace-nowrap text-xs font-medium text-white/80">{item.label}</span>
-              </div>
-            ))}
           </div>
         </div>
 
