@@ -2602,13 +2602,11 @@ export default function Design4Page() {
                       </div>
                       <h3 className="text-sm sm:text-base font-bold text-white leading-tight">{f.name}</h3>
                     </div>
-                    {/* Divider */}
-                    <div className="mb-3 h-px" style={{ background: 'rgba(6,148,209,0.25)' }} />
                     {/* Bullets */}
-                    <ul className="mb-4 space-y-2.5">
+                    <ul className="flex-1 space-y-2.5">
                       {f.bullets.map(b => (
-                        <li key={b} className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.78)' }}>
-                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="shrink-0">
+                        <li key={b} className="flex items-start gap-2 text-sm text-white/75">
+                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mt-0.5 shrink-0">
                             <circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/>
                             <path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
