@@ -280,9 +280,18 @@ function MoreCard() {
     >
       <div className="vs-more-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 0 }}>
         <div>
-          <span style={{ display: 'inline-flex', borderRadius: 9999, border: '1px solid rgba(77,191,239,0.35)', padding: '4px 12px', fontSize: 12, color: '#4DBFEF', marginBottom: 12 }}>
-            ∞&nbsp;&nbsp;50+ Global Vendors
-          </span>
+          {/* Top row: tag + icon */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
+            <span style={{ display: 'inline-flex', borderRadius: 9999, border: '1px solid rgba(77,191,239,0.35)', padding: '4px 12px', fontSize: 12, color: '#4DBFEF', flexShrink: 1, minWidth: 0 }}>
+              ∞&nbsp;&nbsp;50+ Global Vendors
+            </span>
+            <div
+              className="vs-inline-logo"
+              style={{ flexShrink: 0, background: '#EAF6FB', borderRadius: 8, padding: '6px 10px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 48, minWidth: 48 }}
+            >
+              <span style={{ fontSize: 28, fontWeight: 900, color: 'white', lineHeight: 1 }}>∞</span>
+            </div>
+          </div>
           <h3 className="vs-more-title" style={{ fontWeight: 700, lineHeight: 1.1, margin: 0 }}>
             <span style={{ color: 'white' }}>Explore All</span>
             <br />
@@ -300,18 +309,14 @@ function MoreCard() {
             ))}
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-          <span style={{ color: '#4DBFEF', fontSize: 13, fontWeight: 400, whiteSpace: 'nowrap' }}>View all vendors</span>
-          <div style={{ flex: 1, minWidth: 20, height: 1, background: 'repeating-linear-gradient(to right, rgba(77,191,239,0.4) 0, rgba(77,191,239,0.4) 6px, transparent 6px, transparent 12px)' }} />
-          <span style={{ color: '#4DBFEF', fontSize: 16 }}>→</span>
-          <button
-            style={{ background: '#076D9D', borderRadius: 28, padding: '9px 18px', fontSize: 13, fontWeight: 400, color: 'white', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0694D1' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#076D9D' }}
-          >
-            Explore All Courses →
-          </button>
-        </div>
+        <button
+          className="vs-cta-btn"
+          style={{ background: '#076D9D', borderRadius: 28, padding: '9px 18px', fontSize: 13, fontWeight: 400, color: 'white', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', width: '100%', textAlign: 'center' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0694D1' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#076D9D' }}
+        >
+          Explore All Courses →
+        </button>
       </div>
 
       {/* Right badges panel — hidden on mobile & tablet */}
