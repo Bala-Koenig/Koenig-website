@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useState, useRef, useEffect } from 'react'
 
 const aboutMenuItems = [
   { label: 'About Us', href: '#' },
@@ -13,6 +16,19 @@ const aboutMenuItems = [
 ]
 
 export default function Navbar() {
+  const [aboutOpen, setAboutOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setAboutOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   return (
     <nav className="bg-[#0a1628] text-white sticky top-0 z-50 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
@@ -29,26 +45,38 @@ export default function Navbar() {
           <Link href="#" className="text-sm text-white/70 hover:text-white transition-colors">Vendors</Link>
 
           {/* About dropdown */}
-          <div className="relative group">
-            <button className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-1">
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onMouseEnter={() => setAboutOpen(true)}
+              onMouseLeave={() => setAboutOpen(false)}
+              onClick={() => setAboutOpen(!aboutOpen)}
+              className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-1"
+            >
               About
               <svg className="w-3.5 h-3.5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div className="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
-              <div className="bg-white rounded-xl shadow-xl py-2 min-w-[200px] border border-gray-100">
-                {aboutMenuItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    className="block px-5 py-2.5 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+
+            {aboutOpen && (
+              <div
+                className="absolute left-0 top-full mt-2 z-[999]"
+                onMouseEnter={() => setAboutOpen(true)}
+                onMouseLeave={() => setAboutOpen(false)}
+              >
+                <div className="bg-white rounded-xl shadow-2xl py-2 min-w-[210px] border border-gray-100">
+                  {aboutMenuItems.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className="block px-5 py-2.5 text-sm text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <Link href="#" className="text-sm text-white/70 hover:text-white transition-colors">Contact</Link>
