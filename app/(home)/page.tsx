@@ -1624,7 +1624,7 @@ export default function Design4Page() {
           <button
             onClick={() => { setMobileAllCoursesOpen(v => !v); setMobileOpen(false); }}
             className="flex lg:hidden items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-sm font-semibold transition-all shrink-0"
-            style={{ color: mobileAllCoursesOpen ? '#38bdf8' : '#ffffff', background: mobileAllCoursesOpen ? 'rgba(6,148,209,0.22)' : 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.35)' }}
+            style={{ color: '#ffffff', background: mobileAllCoursesOpen ? '#076D9D' : '#0694D1', border: 'none' }}
             aria-label="All Courses"
           >
             <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
