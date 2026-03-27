@@ -190,13 +190,17 @@ function VendorCard({ v }: { v: VendorItem }) {
               </li>
             ))}
           </ul>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={v.image}
-            alt={v.title}
+          <div
             className="vs-inline-logo"
-            style={{ display: 'block', height: 64, width: 'auto', maxWidth: '100%', objectFit: 'contain', marginTop: 16, background: '#EAF6FB', borderRadius: 10, padding: '8px 12px' }}
-          />
+            style={{ marginTop: 16, background: '#EAF6FB', borderRadius: 10, padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: 80 }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={v.image}
+              alt={v.title}
+              style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }}
+            />
+          </div>
         </div>
         <button
           className="vs-cta-btn"
