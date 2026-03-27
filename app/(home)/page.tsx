@@ -2568,7 +2568,7 @@ export default function Design4Page() {
                 icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
               },
             ].map((f, i) => (
-              <div key={i} className={`lf-flip io-fade delay-${i + 1}`} style={{ perspective: '1000px', height: '400px' }}>
+              <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
                 <div className="lf-flip-inner relative h-full w-full">
 
                   {/* ── FRONT ── */}
@@ -2674,7 +2674,7 @@ export default function Design4Page() {
                 icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>,
               },
             ].map((f, i) => (
-              <div key={i} className={`lf-flip io-fade delay-${i + 1}`} style={{ perspective: '1000px', height: '400px' }}>
+              <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
                 <div className="lf-flip-inner relative h-full w-full">
                   {/* ── FRONT ── */}
                   <div className="lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
