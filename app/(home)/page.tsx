@@ -3289,7 +3289,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Vendor Partners ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -left-40 -top-32 h-[420px] w-[420px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-20 right-0 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         {/* Add reverse-marquee keyframe */}
@@ -3584,7 +3584,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── How It Works ─────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[250px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
@@ -3735,7 +3735,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Success Stories ───────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 lg:px-[50px] py-[60px]">
+      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
         <div className="pointer-events-none absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
@@ -3810,7 +3810,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Live Schedule ─────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-[60px]">
+      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -right-20 -top-20 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-16 left-1/4 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
@@ -3837,7 +3837,7 @@ export default function Design4Page() {
       <VendorStack />
 
       {/* ── Enterprise + Global Presence (tabbed) ─────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -left-32 top-1/3 h-[450px] w-[450px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-24 bottom-0 h-[360px] w-[360px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.17) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-0 h-[200px] w-[600px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
@@ -3994,7 +3994,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Awards ────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]" style={{ borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
 
@@ -4012,7 +4012,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── FAQ ───────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-[60px]">
+      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
