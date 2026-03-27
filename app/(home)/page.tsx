@@ -1279,6 +1279,10 @@ function AwardsMarquee({ awards }: { awards: typeof AWARDS }) {
 export default function Design4Page() {
   const [tab, setTab] = useState('Top Courses')
   const [lfSlide, setLfSlide] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setLfSlide(s => (s + 1) % 2), 3000)
+    return () => clearInterval(t)
+  }, [])
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
