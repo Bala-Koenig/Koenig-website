@@ -823,7 +823,7 @@ export default function VendorStack() {
           @media (min-width: 768px) { .vs-inline-logo { display: none !important; } }
 
           /* CTA button: full-width on mobile, fit-content on desktop */
-          @media (max-width: 767px) { .vs-cta-btn { width: 100% !important; text-align: center !important; box-sizing: border-box !important; } }
+          @media (max-width: 767px) { .vs-cta-btn { width: 100% !important; text-align: center !important; box-sizing: border-box !important; margin-bottom: 20px !important; } }
         `}</style>
       </section>
 
