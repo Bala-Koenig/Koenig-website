@@ -376,6 +376,15 @@ export default function VendorStack() {
       const stickyTop = NAV_H + TITLE_GAP - titleOffsetInSection
       stickyEl.style.top = `${stickyTop}px`
 
+      // Pull the next section up to overlap the trigger area so it's visible below the sticky section
+      const totalTriggerH = triggers.reduce((sum, t) => sum + t.offsetHeight, 0)
+      const nextSection   = wrapperEl.nextElementSibling as HTMLElement | null
+      if (nextSection) {
+        nextSection.style.marginTop    = `-${totalTriggerH}px`
+        nextSection.style.position     = 'relative'
+        nextSection.style.zIndex       = '1'
+      }
+
       // Precompute each trigger's absolute position (stable after layout)
       const triggerTops  = triggers.map(t => t.getBoundingClientRect().top + window.scrollY)
       const stickyBottom = (NAV_H + TITLE_GAP) + stickyEl.offsetHeight
@@ -402,6 +411,10 @@ export default function VendorStack() {
     return () => {
       cancelAnimationFrame(rafId)
       scrollCleanup?.()
+      // Restore next section styles on unmount
+      const wrapper = document.querySelector<HTMLElement>('.vs-wrapper')
+      const next = wrapper?.nextElementSibling as HTMLElement | null
+      if (next) { next.style.marginTop = ''; next.style.position = ''; next.style.zIndex = '' }
     }
   }, [])
 
@@ -798,21 +811,9 @@ export default function VendorStack() {
         `}</style>
       </section>
 
-      {/* ── Scroll triggers — absolutely positioned so they don't push content down ── */}
+      {/* ── Scroll triggers — in normal flow so wrapper stays tall enough for sticky ── */}
       {vendors.map((_, i) => (
-        <div
-          key={i}
-          data-n={i}
-          className="vs-trigger"
-          style={{
-            position: 'absolute',
-            left: 0, right: 0,
-            top: `calc(${i} * clamp(250px, 40vh, 420px))`,
-            height: 'clamp(250px, 40vh, 420px)',
-            pointerEvents: 'none',
-            zIndex: -1,
-          }}
-        />
+        <div key={i} data-n={i} className="vs-trigger" style={{ height: 'clamp(250px, 40vh, 420px)' }} />
       ))}
 
     </div>
