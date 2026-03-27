@@ -1289,6 +1289,12 @@ export default function Design4Page() {
     const t = setInterval(() => setLfMobilePage(p => (p + 1) % 4), 3500)
     return () => clearInterval(t)
   }, [])
+  const [diffMobilePage, setDiffMobilePage] = useState(0)
+  const diffDragStartX = useRef(0)
+  useEffect(() => {
+    const t = setInterval(() => setDiffMobilePage(p => (p + 1) % 3), 3500)
+    return () => clearInterval(t)
+  }, [])
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const mobileSearchInputRef = useRef<HTMLInputElement>(null)
@@ -3066,8 +3072,97 @@ export default function Design4Page() {
             <p className="mx-auto max-w-xl text-sm sm:text-base text-white/55">What makes 1M+ professionals choose Koenig over everyone else</p>
           </div>
 
-          {/* Bento grid */}
-          <div className="flex flex-col gap-4">
+          {/* ── Mobile carousel ── */}
+          <div
+            className="sm:hidden overflow-hidden"
+            onTouchStart={e => { diffDragStartX.current = e.touches[0].clientX }}
+            onTouchEnd={e => {
+              const delta = e.changedTouches[0].clientX - diffDragStartX.current
+              if (delta < -40) setDiffMobilePage(p => Math.min(p + 1, 2))
+              else if (delta > 40) setDiffMobilePage(p => Math.max(p - 1, 0))
+            }}
+          >
+            <div className="flex" style={{ transform: `translateX(-${diffMobilePage * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}>
+
+              {/* Page 0: Banner + Destination Training */}
+              <div className="min-w-full flex flex-col gap-3">
+                <div className="flex flex-col gap-4 rounded-2xl p-5" style={{ background: 'linear-gradient(135deg,#0a6ebd 0%,#0694d1 50%,#00b4d8 100%)' }}>
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(255,255,255,0.18)' }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                    </div>
+                    <div>
+                      <h3 className="mb-1 text-sm font-bold text-white">1-on-1 Training</h3>
+                      <p className="text-xs text-white/80">Schedule personalized sessions based upon your availability.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    {[{ val: '2x', label: 'Faster' }, { val: '95%', label: 'Pass Rate' }, { val: '100%', label: 'Dedicated' }].map(s => (
+                      <div key={s.label} className="flex-1 rounded-xl px-2 py-2.5 text-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
+                        <div className="text-sm font-bold text-white">{s.val}</div>
+                        <div className="text-xs text-white/70">{s.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col rounded-2xl p-5" style={{ background: 'linear-gradient(145deg,#071c2e,#0a2a42)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                  <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <h3 className="mb-1.5 text-sm font-medium text-white">Destination Training</h3>
+                  <p className="text-xs font-light leading-relaxed text-white/60">Immerse yourself in a focused learning environment, free from distractions, where you can sharpen your skills in popular global destinations.</p>
+                </div>
+              </div>
+
+              {/* Page 1: Customized Training + Excellent Trainers */}
+              <div className="min-w-full flex flex-col gap-3">
+                <div className="flex flex-col rounded-2xl p-5" style={{ background: 'linear-gradient(145deg,#062038,#083250)', border: '1px solid rgba(0,180,216,0.2)' }}>
+                  <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'rgba(0,180,216,0.16)' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00b4d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  </div>
+                  <h3 className="mb-1.5 text-sm font-medium text-white">Customized Training</h3>
+                  <p className="text-xs font-light leading-relaxed text-white/60">Learning without limits. Create custom courses that fit your exact needs, from blended topics to brand-new content.</p>
+                </div>
+                <div className="flex flex-col rounded-2xl p-5" style={{ background: 'linear-gradient(145deg,#072440,#093556)', border: '1px solid rgba(6,148,209,0.2)' }}>
+                  <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                  </div>
+                  <h3 className="mb-1.5 text-sm font-medium text-white">Excellent Trainers</h3>
+                  <p className="text-xs font-light leading-relaxed text-white/60">Learn from the best. Our trainers are certified experts with real-world experience, ensuring top-quality learning.</p>
+                </div>
+              </div>
+
+              {/* Page 2: Pre-Requisite + Happiness Guarantee */}
+              <div className="min-w-full flex flex-col gap-3">
+                <div className="flex flex-col rounded-2xl p-5" style={{ background: 'linear-gradient(145deg,#061828,#082438)', border: '1px solid rgba(7,109,157,0.25)' }}>
+                  <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'rgba(7,109,157,0.22)' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#076d9d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><path d="M8 21h8M12 17v4"/></svg>
+                  </div>
+                  <h3 className="mb-1.5 text-sm font-medium text-white">Pre-Requisite Session</h3>
+                  <p className="text-xs font-light leading-relaxed text-white/60">Ensure you're fully prepared before training. Join a free pre-requisite session to assess your knowledge and get ready for the course ahead.</p>
+                </div>
+                <div className="flex flex-col rounded-2xl p-5" style={{ background: 'linear-gradient(145deg,#062030,#083048)', border: '1px solid rgba(0,180,216,0.18)' }}>
+                  <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'rgba(0,180,216,0.15)' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00b4d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
+                  <h3 className="mb-1.5 text-sm font-medium text-white">Happiness Guarantee</h3>
+                  <p className="text-xs font-light leading-relaxed text-white/60">100% satisfaction guarantee on every course. Not satisfied? We make it right — no questions, no hassle.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          {/* Mobile dots */}
+          <div className="sm:hidden mt-5 flex justify-center gap-3">
+            {[0,1,2].map(p => (
+              <button key={p} onClick={() => setDiffMobilePage(p)} className="transition-all duration-300"
+                style={{ width: diffMobilePage === p ? '32px' : '10px', height: '10px', borderRadius: '999px', background: diffMobilePage === p ? '#0694d1' : 'rgba(255,255,255,0.25)', border: 'none', cursor: 'pointer' }}
+              />
+            ))}
+          </div>
+
+          {/* Bento grid — desktop only */}
+          <div className="hidden sm:flex flex-col gap-4">
 
             {/* 1-on-1 Training — full-width horizontal banner */}
             <div className="diff-banner io-fade delay-1 flex flex-col gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between" style={{ background: 'linear-gradient(135deg,#0a6ebd 0%,#0694d1 50%,#00b4d8 100%)' }}>
