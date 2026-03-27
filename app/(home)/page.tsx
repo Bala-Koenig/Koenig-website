@@ -2281,7 +2281,7 @@ export default function Design4Page() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
                   </span>
-                  <span className="text-xs sm:text-sm"><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-xs sm:text-sm font-bold" style={{ color: '#053148' }}>47 seats remaining</span></span>
+                  <span className="text-xs sm:text-sm"><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-xs sm:text-sm font-bold whitespace-nowrap" style={{ color: '#053148' }}>47 seats remaining</span></span>
                 </div>
               </div>
 
