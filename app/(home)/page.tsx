@@ -2796,19 +2796,31 @@ export default function Design4Page() {
             { end: 30,   suffix: 'K+', label: 'Monthly Students',          barColor: '#0694d1', icon: '/images/home-banner/icon-infographic-30000+.svg' },
             { end: 99,   suffix: '%',  label: 'On-Time Delivery',          barColor: '#076d9d', icon: '/images/home-banner/icon-infographic-99.svg' },
             { end: 300,  suffix: '+',  label: 'Certified Trainers',        barColor: '#0694d1', icon: '/images/home-banner/icon-infographic-300+.svg' },
-          ].map((s, statIdx, arr) => (
-            <div key={s.label} className="stat-item flex flex-col items-center text-center">
-              <div
-                className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl"
-                style={{ background: `linear-gradient(135deg, ${s.barColor}, #0694d1)` }}
-              >
-                <img src={s.icon} alt={s.label} className="h-5 w-5 object-contain" />
+          ].map((s, statIdx) => (
+            <>
+              {statIdx === 2 && (
+                <div key="divider-1" className="col-span-2 sm:hidden">
+                  <div style={{ height: '1px', background: 'rgba(6,148,209,0.25)' }} />
+                </div>
+              )}
+              {statIdx === 4 && (
+                <div key="divider-2" className="col-span-2 sm:hidden">
+                  <div style={{ height: '1px', background: 'rgba(6,148,209,0.25)' }} />
+                </div>
+              )}
+              <div key={s.label} className={`stat-item flex flex-col items-center text-center${statIdx === 4 ? ' col-span-2 sm:col-span-1' : ''}`}>
+                <div
+                  className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl"
+                  style={{ background: `linear-gradient(135deg, ${s.barColor}, #0694d1)` }}
+                >
+                  <img src={s.icon} alt={s.label} className="h-5 w-5 object-contain" />
+                </div>
+                <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-koenig-dark">
+                  <CountUp key={`${s.label}-${statsCount}`} end={s.end} suffix={s.suffix} duration={1800 + statIdx * 150} />
+                </div>
+                <div className={`io-fade mt-1 text-sm font-medium text-koenig-muted delay-${statIdx + 1}`}>{s.label}</div>
               </div>
-              <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-koenig-dark">
-                <CountUp key={`${s.label}-${statsCount}`} end={s.end} suffix={s.suffix} duration={1800 + statIdx * 150} />
-              </div>
-              <div className={`io-fade mt-1 text-sm font-medium text-koenig-muted delay-${statIdx + 1}`}>{s.label}</div>
-            </div>
+            </>
           ))}
         </div>
         </div>
