@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 
 /* ─── Constants ─────────────────────────────────────────────── */
-const NAV_H   = 56
+const NAV_H   = 0   // navbar is not sticky; sticky triggers when title hits viewport top
 const CARD_BG = '#0b1929'
 
 /* ─── Vendor Data ───────────────────────────────────────────── */
@@ -418,7 +418,7 @@ export default function VendorStack() {
         className="vs-section"
         style={{
           position: 'sticky',
-          top: NAV_H,   /* overridden by JS to align title at navbar+20px */
+          top: 20,   /* overridden by JS: title + 20px gap sits at viewport top */
           zIndex: 20,
           background: 'linear-gradient(135deg,#020d18 0%,#061e30 25%,#0a2e4a 50%,#061e30 75%,#020d18 100%)',
         }}
