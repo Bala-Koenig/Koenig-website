@@ -1620,6 +1620,18 @@ export default function Design4Page() {
             </div>
           </Link>
 
+          {/* Mobile All Courses button — visible only on mobile, sits next to logo */}
+          <button
+            onClick={() => { setMobileAllCoursesOpen(v => !v); setMobileOpen(false); }}
+            className="flex lg:hidden items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-sm font-semibold transition-all shrink-0"
+            style={{ color: mobileAllCoursesOpen ? '#38bdf8' : '#ffffff', background: mobileAllCoursesOpen ? 'rgba(6,148,209,0.22)' : 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.35)' }}
+            aria-label="All Courses"
+          >
+            <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <span className="whitespace-nowrap">All Courses</span>
+            <svg className={`h-3 w-3 transition-transform ${mobileAllCoursesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+          </button>
+
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-4 lg:flex">
             {/* Glassmorphism pill nav group — All Courses + nav links */}
@@ -1803,7 +1815,7 @@ export default function Design4Page() {
             </button>
             {/* Hamburger */}
             <button
-              onClick={() => setMobileOpen(v => !v)}
+              onClick={() => { setMobileOpen(v => !v); setMobileAllCoursesOpen(false); }}
               className="rounded-lg p-2 transition-colors hover:bg-white/10 lg:hidden"
               style={{ color: '#ffffff' }}
               aria-label="Toggle menu"
@@ -1862,6 +1874,48 @@ export default function Design4Page() {
           </div>
         )}
 
+        {/* Mobile All Courses panel — shown when All Courses nav button is tapped */}
+        {mobileAllCoursesOpen && (
+          <div className="-mx-4 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '70vh', overflowY: 'auto' }}>
+            <div className="px-4 py-3">
+              <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
+                {/* Vendor tabs */}
+                <div className="flex overflow-x-auto gap-1 p-2 border-b" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+                  {MEGA_MENU_VENDORS.map(v => (
+                    <button
+                      key={v.name}
+                      onClick={() => setMobileMegaVendor(v.name)}
+                      className="shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
+                      style={{
+                        background: mobileMegaVendor === v.name ? '#0694D1' : 'rgba(255,255,255,0.06)',
+                        color: mobileMegaVendor === v.name ? '#fff' : 'rgba(255,255,255,0.65)',
+                      }}
+                    >
+                      {v.img && <div className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded bg-white"><img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" /></div>}
+                      {v.name}
+                    </button>
+                  ))}
+                </div>
+                {/* Courses for selected vendor */}
+                <div className="p-3 space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(6,148,209,0.8)' }}>
+                    {MEGA_MENU_VENDORS.find(v => v.name === mobileMegaVendor)?.courses} courses available
+                  </p>
+                  {(MEGA_MENU_COURSES[mobileMegaVendor] ?? []).map((c, i) => (
+                    <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                      <span>{c.name}</span>
+                      <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{c.days}d</span>
+                    </a>
+                  ))}
+                  <a href="#" className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                    Browse All {mobileMegaVendor} Courses →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Mobile drawer */}
         {mobileOpen && (
           <div className="-mx-4 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '80vh', overflowY: 'auto' }}>
@@ -1871,54 +1925,6 @@ export default function Design4Page() {
               <div className="mb-2 flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
                 <span className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Individual</span>
                 <Link href="/enterprise" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal transition-all" style={{ color: 'rgba(255,255,255,0.55)' }}>Enterprise</Link>
-              </div>
-
-              {/* All Courses accordion */}
-              <div>
-                <button
-                  onClick={() => setMobileAllCoursesOpen(v => !v)}
-                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5"
-                  style={{ color: mobileAllCoursesOpen ? '#38bdf8' : '#ffffff' }}
-                >
-                  All Courses
-                  <svg className={`h-4 w-4 transition-transform ${mobileAllCoursesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                {mobileAllCoursesOpen && (
-                  <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
-                    {/* Vendor tabs */}
-                    <div className="flex overflow-x-auto gap-1 p-2 border-b" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-                      {MEGA_MENU_VENDORS.map(v => (
-                        <button
-                          key={v.name}
-                          onClick={() => setMobileMegaVendor(v.name)}
-                          className="shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
-                          style={{
-                            background: mobileMegaVendor === v.name ? '#0694D1' : 'rgba(255,255,255,0.06)',
-                            color: mobileMegaVendor === v.name ? '#fff' : 'rgba(255,255,255,0.65)',
-                          }}
-                        >
-                          {v.img && <div className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded bg-white"><img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" /></div>}
-                          {v.name}
-                        </button>
-                      ))}
-                    </div>
-                    {/* Courses for selected vendor */}
-                    <div className="p-3 space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(6,148,209,0.8)' }}>
-                        {MEGA_MENU_VENDORS.find(v => v.name === mobileMegaVendor)?.courses} courses available
-                      </p>
-                      {(MEGA_MENU_COURSES[mobileMegaVendor] ?? []).map((c, i) => (
-                        <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
-                          <span>{c.name}</span>
-                          <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{c.days}d</span>
-                        </a>
-                      ))}
-                      <a href="#" className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
-                        Browse All {mobileMegaVendor} Courses →
-                      </a>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Technologies accordion */}
