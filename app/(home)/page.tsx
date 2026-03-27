@@ -1580,9 +1580,9 @@ export default function Design4Page() {
         </div>
       </div>
 
-      {/* Main sticky navbar */}
+      {/* Main navbar */}
       <header
-        className={`sticky top-0 z-50 px-4 lg:px-[50px] transition-shadow duration-200 ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
+        className={`relative z-50 px-4 lg:px-[50px] ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
         style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
