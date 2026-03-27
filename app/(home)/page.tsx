@@ -3461,13 +3461,6 @@ export default function Design4Page() {
                 ))}
               </div>
             </div>
-            <div className="mt-5 flex justify-center gap-2">
-              {WEBINARS.map((_, p) => (
-                <button key={p} onClick={() => setWebinarMobilePage(p)} className="transition-all duration-300"
-                  style={{ width: webinarMobilePage === p ? '24px' : '8px', height: '8px', borderRadius: '999px', background: webinarMobilePage === p ? '#0694d1' : '#CAEFFF', border: 'none', cursor: 'pointer' }}
-                />
-              ))}
-            </div>
           </div>
 
           {/* Cards — 3 per page */}
