@@ -2661,9 +2661,6 @@ export default function EnterprisePage() {
       {/* Scroll progress bar */}
       <div className="fixed top-0 left-0 z-[200] h-[3px] transition-none" style={{ width: `${scrollProgress}%`, background: 'linear-gradient(90deg,#076D9D,#0694d1,#38bdf8)' }} />
 
-      {/* Sticky nav wrapper */}
-      <div className="sticky top-0 z-50">
-
       {/* Contact bar */}
       <div className="hidden md:block px-4 lg:px-[50px]" style={{ background: '#061624' }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 py-1.5 text-[14px] text-white/75">
@@ -2688,7 +2685,7 @@ export default function EnterprisePage() {
 
       {/* Main navbar */}
       <header
-        className={`relative px-4 lg:px-[50px] ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
+        className={`sticky top-0 z-50 px-4 lg:px-[50px] ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
         style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
@@ -3123,7 +3120,6 @@ export default function EnterprisePage() {
           </div>
         )}
       </header>
-      </div>{/* end sticky wrapper */}
 
       {/* ════════════════════════════════════════════════════════
            EXISTING SECTIONS (unchanged)
