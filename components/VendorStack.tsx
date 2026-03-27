@@ -2,8 +2,9 @@
 import { useEffect, useState } from 'react'
 
 /* ─── Constants ─────────────────────────────────────────────── */
-const NAV_H   = 56
-const CARD_BG = '#0b1929'
+const NAV_H          = 56
+const CARD_BG        = '#0b1929'
+const AUTO_SPACER_VH = 30  // vh of spacer per vendor card (keeps section sticky while auto-cycling)
 
 /* ─── Vendor Data ───────────────────────────────────────────── */
 const vendors = [
@@ -322,13 +323,16 @@ export default function VendorStack() {
   const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
-    const SHIFT  = 22
-    const SCALE  = 0.03
-    const FADE   = 0.12
-    const MAX_BG = 4
+    const SHIFT        = 22
+    const SCALE        = 0.03
+    const FADE         = 0.12
+    const MAX_BG       = 4
+    const AUTO_DELAY   = 3200  // ms per card
 
     const allCards = Array.from(document.querySelectorAll<HTMLElement>('[data-index]'))
-    const triggers = Array.from(document.querySelectorAll<HTMLElement>('.vs-trigger'))
+    let currentActive  = 0
+    let intervalId: ReturnType<typeof setInterval> | null = null
+    let userPaused     = false
 
     function applyCards(active: number) {
       allCards.forEach((el, i) => {
@@ -356,45 +360,58 @@ export default function VendorStack() {
       })
     }
 
-    let lastActive = -1
-    let cleanup: (() => void) | null = null
+    function startAutoScroll() {
+      if (intervalId || userPaused) return
+      intervalId = setInterval(() => {
+        currentActive = (currentActive + 1) % vendors.length
+        applyCards(currentActive)
+        setActiveTab(currentActive)
+      }, AUTO_DELAY)
+    }
 
-    // Defer one frame so layout is painted and getBoundingClientRect is accurate
-    const rafId = requestAnimationFrame(() => {
-      if (triggers.length === 0) return
+    function stopAutoScroll() {
+      if (intervalId) { clearInterval(intervalId); intervalId = null }
+    }
 
-      // Precompute each trigger's absolute position from page top (stable — doesn't change on scroll)
-      const triggerTops = triggers.map(t => t.getBoundingClientRect().top + window.scrollY)
-
-      // Bottom of sticky section = where triggers first become visible
-      const stickyEl = document.querySelector<HTMLElement>('.vs-section')
-      const stickyBottom = NAV_H + (stickyEl?.offsetHeight ?? 0)
-
-      const onScroll = () => {
-        // Detection line: just past the sticky panel so we react as trigger enters the visible strip
-        const viewLine = window.scrollY + stickyBottom + 40
-
-        let active = 0
-        for (let i = 0; i < triggerTops.length; i++) {
-          if (triggerTops[i] <= viewLine) active = i
-          else break
-        }
-
-        if (active !== lastActive) {
-          lastActive = active
-          applyCards(active)
-          setActiveTab(active)
-        }
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true })
-      cleanup = () => window.removeEventListener('scroll', onScroll)
-      onScroll() // set correct state immediately
+    // Allow manual tab clicks to pause auto-scroll temporarily (resume after 8s)
+    let resumeTimeout: ReturnType<typeof setTimeout> | null = null
+    const tabs = Array.from(document.querySelectorAll<HTMLElement>('[data-tab]'))
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        userPaused = true
+        stopAutoScroll()
+        if (resumeTimeout) clearTimeout(resumeTimeout)
+        resumeTimeout = setTimeout(() => { userPaused = false; startAutoScroll() }, 8000)
+      })
     })
 
+    // Start auto-scroll when section title reaches the navbar (sentinel scrolls above viewport)
+    const sentinel = document.querySelector<HTMLElement>('.vs-sentinel')
+    let observer: IntersectionObserver | null = null
+    if (sentinel) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+            // Sentinel above viewport → section is now sticky at navbar
+            startAutoScroll()
+          } else {
+            // Sentinel back in view → section left sticky state
+            stopAutoScroll()
+            // Reset to first card when section leaves
+            currentActive = 0
+            applyCards(0)
+            setActiveTab(0)
+          }
+        },
+        { threshold: 0, rootMargin: `-${NAV_H}px 0px 0px 0px` }
+      )
+      observer.observe(sentinel)
+    }
+
     return () => {
-      cancelAnimationFrame(rafId)
-      cleanup?.()
+      stopAutoScroll()
+      if (resumeTimeout) clearTimeout(resumeTimeout)
+      observer?.disconnect()
     }
   }, [])
 
@@ -405,6 +422,9 @@ export default function VendorStack() {
 
   return (
     <div style={{ position: 'relative', background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+
+      {/* Sentinel — 1px element; when it scrolls above the navbar the section is sticky */}
+      <div className="vs-sentinel" style={{ height: 1, pointerEvents: 'none' }} />
 
       {/* ── Sticky section ── */}
       <section
@@ -590,12 +610,6 @@ export default function VendorStack() {
         <style>{`
 
           /* ── Responsive layout ── */
-
-          /* ── Disable sticky + triggers on all non-desktop screens ── */
-          @media (max-width: 1023px) {
-            .vs-section { position: relative !important; top: auto !important; }
-            .vs-trigger { height: 0 !important; display: none !important; }
-          }
 
           /* XXS — tiny phones: < 360px (iPhone SE 1st gen 320px, Galaxy A01) */
           @media (max-width: 359px) {
@@ -792,15 +806,8 @@ export default function VendorStack() {
         `}</style>
       </section>
 
-      {/* ── Scroll triggers ── */}
-      {vendors.map((_, i) => (
-        <div
-          key={i}
-          data-n={i}
-          className="vs-trigger"
-          style={{ height: '60vh' }}
-        />
-      ))}
+      {/* ── Spacer — keeps section sticky while auto-scroll cycles through all vendors ── */}
+      <div style={{ height: `${vendors.length * AUTO_SPACER_VH}vh` }} />
 
     </div>
   )
