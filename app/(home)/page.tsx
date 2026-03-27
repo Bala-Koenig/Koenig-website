@@ -2466,141 +2466,6 @@ export default function Design4Page() {
         </div>
       </div>
 
-      {/* ── Course Explorer ───────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px]" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', paddingTop: '50px', paddingBottom: '50px' }}>
-        {/* Glow orbs */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -left-20 h-[350px] w-[350px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(70px)' }} />
-          <div className="absolute top-1/2 right-0 h-[280px] w-[280px] -translate-y-1/2 rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#38bdf8,transparent 70%)', filter: 'blur(60px)' }} />
-          <div className="absolute bottom-0 left-1/3 h-[240px] w-[240px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#076d9d,transparent 70%)', filter: 'blur(55px)' }} />
-        </div>
-        <div className="relative mx-auto max-w-7xl">
-          <div className="io-fade text-center" style={{ marginBottom: "35px" }}>
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-white" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.30)' }}>
-              5,000+ Courses
-            </span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Explore Our <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Course Catalogue</span></h2>
-            <p className="mx-auto max-w-2xl text-sm sm:text-base text-white/60">
-              Find your certification across cloud, security, networking, project management, and more.
-            </p>
-          </div>
-
-          {/* Tab switcher */}
-          <div className="io-fade delay-1 mb-8 flex flex-nowrap overflow-x-auto justify-center gap-1 rounded-2xl p-1.5 [&::-webkit-scrollbar]:hidden sm:mx-auto sm:w-max" style={{ background: 'rgba(8,24,42,0.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.20)' }}>
-            {COURSE_TABS.map(t => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-200 ${
-                  tab === t
-                    ? 'text-white shadow-md'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
-                }`}
-                style={tab === t ? { background: 'linear-gradient(135deg, #0694d1, #076d9d)', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' } : {}}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-
-          {/* Course cards */}
-          {tab === 'Top Courses' && (
-            <div key="top" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {TOP_COURSES.slice(0, 6).map((c, i) => <CourseCard key={i} c={c} />)}
-            </div>
-          )}
-          {tab === 'Top Technologies' && (
-            <div key="tech" className="tab-enter grid grid-cols-2 gap-4 md:grid-cols-4">
-              {TOP_TECHNOLOGIES.map((t, i) => (
-                <div
-                  key={i} role="button" tabIndex={0}
-                  className="group cursor-pointer rounded-xl p-5 transition-all duration-300 hover:-translate-y-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue"
-                  style={{ background: 'rgba(8,24,42,0.60)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.20)', boxShadow: '0 4px 16px rgba(0,0,0,0.30)' }}
-                >
-                  {/* Title row */}
-                  <div className="mb-1 flex items-start justify-between gap-2">
-                    <h3 className="text-sm font-bold text-white transition-colors group-hover:text-[#3AB6EB] leading-snug">{t.name}</h3>
-                    <span className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-koenig-blue/40 text-[#3AB6EB] transition-all group-hover:bg-koenig-blue group-hover:text-white group-hover:border-koenig-blue">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-                    </span>
-                  </div>
-                  {/* Count */}
-                  <p className="mb-4 text-sm font-medium text-[#3AB6EB]">{t.count} Courses</p>
-                  {/* Divider */}
-                  <div className="mb-3 h-px" style={{ background: 'rgba(6,148,209,0.18)' }} />
-                  {/* Partners */}
-                  <p className="mb-2 text-sm font-normal text-white/40">Top Partners</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {t.partners.map(p => (
-                      <span key={p} className={`rounded-full px-2.5 py-1 text-sm font-semibold ${VENDOR_BADGE_COLORS[p] ?? 'bg-[#0694d1]/20 text-[#3AB6EB]'}`}>{p}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          {tab === 'New & Trending' && (
-            <div key="trending" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {NEW_TRENDING.slice(0, 6).map((c, i) => <CourseCard key={i} c={c} />)}
-            </div>
-          )}
-
-          <div className="io-fade mt-12 flex flex-col items-center gap-3">
-            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
-              Browse All 5,000+ Courses
-              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </button>
-            <p className="text-sm text-white/50">Across 50+ global vendors · All skill levels</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Vendor Partners ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
-        <div className="pointer-events-none absolute -left-40 -top-32 h-[420px] w-[420px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -bottom-20 right-0 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
-        {/* Add reverse-marquee keyframe */}
-        <style>{`
-          @keyframes marqueeRev { from{transform:translateX(-50%)} to{transform:translateX(0)} }
-          .marquee-rev { animation: marqueeRev 80s linear infinite; }
-          .marquee-rev:hover { animation-play-state: paused; }
-        `}</style>
-
-        <div className="mx-auto max-w-7xl">
-          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
-            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">
-              Official Partnerships
-            </span>
-            <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Authorized by <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">50+ Global Vendors</span></h2>
-            <p className="text-sm sm:text-base text-koenig-muted">Official courseware. Certified instructors. Vendor-recognized credentials.</p>
-          </div>
-        </div>
-
-        {/* Row 1 — scrolls left */}
-        <div
-          className="relative mb-4 overflow-x-hidden py-3"
-          style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
-        >
-          <div className="marquee-track flex gap-4 px-2" style={{ width: 'max-content' }}>
-            {[...VENDORS_ROW1, ...VENDORS_ROW1].map((v, i) => (
-              <VendorCard key={i} v={v} />
-            ))}
-          </div>
-        </div>
-
-        {/* Row 2 — scrolls right (reverse) */}
-        <div
-          className="relative overflow-x-hidden pt-3 pb-0"
-          style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
-        >
-          <div className="marquee-rev flex gap-4 px-2" style={{ width: 'max-content' }}>
-            {[...VENDORS_ROW2, ...VENDORS_ROW2].map((v, i) => (
-              <VendorCard key={i} v={v} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Learning Formats ─────────────────────────────────── */}
       <section className="relative overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
         {/* Glow orbs */}
@@ -2860,6 +2725,52 @@ export default function Design4Page() {
 
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* ── Vendor Partners ──────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
+        <div className="pointer-events-none absolute -left-40 -top-32 h-[420px] w-[420px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -bottom-20 right-0 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
+        {/* Add reverse-marquee keyframe */}
+        <style>{`
+          @keyframes marqueeRev { from{transform:translateX(-50%)} to{transform:translateX(0)} }
+          .marquee-rev { animation: marqueeRev 80s linear infinite; }
+          .marquee-rev:hover { animation-play-state: paused; }
+        `}</style>
+
+        <div className="mx-auto max-w-7xl">
+          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">
+              Official Partnerships
+            </span>
+            <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Authorized by <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">50+ Global Vendors</span></h2>
+            <p className="text-sm sm:text-base text-koenig-muted">Official courseware. Certified instructors. Vendor-recognized credentials.</p>
+          </div>
+        </div>
+
+        {/* Row 1 — scrolls left */}
+        <div
+          className="relative mb-4 overflow-x-hidden py-3"
+          style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+        >
+          <div className="marquee-track flex gap-4 px-2" style={{ width: 'max-content' }}>
+            {[...VENDORS_ROW1, ...VENDORS_ROW1].map((v, i) => (
+              <VendorCard key={i} v={v} />
+            ))}
+          </div>
+        </div>
+
+        {/* Row 2 — scrolls right (reverse) */}
+        <div
+          className="relative overflow-x-hidden pt-3 pb-0"
+          style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+        >
+          <div className="marquee-rev flex gap-4 px-2" style={{ width: 'max-content' }}>
+            {[...VENDORS_ROW2, ...VENDORS_ROW2].map((v, i) => (
+              <VendorCard key={i} v={v} />
+            ))}
           </div>
         </div>
       </section>
