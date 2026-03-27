@@ -323,16 +323,18 @@ export default function VendorStack() {
   const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
-    const SHIFT        = 22
-    const SCALE        = 0.03
-    const FADE         = 0.12
-    const MAX_BG       = 4
-    const AUTO_DELAY   = 3200  // ms per card
+    const SHIFT      = 22
+    const SCALE      = 0.03
+    const FADE       = 0.12
+    const MAX_BG     = 4
+    const AUTO_DELAY = 3200  // ms per card
+    const TITLE_GAP  = 20   // px gap between navbar bottom and section title when sticky
 
     const allCards = Array.from(document.querySelectorAll<HTMLElement>('[data-index]'))
-    let currentActive  = 0
+    let currentActive = 0
     let intervalId: ReturnType<typeof setInterval> | null = null
-    let userPaused     = false
+    let userPaused    = false
+    let wasSticky     = false
 
     function applyCards(active: number) {
       allCards.forEach((el, i) => {
@@ -373,7 +375,7 @@ export default function VendorStack() {
       if (intervalId) { clearInterval(intervalId); intervalId = null }
     }
 
-    // Allow manual tab clicks to pause auto-scroll temporarily (resume after 8s)
+    // Manual tab clicks pause auto-scroll for 8 s then resume
     let resumeTimeout: ReturnType<typeof setTimeout> | null = null
     const tabs = Array.from(document.querySelectorAll<HTMLElement>('[data-tab]'))
     tabs.forEach(btn => {
@@ -385,53 +387,77 @@ export default function VendorStack() {
       })
     })
 
-    // Start auto-scroll when section title reaches the navbar (sentinel scrolls above viewport)
-    const sentinel = document.querySelector<HTMLElement>('.vs-sentinel')
-    let observer: IntersectionObserver | null = null
-    if (sentinel) {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-            // Sentinel above viewport → section is now sticky at navbar
-            startAutoScroll()
-          } else {
-            // Sentinel back in view → section left sticky state
-            stopAutoScroll()
-            // Reset to first card when section leaves
+    let scrollCleanup: (() => void) | null = null
+
+    // Defer one frame so layout is fully painted before measuring
+    const rafId = requestAnimationFrame(() => {
+      const stickyEl    = document.querySelector<HTMLElement>('.vs-section')
+      const wrapperEl   = document.querySelector<HTMLElement>('.vs-wrapper')
+      const titleAnchor = document.querySelector<HTMLElement>('.vs-title-anchor')
+      if (!stickyEl || !wrapperEl || !titleAnchor) return
+
+      // Measure how far the title sits below the section's top edge
+      const sectionRect          = stickyEl.getBoundingClientRect()
+      const titleRect            = titleAnchor.getBoundingClientRect()
+      const titleOffsetInSection = titleRect.top - sectionRect.top
+
+      // When sticky: sectionViewportTop + titleOffsetInSection = NAV_H + TITLE_GAP
+      // → stickyTop = NAV_H + TITLE_GAP - titleOffsetInSection  (may be negative — that's fine)
+      const stickyTop = NAV_H + TITLE_GAP - titleOffsetInSection
+      stickyEl.style.top = `${stickyTop}px`
+
+      // Absolute scrollY at which the title first reaches NAV_H + TITLE_GAP
+      const wrapperAbsTop = wrapperEl.getBoundingClientRect().top + window.scrollY
+      const stickyStartY  = wrapperAbsTop - stickyTop
+      const spacerHeight  = vendors.length * AUTO_SPACER_VH * window.innerHeight / 100
+      const stickyEndY    = stickyStartY + spacerHeight
+
+      const onScroll = () => {
+        const y        = window.scrollY
+        const isSticky = y >= stickyStartY && y < stickyEndY
+
+        if (isSticky && !wasSticky) {
+          wasSticky = true
+          startAutoScroll()
+        } else if (!isSticky && wasSticky) {
+          wasSticky = false
+          stopAutoScroll()
+          if (y < stickyStartY) {
+            // Scrolled back above section — reset to first card
             currentActive = 0
             applyCards(0)
             setActiveTab(0)
           }
-        },
-        { threshold: 0, rootMargin: `-${NAV_H}px 0px 0px 0px` }
-      )
-      observer.observe(sentinel)
-    }
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true })
+      onScroll()
+      scrollCleanup = () => window.removeEventListener('scroll', onScroll)
+    })
 
     return () => {
+      cancelAnimationFrame(rafId)
       stopAutoScroll()
       if (resumeTimeout) clearTimeout(resumeTimeout)
-      observer?.disconnect()
+      scrollCleanup?.()
     }
   }, [])
 
   const scrollToTrigger = (i: number) => {
-    document.querySelector(`.vs-trigger[data-n="${i}"]`)
-      ?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    // No scroll triggers — tab clicks are handled via the manual-pause logic in useEffect
+    void i
   }
 
   return (
-    <div style={{ position: 'relative', background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
-
-      {/* Sentinel — 1px element; when it scrolls above the navbar the section is sticky */}
-      <div className="vs-sentinel" style={{ height: 1, pointerEvents: 'none' }} />
+    <div className="vs-wrapper" style={{ position: 'relative', background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
 
       {/* ── Sticky section ── */}
       <section
         className="vs-section"
         style={{
           position: 'sticky',
-          top: NAV_H,
+          top: NAV_H,   /* overridden by JS to align title at navbar+20px */
           zIndex: 20,
           background: 'linear-gradient(135deg,#020d18 0%,#061e30 25%,#0a2e4a 50%,#061e30 75%,#020d18 100%)',
         }}
@@ -454,6 +480,8 @@ export default function VendorStack() {
           >
             Top Vendor Partners
           </span>
+          {/* Anchor measured by JS to compute sticky top so title aligns at navbar+20px */}
+          <div className="vs-title-anchor" style={{ height: 0, pointerEvents: 'none' }} />
           <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white" style={{ marginTop: 0 }}>
             Train with{' '}
             <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">
