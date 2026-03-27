@@ -2865,7 +2865,7 @@ export default function Design4Page() {
       </div>
 
       {/* ── Learning Formats ─────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] pt-8 pb-10 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 left-1/4 h-[380px] w-[380px] rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
@@ -2878,11 +2878,11 @@ export default function Design4Page() {
           <div className="lf-ring d3" style={{ top: '50%', left: '50%', width: '420px', height: '420px' }} />
         </div>
         <div className="relative mx-auto max-w-7xl">
-          <div className="io-fade text-center" style={{ marginBottom: "35px" }}>
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.18)' }}>
+          <div className="io-fade text-center mb-5 sm:mb-[35px]">
+            <span className="mb-2 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.18)' }}>
               Learning Formats
             </span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Learning That <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Fits Your Life</span></h2>
+            <h2 className="mb-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Learning That <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Fits Your Life</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.55)' }}>
               Four formats. One quality standard. Every option comes with the same expert instructors, official courseware, and money-back guarantee.
             </p>
