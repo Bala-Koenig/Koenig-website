@@ -382,10 +382,11 @@ export default function VendorStack() {
       const nextSection      = wrapperEl.nextElementSibling as HTMLElement | null
       const vendorBottomInVP = stickyTop + stickyEl.offsetHeight  // px from viewport top
       if (nextSection) {
-        nextSection.style.marginTop = `-${totalTriggerH}px`
-        nextSection.style.position  = 'sticky'
-        nextSection.style.top       = `${vendorBottomInVP}px`
-        nextSection.style.zIndex    = '1'
+        nextSection.style.marginTop    = `-${totalTriggerH}px`
+        nextSection.style.marginBottom = `${totalTriggerH}px`  // compensate so footer stays in place
+        nextSection.style.position     = 'sticky'
+        nextSection.style.top          = `${vendorBottomInVP}px`
+        nextSection.style.zIndex       = '1'
       }
 
       // Precompute each trigger's absolute position (stable after layout)
