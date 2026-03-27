@@ -4358,7 +4358,7 @@ export default function Design4Page() {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Back to top"
           className="fixed z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white text-koenig-dark shadow-xl transition-all duration-200 hover:bg-koenig-blue hover:text-white"
-          style={{ bottom: '2rem', right: '5.5rem', border: '1px solid #dedede' }}
+          style={{ bottom: 'calc(1rem + 56px + 10px)', right: '1rem', border: '1px solid #dedede' }}
         >
           ↑
         </button>
