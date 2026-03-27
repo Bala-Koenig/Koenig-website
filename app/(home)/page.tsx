@@ -899,7 +899,7 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
             {isLive ? 'Live Online' : 'Classroom'}
           </span>
         </div>
-        <span className={`${urgent ? 'animate-pulse' : ''} rounded-full px-2 py-0.5 text-sm font-medium ${s.seatColor}`}>
+        <span className={`${urgent ? 'animate-pulse' : ''} rounded-full px-2 py-0.5 text-sm font-medium whitespace-nowrap ${s.seatColor}`}>
           {s.seats} seats left
         </span>
       </div>
