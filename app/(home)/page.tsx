@@ -1913,6 +1913,9 @@ export default function Design4Page() {
                           <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{c.days}d</span>
                         </a>
                       ))}
+                      <a href="#" className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                        Browse All {mobileMegaVendor} Courses →
+                      </a>
                     </div>
                   </div>
                 )}
@@ -2022,32 +2025,34 @@ export default function Design4Page() {
             <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
               <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
               {MEGA_MENU_VENDORS.map(v => (
-                <button
-                  key={v.name}
-                  onMouseEnter={() => setMegaMenuVendor(v.name)}
-                  onClick={() => setMegaMenuVendor(v.name)}
-                  className="flex items-center gap-3 px-4 py-2.5 text-left transition-all"
-                  style={{
-                    background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.12)' : 'transparent',
-                    borderLeft: megaMenuVendor === v.name ? '2px solid #0694D1' : '2px solid transparent',
-                    color: megaMenuVendor === v.name ? '#ffffff' : 'rgba(255,255,255,0.65)',
-                  }}
-                >
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white p-0.5">
-                    {v.img ? (
-                      <img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" />
-                    ) : (
-                      <span className="text-sm font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
-                    )}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-medium leading-tight">{v.name}</div>
-                    <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses} Courses</div>
-                  </div>
-                  {megaMenuVendor === v.name && (
-                    <svg className="ml-auto h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
-                  )}
-                </button>
+                <div key={v.name} className="group/vendor relative flex items-center" style={{ borderLeft: megaMenuVendor === v.name ? '2px solid #0694D1' : '2px solid transparent', background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.12)' : 'transparent' }}>
+                  <button
+                    onMouseEnter={() => setMegaMenuVendor(v.name)}
+                    onClick={() => setMegaMenuVendor(v.name)}
+                    className="flex flex-1 items-center gap-3 px-4 py-2.5 text-left transition-all"
+                    style={{ color: megaMenuVendor === v.name ? '#ffffff' : 'rgba(255,255,255,0.65)' }}
+                  >
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white p-0.5">
+                      {v.img ? (
+                        <img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" />
+                      ) : (
+                        <span className="text-sm font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="truncate text-sm font-medium leading-tight">{v.name}</div>
+                      <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses} Courses</div>
+                    </div>
+                  </button>
+                  <a
+                    href="#"
+                    title={`View all ${v.name} courses`}
+                    className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-md opacity-0 transition-all group-hover/vendor:opacity-100 hover:!opacity-100"
+                    style={{ color: '#38bdf8', background: 'rgba(6,148,209,0.18)' }}
+                  >
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  </a>
+                </div>
               ))}
             </div>
 
@@ -2061,8 +2066,8 @@ export default function Design4Page() {
                     {MEGA_MENU_VENDORS.find(v => v.name === megaMenuVendor)?.courses} courses available
                   </p>
                 </div>
-                <a href="#" className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
-                  View all {megaMenuVendor} courses
+                <a href="#" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                  View All {megaMenuVendor} Courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
               </div>
@@ -2093,8 +2098,11 @@ export default function Design4Page() {
                 ))}
               </div>
               {/* Footer CTA */}
-              <div className="mt-5 flex items-center justify-between border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {megaMenuVendor}</span>
+              <div className="mt-5 flex items-center justify-between gap-3 border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+                <a href="#" className="flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7"/></svg>
+                  Browse All Vendors
+                </a>
                 <a href="#" className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
                   Browse All {megaMenuVendor} Courses →
                 </a>
