@@ -3727,7 +3727,7 @@ export default function Design4Page() {
 
           {/* Stats bar */}
           <div className="io-fade mx-auto mb-10 max-w-3xl rounded-2xl bg-white px-6 py-5 shadow-md sm:px-10">
-            <div className="flex flex-wrap items-center justify-center divide-x divide-[#CAEFFF]">
+            <div className="grid grid-cols-2 gap-px bg-[#CAEFFF] sm:flex sm:flex-wrap sm:gap-0 sm:bg-transparent sm:divide-x sm:divide-[#CAEFFF] sm:items-center sm:justify-center">
               {[
                 {
                   icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
@@ -3746,7 +3746,7 @@ export default function Design4Page() {
                   val: '1M+',      label: 'Professionals Trained',
                 },
               ].map(s => (
-                <div key={s.label} className="px-8 py-1 text-center first:pl-0 last:pr-0">
+                <div key={s.label} className="bg-white px-4 py-4 text-center sm:px-8 sm:py-1 sm:first:pl-0 sm:last:pr-0">
                   <div className="mb-1.5 flex items-center justify-center">{s.icon}</div>
                   <div className="text-lg sm:text-xl md:text-2xl font-bold text-[#093148]">{s.val}</div>
                   <div className="mt-1 text-sm text-[#666]">{s.label}</div>
