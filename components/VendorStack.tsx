@@ -798,9 +798,21 @@ export default function VendorStack() {
         `}</style>
       </section>
 
-      {/* ── Scroll triggers — one per vendor, user scrolls through these to switch cards ── */}
+      {/* ── Scroll triggers — absolutely positioned so they don't push content down ── */}
       {vendors.map((_, i) => (
-        <div key={i} data-n={i} className="vs-trigger" style={{ height: 'clamp(250px, 40vh, 420px)' }} />
+        <div
+          key={i}
+          data-n={i}
+          className="vs-trigger"
+          style={{
+            position: 'absolute',
+            left: 0, right: 0,
+            top: `calc(${i} * clamp(250px, 40vh, 420px))`,
+            height: 'clamp(250px, 40vh, 420px)',
+            pointerEvents: 'none',
+            zIndex: -1,
+          }}
+        />
       ))}
 
     </div>
