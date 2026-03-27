@@ -2297,7 +2297,7 @@ export default function Design4Page() {
       </header>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative flex items-center px-4 lg:px-[50px] py-[25px]" style={{ background: '#06111E' }}>
+      <section className="relative flex items-center px-4 lg:px-[50px] py-5 sm:py-[25px]" style={{ background: '#06111E' }}>
         {/* Hero keyframes */}
         <style>{`
           @keyframes heroFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
@@ -2780,7 +2780,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Trusted by Global Companies ───────────────────────── */}
-      <section className="bg-white overflow-hidden px-4 lg:px-[50px]" style={{ paddingTop: '48px', paddingBottom: '40px' }}>
+      <section className="bg-white overflow-hidden px-4 lg:px-[50px] py-5 sm:pt-[48px] sm:pb-[40px]">
         <style>{`
           @keyframes trustedScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
           .trusted-track { display: flex; width: max-content; animation: trustedScroll 38s linear infinite; }
@@ -2892,7 +2892,7 @@ export default function Design4Page() {
       </div>
 
       {/* ── Learning Formats ─────────────────────────────────── */}
-      <section className="relative px-4 lg:px-[50px] pt-14 pb-10 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+      <section className="relative px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 left-1/4 h-[380px] w-[380px] rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
@@ -3098,7 +3098,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Differentiators ──────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: '#061e30' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: '#061e30' }}>
         {/* BG effects */}
         <div className="pointer-events-none absolute inset-0">
           <div className="diff-orb1 absolute top-0 left-1/3 h-[500px] w-[500px] -translate-x-1/2 rounded-full opacity-10" style={{ background: 'radial-gradient(circle,#0694d1,transparent 65%)', filter: 'blur(80px)' }} />
@@ -3350,7 +3350,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Course Explorer ───────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px]" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)', paddingTop: '50px', paddingBottom: '50px' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[50px]" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 -left-20 h-[350px] w-[350px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(70px)' }} />
@@ -3439,7 +3439,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Live Expert Webinars ─────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
