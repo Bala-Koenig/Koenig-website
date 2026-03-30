@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import VendorStack from '@/components/VendorStack'
@@ -1470,6 +1471,13 @@ export default function Design4Page() {
   const [learningMenuOpen, setLearningMenuOpen] = useState(false)
   const learningMenuRef = useRef<HTMLDivElement>(null)
 
+  const router = useRouter()
+
+  function goSearch(q: string) {
+    if (q.trim()) router.push(`/search?q=${encodeURIComponent(q.trim())}`)
+    else router.push('/search')
+  }
+
   // ── Popup modals ──
   const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
   const [advisorForm, setAdvisorForm] = useState({ name: '', email: '', phone: '', interest: '' })
@@ -2046,6 +2054,7 @@ export default function Design4Page() {
                   value={navQuery}
                   onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true) }}
                   onFocus={() => setNavResultsOpen(true)}
+                  onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); goSearch(navQuery) } }}
                   placeholder="Search courses…"
                   aria-label="Search courses"
                   className="w-36 bg-transparent text-sm text-white placeholder-white/40 outline-none"
@@ -2069,7 +2078,7 @@ export default function Design4Page() {
                       c.vendor.toLowerCase().includes(navQuery.toLowerCase())
                     ).slice(0, 6)
                     return results.length > 0 ? results.map((c, i) => (
-                      <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
+                      <div key={i} onClick={() => goSearch(c.name)} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
                         <div className="min-w-0 flex-1">
                           <div className="mb-0.5 flex items-center gap-1">
                             {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-600">New</span>}
@@ -2086,6 +2095,9 @@ export default function Design4Page() {
                       </div>
                     )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for "{navQuery}"</div>
                   })()}
+                  <div onClick={() => goSearch(navQuery)} className="flex cursor-pointer items-center justify-center gap-1 border-t border-gray-100 px-4 py-2.5 text-xs font-semibold text-[#0694d1] hover:bg-gray-50">
+                    View all results →
+                  </div>
                 </div>
               )}
             </div>
@@ -2125,6 +2137,7 @@ export default function Design4Page() {
                 value={navQuery}
                 onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true); }}
                 onFocus={() => setNavResultsOpen(true)}
+                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); goSearch(navQuery) } }}
                 placeholder="Search 5,000+ courses…"
                 aria-label="Search courses"
                 className="flex-1 bg-transparent text-sm text-white placeholder-white/50 outline-none"
@@ -2619,6 +2632,7 @@ export default function Design4Page() {
                     value={heroQuery}
                     onChange={e => { setHeroQuery(e.target.value); setHeroResultsOpen(true) }}
                     onFocus={() => setHeroResultsOpen(true)}
+                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); goSearch(heroQuery) } }}
                     placeholder="Search 5,000+ courses — e.g. Azure, CISSP, AWS DevOps..."
                     aria-label="Search courses"
                     className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder-white/40 outline-none"
@@ -2633,7 +2647,7 @@ export default function Design4Page() {
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                   )}
-                  <button className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
+                  <button onClick={() => goSearch(heroQuery)} className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
                     Search
                   </button>
                 </div>
@@ -2644,23 +2658,30 @@ export default function Design4Page() {
                         c.name.toLowerCase().includes(heroQuery.toLowerCase()) ||
                         c.vendor.toLowerCase().includes(heroQuery.toLowerCase())
                       ).slice(0, 6)
-                      return results.length > 0 ? results.map((c, i) => (
-                        <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-white/5 px-4 py-3 transition-colors hover:bg-white/5 last:border-0">
-                          <div className="min-w-0 flex-1">
-                            <div className="mb-0.5 flex items-center gap-1">
-                              {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300">New</span>}
-                              {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-amber-500/20 text-amber-300">Popular</span>}
+                      return results.length > 0 ? (
+                        <>
+                          {results.map((c, i) => (
+                            <div key={i} onClick={() => goSearch(c.name)} className="flex cursor-pointer items-center gap-3 border-b border-white/5 px-4 py-3 transition-colors hover:bg-white/5 last:border-0">
+                              <div className="min-w-0 flex-1">
+                                <div className="mb-0.5 flex items-center gap-1">
+                                  {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300">New</span>}
+                                  {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-amber-500/20 text-amber-300">Popular</span>}
+                                </div>
+                                <p className="truncate text-sm font-medium text-white">{c.name}</p>
+                                <p className="mt-0.5 text-xs text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
+                              </div>
+                              <div className="flex shrink-0 items-center gap-1">
+                                {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-500/20 text-cyan-300">Fundamentals</span>}
+                                {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-500/20 text-indigo-300">Associate</span>}
+                                {((c as { category?: string }).category === 'EXPERT' || (c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE')) && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>}
+                              </div>
                             </div>
-                            <p className="truncate text-sm font-medium text-white">{c.name}</p>
-                            <p className="mt-0.5 text-xs text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
+                          ))}
+                          <div onClick={() => goSearch(heroQuery)} className="flex cursor-pointer items-center justify-center gap-2 px-4 py-3 text-xs font-semibold text-[#4dbfef] hover:bg-white/5">
+                            View all results for &ldquo;{heroQuery}&rdquo; →
                           </div>
-                          <div className="flex shrink-0 items-center gap-1">
-                            {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-500/20 text-cyan-300">Fundamentals</span>}
-                            {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-500/20 text-indigo-300">Associate</span>}
-                            {((c as { category?: string }).category === 'EXPERT' || (c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE')) && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>}
-                          </div>
-                        </div>
-                      )) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
+                        </>
+                      ) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
                     })()}
                   </div>
                 )}
@@ -2672,6 +2693,7 @@ export default function Design4Page() {
                 {['Azure Administrator', 'AWS Solutions Architect', 'CISSP', 'PMP', 'CCNA', 'Kubernetes', 'CompTIA Security+'].map(t => (
                   <span
                     key={t}
+                    onClick={() => goSearch(t)}
                     className="cursor-pointer rounded-full border border-white/25 bg-white/10 px-3 py-1 text-sm font-medium text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/50 hover:bg-white/20 hover:text-white"
                   >
                     {t}
