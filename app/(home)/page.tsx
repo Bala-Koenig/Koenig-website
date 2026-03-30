@@ -1916,7 +1916,7 @@ export default function Design4Page() {
 
         {/* Mobile search overlay bar */}
         {mobileSearchOpen && (
-          <div className="relative lg:hidden px-3 pb-3" style={{ background: 'rgba(6,17,30,0.98)' }}>
+          <div className="-mx-5 relative lg:hidden px-5 pb-3" style={{ background: 'rgba(6,17,30,0.98)' }}>
             <div className="flex items-center gap-2 rounded-xl border px-3 py-2" style={{ background: 'rgba(6,148,209,0.10)', borderColor: 'rgba(6,148,209,0.4)' }}>
               <svg className="h-4 w-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
               <input
@@ -1939,7 +1939,7 @@ export default function Design4Page() {
               </button>
             </div>
             {navResultsOpen && navQuery.trim().length > 0 && (
-              <div className="absolute left-3 right-3 top-full z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+              <div className="absolute left-5 right-5 top-full z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
                 {(() => {
                   const results = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
                     c.name.toLowerCase().includes(navQuery.toLowerCase()) ||
@@ -1961,7 +1961,7 @@ export default function Design4Page() {
 
         {/* Mobile All Courses panel — shown when All Courses nav button is tapped */}
         {mobileAllCoursesOpen && (
-          <div className="-mx-4 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '70vh', overflowY: 'auto' }}>
+          <div className="-mx-5 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '70vh', overflowY: 'auto' }}>
             <div className="px-4 py-3">
               <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
                 {/* Vendor tabs */}
@@ -2003,7 +2003,7 @@ export default function Design4Page() {
 
         {/* Mobile drawer */}
         {mobileOpen && (
-          <div className="-mx-4 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '80vh', overflowY: 'auto' }}>
+          <div className="-mx-5 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '80vh', overflowY: 'auto' }}>
             <div className="px-4 py-3 space-y-1">
 
               {/* Individual / Enterprise toggle */}
