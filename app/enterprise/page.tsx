@@ -2357,12 +2357,15 @@ function IndustryMobileCarousel() {
   const touchStartX = useRef(0)
   const CARDS_PER_PAGE = 2
   const totalPages = Math.ceil(INDUSTRIES.length / CARDS_PER_PAGE)
-  const pageItems = INDUSTRIES.slice(page * CARDS_PER_PAGE, (page + 1) * CARDS_PER_PAGE)
+  const pages: number[][] = Array.from({ length: totalPages }, (_, p) =>
+    INDUSTRIES.slice(p * CARDS_PER_PAGE, (p + 1) * CARDS_PER_PAGE).map((_, i) => p * CARDS_PER_PAGE + i)
+  )
 
   return (
     <div className="sm:hidden">
+      {/* Sliding track */}
       <div
-        className="grid grid-cols-2 gap-3"
+        className="overflow-hidden"
         onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
         onTouchEnd={e => {
           const dx = e.changedTouches[0].clientX - touchStartX.current
@@ -2370,55 +2373,62 @@ function IndustryMobileCarousel() {
           if (dx > 40 && page > 0) setPage(p => p - 1)
         }}
       >
-        {pageItems.map((ind, i) => {
-          const globalI = page * CARDS_PER_PAGE + i
-          return (
-            <div
-              key={globalI}
-              className="ind-card"
-              ref={el => {
-                if (!el) return
-                const obs = new IntersectionObserver(([entry]) => {
-                  if (entry.isIntersecting) { el.classList.add('ind-visible'); obs.disconnect() }
-                }, { threshold: 0.05 })
-                obs.observe(el)
-              }}
-            >
-              <div className="ind-accent" />
-              <div className="ind-icon-box mb-3" style={{ width: 40, height: 40 }}>
-                <div className="ind-icon-svg" style={{ ['--fy' as string]: '0px', ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ overflow: 'visible' }}>{ind.icon}</svg>
-                </div>
-              </div>
-              <h3 className="text-sm font-bold text-white">{ind.name}</h3>
-              <div className="ind-divider" />
-              <p className="mb-3 text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{ind.desc}</p>
-              <div className="flex flex-wrap gap-1">
-                {ind.tags.map(tag => (
-                  <span key={tag} className="ind-tag" style={{ fontSize: 10 }}>{tag}</span>
-                ))}
-              </div>
-              <div className="ind-ghost" aria-hidden>{String(globalI + 1).padStart(2, '0')}</div>
+        <div
+          className="flex"
+          style={{ transform: `translateX(-${page * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
+        >
+          {pages.map((group, pageIdx) => (
+            <div key={pageIdx} className="min-w-full grid grid-cols-1 gap-3">
+              {group.map(globalI => {
+                const ind = INDUSTRIES[globalI]
+                return (
+                  <div
+                    key={globalI}
+                    className="ind-card"
+                    ref={el => {
+                      if (!el) return
+                      const obs = new IntersectionObserver(([entry]) => {
+                        if (entry.isIntersecting) { el.classList.add('ind-visible'); obs.disconnect() }
+                      }, { threshold: 0.05 })
+                      obs.observe(el)
+                    }}
+                  >
+                    <div className="ind-accent" />
+                    <div className="ind-icon-box mb-4" style={{ animationDelay: `${globalI * 0.6}s` }}>
+                      <div className="ind-icon-svg" style={{ ['--fy' as string]: '0px', ['--draw-delay' as string]: `${globalI * 0.15}s` } as React.CSSProperties}>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ overflow: 'visible' }}>{ind.icon}</svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base font-bold text-white">{ind.name}</h3>
+                    <div className="ind-divider" />
+                    <p className="mb-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{ind.desc}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {ind.tags.map(tag => <span key={tag} className="ind-tag">{tag}</span>)}
+                    </div>
+                    <div className="ind-ghost" aria-hidden>{String(globalI + 1).padStart(2, '0')}</div>
+                  </div>
+                )
+              })}
             </div>
-          )
-        })}
+          ))}
+        </div>
       </div>
       {/* Dots */}
-      <div className="mt-5 flex justify-center gap-2">
+      <div className="mt-5 flex justify-center gap-3">
         {Array.from({ length: totalPages }).map((_, i) => (
           <button
             key={i}
             onClick={() => setPage(i)}
             aria-label={`Page ${i + 1}`}
             style={{
-              width: i === page ? 20 : 8,
-              height: 8,
-              borderRadius: 4,
+              width: i === page ? 32 : 10,
+              height: 10,
+              borderRadius: 999,
               border: 'none',
               cursor: 'pointer',
+              padding: 0,
               transition: 'all 0.3s ease',
               background: i === page ? '#0694D1' : 'rgba(19,168,212,0.3)',
-              padding: 0,
             }}
           />
         ))}
