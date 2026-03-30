@@ -1470,6 +1470,14 @@ export default function Design4Page() {
   const [learningMenuOpen, setLearningMenuOpen] = useState(false)
   const learningMenuRef = useRef<HTMLDivElement>(null)
 
+  // ── Popup modals ──
+  const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
+  const [advisorForm, setAdvisorForm] = useState({ name: '', email: '', phone: '', interest: '' })
+  const [advisorSubmitted, setAdvisorSubmitted] = useState(false)
+  const [enterpriseModalOpen, setEnterpriseModalOpen] = useState(false)
+  const [enterpriseForm, setEnterpriseForm] = useState({ name: '', company: '', email: '', phone: '', message: '' })
+  const [enterpriseSubmitted, setEnterpriseSubmitted] = useState(false)
+
   useEffect(() => {
     if (heroPaused) return
     const timer = setInterval(() => {
@@ -1583,6 +1591,116 @@ export default function Design4Page() {
 
   return (
     <div className="min-h-screen overflow-x-clip bg-white" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+
+      {/* ── Talk to an Advisor Modal ── */}
+      {advisorModalOpen && typeof window !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" style={{ background: 'rgba(4,15,26,0.75)', backdropFilter: 'blur(6px)' }} onClick={() => setAdvisorModalOpen(false)}>
+          <div className="relative w-full max-w-lg rounded-2xl p-8" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.30)', boxShadow: '0 24px 80px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
+            {/* Close */}
+            <button onClick={() => setAdvisorModalOpen(false)} className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white">✕</button>
+            {advisorSubmitted ? (
+              <div className="py-8 text-center">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.4)' }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h3 className="mb-2 text-lg font-bold text-white">We&apos;ll be in touch!</h3>
+                <p className="text-sm text-white/55">Our training advisor will contact you within 1 business day.</p>
+                <button onClick={() => { setAdvisorModalOpen(false); setAdvisorSubmitted(false); setAdvisorForm({ name: '', email: '', phone: '', interest: '' }) }} className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white" style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}>Close</button>
+              </div>
+            ) : (
+              <>
+                <span className="mb-3 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)' }}>Free Consultation</span>
+                <h2 className="mb-1 text-xl font-bold text-white">Talk to a Training Advisor</h2>
+                <p className="mb-6 text-sm text-white/55">Tell us your goal — we&apos;ll match you with the right course, format, and schedule.</p>
+                <form onSubmit={e => { e.preventDefault(); setAdvisorSubmitted(true) }} className="space-y-4">
+                  <style>{`.adv-input{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.10);transition:border-color .2s,box-shadow .2s}.adv-input:focus{border-color:#0694D1;box-shadow:0 0 0 3px rgba(6,148,209,0.15);outline:none}.adv-input::placeholder{color:rgba(255,255,255,0.25)}`}</style>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold text-white/65">Full Name</label>
+                      <input required type="text" placeholder="John Smith" value={advisorForm.name} onChange={e => setAdvisorForm(p => ({ ...p, name: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold text-white/65">Email</label>
+                      <input required type="email" placeholder="john@company.com" value={advisorForm.email} onChange={e => setAdvisorForm(p => ({ ...p, email: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold text-white/65">Phone Number</label>
+                    <input type="tel" placeholder="+1 (555) 000-0000" value={advisorForm.phone} onChange={e => setAdvisorForm(p => ({ ...p, phone: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold text-white/65">What are you looking to learn?</label>
+                    <textarea required rows={3} placeholder="e.g. AWS certification, Azure fundamentals, Cybersecurity..." value={advisorForm.interest} onChange={e => setAdvisorForm(p => ({ ...p, interest: e.target.value }))} className="adv-input w-full resize-none rounded-xl px-4 py-3 text-sm text-white" />
+                  </div>
+                  <button type="submit" className="w-full rounded-xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.40)' }}>
+                    Submit — Talk to an Advisor
+                  </button>
+                  <p className="text-center text-xs text-white/30">We&apos;ll respond within 1 business day · No spam, ever.</p>
+                </form>
+              </>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* ── Request Enterprise Quote Modal ── */}
+      {enterpriseModalOpen && typeof window !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" style={{ background: 'rgba(4,15,26,0.75)', backdropFilter: 'blur(6px)' }} onClick={() => setEnterpriseModalOpen(false)}>
+          <div className="relative w-full max-w-lg rounded-2xl p-8" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.30)', boxShadow: '0 24px 80px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
+            {/* Close */}
+            <button onClick={() => setEnterpriseModalOpen(false)} className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white">✕</button>
+            {enterpriseSubmitted ? (
+              <div className="py-8 text-center">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.4)' }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h3 className="mb-2 text-lg font-bold text-white">Request Received!</h3>
+                <p className="text-sm text-white/55">Our enterprise team will reach out within 1 business day.</p>
+                <button onClick={() => { setEnterpriseModalOpen(false); setEnterpriseSubmitted(false); setEnterpriseForm({ name: '', company: '', email: '', phone: '', message: '' }) }} className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white" style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}>Close</button>
+              </div>
+            ) : (
+              <>
+                <span className="mb-3 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)' }}>Enterprise</span>
+                <h2 className="mb-1 text-xl font-bold text-white">Request an Enterprise Quote</h2>
+                <p className="mb-6 text-sm text-white/55">Get a customised training proposal for your organisation. No commitment required.</p>
+                <form onSubmit={e => { e.preventDefault(); setEnterpriseSubmitted(true) }} className="space-y-4">
+                  <style>{`.ent-modal-input{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.10);transition:border-color .2s,box-shadow .2s}.ent-modal-input:focus{border-color:#0694D1;box-shadow:0 0 0 3px rgba(6,148,209,0.15);outline:none}.ent-modal-input::placeholder{color:rgba(255,255,255,0.25)}`}</style>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold text-white/65">Full Name</label>
+                      <input required type="text" placeholder="John Smith" value={enterpriseForm.name} onChange={e => setEnterpriseForm(p => ({ ...p, name: e.target.value }))} className="ent-modal-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold text-white/65">Company Name</label>
+                      <input required type="text" placeholder="Acme Corporation" value={enterpriseForm.company} onChange={e => setEnterpriseForm(p => ({ ...p, company: e.target.value }))} className="ent-modal-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold text-white/65">Work Email</label>
+                      <input required type="email" placeholder="john@acme.com" value={enterpriseForm.email} onChange={e => setEnterpriseForm(p => ({ ...p, email: e.target.value }))} className="ent-modal-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold text-white/65">Phone Number</label>
+                      <input type="tel" placeholder="+1 (555) 000-0000" value={enterpriseForm.phone} onChange={e => setEnterpriseForm(p => ({ ...p, phone: e.target.value }))} className="ent-modal-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold text-white/65">Training Needs</label>
+                    <textarea required rows={3} placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..." value={enterpriseForm.message} onChange={e => setEnterpriseForm(p => ({ ...p, message: e.target.value }))} className="ent-modal-input w-full resize-none rounded-xl px-4 py-3 text-sm text-white" />
+                  </div>
+                  <button type="submit" className="w-full rounded-xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.40)' }}>
+                    Submit — Get a Free Consultation
+                  </button>
+                  <p className="text-center text-xs text-white/30">No commitment required · Response within 24 hours</p>
+                </form>
+              </>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
 
       {/* ── Global styles & keyframes ──────────────────────────── */}
       <style>{`
@@ -3844,7 +3962,7 @@ export default function Design4Page() {
               Start Your Journey
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
             </button>
-            <button className="hiw-outline-btn rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all duration-300 hover:bg-[#076D9D] hover:text-white">
+            <button onClick={() => setAdvisorModalOpen(true)} className="hiw-outline-btn rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all duration-300 hover:bg-[#076D9D] hover:text-white">
               Talk to an Advisor
             </button>
           </div>
@@ -4032,7 +4150,7 @@ export default function Design4Page() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full rounded-xl bg-koenig-blue py-4 text-sm font-semibold text-white shadow-lg shadow-koenig-blue/25 transition-shadow hover:shadow-xl hover:shadow-koenig-blue/35">
+                <button onClick={() => setEnterpriseModalOpen(true)} className="w-full rounded-xl bg-koenig-blue py-4 text-sm font-semibold text-white shadow-lg shadow-koenig-blue/25 transition-shadow hover:shadow-xl hover:shadow-koenig-blue/35">
                   Request Enterprise Quote
                 </button>
                 <p className="mt-4 text-center text-sm text-white/30">No commitment required · Response within 24 hours</p>
