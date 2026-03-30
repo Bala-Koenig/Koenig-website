@@ -375,7 +375,7 @@ function HomeTestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
   const extra = (t as { extra?: string }).extra
   const showMore = (t as { showMore?: boolean }).showMore
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
       <div className="p-5">
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
         <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
@@ -420,44 +420,55 @@ function HomeTestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
 
 function MobileTestimonialMarquee({ items }: { items: typeof TESTIMONIALS }) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const animOffsetRef = useRef(0)
   const dragStartX = useRef(0)
-  const dragOffsetRef = useRef(0)
+  const isDragging = useRef(false)
+
   return (
     <div
       className="sm:hidden overflow-hidden"
       style={{
-        maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+        maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
       }}
     >
       <style>{`
         @keyframes testimonialHScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
         .testimonial-htrack { animation: testimonialHScroll 40s linear infinite; }
         .testimonial-htrack.t-paused { animation-play-state: paused; }
+        .testimonial-htrack .t-card { display: flex; flex-direction: column; height: 300px; }
+        .testimonial-htrack .t-card > div { flex: 1; display: flex; flex-direction: column; }
+        .testimonial-htrack .t-card > div > div:first-child { flex: 1; overflow: hidden; }
       `}</style>
       <div
         ref={trackRef}
-        className="testimonial-htrack flex gap-4 py-2"
+        className="testimonial-htrack flex items-stretch gap-4 py-2"
         style={{ width: 'max-content' }}
         onTouchStart={e => {
+          isDragging.current = true
           trackRef.current?.classList.add('t-paused')
           dragStartX.current = e.touches[0].clientX
-          const mat = new DOMMatrix(getComputedStyle(trackRef.current!).transform)
-          dragOffsetRef.current = mat.m41
+          animOffsetRef.current = new DOMMatrix(getComputedStyle(trackRef.current!).transform).m41
         }}
         onTouchMove={e => {
-          if (!trackRef.current) return
+          if (!isDragging.current || !trackRef.current) return
           const dx = e.touches[0].clientX - dragStartX.current
-          trackRef.current.style.transform = `translateX(${dragOffsetRef.current + dx}px)`
+          trackRef.current.style.transform = `translateX(${animOffsetRef.current + dx}px)`
         }}
         onTouchEnd={() => {
+          isDragging.current = false
           if (!trackRef.current) return
+          const cur = new DOMMatrix(getComputedStyle(trackRef.current).transform).m41
+          // find the equivalent position within the animation cycle and restart from there
+          const totalW = trackRef.current.scrollWidth / 2
+          const pct = ((-cur % totalW) + totalW) % totalW / totalW
           trackRef.current.style.transform = ''
+          trackRef.current.style.animationDelay = `-${pct * 40}s`
           trackRef.current.classList.remove('t-paused')
         }}
       >
         {[...items, ...items].map((t, i) => (
-          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
+          <div key={i} className="t-card" style={{ width: '280px', flexShrink: 0 }}>
             <HomeTestimonialCard t={t} />
           </div>
         ))}
