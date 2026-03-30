@@ -2350,86 +2350,39 @@ const NEW_TRENDING = [
   },
 ]
 
-/* ─── Vendors Mobile Carousel ───────────────────────────── */
+/* ─── Vendors Mobile Strip ───────────────────────────────── */
 
 const ALL_ENT_VENDORS = [...ENT_VENDORS_ROW1, ...ENT_VENDORS_ROW2]
 
-function VendorsMobileCarousel() {
-  const [page, setPage] = useState(0)
-  const touchStartX = useRef(0)
-  const CARDS_PER_PAGE = 4
-  const totalPages = Math.ceil(ALL_ENT_VENDORS.length / CARDS_PER_PAGE)
-  const pages: number[][] = Array.from({ length: totalPages }, (_, p) =>
-    ALL_ENT_VENDORS.slice(p * CARDS_PER_PAGE, (p + 1) * CARDS_PER_PAGE).map((_, i) => p * CARDS_PER_PAGE + i)
-  )
+function VendorsMobileStrip() {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const pausedRef = useRef(false)
+
+  useEffect(() => {
+    let raf: number
+    const animate = () => {
+      const el = scrollRef.current
+      if (el && !pausedRef.current) {
+        el.scrollLeft += 0.6
+        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0
+      }
+      raf = requestAnimationFrame(animate)
+    }
+    raf = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(raf)
+  }, [])
 
   return (
-    <div className="sm:hidden">
-      <div
-        className="overflow-hidden"
-        onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
-        onTouchEnd={e => {
-          const dx = e.changedTouches[0].clientX - touchStartX.current
-          if (dx < -40 && page < totalPages - 1) setPage(p => p + 1)
-          if (dx > 40 && page > 0) setPage(p => p - 1)
-        }}
-      >
-        <div
-          className="flex"
-          style={{ transform: `translateX(-${page * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
-        >
-          {pages.map((group, pageIdx) => (
-            <div key={pageIdx} className="min-w-full grid grid-cols-2 gap-3">
-              {group.map(gi => {
-                const v = ALL_ENT_VENDORS[gi]
-                return (
-                  <div
-                    key={gi}
-                    className="flex flex-col overflow-hidden rounded-2xl bg-white"
-                    style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(0,164,239,0.07)' }}
-                  >
-                    <div className={`flex h-24 w-full items-center justify-center bg-white ${'imgLg' in v && v.imgLg ? 'p-1' : 'p-3'}`}>
-                      {v.img ? (
-                        <img
-                          src={`/images/partners/${encodeURIComponent(v.img)}`}
-                          alt={v.name}
-                          className="h-full w-full object-contain"
-                          style={{ maxHeight: 'imgLg' in v && v.imgLg ? '100px' : '72px' }}
-                        />
-                      ) : (
-                        <span className="text-2xl font-black" style={{ color: '#076D9D' }}>{v.initial}</span>
-                      )}
-                    </div>
-                    <div className="flex flex-col gap-0.5 border-t border-[#EEF6FF] bg-[#FAFCFF] px-2 pb-2.5 pt-2">
-                      <p className="truncate text-center text-xs font-bold" style={{ color: '#0b2545' }}>{v.name}</p>
-                      <p className="truncate text-center text-[10px]" style={{ color: '#4a90b8' }}>{v.tier}</p>
-                      <p className="text-center text-[10px] font-semibold" style={{ color: '#13a8d4' }}>{v.courses} Courses</p>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* Dots */}
-      <div className="mt-5 flex flex-wrap justify-center gap-2">
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setPage(i)}
-            aria-label={`Page ${i + 1}`}
-            style={{
-              width: i === page ? 24 : 8,
-              height: 8,
-              borderRadius: 999,
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0,
-              transition: 'all 0.3s ease',
-              background: i === page ? '#0694D1' : 'rgba(19,168,212,0.3)',
-            }}
-          />
+    <div
+      ref={scrollRef}
+      className="sm:hidden overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden"
+      style={{ WebkitOverflowScrolling: 'touch' }}
+      onTouchStart={() => { pausedRef.current = true }}
+      onTouchEnd={() => { pausedRef.current = false }}
+    >
+      <div className="flex gap-3 px-1" style={{ width: 'max-content' }}>
+        {[...ALL_ENT_VENDORS, ...ALL_ENT_VENDORS].map((v, i) => (
+          <EntVendorCard key={i} v={v} />
         ))}
       </div>
     </div>
@@ -4942,10 +4895,8 @@ export default function EnterprisePage() {
           </div>
         </div>
 
-        {/* Mobile carousel */}
-        <div className="px-4 sm:hidden">
-          <VendorsMobileCarousel />
-        </div>
+        {/* Mobile auto-scroll strip */}
+        <VendorsMobileStrip />
 
         {/* Row 1 — scrolls left (desktop only) */}
         <div className="hidden sm:block ent-marquee-wrap relative mb-4 py-3">
