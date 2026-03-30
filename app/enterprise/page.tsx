@@ -2365,6 +2365,7 @@ function HowItWorksMobileCarousel() {
     <div className="sm:hidden">
       <div
         className="overflow-hidden"
+        style={{ paddingTop: 12 }}
         onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
         onTouchEnd={e => {
           const dx = e.changedTouches[0].clientX - touchStartX.current
