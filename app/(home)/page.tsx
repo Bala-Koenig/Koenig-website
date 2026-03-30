@@ -1708,7 +1708,7 @@ export default function Design4Page() {
           {/* Mobile All Courses button — visible only on mobile, sits next to logo */}
           <button
             onClick={() => { setMobileAllCoursesOpen(v => !v); setMobileOpen(false); }}
-            className="flex lg:hidden items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-sm font-semibold transition-all shrink-0"
+            className="flex lg:hidden items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-sm font-semibold transition-all shrink-0 ml-3"
             style={{ color: '#ffffff', background: mobileAllCoursesOpen ? '#076D9D' : '#0694D1', border: 'none' }}
             aria-label="All Courses"
           >
@@ -1821,7 +1821,7 @@ export default function Design4Page() {
           </nav>
 
           {/* Right — search + hamburger */}
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-1">
             {/* Individual / Enterprise toggle */}
             <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
               <span className="rounded-lg px-3 py-1.5 text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
