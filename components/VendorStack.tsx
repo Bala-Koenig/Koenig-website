@@ -462,7 +462,7 @@ export default function VendorStack() {
         }}
       >
         {/* ── Section header ── */}
-        <div className="vs-header" style={{ textAlign: 'center', padding: '0 16px' }}>
+        <div className="vs-header" style={{ textAlign: 'center', padding: '0 20px' }}>
           <span
             style={{
               display: 'inline-block',
@@ -495,7 +495,7 @@ export default function VendorStack() {
 
         {/* ── Mobile horizontal tab bar (hidden on lg+) ── */}
         <div className="vs-mobile-tabs" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' as 'touch', scrollbarWidth: 'none' }}>
-          <div style={{ display: 'flex', gap: 8, padding: '0 16px', width: 'max-content' }}>
+          <div style={{ display: 'flex', gap: 8, padding: '0 20px', width: 'max-content' }}>
             {SIDEBAR_TABS.map((tab, i) => (
               <button
                 key={i}
@@ -643,7 +643,7 @@ export default function VendorStack() {
             .vs-section { padding: 18px 0; }
             .vs-header { margin-bottom: 10px; }
             .vs-mobile-tabs { display: flex; margin: 8px 0 10px; }
-            .vs-layout { flex-direction: column; gap: 0; padding: 0 10px; }
+            .vs-layout { flex-direction: column; gap: 0; padding: 0 20px; }
             .vs-sidebar { display: none !important; }
             .vs-deck-col { padding-top: 4px; width: 100%; }
             .vs-viewport { height: 470px; }
@@ -663,7 +663,7 @@ export default function VendorStack() {
             .vs-section { padding: 20px 0; }
             .vs-header { margin-bottom: 12px; }
             .vs-mobile-tabs { display: flex; margin: 10px 0 12px; }
-            .vs-layout { flex-direction: column; gap: 0; padding: 0 12px; }
+            .vs-layout { flex-direction: column; gap: 0; padding: 0 20px; }
             .vs-sidebar { display: none !important; }
             .vs-deck-col { padding-top: 4px; width: 100%; }
             .vs-viewport { height: 460px; }
@@ -683,7 +683,7 @@ export default function VendorStack() {
             .vs-section { padding: 24px 0; }
             .vs-header { margin-bottom: 14px; }
             .vs-mobile-tabs { display: flex; margin: 10px 0 14px; }
-            .vs-layout { flex-direction: column; gap: 0; padding: 0 12px; }
+            .vs-layout { flex-direction: column; gap: 0; padding: 0 20px; }
             .vs-sidebar { display: none !important; }
             .vs-deck-col { padding-top: 6px; width: 100%; }
             .vs-viewport { height: 450px; }
@@ -703,7 +703,7 @@ export default function VendorStack() {
             .vs-section { padding: 28px 0; }
             .vs-header { margin-bottom: 16px; }
             .vs-mobile-tabs { display: flex; margin: 12px 0 16px; }
-            .vs-layout { flex-direction: column; gap: 0; padding: 0 16px; }
+            .vs-layout { flex-direction: column; gap: 0; padding: 0 20px; }
             .vs-sidebar { display: none !important; }
             .vs-deck-col { padding-top: 6px; width: 100%; }
             .vs-viewport { height: 440px; }
