@@ -4037,7 +4037,7 @@ export default function EnterprisePage() {
         </div>
 
         <div className="mx-auto max-w-7xl px-4 lg:px-[50px] relative z-10">
-          <div className="io-fade mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="io-fade mb-[15px] sm:mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
             {/* Left — heading */}
             <div className="relative text-center lg:text-left">
               {/* Title glow orbs */}
@@ -4230,7 +4230,7 @@ export default function EnterprisePage() {
       <section className="relative overflow-hidden py-5 sm:py-[40px] px-4 lg:px-[50px]" style={{ background: '#07121e' }}>
         <AuroraCanvas />
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="io-fade mb-12 text-center">
+          <div className="io-fade mb-[15px] sm:mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Sector Expertise</p>
             <h2 className="text-3xl font-bold text-white lg:text-4xl">Industries We{' '}
               <span className="relative inline-block">
@@ -4364,7 +4364,7 @@ export default function EnterprisePage() {
         <div className="relative mx-auto max-w-7xl">
 
           {/* Header */}
-          <div className="io-fade mb-6 text-center">
+          <div className="io-fade mb-[15px] sm:mb-6 text-center">
             <p className="mb-1 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
             <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
               Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
@@ -4685,7 +4685,7 @@ export default function EnterprisePage() {
 
         <div className="relative mx-auto max-w-7xl">
           {/* Heading */}
-          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+          <div className="io-fade mb-[15px] sm:mb-[35px] text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.25)', color: '#0694d1' }}>Why Enterprises Choose Us</span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">The <span className="bg-gradient-to-r from-[#0694d1] to-cyan-400 bg-clip-text text-transparent">Koenig Difference</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-white/55">What makes 1M+ professionals and global enterprises choose Koenig</p>
@@ -4775,7 +4775,7 @@ export default function EnterprisePage() {
         <div className="pointer-events-none absolute -left-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[250px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
-          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+          <div className="io-fade mb-[15px] sm:mb-[35px] text-center">
             <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Simple Onboarding</span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">From Brief to Certified — <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">In 4 Simple Steps</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-koenig-muted">We handle every detail so your HR and L&D teams can focus on strategy, not logistics.</p>
@@ -4869,7 +4869,7 @@ export default function EnterprisePage() {
           .ent-lf-ring.d3 { animation-delay:3.2s; }
         `}</style>
         <div className="relative mx-auto max-w-7xl">
-          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+          <div className="io-fade mb-[15px] sm:mb-[35px] text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.18)' }}>Flexible Delivery</span>
             <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Training That Fits <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Your Way of Working</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.55)' }}>Six formats. One quality standard. Every option comes with the same expert instructors, official courseware, and money-back guarantee.</p>
@@ -4972,7 +4972,7 @@ export default function EnterprisePage() {
         ))}
 
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="io-fade mb-12 text-center">
+          <div className="io-fade mb-[15px] sm:mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694d1' }}>Official Vendor Partners</p>
             <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#0b2545' }}>50+ Authorised <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">Certification Partners</span></h2>
             <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#3a6080' }}>Train and certify your team on the industry's most in-demand platforms — all under one roof, with one account manager.</p>
@@ -5008,7 +5008,7 @@ export default function EnterprisePage() {
       <section className="relative overflow-hidden py-5 sm:py-16 px-4 lg:px-[50px]" style={{ background: '#f0f5fa' }}>
 
         <div className="mx-auto max-w-7xl">
-          <div className="io-fade mb-10 text-center">
+          <div className="io-fade mb-[15px] sm:mb-10 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Client Stories</p>
             <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#0d1b2a' }}>
               Trusted by <span style={{ color: '#0694D1' }}>Global Enterprises</span>
@@ -5044,7 +5044,7 @@ export default function EnterprisePage() {
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
-          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+          <div className="io-fade mb-[15px] sm:mb-[35px] text-center">
             <h2 className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Everything You Need to <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Know</span></h2>
             <p className="text-sm sm:text-base text-koenig-muted">Quick answers to the questions L&D leaders ask before launching enterprise training with Koenig.</p>
           </div>
