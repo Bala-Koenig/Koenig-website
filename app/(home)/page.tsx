@@ -990,11 +990,11 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
       {/* Row 1 — vendor badge + format badge | seats badge */}
       <div className="mb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-bold ${badgeColor}`}>
+          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold whitespace-nowrap ${badgeColor}`}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             {s.vendor}
           </span>
-          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-sm font-bold ${
+          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs sm:text-sm font-bold whitespace-nowrap ${
             isLive ? 'bg-[#EBF8FE] text-[#0694d1]' : 'bg-[#076d9d] text-white'
           }`}>
             {isLive
@@ -1042,7 +1042,7 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
             {s.format}
           </p>
         </div>
-        <button className="rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all group-hover:shadow-lg" style={{ background: '#093148' }}>
+        <button className="rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all whitespace-nowrap group-hover:shadow-lg" style={{ background: '#093148' }}>
           Reserve My Seat →
         </button>
       </div>
