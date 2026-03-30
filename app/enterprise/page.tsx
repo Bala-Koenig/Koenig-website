@@ -2350,6 +2350,96 @@ const NEW_TRENDING = [
   },
 ]
 
+/* ─── How It Works Mobile Carousel ──────────────────────── */
+
+function HowItWorksMobileCarousel() {
+  const [page, setPage] = useState(0)
+  const touchStartX = useRef(0)
+  const CARDS_PER_PAGE = 2
+  const totalPages = Math.ceil(HOW_IT_WORKS.length / CARDS_PER_PAGE)
+  const pages: number[][] = Array.from({ length: totalPages }, (_, p) =>
+    HOW_IT_WORKS.slice(p * CARDS_PER_PAGE, (p + 1) * CARDS_PER_PAGE).map((_, i) => p * CARDS_PER_PAGE + i)
+  )
+
+  return (
+    <div className="sm:hidden">
+      <div
+        className="overflow-hidden"
+        onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+        onTouchEnd={e => {
+          const dx = e.changedTouches[0].clientX - touchStartX.current
+          if (dx < -40 && page < totalPages - 1) setPage(p => p + 1)
+          if (dx > 40 && page > 0) setPage(p => p - 1)
+        }}
+      >
+        <div
+          className="flex"
+          style={{ transform: `translateX(-${page * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
+        >
+          {pages.map((group, pageIdx) => (
+            <div key={pageIdx} className="min-w-full grid grid-cols-1 gap-8">
+              {group.map(gi => {
+                const step = HOW_IT_WORKS[gi]
+                return (
+                  <div key={gi} className="flex flex-col items-center">
+                    {/* Icon circle */}
+                    <div className="relative z-10 mb-6">
+                      <div
+                        className="flex h-20 w-20 items-center justify-center rounded-full"
+                        style={{ background: 'white', border: '4px solid #f0f9ff', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
+                      >
+                        <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="#076D9D" strokeWidth={1.8}>{step.icon}</svg>
+                      </div>
+                      <span
+                        className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold text-white"
+                        style={{ background: '#093148' }}
+                      >{gi + 1}</span>
+                    </div>
+                    {/* Card */}
+                    <div
+                      className="w-full rounded-2xl border-2 p-6 text-center"
+                      style={{ background: 'white', borderColor: '#e8f4fa', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}
+                    >
+                      <div className="mb-2 text-sm font-bold tracking-widest text-koenig-blue">STEP {step.step}</div>
+                      <h3 className="mb-2 text-base font-semibold" style={{ color: '#093148' }}>{step.title}</h3>
+                      <p className="mb-4 text-sm font-light leading-relaxed text-koenig-muted">{step.desc}</p>
+                      <div className="flex items-center justify-center gap-1.5">
+                        {[0,1,2,3].map(d => (
+                          <div key={d} className="rounded-full" style={{ width: d < gi + 1 ? '16px' : '8px', height: '8px', background: d < gi + 1 ? '#076D9D' : '#CAEFFF' }} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Dots */}
+      <div className="mt-6 flex justify-center gap-3">
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i)}
+            aria-label={`Page ${i + 1}`}
+            style={{
+              width: i === page ? 32 : 10,
+              height: 10,
+              borderRadius: 999,
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'all 0.3s ease',
+              background: i === page ? '#076D9D' : '#CAEFFF',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* ─── Koenig Difference Mobile Carousel ─────────────────── */
 
 const WHY_ICONS = [
@@ -4495,7 +4585,8 @@ export default function EnterprisePage() {
             <p className="mx-auto max-w-xl text-sm sm:text-base text-koenig-muted">We handle every detail so your HR and L&D teams can focus on strategy, not logistics.</p>
           </div>
 
-          <div className="relative">
+          <HowItWorksMobileCarousel />
+          <div className="relative hidden sm:block">
             <div className="pointer-events-none absolute hidden lg:block" style={{ top: '52px', left: '12.5%', right: '12.5%', height: '2px', background: 'linear-gradient(to right,#076D9D,#4DBFEF,#076D9D)' }} />
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
               {HOW_IT_WORKS.map((step, i) => {
