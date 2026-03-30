@@ -3860,7 +3860,7 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-[30px] sm:py-[60px]">
         <div className="pointer-events-none absolute inset-0">
           {/* Falling pattern — Koenig blue streaks on hero bg */}
           <FallingPattern
