@@ -1962,7 +1962,7 @@ export default function Design4Page() {
         {/* Mobile All Courses panel — shown when All Courses nav button is tapped */}
         {mobileAllCoursesOpen && (
           <div className="-mx-5 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '70vh', overflowY: 'auto' }}>
-            <div className="px-4 py-3">
+            <div className="px-5 py-3">
               <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
                 {/* Vendor tabs */}
                 <div className="flex overflow-x-auto gap-1 p-2 border-b" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
@@ -2004,7 +2004,7 @@ export default function Design4Page() {
         {/* Mobile drawer */}
         {mobileOpen && (
           <div className="-mx-5 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '80vh', overflowY: 'auto' }}>
-            <div className="px-4 py-3 space-y-1">
+            <div className="px-5 py-3 space-y-1">
 
               {/* Individual / Enterprise toggle */}
               <div className="mb-2 flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
