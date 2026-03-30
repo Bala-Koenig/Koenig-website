@@ -2350,6 +2350,78 @@ const NEW_TRENDING = [
   },
 ]
 
+/* ─── Formats Mobile Carousel ───────────────────────────── */
+
+function FormatsMobileCarousel() {
+  const [page, setPage] = useState(0)
+  const touchStartX = useRef(0)
+  const CARDS_PER_PAGE = 2
+  const totalPages = Math.ceil(FORMATS.length / CARDS_PER_PAGE)
+  const pages: number[][] = Array.from({ length: totalPages }, (_, p) =>
+    FORMATS.slice(p * CARDS_PER_PAGE, (p + 1) * CARDS_PER_PAGE).map((_, i) => p * CARDS_PER_PAGE + i)
+  )
+
+  return (
+    <div className="sm:hidden">
+      <div
+        className="overflow-hidden"
+        onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+        onTouchEnd={e => {
+          const dx = e.changedTouches[0].clientX - touchStartX.current
+          if (dx < -40 && page < totalPages - 1) setPage(p => p + 1)
+          if (dx > 40 && page > 0) setPage(p => p - 1)
+        }}
+      >
+        <div
+          className="flex"
+          style={{ transform: `translateX(-${page * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
+        >
+          {pages.map((group, pageIdx) => (
+            <div key={pageIdx} className="min-w-full grid grid-cols-1 gap-4">
+              {group.map(gi => {
+                const f = FORMATS[gi]
+                return (
+                  <div key={gi} style={{ borderRadius: '14px', overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ position: 'relative', height: '140px', flexShrink: 0, overflow: 'hidden' }}>
+                      <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: (f as { objPos?: string }).objPos ?? 'center' }} />
+                      <span style={{ position: 'absolute', left: '8px', top: '8px', borderRadius: '999px', padding: '3px 10px', fontSize: '11px', fontWeight: 500, background: 'rgba(9,49,72,0.65)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '12px 14px 14px' }}>
+                      <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>{f.title}</h3>
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.62)', lineHeight: 1.55, flex: 1 }}>{f.desc}</p>
+                      <button className="ent-lf-btn-glow" style={{ marginTop: '12px', width: '100%', borderRadius: '10px', padding: '9px', fontSize: '12px', fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694d1,#076d9d)', border: 'none', cursor: 'pointer' }}>Learn More →</button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Dots */}
+      <div className="mt-6 flex justify-center gap-3">
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i)}
+            aria-label={`Page ${i + 1}`}
+            style={{
+              width: i === page ? 32 : 10,
+              height: 10,
+              borderRadius: 999,
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'all 0.3s ease',
+              background: i === page ? '#0694D1' : 'rgba(255,255,255,0.25)',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* ─── How It Works Mobile Carousel ──────────────────────── */
 
 function HowItWorksMobileCarousel() {
@@ -4688,8 +4760,9 @@ export default function EnterprisePage() {
             .ent-lf-btn-glow { animation:entLfBtnGlow 2.8s ease-in-out infinite; }
           `}</style>
 
-          {/* Slide */}
-          <div className="overflow-hidden">
+          <FormatsMobileCarousel />
+          {/* Slide — desktop only */}
+          <div className="hidden sm:block overflow-hidden">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {FORMATS.slice(formatsSlide * 4, formatsSlide * 4 + 4).map((f, i) => (
                 <div key={i} className="ent-lf-flip io-fade" style={{ perspective: '1000px', height: '400px' }}>
@@ -4739,8 +4812,8 @@ export default function EnterprisePage() {
             </div>
           </div>
 
-          {/* Slide dots */}
-          <div className="mt-8 flex items-center justify-center gap-3">
+          {/* Slide dots — desktop only */}
+          <div className="hidden sm:flex mt-8 items-center justify-center gap-3">
             {[0, 1].map(idx => (
               <button
                 key={idx}
