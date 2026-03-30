@@ -400,11 +400,16 @@ const TESTIMONIALS_COL3 = [
 ]
 
 type EntTestimonial = { quote: string; extra: string; highlights: string[]; showMore?: boolean; name: string; country: string; badge: string; date: string; img: string }
-function EntTestimonialCard({ t }: { t: EntTestimonial }) {
+function EntTestimonialCard({ t, onExpandChange }: { t: EntTestimonial; onExpandChange?: (expanded: boolean) => void }) {
   const [expanded, setExpanded] = useState(false)
+  const handleToggle = () => {
+    const next = !expanded
+    setExpanded(next)
+    onExpandChange?.(next)
+  }
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-      <div className="p-5">
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+      <div className="flex-1 p-5">
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
         <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
         <div
@@ -415,7 +420,7 @@ function EntTestimonialCard({ t }: { t: EntTestimonial }) {
         </div>
         {t.showMore && (
           <button
-            onClick={() => setExpanded(v => !v)}
+            onClick={handleToggle}
             className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
             style={{ borderColor: '#0694D1' }}
           >
@@ -474,6 +479,85 @@ function DraggableScrollColumn({ items, speed }: { items: EntTestimonial[]; spee
     >
       <div ref={innerRef} className="flex flex-col gap-4 pb-4">
         {[...items, ...items].map((t, i) => <EntTestimonialCard key={i} t={t} />)}
+      </div>
+    </div>
+  )
+}
+
+const ALL_ENT_TESTIMONIALS = [...TESTIMONIALS_COL1, ...TESTIMONIALS_COL2, ...TESTIMONIALS_COL3]
+
+function EntMobileTestimonialMarquee() {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+  const expandedCount = useRef(0)
+  const dragStartX = useRef(0)
+  const dragStartPos = useRef(0)
+
+  useEffect(() => {
+    const inner = trackRef.current
+    if (!inner) return
+    let prev = performance.now()
+    let raf: number
+    function tick(now: number) {
+      const dt = now - prev
+      prev = now
+      if (!paused.current && inner) {
+        pos.current += 0.04 * dt
+        const half = inner.scrollWidth / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  return (
+    <div
+      className="sm:hidden overflow-hidden"
+      style={{
+        maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+      }}
+      onTouchStart={e => {
+        paused.current = true
+        dragStartX.current = e.touches[0].clientX
+        dragStartPos.current = pos.current
+      }}
+      onTouchMove={e => {
+        const delta = dragStartX.current - e.touches[0].clientX
+        const inner = trackRef.current
+        if (!inner) return
+        const half = inner.scrollWidth / 2
+        let newPos = dragStartPos.current + delta
+        if (newPos < 0) newPos = 0
+        if (half > 0 && newPos >= half) newPos = half - 1
+        pos.current = newPos
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }}
+      onTouchEnd={() => {
+        if (expandedCount.current === 0) paused.current = false
+      }}
+    >
+      <div
+        ref={trackRef}
+        className="flex items-stretch gap-4 py-2"
+        style={{ width: 'max-content' }}
+      >
+        {[...ALL_ENT_TESTIMONIALS, ...ALL_ENT_TESTIMONIALS].map((t, i) => (
+          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
+            <EntTestimonialCard
+              t={t}
+              onExpandChange={exp => {
+                expandedCount.current += exp ? 1 : -1
+                if (expandedCount.current < 0) expandedCount.current = 0
+                paused.current = expandedCount.current > 0
+              }}
+            />
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -4934,9 +5018,11 @@ export default function EnterprisePage() {
             </p>
           </div>
 
-          {/* Animated columns */}
+          <EntMobileTestimonialMarquee />
+
+          {/* Animated columns — desktop only */}
           <div
-            className="relative overflow-hidden"
+            className="hidden sm:block relative overflow-hidden"
             style={{
               height: '520px',
               maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
