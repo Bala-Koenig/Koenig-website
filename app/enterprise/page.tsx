@@ -3860,7 +3860,7 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px]">
+      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute inset-0">
           {/* Falling pattern — Koenig blue streaks on hero bg */}
           <FallingPattern
@@ -3997,7 +3997,7 @@ export default function EnterprisePage() {
            NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
            Inspired by Simplilearn's client marquee strip
       ════════════════════════════════════════════════════════ */}
-      <section className="py-[40px] bg-white relative overflow-hidden">
+      <section className="bg-white relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[40px]">
 
         {/* ── Brand glow effect system ── */}
         <style>{`
@@ -4129,7 +4129,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── ADDE Framework ── */}
-      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#0d1b2a' }}>
+      <section className="relative overflow-hidden py-5 sm:py-[40px] px-4 lg:px-[50px]" style={{ background: '#0d1b2a' }}>
         <style>{`
           @keyframes circlePulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.3)} 50%{box-shadow:0 0 0 8px rgba(19,168,212,.07),0 0 18px rgba(19,168,212,.22)} }
           @keyframes spinRing { to{transform:rotate(360deg)} }
@@ -4227,7 +4227,7 @@ export default function EnterprisePage() {
       {/* ════════════════════════════════════════════════════════
            NEW SECTION 2 — Industries We Serve (DARK NAVY)
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-[40px] px-4 lg:px-[50px]" style={{ background: '#07121e' }}>
+      <section className="relative overflow-hidden py-5 sm:py-[40px] px-4 lg:px-[50px]" style={{ background: '#07121e' }}>
         <AuroraCanvas />
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-12 text-center">
@@ -4360,7 +4360,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── What We Train ── */}
-      <section className="relative px-4 lg:px-[50px] py-14" style={{ background: '#eef3f8', borderTop: '1px solid #d1e5f5', borderBottom: '1px solid #d1e5f5' }}>
+      <section className="relative px-4 lg:px-[50px] py-5 sm:py-14" style={{ background: '#eef3f8', borderTop: '1px solid #d1e5f5', borderBottom: '1px solid #d1e5f5' }}>
         <div className="relative mx-auto max-w-7xl">
 
           {/* Header */}
@@ -4561,7 +4561,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Business Impact ── */}
-      <section className="relative overflow-hidden px-4 py-20 lg:px-[50px]" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-20" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
         {/* Floating squares — right half decorative */}
         {[
           { w: 110, h: 110, top: '12%',  left: '46%' },
@@ -4668,7 +4668,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Why Koenig ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: '#061e30' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: '#061e30' }}>
         <style>{`
           @keyframes entDiffShimmer { 0%{transform:translateX(-110%) skewX(-18deg)} 100%{transform:translateX(220%) skewX(-18deg)} }
           .ent-diff-banner { position:relative; overflow:hidden; }
@@ -4761,7 +4761,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── How Corporate Training Works ── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <style>{`
           @keyframes entHiwFadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
           .ent-hiw-step { opacity:0; animation: entHiwFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both; }
@@ -4850,7 +4850,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Learning Formats ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 left-1/4 h-[380px] w-[380px] rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
@@ -4958,7 +4958,7 @@ export default function EnterprisePage() {
       {/* ════════════════════════════════════════════════════════
            NEW: Vendor Certification Ecosystem (DARK NAVY — tiered rows)
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-[60px] px-4 lg:px-[50px]" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
+      <section className="relative overflow-hidden py-5 sm:py-[60px] px-4 lg:px-[50px]" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
         {/* Floating squares */}
         {[
           { w: 110, h: 110, top: '10%',  left: '47%' },
@@ -5005,7 +5005,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Testimonials ── */}
-      <section className="relative overflow-hidden py-16 px-4 lg:px-[50px]" style={{ background: '#f0f5fa' }}>
+      <section className="relative overflow-hidden py-5 sm:py-16 px-4 lg:px-[50px]" style={{ background: '#f0f5fa' }}>
 
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-10 text-center">
@@ -5039,7 +5039,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-[60px]">
+      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
@@ -5101,7 +5101,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Contact Form ── */}
-      <section id="contact" className="relative overflow-hidden px-4 lg:px-[50px] py-[70px]" style={{ background: 'linear-gradient(160deg,#040f1a 0%,#061e30 50%,#051525 100%)' }}>
+      <section id="contact" className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[70px]" style={{ background: 'linear-gradient(160deg,#040f1a 0%,#061e30 50%,#051525 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(6,148,209,0.14) 0%,transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(77,191,239,0.10) 0%,transparent 70%)' }} />
