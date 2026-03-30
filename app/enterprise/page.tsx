@@ -2350,6 +2350,77 @@ const NEW_TRENDING = [
   },
 ]
 
+/* ─── Client Logo Marquee ────────────────────────────────── */
+
+function ClientLogoMarquee({ clients }: { clients: typeof ENTERPRISE_CLIENTS }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+  const dragStartX = useRef(0)
+  const dragStartPos = useRef(0)
+
+  useEffect(() => {
+    const inner = trackRef.current
+    if (!inner) return
+    let prev = performance.now()
+    let raf: number
+    function tick(now: number) {
+      const dt = now - prev
+      prev = now
+      if (!paused.current && inner) {
+        pos.current += 0.04 * dt
+        const half = inner.scrollWidth / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{
+        maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+      }}
+      onMouseEnter={() => { paused.current = true }}
+      onMouseLeave={() => { paused.current = false }}
+      onTouchStart={e => {
+        paused.current = true
+        dragStartX.current = e.touches[0].clientX
+        dragStartPos.current = pos.current
+      }}
+      onTouchMove={e => {
+        const delta = dragStartX.current - e.touches[0].clientX
+        const inner = trackRef.current
+        if (!inner) return
+        const half = inner.scrollWidth / 2
+        let newPos = dragStartPos.current + delta
+        if (newPos < 0) newPos = 0
+        if (half > 0 && newPos >= half) newPos = half - 1
+        pos.current = newPos
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }}
+      onTouchEnd={() => { paused.current = false }}
+    >
+      <div
+        ref={trackRef}
+        className="flex items-center gap-2 py-2"
+        style={{ width: 'max-content' }}
+      >
+        {[...clients, ...clients].map((c, i) => (
+          <div key={i} className="flex shrink-0 items-center justify-center px-2">
+            <img src={`/images/trusted-logos/${encodeURIComponent(c.img)}`} alt={c.name} className="h-12 w-auto object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }} title={c.name} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* ─── Component ──────────────────────────────────────────── */
 
 export default function EnterprisePage() {
@@ -3516,21 +3587,7 @@ export default function EnterprisePage() {
             </div>
           </div>
         </div>
-        <div
-          className="relative overflow-x-hidden"
-          style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-          }}
-        >
-          <div className="ent-marquee-track items-center gap-2 py-2">
-            {[...ENTERPRISE_CLIENTS, ...ENTERPRISE_CLIENTS].map((c, i) => (
-              <div key={i} className="flex shrink-0 items-center justify-center px-2">
-                <img src={`/images/trusted-logos/${encodeURIComponent(c.img)}`} alt={c.name} className="h-12 w-auto object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }} title={c.name} />
-              </div>
-            ))}
-          </div>
-        </div>
+        <ClientLogoMarquee clients={ENTERPRISE_CLIENTS} />
         {/* Award cards */}
         <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-[50px]">
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
