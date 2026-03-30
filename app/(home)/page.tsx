@@ -3554,8 +3554,35 @@ export default function Design4Page() {
             ))}
           </div>
 
-          {/* Arrow navigation */}
-          <div className="mt-8 flex items-center justify-center gap-4">
+          {/* Arrow navigation — mobile (individual cards) */}
+          <div className="mt-8 flex items-center justify-center gap-4 sm:hidden">
+            <button
+              onClick={() => setWebinarMobilePage(p => Math.max(0, p - 1))}
+              disabled={webinarMobilePage === 0}
+              className="flex h-11 w-11 items-center justify-center rounded-full transition-all duration-200"
+              style={webinarMobilePage === 0
+                ? { background: '#F3F4F6', border: '1.5px solid #E5E7EB', cursor: 'not-allowed' }
+                : { background: '#093148', border: '1.5px solid #093148', boxShadow: '0 4px 14px rgba(9,49,72,0.25)', cursor: 'pointer' }}
+              aria-label="Previous"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={webinarMobilePage === 0 ? '#D1D5DB' : '#ffffff'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <span className="text-sm font-semibold text-koenig-muted">{webinarMobilePage + 1} / {WEBINARS.length}</span>
+            <button
+              onClick={() => setWebinarMobilePage(p => Math.min(p + 1, WEBINARS.length - 1))}
+              disabled={webinarMobilePage === WEBINARS.length - 1}
+              className="flex h-11 w-11 items-center justify-center rounded-full transition-all duration-200"
+              style={webinarMobilePage === WEBINARS.length - 1
+                ? { background: '#F3F4F6', border: '1.5px solid #E5E7EB', cursor: 'not-allowed' }
+                : { background: '#093148', border: '1.5px solid #093148', boxShadow: '0 4px 14px rgba(9,49,72,0.25)', cursor: 'pointer' }}
+              aria-label="Next"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={webinarMobilePage === WEBINARS.length - 1 ? '#D1D5DB' : '#ffffff'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          {/* Arrow navigation — desktop (groups of 3) */}
+          <div className="mt-8 hidden sm:flex items-center justify-center gap-4">
             <button
               onClick={() => setWebinarStart(s => Math.max(0, s - 3))}
               disabled={webinarStart === 0}
