@@ -370,10 +370,15 @@ function TestimonialCardV2({ t, delay }: { t: typeof TESTIMONIALS[0]; delay: str
   )
 }
 
-function HomeTestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
+function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; onExpandChange?: (expanded: boolean) => void }) {
   const [expanded, setExpanded] = useState(false)
   const extra = (t as { extra?: string }).extra
   const showMore = (t as { showMore?: boolean }).showMore
+  const handleToggle = () => {
+    const next = !expanded
+    setExpanded(next)
+    onExpandChange?.(next)
+  }
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
       <div className="p-5">
@@ -387,7 +392,7 @@ function HomeTestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
         </div>
         {showMore && (
           <button
-            onClick={() => setExpanded(v => !v)}
+            onClick={handleToggle}
             className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
             style={{ borderColor: '#0694D1' }}
           >
@@ -420,9 +425,31 @@ function HomeTestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
 
 function MobileTestimonialMarquee({ items }: { items: typeof TESTIMONIALS }) {
   const trackRef = useRef<HTMLDivElement>(null)
-  const animOffsetRef = useRef(0)
+  const pos = useRef(0)
+  const paused = useRef(false)
+  const expandedCount = useRef(0)
   const dragStartX = useRef(0)
-  const isDragging = useRef(false)
+  const dragStartPos = useRef(0)
+
+  useEffect(() => {
+    const inner = trackRef.current
+    if (!inner) return
+    let prev = performance.now()
+    let raf: number
+    function tick(now: number) {
+      const dt = now - prev
+      prev = now
+      if (!paused.current && inner) {
+        pos.current += 0.04 * dt
+        const half = inner.scrollWidth / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
 
   return (
     <div
@@ -431,45 +458,41 @@ function MobileTestimonialMarquee({ items }: { items: typeof TESTIMONIALS }) {
         maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
         WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
       }}
+      onTouchStart={e => {
+        paused.current = true
+        dragStartX.current = e.touches[0].clientX
+        dragStartPos.current = pos.current
+      }}
+      onTouchMove={e => {
+        const delta = dragStartX.current - e.touches[0].clientX
+        const inner = trackRef.current
+        if (!inner) return
+        const half = inner.scrollWidth / 2
+        let newPos = dragStartPos.current + delta
+        if (newPos < 0) newPos = 0
+        if (half > 0 && newPos >= half) newPos = half - 1
+        pos.current = newPos
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }}
+      onTouchEnd={() => {
+        if (expandedCount.current === 0) paused.current = false
+      }}
     >
-      <style>{`
-        @keyframes testimonialHScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
-        .testimonial-htrack { animation: testimonialHScroll 40s linear infinite; }
-        .testimonial-htrack.t-paused { animation-play-state: paused; }
-        .testimonial-htrack .t-card { display: flex; flex-direction: column; height: 300px; }
-        .testimonial-htrack .t-card > div { flex: 1; display: flex; flex-direction: column; }
-        .testimonial-htrack .t-card > div > div:first-child { flex: 1; overflow: hidden; }
-      `}</style>
       <div
         ref={trackRef}
-        className="testimonial-htrack flex items-stretch gap-4 py-2"
+        className="flex items-stretch gap-4 py-2"
         style={{ width: 'max-content' }}
-        onTouchStart={e => {
-          isDragging.current = true
-          trackRef.current?.classList.add('t-paused')
-          dragStartX.current = e.touches[0].clientX
-          animOffsetRef.current = new DOMMatrix(getComputedStyle(trackRef.current!).transform).m41
-        }}
-        onTouchMove={e => {
-          if (!isDragging.current || !trackRef.current) return
-          const dx = e.touches[0].clientX - dragStartX.current
-          trackRef.current.style.transform = `translateX(${animOffsetRef.current + dx}px)`
-        }}
-        onTouchEnd={() => {
-          isDragging.current = false
-          if (!trackRef.current) return
-          const cur = new DOMMatrix(getComputedStyle(trackRef.current).transform).m41
-          // find the equivalent position within the animation cycle and restart from there
-          const totalW = trackRef.current.scrollWidth / 2
-          const pct = ((-cur % totalW) + totalW) % totalW / totalW
-          trackRef.current.style.transform = ''
-          trackRef.current.style.animationDelay = `-${pct * 40}s`
-          trackRef.current.classList.remove('t-paused')
-        }}
       >
         {[...items, ...items].map((t, i) => (
-          <div key={i} className="t-card" style={{ width: '280px', flexShrink: 0 }}>
-            <HomeTestimonialCard t={t} />
+          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
+            <HomeTestimonialCard
+              t={t}
+              onExpandChange={exp => {
+                expandedCount.current += exp ? 1 : -1
+                if (expandedCount.current < 0) expandedCount.current = 0
+                paused.current = expandedCount.current > 0
+              }}
+            />
           </div>
         ))}
       </div>
