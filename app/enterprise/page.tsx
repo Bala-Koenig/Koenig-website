@@ -4884,7 +4884,7 @@ export default function EnterprisePage() {
           { w:  90, h: 130, top: '42%',  left: '91%' },
           { w:  70, h:  70, top: '70%',  left: '75%' },
         ].map((sq, i) => (
-          <div key={i} className="pointer-events-none absolute" style={{ width: sq.w, height: sq.h, top: sq.top, left: sq.left, border: '1.5px solid rgba(255,255,255,0.55)', borderRadius: '6px', background: 'rgba(255,255,255,0.08)' }} />
+          <div key={i} className="pointer-events-none absolute" style={{ width: sq.w, height: sq.h, top: sq.top, left: sq.left, border: '1.5px solid rgba(255,255,255,0.55)', borderRadius: '6px', background: 'rgba(255,255,255,0.08)', zIndex: 0 }} />
         ))}
 
         <div className="relative z-10 mx-auto max-w-7xl">
@@ -4896,7 +4896,9 @@ export default function EnterprisePage() {
         </div>
 
         {/* Mobile auto-scroll strip */}
-        <VendorsMobileStrip />
+        <div className="relative z-10">
+          <VendorsMobileStrip />
+        </div>
 
         {/* Row 1 — scrolls left (desktop only) */}
         <div className="hidden sm:block ent-marquee-wrap relative mb-4 py-3">
