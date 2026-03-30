@@ -418,6 +418,54 @@ function HomeTestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
   )
 }
 
+function MobileTestimonialMarquee({ items }: { items: typeof TESTIMONIALS }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const dragStartX = useRef(0)
+  const dragOffsetRef = useRef(0)
+  return (
+    <div
+      className="sm:hidden overflow-hidden"
+      style={{
+        maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+      }}
+    >
+      <style>{`
+        @keyframes testimonialHScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        .testimonial-htrack { animation: testimonialHScroll 40s linear infinite; }
+        .testimonial-htrack.t-paused { animation-play-state: paused; }
+      `}</style>
+      <div
+        ref={trackRef}
+        className="testimonial-htrack flex gap-4 py-2"
+        style={{ width: 'max-content' }}
+        onTouchStart={e => {
+          trackRef.current?.classList.add('t-paused')
+          dragStartX.current = e.touches[0].clientX
+          const mat = new DOMMatrix(getComputedStyle(trackRef.current!).transform)
+          dragOffsetRef.current = mat.m41
+        }}
+        onTouchMove={e => {
+          if (!trackRef.current) return
+          const dx = e.touches[0].clientX - dragStartX.current
+          trackRef.current.style.transform = `translateX(${dragOffsetRef.current + dx}px)`
+        }}
+        onTouchEnd={() => {
+          if (!trackRef.current) return
+          trackRef.current.style.transform = ''
+          trackRef.current.classList.remove('t-paused')
+        }}
+      >
+        {[...items, ...items].map((t, i) => (
+          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
+            <HomeTestimonialCard t={t} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function HomeScrollColumn({ items, speed, draggable }: { items: typeof TESTIMONIALS; speed: number; draggable?: boolean }) {
   const innerRef = useRef<HTMLDivElement>(null)
   const pos = useRef(0)
@@ -3814,17 +3862,8 @@ export default function Design4Page() {
             </div>
           </div>
 
-          {/* Mobile: single auto-scroll column with drag */}
-          <div
-            className="sm:hidden relative overflow-hidden"
-            style={{
-              height: '520px',
-              maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
-            }}
-          >
-            <HomeScrollColumn items={TESTIMONIALS} speed={0.030} draggable />
-          </div>
+          {/* Mobile: horizontal auto-scroll marquee + swipe */}
+          <MobileTestimonialMarquee items={TESTIMONIALS} />
 
           {/* Desktop: 3-column auto-scroll */}
           <div
