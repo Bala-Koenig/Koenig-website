@@ -2350,6 +2350,83 @@ const NEW_TRENDING = [
   },
 ]
 
+/* ─── Industry Mobile Carousel ──────────────────────────── */
+
+function IndustryMobileCarousel() {
+  const [page, setPage] = useState(0)
+  const touchStartX = useRef(0)
+  const CARDS_PER_PAGE = 2
+  const totalPages = Math.ceil(INDUSTRIES.length / CARDS_PER_PAGE)
+  const pageItems = INDUSTRIES.slice(page * CARDS_PER_PAGE, (page + 1) * CARDS_PER_PAGE)
+
+  return (
+    <div className="sm:hidden">
+      <div
+        className="grid grid-cols-2 gap-3"
+        onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+        onTouchEnd={e => {
+          const dx = e.changedTouches[0].clientX - touchStartX.current
+          if (dx < -40 && page < totalPages - 1) setPage(p => p + 1)
+          if (dx > 40 && page > 0) setPage(p => p - 1)
+        }}
+      >
+        {pageItems.map((ind, i) => {
+          const globalI = page * CARDS_PER_PAGE + i
+          return (
+            <div
+              key={globalI}
+              className="ind-card"
+              ref={el => {
+                if (!el) return
+                const obs = new IntersectionObserver(([entry]) => {
+                  if (entry.isIntersecting) { el.classList.add('ind-visible'); obs.disconnect() }
+                }, { threshold: 0.05 })
+                obs.observe(el)
+              }}
+            >
+              <div className="ind-accent" />
+              <div className="ind-icon-box mb-3" style={{ width: 40, height: 40 }}>
+                <div className="ind-icon-svg" style={{ ['--fy' as string]: '0px', ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ overflow: 'visible' }}>{ind.icon}</svg>
+                </div>
+              </div>
+              <h3 className="text-sm font-bold text-white">{ind.name}</h3>
+              <div className="ind-divider" />
+              <p className="mb-3 text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{ind.desc}</p>
+              <div className="flex flex-wrap gap-1">
+                {ind.tags.map(tag => (
+                  <span key={tag} className="ind-tag" style={{ fontSize: 10 }}>{tag}</span>
+                ))}
+              </div>
+              <div className="ind-ghost" aria-hidden>{String(globalI + 1).padStart(2, '0')}</div>
+            </div>
+          )
+        })}
+      </div>
+      {/* Dots */}
+      <div className="mt-5 flex justify-center gap-2">
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i)}
+            aria-label={`Page ${i + 1}`}
+            style={{
+              width: i === page ? 20 : 8,
+              height: 8,
+              borderRadius: 4,
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              background: i === page ? '#0694D1' : 'rgba(19,168,212,0.3)',
+              padding: 0,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* ─── Client Logo Marquee ────────────────────────────────── */
 
 function ClientLogoMarquee({ clients }: { clients: typeof ENTERPRISE_CLIENTS }) {
@@ -3837,7 +3914,8 @@ export default function EnterprisePage() {
               transition:background .3s,color .3s,border-color .3s; }
             .ind-card:hover .ind-tag { background:rgba(19,168,212,.22);color:#7de8ff;border-color:rgba(19,168,212,.45); }
           `}</style>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <IndustryMobileCarousel />
+          <div className="hidden sm:grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {INDUSTRIES.map((ind, i) => (
               <div
                 key={i}
