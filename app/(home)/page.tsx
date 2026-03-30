@@ -2728,14 +2728,14 @@ export default function Design4Page() {
                       { icon: '📚', stat: '5,000+', label: 'Courses (Across technologies)',        img: '/images/home-banner/5000+.svg' },
                       { icon: '👥', stat: '350+',   label: 'Certified Trainers (Real-world experts)', img: '/images/home-banner/350+.svg' },
                     ].map((row, i) => (
-                      <div key={i} className="flex items-center rounded-xl px-3 py-2" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                      <div key={i} className="flex items-center justify-center gap-3 rounded-xl px-3 py-2" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
                         <div
                           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
                           style={{ background: 'linear-gradient(135deg, #076D9D, #0C5A7F)', border: '1px solid rgba(58,182,235,0.30)' }}
                         >
                           <img src={row.img} alt={row.stat} className="h-5 w-5 object-contain" />
                         </div>
-                        <div className="flex-1 text-center">
+                        <div className="text-center">
                           <div className="font-bold text-white text-sm">{row.stat}</div>
                           <div className="text-sm text-white/60">{row.label}</div>
                         </div>
