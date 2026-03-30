@@ -4561,7 +4561,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Business Impact ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-20" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[30px] sm:py-20" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
         {/* Floating squares — right half decorative */}
         {[
           { w: 110, h: 110, top: '12%',  left: '46%' },
