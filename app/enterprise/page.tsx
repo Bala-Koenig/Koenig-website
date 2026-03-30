@@ -2350,6 +2350,112 @@ const NEW_TRENDING = [
   },
 ]
 
+/* ─── Koenig Difference Mobile Carousel ─────────────────── */
+
+const WHY_ICONS = [
+  <svg key={0} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+  <svg key={1} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+  <svg key={2} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00b4d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+  <svg key={3} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/><path d="M9 11l2 2 4-4"/></svg>,
+  <svg key={4} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#076d9d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 7h5M7 11h3"/></svg>,
+  <svg key={5} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00b4d8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.06 1.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.1a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16z"/></svg>,
+]
+
+const WHY_BG = [
+  'linear-gradient(135deg,#0a6ebd 0%,#0694d1 50%,#00b4d8 100%)',
+  'linear-gradient(145deg,#071c2e,#0a2a42)',
+  'linear-gradient(145deg,#062038,#083250)',
+  'linear-gradient(145deg,#072440,#093556)',
+  'linear-gradient(145deg,#061828,#082438)',
+  'linear-gradient(145deg,#062030,#083048)',
+]
+
+const WHY_BORDER = [
+  'rgba(255,255,255,0.18)',
+  'rgba(6,148,209,0.22)',
+  'rgba(0,180,216,0.2)',
+  'rgba(6,148,209,0.2)',
+  'rgba(7,109,157,0.25)',
+  'rgba(0,180,216,0.18)',
+]
+
+function KoenigDifferenceMobileCarousel() {
+  const [page, setPage] = useState(0)
+  const touchStartX = useRef(0)
+  const CARDS_PER_PAGE = 2
+  const totalPages = Math.ceil(WHY.length / CARDS_PER_PAGE)
+  const pages: number[][] = Array.from({ length: totalPages }, (_, p) =>
+    WHY.slice(p * CARDS_PER_PAGE, (p + 1) * CARDS_PER_PAGE).map((_, i) => p * CARDS_PER_PAGE + i)
+  )
+
+  return (
+    <div className="sm:hidden">
+      <div
+        className="overflow-hidden"
+        onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+        onTouchEnd={e => {
+          const dx = e.changedTouches[0].clientX - touchStartX.current
+          if (dx < -40 && page < totalPages - 1) setPage(p => p + 1)
+          if (dx > 40 && page > 0) setPage(p => p - 1)
+        }}
+      >
+        <div
+          className="flex"
+          style={{ transform: `translateX(-${page * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
+        >
+          {pages.map((group, pageIdx) => (
+            <div key={pageIdx} className="min-w-full grid grid-cols-1 gap-3">
+              {group.map(gi => (
+                <div
+                  key={gi}
+                  className="flex flex-col rounded-2xl p-5"
+                  style={{ background: WHY_BG[gi], border: `1px solid ${WHY_BORDER[gi]}` }}
+                >
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: gi === 0 ? 'rgba(255,255,255,0.18)' : 'rgba(6,148,209,0.18)' }}>
+                    {WHY_ICONS[gi]}
+                  </div>
+                  <h3 className="mb-2 text-base font-bold text-white">{WHY[gi].title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: gi === 0 ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.6)' }}>{WHY[gi].desc}</p>
+                  {gi === 0 && (
+                    <div className="mt-4 flex gap-3">
+                      {[{ val: '50+', label: 'Vendors' }, { val: '195+', label: 'Countries' }, { val: '30+', label: 'Years' }].map(s => (
+                        <div key={s.label} className="flex-1 rounded-xl py-2 text-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
+                          <div className="text-sm font-bold text-white">{s.val}</div>
+                          <div className="text-xs text-white/70">{s.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Dots */}
+      <div className="mt-5 flex justify-center gap-3">
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setPage(i)}
+            aria-label={`Page ${i + 1}`}
+            style={{
+              width: i === page ? 32 : 10,
+              height: 10,
+              borderRadius: 999,
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'all 0.3s ease',
+              background: i === page ? '#0694D1' : 'rgba(6,148,209,0.3)',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* ─── Industry Mobile Carousel ──────────────────────────── */
 
 function IndustryMobileCarousel() {
@@ -4299,7 +4405,8 @@ export default function EnterprisePage() {
             <p className="mx-auto max-w-xl text-sm sm:text-base text-white/55">What makes 1M+ professionals and global enterprises choose Koenig</p>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <KoenigDifferenceMobileCarousel />
+          <div className="hidden sm:flex flex-col gap-4">
             {/* Row 1 — full-width banner: 50+ Vendor Partnerships */}
             <div className="ent-diff-banner io-fade flex flex-col gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between" style={{ background: 'linear-gradient(135deg,#0a6ebd 0%,#0694d1 50%,#00b4d8 100%)' }}>
               <div className="flex items-start gap-4">
