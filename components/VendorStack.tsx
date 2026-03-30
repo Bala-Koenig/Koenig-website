@@ -289,7 +289,7 @@ function MoreCard() {
               className="vs-inline-logo"
               style={{ flexShrink: 0, background: '#EAF6FB', borderRadius: 8, padding: '6px 10px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: 48, minWidth: 48 }}
             >
-              <span style={{ fontSize: 28, fontWeight: 900, color: 'white', lineHeight: 1 }}>∞</span>
+              <span style={{ fontSize: 28, fontWeight: 900, color: '#0694D1', lineHeight: 1 }}>∞</span>
             </div>
           </div>
           <h3 className="vs-more-title" style={{ fontWeight: 700, lineHeight: 1.1, margin: 0 }}>
