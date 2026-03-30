@@ -2388,13 +2388,13 @@ function VendorsMobileCarousel() {
                     className="flex flex-col overflow-hidden rounded-2xl bg-white"
                     style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(0,164,239,0.07)' }}
                   >
-                    <div className={`flex h-24 w-full items-center justify-center bg-white ${v.imgLg ? 'p-1' : 'p-3'}`}>
+                    <div className={`flex h-24 w-full items-center justify-center bg-white ${'imgLg' in v && v.imgLg ? 'p-1' : 'p-3'}`}>
                       {v.img ? (
                         <img
                           src={`/images/partners/${encodeURIComponent(v.img)}`}
                           alt={v.name}
                           className="h-full w-full object-contain"
-                          style={{ maxHeight: v.imgLg ? '100px' : '72px' }}
+                          style={{ maxHeight: 'imgLg' in v && v.imgLg ? '100px' : '72px' }}
                         />
                       ) : (
                         <span className="text-2xl font-black" style={{ color: '#076D9D' }}>{v.initial}</span>
