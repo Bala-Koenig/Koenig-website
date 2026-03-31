@@ -4244,7 +4244,7 @@ export default function Design4Page() {
 
         {/* Header */}
         <div className="mx-auto max-w-7xl">
-          <div className="io-fade mb-8 text-center">
+          <div className="io-fade mb-4 sm:mb-8 text-center">
             <span className="mb-2 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Recognition</span>
             <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Awards &amp; <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Recognition</span></h2>
             <p className="text-sm text-koenig-muted">Recognized by global vendors and quality bodies for training excellence</p>
