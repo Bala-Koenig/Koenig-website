@@ -1278,14 +1278,14 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
 /* ─── Enterprise Tech Browser data ──────────────────────────── */
 type EntCourse = { name: string; examCode: string; category: string; price: string; days: number; hours: number }
 const ENT_TECH_CATEGORIES = [
-  { name: 'Cloud Computing',    count: 8, desc: 'Master multi-cloud platforms — AWS, Azure, and GCP — from core IaaS/PaaS fundamentals to advanced architecture, DevSecOps, and cost optimisation.' },
-  { name: 'Cybersecurity',      count: 6, desc: 'Build expertise in ethical hacking, penetration testing, and security operations with globally recognized certifications.' },
-  { name: 'Data & AI',          count: 6, desc: 'Drive business decisions with data science, machine learning, and AI engineering skills across leading cloud platforms.' },
-  { name: 'Networking',         count: 5, desc: 'Design and manage enterprise networks from CCNA fundamentals to CCIE-level infrastructure and SD-WAN.' },
-  { name: 'Project Management', count: 5, desc: 'Lead projects and programs with PMP, PRINCE2, ITIL, and Agile certifications recognized globally.' },
-  { name: 'DevOps',             count: 5, desc: 'Accelerate delivery pipelines with Kubernetes, Terraform, Ansible, and cloud-native DevOps toolchains.' },
-  { name: 'ERP Systems',        count: 5, desc: 'Configure and manage SAP S/4HANA, Oracle ERP, and enterprise resource planning systems end-to-end.' },
-  { name: 'Linux & Open Source',count: 5, desc: 'Administer Linux environments and open-source infrastructure with Red Hat and Linux Foundation certifications.' },
+  { name: 'Cloud Computing',    count: 8, tag: 'Cloud Roles',      desc: 'Master multi-cloud platforms — AWS, Azure, and GCP — from core IaaS/PaaS fundamentals to advanced architecture, DevSecOps, and cost optimisation.' },
+  { name: 'Cybersecurity',      count: 6, tag: 'Security Roles',   desc: 'Build expertise in ethical hacking, penetration testing, and security operations with globally recognized certifications.' },
+  { name: 'Data & AI',          count: 6, tag: 'Data Roles',       desc: 'Drive business decisions with data science, machine learning, and AI engineering skills across leading cloud platforms.' },
+  { name: 'Networking',         count: 5, tag: 'Network Roles',    desc: 'Design and manage enterprise networks from CCNA fundamentals to CCIE-level infrastructure and SD-WAN.' },
+  { name: 'Project Management', count: 5, tag: 'PM Roles',         desc: 'Lead projects and programs with PMP, PRINCE2, ITIL, and Agile certifications recognized globally.' },
+  { name: 'DevOps',             count: 5, tag: 'DevOps Roles',     desc: 'Accelerate delivery pipelines with Kubernetes, Terraform, Ansible, and cloud-native DevOps toolchains.' },
+  { name: 'ERP Systems',        count: 5, tag: 'ERP Roles',        desc: 'Configure and manage SAP S/4HANA, Oracle ERP, and enterprise resource planning systems end-to-end.' },
+  { name: 'Linux & Open Source',count: 5, tag: 'Linux Roles',      desc: 'Administer Linux environments and open-source infrastructure with Red Hat and Linux Foundation certifications.' },
 ]
 const ENT_TECH_COURSES: Record<string, EntCourse[]> = {
   'Cloud Computing': [
@@ -4193,286 +4193,237 @@ export default function Design4Page() {
       {/* ── Vendor Stack ──────────────────────────────────────── */}
       <VendorStack />
 
-      {/* ── Enterprise + Global Presence (tabbed) ─────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]">
-        <div className="pointer-events-none absolute -left-32 top-1/3 h-[450px] w-[450px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -right-24 bottom-0 h-[360px] w-[360px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.17) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute left-1/2 top-0 h-[200px] w-[600px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
-        <div className="mx-auto max-w-7xl">
+      {/* ── Comprehensive Training Catalogue ──────────────────── */}
+      <section className="relative overflow-hidden px-4 lg:px-[50px] py-10 sm:py-16" style={{ background: 'linear-gradient(160deg,#EEF6FC 0%,#F5FBFF 50%,#EBF8FE 100%)' }}>
+        <div className="pointer-events-none absolute -left-32 top-1/3 h-[450px] w-[450px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -right-24 bottom-0 h-[360px] w-[360px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.10) 0%, transparent 70%)' }} />
+        {/* ── Catalogue content ── */}
+        {(() => {
+          const allCourses = ENT_TECH_COURSES[entTech] ?? []
+          const searched = entSearch.trim()
+            ? allCourses.filter(c => c.name.toLowerCase().includes(entSearch.toLowerCase()) || c.examCode.toLowerCase().includes(entSearch.toLowerCase()))
+            : allCourses
+          const filtered = entLevelFilter === 'All' ? searched : searched.filter(c => c.category === entLevelFilter.toUpperCase())
+          const sorted = [...filtered].sort((a, b) => {
+            const pa = parseFloat(a.price.replace(/[^0-9.]/g, ''))
+            const pb = parseFloat(b.price.replace(/[^0-9.]/g, ''))
+            return entSort === 'high-low' ? pb - pa : entSort === 'low-high' ? pa - pb : 0
+          })
+          const LEVELS = ['All', 'Fundamentals', 'Associate', 'Professional', 'Expert']
+          const levelCount = (lv: string) => lv === 'All' ? allCourses.length : allCourses.filter(c => c.category === lv.toUpperCase()).length
+          const currentCat = ENT_TECH_CATEGORIES.find(c => c.name === entTech)
+          const firstCode = allCourses[0]?.examCode ?? ''
+          const lastCode = allCourses[allCourses.length - 1]?.examCode ?? ''
+          return (
+            <div className="mx-auto max-w-7xl">
+              {/* Section heading */}
+              <div className="io-fade mb-6 text-center">
+                <span className="mb-2 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">What We Train</span>
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">
+                  Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
+                </h2>
+              </div>
 
-          {/* Tab header row */}
-          <div className="io-fade mb-3 flex flex-col items-center sm:items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div className="text-center sm:text-left">
-              <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Solutions</span>
-              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">
-                {orgTab === 'enterprise'
-                  ? <>Upskill Your <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Entire Workforce</span></>
-                  : <>Train From Anywhere <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">in the World</span></>}
-              </h2>
-            </div>
-            {/* Tab pills — right side */}
-            <div className="flex shrink-0 items-center gap-1 overflow-x-auto rounded-2xl p-1.5 [&::-webkit-scrollbar]:hidden" style={{ background: '#D6F0FB', border: '1px solid #B9DEFF' }}>
-              {(['enterprise', 'global'] as const).map((key) => {
-                const label = key === 'enterprise' ? 'Upskill Your Workforce' : 'Train Globally'
-                const active = orgTab === key
-                return (
-                  <button
-                    key={key}
-                    onClick={() => setOrgTab(key)}
-                    className={`rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-200 ${
-                      active ? 'text-white shadow-md' : 'text-[#076d9d] hover:bg-white/50 hover:text-[#093148]'
-                    }`}
-                    style={active ? { background: 'linear-gradient(135deg,#0694d1,#076d9d)', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' } : {}}
-                  >
-                    {label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+              {/* Full-width search bar */}
+              <div className="io-fade delay-1 mb-6 relative">
+                <svg className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input
+                  type="text"
+                  placeholder="Search certifications or exam codes... e.g. AZ-900, Kubernetes, Security"
+                  value={entSearch}
+                  onChange={e => setEntSearch(e.target.value)}
+                  className="w-full rounded-full border border-[#CAEFFF] bg-white py-4 pl-14 pr-6 text-sm text-koenig-dark placeholder-koenig-muted shadow-sm outline-none focus:border-koenig-blue focus:ring-2 focus:ring-koenig-blue/10"
+                />
+              </div>
 
-          {/* Tab content */}
-          {orgTab === 'enterprise' ? (() => {
-            const allCourses = ENT_TECH_COURSES[entTech] ?? []
-            const searched = entSearch.trim()
-              ? allCourses.filter(c => c.name.toLowerCase().includes(entSearch.toLowerCase()) || c.examCode.toLowerCase().includes(entSearch.toLowerCase()))
-              : allCourses
-            const filtered = entLevelFilter === 'All' ? searched : searched.filter(c => c.category === entLevelFilter.toUpperCase())
-            const sorted = [...filtered].sort((a, b) => {
-              const pa = parseFloat(a.price.replace(/[^0-9.]/g, ''))
-              const pb = parseFloat(b.price.replace(/[^0-9.]/g, ''))
-              return entSort === 'high-low' ? pb - pa : entSort === 'low-high' ? pa - pb : 0
-            })
-            const levels = ['All', 'Fundamentals', 'Associate', 'Professional', 'Expert']
-            const levelCount = (lv: string) => lv === 'All' ? allCourses.length : allCourses.filter(c => c.category === lv.toUpperCase()).length
-            const currentCat = ENT_TECH_CATEGORIES.find(c => c.name === entTech)
-            return (
-              <div className="flex rounded-2xl overflow-hidden border border-[#CAEFFF] bg-white" style={{ minHeight: '560px' }}>
+              {/* Main panel — white card */}
+              <div className="io-fade delay-1 flex rounded-2xl overflow-hidden bg-white" style={{ boxShadow: '0 4px 32px rgba(6,148,209,0.12)', border: '1px solid #CAEFFF', minHeight: '620px' }}>
 
                 {/* ── Left Sidebar ── */}
-                <div className="hidden sm:flex flex-col w-56 lg:w-64 shrink-0 border-r border-[#CAEFFF]">
-                  <div className="px-5 pt-4 pb-2 text-[10px] font-bold tracking-widest uppercase" style={{ color: '#8BB5CC' }}>Technologies</div>
-                  <div className="flex-1 overflow-y-auto">
+                <div className="hidden sm:flex flex-col shrink-0 bg-white border-r border-[#CAEFFF]" style={{ width: '265px' }}>
+                  <div className="px-5 pt-5 pb-2 text-[11px] font-bold tracking-widest uppercase" style={{ color: '#9CB8CC' }}>Technologies</div>
+                  <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#CAEFFF transparent' }}>
                     {ENT_TECH_CATEGORIES.map((cat) => {
                       const active = entTech === cat.name
                       return (
                         <button key={cat.name}
-                          onClick={() => { setEntTech(cat.name); setEntLevelFilter('All'); setEntSearch('') }}
-                          className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all ${active ? 'bg-[#EBF8FE] border-l-2 border-koenig-blue' : 'border-l-2 border-transparent hover:bg-[#F7FCFF]'}`}
+                          onClick={() => { setEntTech(cat.name); setEntLevelFilter('All') }}
+                          className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all ${active ? 'bg-[#EBF8FE] border-l-[3px] border-koenig-blue' : 'border-l-[3px] border-transparent hover:bg-[#F7FCFF]'}`}
                         >
-                          <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${active ? 'bg-koenig-blue' : 'bg-[#EBF8FE]'}`}>
+                          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all ${active ? 'bg-koenig-blue' : 'bg-[#EBF8FE]'}`}>
                             <EntTechIcon name={cat.name} active={active} />
                           </span>
-                          <span className={`flex-1 text-xs font-semibold leading-tight ${active ? 'text-koenig-blue' : 'text-koenig-dark'}`}>{cat.name}</span>
-                          <span className={`shrink-0 rounded-full min-w-[1.25rem] px-1.5 py-0.5 text-center text-[10px] font-bold ${active ? 'bg-koenig-blue text-white' : 'bg-[#EBF8FE] text-koenig-blue'}`}>{cat.count}</span>
+                          <span className={`flex-1 text-sm font-semibold leading-tight ${active ? 'text-koenig-blue' : 'text-[#2D4A5A]'}`}>{cat.name}</span>
+                          <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold min-w-[1.75rem] text-center ${active ? 'bg-koenig-blue text-white' : 'bg-[#E4F3FA] text-[#5099B8]'}`}>{cat.count}</span>
                         </button>
                       )
                     })}
                   </div>
-                  {/* Bottom buttons */}
-                  <div className="p-3 border-t border-[#CAEFFF] space-y-2">
-                    <button className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-koenig-blue py-2.5 text-xs font-semibold text-koenig-blue hover:bg-[#F0FAFF] transition-colors">
-                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                  {/* Bottom action buttons */}
+                  <div className="p-4 border-t border-[#E4F3FA] space-y-2.5">
+                    <button onClick={() => setEnterpriseModalOpen(true)} className="w-full flex items-center justify-center gap-2 rounded-xl border border-koenig-blue py-3 text-sm font-semibold text-koenig-blue hover:bg-[#EBF8FE] transition-colors">
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                       Download Brochure
                     </button>
-                    <button onClick={() => setEnterpriseModalOpen(true)} className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-koenig-blue py-2.5 text-xs font-semibold text-white hover:bg-[#076D9D] transition-colors">
-                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <button onClick={() => setEnterpriseModalOpen(true)} className="w-full flex items-center justify-center gap-2 rounded-xl bg-koenig-blue py-3 text-sm font-semibold text-white hover:bg-[#076D9D] transition-colors">
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                       Enquire Now
                     </button>
                   </div>
                 </div>
 
-                {/* ── Mobile category scroll ── */}
-                <div className="sm:hidden absolute left-0 right-0 overflow-x-auto flex gap-2 px-4 pb-2 pt-1 [&::-webkit-scrollbar]:hidden" style={{ position: 'relative' }}>
-                  {ENT_TECH_CATEGORIES.map(cat => {
-                    const active = entTech === cat.name
-                    return (
-                      <button key={cat.name} onClick={() => { setEntTech(cat.name); setEntLevelFilter('All'); setEntSearch('') }}
-                        className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap ${active ? 'bg-koenig-blue text-white' : 'bg-[#EBF8FE] text-koenig-blue'}`}>
+                {/* ── Right content area ── */}
+                <div className="flex-1 flex flex-col overflow-hidden bg-white">
+                  {/* Mobile: category scroll row */}
+                  <div className="sm:hidden overflow-x-auto flex gap-2 px-4 py-3 border-b border-[#CAEFFF] [&::-webkit-scrollbar]:hidden">
+                    {ENT_TECH_CATEGORIES.map(cat => (
+                      <button key={cat.name} onClick={() => { setEntTech(cat.name); setEntLevelFilter('All') }}
+                        className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap ${entTech === cat.name ? 'bg-koenig-blue text-white' : 'bg-[#EBF8FE] text-koenig-blue'}`}>
                         {cat.name}
                       </button>
-                    )
-                  })}
-                </div>
-
-                {/* ── Right Content ── */}
-                <div className="flex-1 flex flex-col overflow-hidden bg-[#F8FBFE]">
-                  {/* Mobile: category tabs */}
-                  <div className="sm:hidden overflow-x-auto flex gap-2 px-4 py-3 bg-white border-b border-[#CAEFFF] [&::-webkit-scrollbar]:hidden">
-                    {ENT_TECH_CATEGORIES.map(cat => {
-                      const active = entTech === cat.name
-                      return (
-                        <button key={cat.name} onClick={() => { setEntTech(cat.name); setEntLevelFilter('All'); setEntSearch('') }}
-                          className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap ${active ? 'bg-koenig-blue text-white' : 'bg-[#EBF8FE] text-koenig-blue'}`}>
-                          {cat.name}
-                        </button>
-                      )
-                    })}
+                    ))}
                   </div>
 
-                  {/* Tech header */}
-                  <div className="flex items-start gap-3 p-4 bg-white border-b border-[#CAEFFF]">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EBF8FE]">
+                  {/* Tech header bar */}
+                  <div className="flex items-start gap-4 px-5 py-4 border-b border-[#E4F3FA]">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#EBF8FE]">
                       <EntTechIcon name={entTech} active={true} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-bold text-koenig-dark">{entTech}</h3>
-                      <p className="text-xs text-koenig-muted line-clamp-2">{currentCat?.desc}</p>
+                      <h3 className="text-lg font-bold text-koenig-dark">{entTech}</h3>
+                      <p className="text-sm text-koenig-muted leading-snug line-clamp-2">{currentCat?.desc}</p>
                     </div>
                     <button onClick={() => setEnterpriseModalOpen(true)}
-                      className="shrink-0 flex items-center gap-1.5 rounded-xl bg-koenig-blue px-4 py-2 text-xs font-semibold text-white hover:bg-[#076D9D] transition-colors whitespace-nowrap">
+                      className="shrink-0 flex items-center gap-2 rounded-xl bg-koenig-blue px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#076D9D] transition-colors whitespace-nowrap shadow-sm">
                       Enquire Now →
                     </button>
                   </div>
 
-                  {/* Filter bar */}
-                  <div className="flex flex-wrap items-center gap-2 px-4 py-3 bg-white border-b border-[#CAEFFF]">
-                    {/* Search */}
-                    <div className="relative">
-                      <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                      <input type="text" placeholder="Search courses..." value={entSearch} onChange={e => setEntSearch(e.target.value)}
-                        className="pl-7 pr-3 py-1.5 text-xs rounded-lg border border-[#CAEFFF] bg-[#F8FBFE] text-koenig-dark placeholder-koenig-muted outline-none focus:border-koenig-blue w-36 sm:w-44" />
-                    </div>
-                    {/* Level filters */}
-                    <div className="flex gap-1 flex-wrap">
-                      {levels.map(lv => {
+                  {/* Filter chips + level tabs row */}
+                  <div className="flex flex-wrap items-center gap-2 px-5 py-3 border-b border-[#E4F3FA] bg-white">
+                    {/* Active filter tags */}
+                    <span className="inline-flex items-center gap-1 rounded-full border border-koenig-blue/30 px-3 py-1 text-xs font-semibold text-koenig-blue">
+                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><polyline points="20 6 9 17 4 12"/></svg>
+                      {allCourses.length} Courses
+                    </span>
+                    {firstCode && lastCode && firstCode !== lastCode && (
+                      <span className="inline-flex items-center gap-1 rounded-full border border-koenig-blue/30 px-3 py-1 text-xs font-semibold text-koenig-blue">
+                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><polyline points="20 6 9 17 4 12"/></svg>
+                        {firstCode} — {lastCode}
+                      </span>
+                    )}
+                    {currentCat?.tag && (
+                      <span className="inline-flex items-center gap-1 rounded-full border border-koenig-blue/30 px-3 py-1 text-xs font-semibold text-koenig-blue">
+                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><polyline points="20 6 9 17 4 12"/></svg>
+                        {currentCat.tag}
+                      </span>
+                    )}
+                    {/* Divider */}
+                    <div className="hidden sm:block h-5 w-px bg-[#CAEFFF] mx-1" />
+                    {/* Level tabs */}
+                    <div className="flex items-center gap-1 flex-wrap">
+                      {LEVELS.map(lv => {
                         const cnt = levelCount(lv)
+                        if (cnt === 0 && lv !== 'All') return null
                         const active = entLevelFilter === lv
                         return (
                           <button key={lv} onClick={() => setEntLevelFilter(lv)}
-                            className={`rounded-full px-3 py-1 text-xs font-semibold transition-all whitespace-nowrap ${active ? 'bg-koenig-dark text-white' : 'bg-[#EBF8FE] text-koenig-blue hover:bg-[#D6F0FB]'}`}>
+                            className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-all whitespace-nowrap ${active ? 'bg-koenig-dark text-white' : 'text-[#2D4A5A] hover:bg-[#EBF8FE]'}`}>
                             {lv} {cnt}
                           </button>
                         )
                       })}
                     </div>
-                    {/* Sort */}
-                    <select value={entSort} onChange={e => setEntSort(e.target.value)}
-                      className="ml-auto text-xs border border-[#CAEFFF] rounded-lg px-2.5 py-1.5 bg-white text-koenig-dark outline-none cursor-pointer">
-                      <option value="low-high">Price: Low — High</option>
-                      <option value="high-low">Price: High — Low</option>
-                      <option value="default">Name A–Z</option>
-                    </select>
+                    {/* Sort — push to right */}
+                    <div className="ml-auto flex items-center gap-2">
+                      <svg className="h-4 w-4 text-koenig-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="9" y2="14"/><line x1="21" y1="18" x2="9" y2="18"/></svg>
+                      <select value={entSort} onChange={e => setEntSort(e.target.value)}
+                        className="text-xs border border-[#CAEFFF] rounded-lg px-3 py-1.5 bg-white text-koenig-dark outline-none cursor-pointer font-medium">
+                        <option value="low-high">Price: Low — High</option>
+                        <option value="high-low">Price: High — Low</option>
+                        <option value="default">Name A–Z</option>
+                      </select>
+                    </div>
                   </div>
 
-                  {/* Course grid */}
-                  <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: '440px' }}>
+                  {/* Breadcrumb row */}
+                  <div className="flex items-center justify-between px-5 py-2 border-b border-[#E4F3FA] bg-[#F8FBFD]">
+                    <div className="flex items-center gap-1.5 text-xs text-koenig-muted">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-koenig-blue text-white px-2.5 py-0.5 text-xs font-semibold">{sorted.length} All Courses</span>
+                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><polyline points="9 18 15 12 9 6"/></svg>
+                      <span className="font-medium text-koenig-dark">{entTech}</span>
+                    </div>
+                    <span className="hidden sm:flex items-center gap-1 text-xs text-koenig-blue font-medium">
+                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><polyline points="6 9 12 15 18 9"/></svg>
+                      Scroll for more
+                    </span>
+                  </div>
+
+                  {/* Course card grid — scrollable */}
+                  <div className="overflow-y-auto p-4" style={{ maxHeight: '480px', scrollbarWidth: 'thin', scrollbarColor: '#CAEFFF transparent' }}>
                     {sorted.length === 0 ? (
-                      <div className="flex flex-col items-center justify-center py-16 text-koenig-muted">
-                        <svg className="h-10 w-10 mb-3 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                        <p className="text-sm">No courses match your filters.</p>
+                      <div className="flex flex-col items-center justify-center py-20 text-koenig-muted">
+                        <svg className="h-12 w-12 mb-3 opacity-25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <p className="text-sm font-medium">No courses match your search.</p>
+                        <button onClick={() => { setEntSearch(''); setEntLevelFilter('All') }} className="mt-3 text-xs text-koenig-blue underline">Clear filters</button>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {sorted.map((course, i) => (
-                          <div key={i} className="bg-white rounded-xl border border-[#CAEFFF] p-4 flex flex-col gap-2.5" style={{ boxShadow: '0 1px 6px rgba(6,148,209,0.06)' }}>
-                            {/* Badge + cert details */}
-                            <div className="flex items-center justify-between gap-2">
-                              <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded ${ENT_CATEGORY_COLORS[course.category] ?? 'bg-gray-100 text-gray-600'}`}>{course.category}</span>
-                              <button className="text-[11px] font-semibold text-koenig-blue whitespace-nowrap hover:underline">Cert Details →</button>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {sorted.map((course, i) => {
+                          const priceNum = course.price.replace('$', '').replace(',', '')
+                          return (
+                            <div key={i} className="rounded-2xl border border-[#CAEFFF] bg-white p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(6,148,209,0.07)' }}>
+                              {/* Level badge + Cert Details */}
+                              <div className="flex items-center justify-between">
+                                <span className={`text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md ${ENT_CATEGORY_COLORS[course.category] ?? 'bg-gray-100 text-gray-600'}`}>{course.category}</span>
+                                <button className="text-xs font-semibold text-koenig-blue hover:underline whitespace-nowrap">Cert Details →</button>
+                              </div>
+                              {/* Course name */}
+                              <h4 className="text-sm font-bold text-koenig-dark leading-snug">{course.name}</h4>
+                              {/* Exam code chip — wide */}
+                              <div className="rounded-md bg-[#EBF8FE] px-3 py-1.5 text-sm font-semibold text-koenig-blue">{course.examCode}</div>
+                              {/* Price */}
+                              <div className="flex items-baseline gap-1">
+                                <span className="text-[13px] text-koenig-muted">$</span>
+                                <span className="text-2xl font-black text-koenig-dark">{priceNum}</span>
+                                <span className="ml-1 text-xs text-koenig-muted">per person · USD</span>
+                              </div>
+                              {/* Duration */}
+                              <div className="flex items-center gap-1.5 text-xs text-koenig-muted -mt-1">
+                                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                {course.days} {course.days === 1 ? 'day' : 'days'}
+                              </div>
+                              {/* Buttons */}
+                              <div className="flex gap-2 mt-auto pt-1">
+                                <button onClick={() => setEnterpriseModalOpen(true)}
+                                  className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[#B9DEFF] py-2.5 text-xs font-semibold text-koenig-blue hover:bg-[#EBF8FE] transition-colors">
+                                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                  Download Brochure
+                                </button>
+                                <button onClick={() => setEnterpriseModalOpen(true)}
+                                  className="flex-1 rounded-xl bg-koenig-blue py-2.5 text-xs font-semibold text-white hover:bg-[#076D9D] transition-colors">
+                                  Enroll Now
+                                </button>
+                              </div>
                             </div>
-                            {/* Course name */}
-                            <h4 className="text-sm font-bold text-koenig-dark leading-snug">{course.name}</h4>
-                            {/* Exam code + duration */}
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="bg-[#EBF8FE] text-koenig-blue text-[11px] px-2 py-0.5 rounded font-medium">{course.examCode}</span>
-                              <span className="flex items-center gap-1 text-[11px] text-koenig-muted">
-                                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                {course.days} day{course.days > 1 ? 's' : ''} · {course.hours}hrs
-                              </span>
-                            </div>
-                            {/* Price */}
-                            <div className="text-xs text-koenig-muted mt-0.5">
-                              <span className="text-lg font-extrabold text-koenig-dark">{course.price}</span> per person · USD
-                            </div>
-                            {/* Buttons */}
-                            <div className="flex gap-2 mt-auto pt-1">
-                              <button className="flex flex-1 items-center justify-center gap-1 rounded-lg border border-[#CAEFFF] py-1.5 text-[11px] font-semibold text-koenig-blue hover:bg-[#F0FAFF] transition-colors">
-                                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                Brochure
-                              </button>
-                              <button className="flex-1 rounded-lg bg-koenig-blue py-1.5 text-[11px] font-semibold text-white hover:bg-[#076D9D] transition-colors">
-                                Enroll Now
-                              </button>
-                            </div>
-                          </div>
-                        ))}
+                          )
+                        })}
                       </div>
                     )}
                   </div>
-
-                  {/* Request Training Plan bar */}
-                  <div className="flex justify-center px-4 py-3 border-t border-[#CAEFFF] bg-white">
-                    <button onClick={() => setEnterpriseModalOpen(true)}
-                      className="flex items-center gap-2 rounded-2xl bg-koenig-navy px-8 py-3 text-sm font-semibold text-white hover:bg-[#093148] transition-colors">
-                      Request Training Plan →
-                    </button>
-                  </div>
                 </div>
               </div>
-            )
-          })() : (
-            <div>
-              <p className="mb-8 max-w-xl text-sm sm:text-base text-koenig-muted">Physical training centers on every major continent, plus live online delivery across every timezone.</p>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                {COUNTRIES.map((c, i) => {
-                  const isHovered = hoveredCountry === i
-                  return (
-                    <div
-                      key={i}
-                      className="relative overflow-hidden rounded-xl bg-white transition-all duration-300"
-                      style={{
-                        border: isHovered ? '1.5px solid #0694d1' : '1px solid #CAEFFF',
-                        boxShadow: isHovered ? '0 4px 16px rgba(6,148,209,0.14)' : '0 2px 8px rgba(0,164,239,0.06)',
-                        transform: isHovered ? 'translateY(-4px)' : 'none',
-                      }}
-                      onMouseEnter={() => setHoveredCountry(i)}
-                      onMouseLeave={() => setHoveredCountry(null)}
-                    >
-                      {/* Accent bar — absolute so it doesn't affect card height */}
-                      <div
-                        className="absolute inset-x-0 top-0 transition-all duration-300"
-                        style={{ height: '4px', background: 'linear-gradient(90deg,#0694d1,#076d9d)', opacity: isHovered ? 1 : 0 }}
-                      />
 
-                      <div className="p-4 text-center">
-                        {/* Realistic flag image */}
-                        <div className="mb-3 flex justify-center">
-                          <img
-                            src={`https://flagcdn.com/w80/${c.flagCode}.png`}
-                            srcSet={`https://flagcdn.com/w160/${c.flagCode}.png 2x`}
-                            width={56}
-                            height={38}
-                            alt={c.name}
-                            className="rounded-md object-cover"
-                            style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.18)', border: '1px solid rgba(0,0,0,0.08)' }}
-                          />
-                        </div>
-
-                        {/* Country name */}
-                        <div className={`mb-1.5 text-sm font-bold transition-colors ${isHovered ? 'text-koenig-blue' : 'text-koenig-dark'}`}>{c.name}</div>
-
-                        {/* Cities with map pin */}
-                        <div className="flex items-center justify-center gap-1 text-sm text-koenig-muted">
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                          {c.cities}
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-              <div className="mt-8 rounded-xl border border-koenig-border bg-koenig-light p-5 text-center">
-                <p className="text-sm text-koenig-muted">
-                  Can&apos;t travel?{' '}
-                  <span className="font-semibold text-koenig-dark">Live Online delivery reaches every country and every timezone</span>
-                  {' '}— with the same instructor quality and guaranteed schedules.
-                </p>
+              {/* Request Training Plan — bottom CTA */}
+              <div className="mt-8 flex justify-center">
+                <button onClick={() => setEnterpriseModalOpen(true)}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-koenig-navy px-10 py-4 text-sm font-bold text-white hover:bg-[#093148] transition-colors shadow-lg shadow-koenig-navy/20">
+                  Request Training Plan →
+                </button>
               </div>
             </div>
-          )}
-
-        </div>
+          )
+        })()}
       </section>
 
       {/* ── Awards ────────────────────────────────────────────── */}
