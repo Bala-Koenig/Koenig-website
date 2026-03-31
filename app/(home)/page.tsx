@@ -964,11 +964,11 @@ function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
             Brochure
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); setShowEnroll(true) }}
+            onClick={(e) => { e.stopPropagation() }}
             className="flex-1 rounded-lg py-1.5 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-lg"
             style={{ background: 'linear-gradient(135deg, #0694d1, #076D9D)' }}
           >
-            Enroll Now
+            Enquire Now
           </button>
         </div>
       </div>
