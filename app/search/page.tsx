@@ -1,8 +1,9 @@
 'use client'
 import { useState, useEffect, useLayoutEffect, useRef, Suspense } from 'react'
 import { createPortal } from 'react-dom'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Navbar from '@/components/Navbar'
 
 /* ─── Data ─────────────────────────────────────────────────── */
 
@@ -462,17 +463,13 @@ function EmptyState({ label, query }: { label: string; query: string }) {
 
 function SearchResults() {
   const searchParams = useSearchParams()
-  const router = useRouter()
   const initialQ = searchParams.get('q') ?? ''
   const [query, setQuery] = useState(initialQ)
-  const [inputVal, setInputVal] = useState(initialQ)
   const [activeTab, setActiveTab] = useState<'courses' | 'vendors' | 'technologies'>('courses')
-  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const q = searchParams.get('q') ?? ''
     setQuery(q)
-    setInputVal(q)
   }, [searchParams])
 
   const q = query.trim().toLowerCase()
@@ -491,12 +488,6 @@ function SearchResults() {
 
   const totalCount = filteredCourses.length + filteredVendors.length + filteredTechs.length
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault()
-    const trimmed = inputVal.trim()
-    router.push(trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : '/search')
-  }
-
   const TABS = [
     { key: 'courses',      label: 'Courses',      count: filteredCourses.length },
     { key: 'vendors',      label: 'Vendors',       count: filteredVendors.length },
@@ -506,38 +497,8 @@ function SearchResults() {
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(160deg,#040f1a 0%,#061e30 60%,#051525 100%)', fontFamily: "'GT Walsheim Pro', sans-serif" }}>
 
-      {/* ── Sticky header ── */}
-      <header className="sticky top-0 z-40 border-b border-white/[0.07] backdrop-blur-md" style={{ background: 'rgba(6,18,30,0.92)' }}>
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 lg:px-8">
-          <Link href="/" className="shrink-0">
-            <span className="text-lg font-extrabold text-white">Koenig<span style={{ color: '#0694d1' }}>.</span></span>
-          </Link>
-          <form onSubmit={handleSearch} className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border px-3 py-2" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.12)' }}>
-            <svg className="h-4 w-4 shrink-0" style={{ color: 'rgba(255,255,255,0.4)' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-            </svg>
-            <input
-              ref={inputRef}
-              type="text"
-              value={inputVal}
-              onChange={e => setInputVal(e.target.value)}
-              placeholder="Search 5,000+ courses, vendors, technologies…"
-              className="min-w-0 flex-1 bg-transparent text-sm text-white placeholder-white/35 outline-none"
-            />
-            {inputVal && (
-              <button type="button" onClick={() => { setInputVal(''); inputRef.current?.focus() }} className="shrink-0 text-white/40 hover:text-white/70">
-                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-              </button>
-            )}
-            <button type="submit" className="shrink-0 rounded-lg px-4 py-1.5 text-xs font-bold text-white transition-opacity hover:opacity-90" style={{ background: '#0694d1' }}>
-              Search
-            </button>
-          </form>
-          <Link href="/" className="hidden shrink-0 items-center gap-1.5 rounded-xl border border-white/15 px-3 py-2 text-xs font-medium text-white/70 transition-colors hover:border-white/30 hover:text-white sm:flex">
-            ← Home
-          </Link>
-        </div>
-      </header>
+      {/* ── Full homepage navigation ── */}
+      <Navbar initialQuery={initialQ} />
 
       {/* ── Results heading ── */}
       <div className="mx-auto max-w-7xl px-4 pt-8 lg:px-8">
