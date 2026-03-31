@@ -4262,7 +4262,7 @@ export default function Design4Page() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.25)' }}>
                   <svg className="h-5 w-5" style={{ color: '#0694d1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icon}</svg>
                 </div>
-                <div className="text-2xl font-extrabold" style={{ color: '#0694d1' }}>{value}</div>
+                <div className="text-lg sm:text-2xl font-extrabold" style={{ color: '#0694d1' }}>{value}</div>
                 <div className="text-xs font-bold uppercase tracking-wide text-koenig-dark">{label}</div>
               </div>
             ))}
