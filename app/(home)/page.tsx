@@ -26,48 +26,56 @@ const TOP_COURSES = [
     examCode: 'SAP-C02', category: 'ASSOCIATE',
     days: 5, rating: 4.9, enrolled: '1,900+', price: '$1,395',
     levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Advanced',
+    cert: { prereq: '2+ years of hands-on AWS cloud experience recommended', examFee: '$300 USD', format: 'Multiple choice, multiple response', questions: '75 questions', passingScore: '750 / 1000', validity: '3 years', bestPractices: ['Complete all AWS Skill Builder courses mapped to SAP-C02', 'Study the AWS Well-Architected Framework whitepapers', 'Review the official exam guide at aws.training before exam day'] },
   },
   {
     vendor: 'Cisco', name: 'Implementing and Operating Cisco Enterprise Network Core Technologies – ENCOR Certification Training',
     examCode: '350-401', category: 'ASSOCIATE',
     days: 5, rating: 4.8, enrolled: '1,100+', price: '$1,195',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Advanced',
+    cert: { prereq: '3–5 years of enterprise networking experience recommended', examFee: '$400 USD', format: 'MCQ, drag & drop, simulation', questions: '90–110 questions', passingScore: '825 / 1000', validity: '3 years, recertification required', bestPractices: ['Practice in Cisco DevNet sandboxes for hands-on tasks', 'Study the official ENCOR 350-401 exam blueprint thoroughly', 'Review Cisco SD-WAN and SD-Access documentation'] },
   },
   {
     vendor: 'Microsoft', name: 'Configuring and Operating Microsoft Azure Virtual Desktop',
     examCode: 'AZ-140', category: 'ASSOCIATE',
     days: 4, rating: 4.7, enrolled: '980+', price: '$996',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
+    cert: { prereq: 'Azure administrator experience recommended', examFee: '$165 USD', format: 'MCQ, drag & drop, scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete Microsoft Learn paths for AZ-140', 'Practice deploying AVD environments in a lab subscription', 'Review the skills outline on learn.microsoft.com before exam day'] },
   },
   {
     vendor: 'Microsoft', name: 'Designing and Implementing Microsoft Azure Networking Solutions',
     examCode: 'AZ-700', category: 'ASSOCIATE',
     days: 3, rating: 4.8, enrolled: '1,200+', price: '$747',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
+    cert: { prereq: 'Azure networking fundamentals experience recommended', examFee: '$165 USD', format: 'MCQ, drag & drop, scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete all Microsoft Learn modules for AZ-700', 'Lab-practice VNet peering, VPN gateways, and ExpressRoute', 'Review the official skills outline on learn.microsoft.com'] },
   },
   {
     vendor: 'Microsoft', name: 'Microsoft Azure Administrator',
     examCode: 'AZ-104', category: 'ASSOCIATE',
     days: 5, rating: 4.9, enrolled: '2,100+', price: '$1,245',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Intermediate',
+    cert: { prereq: '6+ months hands-on cloud experience recommended', examFee: '$165 USD', format: 'MCQ, drag & drop, scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete all Microsoft Learn modules mapped to the exam skills outline', 'Practise in Azure sandbox — 30–40% of the exam is scenario-based', 'Review the official skills outline on learn.microsoft.com before exam day'] },
   },
   {
     vendor: 'Microsoft', name: 'Microsoft Azure Fundamentals',
     examCode: 'AZ-900', category: 'FUNDAMENTALS',
     days: 3, rating: 4.9, enrolled: '2,400+', price: '$597',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
+    cert: { prereq: 'No prerequisites — beginner-friendly', examFee: '$165 USD', format: 'MCQ, true/false, matching', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the AZ-900 learning path on Microsoft Learn', 'Focus on cloud concepts, Azure services, and pricing', 'Take the official practice assessment before your exam'] },
   },
   {
     vendor: 'Microsoft', name: 'Microsoft Azure Data Fundamentals',
     examCode: 'DP-900', category: 'FUNDAMENTALS',
     days: 2, rating: 4.8, enrolled: '1,800+', price: '$398',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Beginner',
+    cert: { prereq: 'No prerequisites — beginner-friendly', examFee: '$165 USD', format: 'MCQ, drag & drop', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the DP-900 learning path on Microsoft Learn', 'Understand relational vs. non-relational data concepts', 'Take the official practice assessment before your exam'] },
   },
   {
     vendor: 'Microsoft', name: 'Microsoft Azure AI Fundamentals',
     examCode: 'AI-900', category: 'FUNDAMENTALS',
     days: 2, rating: 4.8, enrolled: '1,600+', price: '$398',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
+    cert: { prereq: 'No prerequisites — beginner-friendly', examFee: '$165 USD', format: 'MCQ, drag & drop', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the AI-900 learning path on Microsoft Learn', 'Explore Azure Cognitive Services and Machine Learning concepts', 'Take the official practice assessment before your exam'] },
   },
 ]
 
@@ -873,7 +881,7 @@ function EnrollModal({ vendor, onClose }: { vendor: string; onClose: () => void 
   , document.body)
 }
 
-function CourseCard({ c }: { c: typeof TOP_COURSES[0] }) {
+function CourseCard({ c }: { c: Omit<typeof TOP_COURSES[0], 'cert'> & { cert?: typeof TOP_COURSES[0]['cert'] } }) {
   const badgeColor = VENDOR_BADGE_COLORS[c.vendor] ?? KOENIG_BADGE
   const nameRef = useRef<HTMLHeadingElement>(null)
   const [isClamped, setIsClamped] = useState(false)
@@ -1267,6 +1275,107 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
   ],
 }
 
+/* ─── Enterprise Tech Browser data ──────────────────────────── */
+type EntCourse = { name: string; examCode: string; category: string; price: string; days: number; hours: number }
+const ENT_TECH_CATEGORIES = [
+  { name: 'Cloud Computing',    count: 8, desc: 'Master multi-cloud platforms — AWS, Azure, and GCP — from core IaaS/PaaS fundamentals to advanced architecture, DevSecOps, and cost optimisation.' },
+  { name: 'Cybersecurity',      count: 6, desc: 'Build expertise in ethical hacking, penetration testing, and security operations with globally recognized certifications.' },
+  { name: 'Data & AI',          count: 6, desc: 'Drive business decisions with data science, machine learning, and AI engineering skills across leading cloud platforms.' },
+  { name: 'Networking',         count: 5, desc: 'Design and manage enterprise networks from CCNA fundamentals to CCIE-level infrastructure and SD-WAN.' },
+  { name: 'Project Management', count: 5, desc: 'Lead projects and programs with PMP, PRINCE2, ITIL, and Agile certifications recognized globally.' },
+  { name: 'DevOps',             count: 5, desc: 'Accelerate delivery pipelines with Kubernetes, Terraform, Ansible, and cloud-native DevOps toolchains.' },
+  { name: 'ERP Systems',        count: 5, desc: 'Configure and manage SAP S/4HANA, Oracle ERP, and enterprise resource planning systems end-to-end.' },
+  { name: 'Linux & Open Source',count: 5, desc: 'Administer Linux environments and open-source infrastructure with Red Hat and Linux Foundation certifications.' },
+]
+const ENT_TECH_COURSES: Record<string, EntCourse[]> = {
+  'Cloud Computing': [
+    { name: 'AWS Cloud Practitioner',                  examCode: 'CLF-C02',  category: 'FUNDAMENTALS', price: '$398',   days: 2, hours: 8 },
+    { name: 'Microsoft Azure Fundamentals',            examCode: 'AZ-900',   category: 'FUNDAMENTALS', price: '$398',   days: 2, hours: 8 },
+    { name: 'AWS Solutions Architect Associate',       examCode: 'SAA-C03',  category: 'ASSOCIATE',    price: '$996',   days: 4, hours: 8 },
+    { name: 'Microsoft Azure Administrator',           examCode: 'AZ-104',   category: 'ASSOCIATE',    price: '$1,245', days: 5, hours: 8 },
+    { name: 'Google Associate Cloud Engineer',         examCode: 'ACE',      category: 'ASSOCIATE',    price: '$747',   days: 3, hours: 8 },
+    { name: 'AWS Solutions Architect Professional',    examCode: 'SAP-C02',  category: 'PROFESSIONAL', price: '$1,495', days: 5, hours: 8 },
+    { name: 'Google Professional Cloud Architect',     examCode: 'PCA',      category: 'PROFESSIONAL', price: '$995',   days: 4, hours: 8 },
+    { name: 'AWS DevOps Engineer Professional',        examCode: 'DOP-C02',  category: 'PROFESSIONAL', price: '$1,395', days: 5, hours: 8 },
+  ],
+  'Cybersecurity': [
+    { name: 'Certified Ethical Hacker (CEH v13)',      examCode: 'CEH',      category: 'FUNDAMENTALS', price: '$999',   days: 5, hours: 8 },
+    { name: 'CompTIA Security+ (SY0-701)',             examCode: 'SY0-701',  category: 'FUNDAMENTALS', price: '$598',   days: 5, hours: 8 },
+    { name: 'CompTIA CySA+',                           examCode: 'CS0-003',  category: 'ASSOCIATE',    price: '$798',   days: 5, hours: 8 },
+    { name: 'CISSP Certification',                     examCode: 'CISSP',    category: 'EXPERT',       price: '$1,995', days: 5, hours: 8 },
+    { name: 'CCSP: Certified Cloud Security',          examCode: 'CCSP',     category: 'EXPERT',       price: '$1,795', days: 5, hours: 8 },
+    { name: 'CPENT: Certified Penetration Testing',    examCode: 'CPENT',    category: 'EXPERT',       price: '$1,295', days: 5, hours: 8 },
+  ],
+  'Data & AI': [
+    { name: 'AWS Certified AI Practitioner',           examCode: 'AIF-C01',  category: 'FUNDAMENTALS', price: '$695',   days: 3, hours: 8 },
+    { name: 'AI-102: Azure AI Engineer Associate',     examCode: 'AI-102',   category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'PL-300: Power BI Data Analyst',           examCode: 'PL-300',   category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
+    { name: 'DP-203: Azure Data Engineer',             examCode: 'DP-203',   category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'Google Professional Data Engineer',       examCode: 'PDE',      category: 'EXPERT',       price: '$1,095', days: 4, hours: 8 },
+    { name: 'SAP BW/4HANA Data Modeling',              examCode: 'SAP-BW',   category: 'EXPERT',       price: '$1,395', days: 4, hours: 8 },
+  ],
+  'Networking': [
+    { name: 'CompTIA Network+',                        examCode: 'N10-008',  category: 'FUNDAMENTALS', price: '$498',   days: 5, hours: 8 },
+    { name: 'CCNA (200-301)',                           examCode: '200-301',  category: 'FUNDAMENTALS', price: '$598',   days: 5, hours: 8 },
+    { name: 'Cisco DevNet Associate',                  examCode: 'DEVASC',   category: 'ASSOCIATE',    price: '$795',   days: 4, hours: 8 },
+    { name: 'CCNP Enterprise Core (ENCOR)',            examCode: '350-401',  category: 'EXPERT',       price: '$1,295', days: 5, hours: 8 },
+    { name: 'CCIE Enterprise Infrastructure',          examCode: 'CCIE-EI',  category: 'EXPERT',       price: '$2,495', days: 5, hours: 8 },
+  ],
+  'Project Management': [
+    { name: 'ITIL® 4 Foundation',                     examCode: 'ITIL-4',   category: 'FUNDAMENTALS', price: '$695',   days: 3, hours: 8 },
+    { name: 'CAPM: Certified Associate in PM',         examCode: 'CAPM',     category: 'FUNDAMENTALS', price: '$798',   days: 3, hours: 8 },
+    { name: 'PRINCE2® Foundation & Practitioner',     examCode: 'PRINCE2',  category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'PMI-ACP: Agile Certified Practitioner',  examCode: 'PMI-ACP',  category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
+    { name: 'Project Management Professional (PMP)',   examCode: 'PMP',      category: 'EXPERT',       price: '$1,495', days: 3, hours: 8 },
+  ],
+  'DevOps': [
+    { name: 'HashiCorp Certified: Terraform Associate',examCode: 'TA-003',   category: 'FUNDAMENTALS', price: '$795',   days: 3, hours: 8 },
+    { name: 'Ansible Automation Platform',             examCode: 'DO407',    category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'AZ-400: Azure DevOps Engineer Expert',    examCode: 'AZ-400',   category: 'EXPERT',       price: '$1,195', days: 5, hours: 8 },
+    { name: 'Certified Kubernetes Administrator (CKA)',examCode: 'CKA',      category: 'EXPERT',       price: '$995',   days: 4, hours: 8 },
+    { name: 'AWS DevOps Engineer – Professional',      examCode: 'DOP-C02',  category: 'EXPERT',       price: '$1,395', days: 5, hours: 8 },
+  ],
+  'ERP Systems': [
+    { name: 'SAP S/4HANA Functional Consultant',       examCode: 'SAP-S4',   category: 'ASSOCIATE',    price: '$1,595', days: 5, hours: 8 },
+    { name: 'SAP BASIS Administration',                examCode: 'SAP-BASIS',category: 'ASSOCIATE',    price: '$1,295', days: 5, hours: 8 },
+    { name: 'Oracle Database Administration',          examCode: 'OCA-DBA',  category: 'ASSOCIATE',    price: '$1,095', days: 5, hours: 8 },
+    { name: 'SAP ABAP Programming',                    examCode: 'SAP-ABAP', category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'Oracle Cloud Infrastructure Architect',   examCode: 'OCI-AA',   category: 'EXPERT',       price: '$1,395', days: 4, hours: 8 },
+  ],
+  'Linux & Open Source': [
+    { name: 'RHCSA: Red Hat Certified System Admin',   examCode: 'EX200',    category: 'ASSOCIATE',    price: '$895',   days: 5, hours: 8 },
+    { name: 'Linux Foundation Certified Sysadmin',     examCode: 'LFCS',     category: 'ASSOCIATE',    price: '$795',   days: 5, hours: 8 },
+    { name: 'RHCE: Red Hat Certified Engineer',        examCode: 'EX294',    category: 'EXPERT',       price: '$1,095', days: 5, hours: 8 },
+    { name: 'OpenShift Administration',                examCode: 'DO280',    category: 'EXPERT',       price: '$1,195', days: 4, hours: 8 },
+    { name: 'Certified Kubernetes Administrator',      examCode: 'CKA',      category: 'EXPERT',       price: '$995',   days: 4, hours: 8 },
+  ],
+}
+const ENT_CATEGORY_COLORS: Record<string, string> = {
+  FUNDAMENTALS: 'bg-blue-100 text-blue-700',
+  ASSOCIATE:    'bg-teal-100 text-teal-700',
+  PROFESSIONAL: 'bg-orange-100 text-orange-700',
+  EXPERT:       'bg-purple-100 text-purple-700',
+}
+function EntTechIcon({ name, active }: { name: string; active: boolean }) {
+  const cls = active ? 'text-white' : 'text-koenig-blue'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const p: Record<string, any> = {
+    'Cloud Computing':    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>,
+    'Cybersecurity':      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
+    'Data & AI':          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>,
+    'Networking':         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>,
+    'Project Management': <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>,
+    'DevOps':             <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></>,
+    'ERP Systems':        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>,
+    'Linux & Open Source':<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>,
+  }
+  return (
+    <svg className={`h-4 w-4 ${cls}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      {p[name] ?? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>}
+    </svg>
+  )
+}
+
 /* ─── Footer column data ─────────────────────────────────────── */
 const FOOTER_COLS = [
   { heading: 'Company', links: ['About us','Leadership','Contact Us','Webinars','Our Clientele','All Courses','Our Partners','Our Story','Testimonials','Our Awards'] },
@@ -1485,6 +1594,10 @@ export default function Design4Page() {
   const [enterpriseModalOpen, setEnterpriseModalOpen] = useState(false)
   const [enterpriseForm, setEnterpriseForm] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [enterpriseSubmitted, setEnterpriseSubmitted] = useState(false)
+  const [entTech, setEntTech] = useState('Cloud Computing')
+  const [entSearch, setEntSearch] = useState('')
+  const [entLevelFilter, setEntLevelFilter] = useState('All')
+  const [entSort, setEntSort] = useState('low-high')
 
   useEffect(() => {
     if (heroPaused) return
@@ -4119,61 +4232,186 @@ export default function Design4Page() {
           </div>
 
           {/* Tab content */}
-          {orgTab === 'enterprise' ? (
-            <div className="grid items-start gap-10 lg:grid-cols-2">
-              <div>
-                <p className="mb-8 text-sm sm:text-base text-koenig-muted" >500+ enterprises trust Koenig to design and deliver customized IT training programs that align with their technology strategy and produce measurable results.</p>
-                <div className="mb-8 space-y-4">
-                  {[
-                    { title: 'Skills Gap Analysis', sub: 'Pre-training assessment identifies exactly what your team needs' },
-                    { title: 'Custom Curricula', sub: 'Programs tailored to your technology stack and business goals' },
-                    { title: 'Dedicated Certified Instructors', sub: 'Handpicked instructors with real enterprise experience' },
-                    { title: 'Volume Pricing', sub: 'Significant discounts for team and organization-wide enrollment' },
-                    { title: 'Real-Time Progress Dashboard', sub: 'L&D managers track certifications, completion, and ROI' },
-                  ].map((f, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-koenig-blue text-sm text-white">✓</span>
-                      <div>
-                        <div className="text-sm font-semibold text-koenig-dark">{f.title}</div>
-                        <div className="text-sm text-koenig-muted">{f.sub}</div>
-                      </div>
+          {orgTab === 'enterprise' ? (() => {
+            const allCourses = ENT_TECH_COURSES[entTech] ?? []
+            const searched = entSearch.trim()
+              ? allCourses.filter(c => c.name.toLowerCase().includes(entSearch.toLowerCase()) || c.examCode.toLowerCase().includes(entSearch.toLowerCase()))
+              : allCourses
+            const filtered = entLevelFilter === 'All' ? searched : searched.filter(c => c.category === entLevelFilter.toUpperCase())
+            const sorted = [...filtered].sort((a, b) => {
+              const pa = parseFloat(a.price.replace(/[^0-9.]/g, ''))
+              const pb = parseFloat(b.price.replace(/[^0-9.]/g, ''))
+              return entSort === 'high-low' ? pb - pa : entSort === 'low-high' ? pa - pb : 0
+            })
+            const levels = ['All', 'Fundamentals', 'Associate', 'Professional', 'Expert']
+            const levelCount = (lv: string) => lv === 'All' ? allCourses.length : allCourses.filter(c => c.category === lv.toUpperCase()).length
+            const currentCat = ENT_TECH_CATEGORIES.find(c => c.name === entTech)
+            return (
+              <div className="flex rounded-2xl overflow-hidden border border-[#CAEFFF] bg-white" style={{ minHeight: '560px' }}>
+
+                {/* ── Left Sidebar ── */}
+                <div className="hidden sm:flex flex-col w-56 lg:w-64 shrink-0 border-r border-[#CAEFFF]">
+                  <div className="px-5 pt-4 pb-2 text-[10px] font-bold tracking-widest uppercase" style={{ color: '#8BB5CC' }}>Technologies</div>
+                  <div className="flex-1 overflow-y-auto">
+                    {ENT_TECH_CATEGORIES.map((cat) => {
+                      const active = entTech === cat.name
+                      return (
+                        <button key={cat.name}
+                          onClick={() => { setEntTech(cat.name); setEntLevelFilter('All'); setEntSearch('') }}
+                          className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-left transition-all ${active ? 'bg-[#EBF8FE] border-l-2 border-koenig-blue' : 'border-l-2 border-transparent hover:bg-[#F7FCFF]'}`}
+                        >
+                          <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${active ? 'bg-koenig-blue' : 'bg-[#EBF8FE]'}`}>
+                            <EntTechIcon name={cat.name} active={active} />
+                          </span>
+                          <span className={`flex-1 text-xs font-semibold leading-tight ${active ? 'text-koenig-blue' : 'text-koenig-dark'}`}>{cat.name}</span>
+                          <span className={`shrink-0 rounded-full min-w-[1.25rem] px-1.5 py-0.5 text-center text-[10px] font-bold ${active ? 'bg-koenig-blue text-white' : 'bg-[#EBF8FE] text-koenig-blue'}`}>{cat.count}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                  {/* Bottom buttons */}
+                  <div className="p-3 border-t border-[#CAEFFF] space-y-2">
+                    <button className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-koenig-blue py-2.5 text-xs font-semibold text-koenig-blue hover:bg-[#F0FAFF] transition-colors">
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                      Download Brochure
+                    </button>
+                    <button onClick={() => setEnterpriseModalOpen(true)} className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-koenig-blue py-2.5 text-xs font-semibold text-white hover:bg-[#076D9D] transition-colors">
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                      Enquire Now
+                    </button>
+                  </div>
+                </div>
+
+                {/* ── Mobile category scroll ── */}
+                <div className="sm:hidden absolute left-0 right-0 overflow-x-auto flex gap-2 px-4 pb-2 pt-1 [&::-webkit-scrollbar]:hidden" style={{ position: 'relative' }}>
+                  {ENT_TECH_CATEGORIES.map(cat => {
+                    const active = entTech === cat.name
+                    return (
+                      <button key={cat.name} onClick={() => { setEntTech(cat.name); setEntLevelFilter('All'); setEntSearch('') }}
+                        className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap ${active ? 'bg-koenig-blue text-white' : 'bg-[#EBF8FE] text-koenig-blue'}`}>
+                        {cat.name}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {/* ── Right Content ── */}
+                <div className="flex-1 flex flex-col overflow-hidden bg-[#F8FBFE]">
+                  {/* Mobile: category tabs */}
+                  <div className="sm:hidden overflow-x-auto flex gap-2 px-4 py-3 bg-white border-b border-[#CAEFFF] [&::-webkit-scrollbar]:hidden">
+                    {ENT_TECH_CATEGORIES.map(cat => {
+                      const active = entTech === cat.name
+                      return (
+                        <button key={cat.name} onClick={() => { setEntTech(cat.name); setEntLevelFilter('All'); setEntSearch('') }}
+                          className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap ${active ? 'bg-koenig-blue text-white' : 'bg-[#EBF8FE] text-koenig-blue'}`}>
+                          {cat.name}
+                        </button>
+                      )
+                    })}
+                  </div>
+
+                  {/* Tech header */}
+                  <div className="flex items-start gap-3 p-4 bg-white border-b border-[#CAEFFF]">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EBF8FE]">
+                      <EntTechIcon name={entTech} active={true} />
                     </div>
-                  ))}
-                </div>
-                {/* Stats — 2-col grid on mobile with border, flex row on desktop */}
-                <div className="grid grid-cols-2 gap-px bg-[#CAEFFF] rounded-xl overflow-hidden border border-[#CAEFFF] sm:flex sm:flex-wrap sm:items-center sm:gap-6 sm:rounded-none sm:overflow-visible sm:border-0 sm:bg-transparent">
-                  <div className="bg-white px-4 py-4 text-center sm:px-0 sm:py-0 sm:bg-transparent sm:text-left">
-                    <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">500+</div>
-                    <div className="text-sm text-koenig-muted">Enterprise clients</div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base font-bold text-koenig-dark">{entTech}</h3>
+                      <p className="text-xs text-koenig-muted line-clamp-2">{currentCat?.desc}</p>
+                    </div>
+                    <button onClick={() => setEnterpriseModalOpen(true)}
+                      className="shrink-0 flex items-center gap-1.5 rounded-xl bg-koenig-blue px-4 py-2 text-xs font-semibold text-white hover:bg-[#076D9D] transition-colors whitespace-nowrap">
+                      Enquire Now →
+                    </button>
                   </div>
-                  <div className="bg-white px-4 py-4 text-center sm:px-0 sm:py-0 sm:bg-transparent sm:text-left">
-                    <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">50K+</div>
-                    <div className="text-sm text-koenig-muted">Employees trained</div>
+
+                  {/* Filter bar */}
+                  <div className="flex flex-wrap items-center gap-2 px-4 py-3 bg-white border-b border-[#CAEFFF]">
+                    {/* Search */}
+                    <div className="relative">
+                      <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      <input type="text" placeholder="Search courses..." value={entSearch} onChange={e => setEntSearch(e.target.value)}
+                        className="pl-7 pr-3 py-1.5 text-xs rounded-lg border border-[#CAEFFF] bg-[#F8FBFE] text-koenig-dark placeholder-koenig-muted outline-none focus:border-koenig-blue w-36 sm:w-44" />
+                    </div>
+                    {/* Level filters */}
+                    <div className="flex gap-1 flex-wrap">
+                      {levels.map(lv => {
+                        const cnt = levelCount(lv)
+                        const active = entLevelFilter === lv
+                        return (
+                          <button key={lv} onClick={() => setEntLevelFilter(lv)}
+                            className={`rounded-full px-3 py-1 text-xs font-semibold transition-all whitespace-nowrap ${active ? 'bg-koenig-dark text-white' : 'bg-[#EBF8FE] text-koenig-blue hover:bg-[#D6F0FB]'}`}>
+                            {lv} {cnt}
+                          </button>
+                        )
+                      })}
+                    </div>
+                    {/* Sort */}
+                    <select value={entSort} onChange={e => setEntSort(e.target.value)}
+                      className="ml-auto text-xs border border-[#CAEFFF] rounded-lg px-2.5 py-1.5 bg-white text-koenig-dark outline-none cursor-pointer">
+                      <option value="low-high">Price: Low — High</option>
+                      <option value="high-low">Price: High — Low</option>
+                      <option value="default">Name A–Z</option>
+                    </select>
                   </div>
-                  <div className="col-span-2 bg-white px-4 py-4 text-center sm:col-span-1 sm:px-0 sm:py-0 sm:bg-transparent sm:text-left">
-                    <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-koenig-dark">4.8/5</div>
-                    <div className="text-sm text-koenig-muted">Satisfaction score</div>
+
+                  {/* Course grid */}
+                  <div className="flex-1 overflow-y-auto p-4" style={{ maxHeight: '440px' }}>
+                    {sorted.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-16 text-koenig-muted">
+                        <svg className="h-10 w-10 mb-3 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <p className="text-sm">No courses match your filters.</p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {sorted.map((course, i) => (
+                          <div key={i} className="bg-white rounded-xl border border-[#CAEFFF] p-4 flex flex-col gap-2.5" style={{ boxShadow: '0 1px 6px rgba(6,148,209,0.06)' }}>
+                            {/* Badge + cert details */}
+                            <div className="flex items-center justify-between gap-2">
+                              <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded ${ENT_CATEGORY_COLORS[course.category] ?? 'bg-gray-100 text-gray-600'}`}>{course.category}</span>
+                              <button className="text-[11px] font-semibold text-koenig-blue whitespace-nowrap hover:underline">Cert Details →</button>
+                            </div>
+                            {/* Course name */}
+                            <h4 className="text-sm font-bold text-koenig-dark leading-snug">{course.name}</h4>
+                            {/* Exam code + duration */}
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="bg-[#EBF8FE] text-koenig-blue text-[11px] px-2 py-0.5 rounded font-medium">{course.examCode}</span>
+                              <span className="flex items-center gap-1 text-[11px] text-koenig-muted">
+                                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                {course.days} day{course.days > 1 ? 's' : ''} · {course.hours}hrs
+                              </span>
+                            </div>
+                            {/* Price */}
+                            <div className="text-xs text-koenig-muted mt-0.5">
+                              <span className="text-lg font-extrabold text-koenig-dark">{course.price}</span> per person · USD
+                            </div>
+                            {/* Buttons */}
+                            <div className="flex gap-2 mt-auto pt-1">
+                              <button className="flex flex-1 items-center justify-center gap-1 rounded-lg border border-[#CAEFFF] py-1.5 text-[11px] font-semibold text-koenig-blue hover:bg-[#F0FAFF] transition-colors">
+                                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                Brochure
+                              </button>
+                              <button className="flex-1 rounded-lg bg-koenig-blue py-1.5 text-[11px] font-semibold text-white hover:bg-[#076D9D] transition-colors">
+                                Enroll Now
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Request Training Plan bar */}
+                  <div className="flex justify-center px-4 py-3 border-t border-[#CAEFFF] bg-white">
+                    <button onClick={() => setEnterpriseModalOpen(true)}
+                      className="flex items-center gap-2 rounded-2xl bg-koenig-navy px-8 py-3 text-sm font-semibold text-white hover:bg-[#093148] transition-colors">
+                      Request Training Plan →
+                    </button>
                   </div>
                 </div>
               </div>
-              <div className="rounded-2xl bg-koenig-navy p-6 md:p-10 shadow-2xl shadow-koenig-navy/20">
-                <div className="mb-6 text-4xl">🏢</div>
-                <h3 className="mb-2 text-lg sm:text-xl md:text-2xl font-bold text-white">Ready to Transform Your Team?</h3>
-                <p className="mb-6 text-sm leading-relaxed text-white/80">Get a customized training proposal for your organization. Our enterprise team will assess your needs and recommend the optimal program, format, and schedule.</p>
-                <ul className="mb-8 space-y-2">
-                  {['Free skills gap assessment', 'Custom training roadmap', 'Dedicated account manager', 'Flexible payment terms'].map(f => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-white/60">
-                      <span className="text-koenig-blue">✓</span>{f}
-                    </li>
-                  ))}
-                </ul>
-                <button onClick={() => setEnterpriseModalOpen(true)} className="w-full rounded-xl bg-koenig-blue py-4 text-sm font-semibold text-white shadow-lg shadow-koenig-blue/25 transition-shadow hover:shadow-xl hover:shadow-koenig-blue/35">
-                  Request Enterprise Quote
-                </button>
-                <p className="mt-4 text-center text-sm text-white/30">No commitment required · Response within 24 hours</p>
-              </div>
-            </div>
-          ) : (
+            )
+          })() : (
             <div>
               <p className="mb-8 max-w-xl text-sm sm:text-base text-koenig-muted">Physical training centers on every major continent, plus live online delivery across every timezone.</p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
