@@ -4251,7 +4251,7 @@ export default function Design4Page() {
           </div>
 
           {/* Award stats */}
-          <div className="io-fade mb-10 rounded-2xl bg-white px-2 py-1" style={{ border: '1px solid #e8f4fb', boxShadow: '0 2px 16px rgba(6,148,209,0.08)' }}>
+          <div className="io-fade mb-10 mx-auto max-w-2xl rounded-2xl bg-white px-2 py-1" style={{ border: '1px solid #e8f4fb', boxShadow: '0 2px 16px rgba(6,148,209,0.08)' }}>
             <div className="grid grid-cols-2 sm:grid-cols-4">
               {[
                 { value: '10+',    label: 'Awards & Certifications',   color: '#0694d1', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/> },
