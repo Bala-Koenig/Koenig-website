@@ -1865,7 +1865,7 @@ export default function Design4Page() {
       ════════════════════════════════════════════════════════ */}
 
       {/* Contact bar */}
-      <div className="block px-4 lg:px-[50px]" style={{ background: '#061624' }}>
+      <div className="block px-4 lg:px-[50px]" style={{ background: '#061624', borderBottom: '1px solid rgba(6,148,209,0.18)' }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 py-1.5 text-[14px] text-white/75">
           <div className="flex flex-wrap items-center gap-3">
             <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 transition-colors hover:text-white/80">
