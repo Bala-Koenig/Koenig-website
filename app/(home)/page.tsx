@@ -4244,10 +4244,29 @@ export default function Design4Page() {
 
         {/* Header */}
         <div className="mx-auto max-w-7xl">
-          <div className="io-fade mb-10 text-center">
+          <div className="io-fade mb-8 text-center">
             <span className="mb-2 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Recognition</span>
             <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Awards &amp; <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Recognition</span></h2>
             <p className="text-sm text-koenig-muted">Recognized by global vendors and quality bodies for training excellence</p>
+          </div>
+
+          {/* Award stats */}
+          <div className="io-fade mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[
+              { value: '10+',       label: 'Awards & Certifications',  icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>, desc: 'Across Microsoft, AWS, Red Hat, EC-Council, PECB & more' },
+              { value: '6+',        label: 'Global Partners',          icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>, desc: 'Recognised by industry-leading technology vendors worldwide' },
+              { value: '15 Yrs',    label: 'Great Place to Work',      icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>, desc: 'Continuously certified 2011–2025 for exceptional workplace culture' },
+              { value: '3×',        label: 'Microsoft Partner of Year', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>, desc: 'Microsoft Training Services Partner of the Year 2022, 2024 & 2025' },
+            ].map(({ value, label, icon, desc }) => (
+              <div key={label} className="flex flex-col items-center gap-2 rounded-2xl px-4 py-5 text-center" style={{ background: 'linear-gradient(135deg,rgba(6,148,209,0.07) 0%,rgba(77,191,239,0.04) 100%)', border: '1px solid rgba(6,148,209,0.18)' }}>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.25)' }}>
+                  <svg className="h-5 w-5" style={{ color: '#0694d1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icon}</svg>
+                </div>
+                <div className="text-2xl font-extrabold" style={{ color: '#0694d1' }}>{value}</div>
+                <div className="text-xs font-bold uppercase tracking-wide text-koenig-dark">{label}</div>
+                <p className="text-xs leading-relaxed text-koenig-muted">{desc}</p>
+              </div>
+            ))}
           </div>
         </div>
 
