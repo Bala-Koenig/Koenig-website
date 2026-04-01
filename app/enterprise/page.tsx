@@ -4556,7 +4556,7 @@ export default function EnterprisePage() {
                                   style={{ flex: 2, borderRadius: 8, border: 'none', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
                                   onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
                                   onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
-                                  Enroll Now
+                                  Enquire Now
                                 </a>
                               </div>
                             </div>
