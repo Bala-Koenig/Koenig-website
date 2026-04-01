@@ -189,14 +189,22 @@ const CAT_DOMAINS = [
     features: ['8 Courses', 'CLF-C02 — AZ-305', 'Cloud Roles'],
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>,
     courses: [
-      { level: 'Fundamentals', title: 'AWS Cloud Practitioner',             code: 'CLF-C02',      price: '398',   days: 2 },
-      { level: 'Fundamentals', title: 'Microsoft Azure Fundamentals',        code: 'AZ-900',       price: '398',   days: 2 },
-      { level: 'Associate',    title: 'AWS Solutions Architect Associate',   code: 'SAA-C03',      price: '996',   days: 4 },
-      { level: 'Associate',    title: 'Microsoft Azure Administrator',       code: 'AZ-104',       price: '1,245', days: 5 },
-      { level: 'Associate',    title: 'Google Associate Cloud Engineer',     code: 'ACE',          price: '747',   days: 3 },
-      { level: 'Expert', title: 'AWS Solutions Architect Professional',code: 'SAP-C02',      price: '1,495', days: 5 },
-      { level: 'Expert', title: 'Azure Solutions Architect Expert',    code: 'AZ-305',       price: '1,495', days: 5 },
-      { level: 'Expert', title: 'Google Professional Cloud Architect', code: 'PCA',          price: '1,495', days: 5 },
+      { level: 'Fundamentals', title: 'AWS Cloud Practitioner',              code: 'CLF-C02',  price: '398',   days: 2, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: '$150 USD', format: 'Multiple choice & multi-response', questions: '65 questions', passingScore: '700 / 1000', validity: '3 years', bestPractices: ['Complete AWS Cloud Practitioner Essentials course on AWS Skill Builder', 'Use the AWS Free Tier to explore core services hands-on', 'Take 2+ official practice exams before booking your date'] } },
+      { level: 'Fundamentals', title: 'Microsoft Azure Fundamentals',         code: 'AZ-900',   price: '398',   days: 2,
+        cert: { prereq: 'No prerequisites required', examFee: '$165 USD', format: 'Multiple choice & case studies', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the AZ-900 learning path on Microsoft Learn', 'Focus on cloud concepts, Azure services, and pricing', 'Take the official practice assessment before your exam'] } },
+      { level: 'Associate',    title: 'AWS Solutions Architect Associate',    code: 'SAA-C03',  price: '996',   days: 4,
+        cert: { prereq: 'Cloud practitioner experience recommended', examFee: '$300 USD', format: 'Multiple choice & multi-response', questions: '65 questions', passingScore: '720 / 1000', validity: '3 years', bestPractices: ['Study AWS Well-Architected Framework in depth', 'Practice designing resilient, cost-optimised architectures', 'Use AWS whitepapers and FAQs alongside official study materials'] } },
+      { level: 'Associate',    title: 'Microsoft Azure Administrator',        code: 'AZ-104',   price: '1,245', days: 5,
+        cert: { prereq: '6+ months cloud experience recommended', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete all Microsoft Learn modules for AZ-104', 'Lab-practice in Azure sandbox — 30–40% of exam is scenario-based', 'Review the official skills outline on learn.microsoft.com'] } },
+      { level: 'Associate',    title: 'Google Associate Cloud Engineer',      code: 'ACE',      price: '747',   days: 3,
+        cert: { prereq: '6+ months GCP experience recommended', examFee: '$200 USD', format: 'Multiple choice & multi-select', questions: '50–60 questions', passingScore: 'Scaled score (pass/fail)', validity: '3 years', bestPractices: ['Complete Google Cloud Fundamentals learning path', 'Practice with GCP free tier — focus on Compute, Storage, Networking', 'Review the exam guide and attempt practice questions'] } },
+      { level: 'Expert', title: 'AWS Solutions Architect Professional',       code: 'SAP-C02',  price: '1,495', days: 5,
+        cert: { prereq: 'AWS Solutions Architect Associate or equivalent', examFee: '$300 USD', format: 'Multiple choice & multi-response', questions: '75 questions', passingScore: '750 / 1000', validity: '3 years', bestPractices: ['Study complex multi-account and hybrid architecture patterns', 'Focus on cost optimisation and migration strategies', 'Complete AWS advanced reskilling labs'] } },
+      { level: 'Expert', title: 'Azure Solutions Architect Expert',           code: 'AZ-305',   price: '1,495', days: 5,
+        cert: { prereq: 'AZ-104 and Azure experience recommended', examFee: '$165 USD', format: 'Multiple choice & case studies', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete Microsoft Learn paths for AZ-305', 'Practice designing landing zones and governance frameworks', 'Study hybrid networking and identity architecture patterns'] } },
+      { level: 'Expert', title: 'Google Professional Cloud Architect',        code: 'PCA',      price: '1,495', days: 5,
+        cert: { prereq: '3+ years GCP experience recommended', examFee: '$200 USD', format: 'Multiple choice & case studies', questions: '50–60 questions', passingScore: 'Scaled score (pass/fail)', validity: '2 years', bestPractices: ['Review all four case studies provided by Google', 'Practice architecture decisions for scalability and reliability', 'Use Google Cloud Architecture Framework as study reference'] } },
     ],
   },
   {
@@ -205,14 +213,22 @@ const CAT_DOMAINS = [
     features: ['8 Courses', 'SY0-701 — CISSP', 'Security Roles'],
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
     courses: [
-      { level: 'Fundamentals', title: 'CompTIA Security+',                      code: 'SY0-701', price: '597',   days: 5 },
-      { level: 'Fundamentals', title: 'ISC2 Certified in Cybersecurity',         code: 'CC',      price: '398',   days: 3 },
-      { level: 'Associate',    title: 'Cisco CyberOps Associate',                code: '200-201', price: '747',   days: 4 },
-      { level: 'Associate',    title: 'CompTIA CySA+',                           code: 'CS0-003', price: '747',   days: 5 },
-      { level: 'Expert', title: 'EC-Council Certified Ethical Hacker',     code: '312-50',  price: '1,245', days: 5 },
-      { level: 'Expert', title: 'Fortinet NSE 4 Network Security',         code: 'NSE4',    price: '996',   days: 4 },
-      { level: 'Expert',       title: 'ISC2 CISSP',                              code: 'CISSP',   price: '1,495', days: 5 },
-      { level: 'Expert',       title: 'Palo Alto Networks PCNSE',                code: 'PCNSE',   price: '1,245', days: 5 },
+      { level: 'Fundamentals', title: 'CompTIA Security+',                    code: 'SY0-701', price: '597',   days: 5, popular: true,
+        cert: { prereq: 'CompTIA Network+ recommended', examFee: '$392 USD', format: 'Multiple choice & performance-based', questions: '90 questions', passingScore: '750 / 900', validity: '3 years', bestPractices: ['Study all six Security+ domains with equal focus', 'Practice performance-based questions (PBQs) extensively', 'Use Professor Messer or Jason Dion study materials'] } },
+      { level: 'Fundamentals', title: 'ISC2 Certified in Cybersecurity',       code: 'CC',      price: '398',   days: 3,
+        cert: { prereq: 'No prerequisites required', examFee: '$199 USD', format: 'Multiple choice', questions: '100 questions', passingScore: '700 / 1000', validity: '3 years', bestPractices: ['Complete the free ISC2 CC self-paced course', 'Focus on the five CC domains in the exam outline', 'Join ISC2 candidate community for peer support'] } },
+      { level: 'Associate',    title: 'Cisco CyberOps Associate',              code: '200-201', price: '747',   days: 4,
+        cert: { prereq: 'Basic networking knowledge recommended', examFee: '$330 USD', format: 'Multiple choice & drag & drop', questions: '95–105 questions', passingScore: '825 / 1000', validity: '3 years', bestPractices: ['Lab-practice with Cisco Packet Tracer or GNS3', 'Study security monitoring and incident response workflows', 'Review CVSS scoring and IOC identification techniques'] } },
+      { level: 'Associate',    title: 'CompTIA CySA+',                         code: 'CS0-003', price: '747',   days: 5,
+        cert: { prereq: 'Security+ and 4 years security experience recommended', examFee: '$392 USD', format: 'Multiple choice & performance-based', questions: '85 questions', passingScore: '750 / 900', validity: '3 years', bestPractices: ['Focus on threat and vulnerability management workflows', 'Practice log analysis and SIEM tool scenarios', 'Study MITRE ATT&CK framework deeply'] } },
+      { level: 'Expert', title: 'EC-Council Certified Ethical Hacker',         code: '312-50',  price: '1,245', days: 5,
+        cert: { prereq: '2 years security experience or CEH training required', examFee: '$550 USD', format: 'Multiple choice', questions: '125 questions', passingScore: '70% (varies by form)', validity: '3 years', bestPractices: ['Complete all 20 CEH modules with hands-on labs', 'Practice on CEH iLabs or TryHackMe/HackTheBox', 'Focus on scanning, enumeration, and exploitation techniques'] } },
+      { level: 'Expert', title: 'Fortinet NSE 4 Network Security',             code: 'NSE4',    price: '996',   days: 4,
+        cert: { prereq: 'NSE 1, 2, 3 or equivalent experience', examFee: '$400 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '65%', validity: '2 years', bestPractices: ['Complete Fortinet NSE 4 training on Fortinet Network Security Academy', 'Lab-practice FortiGate configuration and policy management', 'Review firewall policy, VPN, and IPS configuration topics'] } },
+      { level: 'Expert',       title: 'ISC2 CISSP',                            code: 'CISSP',   price: '1,495', days: 5,
+        cert: { prereq: '5 years paid security experience required', examFee: '$749 USD', format: 'CAT (adaptive) or linear', questions: '100–150 (CAT)', passingScore: '700 / 1000', validity: '3 years', bestPractices: ['Study all 8 CISSP domains — focus on risk and governance', 'Read the official ISC2 CISSP study guide cover to cover', 'Think like a manager, not a technician when answering questions'] } },
+      { level: 'Expert',       title: 'Palo Alto Networks PCNSE',              code: 'PCNSE',   price: '1,245', days: 5,
+        cert: { prereq: '3+ years Palo Alto NGFW experience', examFee: '$160 USD', format: 'Multiple choice', questions: '75 questions', passingScore: 'Pass / Fail (scaled)', validity: '2 years', bestPractices: ['Study PAN-OS administration and advanced features', 'Practice GlobalProtect VPN, Panorama, and security profiles', 'Complete Palo Alto EDU-210 and EDU-220 courses'] } },
     ],
   },
   {
@@ -221,14 +237,22 @@ const CAT_DOMAINS = [
     features: ['8 Courses', 'AI-900 — DP-600', 'AI & Data Roles'],
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>,
     courses: [
-      { level: 'Fundamentals', title: 'Azure AI Fundamentals',                    code: 'AI-900',  price: '398',   days: 2 },
-      { level: 'Fundamentals', title: 'AWS Machine Learning Foundations',         code: 'MLS-C01', price: '398',   days: 2 },
-      { level: 'Associate',    title: 'Azure Data Engineer Associate',            code: 'DP-203',  price: '996',   days: 5 },
-      { level: 'Associate',    title: 'AWS Certified ML Associate',               code: 'MLA-C01', price: '747',   days: 3 },
-      { level: 'Expert', title: 'Azure AI Engineer Associate',              code: 'AI-102',  price: '1,245', days: 4 },
-      { level: 'Expert', title: 'Google Professional ML Engineer',          code: 'PMLE',    price: '1,495', days: 5 },
-      { level: 'Expert',       title: 'Microsoft Fabric Analytics Engineer',      code: 'DP-600',  price: '1,245', days: 4 },
-      { level: 'Expert',       title: 'Databricks Data Engineer Professional',    code: 'DE-PRO',  price: '996',   days: 3 },
+      { level: 'Fundamentals', title: 'Azure AI Fundamentals',                  code: 'AI-900',  price: '398',   days: 2, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: '$165 USD', format: 'Multiple choice & case studies', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the AI-900 learning path on Microsoft Learn', 'Explore Azure Cognitive Services and Machine Learning concepts', 'Take the official practice assessment before your exam'] } },
+      { level: 'Fundamentals', title: 'AWS Machine Learning Foundations',       code: 'MLS-C01', price: '398',   days: 2,
+        cert: { prereq: 'No prerequisites required', examFee: '$200 USD', format: 'Multiple choice & multi-response', questions: '65 questions', passingScore: '720 / 1000', validity: '3 years', bestPractices: ['Study AWS ML services: SageMaker, Rekognition, Comprehend', 'Focus on ML concepts, model evaluation, and ethical AI', 'Complete AWS ML Foundations free course on Coursera'] } },
+      { level: 'Associate',    title: 'Azure Data Engineer Associate',          code: 'DP-203',  price: '996',   days: 5,
+        cert: { prereq: 'Azure Data Fundamentals recommended', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete DP-203 learning path on Microsoft Learn', 'Lab-practice Azure Data Factory, Synapse, and Databricks', 'Focus on pipeline orchestration and data transformation patterns'] } },
+      { level: 'Associate',    title: 'AWS Certified ML Associate',             code: 'MLA-C01', price: '747',   days: 3,
+        cert: { prereq: '1 year ML experience recommended', examFee: '$250 USD', format: 'Multiple choice & multi-response', questions: '65 questions', passingScore: '720 / 1000', validity: '3 years', bestPractices: ['Study SageMaker pipelines and model deployment patterns', 'Practice feature engineering and model monitoring workflows', 'Review AWS ML Specialty guide alongside MLA prep materials'] } },
+      { level: 'Expert', title: 'Azure AI Engineer Associate',                  code: 'AI-102',  price: '1,245', days: 4,
+        cert: { prereq: 'Azure Fundamentals and development experience', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete AI-102 learning path on Microsoft Learn', 'Build solutions with Azure OpenAI, Speech, Vision, and Language services', 'Practice responsible AI implementation and governance patterns'] } },
+      { level: 'Expert', title: 'Google Professional ML Engineer',              code: 'PMLE',    price: '1,495', days: 5,
+        cert: { prereq: '3+ years ML/data experience', examFee: '$200 USD', format: 'Multiple choice & case studies', questions: '50–60 questions', passingScore: 'Scaled (pass/fail)', validity: '2 years', bestPractices: ['Study Vertex AI, BigQuery ML, and TFX pipelines deeply', 'Review ML system design patterns and scalability', 'Complete Google Cloud Professional ML Engineer study guide'] } },
+      { level: 'Expert',       title: 'Microsoft Fabric Analytics Engineer',    code: 'DP-600',  price: '1,245', days: 4,
+        cert: { prereq: 'Power BI or Azure data experience recommended', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete DP-600 learning path on Microsoft Learn', 'Lab-practice Fabric workspaces, lakehouses, and data pipelines', 'Study OneLake architecture and semantic model design'] } },
+      { level: 'Expert',       title: 'Databricks Data Engineer Professional',  code: 'DE-PRO',  price: '996',   days: 3,
+        cert: { prereq: 'Databricks Certified Associate required', examFee: '$200 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Master Delta Lake, streaming with Structured Streaming, and DLT', 'Practice complex Spark optimisation and pipeline debugging', 'Complete Databricks Academy Professional course'] } },
     ],
   },
   {
@@ -237,14 +261,22 @@ const CAT_DOMAINS = [
     features: ['8 Courses', 'N10-009 — CCIE', 'Network Roles'],
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/>,
     courses: [
-      { level: 'Fundamentals', title: 'CompTIA Network+',                         code: 'N10-009', price: '597',   days: 5 },
-      { level: 'Associate',    title: 'Cisco CCNA',                               code: '200-301', price: '747',   days: 5 },
-      { level: 'Associate',    title: 'Juniper JNCIA-Junos',                      code: 'JN0-104', price: '597',   days: 3 },
-      { level: 'Associate',    title: 'CompTIA Network Specialist',               code: 'CAS-005', price: '747',   days: 4 },
-      { level: 'Expert', title: 'Cisco CCNP Enterprise',                    code: 'ENCOR',   price: '1,245', days: 5 },
-      { level: 'Expert', title: 'Cisco CCNP Security',                      code: 'SCOR',    price: '1,245', days: 5 },
-      { level: 'Expert',       title: 'Cisco CCIE Enterprise Infrastructure',     code: 'CCIE-E',  price: '1,995', days: 5 },
-      { level: 'Expert',       title: 'Fortinet NSE 7 Enterprise Firewall',       code: 'NSE7',    price: '1,245', days: 4 },
+      { level: 'Fundamentals', title: 'CompTIA Network+',                       code: 'N10-009', price: '597',   days: 5, popular: true,
+        cert: { prereq: 'CompTIA A+ or 9 months networking experience recommended', examFee: '$358 USD', format: 'Multiple choice & performance-based', questions: '90 questions', passingScore: '720 / 900', validity: '3 years', bestPractices: ['Study all five Network+ domains systematically', 'Practice subnetting and IP addressing extensively', 'Use Professor Messer free Network+ course and practice tests'] } },
+      { level: 'Associate',    title: 'Cisco CCNA',                             code: '200-301', price: '747',   days: 5,
+        cert: { prereq: 'Basic IT knowledge recommended', examFee: '$330 USD', format: 'Multiple choice & drag & drop', questions: '90–110 questions', passingScore: '825 / 1000', validity: '3 years', bestPractices: ['Complete Cisco NetAcad CCNA courses (SRWE + ENSA)', 'Lab extensively with Cisco Packet Tracer or GNS3', 'Master subnetting, OSPF, VLANs, and STP thoroughly'] } },
+      { level: 'Associate',    title: 'Juniper JNCIA-Junos',                    code: 'JN0-104', price: '597',   days: 3,
+        cert: { prereq: 'Basic networking knowledge', examFee: '$200 USD', format: 'Multiple choice', questions: '65 questions', passingScore: 'Pass / Fail (scaled)', validity: '3 years', bestPractices: ['Study Junos OS architecture and CLI navigation', 'Practice routing policy and firewall filter configuration', 'Complete free Juniper Open Learning JNCIA course'] } },
+      { level: 'Associate',    title: 'CompTIA Network Specialist',             code: 'CAS-005', price: '747',   days: 4,
+        cert: { prereq: 'Network+ and 5 years experience recommended', examFee: '$480 USD', format: 'Multiple choice & scenario-based', questions: '90 questions', passingScore: '750 / 900', validity: '3 years', bestPractices: ['Study enterprise network security architecture', 'Focus on SD-WAN, cloud networking, and network automation', 'Review CompTIA advanced network infrastructure design patterns'] } },
+      { level: 'Expert', title: 'Cisco CCNP Enterprise',                       code: 'ENCOR',   price: '1,245', days: 5,
+        cert: { prereq: 'CCNA or 3+ years enterprise networking', examFee: '$400 USD', format: 'Multiple choice & drag & drop', questions: '90–110 questions', passingScore: '825 / 1000', validity: '3 years', bestPractices: ['Study dual-stack architectures, SD-WAN, and wireless deeply', 'Practice advanced OSPF, BGP, and EIGRP configurations', 'Complete Cisco ENCOR official cert guide cover to cover'] } },
+      { level: 'Expert', title: 'Cisco CCNP Security',                         code: 'SCOR',    price: '1,245', days: 5,
+        cert: { prereq: 'CCNA Security or 3+ years network security', examFee: '$400 USD', format: 'Multiple choice & drag & drop', questions: '90–110 questions', passingScore: '825 / 1000', validity: '3 years', bestPractices: ['Study Cisco Firepower, ISE, and Umbrella architecture', 'Lab-practice NGFW policies, VPN, and identity-based security', 'Review Cisco security architecture blueprints'] } },
+      { level: 'Expert',       title: 'Cisco CCIE Enterprise Infrastructure',  code: 'CCIE-E',  price: '1,995', days: 5,
+        cert: { prereq: 'CCNP Enterprise and extensive lab experience', examFee: '$1,600 USD (written + lab)', format: 'Written MCQ + 8-hour lab exam', questions: '90–110 (written)', passingScore: 'Pass / Fail (lab)', validity: '3 years', bestPractices: ['Allocate 6–12 months of dedicated study time', 'Build comprehensive home or rented lab environment', 'Focus on automation, programmability, and advanced routing'] } },
+      { level: 'Expert',       title: 'Fortinet NSE 7 Enterprise Firewall',    code: 'NSE7',    price: '1,245', days: 4,
+        cert: { prereq: 'NSE 4 or 5 and enterprise firewall experience', examFee: '$400 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '65%', validity: '2 years', bestPractices: ['Complete FortiGate advanced administration labs', 'Study VDOM, HA clustering, and SD-WAN advanced features', 'Practice FortiGate troubleshooting methodologies'] } },
     ],
   },
   {
@@ -253,14 +285,22 @@ const CAT_DOMAINS = [
     features: ['8 Courses', 'ITIL-4F — PMI-ACP', 'PM Roles'],
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>,
     courses: [
-      { level: 'Fundamentals', title: 'ITIL 4 Foundation',                        code: 'ITIL-4F', price: '597',   days: 2 },
-      { level: 'Fundamentals', title: 'Project Management Fundamentals',          code: 'PMF-101', price: '398',   days: 2 },
-      { level: 'Associate',    title: 'PRINCE2 Foundation',                       code: 'PR2-F',   price: '597',   days: 3 },
-      { level: 'Associate',    title: 'Certified Scrum Master',                   code: 'CSM',     price: '597',   days: 2 },
-      { level: 'Expert', title: 'PMI Project Management Professional',      code: 'PMP',     price: '1,245', days: 5 },
-      { level: 'Expert', title: 'PRINCE2 Practitioner',                     code: 'PR2-P',   price: '747',   days: 2 },
-      { level: 'Expert',       title: 'PMI Agile Certified Practitioner',         code: 'PMI-ACP', price: '747',   days: 3 },
-      { level: 'Expert',       title: 'SAFe 6.0 Program Consultant',              code: 'SPC',     price: '1,495', days: 4 },
+      { level: 'Fundamentals', title: 'ITIL 4 Foundation',                      code: 'ITIL-4F', price: '597',   days: 2, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: '$397 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '65% (26/40)', validity: 'No expiry', bestPractices: ['Study the ITIL 4 Foundation official publication', 'Focus on key concepts: value co-creation and service value chain', 'Take 3–4 practice exams using official PeopleCert sample papers'] } },
+      { level: 'Fundamentals', title: 'Project Management Fundamentals',        code: 'PMF-101', price: '398',   days: 2,
+        cert: { prereq: 'No prerequisites required', examFee: '$250 USD', format: 'Multiple choice', questions: '50 questions', passingScore: '70%', validity: '3 years', bestPractices: ['Study PMI project management process groups and knowledge areas', 'Focus on project initiation, planning, and stakeholder management', 'Complete at least one practice project lifecycle walkthrough'] } },
+      { level: 'Associate',    title: 'PRINCE2 Foundation',                     code: 'PR2-F',   price: '597',   days: 3,
+        cert: { prereq: 'No prerequisites required', examFee: '$343 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '55% (33/60)', validity: 'No expiry', bestPractices: ['Study all 7 PRINCE2 principles, themes, and processes', 'Use official PRINCE2 manual as primary reference', 'Attempt PeopleCert practice papers under timed conditions'] } },
+      { level: 'Associate',    title: 'Certified Scrum Master',                 code: 'CSM',     price: '597',   days: 2,
+        cert: { prereq: 'CSM course attendance required', examFee: 'Included in training', format: 'Multiple choice (online)', questions: '50 questions', passingScore: '74% (37/50)', validity: '2 years', bestPractices: ['Attend the 2-day live CSM training — participation is mandatory', 'Study the Scrum Guide (official, free PDF)', 'Apply Scrum concepts to a real or practice project scenario'] } },
+      { level: 'Expert', title: 'PMI Project Management Professional',          code: 'PMP',     price: '1,245', days: 5,
+        cert: { prereq: '36–60 months PM experience + 35 education hours', examFee: '$555 USD (PMI member $405)', format: 'Multiple choice, matching, hotspot, fill-in', questions: '180 questions', passingScore: 'Above Target performance', validity: '3 years', bestPractices: ['Study both predictive (waterfall) and agile PM approaches', 'Use PMI Examination Content Outline as study blueprint', 'Complete 300+ practice questions using reputable question banks'] } },
+      { level: 'Expert', title: 'PRINCE2 Practitioner',                         code: 'PR2-P',   price: '747',   days: 2,
+        cert: { prereq: 'PRINCE2 Foundation required', examFee: '$343 USD', format: 'Objective testing (scenario-based)', questions: '68 questions', passingScore: '55% (38/68)', validity: '3 years', bestPractices: ['Study how to tailor PRINCE2 principles to scenarios', 'Practice applying PRINCE2 to the Practitioner exam scenario', 'Focus on how themes interact within the scenario context'] } },
+      { level: 'Expert',       title: 'PMI Agile Certified Practitioner',       code: 'PMI-ACP', price: '747',   days: 3,
+        cert: { prereq: '2000 hours general PM + 1500 hours agile experience', examFee: '$495 USD (PMI member $435)', format: 'Multiple choice', questions: '120 questions', passingScore: 'Above Target performance', validity: '3 years', bestPractices: ['Study Agile Manifesto, Scrum, Kanban, XP, and SAFe frameworks', 'Use Mike Griffiths PMI-ACP study guide as primary resource', 'Complete 150+ practice questions from multiple question banks'] } },
+      { level: 'Expert',       title: 'SAFe 6.0 Program Consultant',            code: 'SPC',     price: '1,495', days: 4,
+        cert: { prereq: 'SAFe Agilist and 5+ years enterprise experience', examFee: 'Included in training', format: 'Multiple choice (online)', questions: '45 questions', passingScore: '77%', validity: '1 year', bestPractices: ['Complete official SAFe SPC training — attendance required', 'Study SAFe framework: ART, Solution Train, and Portfolio', 'Apply SAFe patterns to a real enterprise scenario in your answers'] } },
     ],
   },
   {
@@ -269,14 +309,22 @@ const CAT_DOMAINS = [
     features: ['8 Courses', 'DOF-101 — CKS', 'DevOps Roles'],
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>,
     courses: [
-      { level: 'Fundamentals', title: 'DevOps Foundations',                       code: 'DOF-101', price: '398',   days: 2 },
-      { level: 'Fundamentals', title: 'Docker for Developers',                    code: 'DCA-E',   price: '597',   days: 3 },
-      { level: 'Associate',    title: 'HashiCorp Terraform Associate',            code: 'TA-003',  price: '747',   days: 3 },
-      { level: 'Associate',    title: 'Kubernetes and Cloud Native Associate',    code: 'KCNA',    price: '597',   days: 2 },
-      { level: 'Expert', title: 'Certified Kubernetes Administrator',       code: 'CKA',     price: '996',   days: 4 },
-      { level: 'Expert', title: 'Certified Kubernetes App Developer',       code: 'CKAD',    price: '996',   days: 3 },
-      { level: 'Expert',       title: 'Certified Kubernetes Security Specialist', code: 'CKS',     price: '1,245', days: 4 },
-      { level: 'Expert',       title: 'GitLab Professional Services Engineer',    code: 'GPSE',    price: '996',   days: 3 },
+      { level: 'Fundamentals', title: 'DevOps Foundations',                     code: 'DOF-101', price: '398',   days: 2, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: '$250 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '65%', validity: '3 years', bestPractices: ['Study DevOps culture, CALMS framework, and value stream mapping', 'Understand CI/CD pipeline concepts and toolchain overview', 'Complete a hands-on mini-project implementing a basic pipeline'] } },
+      { level: 'Fundamentals', title: 'Docker for Developers',                  code: 'DCA-E',   price: '597',   days: 3,
+        cert: { prereq: 'Basic Linux and development experience', examFee: '$200 USD', format: 'Multiple choice & scenario', questions: '55 questions', passingScore: '65%', validity: '2 years', bestPractices: ['Build and run Docker containers from scratch in a lab environment', 'Study Docker networking, volumes, and multi-container orchestration', 'Complete Docker official hands-on labs on Docker Hub'] } },
+      { level: 'Associate',    title: 'HashiCorp Terraform Associate',          code: 'TA-003',  price: '747',   days: 3,
+        cert: { prereq: 'Basic cloud and IaC understanding', examFee: '$70 USD', format: 'Multiple choice & multi-select', questions: '57 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Complete HashiCorp Learn Terraform tutorials (free)', 'Practice Terraform state management, modules, and workspaces', 'Build a real IaC project on any cloud provider'] } },
+      { level: 'Associate',    title: 'Kubernetes and Cloud Native Associate',  code: 'KCNA',    price: '597',   days: 2,
+        cert: { prereq: 'Basic cloud and containers knowledge', examFee: '$250 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '75%', validity: '2 years', bestPractices: ['Complete CNCF Kubernetes Introduction course on edX', 'Study Kubernetes core concepts: Pods, Services, Deployments', 'Review the KCNA curriculum guide on CNCF website'] } },
+      { level: 'Expert', title: 'Certified Kubernetes Administrator',           code: 'CKA',     price: '996',   days: 4,
+        cert: { prereq: '6+ months Kubernetes experience', examFee: '$395 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '66%', validity: '3 years', bestPractices: ['Practice daily in a real Kubernetes cluster (kubeadm or kind)', 'Master kubectl commands and YAML manifests under time pressure', 'Complete Killer.sh CKA simulator — very close to real exam'] } },
+      { level: 'Expert', title: 'Certified Kubernetes App Developer',           code: 'CKAD',    price: '996',   days: 3,
+        cert: { prereq: 'Kubernetes development experience', examFee: '$395 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '66%', validity: '3 years', bestPractices: ['Practice building, configuring, and exposing Kubernetes applications', 'Master ConfigMaps, Secrets, Probes, and multi-container patterns', 'Use Killer.sh CKAD simulator to benchmark readiness'] } },
+      { level: 'Expert',       title: 'Certified Kubernetes Security Specialist', code: 'CKS',   price: '1,245', days: 4,
+        cert: { prereq: 'Active CKA required', examFee: '$395 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '67%', validity: '2 years', bestPractices: ['Study supply chain security, cluster hardening, and runtime security', 'Practice with Falco, OPA Gatekeeper, and network policies', 'Complete CKS-specific labs on Killer.sh'] } },
+      { level: 'Expert',       title: 'GitLab Professional Services Engineer',  code: 'GPSE',    price: '996',   days: 3,
+        cert: { prereq: '2+ years GitLab or CI/CD experience', examFee: '$300 USD', format: 'Multiple choice & scenario', questions: '50 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Study GitLab CI/CD pipelines, runners, and GitOps workflows', 'Practice GitLab project setup, merge request automation, and security scanning', 'Complete GitLab Learn certification path'] } },
     ],
   },
   {
@@ -285,14 +333,22 @@ const CAT_DOMAINS = [
     features: ['8 Courses', 'BTP-100 — SAP-EA', 'ERP Roles'],
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>,
     courses: [
-      { level: 'Fundamentals', title: 'SAP Business Technology Platform',         code: 'BTP-100',      price: '597',   days: 3 },
-      { level: 'Fundamentals', title: 'Salesforce Administrator',                 code: 'ADM-201',      price: '597',   days: 5 },
-      { level: 'Associate',    title: 'SAP S/4HANA Fundamentals',                 code: 'S4H-100',      price: '747',   days: 3 },
-      { level: 'Associate',    title: 'ServiceNow System Administrator',          code: 'CSA',          price: '747',   days: 3 },
-      { level: 'Expert', title: 'SAP Certified Assoc – Financial Accounting',code: 'C_TS4FI_2023',price: '1,245', days: 5 },
-      { level: 'Expert', title: 'Salesforce Platform Developer I',          code: 'PD1',          price: '996',   days: 4 },
-      { level: 'Expert',       title: 'SAP Certified Professional – Solution Arch.',code: 'P_SAPEA_2023',price: '1,495', days: 5 },
-      { level: 'Expert',       title: 'Oracle ERP Cloud Financials Professional', code: '1Z0-1055',     price: '1,245', days: 4 },
+      { level: 'Fundamentals', title: 'SAP Business Technology Platform',       code: 'BTP-100',      price: '597',   days: 3, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: '$592 USD', format: 'Multiple choice', questions: '80 questions', passingScore: '64%', validity: 'No expiry', bestPractices: ['Complete SAP Learning Journey for BTP on SAP Learning Hub', 'Explore BTP Trial account — free sandbox for hands-on practice', 'Focus on Integration Suite, Extension Suite, and HANA Cloud services'] } },
+      { level: 'Fundamentals', title: 'Salesforce Administrator',               code: 'ADM-201',      price: '597',   days: 5,
+        cert: { prereq: 'No prerequisites required', examFee: '$200 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '65%', validity: 'No expiry (maintenance required)', bestPractices: ['Complete Salesforce Trailhead Admin Beginner and Intermediate trails', 'Lab extensively in a free Salesforce Developer org', 'Use Focus on Force or Trailhead Superbadges for exam readiness'] } },
+      { level: 'Associate',    title: 'SAP S/4HANA Fundamentals',               code: 'S4H-100',      price: '747',   days: 3,
+        cert: { prereq: 'SAP BTP Fundamentals recommended', examFee: '$592 USD', format: 'Multiple choice', questions: '80 questions', passingScore: '64%', validity: 'No expiry', bestPractices: ['Complete SAP S/4HANA Learning Journey on SAP Learning Hub', 'Study Fiori UX, Universal Journal, and S/4HANA architecture', 'Use SAP Best Practices Explorer to understand process scenarios'] } },
+      { level: 'Associate',    title: 'ServiceNow System Administrator',        code: 'CSA',          price: '747',   days: 3,
+        cert: { prereq: 'ServiceNow Fundamentals training recommended', examFee: '$300 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Complete the ServiceNow Fundamentals eLearning on Now Learning', 'Lab-practice in a free ServiceNow Personal Developer Instance (PDI)', 'Study tables, business rules, workflows, and ACL configuration'] } },
+      { level: 'Expert', title: 'SAP Certified Assoc – Financial Accounting',   code: 'C_TS4FI_2023', price: '1,245', days: 5,
+        cert: { prereq: 'SAP S/4HANA Finance experience recommended', examFee: '$592 USD', format: 'Multiple choice', questions: '80 questions', passingScore: '65%', validity: 'No expiry', bestPractices: ['Complete SAP Certified Application Associate - SAP S/4HANA training', 'Lab-practice financial document posting and period-end closing', 'Study universal journal, asset accounting, and bank accounting'] } },
+      { level: 'Expert', title: 'Salesforce Platform Developer I',              code: 'PD1',          price: '996',   days: 4,
+        cert: { prereq: 'Admin experience and Apex/SOQL knowledge', examFee: '$200 USD', format: 'Multiple choice & scenario', questions: '60 questions', passingScore: '65%', validity: 'No expiry (maintenance required)', bestPractices: ['Complete Salesforce Platform Developer Trailhead trails', 'Practice Apex, Visualforce, and Lightning Web Components in Developer org', 'Study governor limits, triggers, and test class coverage requirements'] } },
+      { level: 'Expert',       title: 'SAP Certified Professional – Solution Arch.', code: 'P_SAPEA_2023', price: '1,495', days: 5,
+        cert: { prereq: 'SAP Associate certification and 5+ years experience', examFee: '$1,197 USD', format: 'Multiple choice + case-based', questions: '80 questions', passingScore: '64%', validity: 'No expiry', bestPractices: ['Study SAP Enterprise Architecture and TOGAF integration', 'Focus on SAP Solution Manager and integration architecture patterns', 'Complete SAP Professional certification learning journey'] } },
+      { level: 'Expert',       title: 'Oracle ERP Cloud Financials Professional', code: '1Z0-1055',   price: '1,245', days: 4,
+        cert: { prereq: 'Oracle Financials Cloud experience required', examFee: '$245 USD', format: 'Multiple choice', questions: '85 questions', passingScore: '68%', validity: '1 year', bestPractices: ['Complete Oracle University financials training course', 'Lab-practice in Oracle Financials Cloud environment', 'Study period close, subledger accounting, and reporting tools'] } },
     ],
   },
   {
@@ -301,14 +357,82 @@ const CAT_DOMAINS = [
     features: ['8 Courses', 'LPI LE-1 — RHCE', 'Linux Roles'],
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>,
     courses: [
-      { level: 'Fundamentals', title: 'Linux Essentials (LPI LE-1)',              code: 'LPI LE-1', price: '398',   days: 3 },
-      { level: 'Fundamentals', title: 'CompTIA Linux+',                           code: 'XK0-005',  price: '747',   days: 5 },
-      { level: 'Associate',    title: 'Red Hat System Administration I',          code: 'RH124',    price: '996',   days: 5 },
-      { level: 'Associate',    title: 'Linux Foundation LFCA',                    code: 'LFCA',     price: '597',   days: 3 },
-      { level: 'Expert', title: 'Red Hat Certified System Administrator',   code: 'EX200',    price: '1,245', days: 5 },
-      { level: 'Expert', title: 'Red Hat Certified Engineer',               code: 'EX294',    price: '1,495', days: 5 },
-      { level: 'Expert',       title: 'Certified Kubernetes Administrator',       code: 'CKA',      price: '996',   days: 4 },
-      { level: 'Expert',       title: 'OpenStack Certified Administrator',        code: 'COA',      price: '1,245', days: 5 },
+      { level: 'Fundamentals', title: 'Linux Essentials (LPI LE-1)',            code: 'LPI LE-1', price: '398',   days: 3, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: '$120 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '500 / 800', validity: 'No expiry', bestPractices: ['Complete LPI Linux Essentials learning materials (free online)', 'Practice basic Linux commands and file navigation daily', 'Use a live Linux VM or WSL2 environment for hands-on practice'] } },
+      { level: 'Fundamentals', title: 'CompTIA Linux+',                         code: 'XK0-005',  price: '747',   days: 5,
+        cert: { prereq: 'CompTIA A+ or 12 months Linux experience', examFee: '$358 USD', format: 'Multiple choice & performance-based', questions: '90 questions', passingScore: '720 / 900', validity: '3 years', bestPractices: ['Study all four Linux+ domains: system management, security, scripting, containers', 'Lab in RHEL, Ubuntu, and CentOS environments', 'Use Professor Messer or Jason Dion Linux+ study materials'] } },
+      { level: 'Associate',    title: 'Red Hat System Administration I',        code: 'RH124',    price: '996',   days: 5,
+        cert: { prereq: 'Basic IT literacy recommended', examFee: 'Included with RHCSA exam', format: 'Performance-based (hands-on lab)', questions: '9–15 tasks', passingScore: '210 / 300', validity: '3 years', bestPractices: ['Complete RH124 official Red Hat training', 'Practice daily in a RHEL VM — no multiple choice, all hands-on', 'Master user management, filesystems, services, and SELinux'] } },
+      { level: 'Associate',    title: 'Linux Foundation LFCA',                  code: 'LFCA',     price: '597',   days: 3,
+        cert: { prereq: 'No prerequisites required', examFee: '$200 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '72%', validity: '3 years', bestPractices: ['Complete Linux Foundation\'s free Introduction to Linux course on edX', 'Study cloud and container fundamentals alongside Linux basics', 'Review the LFCA curriculum guide on Linux Foundation website'] } },
+      { level: 'Expert', title: 'Red Hat Certified System Administrator',       code: 'EX200',    price: '1,245', days: 5,
+        cert: { prereq: 'RH124 + RH134 training or equivalent', examFee: '$450 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '210 / 300', validity: '3 years', bestPractices: ['Build and rebuild a RHEL lab environment daily', 'Master systemd, firewalld, SELinux, and storage management', 'Time yourself — exam tasks must be completed within 3 hours'] } },
+      { level: 'Expert', title: 'Red Hat Certified Engineer',                   code: 'EX294',    price: '1,495', days: 5,
+        cert: { prereq: 'Active RHCSA required', examFee: '$450 USD', format: 'Performance-based (hands-on lab)', questions: '10–15 tasks', passingScore: '210 / 300', validity: '3 years', bestPractices: ['Master Ansible playbooks, roles, and Ansible Vault', 'Practice automating RHEL system configuration from scratch', 'Complete Red Hat DO294 Ansible for RHCE official training'] } },
+      { level: 'Expert',       title: 'Certified Kubernetes Administrator',     code: 'CKA',      price: '996',   days: 4,
+        cert: { prereq: '6+ months Kubernetes experience', examFee: '$395 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '66%', validity: '3 years', bestPractices: ['Practice kubectl and YAML authoring daily in a real cluster', 'Master kubeadm cluster bootstrapping and upgrades', 'Use Killer.sh simulator — most representative CKA practice available'] } },
+      { level: 'Expert',       title: 'OpenStack Certified Administrator',      code: 'COA',      price: '1,245', days: 5,
+        cert: { prereq: '6+ months OpenStack experience', examFee: '$300 USD', format: 'Performance-based (hands-on lab)', questions: 'Scenario tasks', passingScore: 'Pass / Fail', validity: '3 years', bestPractices: ['Deploy a full OpenStack environment using DevStack for practice', 'Master Nova, Neutron, Cinder, Glance, and Keystone components', 'Complete OpenStack Foundation training and documentation'] } },
+    ],
+  },
+  {
+    name: 'Agile & Scrum',
+    desc: 'Transform teams with Agile methodologies — from Scrum and Kanban foundations to SAFe, LeSS, and scaled enterprise Agile delivery frameworks.',
+    features: ['6 Courses', 'CSM — SAFe-RTE', 'Agile Roles'],
+    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/></>,
+    courses: [
+      { level: 'Fundamentals', title: 'Scrum Fundamentals Certified (SFC)',     code: 'SFC',      price: '299',   days: 1, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: 'Free', format: 'Multiple choice (online)', questions: '40 questions', passingScore: '70%', validity: 'No expiry', bestPractices: ['Complete the free SFC course on SCRUMstudy website', 'Read the SBOK Guide chapters on Scrum fundamentals', 'Take the free SFC exam online immediately after training'] } },
+      { level: 'Fundamentals', title: 'Kanban Foundation',                      code: 'KIKF',     price: '398',   days: 2,
+        cert: { prereq: 'No prerequisites required', examFee: '$120 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '65%', validity: 'No expiry', bestPractices: ['Study Kanban core practices: visualise, limit WIP, manage flow', 'Apply Kanban to a real team workflow before the exam', 'Read David Anderson\'s Kanban book as primary study material'] } },
+      { level: 'Associate',    title: 'Certified Scrum Product Owner (CSPO)',   code: 'CSPO',     price: '597',   days: 2,
+        cert: { prereq: 'CSPO course attendance required', examFee: 'Included in training', format: 'No written exam — attendance-based', questions: 'N/A', passingScore: 'N/A (attendance required)', validity: '2 years', bestPractices: ['Attend the 2-day live CSPO training — participation is mandatory', 'Study product vision, backlog refinement, and stakeholder management', 'Join Scrum Alliance communities and explore real PO case studies'] } },
+      { level: 'Associate',    title: 'SAFe Scrum Master (SSM)',                code: 'SSM',      price: '747',   days: 2,
+        cert: { prereq: 'CSM or Scrum experience recommended', examFee: 'Included in training', format: 'Multiple choice (online)', questions: '45 questions', passingScore: '73%', validity: '1 year', bestPractices: ['Complete Scaled Agile Framework (SAFe) official SSM training', 'Study how Scrum Master role differs in SAFe vs. standalone Scrum', 'Review ART ceremonies: PI Planning, Iteration Review, and Retrospectives'] } },
+      { level: 'Expert', title: 'SAFe Release Train Engineer (RTE)',            code: 'SAFe-RTE', price: '1,245', days: 3,
+        cert: { prereq: 'SAFe Agilist and 5+ years Agile/PM experience', examFee: 'Included in training', format: 'Multiple choice (online)', questions: '45 questions', passingScore: '77%', validity: '1 year', bestPractices: ['Complete official SAFe RTE training from Scaled Agile', 'Study facilitation, coaching, and ART execution competencies', 'Practice leading PI Planning and program increment simulations'] } },
+      { level: 'Expert', title: 'PMI Agile Certified Practitioner (PMI-ACP)',   code: 'PMI-ACP',  price: '996',   days: 3,
+        cert: { prereq: '2000 hrs PM + 1500 hrs Agile experience required', examFee: '$435–495 USD', format: 'Multiple choice', questions: '120 questions', passingScore: 'Above Target performance', validity: '3 years', bestPractices: ['Study all Agile frameworks: Scrum, Kanban, XP, Lean, and SAFe', 'Use Mike Griffiths PMI-ACP exam prep book', 'Complete 150+ practice questions from at least two different sources'] } },
+    ],
+  },
+  {
+    name: 'IT Service Management',
+    desc: 'Elevate IT service delivery with ITIL, ISO 20000, COBIT, and HDI certifications — from service desk fundamentals to enterprise service governance.',
+    features: ['6 Courses', 'ITIL-4F — ITIL-MP', 'ITSM Roles'],
+    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round"/></>,
+    courses: [
+      { level: 'Fundamentals', title: 'ITIL 4 Foundation',                      code: 'ITIL-4F',  price: '597',   days: 2, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: '$397 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '65% (26/40)', validity: 'No expiry', bestPractices: ['Study the ITIL 4 Foundation official publication', 'Focus on the four dimensions and service value chain', 'Complete at least three official PeopleCert practice exams'] } },
+      { level: 'Fundamentals', title: 'HDI Support Center Analyst',             code: 'HDI-SCA',  price: '498',   days: 2,
+        cert: { prereq: 'No prerequisites required', examFee: '$195 USD', format: 'Multiple choice', questions: '65 questions', passingScore: '80%', validity: '3 years', bestPractices: ['Study IT support best practices and service desk workflows', 'Focus on incident management, escalation, and customer communication', 'Complete HDI practice exams on HDI Learning Center'] } },
+      { level: 'Associate',    title: 'ITIL 4 Specialist: CDS',                 code: 'ITIL-CDS', price: '747',   days: 3,
+        cert: { prereq: 'ITIL 4 Foundation required', examFee: '$397 USD', format: 'Multiple choice (scenario-based)', questions: '40 questions', passingScore: '70%', validity: 'No expiry', bestPractices: ['Study Create, Deliver and Support module of ITIL 4', 'Focus on value stream design and service performance management', 'Complete official Axelos ITIL 4 CDS training materials'] } },
+      { level: 'Associate',    title: 'ISO/IEC 20000 IT Service Mgmt',          code: 'ISO-20K',  price: '747',   days: 3,
+        cert: { prereq: 'ITIL Foundation or IT service management experience', examFee: '$450 USD', format: 'Multiple choice', questions: '50 questions', passingScore: '65%', validity: 'No expiry', bestPractices: ['Study ISO/IEC 20000-1 standard requirements', 'Focus on SMS planning, service design, and continual improvement', 'Complete PECB ISO 20000 Foundation training materials'] } },
+      { level: 'Expert', title: 'ITIL 4 Managing Professional (MP)',            code: 'ITIL-MP',  price: '1,495', days: 5,
+        cert: { prereq: 'ITIL 4 Foundation + 3 Specialist modules required', examFee: '$397 USD per module', format: 'Multiple choice (scenario-based)', questions: '40 questions', passingScore: '70%', validity: 'No expiry', bestPractices: ['Complete all three required ITIL 4 Specialist modules', 'Study across CDS, DSV, and HVIT modules systematically', 'Apply ITIL 4 concepts to real-world service management scenarios'] } },
+      { level: 'Expert', title: 'COBIT 2019 Foundation',                        code: 'COBIT-19', price: '996',   days: 3,
+        cert: { prereq: 'IT governance experience recommended', examFee: '$350 USD', format: 'Multiple choice', questions: '75 questions', passingScore: '65%', validity: '3 years', bestPractices: ['Study COBIT 2019 Design and Implementation guides', 'Focus on governance system design and maturity levels', 'Complete ISACA official COBIT 2019 Foundation training'] } },
+    ],
+  },
+  {
+    name: 'Business Intelligence',
+    desc: 'Build enterprise BI and analytics capabilities — from Power BI and Tableau foundations to advanced data modelling, DAX, and self-service analytics.',
+    features: ['6 Courses', 'PL-900 — DP-600', 'Analytics Roles'],
+    icon: <><polyline strokeLinecap="round" strokeLinejoin="round" points="22 12 18 12 15 21 9 3 6 12 2 12"/></>,
+    courses: [
+      { level: 'Fundamentals', title: 'Microsoft Power Platform Fundamentals',  code: 'PL-900',   price: '299',   days: 1, popular: true,
+        cert: { prereq: 'No prerequisites required', examFee: '$165 USD', format: 'Multiple choice & case studies', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete PL-900 learning path on Microsoft Learn (free)', 'Explore Power BI, Power Apps, and Power Automate in trial accounts', 'Take the official Microsoft practice assessment before booking'] } },
+      { level: 'Fundamentals', title: 'Tableau Desktop Specialist',             code: 'TDS',      price: '498',   days: 2,
+        cert: { prereq: 'No prerequisites required', examFee: '$250 USD', format: 'Multiple choice & hands-on', questions: '45 questions', passingScore: '75%', validity: '2 years', bestPractices: ['Complete Tableau free eLearning for Tableau Desktop', 'Practice building charts, dashboards, and calculated fields daily', 'Use Tableau Public for hands-on practice with public datasets'] } },
+      { level: 'Associate',    title: 'Microsoft Power BI Data Analyst',        code: 'PL-300',   price: '895',   days: 3,
+        cert: { prereq: 'Power BI experience recommended', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete PL-300 Microsoft Learn paths and hands-on labs', 'Master DAX measures, data modelling, and relationship management', 'Build 3–4 full Power BI reports from raw data to published dashboard'] } },
+      { level: 'Associate',    title: 'Google Data Analytics Certificate',      code: 'GDA',      price: '598',   days: 3,
+        cert: { prereq: 'No prerequisites required', examFee: 'Included in training', format: 'Project-based assessment', questions: 'Portfolio project', passingScore: 'Portfolio review', validity: 'No expiry', bestPractices: ['Complete all 8 courses in the Google Data Analytics Certificate path', 'Build a case study portfolio project as final deliverable', 'Practice SQL, R, and Tableau alongside the coursework'] } },
+      { level: 'Expert', title: 'Implementing Analytics Solutions – Fabric',    code: 'DP-600',   price: '1,195', days: 4,
+        cert: { prereq: 'Power BI Associate or data engineering experience', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete DP-600 Microsoft Learn paths on Microsoft Fabric', 'Lab-practice Lakehouses, Notebooks, Dataflows Gen2, and semantic models', 'Study OneLake architecture and Fabric workspace governance'] } },
+      { level: 'Expert', title: 'Databricks Certified Associate Developer',     code: 'DB-ADE',   price: '996',   days: 3,
+        cert: { prereq: 'Python and basic Spark knowledge', examFee: '$200 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Complete Databricks Academy Associate Developer course', 'Practice DataFrame operations, Spark SQL, and Delta Lake', 'Use Databricks Community Edition for free hands-on labs'] } },
     ],
   },
 ]
@@ -2914,6 +3038,7 @@ export default function EnterprisePage() {
   const [catSearch, setCatSearch] = useState('')
   const [catLevel, setCatLevel] = useState('All')
   const [catSort, setCatSort] = useState('low-high')
+  const [flippedCard, setFlippedCard] = useState<string | null>(null)
   const [entMorphIdx, setEntMorphIdx] = useState(0)
   const [entMorphExiting, setEntMorphExiting] = useState(false)
 
@@ -4366,12 +4491,12 @@ export default function EnterprisePage() {
           const d = CAT_DOMAINS[activeDomain]
           const allCourses = d.courses
           const allLevels = Array.from(new Set(allCourses.map(c => c.level)))
-          const LEVELS = ['All', ...allLevels]
-          const levelCount = (lv: string) => lv === 'All' ? allCourses.length : allCourses.filter(c => c.level === lv).length
+          const LEVELS = ['All', 'Popular', ...allLevels]
+          const levelCount = (lv: string) => lv === 'All' ? allCourses.length : lv === 'Popular' ? allCourses.filter(c => (c as {popular?: boolean}).popular).length : allCourses.filter(c => c.level === lv).length
           const searched = catSearch.trim()
             ? allCourses.filter(c => c.title.toLowerCase().includes(catSearch.toLowerCase()) || c.code.toLowerCase().includes(catSearch.toLowerCase()))
             : allCourses
-          const filtered = catLevel === 'All' ? searched : searched.filter(c => c.level === catLevel)
+          const filtered = catLevel === 'All' ? searched : catLevel === 'Popular' ? searched.filter(c => (c as {popular?: boolean}).popular) : searched.filter(c => c.level === catLevel)
           const sorted = [...filtered].sort((a, b) => {
             const pa = parseFloat(String(a.price).replace(/[^0-9.]/g, ''))
             const pb = parseFloat(String(b.price).replace(/[^0-9.]/g, ''))
@@ -4386,9 +4511,9 @@ export default function EnterprisePage() {
             <div className="mx-auto max-w-7xl">
               {/* Section heading */}
               <div className="io-fade mb-7 text-center">
-                <span className="mb-2 inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ background: 'rgba(13,135,200,0.10)', color: '#0d87c8' }}>What We Train</span>
+                <span className="mb-2 inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ background: 'rgba(13,135,200,0.10)', color: '#0d87c8' }}>Enterprise Training</span>
                 <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold" style={{ color: '#0a1929' }}>
-                  Comprehensive Training <span className="bg-gradient-to-r from-[#0d87c8] to-[#38bdf8] bg-clip-text text-transparent">Catalogue</span>
+                  Training <span className="bg-gradient-to-r from-[#0d87c8] to-[#38bdf8] bg-clip-text text-transparent">Catalogue</span>
                 </h2>
               </div>
 
@@ -4514,50 +4639,103 @@ export default function EnterprisePage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 14 }}>
                         {sorted.map((course, ci) => {
                           const lc = LCAT[course.level] ?? { bg: '#dbeeff', color: '#0050c8' }
+                          const cardKey = `${activeDomain}-${ci}`
+                          const isFlipped = flippedCard === cardKey
+                          const cert = (course as {cert?: {prereq: string; examFee: string; format: string; questions: string; passingScore: string; validity: string; bestPractices: string[]}}).cert
                           return (
-                            <div key={ci}
-                              style={{ background: '#fff', borderRadius: 10, border: '1px solid #dde8f2', padding: '14px 15px 13px', display: 'flex', flexDirection: 'column', gap: 9, boxShadow: '0 1px 4px rgba(13,135,200,0.06)', transition: 'box-shadow 0.18s, border-color 0.18s', cursor: 'default' }}
-                              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 18px rgba(13,135,200,0.15)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#0d87c8' }}
-                              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 4px rgba(13,135,200,0.06)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#dde8f2' }}
-                            >
-                              {/* Badge + Cert Details */}
-                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', borderRadius: 5, padding: '3px 8px', background: lc.bg, color: lc.color }}>{course.level}</span>
-                                <a href="#contact" style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', textDecoration: 'none', whiteSpace: 'nowrap', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 6, padding: '3px 8px' }}>Cert Details →</a>
-                              </div>
-                              {/* Title */}
-                              <div style={{ fontSize: 13, fontWeight: 700, color: '#0a1929', lineHeight: 1.35 }}>{course.title}</div>
-                              {/* Exam code + duration */}
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                <span style={{ borderRadius: 6, background: '#e8f2fa', border: '1px solid #c8dcea', padding: '2px 8px', fontSize: 11.5, fontWeight: 600, color: '#3a5f80' }}>{course.code}</span>
-                                <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11.5, color: '#6b8fa8' }}>
-                                  <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                  {course.days} {course.days === 1 ? 'day' : 'days'} · 8hrs
-                                </span>
-                              </div>
-                              {/* Price */}
-                              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                                <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-                                  <span style={{ fontSize: 13, color: '#0d87c8' }}>$</span>
-                                  <span style={{ fontSize: 22, fontWeight: 800, color: '#0d87c8', lineHeight: 1 }}>{course.price}</span>
+                            <div key={ci} style={{ perspective: '1000px', minHeight: 290 }}>
+                              <div style={{
+                                position: 'relative', width: '100%', minHeight: 290,
+                                transformStyle: 'preserve-3d',
+                                transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)',
+                                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                              }}>
+                                {/* FRONT */}
+                                <div style={{
+                                  position: 'absolute', top: 0, left: 0, right: 0, minHeight: 290,
+                                  backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' as 'hidden',
+                                  background: '#fff', borderRadius: 10, border: '1px solid #dde8f2',
+                                  padding: '14px 15px 13px', display: 'flex', flexDirection: 'column', gap: 9,
+                                  boxShadow: '0 1px 4px rgba(13,135,200,0.06)',
+                                }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', borderRadius: 5, padding: '3px 8px', background: lc.bg, color: lc.color }}>{course.level}</span>
+                                    <button onClick={() => setFlippedCard(cardKey)} style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', whiteSpace: 'nowrap' }}>Cert Details →</button>
+                                  </div>
+                                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0a1929', lineHeight: 1.35 }}>{course.title}</div>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <span style={{ borderRadius: 6, background: '#e8f2fa', border: '1px solid #c8dcea', padding: '2px 8px', fontSize: 11.5, fontWeight: 600, color: '#3a5f80' }}>{course.code}</span>
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11.5, color: '#6b8fa8' }}>
+                                      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                      {course.days} {course.days === 1 ? 'day' : 'days'} · 8hrs
+                                    </span>
+                                  </div>
+                                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                                      <span style={{ fontSize: 12, color: '#0d87c8' }}>$</span>
+                                      <span style={{ fontSize: 18, fontWeight: 800, color: '#0d87c8', lineHeight: 1 }}>{course.price}</span>
+                                    </div>
+                                    <span style={{ fontSize: 11, color: '#94a3b8' }}>per person · USD</span>
+                                  </div>
+                                  <div style={{ display: 'flex', gap: 7, marginTop: 'auto', paddingTop: 4 }}>
+                                    <a href="#contact" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, borderRadius: 8, border: '1.5px solid #0d87c8', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#0d87c8', background: 'transparent', textDecoration: 'none' }}
+                                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#e6f4fb' }}
+                                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}>
+                                      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                      Brochure
+                                    </a>
+                                    <a href="#contact" style={{ flex: 2, borderRadius: 8, border: 'none', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
+                                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
+                                      Enquire Now
+                                    </a>
+                                  </div>
                                 </div>
-                                <span style={{ fontSize: 11, color: '#94a3b8' }}>per person · USD</span>
-                              </div>
-                              {/* Buttons */}
-                              <div style={{ display: 'flex', gap: 7, marginTop: 2 }}>
-                                <a href="#contact"
-                                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, borderRadius: 8, border: '1.5px solid #0d87c8', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#0d87c8', background: 'transparent', textDecoration: 'none', transition: 'background 0.15s' }}
-                                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#e6f4fb' }}
-                                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}>
-                                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                  Brochure
-                                </a>
-                                <a href="#contact"
-                                  style={{ flex: 2, borderRadius: 8, border: 'none', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
-                                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
-                                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
-                                  Enquire Now
-                                </a>
+                                {/* BACK */}
+                                <div style={{
+                                  position: 'absolute', top: 0, left: 0, right: 0, minHeight: 290,
+                                  backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' as 'hidden',
+                                  transform: 'rotateY(180deg)',
+                                  background: '#fff', borderRadius: 10, border: '1px solid #dde8f2',
+                                  padding: '13px 15px', display: 'flex', flexDirection: 'column', gap: 0,
+                                  boxShadow: '0 1px 4px rgba(13,135,200,0.06)', overflow: 'hidden',
+                                }}>
+                                  {/* Back header */}
+                                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+                                    <button onClick={() => setFlippedCard(null)} style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 20, padding: '3px 10px', cursor: 'pointer' }}>← Course</button>
+                                  </div>
+                                  {cert ? (
+                                    <>
+                                      {/* Prereq */}
+                                      <div style={{ background: '#f4f8fc', borderRadius: 6, padding: '6px 10px', fontSize: 11.5, color: '#4a6a7a', marginBottom: 8 }}>{cert.prereq}</div>
+                                      {/* Cert rows */}
+                                      {[
+                                        { label: 'Exam Fee', value: cert.examFee },
+                                        { label: 'Format', value: cert.format },
+                                        { label: 'Questions', value: cert.questions },
+                                        { label: 'Passing Score', value: cert.passingScore },
+                                        { label: 'Validity', value: cert.validity },
+                                      ].map((row, ri) => (
+                                        <div key={ri} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '5px 0', borderBottom: '1px solid #f0f5fa', gap: 8 }}>
+                                          <span style={{ fontSize: 11, color: '#6b8fa8', flexShrink: 0 }}>{row.label}</span>
+                                          <span style={{ fontSize: 11, fontWeight: 700, color: '#0a1929', textAlign: 'right' }}>{row.value}</span>
+                                        </div>
+                                      ))}
+                                      {/* Best practices */}
+                                      <div style={{ marginTop: 10 }}>
+                                        <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0d87c8', marginBottom: 6 }}>Best Practices</div>
+                                        {cert.bestPractices.map((bp, bi) => (
+                                          <div key={bi} style={{ display: 'flex', gap: 6, marginBottom: 4 }}>
+                                            <span style={{ color: '#0d87c8', fontSize: 11, marginTop: 1, flexShrink: 0 }}>•</span>
+                                            <span style={{ fontSize: 11, color: '#1a3a4a', lineHeight: 1.4 }}>{bp}</span>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div style={{ fontSize: 12, color: '#9aabb8', textAlign: 'center', paddingTop: 40 }}>No cert details available</div>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           )
@@ -4568,15 +4746,6 @@ export default function EnterprisePage() {
                 </div>
               </div>
 
-              {/* Bottom CTA */}
-              <div className="mt-8 flex justify-center">
-                <a href="#contact"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 12, background: '#0a1929', padding: '13px 36px', fontSize: 14, fontWeight: 700, color: '#fff', textDecoration: 'none', transition: 'background 0.15s', boxShadow: '0 4px 18px rgba(10,25,41,0.18)' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d2840' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0a1929' }}>
-                  Request Training Plan →
-                </a>
-              </div>
             </div>
           )
         })()}
