@@ -4608,8 +4608,9 @@ export default function EnterprisePage() {
                         const active = catLevel === lv
                         return (
                           <button key={lv} onClick={() => setCatLevel(lv)}
-                            style={{ borderRadius: 999, padding: '4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#6b7e8f', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
-                            {lv} {cnt}
+                            style={{ borderRadius: 999, padding: '4px 10px 4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: 6, background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#6b7e8f', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
+                            {lv}
+                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 18, height: 18, borderRadius: 999, padding: '0 4px', fontSize: 10.5, fontWeight: 700, lineHeight: 1, background: active ? 'rgba(255,255,255,0.25)' : '#0d87c8', color: active ? '#fff' : '#fff' }}>{cnt}</span>
                           </button>
                         )
                       })}
@@ -4643,16 +4644,16 @@ export default function EnterprisePage() {
                           const isFlipped = flippedCard === cardKey
                           const cert = (course as {cert?: {prereq: string; examFee: string; format: string; questions: string; passingScore: string; validity: string; bestPractices: string[]}}).cert
                           return (
-                            <div key={ci} style={{ perspective: '1000px', minHeight: 290 }}>
+                            <div key={ci} style={{ perspective: '1000px' }}>
                               <div style={{
-                                position: 'relative', width: '100%', minHeight: 290,
+                                position: 'relative', width: '100%', minHeight: isFlipped ? 360 : 0,
                                 transformStyle: 'preserve-3d',
-                                transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)',
+                                transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1), min-height 0.5s cubic-bezier(0.4,0,0.2,1)',
                                 transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
                               }}>
                                 {/* FRONT */}
                                 <div style={{
-                                  position: 'absolute', top: 0, left: 0, right: 0, minHeight: 290,
+                                  position: 'relative', width: '100%',
                                   backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' as 'hidden',
                                   background: '#fff', borderRadius: 10, border: '1px solid #dde8f2',
                                   padding: '14px 15px 13px', display: 'flex', flexDirection: 'column', gap: 9,
@@ -4693,12 +4694,12 @@ export default function EnterprisePage() {
                                 </div>
                                 {/* BACK */}
                                 <div style={{
-                                  position: 'absolute', top: 0, left: 0, right: 0, minHeight: 290,
+                                  position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
                                   backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' as 'hidden',
                                   transform: 'rotateY(180deg)',
                                   background: '#fff', borderRadius: 10, border: '1px solid #dde8f2',
                                   padding: '13px 15px', display: 'flex', flexDirection: 'column', gap: 0,
-                                  boxShadow: '0 1px 4px rgba(13,135,200,0.06)', overflow: 'hidden',
+                                  boxShadow: '0 1px 4px rgba(13,135,200,0.06)',
                                 }}>
                                   {/* Back header */}
                                   <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
