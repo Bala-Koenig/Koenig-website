@@ -194,9 +194,9 @@ const CAT_DOMAINS = [
       { level: 'Associate',    title: 'AWS Solutions Architect Associate',   code: 'SAA-C03',      price: '996',   days: 4 },
       { level: 'Associate',    title: 'Microsoft Azure Administrator',       code: 'AZ-104',       price: '1,245', days: 5 },
       { level: 'Associate',    title: 'Google Associate Cloud Engineer',     code: 'ACE',          price: '747',   days: 3 },
-      { level: 'Professional', title: 'AWS Solutions Architect Professional',code: 'SAP-C02',      price: '1,495', days: 5 },
-      { level: 'Professional', title: 'Azure Solutions Architect Expert',    code: 'AZ-305',       price: '1,495', days: 5 },
-      { level: 'Professional', title: 'Google Professional Cloud Architect', code: 'PCA',          price: '1,495', days: 5 },
+      { level: 'Expert', title: 'AWS Solutions Architect Professional',code: 'SAP-C02',      price: '1,495', days: 5 },
+      { level: 'Expert', title: 'Azure Solutions Architect Expert',    code: 'AZ-305',       price: '1,495', days: 5 },
+      { level: 'Expert', title: 'Google Professional Cloud Architect', code: 'PCA',          price: '1,495', days: 5 },
     ],
   },
   {
@@ -209,8 +209,8 @@ const CAT_DOMAINS = [
       { level: 'Fundamentals', title: 'ISC2 Certified in Cybersecurity',         code: 'CC',      price: '398',   days: 3 },
       { level: 'Associate',    title: 'Cisco CyberOps Associate',                code: '200-201', price: '747',   days: 4 },
       { level: 'Associate',    title: 'CompTIA CySA+',                           code: 'CS0-003', price: '747',   days: 5 },
-      { level: 'Professional', title: 'EC-Council Certified Ethical Hacker',     code: '312-50',  price: '1,245', days: 5 },
-      { level: 'Professional', title: 'Fortinet NSE 4 Network Security',         code: 'NSE4',    price: '996',   days: 4 },
+      { level: 'Expert', title: 'EC-Council Certified Ethical Hacker',     code: '312-50',  price: '1,245', days: 5 },
+      { level: 'Expert', title: 'Fortinet NSE 4 Network Security',         code: 'NSE4',    price: '996',   days: 4 },
       { level: 'Expert',       title: 'ISC2 CISSP',                              code: 'CISSP',   price: '1,495', days: 5 },
       { level: 'Expert',       title: 'Palo Alto Networks PCNSE',                code: 'PCNSE',   price: '1,245', days: 5 },
     ],
@@ -225,8 +225,8 @@ const CAT_DOMAINS = [
       { level: 'Fundamentals', title: 'AWS Machine Learning Foundations',         code: 'MLS-C01', price: '398',   days: 2 },
       { level: 'Associate',    title: 'Azure Data Engineer Associate',            code: 'DP-203',  price: '996',   days: 5 },
       { level: 'Associate',    title: 'AWS Certified ML Associate',               code: 'MLA-C01', price: '747',   days: 3 },
-      { level: 'Professional', title: 'Azure AI Engineer Associate',              code: 'AI-102',  price: '1,245', days: 4 },
-      { level: 'Professional', title: 'Google Professional ML Engineer',          code: 'PMLE',    price: '1,495', days: 5 },
+      { level: 'Expert', title: 'Azure AI Engineer Associate',              code: 'AI-102',  price: '1,245', days: 4 },
+      { level: 'Expert', title: 'Google Professional ML Engineer',          code: 'PMLE',    price: '1,495', days: 5 },
       { level: 'Expert',       title: 'Microsoft Fabric Analytics Engineer',      code: 'DP-600',  price: '1,245', days: 4 },
       { level: 'Expert',       title: 'Databricks Data Engineer Professional',    code: 'DE-PRO',  price: '996',   days: 3 },
     ],
@@ -241,8 +241,8 @@ const CAT_DOMAINS = [
       { level: 'Associate',    title: 'Cisco CCNA',                               code: '200-301', price: '747',   days: 5 },
       { level: 'Associate',    title: 'Juniper JNCIA-Junos',                      code: 'JN0-104', price: '597',   days: 3 },
       { level: 'Associate',    title: 'CompTIA Network Specialist',               code: 'CAS-005', price: '747',   days: 4 },
-      { level: 'Professional', title: 'Cisco CCNP Enterprise',                    code: 'ENCOR',   price: '1,245', days: 5 },
-      { level: 'Professional', title: 'Cisco CCNP Security',                      code: 'SCOR',    price: '1,245', days: 5 },
+      { level: 'Expert', title: 'Cisco CCNP Enterprise',                    code: 'ENCOR',   price: '1,245', days: 5 },
+      { level: 'Expert', title: 'Cisco CCNP Security',                      code: 'SCOR',    price: '1,245', days: 5 },
       { level: 'Expert',       title: 'Cisco CCIE Enterprise Infrastructure',     code: 'CCIE-E',  price: '1,995', days: 5 },
       { level: 'Expert',       title: 'Fortinet NSE 7 Enterprise Firewall',       code: 'NSE7',    price: '1,245', days: 4 },
     ],
@@ -257,8 +257,8 @@ const CAT_DOMAINS = [
       { level: 'Fundamentals', title: 'Project Management Fundamentals',          code: 'PMF-101', price: '398',   days: 2 },
       { level: 'Associate',    title: 'PRINCE2 Foundation',                       code: 'PR2-F',   price: '597',   days: 3 },
       { level: 'Associate',    title: 'Certified Scrum Master',                   code: 'CSM',     price: '597',   days: 2 },
-      { level: 'Professional', title: 'PMI Project Management Professional',      code: 'PMP',     price: '1,245', days: 5 },
-      { level: 'Professional', title: 'PRINCE2 Practitioner',                     code: 'PR2-P',   price: '747',   days: 2 },
+      { level: 'Expert', title: 'PMI Project Management Professional',      code: 'PMP',     price: '1,245', days: 5 },
+      { level: 'Expert', title: 'PRINCE2 Practitioner',                     code: 'PR2-P',   price: '747',   days: 2 },
       { level: 'Expert',       title: 'PMI Agile Certified Practitioner',         code: 'PMI-ACP', price: '747',   days: 3 },
       { level: 'Expert',       title: 'SAFe 6.0 Program Consultant',              code: 'SPC',     price: '1,495', days: 4 },
     ],
@@ -273,8 +273,8 @@ const CAT_DOMAINS = [
       { level: 'Fundamentals', title: 'Docker for Developers',                    code: 'DCA-E',   price: '597',   days: 3 },
       { level: 'Associate',    title: 'HashiCorp Terraform Associate',            code: 'TA-003',  price: '747',   days: 3 },
       { level: 'Associate',    title: 'Kubernetes and Cloud Native Associate',    code: 'KCNA',    price: '597',   days: 2 },
-      { level: 'Professional', title: 'Certified Kubernetes Administrator',       code: 'CKA',     price: '996',   days: 4 },
-      { level: 'Professional', title: 'Certified Kubernetes App Developer',       code: 'CKAD',    price: '996',   days: 3 },
+      { level: 'Expert', title: 'Certified Kubernetes Administrator',       code: 'CKA',     price: '996',   days: 4 },
+      { level: 'Expert', title: 'Certified Kubernetes App Developer',       code: 'CKAD',    price: '996',   days: 3 },
       { level: 'Expert',       title: 'Certified Kubernetes Security Specialist', code: 'CKS',     price: '1,245', days: 4 },
       { level: 'Expert',       title: 'GitLab Professional Services Engineer',    code: 'GPSE',    price: '996',   days: 3 },
     ],
@@ -289,8 +289,8 @@ const CAT_DOMAINS = [
       { level: 'Fundamentals', title: 'Salesforce Administrator',                 code: 'ADM-201',      price: '597',   days: 5 },
       { level: 'Associate',    title: 'SAP S/4HANA Fundamentals',                 code: 'S4H-100',      price: '747',   days: 3 },
       { level: 'Associate',    title: 'ServiceNow System Administrator',          code: 'CSA',          price: '747',   days: 3 },
-      { level: 'Professional', title: 'SAP Certified Assoc – Financial Accounting',code: 'C_TS4FI_2023',price: '1,245', days: 5 },
-      { level: 'Professional', title: 'Salesforce Platform Developer I',          code: 'PD1',          price: '996',   days: 4 },
+      { level: 'Expert', title: 'SAP Certified Assoc – Financial Accounting',code: 'C_TS4FI_2023',price: '1,245', days: 5 },
+      { level: 'Expert', title: 'Salesforce Platform Developer I',          code: 'PD1',          price: '996',   days: 4 },
       { level: 'Expert',       title: 'SAP Certified Professional – Solution Arch.',code: 'P_SAPEA_2023',price: '1,495', days: 5 },
       { level: 'Expert',       title: 'Oracle ERP Cloud Financials Professional', code: '1Z0-1055',     price: '1,245', days: 4 },
     ],
@@ -305,8 +305,8 @@ const CAT_DOMAINS = [
       { level: 'Fundamentals', title: 'CompTIA Linux+',                           code: 'XK0-005',  price: '747',   days: 5 },
       { level: 'Associate',    title: 'Red Hat System Administration I',          code: 'RH124',    price: '996',   days: 5 },
       { level: 'Associate',    title: 'Linux Foundation LFCA',                    code: 'LFCA',     price: '597',   days: 3 },
-      { level: 'Professional', title: 'Red Hat Certified System Administrator',   code: 'EX200',    price: '1,245', days: 5 },
-      { level: 'Professional', title: 'Red Hat Certified Engineer',               code: 'EX294',    price: '1,495', days: 5 },
+      { level: 'Expert', title: 'Red Hat Certified System Administrator',   code: 'EX200',    price: '1,245', days: 5 },
+      { level: 'Expert', title: 'Red Hat Certified Engineer',               code: 'EX294',    price: '1,495', days: 5 },
       { level: 'Expert',       title: 'Certified Kubernetes Administrator',       code: 'CKA',      price: '996',   days: 4 },
       { level: 'Expert',       title: 'OpenStack Certified Administrator',        code: 'COA',      price: '1,245', days: 5 },
     ],
@@ -4375,13 +4375,12 @@ export default function EnterprisePage() {
           const sorted = [...filtered].sort((a, b) => {
             const pa = parseFloat(String(a.price).replace(/[^0-9.]/g, ''))
             const pb = parseFloat(String(b.price).replace(/[^0-9.]/g, ''))
-            return catSort === 'high-low' ? pb - pa : catSort === 'low-high' ? pa - pb : 0
+            return catSort === 'high-low' ? pb - pa : catSort === 'low-high' ? pa - pb : catSort === 'dur-asc' ? a.days - b.days : catSort === 'dur-desc' ? b.days - a.days : 0
           })
           const LCAT: Record<string, { bg: string; color: string }> = {
-            Fundamentals: { bg: '#dbeeff', color: '#0050c8' },
-            Associate:    { bg: '#d4f5e2', color: '#0a7a3e' },
-            Professional: { bg: '#fff0d0', color: '#9a5500' },
-            Expert:       { bg: '#fff0d0', color: '#9a5500' },
+            Fundamentals: { bg: '#d0f4f2', color: '#007b83' },
+            Associate:    { bg: '#dbeeff', color: '#0d87c8' },
+            Expert:       { bg: '#ffebd6', color: '#c05a00' },
           }
           return (
             <div className="mx-auto max-w-7xl">
@@ -4497,7 +4496,8 @@ export default function EnterprisePage() {
                         style={{ fontSize: 12, fontWeight: 500, border: '1px solid #d1dce8', borderRadius: 7, padding: '5px 10px', background: '#fff', color: '#1a3a4a', outline: 'none', cursor: 'pointer' }}>
                         <option value="low-high">Price: Low → High</option>
                         <option value="high-low">Price: High → Low</option>
-                        <option value="default">Name A–Z</option>
+                        <option value="dur-asc">Duration: Short → Long</option>
+                        <option value="dur-desc">Duration: Long → Short</option>
                       </select>
                     </div>
                   </div>
@@ -4523,7 +4523,7 @@ export default function EnterprisePage() {
                               {/* Badge + Cert Details */}
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', borderRadius: 5, padding: '3px 8px', background: lc.bg, color: lc.color }}>{course.level}</span>
-                                <a href="#contact" style={{ fontSize: 11.5, fontWeight: 600, color: '#0d87c8', textDecoration: 'none', whiteSpace: 'nowrap' }}>Cert Details →</a>
+                                <a href="#contact" style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', textDecoration: 'none', whiteSpace: 'nowrap', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 6, padding: '3px 8px' }}>Cert Details →</a>
                               </div>
                               {/* Title */}
                               <div style={{ fontSize: 13, fontWeight: 700, color: '#0a1929', lineHeight: 1.35 }}>{course.title}</div>
@@ -4538,8 +4538,8 @@ export default function EnterprisePage() {
                               {/* Price */}
                               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
                                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-                                  <span style={{ fontSize: 13, color: '#64748b' }}>$</span>
-                                  <span style={{ fontSize: 22, fontWeight: 800, color: '#111827', lineHeight: 1 }}>{course.price}</span>
+                                  <span style={{ fontSize: 13, color: '#0d87c8' }}>$</span>
+                                  <span style={{ fontSize: 22, fontWeight: 800, color: '#0d87c8', lineHeight: 1 }}>{course.price}</span>
                                 </div>
                                 <span style={{ fontSize: 11, color: '#94a3b8' }}>per person · USD</span>
                               </div>
