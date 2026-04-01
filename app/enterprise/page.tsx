@@ -3039,6 +3039,7 @@ export default function EnterprisePage() {
   const [catLevel, setCatLevel] = useState('All')
   const [catSort, setCatSort] = useState('low-high')
   const [flippedCard, setFlippedCard] = useState<string | null>(null)
+  const [catShowAll, setCatShowAll] = useState(false)
   const [entMorphIdx, setEntMorphIdx] = useState(0)
   const [entMorphExiting, setEntMorphExiting] = useState(false)
 
@@ -4528,7 +4529,7 @@ export default function EnterprisePage() {
                       const active = activeDomain === i
                       return (
                         <button key={i}
-                          onClick={() => { setActiveDomain(i); setCatLevel('All') }}
+                          onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null); setCatShowAll(false) }}
                           style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '9px 14px 9px 0', borderLeft: active ? '3px solid #0d87c8' : '3px solid transparent', background: active ? '#e6f4fb' : 'transparent', cursor: 'pointer', transition: 'background 0.15s' }}
                           onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#f2f9fd' }}
                           onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
@@ -4567,7 +4568,7 @@ export default function EnterprisePage() {
                   {/* Mobile category scroll */}
                   <div className="sm:hidden overflow-x-auto flex gap-2 px-4 py-3 [&::-webkit-scrollbar]:hidden" style={{ borderBottom: '1px solid #e4edf5' }}>
                     {CAT_DOMAINS.map((cat, i) => (
-                      <button key={i} onClick={() => { setActiveDomain(i); setCatLevel('All') }}
+                      <button key={i} onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null); setCatShowAll(false) }}
                         style={{ flexShrink: 0, borderRadius: 999, padding: '5px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', background: activeDomain === i ? '#0d87c8' : '#e6f4fb', color: activeDomain === i ? '#fff' : '#0d87c8', border: 'none' }}>
                         {cat.name}
                       </button>
@@ -4629,121 +4630,126 @@ export default function EnterprisePage() {
                   </div>
 
                   {/* Cards grid */}
-                  <div className="overflow-y-auto p-4" style={{ background: '#f4f8fc', maxHeight: 500, scrollbarWidth: 'thin', scrollbarColor: '#c8dcea transparent' }}>
-                    {sorted.length === 0 ? (
-                      <div className="flex flex-col items-center justify-center py-20" style={{ color: '#9aabb8' }}>
-                        <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ opacity: 0.3, marginBottom: 10 }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                        <p style={{ fontSize: 13, fontWeight: 500 }}>No courses match your search.</p>
-                        <button onClick={() => { setCatSearch(''); setCatLevel('All') }} style={{ marginTop: 8, fontSize: 12, color: '#0d87c8', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Clear filters</button>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 14 }}>
-                        {sorted.map((course, ci) => {
-                          const lc = LCAT[course.level] ?? { bg: '#dbeeff', color: '#0050c8' }
-                          const cardKey = `${activeDomain}-${ci}`
-                          const isFlipped = flippedCard === cardKey
-                          const cert = (course as {cert?: {prereq: string; examFee: string; format: string; questions: string; passingScore: string; validity: string; bestPractices: string[]}}).cert
-                          return (
-                            <div key={ci} style={{ perspective: '1000px' }}>
-                              <div style={{
-                                position: 'relative', width: '100%', minHeight: isFlipped ? 360 : 0,
-                                transformStyle: 'preserve-3d',
-                                transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1), min-height 0.5s cubic-bezier(0.4,0,0.2,1)',
-                                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-                              }}>
-                                {/* FRONT */}
-                                <div style={{
-                                  position: 'relative', width: '100%',
-                                  backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' as 'hidden',
-                                  background: '#fff', borderRadius: 10, border: '1px solid #dde8f2',
-                                  padding: '14px 15px 13px', display: 'flex', flexDirection: 'column', gap: 9,
-                                  boxShadow: '0 1px 4px rgba(13,135,200,0.06)',
-                                }}>
-                                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', borderRadius: 5, padding: '3px 8px', background: lc.bg, color: lc.color }}>{course.level}</span>
-                                    <button onClick={() => setFlippedCard(cardKey)} style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', whiteSpace: 'nowrap' }}>Cert Details →</button>
-                                  </div>
-                                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0a1929', lineHeight: 1.35 }}>{course.title}</div>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                    <span style={{ borderRadius: 6, background: '#e8f2fa', border: '1px solid #c8dcea', padding: '2px 8px', fontSize: 11.5, fontWeight: 600, color: '#3a5f80' }}>{course.code}</span>
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11.5, color: '#6b8fa8' }}>
-                                      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                      {course.days} {course.days === 1 ? 'day' : 'days'} · 8hrs
-                                    </span>
-                                  </div>
-                                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-                                      <span style={{ fontSize: 12, color: '#0d87c8' }}>$</span>
-                                      <span style={{ fontSize: 18, fontWeight: 800, color: '#0d87c8', lineHeight: 1 }}>{course.price}</span>
-                                    </div>
-                                    <span style={{ fontSize: 11, color: '#94a3b8' }}>per person · USD</span>
-                                  </div>
-                                  <div style={{ display: 'flex', gap: 7, marginTop: 'auto', paddingTop: 4 }}>
-                                    <a href="#contact" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, borderRadius: 8, border: '1.5px solid #0d87c8', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#0d87c8', background: 'transparent', textDecoration: 'none' }}
-                                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#e6f4fb' }}
-                                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}>
-                                      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                      Brochure
-                                    </a>
-                                    <a href="#contact" style={{ flex: 2, borderRadius: 8, border: 'none', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
-                                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
-                                      Enquire Now
-                                    </a>
-                                  </div>
-                                </div>
-                                {/* BACK */}
-                                <div style={{
-                                  position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-                                  backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' as 'hidden',
-                                  transform: 'rotateY(180deg)',
-                                  background: '#fff', borderRadius: 10, border: '1px solid #dde8f2',
-                                  padding: '13px 15px', display: 'flex', flexDirection: 'column', gap: 0,
-                                  boxShadow: '0 1px 4px rgba(13,135,200,0.06)',
-                                }}>
-                                  {/* Back header */}
-                                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-                                    <button onClick={() => setFlippedCard(null)} style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 20, padding: '3px 10px', cursor: 'pointer' }}>← Course</button>
-                                  </div>
-                                  {cert ? (
-                                    <>
-                                      {/* Prereq */}
-                                      <div style={{ background: '#f4f8fc', borderRadius: 6, padding: '6px 10px', fontSize: 11.5, color: '#4a6a7a', marginBottom: 8 }}>{cert.prereq}</div>
-                                      {/* Cert rows */}
-                                      {[
-                                        { label: 'Exam Fee', value: cert.examFee },
-                                        { label: 'Format', value: cert.format },
-                                        { label: 'Questions', value: cert.questions },
-                                        { label: 'Passing Score', value: cert.passingScore },
-                                        { label: 'Validity', value: cert.validity },
-                                      ].map((row, ri) => (
-                                        <div key={ri} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '5px 0', borderBottom: '1px solid #f0f5fa', gap: 8 }}>
-                                          <span style={{ fontSize: 11, color: '#6b8fa8', flexShrink: 0 }}>{row.label}</span>
-                                          <span style={{ fontSize: 11, fontWeight: 700, color: '#0a1929', textAlign: 'right' }}>{row.value}</span>
-                                        </div>
-                                      ))}
-                                      {/* Best practices */}
-                                      <div style={{ marginTop: 10 }}>
-                                        <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0d87c8', marginBottom: 6 }}>Best Practices</div>
-                                        {cert.bestPractices.map((bp, bi) => (
-                                          <div key={bi} style={{ display: 'flex', gap: 6, marginBottom: 4 }}>
-                                            <span style={{ color: '#0d87c8', fontSize: 11, marginTop: 1, flexShrink: 0 }}>•</span>
-                                            <span style={{ fontSize: 11, color: '#1a3a4a', lineHeight: 1.4 }}>{bp}</span>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <div style={{ fontSize: 12, color: '#9aabb8', textAlign: 'center', paddingTop: 40 }}>No cert details available</div>
-                                  )}
-                                </div>
-                              </div>
+                  {(() => {
+                    const PAGE = 9
+                    const displayed = catShowAll ? sorted : sorted.slice(0, PAGE)
+                    const selectedCourse = flippedCard !== null ? sorted.find(c => `${activeDomain}-${c.code}` === flippedCard) ?? null : null
+                    const selectedCert = selectedCourse ? (selectedCourse as {cert?: {prereq: string; examFee: string; format: string; questions: string; passingScore: string; validity: string; bestPractices: string[]}}).cert : null
+                    const renderCard = (course: typeof sorted[0], ci: number) => {
+                      const lc = LCAT[course.level] ?? { bg: '#dbeeff', color: '#0050c8' }
+                      const cardKey = `${activeDomain}-${course.code}`
+                      const isSelected = flippedCard === cardKey
+                      return (
+                        <div key={ci} style={{
+                          background: '#fff', borderRadius: 10, border: `1.5px solid ${isSelected ? '#0d87c8' : '#dde8f2'}`,
+                          padding: '14px 15px 13px', display: 'flex', flexDirection: 'column', gap: 9,
+                          boxShadow: isSelected ? '0 0 0 3px rgba(13,135,200,0.12)' : '0 1px 4px rgba(13,135,200,0.06)',
+                          transition: 'border-color 0.15s, box-shadow 0.15s',
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', borderRadius: 5, padding: '3px 8px', background: lc.bg, color: lc.color }}>{course.level}</span>
+                            <button onClick={() => setFlippedCard(isSelected ? null : cardKey)} style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', whiteSpace: 'nowrap' }}>{isSelected ? '← Course' : 'Cert Details →'}</button>
+                          </div>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: '#0a1929', lineHeight: 1.35 }}>{course.title}</div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <span style={{ borderRadius: 6, background: '#e8f2fa', border: '1px solid #c8dcea', padding: '2px 8px', fontSize: 11.5, fontWeight: 600, color: '#3a5f80' }}>{course.code}</span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11.5, color: '#6b8fa8' }}>
+                              <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                              {course.days} {course.days === 1 ? 'day' : 'days'} · 8hrs
+                            </span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                              <span style={{ fontSize: 12, color: '#0d87c8' }}>$</span>
+                              <span style={{ fontSize: 18, fontWeight: 800, color: '#0d87c8', lineHeight: 1 }}>{course.price}</span>
                             </div>
-                          )
-                        })}
+                            <span style={{ fontSize: 11, color: '#94a3b8' }}>per person · USD</span>
+                          </div>
+                          <div style={{ display: 'flex', gap: 7, marginTop: 'auto', paddingTop: 4 }}>
+                            <a href="#contact" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, borderRadius: 8, border: '1.5px solid #0d87c8', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#0d87c8', background: 'transparent', textDecoration: 'none' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#e6f4fb' }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}>
+                              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                              Brochure
+                            </a>
+                            <a href="#contact" style={{ flex: 2, borderRadius: 8, border: 'none', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
+                              Enquire Now
+                            </a>
+                          </div>
+                        </div>
+                      )
+                    }
+                    return (
+                      <div className="overflow-y-auto p-4" style={{ background: '#f4f8fc', maxHeight: 560, scrollbarWidth: 'thin', scrollbarColor: '#c8dcea transparent' }}>
+                        {sorted.length === 0 ? (
+                          <div className="flex flex-col items-center justify-center py-20" style={{ color: '#9aabb8' }}>
+                            <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ opacity: 0.3, marginBottom: 10 }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                            <p style={{ fontSize: 13, fontWeight: 500 }}>No courses match your search.</p>
+                            <button onClick={() => { setCatSearch(''); setCatLevel('All') }} style={{ marginTop: 8, fontSize: 12, color: '#0d87c8', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Clear filters</button>
+                          </div>
+                        ) : flippedCard !== null ? (
+                          /* Side-panel layout: 2-col cards + cert panel */
+                          <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                            <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: 14, flex: '1 1 0', minWidth: 0 }}>
+                              {displayed.map((course, ci) => renderCard(course, ci))}
+                            </div>
+                            {/* Cert details panel */}
+                            <div style={{ width: 270, flexShrink: 0, background: '#fff', borderRadius: 10, border: '1px solid #dde8f2', padding: '13px 15px', boxShadow: '0 1px 8px rgba(13,135,200,0.10)' }}>
+                              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+                                <button onClick={() => setFlippedCard(null)} style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 20, padding: '3px 10px', cursor: 'pointer' }}>← Course</button>
+                              </div>
+                              {selectedCert ? (
+                                <>
+                                  <div style={{ background: '#f4f8fc', borderRadius: 6, padding: '6px 10px', fontSize: 11.5, color: '#4a6a7a', marginBottom: 8 }}>{selectedCert.prereq}</div>
+                                  {[
+                                    { label: 'Exam Fee', value: selectedCert.examFee },
+                                    { label: 'Format', value: selectedCert.format },
+                                    { label: 'Questions', value: selectedCert.questions },
+                                    { label: 'Passing Score', value: selectedCert.passingScore },
+                                    { label: 'Validity', value: selectedCert.validity },
+                                  ].map((row, ri) => (
+                                    <div key={ri} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '6px 0', borderBottom: '1px solid #f0f5fa', gap: 8 }}>
+                                      <span style={{ fontSize: 11.5, color: '#6b8fa8', flexShrink: 0 }}>{row.label}</span>
+                                      <span style={{ fontSize: 11.5, fontWeight: 700, color: '#0a1929', textAlign: 'right' }}>{row.value}</span>
+                                    </div>
+                                  ))}
+                                  <div style={{ marginTop: 10 }}>
+                                    <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0d87c8', marginBottom: 7 }}>Best Practices</div>
+                                    {selectedCert.bestPractices.map((bp, bi) => (
+                                      <div key={bi} style={{ display: 'flex', gap: 6, marginBottom: 5 }}>
+                                        <span style={{ color: '#0d87c8', fontSize: 12, marginTop: 1, flexShrink: 0 }}>•</span>
+                                        <span style={{ fontSize: 11.5, color: '#1a3a4a', lineHeight: 1.45 }}>{bp}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </>
+                              ) : (
+                                <div style={{ fontSize: 12, color: '#9aabb8', textAlign: 'center', paddingTop: 40 }}>No cert details available</div>
+                              )}
+                            </div>
+                          </div>
+                        ) : (
+                          /* Normal 3-col grid */
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 14 }}>
+                            {displayed.map((course, ci) => renderCard(course, ci))}
+                          </div>
+                        )}
+                        {/* Show more / less */}
+                        {sorted.length > PAGE && (
+                          <div style={{ textAlign: 'center', marginTop: 14 }}>
+                            <button onClick={() => setCatShowAll(v => !v)}
+                              style={{ fontSize: 12, fontWeight: 600, color: '#0d87c8', background: '#fff', border: '1.5px solid #0d87c8', borderRadius: 8, padding: '7px 22px', cursor: 'pointer' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#e6f4fb' }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#fff' }}>
+                              {catShowAll ? `Show Less ▲` : `Show All ${sorted.length} Courses ▼`}
+                            </button>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
+                    )
+                  })()}
                 </div>
               </div>
 
