@@ -1379,10 +1379,10 @@ const ENT_TECH_COURSES: Record<string, EntCourse[]> = {
   ],
 }
 const ENT_CATEGORY_COLORS: Record<string, string> = {
-  FUNDAMENTALS: 'bg-green-100 text-green-700',
-  ASSOCIATE:    'bg-teal-100 text-teal-700',
-  PROFESSIONAL: 'bg-orange-100 text-orange-700',
-  EXPERT:       'bg-purple-100 text-purple-700',
+  FUNDAMENTALS: 'bg-[#dbeeff] text-[#0050c8]',
+  ASSOCIATE:    'bg-[#d4f5e2] text-[#0a7a3e]',
+  PROFESSIONAL: 'bg-[#fff0d0] text-[#9a5500]',
+  EXPERT:       'bg-[#fff0d0] text-[#9a5500]',
 }
 function EntTechIcon({ name, active }: { name: string; active: boolean }) {
   const cls = active ? 'text-white' : 'text-koenig-blue'
@@ -4224,10 +4224,7 @@ export default function Design4Page() {
       <VendorStack />
 
       {/* ── Comprehensive Training Catalogue ──────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-10 sm:py-16" style={{ background: 'linear-gradient(160deg,#EEF6FC 0%,#F5FBFF 50%,#EBF8FE 100%)' }}>
-        <div className="pointer-events-none absolute -left-32 top-1/3 h-[450px] w-[450px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -right-24 bottom-0 h-[360px] w-[360px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.10) 0%, transparent 70%)' }} />
-        {/* ── Catalogue content ── */}
+      <section className="relative px-4 lg:px-[50px] py-10 sm:py-16" style={{ background: '#e8f0f8', fontFamily: 'Segoe UI, system-ui, sans-serif' }}>
         {(() => {
           const allCourses = ENT_TECH_COURSES[entTech] ?? []
           const searched = entSearch.trim()
@@ -4242,95 +4239,119 @@ export default function Design4Page() {
           const LEVELS = ['All', 'Popular', 'Fundamentals', 'Associate', 'Expert']
           const levelCount = (lv: string) => lv === 'All' ? allCourses.length : lv === 'Popular' ? allCourses.filter(c => c.popular).length : allCourses.filter(c => c.category === lv.toUpperCase()).length
           const currentCat = ENT_TECH_CATEGORIES.find(c => c.name === entTech)
-          const firstCode = allCourses[0]?.examCode ?? ''
-          const lastCode = allCourses[allCourses.length - 1]?.examCode ?? ''
           return (
             <div className="mx-auto max-w-7xl">
               {/* Section heading */}
-              <div className="io-fade mb-6 text-center">
-                <span className="mb-2 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">What We Train</span>
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">
-                  Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
+              <div className="io-fade mb-7 text-center">
+                <span className="mb-2 inline-block rounded-full bg-[#0d87c8]/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#0d87c8]">What We Train</span>
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#0a1929]">
+                  Comprehensive Training <span className="bg-gradient-to-r from-[#0d87c8] to-[#38bdf8] bg-clip-text text-transparent">Catalogue</span>
                 </h2>
               </div>
 
-              {/* Main panel — white card */}
-              <div className="io-fade delay-1 flex rounded-2xl overflow-hidden bg-white" style={{ boxShadow: '0 4px 32px rgba(6,148,209,0.12)', border: '1px solid #CAEFFF', minHeight: '620px' }}>
+              {/* ── Main floating card ── */}
+              <div className="io-fade delay-1 flex overflow-hidden" style={{ borderRadius: 16, boxShadow: '0 4px 32px rgba(13,135,200,0.13)', border: '1px solid #dde8f2', background: '#fff', minHeight: 640 }}>
 
                 {/* ── Left Sidebar ── */}
-                <div className="hidden sm:flex flex-col shrink-0 bg-white border-r border-[#CAEFFF]" style={{ width: '265px' }}>
-                  <div className="px-5 pt-5 pb-2 text-[11px] font-bold tracking-widest uppercase" style={{ color: '#9CB8CC' }}>Technologies</div>
-                  <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#CAEFFF transparent' }}>
+                <div className="hidden sm:flex flex-col shrink-0 bg-white" style={{ width: 210, borderRight: '1px solid #e4edf5' }}>
+                  {/* Label */}
+                  <div className="px-4 pt-5 pb-2" style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9aabb8' }}>Technologies</div>
+
+                  {/* Tech list */}
+                  <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d0e8f5 transparent' }}>
                     {ENT_TECH_CATEGORIES.map((cat) => {
                       const active = entTech === cat.name
                       return (
                         <button key={cat.name}
                           onClick={() => { setEntTech(cat.name); setEntLevelFilter('All') }}
-                          className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all ${active ? 'bg-[#EBF8FE] border-l-[3px] border-koenig-blue' : 'border-l-[3px] border-transparent hover:bg-[#F7FCFF]'}`}
+                          style={{
+                            width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+                            padding: '9px 14px 9px 0',
+                            borderLeft: active ? '3px solid #0d87c8' : '3px solid transparent',
+                            background: active ? '#e6f4fb' : 'transparent',
+                            cursor: 'pointer', transition: 'background 0.15s',
+                          }}
+                          onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#f2f9fd' }}
+                          onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
                         >
-                          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all ${active ? 'bg-koenig-blue' : 'bg-[#EBF8FE]'}`}>
+                          {/* Icon */}
+                          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, marginLeft: 11, flexShrink: 0, color: active ? '#0d87c8' : '#5a8ba8' }}>
                             <EntTechIcon name={cat.name} active={active} />
                           </span>
-                          <span className={`flex-1 text-sm font-semibold leading-tight ${active ? 'text-koenig-blue' : 'text-[#2D4A5A]'}`}>{cat.name}</span>
-                          <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold min-w-[1.75rem] text-center ${active ? 'bg-koenig-blue text-white' : 'bg-[#E4F3FA] text-[#5099B8]'}`}>{cat.count}</span>
+                          {/* Name */}
+                          <span style={{ flex: 1, fontSize: 13, fontWeight: active ? 700 : 500, color: active ? '#0970a8' : '#1a3a4a', lineHeight: 1.3, textAlign: 'left' }}>{cat.name}</span>
+                          {/* Count badge */}
+                          <span style={{
+                            flexShrink: 0, marginRight: 10,
+                            borderRadius: 999, padding: '1px 7px',
+                            fontSize: 11, fontWeight: 700,
+                            background: active ? '#0d87c8' : '#dff0fb',
+                            color: active ? '#fff' : '#0d87c8',
+                          }}>{cat.count}</span>
                         </button>
                       )
                     })}
                   </div>
-                  {/* Bottom action buttons */}
-                  <div className="p-4 border-t border-[#E4F3FA] space-y-2.5">
-                    <button onClick={() => setEnterpriseModalOpen(true)} className="w-full flex items-center justify-center gap-2 rounded-xl border border-koenig-blue py-3 text-sm font-semibold text-koenig-blue hover:bg-[#EBF8FE] transition-colors">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+
+                  {/* Bottom buttons */}
+                  <div style={{ padding: 12, borderTop: '1px solid #e4edf5', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <button onClick={() => setEnterpriseModalOpen(true)}
+                      style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 10, border: '1.5px solid #0d87c8', padding: '9px 0', fontSize: 13, fontWeight: 600, color: '#0d87c8', background: 'transparent', cursor: 'pointer', transition: 'background 0.15s' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#dff0fb' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}>
+                      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                       Download Brochure
                     </button>
-                    <button onClick={() => setEnterpriseModalOpen(true)} className="w-full flex items-center justify-center gap-2 rounded-xl bg-koenig-blue py-3 text-sm font-semibold text-white hover:bg-[#076D9D] transition-colors">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <button onClick={() => setEnterpriseModalOpen(true)}
+                      style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 10, border: 'none', padding: '9px 0', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', transition: 'background 0.15s' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0970a8' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0d87c8' }}>
+                      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                       Enquire Now
                     </button>
                   </div>
                 </div>
 
-                {/* ── Right content area ── */}
-                <div className="flex-1 flex flex-col overflow-hidden bg-white">
-                  {/* Mobile: category scroll row */}
-                  <div className="sm:hidden overflow-x-auto flex gap-2 px-4 py-3 border-b border-[#CAEFFF] [&::-webkit-scrollbar]:hidden">
+                {/* ── Right panel ── */}
+                <div className="flex-1 flex flex-col overflow-hidden">
+
+                  {/* Mobile: category scroll */}
+                  <div className="sm:hidden overflow-x-auto flex gap-2 px-4 py-3 [&::-webkit-scrollbar]:hidden" style={{ borderBottom: '1px solid #e4edf5' }}>
                     {ENT_TECH_CATEGORIES.map(cat => (
                       <button key={cat.name} onClick={() => { setEntTech(cat.name); setEntLevelFilter('All') }}
-                        className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap ${entTech === cat.name ? 'bg-koenig-blue text-white' : 'bg-[#EBF8FE] text-koenig-blue'}`}>
+                        style={{ flexShrink: 0, borderRadius: 999, padding: '5px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', background: entTech === cat.name ? '#0d87c8' : '#e6f4fb', color: entTech === cat.name ? '#fff' : '#0d87c8', border: 'none' }}>
                         {cat.name}
                       </button>
                     ))}
                   </div>
 
-                  {/* Tech header bar */}
-                  <div className="flex items-start gap-4 px-5 py-4 border-b border-[#E4F3FA]">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#EBF8FE]">
+                  {/* Tech header */}
+                  <div className="flex items-start gap-4 px-5 py-4" style={{ borderBottom: '1px solid #e4edf5' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: 10, background: '#e0f2fb', flexShrink: 0, color: '#0d87c8' }}>
                       <EntTechIcon name={entTech} active={true} />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-bold text-koenig-dark">{entTech}</h3>
-                      <p className="text-sm text-koenig-muted leading-snug line-clamp-2">{currentCat?.desc}</p>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 17, fontWeight: 700, color: '#0a1929', lineHeight: 1.2 }}>{entTech}</div>
+                      <div style={{ fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.45, marginTop: 2 }} className="line-clamp-2">{currentCat?.desc}</div>
                     </div>
                     <button onClick={() => setEnterpriseModalOpen(true)}
-                      className="shrink-0 flex items-center gap-2 rounded-xl bg-koenig-blue px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#076D9D] transition-colors whitespace-nowrap shadow-sm">
+                      style={{ flexShrink: 0, borderRadius: 9, border: 'none', padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', transition: 'background 0.15s', whiteSpace: 'nowrap' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0970a8' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0d87c8' }}>
                       Enquire Now →
                     </button>
                   </div>
 
-                  {/* Search + filter chips + sort row */}
-                  <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-[#E4F3FA] bg-white">
-                    {/* Search box */}
-                    <div className="relative shrink-0">
-                      <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                      <input
-                        type="text"
-                        placeholder="Search courses..."
-                        value={entSearch}
-                        onChange={e => setEntSearch(e.target.value)}
-                        className="w-44 rounded-full border border-[#CAEFFF] bg-white py-1.5 pl-8 pr-3 text-xs text-koenig-dark placeholder-koenig-muted outline-none focus:border-koenig-blue focus:ring-2 focus:ring-koenig-blue/10"
-                      />
+                  {/* Filter bar */}
+                  <div className="flex flex-wrap items-center gap-2 px-4 py-2.5" style={{ borderBottom: '1px solid #e4edf5', background: '#fff' }}>
+                    {/* Search */}
+                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                      <svg style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', width: 13, height: 13, color: '#9aabb8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      <input type="text" placeholder="Search courses..."
+                        value={entSearch} onChange={e => setEntSearch(e.target.value)}
+                        style={{ width: 168, borderRadius: 8, border: '1px solid #d1dce8', padding: '6px 10px 6px 26px', fontSize: 12, color: '#1a3a4a', outline: 'none', background: '#fff' }} />
                     </div>
-                    {/* Level filter pills */}
+                    {/* Level pills */}
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {LEVELS.map(lv => {
                         const cnt = levelCount(lv)
@@ -4338,70 +4359,78 @@ export default function Design4Page() {
                         const active = entLevelFilter === lv
                         return (
                           <button key={lv} onClick={() => setEntLevelFilter(lv)}
-                            className={`rounded-full px-3 py-1 text-xs font-semibold transition-all whitespace-nowrap ${active ? 'bg-koenig-blue text-white' : 'border border-[#CAEFFF] text-[#2D4A5A] bg-white hover:bg-[#EBF8FE]'}`}>
+                            style={{ borderRadius: 999, padding: '4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#6b7e8f', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
                             {lv} {cnt}
                           </button>
                         )
                       })}
                     </div>
-                    {/* Sort — push to right */}
-                    <div className="ml-auto flex items-center gap-1.5">
-                      <svg className="h-4 w-4 text-koenig-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="9" y2="14"/><line x1="21" y1="18" x2="9" y2="18"/></svg>
+                    {/* Sort */}
+                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9aabb8" strokeWidth={2}><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="9" y2="14"/><line x1="21" y1="18" x2="9" y2="18"/></svg>
                       <select value={entSort} onChange={e => setEntSort(e.target.value)}
-                        className="text-xs border border-[#CAEFFF] rounded-lg px-2.5 py-1.5 bg-white text-koenig-dark outline-none cursor-pointer font-medium">
-                        <option value="low-high">Price: Low — High</option>
-                        <option value="high-low">Price: High — Low</option>
+                        style={{ fontSize: 12, fontWeight: 500, border: '1px solid #d1dce8', borderRadius: 7, padding: '5px 10px', background: '#fff', color: '#1a3a4a', outline: 'none', cursor: 'pointer' }}>
+                        <option value="low-high">Price: Low → High</option>
+                        <option value="high-low">Price: High → Low</option>
                         <option value="default">Name A–Z</option>
                       </select>
                     </div>
                   </div>
 
-                  {/* Course card grid — scrollable */}
-                  <div className="overflow-y-auto p-4" style={{ maxHeight: '480px', scrollbarWidth: 'thin', scrollbarColor: '#CAEFFF transparent' }}>
+                  {/* Cards grid — scrollable */}
+                  <div className="overflow-y-auto p-4" style={{ background: '#f4f8fc', maxHeight: 500, scrollbarWidth: 'thin', scrollbarColor: '#c8dcea transparent' }}>
                     {sorted.length === 0 ? (
-                      <div className="flex flex-col items-center justify-center py-20 text-koenig-muted">
-                        <svg className="h-12 w-12 mb-3 opacity-25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                        <p className="text-sm font-medium">No courses match your search.</p>
-                        <button onClick={() => { setEntSearch(''); setEntLevelFilter('All') }} className="mt-3 text-xs text-koenig-blue underline">Clear filters</button>
+                      <div className="flex flex-col items-center justify-center py-20" style={{ color: '#9aabb8' }}>
+                        <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ opacity: 0.3, marginBottom: 10 }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <p style={{ fontSize: 13, fontWeight: 500 }}>No courses match your search.</p>
+                        <button onClick={() => { setEntSearch(''); setEntLevelFilter('All') }} style={{ marginTop: 8, fontSize: 12, color: '#0d87c8', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Clear filters</button>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 14 }}>
                         {sorted.map((course, i) => {
-                          const priceNum = course.price.replace('$', '').replace(',', '')
+                          const priceNum = course.price.replace('$', '')
                           return (
-                            <div key={i} className="rounded-2xl border border-[#CAEFFF] bg-white p-5 flex flex-col gap-3" style={{ boxShadow: '0 1px 8px rgba(6,148,209,0.07)' }}>
+                            <div key={i}
+                              style={{ background: '#fff', borderRadius: 10, border: '1px solid #dde8f2', padding: '14px 15px 13px', display: 'flex', flexDirection: 'column', gap: 9, boxShadow: '0 1px 4px rgba(13,135,200,0.06)', transition: 'box-shadow 0.18s, border-color 0.18s', cursor: 'default' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 18px rgba(13,135,200,0.15)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#0d87c8' }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 4px rgba(13,135,200,0.06)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#dde8f2' }}
+                            >
                               {/* Level badge + Cert Details */}
-                              <div className="flex items-center justify-between">
-                                <span className={`text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md ${ENT_CATEGORY_COLORS[course.category] ?? 'bg-gray-100 text-gray-600'}`}>{course.category}</span>
-                                <button className="text-xs font-semibold text-koenig-blue hover:underline whitespace-nowrap">Cert Details →</button>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', borderRadius: 5, padding: '3px 8px', ...(ENT_CATEGORY_COLORS[course.category] ? {} : { background: '#f0f0f0', color: '#666' }) }} className={ENT_CATEGORY_COLORS[course.category] ?? ''}>{course.category}</span>
+                                <button onClick={() => setEnterpriseModalOpen(true)} style={{ fontSize: 11.5, fontWeight: 600, color: '#0d87c8', background: 'none', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>Cert Details →</button>
                               </div>
-                              {/* Course name */}
-                              <h4 className="text-sm font-bold text-koenig-dark leading-snug">{course.name}</h4>
-                              {/* Exam code chip + duration on same row */}
-                              <div className="flex items-center gap-2">
-                                <span className="rounded-md bg-[#EBF8FE] px-2.5 py-1 text-xs font-semibold text-koenig-blue">{course.examCode}</span>
-                                <span className="flex items-center gap-1 text-xs text-koenig-muted">
-                                  <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                              {/* Course title */}
+                              <div style={{ fontSize: 13, fontWeight: 700, color: '#0a1929', lineHeight: 1.35 }}>{course.name}</div>
+                              {/* Exam code + duration */}
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <span style={{ borderRadius: 6, background: '#e8f2fa', border: '1px solid #c8dcea', padding: '2px 8px', fontSize: 11.5, fontWeight: 600, color: '#3a5f80' }}>{course.examCode}</span>
+                                <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11.5, color: '#6b8fa8' }}>
+                                  <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                                   {course.days} {course.days === 1 ? 'day' : 'days'} · {course.hours}hrs
                                 </span>
                               </div>
-                              {/* Price — value left, label right */}
-                              <div className="flex items-baseline justify-between">
-                                <div className="flex items-baseline gap-0.5">
-                                  <span className="text-[13px] text-koenig-muted">$</span>
-                                  <span className="text-2xl font-black text-koenig-dark">{priceNum}</span>
+                              {/* Price */}
+                              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                                  <span style={{ fontSize: 13, color: '#64748b' }}>$</span>
+                                  <span style={{ fontSize: 22, fontWeight: 800, color: '#111827', lineHeight: 1 }}>{priceNum}</span>
                                 </div>
-                                <span className="text-xs text-koenig-muted">per person · USD</span>
+                                <span style={{ fontSize: 11, color: '#94a3b8' }}>per person · USD</span>
                               </div>
                               {/* Buttons */}
-                              <div className="flex gap-2 mt-auto pt-1">
+                              <div style={{ display: 'flex', gap: 7, marginTop: 2 }}>
                                 <button onClick={() => setEnterpriseModalOpen(true)}
-                                  className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[#B9DEFF] py-2.5 text-xs font-semibold text-koenig-blue hover:bg-[#EBF8FE] transition-colors">
-                                  <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, borderRadius: 8, border: '1.5px solid #0d87c8', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#0d87c8', background: 'transparent', cursor: 'pointer', transition: 'background 0.15s' }}
+                                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#e6f4fb' }}
+                                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}>
+                                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                   Brochure
                                 </button>
                                 <button onClick={() => setEnterpriseModalOpen(true)}
-                                  className="flex-1 rounded-xl bg-koenig-blue py-2.5 text-xs font-semibold text-white hover:bg-[#076D9D] transition-colors">
+                                  style={{ flex: 2, borderRadius: 8, border: 'none', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', transition: 'background 0.15s' }}
+                                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0970a8' }}
+                                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0d87c8' }}>
                                   Enroll Now
                                 </button>
                               </div>
@@ -4414,10 +4443,12 @@ export default function Design4Page() {
                 </div>
               </div>
 
-              {/* Request Training Plan — bottom CTA */}
+              {/* Bottom CTA */}
               <div className="mt-8 flex justify-center">
                 <button onClick={() => setEnterpriseModalOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-koenig-navy px-10 py-4 text-sm font-bold text-white hover:bg-[#093148] transition-colors shadow-lg shadow-koenig-navy/20">
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 12, background: '#0a1929', padding: '13px 36px', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', transition: 'background 0.15s', boxShadow: '0 4px 18px rgba(10,25,41,0.18)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0d2840' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0a1929' }}>
                   Request Training Plan →
                 </button>
               </div>
