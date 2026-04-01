@@ -4380,25 +4380,28 @@ export default function Design4Page() {
                               </div>
                               {/* Course name */}
                               <h4 className="text-sm font-bold text-koenig-dark leading-snug">{course.name}</h4>
-                              {/* Exam code chip — wide */}
-                              <div className="rounded-md bg-[#EBF8FE] px-3 py-1.5 text-sm font-semibold text-koenig-blue">{course.examCode}</div>
-                              {/* Price */}
-                              <div className="flex items-baseline gap-1">
-                                <span className="text-[13px] text-koenig-muted">$</span>
-                                <span className="text-2xl font-black text-koenig-dark">{priceNum}</span>
-                                <span className="ml-1 text-xs text-koenig-muted">per person · USD</span>
+                              {/* Exam code chip + duration on same row */}
+                              <div className="flex items-center gap-2">
+                                <span className="rounded-md bg-[#EBF8FE] px-2.5 py-1 text-xs font-semibold text-koenig-blue">{course.examCode}</span>
+                                <span className="flex items-center gap-1 text-xs text-koenig-muted">
+                                  <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                  {course.days} {course.days === 1 ? 'day' : 'days'} · {course.hours}hrs
+                                </span>
                               </div>
-                              {/* Duration */}
-                              <div className="flex items-center gap-1.5 text-xs text-koenig-muted -mt-1">
-                                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                {course.days} {course.days === 1 ? 'day' : 'days'}
+                              {/* Price — value left, label right */}
+                              <div className="flex items-baseline justify-between">
+                                <div className="flex items-baseline gap-0.5">
+                                  <span className="text-[13px] text-koenig-muted">$</span>
+                                  <span className="text-2xl font-black text-koenig-dark">{priceNum}</span>
+                                </div>
+                                <span className="text-xs text-koenig-muted">per person · USD</span>
                               </div>
                               {/* Buttons */}
                               <div className="flex gap-2 mt-auto pt-1">
                                 <button onClick={() => setEnterpriseModalOpen(true)}
                                   className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[#B9DEFF] py-2.5 text-xs font-semibold text-koenig-blue hover:bg-[#EBF8FE] transition-colors">
-                                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                  Download Brochure
+                                  <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                  Brochure
                                 </button>
                                 <button onClick={() => setEnterpriseModalOpen(true)}
                                   className="flex-1 rounded-xl bg-koenig-blue py-2.5 text-xs font-semibold text-white hover:bg-[#076D9D] transition-colors">
