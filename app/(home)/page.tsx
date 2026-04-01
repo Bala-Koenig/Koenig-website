@@ -1276,82 +1276,110 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
 }
 
 /* ─── Enterprise Tech Browser data ──────────────────────────── */
-type EntCourse = { name: string; examCode: string; category: string; price: string; days: number; hours: number }
+type EntCourse = { name: string; examCode: string; category: string; price: string; days: number; hours: number; popular?: boolean }
 const ENT_TECH_CATEGORIES = [
-  { name: 'Cloud Computing',    count: 8, tag: 'Cloud Roles',      desc: 'Master multi-cloud platforms — AWS, Azure, and GCP — from core IaaS/PaaS fundamentals to advanced architecture, DevSecOps, and cost optimisation.' },
-  { name: 'Cybersecurity',      count: 6, tag: 'Security Roles',   desc: 'Build expertise in ethical hacking, penetration testing, and security operations with globally recognized certifications.' },
-  { name: 'Data & AI',          count: 6, tag: 'Data Roles',       desc: 'Drive business decisions with data science, machine learning, and AI engineering skills across leading cloud platforms.' },
-  { name: 'Networking',         count: 5, tag: 'Network Roles',    desc: 'Design and manage enterprise networks from CCNA fundamentals to CCIE-level infrastructure and SD-WAN.' },
-  { name: 'Project Management', count: 5, tag: 'PM Roles',         desc: 'Lead projects and programs with PMP, PRINCE2, ITIL, and Agile certifications recognized globally.' },
-  { name: 'DevOps',             count: 5, tag: 'DevOps Roles',     desc: 'Accelerate delivery pipelines with Kubernetes, Terraform, Ansible, and cloud-native DevOps toolchains.' },
-  { name: 'ERP Systems',        count: 5, tag: 'ERP Roles',        desc: 'Configure and manage SAP S/4HANA, Oracle ERP, and enterprise resource planning systems end-to-end.' },
-  { name: 'Linux & Open Source',count: 5, tag: 'Linux Roles',      desc: 'Administer Linux environments and open-source infrastructure with Red Hat and Linux Foundation certifications.' },
+  { name: 'Azure',            count: 102, tag: 'Cloud Roles',    desc: "Master Microsoft's cloud platform — from core IaaS/PaaS fundamentals to advanced architecture, networking, security, and DevOps pipelines." },
+  { name: 'AI & Copilot',     count: 102, tag: 'AI Roles',       desc: 'Build intelligent applications with Azure AI, Copilot Studio, and Microsoft AI services across the full development stack.' },
+  { name: 'Power Platform',   count: 141, tag: 'Platform Roles', desc: 'Create low-code apps, automate workflows, and build analytics solutions with Power Apps, Power Automate, and Power BI.' },
+  { name: 'Security',         count: 47,  tag: 'Security Roles', desc: 'Protect identities, data, and infrastructure with Microsoft security, compliance, and identity certifications.' },
+  { name: 'Microsoft 365',    count: 310, tag: 'M365 Roles',     desc: 'Deploy, manage, and secure Microsoft 365 workloads including Teams, Exchange, SharePoint, and endpoint management.' },
+  { name: 'Dynamics 365',     count: 109, tag: 'D365 Roles',     desc: 'Implement and configure Dynamics 365 business applications for sales, customer service, finance, and operations.' },
+  { name: 'Data & Analytics', count: 118, tag: 'Data Roles',     desc: 'Design data platforms and analytics solutions with Azure Synapse, Power BI, and Microsoft Fabric.' },
+  { name: 'DevOps & Dev',     count: 111, tag: 'DevOps Roles',   desc: 'Accelerate delivery with Azure DevOps, GitHub Actions, and cloud-native development tools and practices.' },
+  { name: 'GitHub',           count: 4,   tag: 'GitHub Roles',   desc: 'Master version control, GitHub Actions CI/CD, GitHub Copilot, and enterprise GitHub administration.' },
+  { name: 'Windows Server',   count: 74,  tag: 'Server Roles',   desc: 'Install, configure, and manage Windows Server infrastructure including Active Directory, DNS, DHCP, and virtualization.' },
 ]
 const ENT_TECH_COURSES: Record<string, EntCourse[]> = {
-  'Cloud Computing': [
-    { name: 'AWS Cloud Practitioner',                  examCode: 'CLF-C02',  category: 'FUNDAMENTALS', price: '$398',   days: 2, hours: 8 },
-    { name: 'Microsoft Azure Fundamentals',            examCode: 'AZ-900',   category: 'FUNDAMENTALS', price: '$398',   days: 2, hours: 8 },
-    { name: 'AWS Solutions Architect Associate',       examCode: 'SAA-C03',  category: 'ASSOCIATE',    price: '$996',   days: 4, hours: 8 },
-    { name: 'Microsoft Azure Administrator',           examCode: 'AZ-104',   category: 'ASSOCIATE',    price: '$1,245', days: 5, hours: 8 },
-    { name: 'Google Associate Cloud Engineer',         examCode: 'ACE',      category: 'ASSOCIATE',    price: '$747',   days: 3, hours: 8 },
-    { name: 'AWS Solutions Architect Professional',    examCode: 'SAP-C02',  category: 'PROFESSIONAL', price: '$1,495', days: 5, hours: 8 },
-    { name: 'Google Professional Cloud Architect',     examCode: 'PCA',      category: 'PROFESSIONAL', price: '$995',   days: 4, hours: 8 },
-    { name: 'AWS DevOps Engineer Professional',        examCode: 'DOP-C02',  category: 'PROFESSIONAL', price: '$1,395', days: 5, hours: 8 },
+  'Azure': [
+    { name: 'Introduction to Microsoft Azure',                                     examCode: 'AZ-900T00-A',     category: 'FUNDAMENTALS', price: '$199',   days: 1, hours: 8 },
+    { name: 'Getting Started With Cosmos DB NoSQL Development',                    examCode: 'DP-3015-A',       category: 'FUNDAMENTALS', price: '$199',   days: 1, hours: 8 },
+    { name: 'GitHub Fundamentals - Administration Basics and Product Features',    examCode: 'GH-100',          category: 'FUNDAMENTALS', price: '$199',   days: 1, hours: 8 },
+    { name: 'GitHub Essentials for Developers',                                    examCode: 'GitHub Essentia', category: 'FUNDAMENTALS', price: '$199',   days: 1, hours: 8 },
+    { name: 'Microsoft Cloud Workshop: App Modernization',                         examCode: 'Microsoft Cloud', category: 'ASSOCIATE',    price: '$249',   days: 1, hours: 8, popular: true },
+    { name: 'Microsoft Cloud Workshop: IoT and the Smart City',                    examCode: 'Microsoft Cloud', category: 'ASSOCIATE',    price: '$249',   days: 1, hours: 8 },
+    { name: '55621A - Mastering GitHub Copilot for Developers',                    examCode: '55621A - Master', category: 'ASSOCIATE',    price: '$249',   days: 1, hours: 8 },
+    { name: 'AZ 900 Exam Prep',                                                    examCode: 'AZ 900 Exam Pre', category: 'ASSOCIATE',    price: '$249',   days: 1, hours: 8 },
+    { name: 'Deploy and Manage Containers Using Azure Kubernetes Service',         examCode: 'AZ-1001',         category: 'ASSOCIATE',    price: '$249',   days: 1, hours: 8 },
+    { name: 'AZ-104T00-A: Microsoft Azure Administrator',                          examCode: 'AZ-104',          category: 'ASSOCIATE',    price: '$1,245', days: 5, hours: 8 },
+    { name: 'AZ-204T00-A: Developing Solutions for Microsoft Azure',               examCode: 'AZ-204',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'AZ-140T00-A: Configuring and Operating Azure Virtual Desktop',        examCode: 'AZ-140',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'AZ-305T00-A: Designing Microsoft Azure Infrastructure Solutions',     examCode: 'AZ-305',          category: 'EXPERT',       price: '$1,495', days: 5, hours: 8 },
+    { name: 'AZ-400T00-A: Designing and Implementing Microsoft DevOps Solutions',  examCode: 'AZ-400',          category: 'EXPERT',       price: '$1,195', days: 5, hours: 8 },
   ],
-  'Cybersecurity': [
-    { name: 'Certified Ethical Hacker (CEH v13)',      examCode: 'CEH',      category: 'FUNDAMENTALS', price: '$999',   days: 5, hours: 8 },
-    { name: 'CompTIA Security+ (SY0-701)',             examCode: 'SY0-701',  category: 'FUNDAMENTALS', price: '$598',   days: 5, hours: 8 },
-    { name: 'CompTIA CySA+',                           examCode: 'CS0-003',  category: 'ASSOCIATE',    price: '$798',   days: 5, hours: 8 },
-    { name: 'CISSP Certification',                     examCode: 'CISSP',    category: 'EXPERT',       price: '$1,995', days: 5, hours: 8 },
-    { name: 'CCSP: Certified Cloud Security',          examCode: 'CCSP',     category: 'EXPERT',       price: '$1,795', days: 5, hours: 8 },
-    { name: 'CPENT: Certified Penetration Testing',    examCode: 'CPENT',    category: 'EXPERT',       price: '$1,295', days: 5, hours: 8 },
+  'AI & Copilot': [
+    { name: 'AI-900: Microsoft Azure AI Fundamentals',                             examCode: 'AI-900',          category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8 },
+    { name: 'MS-4005: Craft Effective Prompts for Microsoft Copilot for M365',     examCode: 'MS-4005',         category: 'FUNDAMENTALS', price: '$199',   days: 1, hours: 8 },
+    { name: 'AI-102T00-A: Designing and Implementing Azure AI Solutions',          examCode: 'AI-102',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8, popular: true },
+    { name: 'MS-4004: Empower Your Workforce with Copilot for Microsoft 365',      examCode: 'MS-4004',         category: 'ASSOCIATE',    price: '$399',   days: 2, hours: 8 },
+    { name: 'AI-3018T00-A: Develop Generative AI Solutions with Azure OpenAI',     examCode: 'AI-3018',         category: 'ASSOCIATE',    price: '$695',   days: 3, hours: 8 },
+    { name: 'PL-7005: Create Automated Processes Using Copilot Studio',            examCode: 'PL-7005',         category: 'ASSOCIATE',    price: '$499',   days: 2, hours: 8 },
+    { name: 'AI-050T00: Develop Generative AI Solutions with Azure OpenAI Service',examCode: 'AI-050',          category: 'EXPERT',       price: '$895',   days: 3, hours: 8 },
   ],
-  'Data & AI': [
-    { name: 'AWS Certified AI Practitioner',           examCode: 'AIF-C01',  category: 'FUNDAMENTALS', price: '$695',   days: 3, hours: 8 },
-    { name: 'AI-102: Azure AI Engineer Associate',     examCode: 'AI-102',   category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
-    { name: 'PL-300: Power BI Data Analyst',           examCode: 'PL-300',   category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
-    { name: 'DP-203: Azure Data Engineer',             examCode: 'DP-203',   category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
-    { name: 'Google Professional Data Engineer',       examCode: 'PDE',      category: 'EXPERT',       price: '$1,095', days: 4, hours: 8 },
-    { name: 'SAP BW/4HANA Data Modeling',              examCode: 'SAP-BW',   category: 'EXPERT',       price: '$1,395', days: 4, hours: 8 },
+  'Power Platform': [
+    { name: 'PL-900T00-A: Microsoft Power Platform Fundamentals',                  examCode: 'PL-900',          category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8 },
+    { name: 'PL-7001: Create and Manage Canvas Apps with Power Apps',              examCode: 'PL-7001',         category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8, popular: true },
+    { name: 'PL-200T00-A: Microsoft Power Platform Functional Consultant',         examCode: 'PL-200',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'PL-300T00-A: Microsoft Power BI Data Analyst',                        examCode: 'PL-300',          category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
+    { name: 'PL-400T00-A: Microsoft Power Platform Developer',                     examCode: 'PL-400',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'PL-600T00-A: Microsoft Power Platform Solution Architect',            examCode: 'PL-600',          category: 'EXPERT',       price: '$1,395', days: 5, hours: 8 },
   ],
-  'Networking': [
-    { name: 'CompTIA Network+',                        examCode: 'N10-008',  category: 'FUNDAMENTALS', price: '$498',   days: 5, hours: 8 },
-    { name: 'CCNA (200-301)',                           examCode: '200-301',  category: 'FUNDAMENTALS', price: '$598',   days: 5, hours: 8 },
-    { name: 'Cisco DevNet Associate',                  examCode: 'DEVASC',   category: 'ASSOCIATE',    price: '$795',   days: 4, hours: 8 },
-    { name: 'CCNP Enterprise Core (ENCOR)',            examCode: '350-401',  category: 'EXPERT',       price: '$1,295', days: 5, hours: 8 },
-    { name: 'CCIE Enterprise Infrastructure',          examCode: 'CCIE-EI',  category: 'EXPERT',       price: '$2,495', days: 5, hours: 8 },
+  'Security': [
+    { name: 'SC-900T00-A: Microsoft Security, Compliance, and Identity Fundamentals', examCode: 'SC-900',       category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8, popular: true },
+    { name: 'SC-200T00-A: Microsoft Security Operations Analyst',                  examCode: 'SC-200',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'SC-300T00-A: Microsoft Identity and Access Administrator',            examCode: 'SC-300',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'SC-400T00-A: Microsoft Information Protection Administrator',         examCode: 'SC-400',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'AZ-500T00-A: Microsoft Azure Security Technologies',                  examCode: 'AZ-500',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'SC-100T00-A: Microsoft Cybersecurity Architect',                      examCode: 'SC-100',          category: 'EXPERT',       price: '$1,495', days: 5, hours: 8 },
   ],
-  'Project Management': [
-    { name: 'ITIL® 4 Foundation',                     examCode: 'ITIL-4',   category: 'FUNDAMENTALS', price: '$695',   days: 3, hours: 8 },
-    { name: 'CAPM: Certified Associate in PM',         examCode: 'CAPM',     category: 'FUNDAMENTALS', price: '$798',   days: 3, hours: 8 },
-    { name: 'PRINCE2® Foundation & Practitioner',     examCode: 'PRINCE2',  category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
-    { name: 'PMI-ACP: Agile Certified Practitioner',  examCode: 'PMI-ACP',  category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
-    { name: 'Project Management Professional (PMP)',   examCode: 'PMP',      category: 'EXPERT',       price: '$1,495', days: 3, hours: 8 },
+  'Microsoft 365': [
+    { name: 'MS-900T01-A: Microsoft 365 Fundamentals',                             examCode: 'MS-900',          category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8, popular: true },
+    { name: 'MS-102T00-A: Microsoft 365 Administrator Essentials',                 examCode: 'MS-102',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'MD-102T00-A: Microsoft 365 Endpoint Administrator',                   examCode: 'MD-102',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'MS-700T00-A: Managing Microsoft Teams',                               examCode: 'MS-700',          category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
+    { name: 'MS-721T00-A: Collaboration Communications Systems Engineer',          examCode: 'MS-721',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'MS-203T00-A: Microsoft 365 Messaging Administrator',                  examCode: 'MS-203',          category: 'EXPERT',       price: '$1,195', days: 5, hours: 8 },
   ],
-  'DevOps': [
-    { name: 'HashiCorp Certified: Terraform Associate',examCode: 'TA-003',   category: 'FUNDAMENTALS', price: '$795',   days: 3, hours: 8 },
-    { name: 'Ansible Automation Platform',             examCode: 'DO407',    category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
-    { name: 'AZ-400: Azure DevOps Engineer Expert',    examCode: 'AZ-400',   category: 'EXPERT',       price: '$1,195', days: 5, hours: 8 },
-    { name: 'Certified Kubernetes Administrator (CKA)',examCode: 'CKA',      category: 'EXPERT',       price: '$995',   days: 4, hours: 8 },
-    { name: 'AWS DevOps Engineer – Professional',      examCode: 'DOP-C02',  category: 'EXPERT',       price: '$1,395', days: 5, hours: 8 },
+  'Dynamics 365': [
+    { name: 'MB-910T00-A: Microsoft Dynamics 365 Fundamentals (CRM)',              examCode: 'MB-910',          category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8, popular: true },
+    { name: 'MB-920T00-A: Microsoft Dynamics 365 Fundamentals (ERP)',              examCode: 'MB-920',          category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8 },
+    { name: 'MB-210T01-A: Microsoft Dynamics 365 Sales Functional Consultant',     examCode: 'MB-210',          category: 'ASSOCIATE',    price: '$1,095', days: 4, hours: 8 },
+    { name: 'MB-220T00-A: Microsoft Dynamics 365 Customer Insights - Journeys',    examCode: 'MB-220',          category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
+    { name: 'MB-300T00-A: Microsoft Dynamics 365: Core Finance and Operations',    examCode: 'MB-300',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: 'MB-500T00-A: Microsoft Dynamics 365 Finance and Operations Developer',examCode: 'MB-500',          category: 'EXPERT',       price: '$1,395', days: 5, hours: 8 },
   ],
-  'ERP Systems': [
-    { name: 'SAP S/4HANA Functional Consultant',       examCode: 'SAP-S4',   category: 'ASSOCIATE',    price: '$1,595', days: 5, hours: 8 },
-    { name: 'SAP BASIS Administration',                examCode: 'SAP-BASIS',category: 'ASSOCIATE',    price: '$1,295', days: 5, hours: 8 },
-    { name: 'Oracle Database Administration',          examCode: 'OCA-DBA',  category: 'ASSOCIATE',    price: '$1,095', days: 5, hours: 8 },
-    { name: 'SAP ABAP Programming',                    examCode: 'SAP-ABAP', category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
-    { name: 'Oracle Cloud Infrastructure Architect',   examCode: 'OCI-AA',   category: 'EXPERT',       price: '$1,395', days: 4, hours: 8 },
+  'Data & Analytics': [
+    { name: 'DP-900T00-A: Microsoft Azure Data Fundamentals',                      examCode: 'DP-900',          category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8, popular: true },
+    { name: 'DP-203T00-A: Data Engineering on Microsoft Azure',                    examCode: 'DP-203',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'DP-300T00-A: Administering Microsoft Azure SQL Solutions',            examCode: 'DP-300',          category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
+    { name: 'PL-300T00-A: Microsoft Power BI Data Analyst',                        examCode: 'PL-300',          category: 'ASSOCIATE',    price: '$895',   days: 3, hours: 8 },
+    { name: 'DP-600T00-A: Implementing Analytics Solutions Using Microsoft Fabric', examCode: 'DP-600',         category: 'ASSOCIATE',    price: '$1,095', days: 4, hours: 8 },
+    { name: 'DP-100T01-A: Designing and Implementing a Data Science Solution',     examCode: 'DP-100',          category: 'EXPERT',       price: '$1,195', days: 5, hours: 8 },
   ],
-  'Linux & Open Source': [
-    { name: 'RHCSA: Red Hat Certified System Admin',   examCode: 'EX200',    category: 'ASSOCIATE',    price: '$895',   days: 5, hours: 8 },
-    { name: 'Linux Foundation Certified Sysadmin',     examCode: 'LFCS',     category: 'ASSOCIATE',    price: '$795',   days: 5, hours: 8 },
-    { name: 'RHCE: Red Hat Certified Engineer',        examCode: 'EX294',    category: 'EXPERT',       price: '$1,095', days: 5, hours: 8 },
-    { name: 'OpenShift Administration',                examCode: 'DO280',    category: 'EXPERT',       price: '$1,195', days: 4, hours: 8 },
-    { name: 'Certified Kubernetes Administrator',      examCode: 'CKA',      category: 'EXPERT',       price: '$995',   days: 4, hours: 8 },
+  'DevOps & Dev': [
+    { name: 'AZ-2008: DevOps Foundations: The Core Principles and Practices',      examCode: 'AZ-2008',         category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8 },
+    { name: '40573: GitHub: Introduction to GitHub',                               examCode: 'GH-INTRO',        category: 'FUNDAMENTALS', price: '$199',   days: 1, hours: 8 },
+    { name: 'AZ-400T00-A: Designing and Implementing Microsoft DevOps Solutions',  examCode: 'AZ-400',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8, popular: true },
+    { name: 'AZ-2009: Accelerate Developer Productivity with GitHub Copilot',      examCode: 'AZ-2009',         category: 'ASSOCIATE',    price: '$499',   days: 2, hours: 8 },
+    { name: 'AZ-2003: Deploy Cloud-Native Apps Using Azure Container Apps',        examCode: 'AZ-2003',         category: 'ASSOCIATE',    price: '$695',   days: 3, hours: 8 },
+    { name: 'AZ-204T00-A: Developing Solutions for Microsoft Azure',               examCode: 'AZ-204',          category: 'EXPERT',       price: '$1,195', days: 5, hours: 8 },
+  ],
+  'GitHub': [
+    { name: 'GitHub Foundations',                                                  examCode: 'GH-Foundation',   category: 'FUNDAMENTALS', price: '$199',   days: 1, hours: 8 },
+    { name: 'GitHub Actions: Automate Your Workflow',                              examCode: 'GH-Actions',      category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8, popular: true },
+    { name: 'GitHub Advanced Security',                                            examCode: 'GH-Security',     category: 'ASSOCIATE',    price: '$499',   days: 2, hours: 8 },
+    { name: 'GitHub Administration',                                               examCode: 'GH-Admin',        category: 'ASSOCIATE',    price: '$499',   days: 2, hours: 8 },
+  ],
+  'Windows Server': [
+    { name: '55348A: Introduction to PowerShell for IT Administrators',            examCode: '55348A',          category: 'FUNDAMENTALS', price: '$299',   days: 1, hours: 8 },
+    { name: 'AZ-800T00-A: Administering Windows Server Hybrid Core Infrastructure',examCode: 'AZ-800',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8, popular: true },
+    { name: 'AZ-801T00-A: Configuring Windows Server Hybrid Advanced Services',    examCode: 'AZ-801',          category: 'ASSOCIATE',    price: '$995',   days: 4, hours: 8 },
+    { name: 'WS-011T00-A: Windows Server 2019 Administration',                     examCode: 'WS-011',          category: 'ASSOCIATE',    price: '$1,195', days: 5, hours: 8 },
+    { name: '10969: Active Directory Services with Windows Server',                examCode: '10969',           category: 'ASSOCIATE',    price: '$895',   days: 4, hours: 8 },
+    { name: '10970: Networking with Windows Server',                               examCode: '10970',           category: 'EXPERT',       price: '$895',   days: 4, hours: 8 },
   ],
 }
 const ENT_CATEGORY_COLORS: Record<string, string> = {
-  FUNDAMENTALS: 'bg-blue-100 text-blue-700',
+  FUNDAMENTALS: 'bg-green-100 text-green-700',
   ASSOCIATE:    'bg-teal-100 text-teal-700',
   PROFESSIONAL: 'bg-orange-100 text-orange-700',
   EXPERT:       'bg-purple-100 text-purple-700',
@@ -1360,14 +1388,16 @@ function EntTechIcon({ name, active }: { name: string; active: boolean }) {
   const cls = active ? 'text-white' : 'text-koenig-blue'
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const p: Record<string, any> = {
-    'Cloud Computing':    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>,
-    'Cybersecurity':      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
-    'Data & AI':          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>,
-    'Networking':         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>,
-    'Project Management': <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>,
-    'DevOps':             <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></>,
-    'ERP Systems':        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>,
-    'Linux & Open Source':<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>,
+    'Azure':            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>,
+    'AI & Copilot':     <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></>,
+    'Power Platform':   <><rect x="3" y="3" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}/><rect x="14" y="3" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}/><rect x="3" y="14" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17.5 14v7M14 17.5h7"/></>,
+    'Security':         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
+    'Microsoft 365':    <><rect x="3" y="3" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}/><rect x="14" y="3" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}/><rect x="3" y="14" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}/><rect x="14" y="14" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}/></>,
+    'Dynamics 365':     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>,
+    'Data & Analytics': <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>,
+    'DevOps & Dev':     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>,
+    'GitHub':           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 20v-6m0 0V9a3 3 0 013-3h1a3 3 0 013 3v1M10 14H7a3 3 0 00-3 3v3m16-3a3 3 0 00-3-3h-3"/>,
+    'Windows Server':   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>,
   }
   return (
     <svg className={`h-4 w-4 ${cls}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1594,7 +1624,7 @@ export default function Design4Page() {
   const [enterpriseModalOpen, setEnterpriseModalOpen] = useState(false)
   const [enterpriseForm, setEnterpriseForm] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [enterpriseSubmitted, setEnterpriseSubmitted] = useState(false)
-  const [entTech, setEntTech] = useState('Cloud Computing')
+  const [entTech, setEntTech] = useState('Azure')
   const [entSearch, setEntSearch] = useState('')
   const [entLevelFilter, setEntLevelFilter] = useState('All')
   const [entSort, setEntSort] = useState('low-high')
@@ -4203,14 +4233,14 @@ export default function Design4Page() {
           const searched = entSearch.trim()
             ? allCourses.filter(c => c.name.toLowerCase().includes(entSearch.toLowerCase()) || c.examCode.toLowerCase().includes(entSearch.toLowerCase()))
             : allCourses
-          const filtered = entLevelFilter === 'All' ? searched : searched.filter(c => c.category === entLevelFilter.toUpperCase())
+          const filtered = entLevelFilter === 'All' ? searched : entLevelFilter === 'Popular' ? searched.filter(c => c.popular) : searched.filter(c => c.category === entLevelFilter.toUpperCase())
           const sorted = [...filtered].sort((a, b) => {
             const pa = parseFloat(a.price.replace(/[^0-9.]/g, ''))
             const pb = parseFloat(b.price.replace(/[^0-9.]/g, ''))
             return entSort === 'high-low' ? pb - pa : entSort === 'low-high' ? pa - pb : 0
           })
-          const LEVELS = ['All', 'Fundamentals', 'Associate', 'Professional', 'Expert']
-          const levelCount = (lv: string) => lv === 'All' ? allCourses.length : allCourses.filter(c => c.category === lv.toUpperCase()).length
+          const LEVELS = ['All', 'Popular', 'Fundamentals', 'Associate', 'Expert']
+          const levelCount = (lv: string) => lv === 'All' ? allCourses.length : lv === 'Popular' ? allCourses.filter(c => c.popular).length : allCourses.filter(c => c.category === lv.toUpperCase()).length
           const currentCat = ENT_TECH_CATEGORIES.find(c => c.name === entTech)
           const firstCode = allCourses[0]?.examCode ?? ''
           const lastCode = allCourses[allCourses.length - 1]?.examCode ?? ''
@@ -4222,18 +4252,6 @@ export default function Design4Page() {
                 <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">
                   Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
                 </h2>
-              </div>
-
-              {/* Full-width search bar */}
-              <div className="io-fade delay-1 mb-6 relative">
-                <svg className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                <input
-                  type="text"
-                  placeholder="Search certifications or exam codes... e.g. AZ-900, Kubernetes, Security"
-                  value={entSearch}
-                  onChange={e => setEntSearch(e.target.value)}
-                  className="w-full rounded-full border border-[#CAEFFF] bg-white py-4 pl-14 pr-6 text-sm text-koenig-dark placeholder-koenig-muted shadow-sm outline-none focus:border-koenig-blue focus:ring-2 focus:ring-koenig-blue/10"
-                />
               </div>
 
               {/* Main panel — white card */}
@@ -4299,64 +4317,43 @@ export default function Design4Page() {
                     </button>
                   </div>
 
-                  {/* Filter chips + level tabs row */}
-                  <div className="flex flex-wrap items-center gap-2 px-5 py-3 border-b border-[#E4F3FA] bg-white">
-                    {/* Active filter tags */}
-                    <span className="inline-flex items-center gap-1 rounded-full border border-koenig-blue/30 px-3 py-1 text-xs font-semibold text-koenig-blue">
-                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><polyline points="20 6 9 17 4 12"/></svg>
-                      {allCourses.length} Courses
-                    </span>
-                    {firstCode && lastCode && firstCode !== lastCode && (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-koenig-blue/30 px-3 py-1 text-xs font-semibold text-koenig-blue">
-                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><polyline points="20 6 9 17 4 12"/></svg>
-                        {firstCode} — {lastCode}
-                      </span>
-                    )}
-                    {currentCat?.tag && (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-koenig-blue/30 px-3 py-1 text-xs font-semibold text-koenig-blue">
-                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><polyline points="20 6 9 17 4 12"/></svg>
-                        {currentCat.tag}
-                      </span>
-                    )}
-                    {/* Divider */}
-                    <div className="hidden sm:block h-5 w-px bg-[#CAEFFF] mx-1" />
-                    {/* Level tabs */}
-                    <div className="flex items-center gap-1 flex-wrap">
+                  {/* Search + filter chips + sort row */}
+                  <div className="flex flex-wrap items-center gap-2 px-4 py-3 border-b border-[#E4F3FA] bg-white">
+                    {/* Search box */}
+                    <div className="relative shrink-0">
+                      <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      <input
+                        type="text"
+                        placeholder="Search courses..."
+                        value={entSearch}
+                        onChange={e => setEntSearch(e.target.value)}
+                        className="w-44 rounded-full border border-[#CAEFFF] bg-white py-1.5 pl-8 pr-3 text-xs text-koenig-dark placeholder-koenig-muted outline-none focus:border-koenig-blue focus:ring-2 focus:ring-koenig-blue/10"
+                      />
+                    </div>
+                    {/* Level filter pills */}
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       {LEVELS.map(lv => {
                         const cnt = levelCount(lv)
                         if (cnt === 0 && lv !== 'All') return null
                         const active = entLevelFilter === lv
                         return (
                           <button key={lv} onClick={() => setEntLevelFilter(lv)}
-                            className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-all whitespace-nowrap ${active ? 'bg-koenig-dark text-white' : 'text-[#2D4A5A] hover:bg-[#EBF8FE]'}`}>
+                            className={`rounded-full px-3 py-1 text-xs font-semibold transition-all whitespace-nowrap ${active ? 'bg-koenig-blue text-white' : 'border border-[#CAEFFF] text-[#2D4A5A] bg-white hover:bg-[#EBF8FE]'}`}>
                             {lv} {cnt}
                           </button>
                         )
                       })}
                     </div>
                     {/* Sort — push to right */}
-                    <div className="ml-auto flex items-center gap-2">
+                    <div className="ml-auto flex items-center gap-1.5">
                       <svg className="h-4 w-4 text-koenig-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="9" y2="14"/><line x1="21" y1="18" x2="9" y2="18"/></svg>
                       <select value={entSort} onChange={e => setEntSort(e.target.value)}
-                        className="text-xs border border-[#CAEFFF] rounded-lg px-3 py-1.5 bg-white text-koenig-dark outline-none cursor-pointer font-medium">
+                        className="text-xs border border-[#CAEFFF] rounded-lg px-2.5 py-1.5 bg-white text-koenig-dark outline-none cursor-pointer font-medium">
                         <option value="low-high">Price: Low — High</option>
                         <option value="high-low">Price: High — Low</option>
                         <option value="default">Name A–Z</option>
                       </select>
                     </div>
-                  </div>
-
-                  {/* Breadcrumb row */}
-                  <div className="flex items-center justify-between px-5 py-2 border-b border-[#E4F3FA] bg-[#F8FBFD]">
-                    <div className="flex items-center gap-1.5 text-xs text-koenig-muted">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-koenig-blue text-white px-2.5 py-0.5 text-xs font-semibold">{sorted.length} All Courses</span>
-                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><polyline points="9 18 15 12 9 6"/></svg>
-                      <span className="font-medium text-koenig-dark">{entTech}</span>
-                    </div>
-                    <span className="hidden sm:flex items-center gap-1 text-xs text-koenig-blue font-medium">
-                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><polyline points="6 9 12 15 18 9"/></svg>
-                      Scroll for more
-                    </span>
                   </div>
 
                   {/* Course card grid — scrollable */}
