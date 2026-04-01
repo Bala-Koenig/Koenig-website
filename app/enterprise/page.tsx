@@ -2913,6 +2913,7 @@ export default function EnterprisePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [catSearch, setCatSearch] = useState('')
   const [catLevel, setCatLevel] = useState('All')
+  const [catSort, setCatSort] = useState('low-high')
   const [entMorphIdx, setEntMorphIdx] = useState(0)
   const [entMorphExiting, setEntMorphExiting] = useState(false)
 
@@ -4360,184 +4361,203 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── What We Train ── */}
-      <section className="relative px-4 lg:px-[50px] py-5 sm:py-14" style={{ background: '#eef3f8', borderTop: '1px solid #d1e5f5', borderBottom: '1px solid #d1e5f5' }}>
-        <div className="relative mx-auto max-w-7xl">
-
-          {/* Header */}
-          <div className="io-fade mb-[15px] sm:mb-6 text-center">
-            <p className="mb-1 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>What We Train</p>
-            <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
-              Comprehensive Training <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Catalogue</span>
-            </h2>
-          </div>
-
-          {/* Search bar */}
-          <div className="io-fade mb-5 flex items-center gap-3 rounded-xl bg-white px-4 py-3" style={{ border: '1.5px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a7a9b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input
-              type="text"
-              value={catSearch}
-              onChange={e => setCatSearch(e.target.value)}
-              placeholder="Search certifications or exam codes... e.g. AZ-900, Kubernetes, Security"
-              className="flex-1 bg-transparent text-sm outline-none"
-              style={{ color: '#093148' }}
-            />
-            {catSearch && (
-              <button onClick={() => setCatSearch('')} className="rounded px-2 py-0.5 text-xs font-medium" style={{ background: '#EBF8FE', color: '#4a7a9b' }}>
-                Esc to clear
-              </button>
-            )}
-          </div>
-
-          {/* Main layout */}
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-
-            {/* Left sidebar */}
-            <div className="shrink-0 overflow-hidden rounded-2xl bg-white lg:w-[230px]" style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.05)' }}>
-              <div className="px-4 py-2.5" style={{ borderBottom: '1px solid #EBF8FE' }}>
-                <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#8aabb8' }}>Technologies</p>
+      <section className="relative px-4 lg:px-[50px] py-10 sm:py-16" style={{ background: '#e8f0f8', fontFamily: 'Segoe UI, system-ui, sans-serif' }}>
+        {(() => {
+          const d = CAT_DOMAINS[activeDomain]
+          const allCourses = d.courses
+          const allLevels = Array.from(new Set(allCourses.map(c => c.level)))
+          const LEVELS = ['All', ...allLevels]
+          const levelCount = (lv: string) => lv === 'All' ? allCourses.length : allCourses.filter(c => c.level === lv).length
+          const searched = catSearch.trim()
+            ? allCourses.filter(c => c.title.toLowerCase().includes(catSearch.toLowerCase()) || c.code.toLowerCase().includes(catSearch.toLowerCase()))
+            : allCourses
+          const filtered = catLevel === 'All' ? searched : searched.filter(c => c.level === catLevel)
+          const sorted = [...filtered].sort((a, b) => {
+            const pa = parseFloat(String(a.price).replace(/[^0-9.]/g, ''))
+            const pb = parseFloat(String(b.price).replace(/[^0-9.]/g, ''))
+            return catSort === 'high-low' ? pb - pa : catSort === 'low-high' ? pa - pb : 0
+          })
+          const LCAT: Record<string, { bg: string; color: string }> = {
+            Fundamentals: { bg: '#dbeeff', color: '#0050c8' },
+            Associate:    { bg: '#d4f5e2', color: '#0a7a3e' },
+            Professional: { bg: '#fff0d0', color: '#9a5500' },
+            Expert:       { bg: '#fff0d0', color: '#9a5500' },
+          }
+          return (
+            <div className="mx-auto max-w-7xl">
+              {/* Section heading */}
+              <div className="io-fade mb-7 text-center">
+                <span className="mb-2 inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ background: 'rgba(13,135,200,0.10)', color: '#0d87c8' }}>What We Train</span>
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold" style={{ color: '#0a1929' }}>
+                  Comprehensive Training <span className="bg-gradient-to-r from-[#0d87c8] to-[#38bdf8] bg-clip-text text-transparent">Catalogue</span>
+                </h2>
               </div>
-              <div className="flex flex-row flex-wrap lg:flex-col">
-                {CAT_DOMAINS.map((d, i) => {
-                  const active = activeDomain === i
-                  return (
-                    <button
-                      key={i}
-                      onClick={() => { setActiveDomain(i); setCatLevel('All') }}
-                      className="flex w-full items-center gap-2.5 py-3 text-left transition-colors"
-                      style={{
-                        background: active ? '#EBF8FE' : 'transparent',
-                        borderLeft: active ? '3px solid #0694D1' : '3px solid transparent',
-                        paddingLeft: '13px', paddingRight: '12px',
-                      }}
-                    >
-                      <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke={active ? '#0694D1' : '#4a7a9b'} strokeWidth="1.8">{d.icon}</svg>
-                      <span className="flex-1 truncate text-sm" style={{ color: active ? '#0569a8' : '#093148', fontWeight: active ? 700 : 500 }}>{d.name}</span>
-                      <span className="shrink-0 rounded-full px-1.5 py-0.5 text-xs font-bold" style={{ background: active ? '#0694D1' : 'rgba(6,148,209,0.08)', color: active ? '#fff' : '#0694D1', minWidth: '22px', textAlign: 'center' as const }}>
-                        {d.courses.length}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
 
-            {/* Right content panel */}
-            {(() => {
-              const d = CAT_DOMAINS[activeDomain]
-              const allLevels = Array.from(new Set(d.courses.map(c => c.level)))
-              const levelCounts: Record<string, number> = { All: d.courses.length }
-              allLevels.forEach(l => { levelCounts[l] = d.courses.filter(c => c.level === l).length })
-              const bySearch = catSearch
-                ? d.courses.filter(c => c.title.toLowerCase().includes(catSearch.toLowerCase()) || c.code.toLowerCase().includes(catSearch.toLowerCase()))
-                : d.courses
-              const displayed = catLevel === 'All' ? bySearch : bySearch.filter(c => c.level === catLevel)
-              const LCOLORS: Record<string, { bg: string; color: string }> = {
-                Fundamentals: { bg: 'rgba(0,150,136,0.10)',  color: '#007a6a' },
-                Associate:    { bg: 'rgba(6,148,209,0.10)',  color: '#0569a8' },
-                Professional: { bg: 'rgba(230,81,0,0.10)',   color: '#c55a02' },
-                Expert:       { bg: 'rgba(124,58,237,0.10)', color: '#6d28d9' },
-              }
-              return (
-                <div className="flex-1 min-w-0 overflow-hidden rounded-2xl bg-white" style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.05)' }}>
+              {/* Main floating card */}
+              <div className="io-fade delay-1 flex overflow-hidden" style={{ borderRadius: 16, boxShadow: '0 4px 32px rgba(13,135,200,0.13)', border: '1px solid #dde8f2', background: '#fff', minHeight: 640 }}>
 
-                  {/* Domain header */}
-                  <div className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-start sm:justify-between" style={{ borderBottom: '1px solid #EBF8FE' }}>
-                    <div className="flex items-start gap-3 flex-1 min-w-0">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.18)' }}>
-                        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8">{d.icon}</svg>
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="text-lg font-bold leading-tight" style={{ color: '#0d1b2a' }}>{d.name}</h3>
-                        <p className="mt-0.5 text-sm leading-snug" style={{ color: '#4a7a9b' }}>{d.desc}</p>
-                      </div>
+                {/* Left Sidebar */}
+                <div className="hidden sm:flex flex-col shrink-0 bg-white" style={{ width: 210, borderRight: '1px solid #e4edf5' }}>
+                  <div className="px-4 pt-5 pb-2" style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9aabb8' }}>Technologies</div>
+                  <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d0e8f5 transparent' }}>
+                    {CAT_DOMAINS.map((cat, i) => {
+                      const active = activeDomain === i
+                      return (
+                        <button key={i}
+                          onClick={() => { setActiveDomain(i); setCatLevel('All') }}
+                          style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '9px 14px 9px 0', borderLeft: active ? '3px solid #0d87c8' : '3px solid transparent', background: active ? '#e6f4fb' : 'transparent', cursor: 'pointer', transition: 'background 0.15s' }}
+                          onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#f2f9fd' }}
+                          onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
+                        >
+                          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, marginLeft: 11, flexShrink: 0, color: active ? '#0d87c8' : '#5a8ba8' }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">{cat.icon}</svg>
+                          </span>
+                          <span style={{ flex: 1, fontSize: 13, fontWeight: active ? 700 : 500, color: active ? '#0970a8' : '#1a3a4a', lineHeight: 1.3, textAlign: 'left' }}>{cat.name}</span>
+                          <span style={{ flexShrink: 0, marginRight: 10, borderRadius: 999, padding: '1px 7px', fontSize: 11, fontWeight: 700, background: active ? '#0d87c8' : '#dff0fb', color: active ? '#fff' : '#0d87c8' }}>{cat.courses.length}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                  {/* Bottom buttons */}
+                  <div style={{ padding: 12, borderTop: '1px solid #e4edf5', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <a href="#contact"
+                      style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 10, border: '1.5px solid #0d87c8', padding: '9px 0', fontSize: 13, fontWeight: 600, color: '#0d87c8', background: 'transparent', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#dff0fb' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}>
+                      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                      Download Brochure
+                    </a>
+                    <a href="#contact"
+                      style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 10, border: 'none', padding: '9px 0', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
+                      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                      Enquire Now
+                    </a>
+                  </div>
+                </div>
+
+                {/* Right panel */}
+                <div className="flex-1 flex flex-col overflow-hidden">
+
+                  {/* Mobile category scroll */}
+                  <div className="sm:hidden overflow-x-auto flex gap-2 px-4 py-3 [&::-webkit-scrollbar]:hidden" style={{ borderBottom: '1px solid #e4edf5' }}>
+                    {CAT_DOMAINS.map((cat, i) => (
+                      <button key={i} onClick={() => { setActiveDomain(i); setCatLevel('All') }}
+                        style={{ flexShrink: 0, borderRadius: 999, padding: '5px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', background: activeDomain === i ? '#0d87c8' : '#e6f4fb', color: activeDomain === i ? '#fff' : '#0d87c8', border: 'none' }}>
+                        {cat.name}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Tech header */}
+                  <div className="flex items-start gap-4 px-5 py-4" style={{ borderBottom: '1px solid #e4edf5' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: 10, background: '#e0f2fb', flexShrink: 0, color: '#0d87c8' }}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">{d.icon}</svg>
                     </div>
-                    <a href="#contact" className="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-5 py-2 text-sm font-bold text-white" style={{ background: '#0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.3)' }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 17, fontWeight: 700, color: '#0a1929', lineHeight: 1.2 }}>{d.name}</div>
+                      <div style={{ fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.45, marginTop: 2 }} className="line-clamp-2">{d.desc}</div>
+                    </div>
+                    <a href="#contact"
+                      style={{ flexShrink: 0, borderRadius: 9, border: 'none', padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s', whiteSpace: 'nowrap' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
                       Enquire Now →
                     </a>
                   </div>
 
-                  {/* Feature pills + level filter tabs */}
-                  <div className="flex flex-wrap items-center gap-2 px-5 py-2.5" style={{ borderBottom: '1px solid #EBF8FE', background: '#FAFCFF' }}>
-                    {d.features.map((f, fi) => (
-                      <span key={fi} className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold" style={{ background: 'rgba(0,150,136,0.08)', color: '#007a6a', border: '1px solid rgba(0,150,136,0.18)' }}>
-                        <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#007a6a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                        {f}
-                      </span>
-                    ))}
-                    <div className="ml-auto flex flex-wrap items-center gap-1">
-                      {(['All', ...allLevels] as string[]).map(l => {
-                        const isActive = catLevel === l
+                  {/* Filter bar */}
+                  <div className="flex flex-wrap items-center gap-2 px-4 py-2.5" style={{ borderBottom: '1px solid #e4edf5', background: '#fff' }}>
+                    {/* Search */}
+                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                      <svg style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', width: 13, height: 13, color: '#9aabb8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      <input type="text" placeholder="Search courses..."
+                        value={catSearch} onChange={e => setCatSearch(e.target.value)}
+                        style={{ width: 168, borderRadius: 8, border: '1px solid #d1dce8', padding: '6px 10px 6px 26px', fontSize: 12, color: '#1a3a4a', outline: 'none', background: '#fff' }} />
+                    </div>
+                    {/* Level pills */}
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {LEVELS.map(lv => {
+                        const cnt = levelCount(lv)
+                        if (cnt === 0 && lv !== 'All') return null
+                        const active = catLevel === lv
                         return (
-                          <button key={l} onClick={() => setCatLevel(l)} className="rounded-full px-3 py-0.5 text-xs font-bold transition-colors"
-                            style={{ background: isActive ? '#0d1b2a' : '#fff', color: isActive ? '#fff' : '#093148', border: isActive ? '1px solid #0d1b2a' : '1px solid #CAEFFF' }}>
-                            {l} <span style={{ opacity: 0.7 }}>{levelCounts[l] ?? 0}</span>
+                          <button key={lv} onClick={() => setCatLevel(lv)}
+                            style={{ borderRadius: 999, padding: '4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#6b7e8f', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
+                            {lv} {cnt}
                           </button>
                         )
                       })}
                     </div>
-                  </div>
-
-                  {/* Breadcrumb row */}
-                  <div className="flex items-center justify-between px-5 py-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
-                    <div className="flex items-center gap-2">
-                      <span className="rounded-full px-3 py-0.5 text-xs font-bold text-white" style={{ background: '#0694D1' }}>
-                        {displayed.length} {catLevel === 'All' ? 'All Courses' : catLevel}
-                      </span>
-                      <span className="text-sm" style={{ color: '#8aabb8' }}>›</span>
-                      <span className="text-sm font-medium" style={{ color: '#093148' }}>{d.name}</span>
+                    {/* Sort */}
+                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9aabb8" strokeWidth={2}><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="9" y2="14"/><line x1="21" y1="18" x2="9" y2="18"/></svg>
+                      <select value={catSort} onChange={e => setCatSort(e.target.value)}
+                        style={{ fontSize: 12, fontWeight: 500, border: '1px solid #d1dce8', borderRadius: 7, padding: '5px 10px', background: '#fff', color: '#1a3a4a', outline: 'none', cursor: 'pointer' }}>
+                        <option value="low-high">Price: Low → High</option>
+                        <option value="high-low">Price: High → Low</option>
+                        <option value="default">Name A–Z</option>
+                      </select>
                     </div>
-                    <span className="text-xs font-semibold" style={{ color: '#0694D1' }}>↓ Scroll for more</span>
                   </div>
 
-                  {/* Course cards — scrollable grid */}
-                  <div className="overflow-y-auto p-4" style={{ maxHeight: '460px' }}>
-                    {displayed.length === 0 ? (
-                      <div className="flex h-28 items-center justify-center text-sm" style={{ color: '#4a7a9b' }}>No courses found for your search.</div>
+                  {/* Cards grid */}
+                  <div className="overflow-y-auto p-4" style={{ background: '#f4f8fc', maxHeight: 500, scrollbarWidth: 'thin', scrollbarColor: '#c8dcea transparent' }}>
+                    {sorted.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-20" style={{ color: '#9aabb8' }}>
+                        <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ opacity: 0.3, marginBottom: 10 }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <p style={{ fontSize: 13, fontWeight: 500 }}>No courses match your search.</p>
+                        <button onClick={() => { setCatSearch(''); setCatLevel('All') }} style={{ marginTop: 8, fontSize: 12, color: '#0d87c8', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Clear filters</button>
+                      </div>
                     ) : (
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                        {displayed.map((course, ci) => {
-                          const lc = LCOLORS[course.level] ?? LCOLORS.Fundamentals
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 14 }}>
+                        {sorted.map((course, ci) => {
+                          const lc = LCAT[course.level] ?? { bg: '#dbeeff', color: '#0050c8' }
                           return (
-                            <div
-                              key={ci}
-                              className="flex flex-col rounded-xl bg-white p-4"
-                              style={{ border: '1px solid #DCE9F5', boxShadow: '0 1px 6px rgba(6,148,209,0.07)', transition: 'box-shadow 0.2s,border-color 0.2s' }}
-                              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(6,148,209,0.14)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#A8D4EF' }}
-                              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 6px rgba(6,148,209,0.07)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#DCE9F5' }}
+                            <div key={ci}
+                              style={{ background: '#fff', borderRadius: 10, border: '1px solid #dde8f2', padding: '14px 15px 13px', display: 'flex', flexDirection: 'column', gap: 9, boxShadow: '0 1px 4px rgba(13,135,200,0.06)', transition: 'box-shadow 0.18s, border-color 0.18s', cursor: 'default' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 18px rgba(13,135,200,0.15)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#0d87c8' }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 1px 4px rgba(13,135,200,0.06)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#dde8f2' }}
                             >
-                              {/* Level badge + Cert Details */}
-                              <div className="mb-2.5 flex items-center justify-between">
-                                <span className="rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-wide" style={{ background: lc.bg, color: lc.color }}>{course.level}</span>
-                                <a href="#contact" className="text-xs font-semibold" style={{ color: '#0694D1' }}>Cert Details →</a>
+                              {/* Badge + Cert Details */}
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', borderRadius: 5, padding: '3px 8px', background: lc.bg, color: lc.color }}>{course.level}</span>
+                                <a href="#contact" style={{ fontSize: 11.5, fontWeight: 600, color: '#0d87c8', textDecoration: 'none', whiteSpace: 'nowrap' }}>Cert Details →</a>
                               </div>
                               {/* Title */}
-                              <h4 className="mb-2 text-sm font-bold leading-snug" style={{ color: '#0d1b2a', minHeight: '34px' }}>{course.title}</h4>
-                              {/* Exam code */}
-                              <span className="mb-3 inline-block rounded px-2 py-0.5 text-xs font-bold" style={{ background: 'rgba(6,148,209,0.08)', color: '#0569a8' }}>{course.code}</span>
-                              {/* Bottom section */}
-                              <div className="mt-auto pt-3" style={{ borderTop: '1px solid #EBF8FE' }}>
-                                {/* Price */}
-                                <div className="mb-1 flex items-baseline gap-2">
-                                  <span className="text-xl font-black leading-none" style={{ color: '#0d1b2a' }}>
-                                    <sup className="text-xs font-bold" style={{ position: 'relative', top: '-0.2em' }}>$</sup>{course.price}
-                                  </span>
-                                  <span className="text-xs" style={{ color: '#8aabb8' }}>per person · USD</span>
+                              <div style={{ fontSize: 13, fontWeight: 700, color: '#0a1929', lineHeight: 1.35 }}>{course.title}</div>
+                              {/* Exam code + duration */}
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <span style={{ borderRadius: 6, background: '#e8f2fa', border: '1px solid #c8dcea', padding: '2px 8px', fontSize: 11.5, fontWeight: 600, color: '#3a5f80' }}>{course.code}</span>
+                                <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11.5, color: '#6b8fa8' }}>
+                                  <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                  {course.days} {course.days === 1 ? 'day' : 'days'} · 8hrs
+                                </span>
+                              </div>
+                              {/* Price */}
+                              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+                                  <span style={{ fontSize: 13, color: '#64748b' }}>$</span>
+                                  <span style={{ fontSize: 22, fontWeight: 800, color: '#111827', lineHeight: 1 }}>{course.price}</span>
                                 </div>
-                                {/* Duration */}
-                                <div className="mb-3 flex items-center gap-1 text-xs" style={{ color: '#4a7a9b' }}>
-                                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                  {course.days} {course.days === 1 ? 'day' : 'days'}
-                                </div>
-                                {/* Buttons */}
-                                <div className="flex gap-2">
-                                  <button className="flex-1 rounded-lg py-2 text-xs font-bold transition-colors hover:bg-blue-50" style={{ background: '#fff', border: '1.5px solid #CAEFFF', color: '#0569a8' }}>
-                                    Download Brochure
-                                  </button>
-                                  <button className="flex-1 rounded-lg py-2 text-xs font-bold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
-                                    Enroll Now
-                                  </button>
-                                </div>
+                                <span style={{ fontSize: 11, color: '#94a3b8' }}>per person · USD</span>
+                              </div>
+                              {/* Buttons */}
+                              <div style={{ display: 'flex', gap: 7, marginTop: 2 }}>
+                                <a href="#contact"
+                                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, borderRadius: 8, border: '1.5px solid #0d87c8', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#0d87c8', background: 'transparent', textDecoration: 'none', transition: 'background 0.15s' }}
+                                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#e6f4fb' }}
+                                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}>
+                                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                  Brochure
+                                </a>
+                                <a href="#contact"
+                                  style={{ flex: 2, borderRadius: 8, border: 'none', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background 0.15s' }}
+                                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
+                                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
+                                  Enroll Now
+                                </a>
                               </div>
                             </div>
                           )
@@ -4546,18 +4566,20 @@ export default function EnterprisePage() {
                     )}
                   </div>
                 </div>
-              )
-            })()}
-          </div>
+              </div>
 
-          {/* CTA */}
-          <div className="io-fade mt-8 text-center">
-            <a href="#contact" className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-base font-bold text-white transition-opacity hover:opacity-90" style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}>
-              Request Training Plan
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-          </div>
-        </div>
+              {/* Bottom CTA */}
+              <div className="mt-8 flex justify-center">
+                <a href="#contact"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 12, background: '#0a1929', padding: '13px 36px', fontSize: 14, fontWeight: 700, color: '#fff', textDecoration: 'none', transition: 'background 0.15s', boxShadow: '0 4px 18px rgba(10,25,41,0.18)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d2840' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0a1929' }}>
+                  Request Training Plan →
+                </a>
+              </div>
+            </div>
+          )
+        })()}
       </section>
 
       {/* ── Business Impact ── */}
