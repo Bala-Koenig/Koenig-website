@@ -3038,6 +3038,7 @@ export default function EnterprisePage() {
   const [catSearch, setCatSearch] = useState('')
   const [catLevel, setCatLevel] = useState('All')
   const [catSort, setCatSort] = useState('low-high')
+  const [descExpanded, setDescExpanded] = useState(false)
   const [flippedCard, setFlippedCard] = useState<string | null>(null)
   const [entMorphIdx, setEntMorphIdx] = useState(0)
   const [entMorphExiting, setEntMorphExiting] = useState(false)
@@ -4528,7 +4529,7 @@ export default function EnterprisePage() {
                       const active = activeDomain === i
                       return (
                         <button key={i}
-                          onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null) }}
+                          onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null); setDescExpanded(false) }}
                           style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '9px 14px 9px 0', borderLeft: active ? '3px solid #0d87c8' : '3px solid transparent', background: active ? '#e6f4fb' : 'transparent', cursor: 'pointer', transition: 'background 0.15s' }}
                           onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#f2f9fd' }}
                           onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
@@ -4568,7 +4569,7 @@ export default function EnterprisePage() {
                   <div className="sm:hidden relative" style={{ borderBottom: '1px solid #e4edf5' }}>
                     <div className="overflow-x-auto flex gap-2 px-4 py-3 [&::-webkit-scrollbar]:hidden">
                       {CAT_DOMAINS.map((cat, i) => (
-                        <button key={i} onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null) }}
+                        <button key={i} onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null); setDescExpanded(false) }}
                           style={{ flexShrink: 0, borderRadius: 999, padding: '5px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', background: activeDomain === i ? '#0d87c8' : '#e6f4fb', color: activeDomain === i ? '#fff' : '#0d87c8', border: 'none' }}>
                           {cat.name}
                         </button>
@@ -4587,7 +4588,12 @@ export default function EnterprisePage() {
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 17, fontWeight: 700, color: '#0a1929', lineHeight: 1.2 }}>{d.name}</div>
-                      <div style={{ fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.45, marginTop: 2 }} className="line-clamp-2">{d.desc}</div>
+                      <div style={{ fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.45, marginTop: 2 }}>
+                        <span className={descExpanded ? '' : 'line-clamp-2'}>{d.desc}</span>
+                        <button onClick={() => setDescExpanded(v => !v)} className="sm:hidden" style={{ marginLeft: 4, fontSize: 11, fontWeight: 600, color: '#0d87c8', background: 'none', border: 'none', padding: 0, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                          {descExpanded ? 'less ↑' : 'more ↓'}
+                        </button>
+                      </div>
                     </div>
                     <a href="#contact"
                       style={{ flexShrink: 0, borderRadius: 9, border: 'none', padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s', whiteSpace: 'nowrap' }}
