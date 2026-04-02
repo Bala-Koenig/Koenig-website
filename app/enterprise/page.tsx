@@ -4593,11 +4593,12 @@ export default function EnterprisePage() {
 
                   {/* Filter bar */}
                   <div className="flex flex-wrap items-center gap-2 px-4 py-2.5" style={{ borderBottom: '1px solid #e4edf5', background: '#fff' }}>
-                    {/* Search */}
-                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                    {/* Search — full width on mobile */}
+                    <div className="w-full sm:w-auto" style={{ position: 'relative', flexShrink: 0 }}>
                       <svg style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', width: 13, height: 13, color: '#9aabb8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                       <input type="text" placeholder="Search courses..."
                         value={catSearch} onChange={e => setCatSearch(e.target.value)}
+                        className="w-full sm:w-auto"
                         style={{ width: 210, borderRadius: 8, border: '1px solid #d1dce8', padding: '6px 26px 6px 26px', fontSize: 12, color: '#1a3a4a', outline: 'none', background: '#fff' }} />
                       {catSearch && (
                         <button onClick={() => setCatSearch('')} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', color: '#9aabb8' }}
@@ -4607,15 +4608,15 @@ export default function EnterprisePage() {
                         </button>
                       )}
                     </div>
-                    {/* Level pills */}
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                    {/* Level pills — single scrollable row on mobile */}
+                    <div className="flex items-center gap-1.5 sm:flex-wrap overflow-x-auto sm:overflow-x-visible" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
                       {LEVELS.map(lv => {
                         const cnt = levelCount(lv)
                         if (cnt === 0 && lv !== 'All') return null
                         const active = catLevel === lv
                         return (
                           <button key={lv} onClick={() => setCatLevel(lv)}
-                            style={{ borderRadius: 999, padding: '4px 8px 4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: 5, background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#4a6278', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
+                            style={{ borderRadius: 999, padding: '4px 8px 4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0, background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#4a6278', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
                             {lv}
                             <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 20, height: 20, borderRadius: 999, padding: '0 5px', fontSize: 11, fontWeight: 700, lineHeight: 1, background: active ? 'rgba(255,255,255,0.28)' : '#dbeeff', color: active ? '#fff' : '#0d87c8' }}>{cnt}</span>
                           </button>
@@ -4623,7 +4624,7 @@ export default function EnterprisePage() {
                       })}
                     </div>
                     {/* Sort */}
-                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div className="w-full sm:w-auto sm:ml-auto flex items-center justify-center sm:justify-start gap-2">
                       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9aabb8" strokeWidth={2}><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="9" y2="14"/><line x1="21" y1="18" x2="9" y2="18"/></svg>
                       <select value={catSort} onChange={e => setCatSort(e.target.value)}
                         style={{ fontSize: 12, fontWeight: 500, border: '1px solid #d1dce8', borderRadius: 7, padding: '5px 10px', background: '#fff', color: '#1a3a4a', outline: 'none', cursor: 'pointer' }}>
