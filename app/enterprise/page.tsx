@@ -4565,13 +4565,19 @@ export default function EnterprisePage() {
                 <div className="flex-1 flex flex-col overflow-hidden">
 
                   {/* Mobile category scroll */}
-                  <div className="sm:hidden overflow-x-auto flex gap-2 px-4 py-3 [&::-webkit-scrollbar]:hidden" style={{ borderBottom: '1px solid #e4edf5' }}>
-                    {CAT_DOMAINS.map((cat, i) => (
-                      <button key={i} onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null) }}
-                        style={{ flexShrink: 0, borderRadius: 999, padding: '5px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', background: activeDomain === i ? '#0d87c8' : '#e6f4fb', color: activeDomain === i ? '#fff' : '#0d87c8', border: 'none' }}>
-                        {cat.name}
-                      </button>
-                    ))}
+                  <div className="sm:hidden relative" style={{ borderBottom: '1px solid #e4edf5' }}>
+                    <div className="overflow-x-auto flex gap-2 px-4 py-3 [&::-webkit-scrollbar]:hidden">
+                      {CAT_DOMAINS.map((cat, i) => (
+                        <button key={i} onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null) }}
+                          style={{ flexShrink: 0, borderRadius: 999, padding: '5px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', background: activeDomain === i ? '#0d87c8' : '#e6f4fb', color: activeDomain === i ? '#fff' : '#0d87c8', border: 'none' }}>
+                          {cat.name}
+                        </button>
+                      ))}
+                    </div>
+                    {/* Right fade + arrow hint */}
+                    <div style={{ pointerEvents: 'none', position: 'absolute', right: 0, top: 0, bottom: 0, width: 48, background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.95))', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 6 }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0d87c8" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </div>
                   </div>
 
                   {/* Tech header */}
@@ -4609,19 +4615,25 @@ export default function EnterprisePage() {
                       )}
                     </div>
                     {/* Level pills — single scrollable row on mobile */}
-                    <div className="flex items-center gap-1.5 sm:flex-wrap overflow-x-auto sm:overflow-x-visible" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
-                      {LEVELS.map(lv => {
-                        const cnt = levelCount(lv)
-                        if (cnt === 0 && lv !== 'All') return null
-                        const active = catLevel === lv
-                        return (
-                          <button key={lv} onClick={() => setCatLevel(lv)}
-                            style={{ borderRadius: 999, padding: '4px 8px 4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0, background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#4a6278', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
-                            {lv}
-                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 20, height: 20, borderRadius: 999, padding: '0 5px', fontSize: 11, fontWeight: 700, lineHeight: 1, background: active ? 'rgba(255,255,255,0.28)' : '#dbeeff', color: active ? '#fff' : '#0d87c8' }}>{cnt}</span>
-                          </button>
-                        )
-                      })}
+                    <div className="relative sm:contents">
+                      <div className="flex items-center gap-1.5 sm:flex-wrap overflow-x-auto sm:overflow-x-visible" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
+                        {LEVELS.map(lv => {
+                          const cnt = levelCount(lv)
+                          if (cnt === 0 && lv !== 'All') return null
+                          const active = catLevel === lv
+                          return (
+                            <button key={lv} onClick={() => setCatLevel(lv)}
+                              style={{ borderRadius: 999, padding: '4px 8px 4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0, background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#4a6278', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
+                              {lv}
+                              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 20, height: 20, borderRadius: 999, padding: '0 5px', fontSize: 11, fontWeight: 700, lineHeight: 1, background: active ? 'rgba(255,255,255,0.28)' : '#dbeeff', color: active ? '#fff' : '#0d87c8' }}>{cnt}</span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                      {/* Right fade + arrow hint — mobile only */}
+                      <div className="sm:hidden" style={{ pointerEvents: 'none', position: 'absolute', right: 0, top: 0, bottom: 0, width: 40, background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.95))', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 4 }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0d87c8" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                      </div>
                     </div>
                     {/* Sort */}
                     <div className="w-full sm:w-auto sm:ml-auto flex items-center justify-center sm:justify-start gap-2">
