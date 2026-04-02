@@ -4597,15 +4597,14 @@ export default function EnterprisePage() {
                     </a>
                   </div>
 
-                  {/* Filter bar */}
-                  <div className="flex flex-wrap items-center gap-2 px-4 py-2.5" style={{ borderBottom: '1px solid #e4edf5', background: '#fff' }}>
+                  {/* Filter bar — column on mobile, row on desktop */}
+                  <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 px-4 py-2.5" style={{ borderBottom: '1px solid #e4edf5', background: '#fff' }}>
                     {/* Search — full width on mobile */}
-                    <div className="w-full sm:w-auto" style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ position: 'relative' }}>
                       <svg style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', width: 13, height: 13, color: '#9aabb8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                       <input type="text" placeholder="Search courses..."
                         value={catSearch} onChange={e => setCatSearch(e.target.value)}
-                        className="w-full sm:w-auto"
-                        style={{ width: 210, borderRadius: 8, border: '1px solid #d1dce8', padding: '6px 26px 6px 26px', fontSize: 12, color: '#1a3a4a', outline: 'none', background: '#fff' }} />
+                        style={{ width: '100%', borderRadius: 8, border: '1px solid #d1dce8', padding: '7px 26px 7px 26px', fontSize: 12, color: '#1a3a4a', outline: 'none', background: '#fff', boxSizing: 'border-box' }} />
                       {catSearch && (
                         <button onClick={() => setCatSearch('')} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', color: '#9aabb8' }}
                           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#4a6278' }}
@@ -4614,9 +4613,9 @@ export default function EnterprisePage() {
                         </button>
                       )}
                     </div>
-                    {/* Level pills — single scrollable row on mobile */}
-                    <div className="relative sm:contents">
-                      <div className="flex items-center gap-1.5 sm:flex-wrap overflow-x-auto sm:overflow-x-visible" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
+                    {/* Level pills — scrollable on mobile, wrapped on desktop */}
+                    <div className="relative min-w-0">
+                      <div className="flex items-center gap-1.5 overflow-x-auto sm:flex-wrap sm:overflow-x-visible" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch', paddingRight: 36 } as React.CSSProperties}>
                         {LEVELS.map(lv => {
                           const cnt = levelCount(lv)
                           if (cnt === 0 && lv !== 'All') return null
@@ -4631,12 +4630,12 @@ export default function EnterprisePage() {
                         })}
                       </div>
                       {/* Right fade + arrow hint — mobile only */}
-                      <div className="sm:hidden" style={{ pointerEvents: 'none', position: 'absolute', right: 0, top: 0, bottom: 0, width: 40, background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.95))', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 4 }}>
+                      <div className="sm:hidden" style={{ pointerEvents: 'none', position: 'absolute', right: 0, top: 0, bottom: 0, width: 44, background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.97))', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 6 }}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0d87c8" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                       </div>
                     </div>
                     {/* Sort */}
-                    <div className="w-full sm:w-auto sm:ml-auto flex items-center justify-center sm:justify-start gap-2">
+                    <div className="sm:ml-auto flex items-center justify-center sm:justify-start gap-2">
                       <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9aabb8" strokeWidth={2}><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="9" y2="14"/><line x1="21" y1="18" x2="9" y2="18"/></svg>
                       <select value={catSort} onChange={e => setCatSort(e.target.value)}
                         style={{ fontSize: 12, fontWeight: 500, border: '1px solid #d1dce8', borderRadius: 7, padding: '5px 10px', background: '#fff', color: '#1a3a4a', outline: 'none', cursor: 'pointer' }}>
