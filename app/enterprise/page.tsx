@@ -4610,7 +4610,7 @@ export default function EnterprisePage() {
                           <button key={lv} onClick={() => setCatLevel(lv)}
                             style={{ borderRadius: 999, padding: '4px 8px 4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: 5, background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#4a6278', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
                             {lv}
-                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 20, height: 20, borderRadius: 999, padding: '0 5px', fontSize: 11, fontWeight: 700, lineHeight: 1, background: active ? 'rgba(255,255,255,0.28)' : '#0d87c8', color: '#fff' }}>{cnt}</span>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 20, height: 20, borderRadius: 999, padding: '0 5px', fontSize: 11, fontWeight: 700, lineHeight: 1, background: active ? 'rgba(255,255,255,0.28)' : '#dbeeff', color: active ? '#fff' : '#0d87c8' }}>{cnt}</span>
                           </button>
                         )
                       })}
