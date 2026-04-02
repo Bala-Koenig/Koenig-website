@@ -4582,25 +4582,37 @@ export default function EnterprisePage() {
                   </div>
 
                   {/* Tech header */}
-                  <div className="flex items-start gap-4 px-5 py-4" style={{ borderBottom: '1px solid #e4edf5' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: 10, background: '#e0f2fb', flexShrink: 0, color: '#0d87c8' }}>
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">{d.icon}</svg>
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 17, fontWeight: 700, color: '#0a1929', lineHeight: 1.2 }}>{d.name}</div>
-                      <div style={{ fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.45, marginTop: 2 }}>
-                        <span className={descExpanded ? '' : 'line-clamp-2'}>{d.desc}</span>
-                        <button onClick={() => setDescExpanded(v => !v)} className="sm:hidden" style={{ marginLeft: 4, fontSize: 11, fontWeight: 600, color: '#0d87c8', background: 'none', border: 'none', padding: 0, cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                          {descExpanded ? 'less ↑' : 'more ↓'}
-                        </button>
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4 px-5 py-4" style={{ borderBottom: '1px solid #e4edf5' }}>
+                    {/* Row 1 on mobile: icon + name + button */}
+                    <div className="flex items-center gap-3 sm:contents">
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: 10, background: '#e0f2fb', flexShrink: 0, color: '#0d87c8' }}>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">{d.icon}</svg>
                       </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 17, fontWeight: 700, color: '#0a1929', lineHeight: 1.2 }}>{d.name}</div>
+                      </div>
+                      <a href="#contact" className="sm:hidden"
+                        style={{ flexShrink: 0, borderRadius: 9, border: 'none', padding: '7px 14px', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                        Enquire Now →
+                      </a>
                     </div>
-                    <a href="#contact"
-                      style={{ flexShrink: 0, borderRadius: 9, border: 'none', padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s', whiteSpace: 'nowrap' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
-                      Enquire Now →
-                    </a>
+                    {/* Description — full width on mobile */}
+                    <div className="sm:hidden" style={{ fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.55 }}>
+                      <span className={descExpanded ? '' : 'line-clamp-2'}>{d.desc}</span>
+                      <button onClick={() => setDescExpanded(v => !v)} style={{ marginLeft: 4, fontSize: 11, fontWeight: 600, color: '#0d87c8', background: 'none', border: 'none', padding: 0, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                        {descExpanded ? 'less ↑' : 'more ↓'}
+                      </button>
+                    </div>
+                    {/* Desktop: desc + button side by side */}
+                    <div className="hidden sm:flex sm:flex-1 sm:items-start sm:gap-4" style={{ minWidth: 0 }}>
+                      <div style={{ flex: 1, minWidth: 0, fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.45, marginTop: 2 }}>{d.desc}</div>
+                      <a href="#contact"
+                        style={{ flexShrink: 0, borderRadius: 9, border: 'none', padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s', whiteSpace: 'nowrap' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
+                        Enquire Now →
+                      </a>
+                    </div>
                   </div>
 
                   {/* Filter bar — column on mobile, row on desktop */}
