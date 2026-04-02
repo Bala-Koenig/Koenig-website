@@ -4598,7 +4598,14 @@ export default function EnterprisePage() {
                       <svg style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', width: 13, height: 13, color: '#9aabb8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                       <input type="text" placeholder="Search courses..."
                         value={catSearch} onChange={e => setCatSearch(e.target.value)}
-                        style={{ width: 210, borderRadius: 8, border: '1px solid #d1dce8', padding: '6px 10px 6px 26px', fontSize: 12, color: '#1a3a4a', outline: 'none', background: '#fff' }} />
+                        style={{ width: 210, borderRadius: 8, border: '1px solid #d1dce8', padding: '6px 26px 6px 26px', fontSize: 12, color: '#1a3a4a', outline: 'none', background: '#fff' }} />
+                      {catSearch && (
+                        <button onClick={() => setCatSearch('')} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', color: '#9aabb8' }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#4a6278' }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#9aabb8' }}>
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                      )}
                     </div>
                     {/* Level pills */}
                     <div className="flex items-center gap-1.5 flex-wrap">
