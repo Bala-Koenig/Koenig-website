@@ -4513,7 +4513,7 @@ export default function EnterprisePage() {
               <div className="io-fade mb-7 text-center">
                 <span className="mb-2 inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ background: 'rgba(13,135,200,0.10)', color: '#0d87c8' }}>Enterprise Training</span>
                 <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold" style={{ color: '#0a1929' }}>
-                  Training <span className="bg-gradient-to-r from-[#0d87c8] to-[#38bdf8] bg-clip-text text-transparent">Catalogue</span>
+                  Explore Our <span className="bg-gradient-to-r from-[#0d87c8] to-[#38bdf8] bg-clip-text text-transparent">Courses</span>
                 </h2>
               </div>
 
