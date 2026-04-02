@@ -4786,18 +4786,18 @@ export default function EnterprisePage() {
         ))}
 
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="flex flex-col gap-12 lg:flex-row lg:items-center">
+          <div className="flex flex-col gap-[15px] lg:flex-row lg:items-center lg:gap-12">
 
             {/* ══ LEFT — Text ══ */}
             <div className="flex-1 lg:max-w-[500px]">
 
               {/* Eyebrow */}
-              <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em]" style={{ color: '#13a8d4' }}>
+              <p className="mb-[15px] lg:mb-4 text-xs font-bold uppercase tracking-[0.18em]" style={{ color: '#13a8d4' }}>
                 Strengthen Your Business Edge
               </p>
 
               {/* Heading */}
-              <h2 className="mb-4 text-3xl font-bold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
+              <h2 className="mb-[15px] lg:mb-4 text-3xl font-bold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
                 The Business Impact of{' '}
                 <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
                   Koenig Enterprise Training
@@ -4805,7 +4805,7 @@ export default function EnterprisePage() {
               </h2>
 
               {/* Sub-text */}
-              <p className="mb-10 text-sm leading-relaxed" style={{ color: '#3a6080' }}>
+              <p className="mb-[15px] lg:mb-10 text-sm leading-relaxed" style={{ color: '#3a6080' }}>
                 Trusted by 500+ enterprises worldwide to upskill teams, close certification gaps, and deliver measurable ROI across every region.
               </p>
 
@@ -4839,6 +4839,12 @@ export default function EnterprisePage() {
                   <div
                     className="relative overflow-hidden rounded-2xl"
                     style={{ height: '340px', border: '1px solid rgba(255,255,255,0.5)', boxShadow: '0 16px 48px rgba(11,37,69,0.15)' }}
+                    onTouchStart={e => { (e.currentTarget as HTMLDivElement).dataset.touchX = String(e.touches[0].clientX) }}
+                    onTouchEnd={e => {
+                      const startX = parseFloat((e.currentTarget as HTMLDivElement).dataset.touchX || '0')
+                      const diff = startX - e.changedTouches[0].clientX
+                      if (Math.abs(diff) > 40) setBiSlide(s => diff > 0 ? (s + 1) % 6 : (s + 5) % 6)
+                    }}
                   >
                     {BI_ITEMS.map((sl, idx) => (
                       <div
