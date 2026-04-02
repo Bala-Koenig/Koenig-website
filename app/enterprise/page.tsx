@@ -4487,7 +4487,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── What We Train ── */}
-      <section className="relative px-4 lg:px-[50px] py-10 sm:py-16" style={{ background: '#e8f0f8', fontFamily: 'Segoe UI, system-ui, sans-serif' }}>
+      <section className="relative px-4 lg:px-[50px] py-5 sm:py-16" style={{ background: '#e8f0f8', fontFamily: 'Segoe UI, system-ui, sans-serif' }}>
         {(() => {
           const d = CAT_DOMAINS[activeDomain]
           const allCourses = d.courses
