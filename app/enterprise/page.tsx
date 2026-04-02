@@ -540,7 +540,7 @@ function EntTestimonialCard({ t, onExpandChange }: { t: EntTestimonial; onExpand
           className="overflow-hidden transition-all duration-300 ease-in-out"
           style={{ maxHeight: expanded ? '220px' : '0px', opacity: expanded ? 1 : 0 }}
         >
-          <p className="mb-3 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{t.extra}</p>
+          <p className="mb-3 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{t.extra}</p>
         </div>
         {t.showMore && (
           <button
