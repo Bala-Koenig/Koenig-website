@@ -3347,7 +3347,7 @@ export default function EnterprisePage() {
       <div className="fixed top-0 left-0 z-[200] h-[3px] transition-none" style={{ width: `${scrollProgress}%`, background: 'linear-gradient(90deg,#076D9D,#0694d1,#38bdf8)' }} />
 
       {/* Contact bar */}
-      <div className="hidden md:block px-4 lg:px-[50px]" style={{ background: '#061624' }}>
+      <div className="hidden md:block px-4 md:px-8 lg:px-[50px]" style={{ background: '#061624' }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 py-1.5 text-[14px] text-white/75">
           <div className="flex flex-wrap items-center gap-3">
             <a href="tel:+14129537506" className="flex items-center gap-1 transition-colors hover:text-white/80">
@@ -3391,7 +3391,7 @@ export default function EnterprisePage() {
 
       {/* Main navbar */}
       <header
-        className={`px-4 lg:px-[50px] ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
+        className={`px-4 md:px-8 lg:px-[50px] ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
         style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
       >
         <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
@@ -3987,7 +3987,7 @@ export default function EnterprisePage() {
       ════════════════════════════════════════════════════════ */}
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 lg:px-[50px] py-[30px] sm:py-[60px]">
+      <section className="relative overflow-hidden bg-[#E8F4FA] w-full px-4 md:px-8 lg:px-[50px] py-[30px] sm:py-[60px]">
         <div className="pointer-events-none absolute inset-0">
           {/* Falling pattern — Koenig blue streaks on hero bg */}
           <FallingPattern
@@ -4003,7 +4003,7 @@ export default function EnterprisePage() {
           <div className="ent-blob3 absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.26) 0%, transparent 70%)' }} />
         </div>
         <div className="relative z-10 mx-auto max-w-7xl w-full">
-          <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center">
+          <div className="flex flex-col items-center gap-8 md:flex-row md:items-center md:gap-10 lg:gap-12">
             {/* Left */}
             <div className="flex-1 text-center lg:text-left">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.30)', color: '#0694d1' }}>
@@ -4124,7 +4124,7 @@ export default function EnterprisePage() {
            NEW SECTION 1 — Trusted by Global Enterprises (WHITE)
            Inspired by Simplilearn's client marquee strip
       ════════════════════════════════════════════════════════ */}
-      <section className="bg-white relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[40px]">
+      <section className="bg-white relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[40px]">
 
         {/* ── Brand glow effect system ── */}
         <style>{`
@@ -4163,8 +4163,8 @@ export default function EnterprisePage() {
           <div style={{ position:'absolute', top:10, left:'15%', width:220, height:220, borderRadius:'50%', background:'radial-gradient(circle, rgba(34,197,94,0.05) 0%, transparent 70%)', animation:'glowPulse2 12s ease-in-out 2s infinite' }} />
         </div>
 
-        <div className="mx-auto max-w-7xl px-4 lg:px-[50px] relative z-10">
-          <div className="io-fade mb-[15px] sm:mb-10 flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] relative z-10">
+          <div className="io-fade mb-[15px] sm:mb-10 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between lg:justify-between">
             {/* Left — heading */}
             <div className="relative text-center lg:text-left">
               {/* Title glow orbs */}
@@ -4195,7 +4195,7 @@ export default function EnterprisePage() {
         </div>
         <ClientLogoMarquee clients={ENTERPRISE_CLIENTS} />
         {/* Award cards */}
-        <div className="mx-auto mt-10 max-w-7xl px-4 lg:px-[50px]">
+        <div className="mx-auto mt-10 max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {([
               {
@@ -4256,7 +4256,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── ADDE Framework ── */}
-      <section className="relative overflow-hidden py-5 sm:py-[40px] px-4 lg:px-[50px]" style={{ background: '#0d1b2a' }}>
+      <section className="relative overflow-hidden py-5 sm:py-[40px] px-4 md:px-8 lg:px-[50px]" style={{ background: '#0d1b2a' }}>
         <style>{`
           @keyframes circlePulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.3)} 50%{box-shadow:0 0 0 8px rgba(19,168,212,.07),0 0 18px rgba(19,168,212,.22)} }
           @keyframes spinRing { to{transform:rotate(360deg)} }
@@ -4354,7 +4354,7 @@ export default function EnterprisePage() {
       {/* ════════════════════════════════════════════════════════
            NEW SECTION 2 — Industries We Serve (DARK NAVY)
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-5 sm:py-[40px] px-4 lg:px-[50px]" style={{ background: '#07121e' }}>
+      <section className="relative overflow-hidden py-5 sm:py-[40px] px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e' }}>
         <AuroraCanvas />
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-[15px] sm:mb-12 text-center">
@@ -4444,7 +4444,7 @@ export default function EnterprisePage() {
             .ind-card:hover .ind-tag { background:rgba(19,168,212,.22);color:#7de8ff;border-color:rgba(19,168,212,.45); }
           `}</style>
           <IndustryMobileCarousel />
-          <div className="hidden sm:grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="hidden sm:grid gap-5 sm:grid-cols-2 md:grid-cols-3">
             {INDUSTRIES.map((ind, i) => (
               <div
                 key={i}
@@ -4487,7 +4487,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── What We Train ── */}
-      <section className="relative px-4 lg:px-[50px] py-5 sm:py-16" style={{ background: '#e8f0f8', fontFamily: 'Segoe UI, system-ui, sans-serif' }}>
+      <section className="relative px-4 md:px-8 lg:px-[50px] py-5 sm:py-16" style={{ background: '#e8f0f8', fontFamily: 'Segoe UI, system-ui, sans-serif' }}>
         {(() => {
           const d = CAT_DOMAINS[activeDomain]
           const allCourses = d.courses
@@ -4522,7 +4522,7 @@ export default function EnterprisePage() {
               <div className="io-fade delay-1 flex overflow-hidden" style={{ borderRadius: 16, boxShadow: '0 4px 32px rgba(13,135,200,0.13)', border: '1px solid #dde8f2', background: '#fff', minHeight: 640 }}>
 
                 {/* Left Sidebar */}
-                <div className="hidden sm:flex flex-col shrink-0 bg-white" style={{ width: 210, borderRight: '1px solid #e4edf5' }}>
+                <div className="hidden sm:flex flex-col shrink-0 bg-white" style={{ width: 'clamp(160px, 18vw, 210px)', borderRight: '1px solid #e4edf5' }}>
                   <div className="px-4 pt-5 pb-2" style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9aabb8' }}>Technologies</div>
                   <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d0e8f5 transparent' }}>
                     {CAT_DOMAINS.map((cat, i) => {
@@ -4679,7 +4679,7 @@ export default function EnterprisePage() {
                             <button onClick={() => { setCatSearch(''); setCatLevel('All') }} style={{ marginTop: 8, fontSize: 12, color: '#0d87c8', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Clear filters</button>
                           </div>
                         ) : (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: 14 }}>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3" style={{ gap: 14 }}>
                             {sorted.map((course, ci) => {
                               const cardKey = `${activeDomain}-${course.code}`
                               const isFlipped = flippedCard === cardKey
@@ -4772,7 +4772,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Business Impact ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-[30px] sm:py-20" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-[30px] sm:py-20" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
         {/* Floating squares — right half decorative */}
         {[
           { w: 110, h: 110, top: '12%',  left: '46%' },
@@ -4786,7 +4786,7 @@ export default function EnterprisePage() {
         ))}
 
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="flex flex-col gap-[15px] lg:flex-row lg:items-center lg:gap-12">
+          <div className="flex flex-col gap-[15px] md:flex-row md:items-center md:gap-8 lg:gap-12">
 
             {/* ══ LEFT — Text ══ */}
             <div className="flex-1 lg:max-w-[500px]">
@@ -4885,7 +4885,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Why Koenig ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: '#061e30' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: '#061e30' }}>
         <style>{`
           @keyframes entDiffShimmer { 0%{transform:translateX(-110%) skewX(-18deg)} 100%{transform:translateX(220%) skewX(-18deg)} }
           .ent-diff-banner { position:relative; overflow:hidden; }
@@ -4978,7 +4978,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── How Corporate Training Works ── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
         <style>{`
           @keyframes entHiwFadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
           .ent-hiw-step { opacity:0; animation: entHiwFadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both; }
@@ -5001,7 +5001,7 @@ export default function EnterprisePage() {
           <HowItWorksMobileCarousel />
           <div className="relative hidden sm:block">
             <div className="pointer-events-none absolute hidden lg:block" style={{ top: '52px', left: '12.5%', right: '12.5%', height: '2px', background: 'linear-gradient(to right,#076D9D,#4DBFEF,#076D9D)' }} />
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-stretch">
               {HOW_IT_WORKS.map((step, i) => {
                 const isActive = activeHiwStep === i
                 return (
@@ -5067,7 +5067,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Learning Formats ── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 left-1/4 h-[380px] w-[380px] rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
@@ -5103,7 +5103,7 @@ export default function EnterprisePage() {
           <FormatsMobileCarousel />
           {/* Slide — desktop only */}
           <div className="hidden sm:block overflow-hidden">
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {FORMATS.slice(formatsSlide * 4, formatsSlide * 4 + 4).map((f, i) => (
                 <div key={i} className="ent-lf-flip io-fade" style={{ perspective: '1000px', height: '400px' }}>
                   <div className="ent-lf-flip-inner relative h-full w-full">
@@ -5175,7 +5175,7 @@ export default function EnterprisePage() {
       {/* ════════════════════════════════════════════════════════
            NEW: Vendor Certification Ecosystem (DARK NAVY — tiered rows)
       ════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-5 sm:py-[60px] px-4 lg:px-[50px]" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
+      <section className="relative overflow-hidden py-5 sm:py-[60px] px-4 md:px-8 lg:px-[50px]" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
         {/* Floating squares */}
         {[
           { w: 110, h: 110, top: '10%',  left: '47%' },
@@ -5222,7 +5222,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Testimonials ── */}
-      <section className="relative overflow-hidden py-5 sm:py-16 px-4 lg:px-[50px]" style={{ background: '#f0f5fa' }}>
+      <section className="relative overflow-hidden py-5 sm:py-16 px-4 md:px-8 lg:px-[50px]" style={{ background: '#f0f5fa' }}>
 
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-[15px] sm:mb-10 text-center">
@@ -5256,7 +5256,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
@@ -5318,7 +5318,7 @@ export default function EnterprisePage() {
       </section>
 
       {/* ── Contact Form ── */}
-      <section id="contact" className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[70px]" style={{ background: 'linear-gradient(160deg,#040f1a 0%,#061e30 50%,#051525 100%)' }}>
+      <section id="contact" className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[70px]" style={{ background: 'linear-gradient(160deg,#040f1a 0%,#061e30 50%,#051525 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(6,148,209,0.14) 0%,transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(77,191,239,0.10) 0%,transparent 70%)' }} />
@@ -5396,7 +5396,7 @@ export default function EnterprisePage() {
       <footer style={{ background: '#071929' }} className="text-white">
 
         {/* Newsletter + Social */}
-        <div style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-8">
+        <div style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }} className="px-4 md:px-8 lg:px-[50px] py-8">
           <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div>
               <p className="mb-3 text-sm font-semibold text-white">Subscribe to our Newsletter</p>
@@ -5434,7 +5434,7 @@ export default function EnterprisePage() {
         </div>
 
         {/* Main link columns */}
-        <div className="px-4 lg:px-[50px] py-10">
+        <div className="px-4 md:px-8 lg:px-[50px] py-10">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 mb-10">
               {FOOTER_COLS.map(col => (
@@ -5479,8 +5479,8 @@ export default function EnterprisePage() {
         </div>
 
         {/* Legal disclaimers */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-8">
-          <div className="mx-auto max-w-7xl flex flex-col lg:flex-row gap-8 items-start">
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 md:px-8 lg:px-[50px] py-8">
+          <div className="mx-auto max-w-7xl flex flex-col md:flex-row gap-8 items-start">
             <ul className="flex-1 space-y-1.5 list-disc list-outside pl-4 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
               <li>All rights reserved. ©1997 - 2026, Koenig Solutions Pvt. Ltd.</li>
               <li>PMP ® is a registered trademark of the Project Management Institute.</li>
@@ -5500,7 +5500,7 @@ export default function EnterprisePage() {
         </div>
 
         {/* Philosophy tagline */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-5">
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 md:px-8 lg:px-[50px] py-5">
           <p className="mx-auto max-w-7xl text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
             We believe in the philosophy To Err is Human, to Admit Divine! We are not perfect but we are trying. Keep visiting our website, you will see improvements and occasional blunders, Feel free to tell us how we can improve by writing to{' '}
             <a href="mailto:webmaster@koenig-solutions.com" className="text-[#0694D1] hover:underline">webmaster@koenig-solutions.com</a>

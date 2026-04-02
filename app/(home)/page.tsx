@@ -2008,7 +2008,7 @@ export default function Design4Page() {
       ════════════════════════════════════════════════════════ */}
 
       {/* Contact bar */}
-      <div className="block px-4 lg:px-[50px]" style={{ background: '#061624', borderBottom: '1px solid rgba(6,148,209,0.18)' }}>
+      <div className="block px-4 md:px-8 lg:px-[50px]" style={{ background: '#061624', borderBottom: '1px solid rgba(6,148,209,0.18)' }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 py-1.5 text-[14px] text-white/75">
           <div className="flex flex-wrap items-center gap-3">
             <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 transition-colors hover:text-white/80">
@@ -2038,7 +2038,7 @@ export default function Design4Page() {
 
       {/* Main navbar */}
       <header
-        className={`relative z-50 px-4 lg:px-[50px] ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
+        className={`relative z-50 px-4 md:px-8 lg:px-[50px] ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
         style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         onClick={e => { if ((e.target as HTMLElement).closest('[data-dropdown]') === null) setOpenDropdown(null) }}
       >
@@ -2657,7 +2657,7 @@ export default function Design4Page() {
       </header>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative flex items-center px-4 lg:px-[50px] py-5 sm:py-[25px]" style={{ background: '#06111E' }}>
+      <section className="relative flex items-center px-4 md:px-8 lg:px-[50px] py-5 sm:py-[25px]" style={{ background: '#06111E' }}>
         {/* Hero keyframes */}
         <style>{`
           @keyframes heroFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
@@ -2714,7 +2714,7 @@ export default function Design4Page() {
         </div>
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
 
             {/* ── Left: text content ── */}
             <div className="flex-1 text-center lg:text-left">
@@ -3149,7 +3149,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Trusted by Global Companies ───────────────────────── */}
-      <section className="bg-white overflow-hidden px-4 lg:px-[50px] py-5 sm:pt-[48px] sm:pb-[40px]">
+      <section className="bg-white overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:pt-[48px] sm:pb-[40px]">
         <style>{`
           @keyframes trustedScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
           .trusted-track { display: flex; width: max-content; animation: trustedScroll 38s linear infinite; }
@@ -3221,7 +3221,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Stats Bar ────────────────────────────────────────── */}
-      <div ref={statsRef} className="bg-white px-4 lg:px-[50px]" style={{ paddingBottom: '40px' }}>
+      <div ref={statsRef} className="bg-white px-4 md:px-8 lg:px-[50px]" style={{ paddingBottom: '40px' }}>
         <div className="mx-auto max-w-7xl px-6 py-6" style={{ background: '#EBF8FE', borderRadius: '0 1.5rem 0 1.5rem' }}>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5 lg:gap-8">
           {[
@@ -3261,7 +3261,7 @@ export default function Design4Page() {
       </div>
 
       {/* ── Learning Formats ─────────────────────────────────── */}
-      <section className="relative px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+      <section className="relative px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 left-1/4 h-[380px] w-[380px] rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
@@ -3364,7 +3364,7 @@ export default function Design4Page() {
 
           {/* ── Desktop grid (hidden on mobile) ── */}
           <div className="hidden sm:block">
-          {lfSlide === 0 && <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+          {lfSlide === 0 && <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
             {lfAllFormats.slice(0, 4).map((f, i) => (
               <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
                 <div className="lf-flip-inner relative h-full w-full">
@@ -3404,7 +3404,7 @@ export default function Design4Page() {
           </div>}
 
           {/* Slide 2 — desktop only, uses lfAllFormats */}
-          {lfSlide === 1 && <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+          {lfSlide === 1 && <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
             {lfAllFormats.slice(4, 8).map((f, i) => (
               <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
                 <div className="lf-flip-inner relative h-full w-full">
@@ -3467,7 +3467,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Differentiators ──────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: '#061e30' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: '#061e30' }}>
         {/* BG effects */}
         <div className="pointer-events-none absolute inset-0">
           <div className="diff-orb1 absolute top-0 left-1/3 h-[500px] w-[500px] -translate-x-1/2 rounded-full opacity-10" style={{ background: 'radial-gradient(circle,#0694d1,transparent 65%)', filter: 'blur(80px)' }} />
@@ -3658,7 +3658,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Vendor Partners ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -left-40 -top-32 h-[420px] w-[420px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-20 right-0 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         {/* Add reverse-marquee keyframe */}
@@ -3719,7 +3719,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Course Explorer ───────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[50px]" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[50px]" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)' }}>
         {/* Glow orbs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 -left-20 h-[350px] w-[350px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(70px)' }} />
@@ -3757,7 +3757,7 @@ export default function Design4Page() {
 
           {/* Course cards */}
           {tab === 'Top Courses' && (
-            <div key="top" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div key="top" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               {TOP_COURSES.slice(0, 6).map((c, i) => <CourseCard key={i} c={c} />)}
             </div>
           )}
@@ -3792,7 +3792,7 @@ export default function Design4Page() {
             </div>
           )}
           {tab === 'New & Trending' && (
-            <div key="trending" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div key="trending" className="tab-enter grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               {NEW_TRENDING.slice(0, 6).map((c, i) => <CourseCard key={i} c={c} />)}
             </div>
           )}
@@ -3808,7 +3808,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Live Expert Webinars ─────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
@@ -3980,7 +3980,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── How It Works ─────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[250px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
@@ -4055,7 +4055,7 @@ export default function Design4Page() {
               )
             })()}
 
-            <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
+            <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-stretch">
               {[
                 { icon: '🧭', num: '01', title: 'Tell Us Your Goal',        desc: 'Share where you are and where you want to be. Use our course finder, talk to a training advisor, or start with one of our curated career pathways.',              dots: 1, delay: '0.10s' },
                 { icon: '📋', num: '02', title: 'Pick Your Format & Date',  desc: 'Choose 1-on-1, Public Batch, or Flexi. Select dates from guaranteed schedules that fit your life. Lock in your spot with flexible payment options.',           dots: 2, delay: '0.25s' },
@@ -4131,7 +4131,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Success Stories ───────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
         <div className="pointer-events-none absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
@@ -4197,7 +4197,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Live Schedule ─────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -right-20 -top-20 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-16 left-1/4 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
@@ -4212,7 +4212,7 @@ export default function Design4Page() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
             </button>
           </div>
-          <div className="io-fade delay-1 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="io-fade delay-1 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
             {SCHEDULE.map((s, i) => (
               <ScheduleCard key={i} s={s} />
             ))}
@@ -4224,7 +4224,7 @@ export default function Design4Page() {
       <VendorStack />
 
       {/* ── Awards ────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 lg:px-[50px] py-5 sm:py-[60px]" style={{ borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
 
@@ -4260,7 +4260,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── FAQ ───────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
         <div className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
@@ -4339,7 +4339,7 @@ export default function Design4Page() {
       <footer style={{ background: '#071929' }} className="text-white">
 
         {/* Newsletter + Social icons row */}
-        <div style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-8">
+        <div style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }} className="px-4 md:px-8 lg:px-[50px] py-8">
           <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             {/* Newsletter */}
             <div>
@@ -4396,7 +4396,7 @@ export default function Design4Page() {
         </div>
 
         {/* Main link columns */}
-        <div className="px-4 lg:px-[50px] py-10">
+        <div className="px-4 md:px-8 lg:px-[50px] py-10">
           <div className="mx-auto max-w-7xl">
 
             {/* Row 1: Company, Learning Options, Resources, Others */}
@@ -4451,8 +4451,8 @@ export default function Design4Page() {
         </div>
 
         {/* Legal disclaimers */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-8">
-          <div className="mx-auto max-w-7xl flex flex-col lg:flex-row gap-8 items-start">
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 md:px-8 lg:px-[50px] py-8">
+          <div className="mx-auto max-w-7xl flex flex-col md:flex-row gap-8 items-start">
             <ul className="flex-1 space-y-1.5 list-disc list-outside pl-4 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
               <li>All rights reserved. ©1997 - 2026, Koenig Solutions Pvt. Ltd.</li>
               <li>PMP ® is a registered trademark of the Project Management Institute.</li>
@@ -4474,7 +4474,7 @@ export default function Design4Page() {
         </div>
 
         {/* Philosophy tagline */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 lg:px-[50px] py-5">
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 md:px-8 lg:px-[50px] py-5">
           <p className="mx-auto max-w-7xl text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
             We believe in the philosophy To Err is Human, to Admit Divine! We are not perfect but we are trying. Keep visiting our website, you will see improvements and occasional blunders, Feel free to tell us how we can improve by writing to{' '}
             <a href="mailto:webmaster@koenig-solutions.com" className="text-[#0694D1] hover:underline">webmaster@koenig-solutions.com</a>
