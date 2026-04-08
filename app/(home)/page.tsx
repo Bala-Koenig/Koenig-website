@@ -2871,6 +2871,26 @@ export default function Design4Page() {
                 </div>
               </div>
 
+              {/* Trust bar — mobile only */}
+              <div className="h-fade-up h-d4 mb-4 flex justify-center lg:hidden">
+                <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 rounded-2xl px-4 py-2.5 text-xs text-white/70" style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  <span className="flex items-center gap-1.5">
+                    <svg className="h-3.5 w-3.5 text-[#0694D1]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+                    <span><span className="font-bold text-white">1M+</span> Certified</span>
+                  </span>
+                  <span className="h-3 w-px bg-white/20" />
+                  <span className="flex items-center gap-1.5">
+                    <svg className="h-3.5 w-3.5 text-[#0694D1]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span><span className="font-bold text-white">95%</span> First-Attempt Pass Rate</span>
+                  </span>
+                  <span className="h-3 w-px bg-white/20" />
+                  <span className="flex items-center gap-1.5">
+                    <svg className="h-3.5 w-3.5 text-[#0694D1]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                    <span><span className="font-bold text-white">100%</span> Money-Back Guarantee</span>
+                  </span>
+                </div>
+              </div>
+
               {/* Mobile Hero Carousel — same as desktop slider */}
               <div className="mt-6 lg:hidden">
                 <div

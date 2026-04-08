@@ -27,6 +27,7 @@ export default function HeroParticles() {
   const cvRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    if (window.innerWidth < 768) return
     if (!cvRef.current) return
     const cv: HTMLCanvasElement = cvRef.current
     const ctx = cv.getContext('2d') as CanvasRenderingContext2D
