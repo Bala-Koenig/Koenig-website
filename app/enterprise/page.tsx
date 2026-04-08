@@ -3998,9 +3998,9 @@ export default function EnterprisePage() {
             density={1.2}
             className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,#E8F4FA_80%)]"
           />
-          <div className="ent-blob1 absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.38) 0%, transparent 65%)' }} />
-          <div className="ent-blob2 absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.30) 0%, transparent 70%)' }} />
-          <div className="ent-blob3 absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.26) 0%, transparent 70%)' }} />
+          <div className="ent-blob1 absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
+          <div className="ent-blob2 absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
+          <div className="ent-blob3 absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.12) 0%, transparent 70%)' }} />
         </div>
         <div className="relative z-10 mx-auto max-w-7xl w-full">
           <div className="flex flex-col items-center gap-8 md:flex-row md:items-center md:gap-10 lg:gap-12">
