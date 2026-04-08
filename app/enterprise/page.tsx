@@ -3034,6 +3034,9 @@ export default function EnterprisePage() {
   const [biSlide, setBiSlide] = useState(0)
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [contactModalOpen, setContactModalOpen] = useState(false)
+  const [modalFormData, setModalFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
+  const [modalSubmitted, setModalSubmitted] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [catSearch, setCatSearch] = useState('')
   const [catLevel, setCatLevel] = useState('All')
@@ -4013,12 +4016,9 @@ export default function EnterprisePage() {
                 Tailored IT certification programmes for enterprises across 195+ countries. From needs assessment to certified outcomes — Koenig handles everything, so your team stays focused on what matters.
               </p>
               <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
-                <a href="#contact" className="ent-cta-btn rounded-xl px-7 py-3.5 text-base font-bold text-white">
+                <button onClick={() => setContactModalOpen(true)} className="ent-cta-btn rounded-xl px-7 py-3.5 text-base font-bold text-white">
                   Get a Free Consultation
-                </a>
-                <a href="#contact" className="rounded-xl border px-7 py-3.5 text-base font-medium transition-colors hover:bg-[#0694d1]/5" style={{ borderColor: 'rgba(6,148,209,0.40)', color: '#076d9d' }}>
-                  Get a Free Consultation
-                </a>
+                </button>
               </div>
 
               {/* Stats — all 4 in one row below the CTAs */}
@@ -5510,6 +5510,54 @@ export default function EnterprisePage() {
         </div>
 
       </footer>
+
+      {/* ── Contact Modal ── */}
+      {contactModalOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" style={{ background: 'rgba(4,15,26,0.80)', backdropFilter: 'blur(6px)' }} onClick={() => setContactModalOpen(false)}>
+          <div className="relative w-full max-w-xl rounded-2xl p-8" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.30)', boxShadow: '0 0 60px rgba(6,148,209,0.15)' }} onClick={e => e.stopPropagation()}>
+            <button onClick={() => setContactModalOpen(false)} className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white">✕</button>
+            {modalSubmitted ? (
+              <div className="py-8 text-center">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.4)' }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <h3 className="mb-2 text-xl font-bold text-white">Message Received!</h3>
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>Our enterprise team will reach out within 1 business day.</p>
+                <button onClick={() => { setContactModalOpen(false); setModalSubmitted(false); setModalFormData({ name: '', company: '', email: '', phone: '', message: '' }) }} className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white" style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}>Close</button>
+              </div>
+            ) : (
+              <>
+                <h2 className="mb-1 text-xl font-bold text-white">Get Your Custom Training Plan</h2>
+                <p className="mb-6 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>Flexible pricing for teams of any size — from 5 to 5,000.</p>
+                <style>{`.modal-input { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.10); transition: border-color 0.2s, box-shadow 0.2s; } .modal-input:focus { border-color: #0694D1; box-shadow: 0 0 0 3px rgba(6,148,209,0.15); outline: none; } .modal-input::placeholder { color: rgba(255,255,255,0.25); }`}</style>
+                <form onSubmit={e => { e.preventDefault(); setModalSubmitted(true) }} className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {[
+                      { id: 'name',    label: 'Full Name',    type: 'text',  placeholder: 'John Smith'        },
+                      { id: 'company', label: 'Company Name', type: 'text',  placeholder: 'Acme Corporation'  },
+                      { id: 'email',   label: 'Work Email',   type: 'email', placeholder: 'john@acme.com'     },
+                      { id: 'phone',   label: 'Phone Number', type: 'tel',   placeholder: '+1 (555) 000-0000' },
+                    ].map(f => (
+                      <div key={f.id}>
+                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.60)' }}>{f.label}</label>
+                        <input type={f.type} required placeholder={f.placeholder} value={modalFormData[f.id as keyof typeof modalFormData]} onChange={e => setModalFormData(p => ({ ...p, [f.id]: e.target.value }))} className="modal-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.60)' }}>Training Needs</label>
+                    <textarea rows={3} required placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..." value={modalFormData.message} onChange={e => setModalFormData(p => ({ ...p, message: e.target.value }))} className="modal-input w-full resize-none rounded-xl px-4 py-3 text-sm text-white" />
+                  </div>
+                  <button type="submit" className="w-full rounded-xl py-3.5 text-base font-bold text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 24px rgba(6,148,209,0.40)' }}>
+                    Request My Free Consultation →
+                  </button>
+                  <p className="text-center text-xs" style={{ color: 'rgba(255,255,255,0.28)' }}>We&apos;ll respond within 1 business day · No spam, ever.</p>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── Chatbox ── */}
       <div
