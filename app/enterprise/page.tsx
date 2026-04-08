@@ -4011,13 +4011,8 @@ export default function EnterprisePage() {
                 Enterprise Training Solutions
               </div>
               <h1 className="mb-5 font-bold leading-[1.15] tracking-tight text-[clamp(1.5rem,5vw,2.5rem)] lg:text-[clamp(1.4rem,2.4vw,2.6rem)] xl:text-[clamp(2rem,3vw,3.5rem)]" style={{ color: '#093148' }}>
-                <span className="block whitespace-nowrap">Upskill Your Workforce</span>
-                <span
-                  key={entMorphIdx}
-                  className={`whitespace-nowrap inline-block ent-morph-gradient ${entMorphExiting ? 'ent-morph-out' : 'ent-morph-in'}`}
-                >
-                  {ENT_MORPH_WORDS[entMorphIdx]}
-                </span>
+                <span className="block">The Training Partner</span>
+                <span className="ent-morph-gradient">Trusted by 1,000+ Global Enterprises</span>
               </h1>
               <p className="mb-8 max-w-xl text-base lg:text-lg" style={{ color: '#4a7a99' }}>
                 Tailored IT certification programmes for enterprises across 195+ countries. From needs assessment to certified outcomes — Koenig handles everything, so your team stays focused on what matters.
@@ -4026,8 +4021,8 @@ export default function EnterprisePage() {
                 <a href="#contact" className="ent-cta-btn rounded-xl px-7 py-3.5 text-base font-bold text-white">
                   Get a Free Consultation
                 </a>
-                <a href="mailto:enterprise@koenig-solutions.com" className="rounded-xl border px-7 py-3.5 text-base font-medium transition-colors hover:bg-[#0694d1]/5" style={{ borderColor: 'rgba(6,148,209,0.40)', color: '#076d9d' }}>
-                  enterprise@koenig-solutions.com
+                <a href="#contact" className="rounded-xl border px-7 py-3.5 text-base font-medium transition-colors hover:bg-[#0694d1]/5" style={{ borderColor: 'rgba(6,148,209,0.40)', color: '#076d9d' }}>
+                  Get a Free Consultation
                 </a>
               </div>
 
@@ -4176,7 +4171,7 @@ export default function EnterprisePage() {
                   Trusted Worldwide
                 </p>
                 <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
-                  Training <span className="ent-dark-grad-text">Fortune </span><span className="ent-shimmer-text">500+</span><span className="ent-dark-grad-text"> Teams</span> & Global Enterprises
+                  Training <span className="ent-dark-grad-text">Fortune 500 </span><span className="ent-shimmer-text">Companies</span><span className="ent-dark-grad-text"> & Global Enterprises</span>
                 </h2>
                 <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
               </div>
@@ -5056,11 +5051,8 @@ export default function EnterprisePage() {
 
           <div className="io-fade mt-12 flex flex-wrap items-center justify-center gap-4">
             <a href="#contact" className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
-              Start Your Programme Today
+              Get a Free Consultation
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </a>
-            <a href="mailto:enterprise@koenig-solutions.com" className="ent-hiw-outline-btn rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D]">
-              Talk to an Advisor
             </a>
           </div>
         </div>
@@ -5310,7 +5302,7 @@ export default function EnterprisePage() {
           <div className="mt-8 text-center">
             <p className="mb-3 text-sm sm:text-base text-koenig-muted">Still have questions?</p>
             <a href="#contact" className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
-              Talk to Our Enterprise Team
+              Get a Free Consultation
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
             </a>
           </div>
@@ -5324,11 +5316,22 @@ export default function EnterprisePage() {
         <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(77,191,239,0.10) 0%,transparent 70%)' }} />
 
         <div className="relative mx-auto max-w-3xl">
+
+          {/* Case study testimonial */}
+          <div className="mb-10 rounded-2xl px-6 py-5" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
+            <svg className="mb-3 h-6 w-6 text-[#0694D1] opacity-70" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+            <p className="text-sm sm:text-base font-medium leading-relaxed" style={{ color: 'rgba(255,255,255,0.85)' }}>
+              &ldquo;We deployed Azure certification training to 120 engineers across 4 countries in 6 weeks. Koenig handled scheduling, content, and pass-rate reporting end to end.&rdquo;
+            </p>
+            <p className="mt-3 text-xs font-semibold uppercase tracking-wider" style={{ color: '#0694D1' }}>— Global Financial Services Firm</p>
+          </div>
+
           {/* Header */}
           <div className="mb-10 text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)' }}>Let&apos;s Talk</span>
-            <h2 className="mt-3 text-3xl font-bold text-white lg:text-4xl">Start Your Enterprise <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Training Journey</span></h2>
+            <h2 className="mt-3 text-3xl font-bold text-white lg:text-4xl">Get Your Custom Training Plan <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">— Free</span></h2>
             <p className="mt-3 text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.50)' }}>Tell us about your workforce goals and we&apos;ll design a programme that delivers real, measurable outcomes.</p>
+            <p className="mt-2 text-sm font-medium" style={{ color: 'rgba(255,255,255,0.40)' }}>Flexible pricing for teams of any size — from 5 to 5,000.</p>
           </div>
 
           {submitted ? (
@@ -5381,8 +5384,20 @@ export default function EnterprisePage() {
               </div>
 
               <button type="submit" className="mt-6 w-full rounded-xl py-4 text-base font-bold text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 24px rgba(6,148,209,0.40)' }}>
-                Submit — Get a Free Consultation
+                Request My Free Consultation →
               </button>
+              <ul className="mt-5 space-y-2">
+                {[
+                  'A dedicated enterprise account manager will reach out within 1 business day',
+                  "We'll scope your training needs and design a custom programme",
+                  'No commitment required — just a conversation',
+                ].map(item => (
+                  <li key={item} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                    <svg className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/></svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
               <p className="mt-4 text-center text-sm" style={{ color: 'rgba(255,255,255,0.30)' }}>We&apos;ll respond within 1 business day · No spam, ever.</p>
             </form>
           )}
@@ -5497,14 +5512,6 @@ export default function EnterprisePage() {
               </a>
             </div>
           </div>
-        </div>
-
-        {/* Philosophy tagline */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} className="px-4 md:px-8 lg:px-[50px] py-5">
-          <p className="mx-auto max-w-7xl text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
-            We believe in the philosophy To Err is Human, to Admit Divine! We are not perfect but we are trying. Keep visiting our website, you will see improvements and occasional blunders, Feel free to tell us how we can improve by writing to{' '}
-            <a href="mailto:webmaster@koenig-solutions.com" className="text-[#0694D1] hover:underline">webmaster@koenig-solutions.com</a>
-          </p>
         </div>
 
       </footer>
