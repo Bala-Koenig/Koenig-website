@@ -2286,7 +2286,16 @@ function HeroGlobeCanvas() {
 
 /* ─── Nav Data (shared with homepage) ───────────────────── */
 
-const ABOUT_LINKS = ['About Us','Our Clientele','Leadership','Our Partners','Happiness Guarantee','Student Feedback','Testimonials','Koenig Koshish','Our Awards']
+const ABOUT_LINKS: { label: string; href: string }[] = [
+  { label: 'About Us',            href: '/about' },
+  { label: 'Our Clientele',       href: '/about#our-clients' },
+  { label: 'Leadership',          href: '/about#leadership' },
+  { label: 'Our Partners',        href: '/about#our-partners' },
+  { label: 'Happiness Guarantee', href: '/about#happiness-guarantee' },
+  { label: 'Student Feedback',    href: '/about#student-feedback' },
+  { label: 'Our Awards',          href: '/about#awards' },
+  { label: 'Koenig Koshish',     href: '/about#koenig-koshish' },
+]
 const LEARNING_LINKS = ['Live Online Training','Classroom Training','1-on-1 Training','Fly-Me-a-Trainer','Flexi','Customized Training','Webinar as a Service','Qubits','Upcoming Webinars','Learnova']
 
 const MEGA_MENU_VENDORS = [
@@ -3475,17 +3484,17 @@ export default function EnterprisePage() {
                 {aboutMenuOpen && (
                   <div className="absolute left-0 top-full mt-2 z-[300] rounded-xl shadow-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}>
                     {ABOUT_LINKS.map((link) => (
-                      <a
-                        key={link}
-                        href="#"
+                      <Link
+                        key={link.label}
+                        href={link.href}
                         className="block px-5 py-2.5 text-sm transition-colors"
                         style={{ color: '#374151' }}
                         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)'; }}
                         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                         onClick={() => setAboutMenuOpen(false)}
                       >
-                        {link}
-                      </a>
+                        {link.label}
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -3773,7 +3782,7 @@ export default function EnterprisePage() {
                 {mobileAboutOpen && (
                   <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
                     {ABOUT_LINKS.map(link => (
-                      <a key={link} href="#" className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }}>{link}</a>
+                      <Link key={link.label} href={link.href} className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }} onClick={() => setMobileAboutOpen(false)}>{link.label}</Link>
                     ))}
                   </div>
                 )}
