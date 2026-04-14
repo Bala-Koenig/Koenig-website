@@ -53,11 +53,21 @@ export default function AboutPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
+      <style>{`
+        @keyframes blob1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(0.95)}}
+        @keyframes blob2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-35px,25px) scale(1.08)}66%{transform:translate(25px,-15px) scale(0.92)}}
+        @keyframes blob3{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,40px) scale(1.05)}66%{transform:translate(-30px,-20px) scale(1.1)}}
+        .about-blob1{animation:blob1 12s ease-in-out infinite}
+        .about-blob2{animation:blob2 15s ease-in-out infinite}
+        .about-blob3{animation:blob3 18s ease-in-out infinite}
+      `}</style>
       <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-24">
         {/* Glow blobs */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
+          <div className="about-blob1 absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#0694D1] opacity-[0.08] blur-[130px]" />
+          <div className="about-blob2 absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
+          <div className="about-blob3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.04] blur-[100px]" />
+          <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage:'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize:'24px 24px'}} />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
@@ -109,7 +119,7 @@ export default function AboutPage() {
           {/* Stats row */}
           <div className="mt-16 grid grid-cols-3 sm:grid-cols-6 gap-4">
             {STATS.map(s => (
-              <div key={s.label} className="text-center">
+              <div key={s.label} className="bg-white/[0.05] border border-white/10 rounded-2xl p-4 text-center hover:border-[#0694D1]/40 hover:bg-white/[0.08] transition-all">
                 <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">{s.value}</div>
                 <div className="text-xs sm:text-sm text-white/60 mt-1">{s.label}</div>
               </div>
