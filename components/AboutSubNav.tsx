@@ -11,7 +11,6 @@ const LINKS = [
   { label: 'Awards',              href: '/about/awards' },
   { label: 'Happiness Guarantee', href: '/about/happiness-guarantee' },
   { label: 'Student Feedback',    href: '/about/student-feedback' },
-  { label: 'Koenig Koshish',      href: '/about/koenig-koshish' },
 ]
 
 export default function AboutSubNav() {

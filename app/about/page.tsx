@@ -20,7 +20,6 @@ const CARDS = [
   { icon: '🏆', title: 'Our Awards',           desc: 'Recognized globally for training excellence.',                href: '/about/awards' },
   { icon: '😊', title: 'Happiness Guarantee',  desc: 'Not happy? Full refund or free class redo.',                  href: '/about/happiness-guarantee' },
   { icon: '⭐', title: 'Student Feedback',     desc: 'Real stories from 5M+ learners worldwide.',                  href: '/about/student-feedback' },
-  { icon: '🌱', title: 'Koenig Koshish',       desc: 'Better talent, lesser cost — pay only after a hire.',        href: '/about/koenig-koshish' },
 ]
 
 const PHILOSOPHY = [

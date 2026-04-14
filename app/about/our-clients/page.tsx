@@ -38,25 +38,38 @@ export default function OurClientsPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Our Clients</span>
           </p>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-              Our <span className="text-[#38bdf8]">Clients</span>
-            </h1>
-            <p className="text-xl text-white/80 mb-4 leading-relaxed">
-              From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
-            </p>
-            <div className="flex flex-wrap gap-6 mt-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#38bdf8]">1M+</div>
-                <div className="text-white/60 text-sm">Professionals Certified</div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                Our <span className="text-[#38bdf8]">Clients</span>
+              </h1>
+              <p className="text-xl text-white/80 mb-4 leading-relaxed">
+                From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
+              </p>
+              <div className="flex flex-wrap gap-6 mt-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-[#38bdf8]">1M+</div>
+                  <div className="text-white/60 text-sm">Professionals Certified</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-[#38bdf8]">195+</div>
+                  <div className="text-white/60 text-sm">Countries</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-[#38bdf8]">30+</div>
+                  <div className="text-white/60 text-sm">Fortune-500 Clients</div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#38bdf8]">195+</div>
-                <div className="text-white/60 text-sm">Countries</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#38bdf8]">30+</div>
-                <div className="text-white/60 text-sm">Fortune-500 Clients</div>
+            </div>
+            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/z_6FnQE7-LA"
+                  title="Koenig Solutions — Your Trusted IT Training Partner"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
               </div>
             </div>
           </div>

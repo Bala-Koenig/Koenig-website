@@ -82,16 +82,29 @@ export default function AwardsPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Awards</span>
           </p>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-              Awards &amp; <span className="text-[#38bdf8]">Achievements</span>
-            </h1>
-            <p className="text-xl text-white/80 mb-4 leading-relaxed">
-              Recognized by the world's leading technology vendors and workplace authorities since 1993. Our awards reflect one thing: consistently excellent training outcomes.
-            </p>
-            <p className="text-lg text-white/60 leading-relaxed">
-              These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
-            </p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                Awards &amp; <span className="text-[#38bdf8]">Achievements</span>
+              </h1>
+              <p className="text-xl text-white/80 mb-4 leading-relaxed">
+                Recognized by the world's leading technology vendors and workplace authorities since 1993. Our awards reflect one thing: consistently excellent training outcomes.
+              </p>
+              <p className="text-lg text-white/60 leading-relaxed">
+                These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
+              </p>
+            </div>
+            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/z_6FnQE7-LA"
+                  title="Koenig Solutions — Your Trusted IT Training Partner"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

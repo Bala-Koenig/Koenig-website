@@ -16,7 +16,6 @@ const ABOUT_LINKS: { label: string; href: string }[] = [
   { label: 'Our Awards',          href: '/about/awards' },
   { label: 'Happiness Guarantee', href: '/about/happiness-guarantee' },
   { label: 'Student Feedback',    href: '/about/student-feedback' },
-  { label: 'Koenig Koshish',      href: '/about/koenig-koshish' },
 ]
 const LEARNING_LINKS = ['Live Online Training','Classroom Training','1-on-1 Training','Fly-Me-a-Trainer','Flexi','Customized Training','Webinar as a Service','Qubits','Upcoming Webinars','Learnova']
 

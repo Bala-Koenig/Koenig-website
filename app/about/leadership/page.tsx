@@ -39,13 +39,26 @@ export default function LeadershipPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Leadership</span>
           </p>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-              Leadership <span className="text-[#38bdf8]">Team</span>
-            </h1>
-            <p className="text-xl text-white/80 leading-relaxed">
-              The people behind 30 years of innovation, resilience, and customer obsession. Each leader brings deep domain expertise and a shared commitment to student outcomes.
-            </p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                Leadership <span className="text-[#38bdf8]">Team</span>
+              </h1>
+              <p className="text-xl text-white/80 leading-relaxed">
+                The people behind 30 years of innovation, resilience, and customer obsession. Each leader brings deep domain expertise and a shared commitment to student outcomes.
+              </p>
+            </div>
+            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/z_6FnQE7-LA"
+                  title="Koenig Solutions — Your Trusted IT Training Partner"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

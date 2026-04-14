@@ -62,16 +62,29 @@ export default function OurPartnersPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Our Partners</span>
           </p>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-              Our <span className="text-[#38bdf8]">Partners</span>
-            </h1>
-            <p className="text-xl text-white/80 mb-4 leading-relaxed">
-              Koenig is an authorized training partner of the world's leading technology vendors. This isn't a badge we buy — it's an authorization we earn through rigorous assessment, certified instructors, and verified delivery.
-            </p>
-            <p className="text-lg text-white/60 leading-relaxed">
-              When you train with Koenig, you train with the source — the same curricula, the same standards, the same recognition that the vendor itself demands.
-            </p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                Our <span className="text-[#38bdf8]">Partners</span>
+              </h1>
+              <p className="text-xl text-white/80 mb-4 leading-relaxed">
+                Koenig is an authorized training partner of the world's leading technology vendors. This isn't a badge we buy — it's an authorization we earn through rigorous assessment, certified instructors, and verified delivery.
+              </p>
+              <p className="text-lg text-white/60 leading-relaxed">
+                When you train with Koenig, you train with the source — the same curricula, the same standards, the same recognition that the vendor itself demands.
+              </p>
+            </div>
+            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/z_6FnQE7-LA"
+                  title="Koenig Solutions — Your Trusted IT Training Partner"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
