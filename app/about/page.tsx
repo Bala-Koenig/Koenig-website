@@ -96,8 +96,8 @@ export default function AboutPage() {
             <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
               <div className="aspect-video">
                 <iframe
-                  src="https://www.youtube.com/embed/dop5DS68sxk"
-                  title="Koenig Ethos"
+                  src="https://www.youtube.com/embed/z_6FnQE7-LA"
+                  title="Koenig Solutions — Your Trusted IT Training Partner"
                   className="w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
