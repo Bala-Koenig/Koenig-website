@@ -82,7 +82,8 @@ export default function AwardsPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Awards</span>
           </p>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="kglass-banner p-8 sm:p-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 Awards &amp; <span className="text-[#38bdf8]">Achievements</span>
@@ -94,7 +95,7 @@ export default function AwardsPage() {
                 These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
               </p>
             </div>
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+            <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
               <div className="aspect-video">
                 <iframe
                   src="https://www.youtube.com/embed/z_6FnQE7-LA"
@@ -105,6 +106,7 @@ export default function AwardsPage() {
                 />
               </div>
             </div>
+            </div>
           </div>
         </div>
       </section>
@@ -114,7 +116,7 @@ export default function AwardsPage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">Workplace Excellence</h2>
           <div className="max-w-2xl mx-auto">
-            <div className="bg-gradient-to-br from-[#FFF7ED] to-[#FEF3C7] border-2 border-[#F59E0B] rounded-3xl p-10 text-center hover:shadow-xl transition-all">
+            <div className="kglass-light rounded-3xl p-10 text-center transition-all">
               <div className="text-6xl mb-5">🏆</div>
               <h3 className="text-2xl font-bold text-[#0F172A] mb-3">Great Place to Work</h3>
               <div className="inline-block bg-[#F59E0B] text-white font-bold px-4 py-2 rounded-full text-sm mb-5">
@@ -153,7 +155,7 @@ export default function AwardsPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {VENDOR_AWARDS.map(v => (
               <div key={v.vendor}
-                className="bg-white/[0.04] border border-white/10 rounded-2xl p-6 hover:border-white/25 hover:bg-white/[0.07] transition-all">
+                className="kglass-dark rounded-2xl p-6 transition-all">
                 <div
                   className="inline-block text-white text-xs font-bold px-3 py-1.5 rounded-full mb-5"
                   style={{ backgroundColor: v.color }}>

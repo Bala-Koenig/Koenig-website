@@ -38,13 +38,15 @@ export default function HappinessGuaranteePage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Happiness Guarantee</span>
           </p>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-              Learn with <span className="text-[#38bdf8]">Confidence:</span> Koenig Solutions' Happiness Guarantee
-            </h1>
-            <p className="text-xl text-white/70 leading-relaxed">
-              Happiness is achieved when expectations are met. We set clear expectations and then we exceed them — every single time.
-            </p>
+          <div className="kglass-banner p-8 sm:p-10">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                Learn with <span className="text-[#38bdf8]">Confidence:</span> Koenig Solutions' Happiness Guarantee
+              </h1>
+              <p className="text-xl text-white/70 leading-relaxed">
+                Happiness is achieved when expectations are met. We set clear expectations and then we exceed them — every single time.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -58,7 +60,7 @@ export default function HappinessGuaranteePage() {
           </div>
           <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {/* Refund card */}
-            <div className="border-2 border-[#0694D1] bg-[#EFF6FF] rounded-2xl p-8 text-center hover:shadow-lg hover:shadow-[#0694D1]/10 transition-all">
+            <div className="kglass-light rounded-2xl p-8 text-center transition-all">
               <div className="text-5xl mb-4">🔄</div>
               <h3 className="text-2xl font-bold text-[#0F172A] mb-3">Full Refund</h3>
               <p className="text-[#475569] leading-relaxed text-sm">
@@ -66,7 +68,7 @@ export default function HappinessGuaranteePage() {
               </p>
             </div>
             {/* Redo card */}
-            <div className="border-2 border-[#0694D1] bg-[#EFF6FF] rounded-2xl p-8 text-center hover:shadow-lg hover:shadow-[#0694D1]/10 transition-all">
+            <div className="kglass-light rounded-2xl p-8 text-center transition-all">
               <div className="text-5xl mb-4">📚</div>
               <h3 className="text-2xl font-bold text-[#0F172A] mb-3">Free Class Redo</h3>
               <p className="text-[#475569] leading-relaxed text-sm">
@@ -88,7 +90,7 @@ export default function HappinessGuaranteePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {STEPS.map((s, i) => (
               <div key={s.n}
-                className="relative bg-white/[0.04] border border-white/10 rounded-2xl p-6 hover:border-[#0694D1]/50 hover:bg-white/[0.07] transition-all">
+                className="relative kglass-dark rounded-2xl p-6 transition-all">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-8 h-8 rounded-full bg-[#0694D1] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                     {s.n}
@@ -110,7 +112,7 @@ export default function HappinessGuaranteePage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">A Personal Promise</h2>
           <div className="max-w-3xl mx-auto">
-            <div className="bg-white border border-[#E2E8F0] rounded-3xl p-8 sm:p-10 hover:shadow-lg transition-all">
+            <div className="kglass-light rounded-3xl p-8 sm:p-10 transition-all">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
                 <div
                   className="w-20 h-20 rounded-full flex items-center justify-center text-xl font-black text-white flex-shrink-0"
@@ -160,7 +162,7 @@ export default function HappinessGuaranteePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {PILLARS.map(p => (
               <div key={p.title}
-                className="bg-white/[0.04] border border-white/10 rounded-2xl p-6 text-center hover:border-[#0694D1]/50 hover:bg-white/[0.07] transition-all">
+                className="kglass-dark rounded-2xl p-6 text-center transition-all">
                 <div className="text-4xl mb-4">{p.icon}</div>
                 <h3 className="text-white font-bold mb-3">{p.title}</h3>
                 <p className="text-white/60 text-sm leading-relaxed">{p.desc}</p>

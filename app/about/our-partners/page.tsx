@@ -62,7 +62,8 @@ export default function OurPartnersPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Our Partners</span>
           </p>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="kglass-banner p-8 sm:p-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 Our <span className="text-[#38bdf8]">Partners</span>
@@ -74,7 +75,7 @@ export default function OurPartnersPage() {
                 When you train with Koenig, you train with the source — the same curricula, the same standards, the same recognition that the vendor itself demands.
               </p>
             </div>
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+            <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
               <div className="aspect-video">
                 <iframe
                   src="https://www.youtube.com/embed/z_6FnQE7-LA"
@@ -84,6 +85,7 @@ export default function OurPartnersPage() {
                   allowFullScreen
                 />
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -97,7 +99,7 @@ export default function OurPartnersPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
             {PARTNERS.map(p => (
               <div key={p.name}
-                className="bg-white border border-[#E2E8F0] rounded-2xl p-5 flex flex-col items-center justify-center gap-3 hover:shadow-lg hover:border-[#0694D1]/30 transition-all min-h-[120px]">
+                className="kglass-light rounded-2xl p-5 flex flex-col items-center justify-center gap-3 transition-all min-h-[120px]">
                 {p.img ? (
                   <div className="relative w-full h-14 flex items-center justify-center">
                     <Image
@@ -131,7 +133,7 @@ export default function OurPartnersPage() {
           <div className="grid sm:grid-cols-3 gap-6">
             {WHY_POINTS.map(w => (
               <div key={w.title}
-                className="bg-white/[0.04] border border-white/10 rounded-2xl p-7 hover:border-[#0694D1]/50 hover:bg-white/[0.07] transition-all">
+                className="kglass-dark rounded-2xl p-7 transition-all">
                 <div className="text-3xl mb-4">{w.icon}</div>
                 <h3 className="text-lg font-bold text-white mb-3">{w.title}</h3>
                 <p className="text-white/60 text-sm leading-relaxed">{w.desc}</p>

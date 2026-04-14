@@ -38,7 +38,8 @@ export default function OurClientsPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Our Clients</span>
           </p>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="kglass-banner p-8 sm:p-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 Our <span className="text-[#38bdf8]">Clients</span>
@@ -61,7 +62,7 @@ export default function OurClientsPage() {
                 </div>
               </div>
             </div>
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+            <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
               <div className="aspect-video">
                 <iframe
                   src="https://www.youtube.com/embed/z_6FnQE7-LA"
@@ -71,6 +72,7 @@ export default function OurClientsPage() {
                   allowFullScreen
                 />
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -101,7 +103,7 @@ export default function OurClientsPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="grid sm:grid-cols-3 gap-8 text-center">
             {BIG_STATS.map(s => (
-              <div key={s.label} className="bg-white/[0.04] border border-white/10 rounded-2xl p-10 hover:border-[#0694D1]/50 transition-all">
+              <div key={s.label} className="kglass-dark rounded-2xl p-10 transition-all">
                 <div className="text-5xl font-black text-[#38bdf8] mb-3">{s.value}</div>
                 <div className="text-white/70 text-lg">{s.label}</div>
               </div>

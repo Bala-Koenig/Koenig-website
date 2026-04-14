@@ -39,7 +39,8 @@ export default function LeadershipPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Leadership</span>
           </p>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="kglass-banner p-8 sm:p-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 Leadership <span className="text-[#38bdf8]">Team</span>
@@ -48,7 +49,7 @@ export default function LeadershipPage() {
                 The people behind 30 years of innovation, resilience, and customer obsession. Each leader brings deep domain expertise and a shared commitment to student outcomes.
               </p>
             </div>
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+            <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
               <div className="aspect-video">
                 <iframe
                   src="https://www.youtube.com/embed/z_6FnQE7-LA"
@@ -59,6 +60,7 @@ export default function LeadershipPage() {
                 />
               </div>
             </div>
+            </div>
           </div>
         </div>
       </section>
@@ -68,7 +70,7 @@ export default function LeadershipPage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">Founder &amp; CEO</h2>
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white border-2 border-[#0694D1]/20 rounded-3xl p-8 sm:p-12 hover:shadow-xl hover:shadow-[#0694D1]/10 transition-all">
+            <div className="kglass-light rounded-3xl p-8 sm:p-12 transition-all">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
@@ -114,7 +116,7 @@ export default function LeadershipPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {TEAM.map(m => (
               <div key={m.name}
-                className="bg-white/[0.04] border border-white/10 rounded-2xl p-5 hover:border-[#0694D1]/50 hover:bg-white/[0.07] transition-all group">
+                className="kglass-dark rounded-2xl p-5 transition-all group">
                 <div className="flex items-center gap-4 mb-4">
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"

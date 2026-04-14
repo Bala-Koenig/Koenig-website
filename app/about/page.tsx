@@ -77,48 +77,50 @@ export default function AboutPage() {
             <span className="text-white/70">About Us</span>
           </p>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left */}
-            <div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
-                About <span className="text-[#38bdf8]">Koenig Solutions</span>
-              </h1>
-              <p className="text-xl text-white/80 mb-3 leading-relaxed">
-                A global leader in IT training. Just tell us <span className="text-[#38bdf8] font-semibold">What, Where, When</span> — we'll deliver the training.
-              </p>
-              <p className="text-lg text-white/60 mb-8">
-                We empower you to earn <span className="text-white font-medium">Money, Respect and Peace of Mind.</span>
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/about/our-story"
-                  className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-6 py-3 rounded-xl transition-colors">
-                  Our Story
-                </Link>
-                <Link href="/about/leadership"
-                  className="inline-block border border-[#0694D1] text-[#38bdf8] hover:bg-[#0694D1] hover:text-white font-semibold px-6 py-3 rounded-xl transition-colors">
-                  Meet the Team
-                </Link>
+          <div className="kglass-banner p-8 sm:p-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left */}
+              <div>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
+                  About <span className="text-[#38bdf8]">Koenig Solutions</span>
+                </h1>
+                <p className="text-xl text-white/80 mb-3 leading-relaxed">
+                  A global leader in IT training. Just tell us <span className="text-[#38bdf8] font-semibold">What, Where, When</span> — we'll deliver the training.
+                </p>
+                <p className="text-lg text-white/60 mb-8">
+                  We empower you to earn <span className="text-white font-medium">Money, Respect and Peace of Mind.</span>
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link href="/about/our-story"
+                    className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-6 py-3 rounded-xl transition-colors">
+                    Our Story
+                  </Link>
+                  <Link href="/about/leadership"
+                    className="inline-block border border-[#0694D1] text-[#38bdf8] hover:bg-[#0694D1] hover:text-white font-semibold px-6 py-3 rounded-xl transition-colors">
+                    Meet the Team
+                  </Link>
+                </div>
               </div>
-            </div>
 
-            {/* Right – YouTube embed */}
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
-              <div className="aspect-video">
-                <iframe
-                  src="https://www.youtube.com/embed/z_6FnQE7-LA"
-                  title="Koenig Solutions — Your Trusted IT Training Partner"
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+              {/* Right – YouTube embed */}
+              <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
+                <div className="aspect-video">
+                  <iframe
+                    src="https://www.youtube.com/embed/z_6FnQE7-LA"
+                    title="Koenig Solutions — Your Trusted IT Training Partner"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </div>
             </div>
           </div>
 
           {/* Stats row */}
-          <div className="mt-16 grid grid-cols-3 sm:grid-cols-6 gap-4">
+          <div className="mt-8 grid grid-cols-3 sm:grid-cols-6 gap-4">
             {STATS.map(s => (
-              <div key={s.label} className="bg-white/[0.05] border border-white/10 rounded-2xl p-4 text-center hover:border-[#0694D1]/40 hover:bg-white/[0.08] transition-all">
+              <div key={s.label} className="kglass-dark rounded-2xl p-4 text-center transition-all">
                 <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">{s.value}</div>
                 <div className="text-xs sm:text-sm text-white/60 mt-1">{s.label}</div>
               </div>
@@ -135,7 +137,7 @@ export default function AboutPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {CARDS.map(c => (
               <Link key={c.href} href={c.href}
-                className="group block bg-white border border-[#E2E8F0] rounded-2xl p-6 hover:border-[#0694D1] hover:shadow-lg hover:shadow-[#0694D1]/10 transition-all">
+                className="group block kglass-light rounded-2xl p-6 transition-all">
                 <div className="text-3xl mb-3">{c.icon}</div>
                 <h3 className="text-lg font-bold text-[#0F172A] mb-2 group-hover:text-[#0694D1] transition-colors">{c.title}</h3>
                 <p className="text-sm text-[#64748B] mb-4 leading-relaxed">{c.desc}</p>
@@ -157,7 +159,7 @@ export default function AboutPage() {
           <div className="grid sm:grid-cols-3 gap-6">
             {PHILOSOPHY.map(p => (
               <div key={p.title}
-                className="bg-white/[0.04] border border-white/10 rounded-2xl p-8 text-center hover:border-[#0694D1]/50 hover:bg-white/[0.07] transition-all">
+                className="kglass-dark rounded-2xl p-8 text-center transition-all">
                 <div className="text-4xl mb-4">{p.icon}</div>
                 <h3 className="text-xl font-bold text-white mb-3">{p.title}</h3>
                 <p className="text-white/60 leading-relaxed text-sm">{p.desc}</p>
@@ -175,7 +177,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {OFFICES.map(o => (
               <div key={`${o.city}-${o.country}`}
-                className="bg-white border border-[#E2E8F0] rounded-xl p-4 text-center hover:border-[#0694D1] hover:shadow-md transition-all">
+                className="kglass-light rounded-xl p-4 text-center transition-all">
                 <div className="text-2xl mb-2">{o.flag}</div>
                 <div className="font-semibold text-[#0F172A] text-sm">{o.city}</div>
                 <div className="text-[#64748B] text-xs">{o.country}</div>

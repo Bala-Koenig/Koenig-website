@@ -63,7 +63,8 @@ export default function OurStoryPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Our Story</span>
           </p>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="kglass-banner p-8 sm:p-10">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 Our <span className="text-[#38bdf8]">Story</span>
@@ -75,7 +76,7 @@ export default function OurStoryPage() {
                 Three near-death experiences. Three pivots. One unstoppable mission — to help people earn Money, Respect, and Peace of Mind through technology skills.
               </p>
             </div>
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+            <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
               <div className="aspect-video">
                 <iframe
                   src="https://www.youtube.com/embed/z_6FnQE7-LA"
@@ -85,6 +86,7 @@ export default function OurStoryPage() {
                   allowFullScreen
                 />
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -98,7 +100,7 @@ export default function OurStoryPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TIMELINE.map(t => (
               <div key={t.year}
-                className="bg-white border border-[#E2E8F0] rounded-2xl p-6 hover:shadow-lg hover:border-[#0694D1]/30 transition-all">
+                className="kglass-light rounded-2xl p-6 transition-all">
                 <div className="flex items-center gap-3 mb-4">
                   <span
                     className="text-sm font-bold px-3 py-1 rounded-full text-white"
@@ -122,20 +124,20 @@ export default function OurStoryPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">The Koenig Ethos</h2>
-            <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-8 mb-8">
+            <div className="kglass-dark rounded-2xl p-8 mb-8">
               <div className="text-5xl font-black text-[#38bdf8] mb-4">I &lt; O</div>
               <p className="text-white/80 text-lg leading-relaxed mb-6">
                 <span className="font-bold text-white">Individual is less than Organisation.</span> Every decision, every hire, every product choice is made with the organisation's long-term health over any individual's short-term gain.
               </p>
             </div>
             <div className="grid sm:grid-cols-2 gap-4 text-left">
-              <div className="bg-white/[0.04] border border-white/10 rounded-xl p-5">
+              <div className="kglass-dark rounded-xl p-5">
                 <div className="text-[#38bdf8] font-bold mb-2">Customer Obsession</div>
                 <p className="text-white/60 text-sm leading-relaxed">
                   We don't just train — we transform careers. Every interaction, every course, every support call is designed around one question: did this help the student?
                 </p>
               </div>
-              <div className="bg-white/[0.04] border border-white/10 rounded-xl p-5">
+              <div className="kglass-dark rounded-xl p-5">
                 <div className="text-[#38bdf8] font-bold mb-2">Constant Improvement</div>
                 <p className="text-white/60 text-sm leading-relaxed">
                   We measure everything. NPS, on-time delivery (99.1%), trainer quality, course outcomes. If a number moves, we act — immediately.
