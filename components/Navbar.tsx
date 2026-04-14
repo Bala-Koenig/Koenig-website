@@ -9,13 +9,14 @@ import Image from 'next/image'
 
 const ABOUT_LINKS: { label: string; href: string }[] = [
   { label: 'About Us',            href: '/about' },
-  { label: 'Our Clientele',       href: '/about#our-clients' },
-  { label: 'Leadership',          href: '/about#leadership' },
-  { label: 'Our Partners',        href: '/about#our-partners' },
-  { label: 'Happiness Guarantee', href: '/about#happiness-guarantee' },
-  { label: 'Student Feedback',    href: '/about#student-feedback' },
-  { label: 'Our Awards',          href: '/about#awards' },
-  { label: 'Koenig Koshish',     href: '/about#koenig-koshish' },
+  { label: 'Our Story',           href: '/about/our-story' },
+  { label: 'Leadership',          href: '/about/leadership' },
+  { label: 'Our Clients',         href: '/about/our-clients' },
+  { label: 'Our Partners',        href: '/about/our-partners' },
+  { label: 'Our Awards',          href: '/about/awards' },
+  { label: 'Happiness Guarantee', href: '/about/happiness-guarantee' },
+  { label: 'Student Feedback',    href: '/about/student-feedback' },
+  { label: 'Koenig Koshish',      href: '/about/koenig-koshish' },
 ]
 const LEARNING_LINKS = ['Live Online Training','Classroom Training','1-on-1 Training','Fly-Me-a-Trainer','Flexi','Customized Training','Webinar as a Service','Qubits','Upcoming Webinars','Learnova']
 

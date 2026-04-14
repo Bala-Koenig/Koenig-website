@@ -1,18 +1,7 @@
 'use client'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
-
-const SUB_NAV = [
-  { label: 'Overview',            href: '/about' },
-  { label: 'Our Story',           href: '/about/our-story' },
-  { label: 'Leadership',          href: '/about/leadership' },
-  { label: 'Our Clients',         href: '/about/our-clients' },
-  { label: 'Our Partners',        href: '/about/our-partners' },
-  { label: 'Awards',              href: '/about/awards' },
-  { label: 'Happiness Guarantee', href: '/about/happiness-guarantee' },
-  { label: 'Student Feedback',    href: '/about/student-feedback' },
-  { label: 'Koenig Koshish',      href: '/about/koenig-koshish' },
-]
+import AboutSubNav from '@/components/AboutSubNav'
 
 const TESTIMONIALS = [
   {
@@ -85,19 +74,7 @@ export default function StudentFeedbackPage() {
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
 
-      {/* Sub-nav */}
-      <div className="bg-[#06111E] border-b border-white/10">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="flex gap-6 overflow-x-auto py-3 text-sm scrollbar-none">
-            {SUB_NAV.map(n => (
-              <Link key={n.href} href={n.href}
-                className="whitespace-nowrap text-[#38bdf8] hover:text-white transition-colors font-medium">
-                {n.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
+      <AboutSubNav />
 
       {/* DARK HERO */}
       <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-24">
