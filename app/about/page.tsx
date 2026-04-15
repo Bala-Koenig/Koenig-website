@@ -108,8 +108,13 @@ export default function AboutPage() {
       </section>
 
       {/* ── COMPANY INFO ───────────────────────────────────── */}
-      <section className="bg-white py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="relative bg-white overflow-hidden py-16 sm:py-20">
+        {/* light-bg glow orbs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="about-blob1 absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
+          <div className="about-blob3 absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[110px]" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">Who We Are</h2>
           <p className="text-center text-[#475569] mb-12">Three decades of training excellence, built on one belief</p>
 
@@ -142,9 +147,11 @@ export default function AboutPage() {
       </section>
 
       {/* ── AWARD BANNER ───────────────────────────────────── */}
-      <section className="relative bg-[#06111E] py-16 sm:py-20 overflow-hidden">
+      <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-20">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#0694D1] opacity-[0.06] blur-[120px] rounded-full" />
+          <div className="about-blob2 absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full bg-[#0694D1] opacity-[0.09] blur-[130px]" />
+          <div className="about-blob1 absolute bottom-0 -left-32 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
+          <div className="about-blob3 absolute bottom-0 -right-32 w-[400px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[110px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="kglass-dark rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
@@ -163,8 +170,13 @@ export default function AboutPage() {
       </section>
 
       {/* ── GLOBAL PRESENCE ────────────────────────────────── */}
-      <section className="bg-[#F8FAFC] py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="relative bg-[#F8FAFC] overflow-hidden py-16 sm:py-20">
+        {/* light-bg glow orbs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="about-blob3 absolute -top-32 -left-32 w-[450px] h-[450px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[120px]" />
+          <div className="about-blob2 absolute -bottom-32 -right-32 w-[450px] h-[450px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[120px]" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">Our Global Presence</h2>
           <p className="text-center text-[#475569] mb-12">13 offices. 195+ countries served.</p>
           <div className="grid grid-cols-4 sm:grid-cols-7 gap-x-4 gap-y-8">
@@ -187,8 +199,13 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA ────────────────────────────────────────────── */}
-      <section className="bg-[#06111E] py-16 sm:py-20 text-center">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-20 text-center">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="about-blob1 absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[120px]" />
+          <div className="about-blob2 absolute -bottom-16 -left-24 w-[350px] h-[350px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[100px]" />
+          <div className="about-blob3 absolute -bottom-16 -right-24 w-[350px] h-[350px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[100px]" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Upskill?</h2>
           <p className="text-white/70 mb-8 text-lg">Join 30,000+ students training with Koenig every month.</p>
           <a href="mailto:sales@koenig-solutions.com"
