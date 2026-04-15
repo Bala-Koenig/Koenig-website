@@ -1,203 +1,231 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
 const STATS = [
-  { value: '30+',      label: 'Years' },
-  { value: '30,000+',  label: 'Students Monthly' },
-  { value: '99.1%',    label: 'On-Time' },
-  { value: '300+',     label: 'Trainers' },
-  { value: '5,000+',   label: 'Courses' },
-  { value: '195+',     label: 'Countries' },
-]
-
-const CARDS = [
-  { icon: '📖', title: 'Our Story',            desc: 'Three decades of resilience and growth.',                     href: '/about/our-story' },
-  { icon: '👥', title: 'Leadership',           desc: 'Meet the team driving our global mission.',                   href: '/about/leadership' },
-  { icon: '🏢', title: 'Our Clients',          desc: '1M+ professionals from 195+ countries trust us.',             href: '/about/our-clients' },
-  { icon: '🤝', title: 'Our Partners',         desc: 'Vendor-authorized training from the world\'s best.',          href: '/about/our-partners' },
-  { icon: '🏆', title: 'Our Awards',           desc: 'Recognized globally for training excellence.',                href: '/about/awards' },
-  { icon: '😊', title: 'Happiness Guarantee',  desc: 'Not happy? Full refund or free class redo.',                  href: '/about/happiness-guarantee' },
-  { icon: '⭐', title: 'Student Feedback',     desc: 'Real stories from 5M+ learners worldwide.',                  href: '/about/student-feedback' },
-]
-
-const PHILOSOPHY = [
-  { icon: '💰', title: 'Money',          desc: 'We help you gain high-demand skills that command premium salaries and open doors to new opportunities globally.' },
-  { icon: '🎖️', title: 'Respect',        desc: 'Certifications from world-leading vendors earn you the credibility and recognition you deserve in your field.' },
-  { icon: '☮️', title: 'Peace of Mind',  desc: 'Our happiness guarantee means you train risk-free. If you\'re not satisfied, we make it right — always.' },
+  { value: '30+',      label: 'Years of Excellence' },
+  { value: '30,000+', label: 'Students Trained Every Month' },
+  { value: '99.1%',   label: 'On-Time Batch' },
+  { value: '300+',    label: 'Excellent Trainers' },
+  { value: '5,000+',  label: 'Courses 100+ Added Every Month' },
 ]
 
 const OFFICES = [
-  { flag: '🇮🇳', city: 'New Delhi',        country: 'India' },
-  { flag: '🇨🇦', city: 'Delta BC',         country: 'Canada' },
-  { flag: '🇬🇧', city: 'London',           country: 'UK' },
-  { flag: '🇦🇪', city: 'Dubai',            country: 'UAE' },
-  { flag: '🇺🇸', city: 'New York',         country: 'USA' },
-  { flag: '🇸🇬', city: 'Singapore',        country: 'Singapore' },
-  { flag: '🇳🇱', city: 'Amsterdam',        country: 'Netherlands' },
-  { flag: '🇿🇦', city: 'Johannesburg',     country: 'South Africa' },
-  { flag: '🇳🇿', city: 'Wellington',       country: 'New Zealand' },
-  { flag: '🇦🇺', city: 'Sydney',           country: 'Australia' },
-  { flag: '🇸🇦', city: 'Riyadh',           country: 'Saudi Arabia' },
-  { flag: '🇩🇪', city: 'Munich',           country: 'Germany' },
-  { flag: '🇲🇾', city: 'Kuala Lumpur',     country: 'Malaysia' },
+  { code: 'in', name: 'India' },
+  { code: 'ca', name: 'Canada' },
+  { code: 'gb', name: 'Kingdom' },
+  { code: 'ae', name: 'UAE' },
+  { code: 'us', name: 'USA' },
+  { code: 'sg', name: 'Singapore' },
+  { code: 'nl', name: 'Netherlands' },
+  { code: 'za', name: 'South Africa' },
+  { code: 'nz', name: 'New Zealand' },
+  { code: 'au', name: 'Australia' },
+  { code: 'sa', name: 'Saudi Arabia' },
+  { code: 'de', name: 'Germany' },
+  { code: 'my', name: 'Malaysia' },
 ]
 
 export default function AboutPage() {
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
-
       <AboutSubNav />
 
-      {/* DARK HERO */}
-      <style>{`
-        @keyframes blob1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(0.95)}}
-        @keyframes blob2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-35px,25px) scale(1.08)}66%{transform:translate(25px,-15px) scale(0.92)}}
-        @keyframes blob3{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,40px) scale(1.05)}66%{transform:translate(-30px,-20px) scale(1.1)}}
-        .about-blob1{animation:blob1 12s ease-in-out infinite}
-        .about-blob2{animation:blob2 15s ease-in-out infinite}
-        .about-blob3{animation:blob3 18s ease-in-out infinite}
-      `}</style>
-      <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-24">
-        {/* Glow blobs */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="about-blob1 absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#0694D1] opacity-[0.08] blur-[130px]" />
-          <div className="about-blob2 absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
-          <div className="about-blob3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.04] blur-[100px]" />
-          <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage:'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize:'24px 24px'}} />
-        </div>
+      {/* ── HERO BANNER ─────────────────────────────────────── */}
+      <section className="py-10 px-4 md:px-8 lg:px-[50px]"
+        style={{ background: 'linear-gradient(135deg, #dbeafe 0%, #f0f9ff 50%, #e0f2fe 100%)' }}>
+        <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-10 items-center">
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          {/* Breadcrumb */}
-          <p className="text-[#38bdf8] text-sm mb-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span className="mx-2 text-white/40">/</span>
-            <span className="text-white/70">About Us</span>
-          </p>
+          {/* Left */}
+          <div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-[#0F172A] mb-3">About Us</h1>
+            <p className="text-[#475569] mb-5 leading-relaxed text-base">
+              A global leader in IT training.<br />
+              Just tell us What, Where, When – we'll deliver the training.
+            </p>
+            <p className="text-xl font-bold text-[#0F172A] mb-8">
+              We empower you to earn Money, Respect and Peace of Mind.
+            </p>
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              style={{ background: '#0694D1' }}
+            >
+              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download Our Corporate Presentation
+            </a>
+          </div>
 
-          <div className="kglass-banner p-8 sm:p-10">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left */}
-              <div>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
-                  About <span className="text-[#38bdf8]">Koenig Solutions</span>
-                </h1>
-                <p className="text-xl text-white/80 mb-3 leading-relaxed">
-                  A global leader in IT training. Just tell us <span className="text-[#38bdf8] font-semibold">What, Where, When</span> — we'll deliver the training.
-                </p>
-                <p className="text-lg text-white/60 mb-8">
-                  We empower you to earn <span className="text-white font-medium">Money, Respect and Peace of Mind.</span>
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Link href="/about/our-story"
-                    className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-6 py-3 rounded-xl transition-colors">
-                    Our Story
-                  </Link>
-                  <Link href="/about/leadership"
-                    className="inline-block border border-[#0694D1] text-[#38bdf8] hover:bg-[#0694D1] hover:text-white font-semibold px-6 py-3 rounded-xl transition-colors">
-                    Meet the Team
-                  </Link>
-                </div>
+          {/* Right – Presentation preview */}
+          <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/20"
+            style={{ background: '#07111e' }}>
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-5">
+                <Image src="/images/koenig-logo.svg" alt="Koenig" width={100} height={28}
+                  className="h-6 w-auto brightness-0 invert" />
               </div>
-
-              {/* Right – YouTube embed */}
-              <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
-                <div className="aspect-video">
-                  <iframe
-                    src="https://www.youtube.com/embed/z_6FnQE7-LA"
-                    title="Koenig Solutions — Your Trusted IT Training Partner"
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+              <div className="rounded-lg py-2 px-4 mb-5 text-center"
+                style={{ background: '#0694D1' }}>
+                <p className="text-white text-xs font-bold uppercase tracking-widest">Company Overview</p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-white/50 text-[10px] uppercase tracking-wider mb-2">About Us</p>
+                  <p className="text-white/65 text-[10px] leading-relaxed mb-3">
+                    Empowering individuals through education since 1993. Koenig Solutions has grown into a global
+                    training leader with presence in over 50+ cities worldwide.
+                  </p>
+                  <div className="flex gap-2">
+                    <span className="rounded px-2 py-1 text-[9px] font-semibold text-white"
+                      style={{ background: 'rgba(6,148,209,0.3)' }}>Vision 🌍</span>
+                    <span className="rounded px-2 py-1 text-[9px] font-semibold text-white"
+                      style={{ background: 'rgba(6,148,209,0.3)' }}>Mission 🎯</span>
+                  </div>
+                  <p className="text-white/40 text-[9px] leading-relaxed mt-3">
+                    Our mission is to help individuals earn Money, Respect and Peace of Mind...
+                  </p>
+                </div>
+                <div className="rounded-lg overflow-hidden flex items-center justify-center"
+                  style={{ background: 'rgba(255,255,255,0.06)', minHeight: '120px' }}>
+                  <div className="text-center p-4">
+                    <div className="text-5xl mb-2">🌐</div>
+                    <p className="text-white/30 text-[9px]">Global Training Leader</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Stats row */}
-          <div className="mt-8 grid grid-cols-3 sm:grid-cols-6 gap-4">
-            {STATS.map(s => (
-              <div key={s.label} className="kglass-dark rounded-2xl p-4 text-center transition-all">
-                <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">{s.value}</div>
-                <div className="text-xs sm:text-sm text-white/60 mt-1">{s.label}</div>
+        </div>
+      </section>
+
+      {/* ── COMPANY INFO ────────────────────────────────────── */}
+      <section className="bg-white py-10 px-4 md:px-8 lg:px-[50px]">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-xl border border-gray-200 overflow-hidden">
+            <div className="grid lg:grid-cols-[260px_1fr]">
+
+              {/* Left – logo + globe */}
+              <div className="flex flex-col items-center justify-center gap-6 p-8
+                border-b lg:border-b-0 lg:border-r border-gray-200">
+                <Image src="/images/koenig-logo.svg" alt="Koenig Solutions"
+                  width={160} height={44} className="h-10 w-auto" />
+                {/* Stylised globe */}
+                <div className="w-44 h-44 rounded-full flex items-center justify-center shadow-xl relative overflow-hidden"
+                  style={{ background: 'radial-gradient(circle at 38% 38%, #3b82f6, #1d4ed8, #1e3a8a)' }}>
+                  {/* grid lines */}
+                  <svg viewBox="0 0 176 176" className="absolute inset-0 w-full h-full opacity-20"
+                    fill="none" stroke="white" strokeWidth="0.6">
+                    <ellipse cx="88" cy="88" rx="86" ry="86" />
+                    <ellipse cx="88" cy="88" rx="55" ry="86" />
+                    <ellipse cx="88" cy="88" rx="20" ry="86" />
+                    <line x1="2" y1="88" x2="174" y2="88" />
+                    <ellipse cx="88" cy="88" rx="86" ry="45" />
+                    <ellipse cx="88" cy="88" rx="86" ry="20" />
+                  </svg>
+                  <span className="text-6xl relative z-10">🌍</span>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* LIGHT SECTION – sub-page cards */}
-      <section className="bg-white py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">Explore Our Story</h2>
-          <p className="text-center text-[#475569] mb-12">Everything you need to know about Koenig Solutions</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CARDS.map(c => (
-              <Link key={c.href} href={c.href}
-                className="group block kglass-light rounded-2xl p-6 transition-all">
-                <div className="text-3xl mb-3">{c.icon}</div>
-                <h3 className="text-lg font-bold text-[#0F172A] mb-2 group-hover:text-[#0694D1] transition-colors">{c.title}</h3>
-                <p className="text-sm text-[#64748B] mb-4 leading-relaxed">{c.desc}</p>
-                <span className="text-[#0694D1] text-sm font-semibold group-hover:underline">Learn more →</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* DARK SECTION – philosophy */}
-      <section className="relative bg-[#06111E] py-16 sm:py-20 overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#0694D1] opacity-[0.06] blur-[120px] rounded-full" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Our Promise to You</h2>
-          <p className="text-center text-white/60 mb-12">Every course, every student — the same commitment.</p>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {PHILOSOPHY.map(p => (
-              <div key={p.title}
-                className="kglass-dark rounded-2xl p-8 text-center transition-all">
-                <div className="text-4xl mb-4">{p.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-3">{p.title}</h3>
-                <p className="text-white/60 leading-relaxed text-sm">{p.desc}</p>
+              {/* Right – paragraphs */}
+              <div className="p-8 space-y-4 text-[#374151] text-sm leading-7">
+                <p>
+                  <strong>Established in the year 1993</strong>, Koenig Solutions is a reputed training
+                  organisation. The secret of our success is our belief that good training requires{' '}
+                  <strong>"Excellent Trainers,"</strong> and our strive to retain the best.
+                </p>
+                <p>
+                  Our vision is to contribute to a more equitable and prosperous world through education.
+                  Today, Koenig has offices across the globe to help accomplish that vision.
+                </p>
+                <p>
+                  Our dedicated team of professionals, known as <strong>Kites</strong>, are passionate
+                  about delivering exceptional customer experiences.
+                </p>
+                <p>
+                  We believe that true success is achievement of{' '}
+                  <strong>Money, Respect, and Peace of Mind</strong> and we endeavor to achieve both for
+                  our Kites and Kustomers. These core principles, embodied in{' '}
+                  <span className="font-semibold" style={{ color: '#0694D1' }}>"Koenig Ethos"</span>, are
+                  what drive us to deliver exceptional learning experiences for our valued Kustomers.
+                </p>
+                <p>
+                  We believe in the philosophy of <strong>Constant Improvement</strong>.
+                </p>
               </div>
-            ))}
+
+            </div>
           </div>
         </div>
       </section>
 
-      {/* LIGHT SECTION – global presence */}
-      <section className="bg-[#F8FAFC] py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">13 Offices, 1 Mission</h2>
-          <p className="text-center text-[#475569] mb-12">Global reach with local expertise</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {OFFICES.map(o => (
-              <div key={`${o.city}-${o.country}`}
-                className="kglass-light rounded-xl p-4 text-center transition-all">
-                <div className="text-2xl mb-2">{o.flag}</div>
-                <div className="font-semibold text-[#0F172A] text-sm">{o.city}</div>
-                <div className="text-[#64748B] text-xs">{o.country}</div>
-              </div>
-            ))}
+      {/* ── AWARD BANNER ────────────────────────────────────── */}
+      <section className="bg-white pb-10 px-4 md:px-8 lg:px-[50px]">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-xl border-2 p-5 flex items-center gap-5"
+            style={{ borderColor: '#0694D1' }}>
+            <div className="w-14 h-14 rounded-full flex-shrink-0 flex items-center justify-center text-3xl"
+              style={{ background: '#f1f5f9', border: '2px solid #e2e8f0' }}>
+              🏆
+            </div>
+            <div>
+              <p className="font-bold" style={{ color: '#0694D1' }}>
+                Best Place to Work in Education (2010-2025).
+              </p>
+              <p className="text-[#64748B] text-sm mt-1">
+                The I &lt; O in our logo symbolises that I (us) is less than O (others), which aligns
+                with our Kustomer Obsession.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* DARK SECTION – CTA */}
-      <section className="bg-[#06111E] py-16 sm:py-20 text-center">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Upskill?</h2>
-          <p className="text-white/70 mb-8 text-lg">Join 30,000+ students training with Koenig every month.</p>
-          <a href="mailto:sales@koenig-solutions.com"
-            className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">
-            Get in Touch
-          </a>
+      {/* ── STATS ───────────────────────────────────────────── */}
+      <section className="bg-white pb-10 px-4 md:px-8 lg:px-[50px]">
+        <div className="mx-auto max-w-7xl">
+          <div className="rounded-xl border border-gray-200 overflow-hidden">
+            <div className="grid grid-cols-2 lg:grid-cols-5 divide-x divide-y lg:divide-y-0 divide-gray-200">
+              {STATS.map((s, i) => (
+                <div key={i} className={`p-6 text-center${i === 4 ? ' col-span-2 lg:col-span-1' : ''}`}>
+                  <div className="text-3xl font-bold mb-1" style={{ color: '#0694D1' }}>{s.value}</div>
+                  <div className="text-xs text-[#64748B] leading-snug">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* ── GLOBAL PRESENCE ─────────────────────────────────── */}
+      <section className="bg-white py-10 px-4 md:px-8 lg:px-[50px]">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="text-2xl font-bold text-[#0F172A] text-center mb-8">Our Global Presence</h2>
+          <div className="rounded-xl border border-gray-200 p-8">
+            <div className="grid grid-cols-4 sm:grid-cols-7 gap-x-4 gap-y-6">
+              {OFFICES.map(o => (
+                <div key={o.code} className="flex flex-col items-center gap-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`https://flagcdn.com/w80/${o.code}.png`}
+                    alt={`${o.name} flag`}
+                    style={{ width: '52px', height: '34px', objectFit: 'cover' }}
+                    className="rounded-sm shadow"
+                  />
+                  <span className="text-[11px] text-[#64748B] text-center leading-tight">{o.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }
