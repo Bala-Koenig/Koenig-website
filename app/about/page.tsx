@@ -216,7 +216,7 @@ export default function AboutPage() {
             <div className="text-5xl shrink-0">🏆</div>
             <div>
               <p className="text-xl sm:text-2xl font-bold text-[#38bdf8] mb-2">
-                Best Place to Work in Education (2010–2025)
+                Best Place to Work in Education (2010–2026)
               </p>
               <p className="text-white/60 text-sm leading-relaxed">
                 The <strong className="text-white/80">I &lt; O</strong> in our logo symbolises that
