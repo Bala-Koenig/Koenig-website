@@ -4,54 +4,36 @@ import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
 const STATS = [
-  { value: '30+',      label: 'Years' },
-  { value: '30,000+',  label: 'Students Monthly' },
-  { value: '99.1%',    label: 'On-Time' },
-  { value: '300+',     label: 'Trainers' },
-  { value: '5,000+',   label: 'Courses' },
-  { value: '195+',     label: 'Countries' },
-]
-
-const CARDS = [
-  { icon: '📖', title: 'Our Story',            desc: 'Three decades of resilience and growth.',                     href: '/about/our-story' },
-  { icon: '👥', title: 'Leadership',           desc: 'Meet the team driving our global mission.',                   href: '/about/leadership' },
-  { icon: '🏢', title: 'Our Clients',          desc: '1M+ professionals from 195+ countries trust us.',             href: '/about/our-clients' },
-  { icon: '🤝', title: 'Our Partners',         desc: 'Vendor-authorized training from the world\'s best.',          href: '/about/our-partners' },
-  { icon: '🏆', title: 'Our Awards',           desc: 'Recognized globally for training excellence.',                href: '/about/awards' },
-  { icon: '😊', title: 'Happiness Guarantee',  desc: 'Not happy? Full refund or free class redo.',                  href: '/about/happiness-guarantee' },
-  { icon: '⭐', title: 'Student Feedback',     desc: 'Real stories from 5M+ learners worldwide.',                  href: '/about/student-feedback' },
-]
-
-const PHILOSOPHY = [
-  { icon: '💰', title: 'Money',          desc: 'We help you gain high-demand skills that command premium salaries and open doors to new opportunities globally.' },
-  { icon: '🎖️', title: 'Respect',        desc: 'Certifications from world-leading vendors earn you the credibility and recognition you deserve in your field.' },
-  { icon: '☮️', title: 'Peace of Mind',  desc: 'Our happiness guarantee means you train risk-free. If you\'re not satisfied, we make it right — always.' },
+  { value: '30+',      label: 'Years of Excellence' },
+  { value: '30,000+', label: 'Students Trained Every Month' },
+  { value: '99.1%',   label: 'On-Time Batch' },
+  { value: '300+',    label: 'Excellent Trainers' },
+  { value: '5,000+',  label: 'Courses — 100+ Added Every Month' },
 ]
 
 const OFFICES = [
-  { flag: '🇮🇳', city: 'New Delhi',        country: 'India' },
-  { flag: '🇨🇦', city: 'Delta BC',         country: 'Canada' },
-  { flag: '🇬🇧', city: 'London',           country: 'UK' },
-  { flag: '🇦🇪', city: 'Dubai',            country: 'UAE' },
-  { flag: '🇺🇸', city: 'New York',         country: 'USA' },
-  { flag: '🇸🇬', city: 'Singapore',        country: 'Singapore' },
-  { flag: '🇳🇱', city: 'Amsterdam',        country: 'Netherlands' },
-  { flag: '🇿🇦', city: 'Johannesburg',     country: 'South Africa' },
-  { flag: '🇳🇿', city: 'Wellington',       country: 'New Zealand' },
-  { flag: '🇦🇺', city: 'Sydney',           country: 'Australia' },
-  { flag: '🇸🇦', city: 'Riyadh',           country: 'Saudi Arabia' },
-  { flag: '🇩🇪', city: 'Munich',           country: 'Germany' },
-  { flag: '🇲🇾', city: 'Kuala Lumpur',     country: 'Malaysia' },
+  { code: 'in', country: 'India' },
+  { code: 'ca', country: 'Canada' },
+  { code: 'gb', country: 'Kingdom' },
+  { code: 'ae', country: 'UAE' },
+  { code: 'us', country: 'USA' },
+  { code: 'sg', country: 'Singapore' },
+  { code: 'nl', country: 'Netherlands' },
+  { code: 'za', country: 'South Africa' },
+  { code: 'nz', country: 'New Zealand' },
+  { code: 'au', country: 'Australia' },
+  { code: 'sa', country: 'Saudi Arabia' },
+  { code: 'de', country: 'Germany' },
+  { code: 'my', country: 'Malaysia' },
 ]
 
 export default function AboutPage() {
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
-
       <AboutSubNav />
 
-      {/* DARK HERO */}
+      {/* ── DARK HERO ──────────────────────────────────────── */}
       <style>{`
         @keyframes blob1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(0.95)}}
         @keyframes blob2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-35px,25px) scale(1.08)}66%{transform:translate(25px,-15px) scale(0.92)}}
@@ -61,7 +43,6 @@ export default function AboutPage() {
         .about-blob3{animation:blob3 18s ease-in-out infinite}
       `}</style>
       <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-24">
-        {/* Glow blobs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="about-blob1 absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#0694D1] opacity-[0.08] blur-[130px]" />
           <div className="about-blob2 absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
@@ -70,7 +51,6 @@ export default function AboutPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          {/* Breadcrumb */}
           <p className="text-[#38bdf8] text-sm mb-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span className="mx-2 text-white/40">/</span>
@@ -79,7 +59,6 @@ export default function AboutPage() {
 
           <div className="kglass-banner p-8 sm:p-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left */}
               <div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
                   About <span className="text-[#38bdf8]">Koenig Solutions</span>
@@ -102,7 +81,6 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              {/* Right – YouTube embed */}
               <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
                 <div className="aspect-video">
                   <iframe
@@ -117,77 +95,98 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Stats row */}
-          <div className="mt-8 grid grid-cols-3 sm:grid-cols-6 gap-4">
+          {/* Stats */}
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {STATS.map(s => (
-              <div key={s.label} className="kglass-dark rounded-2xl p-4 text-center transition-all">
+              <div key={s.label} className="kglass-dark rounded-2xl p-4 text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">{s.value}</div>
-                <div className="text-xs sm:text-sm text-white/60 mt-1">{s.label}</div>
+                <div className="text-xs sm:text-sm text-white/60 mt-1 leading-snug">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* LIGHT SECTION – sub-page cards */}
+      {/* ── COMPANY INFO ───────────────────────────────────── */}
       <section className="bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">Explore Our Story</h2>
-          <p className="text-center text-[#475569] mb-12">Everything you need to know about Koenig Solutions</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CARDS.map(c => (
-              <Link key={c.href} href={c.href}
-                className="group block kglass-light rounded-2xl p-6 transition-all">
-                <div className="text-3xl mb-3">{c.icon}</div>
-                <h3 className="text-lg font-bold text-[#0F172A] mb-2 group-hover:text-[#0694D1] transition-colors">{c.title}</h3>
-                <p className="text-sm text-[#64748B] mb-4 leading-relaxed">{c.desc}</p>
-                <span className="text-[#0694D1] text-sm font-semibold group-hover:underline">Learn more →</span>
-              </Link>
-            ))}
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">Who We Are</h2>
+          <p className="text-center text-[#475569] mb-12">Three decades of training excellence, built on one belief</p>
+
+          <div className="kglass-light rounded-2xl p-8 sm:p-10 space-y-5 text-[#374151] text-base leading-8">
+            <p>
+              <strong>Established in the year 1993</strong>, Koenig Solutions is a reputed training organisation.
+              The secret of our success is our belief that good training requires{' '}
+              <strong>"Excellent Trainers,"</strong> and our strive to retain the best.
+            </p>
+            <p>
+              Our vision is to contribute to a more equitable and prosperous world through education.
+              Today, Koenig has offices across the globe to help accomplish that vision.
+            </p>
+            <p>
+              Our dedicated team of professionals, known as <strong>Kites</strong>, are passionate about
+              delivering exceptional customer experiences.
+            </p>
+            <p>
+              We believe that true success is achievement of{' '}
+              <strong>Money, Respect, and Peace of Mind</strong> and we endeavor to achieve both for our
+              Kites and Kustomers. These core principles, embodied in{' '}
+              <span className="font-semibold" style={{ color: '#0694D1' }}>"Koenig Ethos"</span>, are what
+              drive us to deliver exceptional learning experiences for our valued Kustomers.
+            </p>
+            <p>
+              We believe in the philosophy of <strong>Constant Improvement</strong>.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* DARK SECTION – philosophy */}
+      {/* ── AWARD BANNER ───────────────────────────────────── */}
       <section className="relative bg-[#06111E] py-16 sm:py-20 overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#0694D1] opacity-[0.06] blur-[120px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Our Promise to You</h2>
-          <p className="text-center text-white/60 mb-12">Every course, every student — the same commitment.</p>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {PHILOSOPHY.map(p => (
-              <div key={p.title}
-                className="kglass-dark rounded-2xl p-8 text-center transition-all">
-                <div className="text-4xl mb-4">{p.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-3">{p.title}</h3>
-                <p className="text-white/60 leading-relaxed text-sm">{p.desc}</p>
-              </div>
-            ))}
+          <div className="kglass-dark rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+            <div className="text-5xl shrink-0">🏆</div>
+            <div>
+              <p className="text-xl sm:text-2xl font-bold text-[#38bdf8] mb-2">
+                Best Place to Work in Education (2010–2025)
+              </p>
+              <p className="text-white/60 text-sm leading-relaxed">
+                The <strong className="text-white/80">I &lt; O</strong> in our logo symbolises that
+                I (us) is less than O (others), which aligns with our Kustomer Obsession.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* LIGHT SECTION – global presence */}
+      {/* ── GLOBAL PRESENCE ────────────────────────────────── */}
       <section className="bg-[#F8FAFC] py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">13 Offices, 1 Mission</h2>
-          <p className="text-center text-[#475569] mb-12">Global reach with local expertise</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">Our Global Presence</h2>
+          <p className="text-center text-[#475569] mb-12">13 offices. 195+ countries served.</p>
+          <div className="grid grid-cols-4 sm:grid-cols-7 gap-x-4 gap-y-8">
             {OFFICES.map(o => (
-              <div key={`${o.city}-${o.country}`}
-                className="kglass-light rounded-xl p-4 text-center transition-all">
-                <div className="text-2xl mb-2">{o.flag}</div>
-                <div className="font-semibold text-[#0F172A] text-sm">{o.city}</div>
-                <div className="text-[#64748B] text-xs">{o.country}</div>
+              <div key={o.code} className="flex flex-col items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://flagcdn.com/w80/${o.code}.png`}
+                  alt={`${o.country} flag`}
+                  style={{ width: '52px', height: '34px', objectFit: 'cover' }}
+                  className="rounded shadow-sm"
+                />
+                <span className="text-[11px] text-[#475569] text-center font-medium leading-tight">
+                  {o.country}
+                </span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* DARK SECTION – CTA */}
+      {/* ── CTA ────────────────────────────────────────────── */}
       <section className="bg-[#06111E] py-16 sm:py-20 text-center">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Upskill?</h2>
