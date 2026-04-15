@@ -749,7 +749,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 {mobileAboutOpen && (
                   <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
                     {ABOUT_LINKS.map(link => (
-                      <Link key={link.label} href={link.href} className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }} onClick={() => setMobileAboutOpen(false)}>{link.label}</Link>
+                      <Link key={link.label} href={link.href} className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }} onClick={() => { setMobileAboutOpen(false); setMobileOpen(false) }}>{link.label}</Link>
                     ))}
                   </div>
                 )}
