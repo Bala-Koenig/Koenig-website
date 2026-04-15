@@ -207,9 +207,13 @@ export default function AboutPage() {
       {/* ── AWARD BANNER ───────────────────────────────────── */}
       <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-20">
         <div className="pointer-events-none absolute inset-0">
-          <div className="about-blob2 absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full bg-[#0694D1] opacity-[0.09] blur-[130px]" />
-          <div className="about-blob1 absolute bottom-0 -left-32 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
-          <div className="about-blob3 absolute bottom-0 -right-32 w-[400px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[110px]" />
+          {/* base radial gradient centred on the card */}
+          <div className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(6,148,209,0.18) 0%, rgba(56,189,248,0.08) 45%, transparent 70%)' }} />
+          {/* animated blobs */}
+          <div className="about-blob2 absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full bg-[#0694D1] opacity-[0.18] blur-[110px]" />
+          <div className="about-blob1 absolute bottom-0 -left-32 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.10] blur-[100px]" />
+          <div className="about-blob3 absolute bottom-0 -right-32 w-[400px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="kglass-dark rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
