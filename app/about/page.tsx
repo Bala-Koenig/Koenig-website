@@ -141,14 +141,13 @@ export default function AboutPage() {
           {/* Stats */}
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {STATS.map(s => (
-              <div key={s.label} className="kglass-dark rounded-2xl p-4 text-center flex flex-col items-center">
-                <div className="mb-2 flex h-11 w-11 items-center justify-center rounded-xl"
-                  style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={s.icon} alt={s.label} className="h-5 w-5 object-contain" />
+              <div key={s.label} className="kglass-dark rounded-2xl p-4 flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={s.icon} alt={s.label} className="h-8 w-8 object-contain shrink-0" />
+                <div>
+                  <div className="text-xl sm:text-2xl font-bold text-[#38bdf8] leading-tight">{s.value}</div>
+                  <div className="text-xs text-white/60 leading-snug">{s.label}</div>
                 </div>
-                <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">{s.value}</div>
-                <div className="text-xs sm:text-sm text-white/60 mt-1 leading-snug">{s.label}</div>
               </div>
             ))}
           </div>
