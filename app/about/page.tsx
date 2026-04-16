@@ -166,7 +166,8 @@ export default function AboutPage() {
               </h2>
               <p className="text-center text-[#475569] mb-10">Three decades of training excellence, built on one belief</p>
 
-              <div className="kglass-light rounded-2xl p-8 sm:p-10">
+              <div className="kglass-light rounded-2xl p-8 sm:p-10"
+                style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 8px 40px rgba(56,189,248,0.22), 0 0 80px rgba(6,148,209,0.12)' }}>
                 <div className="divide-y divide-[#0694D1]/10">
 
                   <div className="flex gap-5 pb-7">
@@ -255,21 +256,24 @@ export default function AboutPage() {
               </h2>
               <p className="text-center text-[#475569] mb-10">13 offices. 195+ countries served.</p>
 
-              <div className="grid grid-cols-4 sm:grid-cols-7 gap-x-4 gap-y-8">
-                {OFFICES.map(o => (
-                  <div key={o.code} className="flex flex-col items-center gap-2">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={`https://flagcdn.com/w80/${o.code}.png`}
-                      alt={`${o.country} flag`}
-                      style={{ width: '52px', height: '34px', objectFit: 'cover' }}
-                      className="rounded shadow-sm"
-                    />
-                    <span className="text-[11px] text-[#475569] text-center font-medium leading-tight">
-                      {o.country}
-                    </span>
-                  </div>
-                ))}
+              <div className="kglass-light rounded-2xl p-8 sm:p-10"
+                style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 8px 40px rgba(56,189,248,0.22), 0 0 80px rgba(6,148,209,0.12)' }}>
+                <div className="grid grid-cols-4 sm:grid-cols-7 gap-x-4 gap-y-8">
+                  {OFFICES.map(o => (
+                    <div key={o.code} className="flex flex-col items-center gap-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`https://flagcdn.com/w80/${o.code}.png`}
+                        alt={`${o.country} flag`}
+                        style={{ width: '52px', height: '34px', objectFit: 'cover' }}
+                        className="rounded shadow-sm"
+                      />
+                      <span className="text-[11px] text-[#475569] text-center font-medium leading-tight">
+                        {o.country}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </>
           )}
