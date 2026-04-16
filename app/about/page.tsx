@@ -1,5 +1,7 @@
 'use client'
+import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
@@ -27,7 +29,11 @@ const OFFICES = [
   { code: 'my', country: 'Malaysia' },
 ]
 
+type Tab = 'who' | 'global'
+
 export default function AboutPage() {
+  const [activeTab, setActiveTab] = useState<Tab>('who')
+
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
@@ -107,155 +113,219 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── COMPANY INFO ───────────────────────────────────── */}
+      {/* ── WHO WE ARE + GLOBAL PRESENCE (TABS) ───────────── */}
       <section className="relative bg-white overflow-hidden py-16 sm:py-20">
-        {/* light-bg glow orbs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="about-blob1 absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="about-blob3 absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[110px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">Who We Are</h2>
-          <p className="text-center text-[#475569] mb-12">Three decades of training excellence, built on one belief</p>
 
-          <div className="kglass-light rounded-2xl p-8 sm:p-10">
-            <div className="divide-y divide-[#0694D1]/10">
-
-              {/* Founded */}
-              <div className="flex gap-5 pb-7">
-                <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                  style={{ background: 'rgba(6,148,209,0.10)' }}>
-                  🏛️
-                </div>
-                <div>
-                  <p className="font-bold text-[#0694D1] text-sm mb-1">Founded in 1993</p>
-                  <p className="text-[#374151] text-sm leading-7">
-                    Koenig Solutions is a reputed training organisation. The secret of our success is our
-                    belief that good training requires <strong>"Excellent Trainers,"</strong> and our strive
-                    to retain the best.
-                  </p>
-                </div>
-              </div>
-
-              {/* Vision */}
-              <div className="flex gap-5 py-7">
-                <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                  style={{ background: 'rgba(5,150,105,0.10)' }}>
-                  🌍
-                </div>
-                <div>
-                  <p className="font-bold text-sm mb-1" style={{ color: '#059669' }}>Our Vision</p>
-                  <p className="text-[#374151] text-sm leading-7">
-                    To contribute to a more equitable and prosperous world through education. Today, Koenig
-                    has offices across the globe to help accomplish that vision.
-                  </p>
-                </div>
-              </div>
-
-              {/* Kites */}
-              <div className="flex gap-5 py-7">
-                <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                  style={{ background: 'rgba(124,58,237,0.10)' }}>
-                  🤝
-                </div>
-                <div>
-                  <p className="font-bold text-sm mb-1" style={{ color: '#7c3aed' }}>The Kites</p>
-                  <p className="text-[#374151] text-sm leading-7">
-                    Our dedicated team of professionals, known as <strong>Kites</strong>, are passionate
-                    about delivering exceptional customer experiences.
-                  </p>
-                </div>
-              </div>
-
-              {/* Koenig Ethos */}
-              <div className="flex gap-5 py-7">
-                <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                  style={{ background: 'rgba(6,148,209,0.10)' }}>
-                  💎
-                </div>
-                <div>
-                  <p className="font-bold text-[#0694D1] text-sm mb-1">Koenig Ethos</p>
-                  <p className="text-[#374151] text-sm leading-7">
-                    We believe that true success is achievement of <strong>Money, Respect, and Peace of Mind</strong>{' '}
-                    and we endeavor to achieve both for our Kites and Kustomers. These core principles, embodied in{' '}
-                    <span className="font-semibold" style={{ color: '#0694D1' }}>"Koenig Ethos"</span>, drive
-                    exceptional learning experiences for our valued Kustomers.
-                  </p>
-                </div>
-              </div>
-
-              {/* Constant Improvement */}
-              <div className="flex gap-5 pt-7">
-                <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                  style={{ background: 'rgba(220,38,38,0.10)' }}>
-                  📈
-                </div>
-                <div>
-                  <p className="font-bold text-sm mb-1" style={{ color: '#dc2626' }}>Constant Improvement</p>
-                  <p className="text-[#374151] text-sm leading-7">
-                    We believe in the philosophy of <strong>Constant Improvement</strong> — always striving
-                    to be better for our trainers, students, and the communities we serve worldwide.
-                  </p>
-                </div>
-              </div>
-
+          {/* Tab navigation */}
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex items-center bg-white border border-[#E2E8F0] rounded-full p-1 shadow-sm gap-1">
+              <button
+                onClick={() => setActiveTab('who')}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
+                  activeTab === 'who'
+                    ? 'bg-[#0694D1] text-white shadow-sm'
+                    : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
+                }`}
+              >
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Who We Are
+              </button>
+              <button
+                onClick={() => setActiveTab('global')}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
+                  activeTab === 'global'
+                    ? 'bg-[#0694D1] text-white shadow-sm'
+                    : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
+                }`}
+              >
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Our Global Presence
+              </button>
             </div>
           </div>
+
+          {/* WHO WE ARE content */}
+          {activeTab === 'who' && (
+            <>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">
+                Who We <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Are</span>
+              </h2>
+              <p className="text-center text-[#475569] mb-10">Three decades of training excellence, built on one belief</p>
+
+              <div className="kglass-light rounded-2xl p-8 sm:p-10">
+                <div className="divide-y divide-[#0694D1]/10">
+
+                  <div className="flex gap-5 pb-7">
+                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                      style={{ background: 'rgba(6,148,209,0.10)' }}>
+                      🏛️
+                    </div>
+                    <div>
+                      <p className="font-bold text-[#0694D1] text-sm mb-1">Founded in 1993</p>
+                      <p className="text-[#374151] text-sm leading-7">
+                        Koenig Solutions is a reputed training organisation. The secret of our success is our
+                        belief that good training requires <strong>"Excellent Trainers,"</strong> and our strive
+                        to retain the best.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-5 py-7">
+                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                      style={{ background: 'rgba(5,150,105,0.10)' }}>
+                      🌍
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm mb-1" style={{ color: '#059669' }}>Our Vision</p>
+                      <p className="text-[#374151] text-sm leading-7">
+                        To contribute to a more equitable and prosperous world through education. Today, Koenig
+                        has offices across the globe to help accomplish that vision.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-5 py-7">
+                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                      style={{ background: 'rgba(124,58,237,0.10)' }}>
+                      🤝
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm mb-1" style={{ color: '#7c3aed' }}>The Kites</p>
+                      <p className="text-[#374151] text-sm leading-7">
+                        Our dedicated team of professionals, known as <strong>Kites</strong>, are passionate
+                        about delivering exceptional customer experiences.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-5 py-7">
+                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                      style={{ background: 'rgba(6,148,209,0.10)' }}>
+                      💎
+                    </div>
+                    <div>
+                      <p className="font-bold text-[#0694D1] text-sm mb-1">Koenig Ethos</p>
+                      <p className="text-[#374151] text-sm leading-7">
+                        We believe that true success is achievement of <strong>Money, Respect, and Peace of Mind</strong>{' '}
+                        and we endeavor to achieve both for our Kites and Kustomers. These core principles, embodied in{' '}
+                        <span className="font-semibold" style={{ color: '#0694D1' }}>"Koenig Ethos"</span>, drive
+                        exceptional learning experiences for our valued Kustomers.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-5 pt-7">
+                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                      style={{ background: 'rgba(220,38,38,0.10)' }}>
+                      📈
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm mb-1" style={{ color: '#dc2626' }}>Constant Improvement</p>
+                      <p className="text-[#374151] text-sm leading-7">
+                        We believe in the philosophy of <strong>Constant Improvement</strong> — always striving
+                        to be better for our trainers, students, and the communities we serve worldwide.
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* GLOBAL PRESENCE content */}
+          {activeTab === 'global' && (
+            <>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">
+                Our Global <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Presence</span>
+              </h2>
+              <p className="text-center text-[#475569] mb-10">13 offices. 195+ countries served.</p>
+
+              <div className="grid grid-cols-4 sm:grid-cols-7 gap-x-4 gap-y-8">
+                {OFFICES.map(o => (
+                  <div key={o.code} className="flex flex-col items-center gap-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`https://flagcdn.com/w80/${o.code}.png`}
+                      alt={`${o.country} flag`}
+                      style={{ width: '52px', height: '34px', objectFit: 'cover' }}
+                      className="rounded shadow-sm"
+                    />
+                    <span className="text-[11px] text-[#475569] text-center font-medium leading-tight">
+                      {o.country}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
         </div>
       </section>
 
-      {/* ── AWARD BANNER ───────────────────────────────────── */}
+      {/* ── AWARDS ─────────────────────────────────────────── */}
       <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-20">
         <div className="pointer-events-none absolute inset-0">
-          {/* base radial gradient centred on the card */}
           <div className="absolute inset-0"
             style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(6,148,209,0.18) 0%, rgba(56,189,248,0.08) 45%, transparent 70%)' }} />
-          {/* animated blobs */}
           <div className="about-blob2 absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full bg-[#0694D1] opacity-[0.18] blur-[110px]" />
           <div className="about-blob1 absolute bottom-0 -left-32 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.10] blur-[100px]" />
           <div className="about-blob3 absolute bottom-0 -right-32 w-[400px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-dark rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-            <div className="text-5xl shrink-0">🏆</div>
-            <div>
-              <p className="text-xl sm:text-2xl font-bold text-[#38bdf8] mb-2">
-                Best Place to Work in Education (2010–2026)
-              </p>
-              <p className="text-white/60 text-sm leading-relaxed">
-                The <strong className="text-white/80">I &lt; O</strong> in our logo symbolises that
-                I (us) is less than O (others), which aligns with our Kustomer Obsession.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ── GLOBAL PRESENCE ────────────────────────────────── */}
-      <section className="relative bg-[#F8FAFC] overflow-hidden py-16 sm:py-20">
-        {/* light-bg glow orbs */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="about-blob3 absolute -top-32 -left-32 w-[450px] h-[450px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[120px]" />
-          <div className="about-blob2 absolute -bottom-32 -right-32 w-[450px] h-[450px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[120px]" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">Our Global Presence</h2>
-          <p className="text-center text-[#475569] mb-12">13 offices. 195+ countries served.</p>
-          <div className="grid grid-cols-4 sm:grid-cols-7 gap-x-4 gap-y-8">
-            {OFFICES.map(o => (
-              <div key={o.code} className="flex flex-col items-center gap-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`https://flagcdn.com/w80/${o.code}.png`}
-                  alt={`${o.country} flag`}
-                  style={{ width: '52px', height: '34px', objectFit: 'cover' }}
-                  className="rounded shadow-sm"
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 text-center">
+            Awards &amp; <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Recognition</span>
+          </h2>
+          <p className="text-center text-white/50 mb-10">Proud milestones that reflect our commitment to excellence</p>
+
+          <div className="grid sm:grid-cols-2 gap-6">
+
+            {/* Great Place to Work */}
+            <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+              <div className="shrink-0">
+                <Image
+                  src="/images/awards/Certified-as-great-place-to-work.webp"
+                  alt="Certified as Great Place to Work"
+                  width={120}
+                  height={120}
+                  className="object-contain"
                 />
-                <span className="text-[11px] text-[#475569] text-center font-medium leading-tight">
-                  {o.country}
-                </span>
               </div>
-            ))}
+              <div>
+                <p className="text-xl font-bold text-[#38bdf8] mb-2">Great Place to Work® Certified</p>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  Recognised as a <strong className="text-white/80">Great Place to Work®</strong>, reflecting
+                  our commitment to building a high-trust, high-performance culture where every Kite thrives.
+                </p>
+              </div>
+            </div>
+
+            {/* Best Place to Work in Education */}
+            <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+              <div className="shrink-0 w-20 h-20 rounded-2xl flex items-center justify-center text-5xl"
+                style={{ background: 'rgba(6,148,209,0.12)' }}>
+                🏆
+              </div>
+              <div>
+                <p className="text-xl font-bold text-[#38bdf8] mb-2">Best Place to Work in Education</p>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  Recognised as the <strong className="text-white/80">Best Place to Work in Education (2010–2026)</strong>.
+                  The <strong className="text-white/80">I &lt; O</strong> in our logo symbolises that
+                  I (us) is less than O (others), aligned with our Kustomer Obsession.
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
