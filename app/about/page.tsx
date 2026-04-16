@@ -203,84 +203,77 @@ export default function AboutPage() {
               </h2>
               <p className="text-center text-[#475569] mb-10">Three decades of training excellence, built on one belief</p>
 
-              <div className="kglass-light rounded-2xl p-8 sm:p-10"
+              <div className="kglass-light rounded-2xl overflow-hidden"
                 style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 8px 40px rgba(56,189,248,0.22), 0 0 80px rgba(6,148,209,0.12)' }}>
-                <div className="divide-y divide-[#0694D1]/10">
 
-                  <div className="flex gap-5 pb-7">
-                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                      style={{ background: 'rgba(6,148,209,0.10)' }}>
-                      🏛️
-                    </div>
-                    <div>
-                      <p className="font-bold text-[#0694D1] text-sm mb-1">Founded in 1993</p>
-                      <p className="text-[#374151] text-sm leading-7">
-                        Koenig Solutions is a reputed training organisation. The secret of our success is our
-                        belief that good training requires <strong>"Excellent Trainers,"</strong> and our strive
-                        to retain the best.
-                      </p>
-                    </div>
+                {/* Row 1 — sky blue */}
+                <div className="flex gap-5 p-7" style={{ background: 'rgba(56,189,248,0.07)' }}>
+                  <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                    style={{ background: 'rgba(6,148,209,0.12)' }}>🏛️</div>
+                  <div>
+                    <p className="font-bold text-[#0694D1] text-sm mb-1">Founded in 1993</p>
+                    <p className="text-[#374151] text-sm leading-7">
+                      Koenig Solutions is a reputed training organisation. The secret of our success is our
+                      belief that good training requires <strong>"Excellent Trainers,"</strong> and our strive
+                      to retain the best.
+                    </p>
                   </div>
-
-                  <div className="flex gap-5 py-7">
-                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                      style={{ background: 'rgba(5,150,105,0.10)' }}>
-                      🌍
-                    </div>
-                    <div>
-                      <p className="font-bold text-sm mb-1" style={{ color: '#059669' }}>Our Vision</p>
-                      <p className="text-[#374151] text-sm leading-7">
-                        To contribute to a more equitable and prosperous world through education. Today, Koenig
-                        has offices across the globe to help accomplish that vision.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-5 py-7">
-                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                      style={{ background: 'rgba(124,58,237,0.10)' }}>
-                      🤝
-                    </div>
-                    <div>
-                      <p className="font-bold text-sm mb-1" style={{ color: '#7c3aed' }}>The Kites</p>
-                      <p className="text-[#374151] text-sm leading-7">
-                        Our dedicated team of professionals, known as <strong>Kites</strong>, are passionate
-                        about delivering exceptional customer experiences.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-5 py-7">
-                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                      style={{ background: 'rgba(6,148,209,0.10)' }}>
-                      💎
-                    </div>
-                    <div>
-                      <p className="font-bold text-[#0694D1] text-sm mb-1">Koenig Ethos</p>
-                      <p className="text-[#374151] text-sm leading-7">
-                        We believe that true success is achievement of <strong>Money, Respect, and Peace of Mind</strong>{' '}
-                        and we endeavor to achieve both for our Kites and Kustomers. These core principles, embodied in{' '}
-                        <span className="font-semibold" style={{ color: '#0694D1' }}>"Koenig Ethos"</span>, drive
-                        exceptional learning experiences for our valued Kustomers.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-5 pt-7">
-                    <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
-                      style={{ background: 'rgba(220,38,38,0.10)' }}>
-                      📈
-                    </div>
-                    <div>
-                      <p className="font-bold text-sm mb-1" style={{ color: '#dc2626' }}>Constant Improvement</p>
-                      <p className="text-[#374151] text-sm leading-7">
-                        We believe in the philosophy of <strong>Constant Improvement</strong> — always striving
-                        to be better for our trainers, students, and the communities we serve worldwide.
-                      </p>
-                    </div>
-                  </div>
-
                 </div>
+
+                {/* Row 2 — white */}
+                <div className="flex gap-5 p-7 border-t border-[#0694D1]/08" style={{ background: '#fff' }}>
+                  <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                    style={{ background: 'rgba(5,150,105,0.10)' }}>🌍</div>
+                  <div>
+                    <p className="font-bold text-sm mb-1" style={{ color: '#059669' }}>Our Vision</p>
+                    <p className="text-[#374151] text-sm leading-7">
+                      To contribute to a more equitable and prosperous world through education. Today, Koenig
+                      has offices across the globe to help accomplish that vision.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Row 3 — sky blue */}
+                <div className="flex gap-5 p-7 border-t border-[#0694D1]/08" style={{ background: 'rgba(56,189,248,0.07)' }}>
+                  <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                    style={{ background: 'rgba(124,58,237,0.10)' }}>🤝</div>
+                  <div>
+                    <p className="font-bold text-sm mb-1" style={{ color: '#7c3aed' }}>The Kites</p>
+                    <p className="text-[#374151] text-sm leading-7">
+                      Our dedicated team of professionals, known as <strong>Kites</strong>, are passionate
+                      about delivering exceptional customer experiences.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Row 4 — white */}
+                <div className="flex gap-5 p-7 border-t border-[#0694D1]/08" style={{ background: '#fff' }}>
+                  <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                    style={{ background: 'rgba(6,148,209,0.10)' }}>💎</div>
+                  <div>
+                    <p className="font-bold text-[#0694D1] text-sm mb-1">Koenig Ethos</p>
+                    <p className="text-[#374151] text-sm leading-7">
+                      We believe that true success is achievement of <strong>Money, Respect, and Peace of Mind</strong>{' '}
+                      and we endeavor to achieve both for our Kites and Kustomers. These core principles, embodied in{' '}
+                      <span className="font-semibold" style={{ color: '#0694D1' }}>"Koenig Ethos"</span>, drive
+                      exceptional learning experiences for our valued Kustomers.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Row 5 — sky blue */}
+                <div className="flex gap-5 p-7 border-t border-[#0694D1]/08" style={{ background: 'rgba(56,189,248,0.07)' }}>
+                  <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                    style={{ background: 'rgba(220,38,38,0.10)' }}>📈</div>
+                  <div>
+                    <p className="font-bold text-sm mb-1" style={{ color: '#dc2626' }}>Constant Improvement</p>
+                    <p className="text-[#374151] text-sm leading-7">
+                      We believe in the philosophy of <strong>Constant Improvement</strong> — always striving
+                      to be better for our trainers, students, and the communities we serve worldwide.
+                    </p>
+                  </div>
+                </div>
+
               </div>
             </>
           )}
