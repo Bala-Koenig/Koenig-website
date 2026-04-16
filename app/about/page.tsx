@@ -362,8 +362,8 @@ export default function AboutPage() {
             <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8">
               {/* I < O — left, white bg */}
               <div className="shrink-0 flex justify-center">
-                <div className="rounded-2xl px-5 py-4" style={{ background: '#fff' }}>
-                  <span className="text-3xl font-black tracking-tight" style={{ color: '#0694D1' }}>I &lt; O</span>
+                <div className="rounded-2xl px-8 py-6" style={{ background: '#fff' }}>
+                  <span className="text-5xl font-black tracking-tight" style={{ color: '#0694D1' }}>I &lt; O</span>
                 </div>
               </div>
               {/* Content — right */}
