@@ -297,35 +297,49 @@ export default function AboutPage() {
           </h2>
           <p className="text-center text-white/50 mb-10">Proud milestones that reflect our commitment to excellence</p>
 
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-6">
 
             {/* Great Place to Work */}
-            <div className="kglass-dark rounded-2xl p-8 flex flex-col items-center gap-4 text-center">
-              <Image
-                src="/images/awards/Certified-as-great-place-to-work.webp"
-                alt="Certified as Great Place to Work"
-                width={160}
-                height={200}
-                className="object-contain drop-shadow-lg"
-              />
-              <p className="text-white/60 text-sm leading-relaxed">
-                Reflecting our commitment to building a high-trust, high-performance
-                culture where every Kite thrives.
-              </p>
+            <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8">
+              {/* Image — left */}
+              <div className="shrink-0 flex justify-center">
+                <Image
+                  src="/images/awards/Certified-as-great-place-to-work.webp"
+                  alt="Certified as Great Place to Work"
+                  width={140}
+                  height={175}
+                  className="object-contain drop-shadow-lg"
+                />
+              </div>
+              {/* Content — right */}
+              <div className="text-center sm:text-left">
+                <p className="text-xl font-bold text-[#38bdf8] mb-3">Great Place to Work® Certified</p>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  Koenig Solutions is proud to be certified as a{' '}
+                  <strong className="text-white/80">Great Place to Work® (JAN 2026–JAN 2027)</strong>,
+                  reflecting our commitment to building a high-trust, high-performance culture
+                  where every Kite thrives and grows.
+                </p>
+              </div>
             </div>
 
             {/* Best Place to Work in Education */}
-            <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-              <div className="shrink-0 w-20 h-20 rounded-2xl flex items-center justify-center text-5xl"
-                style={{ background: 'rgba(6,148,209,0.12)' }}>
-                🏆
+            <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8">
+              {/* Icon — left */}
+              <div className="shrink-0 w-[140px] flex justify-center">
+                <div className="w-24 h-24 rounded-2xl flex items-center justify-center text-5xl"
+                  style={{ background: 'rgba(6,148,209,0.12)' }}>
+                  🏆
+                </div>
               </div>
-              <div>
-                <p className="text-xl font-bold text-[#38bdf8] mb-2">Best Place to Work in Education</p>
+              {/* Content — right */}
+              <div className="text-center sm:text-left">
+                <p className="text-xl font-bold text-[#38bdf8] mb-3">Best Place to Work in Education</p>
                 <p className="text-white/60 text-sm leading-relaxed">
-                  Recognised as the <strong className="text-white/80">Best Place to Work in Education (2010–2026)</strong>.
+                  Recognised as the{' '}
+                  <strong className="text-white/80">Best Place to Work in Education (2010–2026)</strong>.
                   The <strong className="text-white/80">I &lt; O</strong> in our logo symbolises that
-                  I (us) is less than O (others), aligned with our Kustomer Obsession.
+                  I (us) is less than O (others), which aligns perfectly with our Kustomer Obsession.
                 </p>
               </div>
             </div>
