@@ -360,16 +360,10 @@ export default function AboutPage() {
 
             {/* Best Place to Work in Education */}
             <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8">
-              {/* Koenig icon — left, white bg */}
-              <div className="shrink-0 w-[140px] flex justify-center">
-                <div className="rounded-2xl p-3" style={{ background: '#fff' }}>
-                  <Image
-                    src="/images/awards/koenig-icon.png"
-                    alt="Koenig Icon"
-                    width={90}
-                    height={90}
-                    className="object-contain"
-                  />
+              {/* I < O — left, white bg */}
+              <div className="shrink-0 flex justify-center">
+                <div className="rounded-2xl px-5 py-4" style={{ background: '#fff' }}>
+                  <span className="text-3xl font-black tracking-tight" style={{ color: '#0694D1' }}>I &lt; O</span>
                 </div>
               </div>
               {/* Content — right */}
