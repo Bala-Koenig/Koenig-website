@@ -47,6 +47,17 @@ export default function AboutPage() {
         .about-blob1{animation:blob1 12s ease-in-out infinite}
         .about-blob2{animation:blob2 15s ease-in-out infinite}
         .about-blob3{animation:blob3 18s ease-in-out infinite}
+        @keyframes wwwFadeUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+        @keyframes wwwBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+        @keyframes wwwPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.7;transform:scale(1.15)}}
+        @keyframes wwwSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        .www-item{animation:wwwFadeUp 0.5s ease both}
+        .www-item:nth-child(1){animation-delay:0.1s}
+        .www-item:nth-child(2){animation-delay:0.25s}
+        .www-item:nth-child(3){animation-delay:0.4s}
+        .www-icon-q{animation:wwwPulse 2.4s ease-in-out infinite}
+        .www-icon-pin{animation:wwwBounce 2s ease-in-out infinite}
+        .www-icon-clock{animation:wwwSpin 6s linear infinite}
       `}</style>
       <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-24">
         <div className="pointer-events-none absolute inset-0">
@@ -70,8 +81,34 @@ export default function AboutPage() {
                   About <span className="text-[#38bdf8]">Koenig Solutions</span>
                 </h1>
                 <p className="text-xl text-white/80 mb-3 leading-relaxed">
-                  A global leader in IT training. Just tell us <span className="text-[#38bdf8] font-semibold">What, Where, When</span> — we'll deliver the training.
+                  A global leader in IT training. Just tell us
                 </p>
+                <div className="flex flex-wrap gap-3 mb-3">
+                  {/* What */}
+                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-base px-4 py-1.5 rounded-full">
+                    <span className="www-icon-q inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#38bdf8]/20 text-[#38bdf8] text-xs font-black leading-none">?</span>
+                    What
+                  </span>
+                  {/* Where */}
+                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-base px-4 py-1.5 rounded-full">
+                    <span className="www-icon-pin inline-flex items-center justify-center w-5 h-5">
+                      <svg width="12" height="16" viewBox="0 0 12 16" fill="none">
+                        <path d="M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 114.5 5 1.5 1.5 0 016 6.5z" fill="#38bdf8"/>
+                      </svg>
+                    </span>
+                    Where
+                  </span>
+                  {/* When */}
+                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-base px-4 py-1.5 rounded-full">
+                    <span className="www-icon-clock inline-flex items-center justify-center w-5 h-5">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                      </svg>
+                    </span>
+                    When
+                  </span>
+                </div>
+                <p className="text-xl text-white/80 leading-relaxed">— we'll deliver the training.</p>
                 <p className="text-lg text-white/60 mb-8">
                   We empower you to earn <span className="text-white font-medium">Money, Respect and Peace of Mind.</span>
                 </p>
