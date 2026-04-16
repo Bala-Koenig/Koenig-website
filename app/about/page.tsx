@@ -291,23 +291,18 @@ export default function AboutPage() {
           <div className="grid sm:grid-cols-2 gap-6">
 
             {/* Great Place to Work */}
-            <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-              <div className="shrink-0">
-                <Image
-                  src="/images/awards/Certified-as-great-place-to-work.webp"
-                  alt="Certified as Great Place to Work"
-                  width={120}
-                  height={120}
-                  className="object-contain"
-                />
-              </div>
-              <div>
-                <p className="text-xl font-bold text-[#38bdf8] mb-2">Great Place to Work® Certified</p>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Recognised as a <strong className="text-white/80">Great Place to Work®</strong>, reflecting
-                  our commitment to building a high-trust, high-performance culture where every Kite thrives.
-                </p>
-              </div>
+            <div className="kglass-dark rounded-2xl p-8 flex flex-col items-center gap-4 text-center">
+              <Image
+                src="/images/awards/Certified-as-great-place-to-work.webp"
+                alt="Certified as Great Place to Work"
+                width={160}
+                height={200}
+                className="object-contain drop-shadow-lg"
+              />
+              <p className="text-white/60 text-sm leading-relaxed">
+                Reflecting our commitment to building a high-trust, high-performance
+                culture where every Kite thrives.
+              </p>
             </div>
 
             {/* Best Place to Work in Education */}
