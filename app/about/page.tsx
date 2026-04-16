@@ -359,21 +359,25 @@ export default function AboutPage() {
             </div>
 
             {/* Best Place to Work in Education */}
-            <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8">
-              {/* Icon — left */}
+            <div className="rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8"
+              style={{ background: '#fff', border: '1px solid rgba(6,148,209,0.15)', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
+              {/* Koenig icon — left */}
               <div className="shrink-0 w-[140px] flex justify-center">
-                <div className="w-24 h-24 rounded-2xl flex items-center justify-center text-5xl"
-                  style={{ background: 'rgba(6,148,209,0.12)' }}>
-                  🏆
-                </div>
+                <Image
+                  src="/images/awards/koenig-icon.png"
+                  alt="Koenig Icon"
+                  width={110}
+                  height={110}
+                  className="object-contain"
+                />
               </div>
               {/* Content — right */}
               <div className="text-center sm:text-left">
-                <p className="text-xl font-bold text-[#38bdf8] mb-3">Best Place to Work in Education</p>
-                <p className="text-white/60 text-sm leading-relaxed">
+                <p className="text-xl font-bold text-[#0694D1] mb-3">Best Place to Work in Education</p>
+                <p className="text-[#475569] text-sm leading-relaxed">
                   Recognised as the{' '}
-                  <strong className="text-white/80">Best Place to Work in Education (2010–2026)</strong>.
-                  The <strong className="text-white/80">I &lt; O</strong> in our logo symbolises that
+                  <strong className="text-[#0F172A]">Best Place to Work in Education (2010–2026)</strong>.
+                  The <strong className="text-[#0F172A]">I &lt; O</strong> in our logo symbolises that
                   I (us) is less than O (others), which aligns perfectly with our Kustomer Obsession.
                 </p>
               </div>
