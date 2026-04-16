@@ -221,7 +221,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Row 2 — white */}
-                <div className="flex gap-5 p-7 border-t border-[#0694D1]/08" style={{ background: '#fff' }}>
+                <div className="flex gap-5 p-7 border-t border-[#38bdf8]/30" style={{ background: '#fff' }}>
                   <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
                     style={{ background: 'rgba(5,150,105,0.10)' }}>🌍</div>
                   <div>
@@ -234,7 +234,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Row 3 — sky blue */}
-                <div className="flex gap-5 p-7 border-t border-[#0694D1]/08" style={{ background: 'rgba(56,189,248,0.07)' }}>
+                <div className="flex gap-5 p-7 border-t border-[#38bdf8]/30" style={{ background: 'rgba(56,189,248,0.07)' }}>
                   <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
                     style={{ background: 'rgba(124,58,237,0.10)' }}>🤝</div>
                   <div>
@@ -247,7 +247,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Row 4 — white */}
-                <div className="flex gap-5 p-7 border-t border-[#0694D1]/08" style={{ background: '#fff' }}>
+                <div className="flex gap-5 p-7 border-t border-[#38bdf8]/30" style={{ background: '#fff' }}>
                   <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
                     style={{ background: 'rgba(6,148,209,0.10)' }}>💎</div>
                   <div>
@@ -262,7 +262,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Row 5 — sky blue */}
-                <div className="flex gap-5 p-7 border-t border-[#0694D1]/08" style={{ background: 'rgba(56,189,248,0.07)' }}>
+                <div className="flex gap-5 p-7 border-t border-[#38bdf8]/30" style={{ background: 'rgba(56,189,248,0.07)' }}>
                   <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
                     style={{ background: 'rgba(220,38,38,0.10)' }}>📈</div>
                   <div>
