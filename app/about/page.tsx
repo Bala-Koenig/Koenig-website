@@ -6,11 +6,11 @@ import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
 const STATS = [
-  { value: '30+',      label: 'Years of Excellence' },
-  { value: '30,000+', label: 'Students Trained Every Month' },
-  { value: '99.1%',   label: 'On-Time Batch' },
-  { value: '300+',    label: 'Excellent Trainers' },
-  { value: '5,000+',  label: 'Courses — 100+ Added Every Month' },
+  { value: '30+',      label: 'Years of Excellence',            icon: '/images/home-banner/icon-infographic-30+.svg' },
+  { value: '30,000+', label: 'Students Trained Every Month',    icon: '/images/home-banner/icon-infographic-30000+.svg' },
+  { value: '99.1%',   label: 'On-Time Batch',                   icon: '/images/home-banner/icon-infographic-99.svg' },
+  { value: '300+',    label: 'Excellent Trainers',              icon: '/images/home-banner/icon-infographic-300+.svg' },
+  { value: '5,000+',  label: 'Courses — 100+ Added Every Month', icon: '/images/home-banner/icon-infographic-5000+.svg' },
 ]
 
 const OFFICES = [
@@ -141,7 +141,12 @@ export default function AboutPage() {
           {/* Stats */}
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {STATS.map(s => (
-              <div key={s.label} className="kglass-dark rounded-2xl p-4 text-center">
+              <div key={s.label} className="kglass-dark rounded-2xl p-4 text-center flex flex-col items-center">
+                <div className="mb-2 flex h-11 w-11 items-center justify-center rounded-xl"
+                  style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={s.icon} alt={s.label} className="h-5 w-5 object-contain" />
+                </div>
                 <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">{s.value}</div>
                 <div className="text-xs sm:text-sm text-white/60 mt-1 leading-snug">{s.label}</div>
               </div>
