@@ -297,7 +297,7 @@ export default function AboutPage() {
           </h2>
           <p className="text-center text-white/50 mb-10">Proud milestones that reflect our commitment to excellence</p>
 
-          <div className="flex flex-col gap-6">
+          <div className="grid sm:grid-cols-2 gap-6">
 
             {/* Great Place to Work */}
             <div className="kglass-dark rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8">
