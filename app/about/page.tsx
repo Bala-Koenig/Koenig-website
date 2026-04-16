@@ -123,57 +123,35 @@ export default function AboutPage() {
 
           {/* Tab navigation */}
           <div className="flex justify-center mb-10">
-            <div
-              className="inline-flex items-center bg-white p-1"
-              style={{ borderRadius: '9999px', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.07)' }}
-            >
+            <div className="inline-flex overflow-hidden rounded-2xl border border-koenig-blue/15 bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
+
               {/* Who We Are tab */}
               <button
                 onClick={() => setActiveTab('who')}
-                className="flex items-center gap-2 text-sm font-semibold transition-all duration-200"
-                style={{
-                  borderRadius: '9999px',
-                  padding: '8px 18px',
-                  background: activeTab === 'who' ? '#0694D1' : 'transparent',
-                  color: activeTab === 'who' ? '#fff' : '#6B7280',
-                }}
+                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${
+                  activeTab === 'who'
+                    ? 'bg-gradient-to-r from-koenig-blue to-cyan-500 text-white shadow-md shadow-koenig-blue/30'
+                    : 'text-koenig-muted hover:text-koenig-dark'
+                }`}
               >
-                {activeTab === 'who' ? (
-                  <span style={{ display:'flex', alignItems:'center', justifyContent:'center', width:22, height:22, borderRadius:6, background:'rgba(255,255,255,0.22)', flexShrink:0 }}>
-                    <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </span>
-                ) : (
-                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ flexShrink:0, opacity:0.7 }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                )}
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
                 Who We Are
               </button>
 
               {/* Our Global Presence tab */}
               <button
                 onClick={() => setActiveTab('global')}
-                className="flex items-center gap-2 text-sm font-semibold transition-all duration-200"
-                style={{
-                  borderRadius: '9999px',
-                  padding: '8px 18px',
-                  background: activeTab === 'global' ? '#0694D1' : 'transparent',
-                  color: activeTab === 'global' ? '#fff' : '#6B7280',
-                }}
+                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${
+                  activeTab === 'global'
+                    ? 'bg-gradient-to-r from-koenig-blue to-cyan-500 text-white shadow-md shadow-koenig-blue/30'
+                    : 'text-koenig-muted hover:text-koenig-dark'
+                }`}
               >
-                {activeTab === 'global' ? (
-                  <span style={{ display:'flex', alignItems:'center', justifyContent:'center', width:22, height:22, borderRadius:6, background:'rgba(255,255,255,0.22)', flexShrink:0 }}>
-                    <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </span>
-                ) : (
-                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ flexShrink:0, opacity:0.7 }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                )}
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
                 Our Global Presence
               </button>
 
