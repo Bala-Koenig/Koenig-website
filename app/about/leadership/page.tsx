@@ -434,7 +434,7 @@ export default function LeadershipPage() {
                 <div key={m.name} className="w-full sm:w-[calc(33.333%-1rem)] bg-white rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(6,148,209,0.10)] border border-gray-100 flex flex-col">
 
                   {/* Photo area — dark teal bg */}
-                  <div className="w-full h-56 bg-[#0a3d5c] flex items-end justify-center overflow-hidden flex-shrink-0">
+                  <div className="w-full h-52 bg-[#0a3d5c] flex items-end justify-center overflow-hidden flex-shrink-0">
                     {m.image ? (
                       <img src={m.image} alt={m.name} className="w-full h-full object-cover object-top" />
                     ) : (
