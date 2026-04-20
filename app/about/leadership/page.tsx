@@ -281,24 +281,20 @@ export default function LeadershipPage() {
               <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group">
 
                 {/* ── Photo / Image placeholder (top) ── */}
-                <div
-                  className="relative w-full h-52 flex flex-col items-center justify-center flex-shrink-0"
-                  style={{ background: `linear-gradient(160deg, ${m.color}33 0%, ${m.color}11 100%)` }}>
-                  {m.image ? (
-                    /* TODO: set m.image to real photo path to activate */
-                    <img src={m.image} alt={m.name} className="w-full h-full object-cover object-top" />
-                  ) : (
-                    /* Image placeholder — set image field to actual photo path to replace */
-                    <>
-                      <div
-                        className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg mb-2"
-                        style={{ backgroundColor: m.color }}>
-                        {m.initials}
-                      </div>
-                      <span className="text-white/30 text-[10px] tracking-wide uppercase">Photo placeholder</span>
-                    </>
-                  )}
-                </div>
+                {m.image ? (
+                  /* TODO: set m.image to real photo path to activate */
+                  <img src={m.image} alt={m.name} className="w-full h-52 object-cover object-top flex-shrink-0" />
+                ) : (
+                  /* Image placeholder — set image field to actual photo path to replace */
+                  <div className="w-full h-52 flex flex-col items-center justify-center flex-shrink-0 border-b border-white/10">
+                    <div
+                      className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg mb-3"
+                      style={{ backgroundColor: m.color }}>
+                      {m.initials}
+                    </div>
+                    <span className="text-white/25 text-[10px] tracking-widest uppercase">Photo placeholder</span>
+                  </div>
+                )}
 
                 {/* ── Name, designation, actions (bottom) ── */}
                 <div className="p-5 flex flex-col flex-1">
