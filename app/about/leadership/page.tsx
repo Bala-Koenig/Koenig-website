@@ -206,22 +206,22 @@ export default function LeadershipPage() {
       {/* TABS */}
       <section className="bg-white py-8 border-b border-[#E2EEF9]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] flex justify-center">
-          <div className="inline-flex items-center bg-[#EFF6FF] rounded-2xl p-1.5 gap-1">
+          <div className="inline-flex overflow-hidden rounded-2xl border border-[#0694D1]/20 bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
             <button
               onClick={() => setActiveTab('koenig')}
-              className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
                 activeTab === 'koenig'
-                  ? 'bg-white text-[#0694D1] border border-[#0694D1] shadow-sm'
-                  : 'bg-transparent text-[#0694D1]'
+                  ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                  : 'text-[#64748B] hover:text-[#0F172A]'
               }`}>
               Koenig Leadership
             </button>
             <button
               onClick={() => setActiveTab('executive')}
-              className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
                 activeTab === 'executive'
-                  ? 'bg-white text-[#0694D1] border border-[#0694D1] shadow-sm'
-                  : 'bg-transparent text-[#0694D1]'
+                  ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                  : 'text-[#64748B] hover:text-[#0F172A]'
               }`}>
               Executive Leadership
             </button>
