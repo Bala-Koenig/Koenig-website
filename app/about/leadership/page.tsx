@@ -359,7 +359,7 @@ export default function LeadershipPage() {
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Senior Leadership</h2>
           <p className="text-center text-white/60 mb-12">The experts driving global operations, growth, and innovation</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {TEAM.map(m => (
+            {TEAM.slice(0, 7).map(m => (
               <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group">
 
                 {/* ── Photo / Image placeholder (top) ── */}
