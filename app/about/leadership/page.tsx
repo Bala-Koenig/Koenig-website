@@ -417,11 +417,14 @@ export default function LeadershipPage() {
 
       {/* EXECUTIVE LEADERSHIP TAB */}
       {activeTab === 'executive' && (
-        <section className="bg-white py-12">
-          <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+        <section className="relative bg-[#06111E] py-16 sm:py-20 overflow-hidden">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
+          </div>
+          <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
             {/* Intro text */}
-            <p className="font-bold text-[#0F172A] text-base leading-snug mb-10">
+            <p className="font-bold text-white text-base leading-snug mb-10">
               Koenig&#39;s Leadership team consists of Industry veterans who have a passion for educational innovation and customers.
             </p>
 
