@@ -143,9 +143,18 @@ const TEAM = [
   },
 ]
 
+type BioMember = {
+  name: string
+  title: string
+  initials: string
+  color: string
+  image: string | null
+  bio: string
+  linkedin: string
+}
+
 export default function LeadershipPage() {
-  const [expandedBio, setExpandedBio] = useState<string | null>(null)
-  const [ceoBioOpen, setCeoBioOpen] = useState(false)
+  const [bioModal, setBioModal] = useState<BioMember | null>(null)
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -238,17 +247,12 @@ export default function LeadershipPage() {
                     <p key={i} className="text-[#475569] leading-relaxed mb-4">{para}</p>
                   ))}
 
-                  {/* View Bio toggle */}
+                  {/* View Bio */}
                   <button
-                    onClick={() => setCeoBioOpen(o => !o)}
+                    onClick={() => setBioModal({ name: CEO.name, title: CEO.title, initials: CEO.initials, color: '#0694D1', image: CEO.image, bio: CEO.bio, linkedin: CEO.linkedin })}
                     className="mt-2 text-[#0694D1] font-semibold text-sm hover:text-[#0580bb] transition-colors flex items-center gap-1">
-                    {ceoBioOpen ? 'Hide Bio −' : 'View Bio +'}
+                    View Bio +
                   </button>
-                  {ceoBioOpen && (
-                    <div className="mt-4 p-4 bg-[#F0F9FF] rounded-xl border border-[#BAE6FD]">
-                      <p className="text-[#475569] text-sm leading-relaxed">{CEO.bio}</p>
-                    </div>
-                  )}
 
                   {/* LinkedIn */}
                   <a
@@ -304,11 +308,11 @@ export default function LeadershipPage() {
                   <p className="text-white/50 text-xs leading-relaxed mb-4">{m.title}</p>
 
                   <div className="mt-auto flex items-center justify-between">
-                    {/* View Bio toggle */}
+                    {/* View Bio — opens modal */}
                     <button
-                      onClick={() => setExpandedBio(expandedBio === m.name ? null : m.name)}
+                      onClick={() => setBioModal(m)}
                       className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors">
-                      {expandedBio === m.name ? 'Hide Bio −' : 'View Bio +'}
+                      View Bio +
                     </button>
 
                     {/* LinkedIn icon */}
@@ -323,13 +327,6 @@ export default function LeadershipPage() {
                       </svg>
                     </a>
                   </div>
-
-                  {/* Expanded bio */}
-                  {expandedBio === m.name && (
-                    <div className="mt-4 pt-4 border-t border-white/10">
-                      <p className="text-white/60 text-xs leading-relaxed">{m.bio}</p>
-                    </div>
-                  )}
                 </div>
 
               </div>
@@ -351,6 +348,64 @@ export default function LeadershipPage() {
           </a>
         </div>
       </section>
+
+      {/* BIO MODAL */}
+      {bioModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backgroundColor: 'rgba(6,17,30,0.85)', backdropFilter: 'blur(6px)' }}
+          onClick={() => setBioModal(null)}>
+          <div
+            className="relative w-full max-w-md rounded-3xl overflow-hidden shadow-2xl"
+            style={{ background: '#0D1F30', border: '1px solid rgba(255,255,255,0.08)' }}
+            onClick={e => e.stopPropagation()}>
+
+            {/* Close button */}
+            <button
+              onClick={() => setBioModal(null)}
+              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+              aria-label="Close">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Photo placeholder */}
+            <div className="w-full h-52 flex flex-col items-center justify-center border-b border-white/10">
+              {bioModal.image ? (
+                <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-top" />
+              ) : (
+                <>
+                  <div
+                    className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg mb-3"
+                    style={{ backgroundColor: bioModal.color }}>
+                    {bioModal.initials}
+                  </div>
+                  <span className="text-white/25 text-[10px] tracking-widest uppercase">Photo placeholder</span>
+                </>
+              )}
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <h3 className="text-xl font-bold text-white mb-1">{bioModal.name}</h3>
+              <p className="text-[#38bdf8] text-sm font-medium mb-4">{bioModal.title}</p>
+              <p className="text-white/60 text-sm leading-relaxed mb-6">{bioModal.bio}</p>
+              <a
+                href={bioModal.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-[#38bdf8] text-sm font-semibold hover:text-white transition-colors">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                View LinkedIn Profile
+              </a>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   )
 }
