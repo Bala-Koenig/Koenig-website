@@ -229,8 +229,10 @@ export default function LeadershipPage() {
         </div>
       </section>
 
-      {/* LIGHT SECTION – CEO spotlight */}
-      {activeTab === 'koenig' && (
+      {/* KOENIG LEADERSHIP TAB — CEO + Team grid */}
+      {activeTab === 'koenig' && (<>
+
+      {/* CEO spotlight */}
       <section className="bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">Founder &amp; CEO</h2>
@@ -299,10 +301,8 @@ export default function LeadershipPage() {
           </div>
         </div>
       </section>
-      )}
 
-      {/* DARK SECTION – Team grid */}
-      {activeTab === 'executive' && (
+      {/* Team grid — below CEO */}
       <section className="relative bg-[#06111E] py-16 sm:py-20 overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
@@ -364,6 +364,14 @@ export default function LeadershipPage() {
           </div>
         </div>
       </section>
+
+      </>)}
+
+      {/* EXECUTIVE LEADERSHIP TAB — content to be added */}
+      {activeTab === 'executive' && (
+        <section className="bg-white py-20 text-center">
+          <p className="text-[#94A3B8] text-sm">Content coming soon.</p>
+        </section>
       )}
 
       {/* LIGHT SECTION – Join CTA */}
