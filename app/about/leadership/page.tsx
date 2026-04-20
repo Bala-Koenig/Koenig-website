@@ -358,9 +358,9 @@ export default function LeadershipPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Senior Leadership</h2>
           <p className="text-center text-white/60 mb-12">The experts driving global operations, growth, and innovation</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="flex flex-wrap justify-center gap-5">
             {TEAM.slice(0, 7).map(m => (
-              <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group">
+              <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] xl:w-[calc(25%-15px)]">
 
                 {/* ── Photo / Image placeholder (top) ── */}
                 {m.image ? (
