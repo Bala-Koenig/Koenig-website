@@ -208,15 +208,19 @@ export default function LeadershipPage() {
                     <img
                       src={CEO.image}
                       alt={CEO.name}
-                      className="w-28 h-28 rounded-full object-cover shadow-lg"
+                      className="w-36 h-36 rounded-2xl object-cover object-top shadow-lg"
                     />
                   ) : (
                     /* Image placeholder — set CEO.image to the real photo path to replace */
                     <div
-                      className="w-28 h-28 rounded-full flex items-center justify-center text-3xl font-black text-white shadow-lg"
-                      style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}
+                      className="w-36 h-36 rounded-2xl flex flex-col items-center justify-center gap-2 shadow-lg"
+                      style={{ background: 'linear-gradient(135deg, #0694D133, #38bdf822)', border: '2px dashed #0694D155' }}
                       title="Image placeholder — update CEO.image with actual photo path">
-                      {CEO.initials}
+                      <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black text-white"
+                        style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>
+                        {CEO.initials}
+                      </div>
+                      <span className="text-[#0694D1]/60 text-[10px] tracking-wide uppercase">Photo placeholder</span>
                     </div>
                   )}
                 </div>
@@ -274,61 +278,63 @@ export default function LeadershipPage() {
           <p className="text-center text-white/60 mb-12">The experts driving global operations, growth, and innovation</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {TEAM.map(m => (
-              <div key={m.name} className="kglass-dark rounded-2xl p-5 transition-all group flex flex-col">
+              <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group">
 
-                <div className="flex items-center gap-4 mb-4">
-                  {/* Image / Avatar placeholder */}
+                {/* ── Photo / Image placeholder (top) ── */}
+                <div
+                  className="relative w-full h-52 flex flex-col items-center justify-center flex-shrink-0"
+                  style={{ background: `linear-gradient(160deg, ${m.color}33 0%, ${m.color}11 100%)` }}>
                   {m.image ? (
-                    /* TODO: set m.image to the real photo path to activate */
-                    <img
-                      src={m.image}
-                      alt={m.name}
-                      className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                    />
+                    /* TODO: set m.image to real photo path to activate */
+                    <img src={m.image} alt={m.name} className="w-full h-full object-cover object-top" />
                   ) : (
                     /* Image placeholder — set image field to actual photo path to replace */
-                    <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-                      style={{ backgroundColor: m.color }}
-                      title={`Image placeholder — update image field for ${m.name}`}>
-                      {m.initials}
+                    <>
+                      <div
+                        className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg mb-2"
+                        style={{ backgroundColor: m.color }}>
+                        {m.initials}
+                      </div>
+                      <span className="text-white/30 text-[10px] tracking-wide uppercase">Photo placeholder</span>
+                    </>
+                  )}
+                </div>
+
+                {/* ── Name, designation, actions (bottom) ── */}
+                <div className="p-5 flex flex-col flex-1">
+                  <div className="font-semibold text-white text-sm group-hover:text-[#38bdf8] transition-colors leading-snug mb-1">
+                    {m.name}
+                  </div>
+                  <p className="text-white/50 text-xs leading-relaxed mb-4">{m.title}</p>
+
+                  <div className="mt-auto flex items-center justify-between">
+                    {/* View Bio toggle */}
+                    <button
+                      onClick={() => setExpandedBio(expandedBio === m.name ? null : m.name)}
+                      className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors">
+                      {expandedBio === m.name ? 'Hide Bio −' : 'View Bio +'}
+                    </button>
+
+                    {/* LinkedIn icon */}
+                    <a
+                      href={m.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/40 hover:text-[#38bdf8] transition-colors"
+                      aria-label={`${m.name} LinkedIn`}>
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                      </svg>
+                    </a>
+                  </div>
+
+                  {/* Expanded bio */}
+                  {expandedBio === m.name && (
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <p className="text-white/60 text-xs leading-relaxed">{m.bio}</p>
                     </div>
                   )}
-
-                  <div className="min-w-0">
-                    <div className="font-semibold text-white text-sm group-hover:text-[#38bdf8] transition-colors leading-snug">{m.name}</div>
-                  </div>
                 </div>
-
-                <p className="text-white/50 text-xs leading-relaxed mb-4">{m.title}</p>
-
-                <div className="mt-auto flex items-center justify-between">
-                  {/* View Bio toggle */}
-                  <button
-                    onClick={() => setExpandedBio(expandedBio === m.name ? null : m.name)}
-                    className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors">
-                    {expandedBio === m.name ? 'Hide Bio −' : 'View Bio +'}
-                  </button>
-
-                  {/* LinkedIn icon */}
-                  <a
-                    href={m.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/40 hover:text-[#38bdf8] transition-colors"
-                    aria-label={`${m.name} LinkedIn`}>
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                  </a>
-                </div>
-
-                {/* Expanded bio */}
-                {expandedBio === m.name && (
-                  <div className="mt-4 pt-4 border-t border-white/10">
-                    <p className="text-white/60 text-xs leading-relaxed">{m.bio}</p>
-                  </div>
-                )}
 
               </div>
             ))}
