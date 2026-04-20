@@ -143,6 +143,54 @@ const TEAM = [
   },
 ]
 
+const EXECUTIVE_TEAM = [
+  {
+    initials: 'NK',
+    name: 'Nidhi Kumra Ahuja',
+    title: 'Manager - HR & Freelancer Management (FM)',
+    linkedin: 'https://www.linkedin.com/in/nidhikumra/',
+    // TODO: Replace with actual photo path e.g. /images/leadership/nidhi-kumra-ahuja.jpg
+    image: null as string | null,
+    bio: 'TODO: Add Nidhi Kumra Ahuja bio content from the live site.',
+  },
+  {
+    initials: 'RT',
+    name: 'Rohit Tiwary',
+    title: 'Assistant Manager - Brand & Digital Communications',
+    linkedin: 'https://www.linkedin.com/in/rohit-tiwary-8958721a1/',
+    // TODO: Replace with actual photo path e.g. /images/leadership/rohit-tiwary.jpg
+    image: null as string | null,
+    bio: 'TODO: Add Rohit Tiwary bio content from the live site.',
+  },
+  {
+    initials: 'HT',
+    name: 'Hardik Tike',
+    title: 'Assistant Technical Manager',
+    linkedin: 'https://www.linkedin.com/in/hardik-tike-b89a08197/',
+    // TODO: Replace with actual photo path e.g. /images/leadership/hardik-tike.jpg
+    image: null as string | null,
+    bio: 'TODO: Add Hardik Tike bio content from the live site.',
+  },
+  {
+    initials: 'VJ',
+    name: 'Vatan Vijay Joshi',
+    title: 'Assistant Technical Manager',
+    linkedin: 'https://www.linkedin.com/in/vatanjoshi/',
+    // TODO: Replace with actual photo path e.g. /images/leadership/vatan-vijay-joshi.jpg
+    image: null as string | null,
+    bio: 'TODO: Add Vatan Vijay Joshi bio content from the live site.',
+  },
+  {
+    initials: 'MC',
+    name: 'Manish Chaturvedi',
+    title: 'Assistant Sales Manager',
+    linkedin: 'https://www.linkedin.com/in/manishchaturvedii/',
+    // TODO: Replace with actual photo path e.g. /images/leadership/manish-chaturvedi.jpg
+    image: null as string | null,
+    bio: 'TODO: Add Manish Chaturvedi bio content from the live site.',
+  },
+]
+
 type BioMember = {
   name: string
   title: string
@@ -367,10 +415,69 @@ export default function LeadershipPage() {
 
       </>)}
 
-      {/* EXECUTIVE LEADERSHIP TAB — content to be added */}
+      {/* EXECUTIVE LEADERSHIP TAB */}
       {activeTab === 'executive' && (
-        <section className="bg-white py-20 text-center">
-          <p className="text-[#94A3B8] text-sm">Content coming soon.</p>
+        <section className="bg-white py-12">
+          <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+
+            {/* Intro text */}
+            <p className="font-bold text-[#0F172A] text-base leading-snug mb-10">
+              Koenig&#39;s Leadership team consists of Industry veterans who have a passion for educational innovation and customers.
+            </p>
+
+            {/* Card grid */}
+            <div className="flex flex-wrap justify-center gap-6">
+              {EXECUTIVE_TEAM.map(m => (
+                <div key={m.name} className="w-full sm:w-[calc(33.333%-1rem)] bg-white rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(6,148,209,0.10)] border border-gray-100 flex flex-col">
+
+                  {/* Photo area — dark teal bg */}
+                  <div className="w-full h-56 bg-[#0a3d5c] flex items-end justify-center overflow-hidden flex-shrink-0">
+                    {m.image ? (
+                      <img src={m.image} alt={m.name} className="w-full h-full object-cover object-top" />
+                    ) : (
+                      /* Image placeholder — set image field to actual photo path to replace */
+                      <div className="flex flex-col items-center justify-center w-full h-full gap-2">
+                        <div className="w-20 h-20 rounded-full bg-white/15 border-2 border-white/30 flex items-center justify-center text-white text-2xl font-black">
+                          {m.initials}
+                        </div>
+                        <span className="text-white/30 text-[10px] tracking-widest uppercase pb-4">Photo placeholder</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Name, title, LinkedIn */}
+                  <div className="px-5 pt-5 pb-4 text-center flex flex-col items-center gap-2 flex-1">
+                    <h3 className="font-bold text-[#0F172A] text-base leading-snug">{m.name}</h3>
+                    <p className="text-[#64748B] text-sm leading-snug">{m.title}</p>
+                    {/* LinkedIn icon */}
+                    <a
+                      href={m.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${m.name} LinkedIn`}
+                      className="mt-1">
+                      <div className="w-8 h-8 rounded-lg bg-[#0694D1] flex items-center justify-center shadow-sm hover:bg-[#0580bb] transition-colors">
+                        <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                      </div>
+                    </a>
+                  </div>
+
+                  {/* View Bio — full-width bottom strip */}
+                  <div className="border-t border-[#E2EEF9] px-5 py-3 text-center">
+                    <button
+                      onClick={() => setBioModal({ ...m, color: '#0694D1' })}
+                      className="text-[#0694D1] text-sm font-medium hover:text-[#0580bb] transition-colors w-full">
+                      View Bio +
+                    </button>
+                  </div>
+
+                </div>
+              ))}
+            </div>
+
+          </div>
         </section>
       )}
 
