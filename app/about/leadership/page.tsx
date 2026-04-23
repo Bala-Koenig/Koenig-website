@@ -470,7 +470,7 @@ export default function LeadershipPage() {
         className="relative py-[60px] text-center overflow-hidden"
         style={{
           backgroundColor: '#EBF5FF',
-          backgroundImage: 'radial-gradient(rgba(6,148,209,0.13) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(rgba(6,148,209,0.28) 1.5px, transparent 1.5px)',
           backgroundSize: '24px 24px',
         }}>
 
