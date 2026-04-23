@@ -117,8 +117,14 @@ export default function OurPartnersPage() {
       </section>
 
       {/* LIGHT SECTION – Partner cards */}
-      <section className="bg-white py-[50px]">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="relative overflow-hidden py-[50px]" style={{ background: 'linear-gradient(180deg, #EBF7FF 0%, #F4FBFF 40%, #EBF7FF 100%)' }}>
+        {/* Ambient glow blobs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-24 -left-24 w-[480px] h-[480px] rounded-full opacity-40 blur-[100px]" style={{ background: 'radial-gradient(circle, #BAE6FD, transparent 70%)' }} />
+          <div className="absolute -bottom-24 -right-24 w-[420px] h-[420px] rounded-full opacity-35 blur-[90px]" style={{ background: 'radial-gradient(circle, #7DD3FA, transparent 70%)' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full opacity-20 blur-[120px]" style={{ background: '#38bdf8' }} />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">
             Authorized by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span>
           </h2>
@@ -128,10 +134,10 @@ export default function OurPartnersPage() {
             {PARTNERS.map(p => (
               <div
                 key={p.name}
-                className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 12px rgba(0,164,239,0.08)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 28px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLElement).style.borderColor = '#0694D1' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 12px rgba(0,164,239,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF' }}
+                className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1"
+                style={{ border: '1px solid #BAE6FD', boxShadow: '0 4px 18px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 36px rgba(6,148,209,0.28), 0 2px 8px rgba(6,148,209,0.14)'; (e.currentTarget as HTMLElement).style.borderColor = '#0694D1' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 18px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = '#BAE6FD' }}
               >
                 {/* Top accent line */}
                 <div className="h-0.5 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
