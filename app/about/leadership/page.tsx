@@ -27,7 +27,7 @@ const TEAM = [
     color: '#0694D1',
     linkedin: 'https://www.linkedin.com/in/subodh-chaudhary-440b394b/',
     image: '/images/leadership/subodh-choudhary.png' as string | null,
-    bio: 'TODO: Add Subodh Choudhary bio content from the live site.',
+    bio: 'Subodh is a management graduate having over 20 years of experience in Training industry. He is a strong believer of empowering people through skilling. He manages the OEM relationship & key account management. Subodh is a sport enthusiast & love to spend his free time on his farm house with his parents & Blue (Siberian Husky).',
   },
   {
     initials: 'SG',
@@ -484,54 +484,59 @@ export default function LeadershipPage() {
       {bioModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(6,17,30,0.85)', backdropFilter: 'blur(6px)' }}
+          style={{ backgroundColor: 'rgba(6,17,30,0.75)', backdropFilter: 'blur(6px)' }}
           onClick={() => setBioModal(null)}>
           <div
-            className="relative w-full max-w-md rounded-3xl overflow-hidden shadow-2xl"
-            style={{ background: '#0D1F30', border: '1px solid rgba(255,255,255,0.08)' }}
+            className="relative w-full max-w-2xl bg-white rounded-2xl overflow-hidden shadow-2xl"
             onClick={e => e.stopPropagation()}>
 
-            {/* Close button */}
-            <button
-              onClick={() => setBioModal(null)}
-              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-              aria-label="Close">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Photo placeholder */}
-            <div className="w-full h-52 flex flex-col items-center justify-center border-b border-white/10">
-              {bioModal.image ? (
-                <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-top" />
-              ) : (
-                <>
-                  <div
-                    className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg mb-3"
-                    style={{ backgroundColor: bioModal.color }}>
-                    {bioModal.initials}
-                  </div>
-                  <span className="text-white/25 text-[10px] tracking-widest uppercase">Photo placeholder</span>
-                </>
-              )}
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+              <h3 className="text-xl font-bold text-[#0F172A]">{bioModal.name}</h3>
+              <button
+                onClick={() => setBioModal(null)}
+                className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors text-2xl leading-none"
+                aria-label="Close">
+                ×
+              </button>
             </div>
 
-            {/* Content */}
-            <div className="p-6">
-              <h3 className="text-xl font-bold text-white mb-1">{bioModal.name}</h3>
-              <p className="text-[#38bdf8] text-sm font-medium mb-4">{bioModal.title}</p>
-              <p className="text-white/60 text-sm leading-relaxed mb-6">{bioModal.bio}</p>
-              <a
-                href={bioModal.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[#38bdf8] text-sm font-semibold hover:text-white transition-colors">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                View LinkedIn Profile
-              </a>
+            {/* Body: photo left + bio right */}
+            <div className="flex min-h-[220px]">
+
+              {/* Photo */}
+              <div className="w-52 flex-shrink-0 bg-[#0a3d5c] overflow-hidden">
+                {bioModal.image ? (
+                  <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-top" />
+                ) : (
+                  <div className="flex items-center justify-center w-full h-full">
+                    <div
+                      className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white"
+                      style={{ backgroundColor: bioModal.color }}>
+                      {bioModal.initials}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Bio */}
+              <div className="flex-1 p-6 flex flex-col justify-between">
+                <div>
+                  <p className="text-[#0694D1] text-sm font-semibold mb-3">{bioModal.title}</p>
+                  <p className="text-[#475569] text-sm leading-relaxed">{bioModal.bio}</p>
+                </div>
+                <a
+                  href={bioModal.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-[#0694D1] text-sm font-semibold hover:text-[#0580bb] transition-colors mt-5">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  View LinkedIn Profile
+                </a>
+              </div>
+
             </div>
 
           </div>
