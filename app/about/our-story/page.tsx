@@ -140,19 +140,10 @@ export default function OurStoryPage() {
       </section>
 
       {/* DARK SECTION – Koenig Ethos */}
-      <section className="relative py-[50px] overflow-hidden"
-        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.22) 0%, rgba(6,17,30,1) 65%)' }}>
+      <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
-          {/* Centre top primary glow */}
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.20] blur-[100px]" />
-          {/* Left accent */}
-          <div className="absolute top-1/2 -translate-y-1/2 -left-32 w-[380px] h-[380px] rounded-full bg-[#38bdf8] opacity-[0.10] blur-[90px]" />
-          {/* Right accent */}
-          <div className="absolute top-1/2 -translate-y-1/2 -right-32 w-[380px] h-[380px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[90px]" />
-          {/* Bottom fade */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full bg-[#38bdf8] opacity-[0.07] blur-[80px]" />
-          {/* Subtle dot grid overlay */}
-          <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.10] blur-[120px] rounded-full" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-[#38bdf8] opacity-[0.06] blur-[100px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
