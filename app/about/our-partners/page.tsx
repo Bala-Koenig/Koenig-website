@@ -55,13 +55,6 @@ export default function OurPartnersPage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <p className="text-[#38bdf8] text-sm mb-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span className="mx-2 text-white/40">/</span>
-            <Link href="/about" className="hover:text-white transition-colors">About</Link>
-            <span className="mx-2 text-white/40">/</span>
-            <span className="text-white/70">Our Partners</span>
-          </p>
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>

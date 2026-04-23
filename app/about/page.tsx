@@ -68,11 +68,6 @@ export default function AboutPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <p className="text-[#38bdf8] text-sm mb-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span className="mx-2 text-white/40">/</span>
-            <span className="text-white/70">About Us</span>
-          </p>
 
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
