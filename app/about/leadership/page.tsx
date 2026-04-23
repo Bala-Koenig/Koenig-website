@@ -108,7 +108,7 @@ const TEAM = [
     color: '#0694D1',
     linkedin: 'https://www.linkedin.com/in/hardik-tike-b89a08197/',
     image: '/images/leadership/Leadership_Hardik-Tike.webp' as string | null,
-    bio: 'TODO: Add Hardik Tike bio content from the live site.',
+    bio: 'With over eight years of experience in the Microsoft 365 domain, Hardik Tike specializes in delivering tailored training solutions for diverse audiences. Known for his interactive and practical approach, he ensures each session addresses real-world challenges effectively. Passionate about technology and digital transformation, Hardik thrives on engaging with tech communities. A sports enthusiast, he has a deep love for football-playing, gaming, or discussing the sport.',
   },
   {
     initials: 'VJ',
@@ -153,7 +153,7 @@ const EXECUTIVE_TEAM = [
     title: 'Assistant Technical Manager',
     linkedin: 'https://www.linkedin.com/in/hardik-tike-b89a08197/',
     image: '/images/leadership/Leadership_Hardik-Tike.webp' as string | null,
-    bio: 'TODO: Add Hardik Tike bio content from the live site.',
+    bio: 'With over eight years of experience in the Microsoft 365 domain, Hardik Tike specializes in delivering tailored training solutions for diverse audiences. Known for his interactive and practical approach, he ensures each session addresses real-world challenges effectively. Passionate about technology and digital transformation, Hardik thrives on engaging with tech communities. A sports enthusiast, he has a deep love for football-playing, gaming, or discussing the sport.',
   },
   {
     initials: 'VJ',
