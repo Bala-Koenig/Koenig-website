@@ -128,51 +128,51 @@ export default function OurClientsPage() {
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Industries We <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Serve</span></h2>
           <p className="text-center text-white/60 mb-12">Koenig delivers specialist IT training across every major sector</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-            {[
+            [
               {
-                color: '#0694D1', bg: 'rgba(6,148,209,0.12)',
+                color: '#0694D1', glow: 'rgba(6,148,209,0.18)',
                 title: 'Banking & Finance',
                 desc: 'HSBC, PwC, EY and global financial institutions upskilling teams in cloud, security and compliance.',
                 svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>,
               },
               {
-                color: '#10b981', bg: 'rgba(16,185,129,0.12)',
+                color: '#38bdf8', glow: 'rgba(56,189,248,0.18)',
                 title: 'Healthcare & NHS',
                 desc: 'NHS and healthcare providers training staff on Microsoft 365, data governance and digital transformation.',
                 svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
               },
               {
-                color: '#f59e0b', bg: 'rgba(245,158,11,0.12)',
+                color: '#4DBFEF', glow: 'rgba(77,191,239,0.18)',
                 title: 'Oil & Energy',
                 desc: 'Saudi Aramco, Shell and Chevron developing technical teams across infrastructure, cloud and automation.',
                 svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,
               },
               {
-                color: '#8b5cf6', bg: 'rgba(139,92,246,0.12)',
+                color: '#076D9D', glow: 'rgba(7,109,157,0.22)',
                 title: 'Aviation & Logistics',
                 desc: 'Emirates and DHL building certified professionals in networking, cloud operations and project management.',
-                svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M21 16v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/><path d="M3 16l4-9h10l4 9"/><path d="M12 7V3"/><path d="M8 21h8"/></svg>,
+                svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><path d="M13 15h4M13 19h2"/></svg>,
               },
               {
-                color: '#38bdf8', bg: 'rgba(56,189,248,0.12)',
+                color: '#0ea5e9', glow: 'rgba(14,165,233,0.18)',
                 title: 'Technology & IT',
                 desc: 'TCS, Infosys, Wipro, HCL and Cognizant running large-scale upskilling programs across global teams.',
                 svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>,
               },
               {
-                color: '#ec4899', bg: 'rgba(236,72,153,0.12)',
+                color: '#0580bb', glow: 'rgba(5,128,187,0.22)',
                 title: 'Government & UN',
                 desc: 'United Nations and public sector organisations training staff in cybersecurity, data and cloud platforms.',
                 svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>,
               },
               {
-                color: '#f97316', bg: 'rgba(249,115,22,0.12)',
+                color: '#22d3ee', glow: 'rgba(34,211,238,0.18)',
                 title: 'Manufacturing & GE',
                 desc: 'GE, Fujifilm and industrial enterprises certifying engineers in cloud, IoT and enterprise technology.',
                 svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
               },
               {
-                color: '#06b6d4', bg: 'rgba(6,182,212,0.12)',
+                color: '#7dd3fc', glow: 'rgba(125,211,252,0.18)',
                 title: 'Telecom & NTT',
                 desc: 'NTT and telecom leaders certifying network engineers across Cisco, Microsoft and cloud technologies.',
                 svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M1.7 8.5a14.5 14.5 0 0120.6 0M5 12a11 11 0 0114 0M8.5 15.5a7 7 0 017 0M12 19h.01"/></svg>,
@@ -182,21 +182,21 @@ export default function OurClientsPage() {
                 className="group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 overflow-hidden backdrop-blur-sm"
                 style={{
                   background: `linear-gradient(145deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)`,
-                  border: `1px solid ${ind.color}28`,
-                  boxShadow: `0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.07), 0 0 0 0 ${ind.color}`,
+                  border: `1px solid ${ind.color}35`,
+                  boxShadow: `0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.07)`,
                 }}>
-                {/* Ambient corner glow — always visible, subtle */}
-                <div className="absolute -top-6 -left-6 w-24 h-24 rounded-full opacity-20 blur-2xl transition-opacity duration-300 group-hover:opacity-40"
+                {/* Ambient corner glow */}
+                <div className="absolute -top-6 -left-6 w-24 h-24 rounded-full opacity-25 blur-2xl transition-opacity duration-300 group-hover:opacity-50"
                   style={{ backgroundColor: ind.color }} />
                 {/* Hover overlay */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
-                  style={{ background: `radial-gradient(ellipse at 20% 20%, ${ind.color}18, transparent 65%)` }} />
-                {/* Top accent line — always show at low opacity, brightens on hover */}
-                <div className="absolute top-0 inset-x-0 h-px transition-opacity duration-300 opacity-40 group-hover:opacity-100"
+                  style={{ background: `radial-gradient(ellipse at 20% 20%, ${ind.glow}, transparent 65%)` }} />
+                {/* Top accent line */}
+                <div className="absolute top-0 inset-x-0 h-px transition-opacity duration-300 opacity-50 group-hover:opacity-100"
                   style={{ background: `linear-gradient(90deg, transparent, ${ind.color}, transparent)` }} />
                 <div className="relative">
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
-                    style={{ background: `linear-gradient(135deg, ${ind.color}22, ${ind.color}10)`, color: ind.color, border: `1px solid ${ind.color}30` }}>
+                    style={{ background: `linear-gradient(135deg, ${ind.color}25, ${ind.color}10)`, color: ind.color, border: `1px solid ${ind.color}35` }}>
                     {ind.svg}
                   </div>
                   <h3 className="text-white font-semibold text-sm mb-2">{ind.title}</h3>
