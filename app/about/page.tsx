@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
+import AdvisorModal from '@/components/AdvisorModal'
 
 const STATS = [
   { value: '30+',      label: 'Years of Excellence',            icon: '/images/home-banner/icon-infographic-30+.svg' },
@@ -33,9 +34,11 @@ type Tab = 'who' | 'global'
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState<Tab>('who')
+  const [advisorOpen, setAdvisorOpen] = useState(false)
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+      {advisorOpen && <AdvisorModal onClose={() => setAdvisorOpen(false)} />}
       <Navbar />
       <AboutSubNav />
 
@@ -450,10 +453,11 @@ export default function AboutPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Upskill?</span></h2>
           <p className="text-white/70 mb-8 text-lg">Join 30,000+ students training with Koenig every month.</p>
-          <a href="mailto:sales@koenig-solutions.com"
+          <button
+            onClick={() => setAdvisorOpen(true)}
             className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">
             Get in Touch
-          </a>
+          </button>
         </div>
       </section>
     </div>
