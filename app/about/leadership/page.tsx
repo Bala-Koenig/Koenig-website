@@ -333,7 +333,7 @@ export default function LeadershipPage() {
           <div className="absolute top-0 inset-x-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Senior Leadership</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Senior <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Leadership</span></h2>
           <p className="text-center text-white/60 mb-12">The experts driving global operations, growth, and innovation</p>
           <div className="flex flex-wrap justify-center gap-5">
             {TEAM.slice(0, 7).map(m => (
@@ -408,7 +408,7 @@ export default function LeadershipPage() {
           </div>
 
           <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Executive Leadership</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Executive <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Leadership</span></h2>
             <p className="text-center text-white/60 mb-12">Industry veterans with a passion for educational innovation and customers</p>
 
             {/* Card grid — same sizing as Senior Leadership */}
