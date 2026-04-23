@@ -3,55 +3,57 @@ import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
+const BASE = 'https://rms.koenig-solutions.com/Sync_Data/Forms/CRM/Files/Freelancer/'
+
 const PARTNERS = [
-  { name: 'Microsoft',                    img: 'microsoft-cloud-t.png',                                    tier: 'Gold Partner',        courses: '380+' },
-  { name: 'Cisco',                        img: 'Cisco.png',                                                tier: 'Premier Partner',     courses: '210+' },
-  { name: 'AWS',                          img: 'amazon-authorized.png',                                    tier: 'Training Partner',    courses: '290+' },
-  { name: 'VMware',                       img: 'VMware-Broadcom.png',                                      tier: 'Principal Partner',   courses: '120+' },
-  { name: 'Oracle',                       img: 'o-prtnr-clr-rgb (1).png',                                  tier: 'Gold Partner',        courses: '160+' },
-  { name: 'PECB',                         img: 'Authorized PECB Certification Courses Training badge.png', tier: 'Authorized Partner',  courses: '80+'  },
-  { name: 'PeopleCert',                   img: 'PeopleCert.png',                                           tier: 'ATO Partner',         courses: '90+'  },
-  { name: 'SAP',                          img: 'SAP.jpg',                                                  tier: 'Gold Partner',        courses: '140+' },
-  { name: 'ISACA',                        img: null,                                                        tier: 'Authorized Partner',  courses: '60+'  },
-  { name: 'CompTIA',                      img: 'comptia.png',                                              tier: 'Platinum Partner',    courses: '180+' },
-  { name: 'ISC2',                         img: 'OTP-Preferred-Badge.png',                                  tier: 'Official Partner',    courses: '50+'  },
-  { name: 'PMI',                          img: 'PMI1115-ATP-Badge-2024-rgb.png',                           tier: 'Premier Partner',     courses: '140+' },
-  { name: 'EC-Council',                   img: 'EC-Council-logo.png',                                      tier: 'ATC Partner',         courses: '120+' },
-  { name: 'Red Hat',                      img: 'Redvendorlogo.png',                                        tier: 'Advanced Partner',    courses: '110+' },
-  { name: 'The Open Group',               img: 'Vendor-OG-logo.png',                                       tier: 'Authorized Partner',  courses: '45+'  },
-  { name: 'ISTQB',                        img: 'ISTQB.png',                                                tier: 'Authorized Partner',  courses: '40+'  },
-  { name: 'Check Point',                  img: 'Checkpoint ATC 2026 PLATINUM Badge.png',                   tier: 'Platinum Partner',    courses: '55+'  },
-  { name: 'Python Institute',             img: 'Python-logo.png',                                          tier: 'Authorized Partner',  courses: '35+'  },
-  { name: 'Omnissa',                      img: 'Omnissa.png',                                              tier: 'Partner',             courses: '30+'  },
-  { name: 'Broadcom',                     img: 'Broadcom.png',                                             tier: 'Partner',             courses: '70+'  },
-  { name: 'Linux Foundation',             img: 'Linux-Foundation.png',                                     tier: 'Training Partner',    courses: '60+'  },
-  { name: 'Autodesk',                     img: 'AutodeskCertification.png',                                tier: 'Authorized Partner',  courses: '45+'  },
-  { name: 'DevOps Institute',             img: 'Linux-Foundation.png',                                     tier: 'Authorized Partner',  courses: '30+'  },
-  { name: 'IIBA',                         img: null,                                                        tier: 'Authorized Partner',  courses: '20+'  },
-  { name: 'JS Institute',                 img: null,                                                        tier: 'Authorized Partner',  courses: '15+'  },
-  { name: 'ServiceNow',                   img: 'ServiceNow.png',                                           tier: 'Training Partner',    courses: '40+'  },
-  { name: 'BCS',                          img: 'BCS partner logo (1).png',                                 tier: 'ATO Partner',         courses: '35+'  },
-  { name: 'CertNexus',                    img: 'cnxatpweb-small.png',                                      tier: 'Authorized Partner',  courses: '30+'  },
-  { name: 'Android ATC',                  img: 'Android ATC Authorized Training Center.jpg',               tier: 'Authorized Partner',  courses: '30+'  },
-  { name: 'TÜV SÜD',                     img: 'Web-TS_Cobranding_Cooperation_partner_RGB_TS_Blue.png',    tier: 'Authorized Partner',  courses: '35+'  },
-  { name: 'AI CERTs',                     img: 'AICerts (1).png',                                          tier: 'Authorized Partner',  courses: '30+'  },
-  { name: 'GSDC',                         img: 'ATP badge.png',                                            tier: 'Authorized Partner',  courses: '20+'  },
-  { name: 'Dell EMC',                     img: 'emc.png',                                                  tier: 'Training Partner',    courses: '50+'  },
-  { name: 'SCRUMstudy',                   img: 'scrumstudy.png',                                           tier: 'Authorized Partner',  courses: '25+'  },
-  { name: 'CWNP',                         img: 'alc-standard-Basic-Logo.jpg',                              tier: 'Authorized Partner',  courses: '25+'  },
-  { name: 'SUSE',                         img: 'suse.jpg',                                                 tier: 'Training Partner',    courses: '20+'  },
-  { name: 'EXIN',                         img: 'EXIN.png',                                                 tier: 'Authorized Partner',  courses: '40+'  },
-  { name: 'Arcitura',                     img: null,                                                        tier: 'Authorized Partner',  courses: '15+'  },
-  { name: 'Cloud Security Alliance',      img: 'cloud-security-alliance.png',                              tier: 'Authorized Partner',  courses: '25+'  },
-  { name: 'Mirantis',                     img: null,                                                        tier: 'Training Partner',    courses: '15+'  },
-  { name: 'Cloudera',                     img: 'cloudera (1).png',                                         tier: 'Training Partner',    courses: '30+'  },
-  { name: 'OffSec Training',              img: 'OffSecLearningPartnerDarkPNG (1).png',                     tier: 'Learning Partner',    courses: '20+'  },
-  { name: 'DevOps Agile Skills (DASA)',   img: null,                                                        tier: 'Authorized Partner',  courses: '15+'  },
-  { name: 'Cloud Credential Council',     img: 'CCC_Logo.png',                                             tier: 'Authorized Partner',  courses: '20+'  },
-  { name: 'C++ Institute',               img: 'c-plus-2-logo.png',                                        tier: 'Authorized Partner',  courses: '10+'  },
-  { name: 'LPI',                          img: 'Linux.png',                                                tier: 'Authorized Partner',  courses: '15+'  },
-  { name: 'Symantec',                     img: null,                                                        tier: 'Training Partner',    courses: '20+'  },
-  { name: 'Global Assoc. for Quality Mgmt', img: null,                                                     tier: 'Authorized Partner',  courses: '10+'  },
+  { name: 'Microsoft',                    img: 'microsoft-cloud-t.png',                                    tier: 'Gold Partner',        courses: '380+', verify: BASE + 'MicrosoftSolutionspartnerletterMay15th2025.pdf' },
+  { name: 'Cisco',                        img: 'Cisco.png',                                                tier: 'Premier Partner',     courses: '210+', verify: BASE + 'CiscoLearningpartnervalidtill28thJul2026.pdf' },
+  { name: 'AWS',                          img: 'amazon-authorized.png',                                    tier: 'Training Partner',    courses: '290+', verify: BASE + '2023828349KoenigSolutionsPrivateLimitedAPNConfirmationLetterAWSmerged.pdf' },
+  { name: 'VMware',                       img: 'VMware-Broadcom.png',                                      tier: 'Principal Partner',   courses: '120+', verify: BASE + 'VCFEDPConfirmationletter2025.pdf' },
+  { name: 'Oracle',                       img: 'o-prtnr-clr-rgb (1).png',                                  tier: 'Gold Partner',        courses: '160+', verify: BASE + 'OraclePartnerCertificatetill9thFeb2027.pdf' },
+  { name: 'PECB',                         img: 'Authorized PECB Certification Courses Training badge.png', tier: 'Titanium Partner',    courses: '80+',  verify: BASE + 'PECBTitaniumPartnercertificatetill31stdec2026.pdf' },
+  { name: 'PeopleCert',                   img: 'PeopleCert.png',                                           tier: 'ATO Partner',         courses: '90+',  verify: BASE + 'PeoplecertATOcertificate2026ITIL5ITIL4PRINCE2DEVOPSIASSC.pdf' },
+  { name: 'SAP',                          img: 'SAP.jpg',                                                  tier: 'Gold Partner',        courses: '140+', verify: BASE + 'SAPAEPletterMay2025.pdf' },
+  { name: 'ISACA',                        img: null,                                                        tier: 'Elite Partner',       courses: '60+',  verify: BASE + 'ISACAElitecertificate2026.pdf' },
+  { name: 'CompTIA',                      img: 'comptia.png',                                              tier: 'Platinum Partner',    courses: '180+', verify: BASE + 'CompTIAPartnerletter2026.pdf' },
+  { name: 'ISC2',                         img: 'OTP-Preferred-Badge.png',                                  tier: 'Official Partner',    courses: '50+',  verify: BASE + 'KoenigPartnerPreferredCertificatetillDec2026.pdf' },
+  { name: 'PMI',                          img: 'PMI1115-ATP-Badge-2024-rgb.png',                           tier: 'Premier Partner',     courses: '140+', verify: BASE + 'PMICertificationofMembershiptillApril2027.pdf' },
+  { name: 'EC-Council',                   img: 'EC-Council-logo.png',                                      tier: 'ATC Partner',         courses: '120+', verify: BASE + 'ATCCertificate.pdf' },
+  { name: 'Red Hat',                      img: 'Redvendorlogo.png',                                        tier: 'Advanced Partner',    courses: '110+', verify: BASE + 'RedHatTraininglocationsandfacilities.pdf' },
+  { name: 'The Open Group',               img: 'Vendor-OG-logo.png',                                       tier: 'Authorized Partner',  courses: '45+',  verify: BASE + 'KoenigtogafEAFoundatccertmerged.pdf' },
+  { name: 'ISTQB',                        img: 'ISTQB.png',                                                tier: 'Authorized Partner',  courses: '40+',  verify: BASE + 'KoenigCTFLVer.4.016May202530June2026.pdf' },
+  { name: 'Check Point',                  img: 'Checkpoint ATC 2026 PLATINUM Badge.png',                   tier: 'Platinum Partner',    courses: '55+',  verify: BASE + 'CheckpointATCCertificate2026.pdf' },
+  { name: 'Python Institute',             img: 'Python-logo.png',                                          tier: 'Authorized Partner',  courses: '35+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
+  { name: 'Omnissa',                      img: 'Omnissa.png',                                              tier: 'Partner',             courses: '30+',  verify: null },
+  { name: 'Broadcom',                     img: 'Broadcom.png',                                             tier: 'Partner',             courses: '70+',  verify: BASE + 'BroadcomEducationDeliveryCertificateKoenigSolutions.pdf' },
+  { name: 'Linux Foundation',             img: 'Linux-Foundation.png',                                     tier: 'Training Partner',    courses: '60+',  verify: BASE + 'Linuxfoundationletterofauthorizationtill16thJul2026.pdf' },
+  { name: 'Autodesk',                     img: 'AutodeskCertification.png',                                tier: 'Authorized Partner',  courses: '45+',  verify: BASE + 'AutodeskATCSiteauthorizationvalidtill1stfeb2027.pdf' },
+  { name: 'DevOps Institute',             img: 'Linux-Foundation.png',                                     tier: 'Authorized Partner',  courses: '30+',  verify: BASE + '2025320429PeopleCertDevOpsvalidtillApril2026.pdf' },
+  { name: 'IIBA',                         img: null,                                                        tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'IIBA.pdf' },
+  { name: 'JS Institute',                 img: null,                                                        tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
+  { name: 'ServiceNow',                   img: 'ServiceNow.png',                                           tier: 'Training Partner',    courses: '40+',  verify: BASE + 'KoenigSolutionsATDstatusconfirmation270624.pdf' },
+  { name: 'BCS',                          img: 'BCS partner logo (1).png',                                 tier: 'ATO Partner',         courses: '35+',  verify: BASE + 'BCSATPCertificatevalidtillSept2026.pdf' },
+  { name: 'CertNexus',                    img: 'cnxatpweb-small.png',                                      tier: 'Authorized Partner',  courses: '30+',  verify: BASE + 'CertNexuscertificate2023.pdf' },
+  { name: 'Android ATC',                  img: 'Android ATC Authorized Training Center.jpg',               tier: 'Authorized Partner',  courses: '30+',  verify: BASE + 'AndroidATCKoenigSolutionsCertificatevalidtill13thOct2026.pdf' },
+  { name: 'TÜV SÜD',                     img: 'Web-TS_Cobranding_Cooperation_partner_RGB_TS_Blue.png',    tier: 'Authorized Partner',  courses: '35+',  verify: BASE + 'KoeningSolutionsConditionalCertificateREP16092025.pdf' },
+  { name: 'AI CERTs',                     img: 'AICerts (1).png',                                          tier: 'Authorized Partner',  courses: '30+',  verify: BASE + 'CertificationAI33948AiCertATP3April2026.pdf' },
+  { name: 'GSDC',                         img: 'ATP badge.png',                                            tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'ATPCertificateKoenigSolutions.pdf' },
+  { name: 'Dell EMC',                     img: 'emc.png',                                                  tier: 'Training Partner',    courses: '50+',  verify: BASE + 'DELLEMC2023824391DTLetterhead2020KonMRSigned1.pdf' },
+  { name: 'SCRUMstudy',                   img: 'scrumstudy.png',                                           tier: 'Authorized Partner',  courses: '25+',  verify: BASE + 'SCRUMStudymerged.pdf' },
+  { name: 'CWNP',                         img: 'alc-standard-Basic-Logo.jpg',                              tier: 'Authorized Partner',  courses: '25+',  verify: BASE + 'CWNPALCCertificateKoenigvalidtill30thJun2026.pdf' },
+  { name: 'SUSE',                         img: 'suse.jpg',                                                 tier: 'Training Partner',    courses: '20+',  verify: BASE + 'SUSEEmeraldcertificate2026.pdf' },
+  { name: 'EXIN',                         img: 'EXIN.png',                                                 tier: 'Authorized Partner',  courses: '40+',  verify: BASE + 'CertificateAEOAccreditationEXINProofofAccreditationAEOLightCertificatev2.1.pdf' },
+  { name: 'Arcitura',                     img: null,                                                        tier: 'Authorized Partner',  courses: '15+',  verify: BASE + '57881KoenigSolutionsPvtLtdAuthorizedTrainingPartnerCertificate20262027.pdf' },
+  { name: 'Cloud Security Alliance',      img: 'cloud-security-alliance.png',                              tier: 'Authorized Partner',  courses: '25+',  verify: BASE + 'CSA2020520816LetterofauthorizationonappointmentbyCSAKoenigSolutions.pdf' },
+  { name: 'Mirantis',                     img: null,                                                        tier: 'Training Partner',    courses: '15+',  verify: BASE + 'MirantisATPlettertillDec2027.pdf' },
+  { name: 'Cloudera',                     img: 'cloudera (1).png',                                         tier: 'Training Partner',    courses: '30+',  verify: BASE + 'FindaClouderapartner.pdf' },
+  { name: 'OffSec Training',              img: 'OffSecLearningPartnerDarkPNG (1).png',                     tier: 'Learning Partner',    courses: '20+',  verify: BASE + 'OffSecFindaPartner.pdf' },
+  { name: 'DevOps Agile Skills (DASA)',   img: null,                                                        tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'DASAATPcertificatevalidtill31stDec2026.pdf' },
+  { name: 'Cloud Credential Council',     img: 'CCC_Logo.png',                                             tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'CCCTrainingPartnerCertificateissuedate30thDec2025.pdf' },
+  { name: 'C++ Institute',               img: 'c-plus-2-logo.png',                                        tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
+  { name: 'LPI',                          img: 'Linux.png',                                                tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'LPIPartnerCertKoenigSolutionsPvt.Ltdsince2025.pdf' },
+  { name: 'Symantec',                     img: null,                                                        tier: 'Training Partner',    courses: '20+',  verify: null },
+  { name: 'Global Assoc. for Quality Mgmt', img: null,                                                     tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'GAQMAuthorizedTrainingCentresinceJan2026.pdf' },
 ]
 
 const WHY_POINTS = [
@@ -156,14 +158,24 @@ export default function OurPartnersPage() {
 
                 {/* Verify button */}
                 <div className="px-3 pb-3 pt-2 bg-[#FAFCFF]">
-                  <button
-                    className="w-full rounded-lg border text-[10px] font-semibold py-1.5 transition-all duration-200"
-                    style={{ borderColor: '#0694D1', color: '#0694D1' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#0694D1'; (e.currentTarget as HTMLElement).style.color = '#fff' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#0694D1' }}
-                  >
-                    Verify Authorisation
-                  </button>
+                  {p.verify ? (
+                    <a
+                      href={p.verify}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full rounded-lg border text-[10px] font-semibold py-1.5 text-center transition-all duration-200"
+                      style={{ borderColor: '#0694D1', color: '#0694D1' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#0694D1'; (e.currentTarget as HTMLElement).style.color = '#fff' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#0694D1' }}
+                    >
+                      Verify Authorisation
+                    </a>
+                  ) : (
+                    <span className="block w-full rounded-lg border text-[10px] font-semibold py-1.5 text-center opacity-30 cursor-not-allowed"
+                      style={{ borderColor: '#0694D1', color: '#0694D1' }}>
+                      Verify Authorisation
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
