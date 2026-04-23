@@ -38,7 +38,7 @@ export default function HappinessGuaranteePage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Happiness Guarantee</span>
           </p>
-          <div className="kglass-banner p-8 sm:p-10">
+          <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="max-w-3xl">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 Learn with <span className="text-[#38bdf8]">Confidence:</span> Koenig Solutions' Happiness Guarantee

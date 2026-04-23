@@ -194,7 +194,7 @@ export default function LeadershipPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-24">
+      <section className="relative bg-[#06111E] overflow-hidden py-[60px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -207,7 +207,7 @@ export default function LeadershipPage() {
             <span className="mx-2 text-white/40">/</span>
             <span className="text-white/70">Leadership</span>
           </p>
-          <div className="kglass-banner p-8 sm:p-10">
+          <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
