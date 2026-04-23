@@ -398,63 +398,61 @@ export default function LeadershipPage() {
 
       {/* EXECUTIVE LEADERSHIP TAB */}
       {activeTab === 'executive' && (
-        <section className="relative bg-[#06111E] py-[60px] overflow-hidden">
+        <section className="relative py-[60px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #0a1f35 40%, #06111E 100%)' }}>
+          {/* Background glow effects */}
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0694D1] opacity-[0.08] blur-[130px] rounded-full" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-[#0694D1] opacity-[0.05] blur-[100px] rounded-full" />
+            <div className="absolute top-1/2 right-0 w-[350px] h-[350px] bg-[#38bdf8] opacity-[0.04] blur-[110px] rounded-full" />
+            <div className="absolute top-0 inset-x-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
           </div>
+
           <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Executive Leadership</h2>
+            <p className="text-center text-white/60 mb-12">Industry veterans with a passion for educational innovation and customers</p>
 
-            {/* Intro text */}
-            <p className="font-bold text-white text-base leading-snug mb-10">
-              Koenig&#39;s Leadership team consists of Industry veterans who have a passion for educational innovation and customers.
-            </p>
-
-            {/* Card grid */}
-            <div className="flex flex-wrap justify-center gap-6">
+            {/* Card grid — same sizing as Senior Leadership */}
+            <div className="flex flex-wrap justify-center gap-5">
               {EXECUTIVE_TEAM.map(m => (
-                <div key={m.name} className="w-full sm:w-[calc(33.333%-1rem)] bg-white rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(6,148,209,0.10)] border border-gray-100 flex flex-col">
+                <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] xl:w-[calc(25%-15px)]">
 
-                  {/* Photo area — dark teal bg */}
-                  <div className="w-full h-52 bg-[#0a3d5c] flex items-end justify-center overflow-hidden flex-shrink-0">
-                    {m.image ? (
-                      <img src={m.image} alt={m.name} className="w-full h-full object-cover object-top" />
-                    ) : (
-                      /* Image placeholder — set image field to actual photo path to replace */
-                      <div className="flex flex-col items-center justify-center w-full h-full gap-2">
-                        <div className="w-20 h-20 rounded-full bg-white/15 border-2 border-white/30 flex items-center justify-center text-white text-2xl font-black">
-                          {m.initials}
-                        </div>
-                        <span className="text-white/30 text-[10px] tracking-widest uppercase pb-4">Photo placeholder</span>
+                  {/* Photo */}
+                  {m.image ? (
+                    <img src={m.image} alt={m.name} className="w-full h-52 object-cover object-top flex-shrink-0" />
+                  ) : (
+                    <div className="w-full h-52 flex flex-col items-center justify-center flex-shrink-0 border-b border-white/10">
+                      <div className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg mb-3" style={{ backgroundColor: '#0694D1' }}>
+                        {m.initials}
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
-                  {/* Name, title, LinkedIn */}
-                  <div className="px-5 pt-5 pb-4 text-center flex flex-col items-center gap-2 flex-1">
-                    <h3 className="font-bold text-[#0F172A] text-base leading-snug">{m.name}</h3>
-                    <p className="text-[#64748B] text-sm leading-snug">{m.title}</p>
-                    {/* LinkedIn icon */}
-                    <a
-                      href={m.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${m.name} LinkedIn`}
-                      className="mt-1">
-                      <div className="w-8 h-8 rounded-lg bg-[#0694D1] flex items-center justify-center shadow-sm hover:bg-[#0580bb] transition-colors">
-                        <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
-                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
+                  {/* Name, title, actions */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <div className="font-semibold text-white text-sm group-hover:text-[#38bdf8] transition-colors leading-snug mb-1">{m.name}</div>
+                    <p className="text-white/50 text-xs leading-relaxed mb-4">{m.title}</p>
+
+                    <div className="mt-auto">
+                      {/* Gradient divider */}
+                      <div className="h-px mb-3" style={{ background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.3), rgba(6,148,209,0.4), rgba(56,189,248,0.3), transparent)' }} />
+                      <div className="flex items-center justify-between">
+                        <button
+                          onClick={() => setBioModal({ ...m, color: '#0694D1' })}
+                          className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors cursor-pointer">
+                          View Bio +
+                        </button>
+                        <a
+                          href={m.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white/40 hover:text-[#38bdf8] transition-colors"
+                          aria-label={`${m.name} LinkedIn`}>
+                          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                          </svg>
+                        </a>
                       </div>
-                    </a>
-                  </div>
-
-                  {/* View Bio — full-width bottom strip */}
-                  <div className="border-t border-[#E2EEF9] px-5 py-3 text-center">
-                    <button
-                      onClick={() => setBioModal({ ...m, color: '#0694D1' })}
-                      className="text-[#0694D1] text-sm font-medium hover:text-[#0580bb] transition-colors w-full cursor-pointer">
-                      View Bio +
-                    </button>
+                    </div>
                   </div>
 
                 </div>
