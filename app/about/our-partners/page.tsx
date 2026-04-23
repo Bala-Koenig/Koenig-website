@@ -59,7 +59,7 @@ export default function OurPartnersPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-                Our <span className="text-[#38bdf8]">Partners</span>
+                Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Partners</span>
               </h1>
               <p className="text-xl text-white/80 mb-4 leading-relaxed">
                 Koenig is an authorized training partner of the world's leading technology vendors. This isn't a badge we buy — it's an authorization we earn through rigorous assessment, certified instructors, and verified delivery.

@@ -35,7 +35,7 @@ export default function OurClientsPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-                Our <span className="text-[#38bdf8]">Clients</span>
+                Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Clients</span>
               </h1>
               <p className="text-xl text-white/80 mb-4 leading-relaxed">
                 From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.

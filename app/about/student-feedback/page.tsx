@@ -87,7 +87,7 @@ export default function StudentFeedbackPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-                Real Learners. <span className="text-[#38bdf8]">Real Stories.</span>
+                Real Learners. <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Real Stories.</span>
               </h1>
               <p className="text-xl text-white/80 leading-relaxed">
                 5 million+ learners upskilled across 195 countries. These are their words — unfiltered, unedited, and from real post-course surveys.

@@ -34,7 +34,7 @@ export default function HappinessGuaranteePage() {
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="max-w-3xl">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-                Learn with <span className="text-[#38bdf8]">Confidence:</span> Koenig Solutions' Happiness Guarantee
+                Learn with <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Confidence:</span> Koenig Solutions' Happiness Guarantee
               </h1>
               <p className="text-xl text-white/70 leading-relaxed">
                 Happiness is achieved when expectations are met. We set clear expectations and then we exceed them — every single time.
