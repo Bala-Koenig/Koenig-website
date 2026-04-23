@@ -23,7 +23,7 @@ const TEAM = [
   {
     initials: 'SC',
     name: 'Subodh Choudhary',
-    title: 'Group Manager, Alliances & Corporate Sales',
+    title: 'Group Manager Alliances & Corporate Sales',
     color: '#0694D1',
     linkedin: 'https://www.linkedin.com/in/subodh-chaudhary-440b394b/',
     image: '/images/leadership/subodh-choudhary.png' as string | null,
@@ -32,7 +32,7 @@ const TEAM = [
   {
     initials: 'SG',
     name: 'Sakshi Gaba Dhawan',
-    title: 'Group Manager, HR, AR/AP & Pre-Sales',
+    title: 'Group Manager (HR. AR/AP & Pre-Sales)',
     color: '#7c3aed',
     linkedin: 'https://www.linkedin.com/in/sakshigabadhawan/',
     image: '/images/leadership/sakshi.png' as string | null,
@@ -41,7 +41,7 @@ const TEAM = [
   {
     initials: 'VA',
     name: 'Vardaan Aggarwal',
-    title: 'Executive Director, Investments',
+    title: 'Executive Director (Investments)',
     color: '#059669',
     linkedin: 'https://www.linkedin.com/in/vardaan-aggarwal-309386174/',
     image: '/images/leadership/verdan-aggarwal.png' as string | null,
@@ -50,7 +50,7 @@ const TEAM = [
   {
     initials: 'AS',
     name: 'Aditya Sharma',
-    title: 'Technical Lead, Automation',
+    title: 'Technical Lead (Automation)',
     color: '#dc2626',
     linkedin: 'https://www.linkedin.com/in/aditya-sharma-22a7b784',
     image: '/images/leadership/aditya-sharma.webp' as string | null,
@@ -68,7 +68,7 @@ const TEAM = [
   {
     initials: 'RA',
     name: 'Raahil Aggarwal',
-    title: 'Group Manager, AI, Koenig Koshish, Strategy & Brand',
+    title: 'Group Manager (AI, Koenig Koshish, Strategy and Brand)',
     color: '#0891b2',
     linkedin: 'https://www.linkedin.com/in/raahil-aggarwal-7b5895187/',
     image: '/images/leadership/raahil_new.png' as string | null,
@@ -77,7 +77,7 @@ const TEAM = [
   {
     initials: 'KS',
     name: 'Kunal Singh',
-    title: 'Regional Manager, Australia',
+    title: 'Regional Manager (Australia)',
     color: '#16a34a',
     linkedin: 'https://www.linkedin.com/in/kunal-singh-0684b6255/',
     image: '/images/leadership/kunal.webp' as string | null,
@@ -277,7 +277,7 @@ export default function LeadershipPage() {
                     <img
                       src={CEO.image}
                       alt={CEO.name}
-                      className="w-36 h-36 rounded-2xl object-cover object-top shadow-lg"
+                      className="w-48 h-48 rounded-2xl object-cover object-top shadow-lg"
                     />
                   ) : (
                     /* Image placeholder — set CEO.image to the real photo path to replace */
