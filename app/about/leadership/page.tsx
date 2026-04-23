@@ -474,52 +474,51 @@ export default function LeadershipPage() {
       {bioModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(6,17,30,0.75)', backdropFilter: 'blur(6px)' }}
+          style={{ backgroundColor: 'rgba(6,17,30,0.88)', backdropFilter: 'blur(8px)' }}
           onClick={() => setBioModal(null)}>
           <div
-            className="relative w-full max-w-2xl bg-white dark:bg-[#0D1F30] rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl"
+            style={{ background: '#0D1F30', border: '1px solid rgba(56,189,248,0.15)' }}
             onClick={e => e.stopPropagation()}>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/10">
-              <h3 className="text-xl font-bold text-[#0F172A] dark:text-white">{bioModal.name}</h3>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+              <h3 className="text-xl font-bold text-white">{bioModal.name}</h3>
               <button
                 onClick={() => setBioModal(null)}
-                className="w-7 h-7 flex items-center justify-center text-gray-400 dark:text-white/40 hover:text-gray-700 dark:hover:text-white transition-colors text-2xl leading-none"
+                className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white transition-colors text-2xl leading-none"
                 aria-label="Close">
                 ×
               </button>
             </div>
 
-            {/* Body: photo left + bio right */}
-            <div className="flex">
+            {/* Body */}
+            <div className="flex items-start gap-6 p-6">
 
-              {/* Photo — fixed height, self-stretch so it fills alongside bio column */}
-              <div className="w-60 flex-shrink-0 bg-[#0a3d5c] self-stretch min-h-[240px] overflow-hidden">
-                {bioModal.image ? (
-                  <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-left object-top" style={{ minHeight: 240 }} />
-                ) : (
-                  <div className="flex items-center justify-center w-full min-h-[240px]">
-                    <div
-                      className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white"
-                      style={{ backgroundColor: bioModal.color }}>
+              {/* Circular photo with teal ring glow */}
+              <div className="flex-shrink-0">
+                <div
+                  className="w-28 h-28 rounded-full overflow-hidden"
+                  style={{ boxShadow: '0 0 0 3px #0694D1, 0 0 20px rgba(6,148,209,0.35)' }}>
+                  {bioModal.image ? (
+                    <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-left object-top" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-2xl font-black text-white" style={{ backgroundColor: bioModal.color }}>
                       {bioModal.initials}
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
               {/* Bio */}
-              <div className="flex-1 p-6 flex flex-col justify-between min-h-[240px]">
-                <div>
-                  <p className="text-[#0694D1] text-sm font-semibold mb-3">{bioModal.title}</p>
-                  <p className="text-[#475569] dark:text-white/70 text-sm leading-relaxed">{bioModal.bio}</p>
-                </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[#38bdf8] text-sm font-semibold mb-3">{bioModal.title}</p>
+                <p className="text-white/70 text-sm leading-relaxed mb-5">{bioModal.bio}</p>
                 <a
                   href={bioModal.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[#0694D1] text-sm font-semibold hover:text-[#0580bb] transition-colors mt-5">
+                  className="inline-flex items-center gap-2 text-[#38bdf8] text-sm font-semibold hover:text-white transition-colors">
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
