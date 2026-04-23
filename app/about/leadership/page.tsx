@@ -299,12 +299,14 @@ export default function LeadershipPage() {
             <div className="inline-flex bg-white/5 rounded-xl p-1 border border-white/10">
               <button
                 onClick={() => setActiveTab('koenig')}
-                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'koenig' ? 'bg-[#0694D1] text-white shadow' : 'text-white/60 hover:text-white'}`}>
+                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'koenig' ? 'text-white shadow' : 'text-white/60 hover:text-white'}`}
+                style={activeTab === 'koenig' ? { backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' } : undefined}>
                 Koenig Leadership
               </button>
               <button
                 onClick={() => setActiveTab('executive')}
-                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'executive' ? 'bg-[#0694D1] text-white shadow' : 'text-white/60 hover:text-white'}`}>
+                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'executive' ? 'text-white shadow' : 'text-white/60 hover:text-white'}`}
+                style={activeTab === 'executive' ? { backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' } : undefined}>
                 Executive Leadership
               </button>
             </div>
