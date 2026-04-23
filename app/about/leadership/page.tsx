@@ -366,7 +366,7 @@ export default function LeadershipPage() {
                     {/* View Bio — opens modal */}
                     <button
                       onClick={() => setBioModal(m)}
-                      className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors">
+                      className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors cursor-pointer">
                       View Bio +
                     </button>
 
@@ -448,7 +448,7 @@ export default function LeadershipPage() {
                   <div className="border-t border-[#E2EEF9] px-5 py-3 text-center">
                     <button
                       onClick={() => setBioModal({ ...m, color: '#0694D1' })}
-                      className="text-[#0694D1] text-sm font-medium hover:text-[#0580bb] transition-colors w-full">
+                      className="text-[#0694D1] text-sm font-medium hover:text-[#0580bb] transition-colors w-full cursor-pointer">
                       View Bio +
                     </button>
                   </div>
