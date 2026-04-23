@@ -36,7 +36,7 @@ const TEAM = [
     color: '#7c3aed',
     linkedin: 'https://www.linkedin.com/in/sakshigabadhawan/',
     image: '/images/leadership/sakshi.png' as string | null,
-    bio: 'TODO: Add Sakshi Gaba Dhawan bio content from the live site.',
+    bio: 'Sakshi Gaba Dhawan, our Head of HR, leverages 18+ years of experience, 11+ of which have been dedicated to Koenig. Starting in HR, Sakshi now adeptly manages Accounts Payable and Receivables, along with leading initiatives in lead generation and freelancer management. Beyond the corporate realm, she finds balance in exercising and travelling with her family.',
   },
   {
     initials: 'VA',
