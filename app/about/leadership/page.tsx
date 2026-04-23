@@ -295,7 +295,8 @@ export default function LeadershipPage() {
 
                 {/* Info */}
                 <div className="flex-1 text-center sm:text-left">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#0F172A] mb-4">{CEO.name}</h3>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-[#0F172A] mb-1">{CEO.name}</h3>
+                  <p className="text-[#0694D1] font-semibold text-lg mb-4">{CEO.title}</p>
                   <div className="flex flex-wrap gap-3 justify-center sm:justify-start mb-6">
                     {CEO.tags.map(tag => (
                       <span key={tag} className="bg-[#EFF6FF] text-[#0694D1] px-3 py-1 rounded-full text-sm font-medium">{tag}</span>
