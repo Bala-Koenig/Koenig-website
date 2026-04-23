@@ -56,23 +56,6 @@ const PARTNERS = [
   { name: 'Global Assoc. for Quality Mgmt', img: null,                                                     tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'GAQMAuthorizedTrainingCentresinceJan2026.pdf' },
 ]
 
-const WHY_POINTS = [
-  {
-    icon: '✅',
-    title: 'Verified Curriculum',
-    desc: 'Vendor-authorized training means our courseware is reviewed and approved by the technology vendors themselves — you learn the real thing, not a third-party interpretation.',
-  },
-  {
-    icon: '🎓',
-    title: 'Certified Instructors',
-    desc: 'Our trainers hold active certifications in the subjects they teach. Vendor authorization requires ongoing trainer assessment, so you always get a current, qualified expert.',
-  },
-  {
-    icon: '🏅',
-    title: 'Recognized Credentials',
-    desc: 'Completing an authorized course carries weight with employers. The certifications earned through vendor-authorized training are the gold standard across the industry.',
-  },
-]
 
 export default function OurPartnersPage() {
   return (
@@ -206,19 +189,61 @@ export default function OurPartnersPage() {
       </section>
 
       {/* DARK SECTION – Why authorization matters */}
-      <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
+      <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #071828 50%, #06111E 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
+          <div className="absolute -top-20 left-1/4 w-[500px] h-[400px] bg-[#0694D1] opacity-[0.08] blur-[130px] rounded-full" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[350px] bg-[#38bdf8] opacity-[0.06] blur-[120px] rounded-full" />
+          <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-[#0694D1] opacity-[0.04] blur-[100px] rounded-full" />
+          <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Why Authorization <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Matters</span></h2>
           <p className="text-center text-white/60 mb-12">The difference between authorized and unauthorized training is significant</p>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {WHY_POINTS.map(w => (
-              <div key={w.title} className="kglass-dark rounded-2xl p-7 transition-all">
-                <div className="text-3xl mb-4">{w.icon}</div>
-                <h3 className="text-lg font-bold text-white mb-3">{w.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed">{w.desc}</p>
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[
+              {
+                color: '#0694D1', glow: 'rgba(6,148,209,0.18)',
+                title: 'Verified Curriculum',
+                desc: 'Vendor-authorized training means our courseware is reviewed and approved by the technology vendors themselves — you learn the real thing, not a third-party interpretation.',
+                svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>,
+              },
+              {
+                color: '#38bdf8', glow: 'rgba(56,189,248,0.18)',
+                title: 'Certified Instructors',
+                desc: 'Our trainers hold active certifications in the subjects they teach. Vendor authorization requires ongoing trainer assessment, so you always get a current, qualified expert.',
+                svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>,
+              },
+              {
+                color: '#4DBFEF', glow: 'rgba(77,191,239,0.18)',
+                title: 'Recognized Credentials',
+                desc: 'Completing an authorized course carries weight with employers. The certifications earned through vendor-authorized training are the gold standard across the industry.',
+                svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>,
+              },
+            ].map(w => (
+              <div key={w.title}
+                className="group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 overflow-hidden backdrop-blur-sm"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)',
+                  border: `1px solid ${w.color}35`,
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.07)',
+                }}>
+                {/* Ambient corner glow */}
+                <div className="absolute -top-6 -left-6 w-24 h-24 rounded-full opacity-25 blur-2xl transition-opacity duration-300 group-hover:opacity-50"
+                  style={{ backgroundColor: w.color }} />
+                {/* Hover overlay */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+                  style={{ background: `radial-gradient(ellipse at 20% 20%, ${w.glow}, transparent 65%)` }} />
+                {/* Top accent line */}
+                <div className="absolute top-0 inset-x-0 h-px transition-opacity duration-300 opacity-50 group-hover:opacity-100"
+                  style={{ background: `linear-gradient(90deg, transparent, ${w.color}, transparent)` }} />
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+                    style={{ background: `linear-gradient(135deg, ${w.color}25, ${w.color}10)`, color: w.color, border: `1px solid ${w.color}35` }}>
+                    {w.svg}
+                  </div>
+                  <h3 className="text-white font-semibold text-sm mb-2">{w.title}</h3>
+                  <p className="text-white/50 text-xs leading-relaxed">{w.desc}</p>
+                </div>
               </div>
             ))}
           </div>
