@@ -49,7 +49,7 @@ export default function OurPartnersPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-16 sm:py-24">
+      <section className="relative bg-[#06111E] overflow-hidden py-[60px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -92,7 +92,7 @@ export default function OurPartnersPage() {
       </section>
 
       {/* LIGHT SECTION – Partner logo grid */}
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-white py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Authorized by the World's Best</h2>
           <p className="text-center text-[#475569] mb-12">16+ vendor authorizations across cloud, security, networking, and beyond</p>
@@ -123,7 +123,7 @@ export default function OurPartnersPage() {
       </section>
 
       {/* DARK SECTION – Why authorization matters */}
-      <section className="relative bg-[#06111E] py-16 sm:py-20 overflow-hidden">
+      <section className="relative bg-[#06111E] py-[60px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
         </div>
