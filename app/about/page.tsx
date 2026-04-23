@@ -139,7 +139,7 @@ export default function AboutPage() {
               <div key={s.label} className="kglass-dark rounded-2xl p-4 flex items-center gap-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={s.icon} alt={s.label} className="h-8 w-8 object-contain shrink-0"
-                  style={{ filter: 'invert(79%) sepia(55%) saturate(600%) hue-rotate(172deg) brightness(104%) contrast(94%)' }} />
+                  style={{ filter: 'brightness(0) saturate(100%) invert(66%) sepia(72%) saturate(500%) hue-rotate(163deg) brightness(103%)' }} />
                 <div>
                   <div className="text-xl sm:text-2xl font-bold text-[#38bdf8] leading-tight">{s.value}</div>
                   <div className="text-xs text-white/60 leading-snug">{s.label}</div>
