@@ -495,9 +495,9 @@ export default function LeadershipPage() {
             <div className="flex">
 
               {/* Photo — fixed height, self-stretch so it fills alongside bio column */}
-              <div className="w-52 flex-shrink-0 bg-[#0a3d5c] self-stretch min-h-[240px] overflow-hidden">
+              <div className="w-60 flex-shrink-0 bg-[#0a3d5c] self-stretch min-h-[240px] overflow-hidden">
                 {bioModal.image ? (
-                  <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-center" style={{ minHeight: 240 }} />
+                  <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-left object-top" style={{ minHeight: 240 }} />
                 ) : (
                   <div className="flex items-center justify-center w-full min-h-[240px]">
                     <div
