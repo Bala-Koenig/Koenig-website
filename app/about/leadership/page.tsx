@@ -72,7 +72,7 @@ const TEAM = [
     color: '#0891b2',
     linkedin: 'https://www.linkedin.com/in/raahil-aggarwal-7b5895187/',
     image: '/images/leadership/raahil_new.png' as string | null,
-    bio: 'TODO: Add Raahil Aggarwal bio content from the live site.',
+    bio: 'Raahil Aggarwal is the youngest member of the leadership team. A graduate of Babson College (MA), he oversees branding, AI integration, and corporate strategy, while also leading Koenig Koshish, the company\'s social impact initiative. Passionate about leveraging technology and storytelling to elevate the brand, Raahil is committed to pushing boundaries in the training industry. An avid golfer, he finds balance on the course, where strategy and precision mirror his professional approach.',
   },
   {
     initials: 'KS',
