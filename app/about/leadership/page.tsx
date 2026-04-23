@@ -145,7 +145,7 @@ const EXECUTIVE_TEAM = [
     title: 'Assistant Manager - Brand & Digital Communications',
     linkedin: 'https://www.linkedin.com/in/rohit-tiwary-8958721a1/',
     image: '/images/leadership/Leadership_RohitTiwari.webp' as string | null,
-    bio: 'TODO: Add Rohit Tiwary bio content from the live site.',
+    bio: 'Rohit Tiwary has over four years of experience driving brand growth and digital engagement across platforms. He plays a key role in managing branding, digital communications, social media, YouTube, email marketing, and webinars, with a strong focus on consistency, engagement, and storytelling. Working closely with cross-functional teams, Rohit helps build a strong and credible brand presence through strategic communication. Outside work, he is a passionate football enthusiast and avid traveler.',
   },
   {
     initials: 'HT',
