@@ -45,7 +45,7 @@ const TEAM = [
     color: '#059669',
     linkedin: 'https://www.linkedin.com/in/vardaan-aggarwal-309386174/',
     image: '/images/leadership/verdan-aggarwal.png' as string | null,
-    bio: 'TODO: Add Vardaan Aggarwal bio content from the live site.',
+    bio: 'Vardaan Aggarwal has 7+ years of experience. He plays a key role in managing corporate finance, digital marketing and strategic investments. He oversees Koenig\'s global expansion and has been instrumental in setting up Koenig\'s new facilities and infrastructure overseas. Apart from his work responsibilities, Vardaan spends his time researching about the stock market and playing tennis.',
   },
   {
     initials: 'AS',
