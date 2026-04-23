@@ -296,17 +296,23 @@ export default function LeadershipPage() {
 
           {/* Tab toggle */}
           <div className="flex justify-center mb-10">
-            <div className="inline-flex bg-white/5 rounded-xl p-1 border border-white/10">
+            <div className="inline-flex overflow-hidden rounded-2xl border border-[#0694D1]/30 bg-white/5 p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.15)]">
               <button
                 onClick={() => setActiveTab('koenig')}
-                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors ${activeTab === 'koenig' ? 'text-white shadow-lg' : 'text-white/60 hover:text-white'}`}
-                style={{ background: activeTab === 'koenig' ? 'linear-gradient(135deg, #0694D1, #38bdf8)' : 'transparent' }}>
+                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                  activeTab === 'koenig'
+                    ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                    : 'text-white/60 hover:text-white'
+                }`}>
                 Koenig Leadership
               </button>
               <button
                 onClick={() => setActiveTab('executive')}
-                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors ${activeTab === 'executive' ? 'text-white shadow-lg' : 'text-white/60 hover:text-white'}`}
-                style={{ background: activeTab === 'executive' ? 'linear-gradient(135deg, #0694D1, #38bdf8)' : 'transparent' }}>
+                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                  activeTab === 'executive'
+                    ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                    : 'text-white/60 hover:text-white'
+                }`}>
                 Executive Leadership
               </button>
             </div>
