@@ -466,27 +466,17 @@ export default function LeadershipPage() {
       )}
 
       {/* LIGHT SECTION – Join CTA */}
-      <section className="relative py-[60px] text-center overflow-hidden" style={{ background: 'linear-gradient(180deg, #EEF7FD 0%, #daeef9 50%, #EEF7FD 100%)' }}>
+      <section
+        className="relative py-[60px] text-center overflow-hidden"
+        style={{
+          backgroundColor: '#EBF5FF',
+          backgroundImage: 'radial-gradient(rgba(6,148,209,0.13) 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
+        }}>
 
-        {/* Top wave */}
-        <div className="absolute top-0 inset-x-0 leading-none" style={{ lineHeight: 0 }}>
-          <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full h-10 md:h-14" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,0 L0,0 Z" fill="rgba(6,148,209,0.08)" />
-            <path d="M0,45 C360,15 720,55 1080,25 C1260,10 1380,35 1440,45 L1440,0 L0,0 Z" fill="rgba(6,148,209,0.05)" />
-          </svg>
-        </div>
-
-        {/* Bottom wave */}
-        <div className="absolute bottom-0 inset-x-0 leading-none" style={{ lineHeight: 0 }}>
-          <svg viewBox="0 0 1440 60" preserveAspectRatio="none" className="w-full h-10 md:h-14" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,30 C240,0 480,60 720,30 C960,0 1200,60 1440,30 L1440,60 L0,60 Z" fill="rgba(6,148,209,0.08)" />
-            <path d="M0,15 C360,45 720,5 1080,35 C1260,50 1380,25 1440,15 L1440,60 L0,60 Z" fill="rgba(6,148,209,0.05)" />
-          </svg>
-        </div>
-
-        {/* Soft glow */}
+        {/* Soft centre glow to lift content off the grid */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] bg-[#0694D1] opacity-[0.06] blur-[80px] rounded-full" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[260px] bg-[#EBF5FF] opacity-80 blur-[60px] rounded-full" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
