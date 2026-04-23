@@ -179,18 +179,27 @@ export default function OurClientsPage() {
               },
             ].map(ind => (
               <div key={ind.title}
-                className="group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl overflow-hidden backdrop-blur-md"
-                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', boxShadow: '0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)' }}>
-                {/* Hover glow */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" style={{ background: `radial-gradient(ellipse at top left, ${ind.bg}, transparent 70%)` }} />
-                {/* Top accent line */}
-                <div className="absolute top-0 left-6 right-6 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: `linear-gradient(90deg, transparent, ${ind.color}, transparent)` }} />
+                className="group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 overflow-hidden backdrop-blur-sm"
+                style={{
+                  background: `linear-gradient(145deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)`,
+                  border: `1px solid ${ind.color}28`,
+                  boxShadow: `0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.07), 0 0 0 0 ${ind.color}`,
+                }}>
+                {/* Ambient corner glow — always visible, subtle */}
+                <div className="absolute -top-6 -left-6 w-24 h-24 rounded-full opacity-20 blur-2xl transition-opacity duration-300 group-hover:opacity-40"
+                  style={{ backgroundColor: ind.color }} />
+                {/* Hover overlay */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+                  style={{ background: `radial-gradient(ellipse at 20% 20%, ${ind.color}18, transparent 65%)` }} />
+                {/* Top accent line — always show at low opacity, brightens on hover */}
+                <div className="absolute top-0 inset-x-0 h-px transition-opacity duration-300 opacity-40 group-hover:opacity-100"
+                  style={{ background: `linear-gradient(90deg, transparent, ${ind.color}, transparent)` }} />
                 <div className="relative">
-                  {/* Icon */}
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style={{ backgroundColor: ind.bg, color: ind.color }}>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+                    style={{ background: `linear-gradient(135deg, ${ind.color}22, ${ind.color}10)`, color: ind.color, border: `1px solid ${ind.color}30` }}>
                     {ind.svg}
                   </div>
-                  <h3 className="text-white font-bold text-sm mb-2 group-hover:text-white transition-colors">{ind.title}</h3>
+                  <h3 className="text-white font-semibold text-sm mb-2">{ind.title}</h3>
                   <p className="text-white/50 text-xs leading-relaxed">{ind.desc}</p>
                 </div>
               </div>
