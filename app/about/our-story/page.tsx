@@ -59,7 +59,7 @@ export default function OurStoryPage() {
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
                 Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Story</span>
               </h1>
               <p className="text-xl text-white/80 mb-4 leading-relaxed">
