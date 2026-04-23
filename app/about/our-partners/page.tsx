@@ -1,4 +1,5 @@
 'use client'
+import React from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
@@ -219,7 +220,7 @@ export default function OurPartnersPage() {
                 desc: 'Completing an authorized course carries weight with employers. The certifications earned through vendor-authorized training are the gold standard across the industry.',
                 svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>,
               },
-            ].map(w => (
+            ].map((w, i) => (
               <div key={w.title}
                 className="group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 overflow-hidden backdrop-blur-sm"
                 style={{
@@ -237,9 +238,12 @@ export default function OurPartnersPage() {
                 <div className="absolute top-0 inset-x-0 h-px transition-opacity duration-300 opacity-50 group-hover:opacity-100"
                   style={{ background: `linear-gradient(90deg, transparent, ${w.color}, transparent)` }} />
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 ease-out group-hover:scale-110 group-hover:-rotate-6 group-hover:shadow-lg"
-                    style={{ background: `linear-gradient(135deg, ${w.color}25, ${w.color}10)`, color: w.color, border: `1px solid ${w.color}35` }}>
-                    <span className="transition-transform duration-300 group-hover:scale-110 inline-flex">{w.svg}</span>
+                  {/* Outer div floats; inner div handles hover scale/rotate — no transform conflict */}
+                  <div className="w-12 h-12 mb-5" style={{ animation: 'iconFloat 3s ease-in-out infinite', animationDelay: `${i * 0.35}s` }}>
+                    <div className="w-full h-full rounded-xl flex items-center justify-center transition-all duration-300 ease-out group-hover:scale-110 group-hover:-rotate-6"
+                      style={{ background: `linear-gradient(135deg, ${w.color}25, ${w.color}10)`, color: w.color, border: `1px solid ${w.color}35` }}>
+                      {w.svg}
+                    </div>
                   </div>
                   <h3 className="text-white font-semibold text-sm mb-2">{w.title}</h3>
                   <p className="text-white/50 text-xs leading-relaxed">{w.desc}</p>

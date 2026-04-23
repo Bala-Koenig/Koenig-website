@@ -5,6 +5,11 @@
   to   { background-position: 350% 50%, 350% 50%; }
 }
 
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
 @theme {
   --animate-aurora: aurora 40s linear infinite;
 }
