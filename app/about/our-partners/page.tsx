@@ -117,7 +117,7 @@ export default function OurPartnersPage() {
       </section>
 
       {/* LIGHT SECTION – Partner cards */}
-      <section className="relative overflow-hidden py-[50px]" style={{ background: 'linear-gradient(180deg, #EBF7FF 0%, #F4FBFF 40%, #EBF7FF 100%)' }}>
+      <section className="relative overflow-hidden py-[50px]" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #ddf1fb 25%, #ffffff 50%, #c8eaf8 75%, #ffffff 100%)' }}>
         {/* Ambient glow blobs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 -left-24 w-[480px] h-[480px] rounded-full opacity-40 blur-[100px]" style={{ background: 'radial-gradient(circle, #BAE6FD, transparent 70%)' }} />
