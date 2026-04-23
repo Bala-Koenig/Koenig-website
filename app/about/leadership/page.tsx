@@ -9,8 +9,7 @@ const CEO = {
   name: 'Rohit Aggarwal',
   title: 'CEO & Founder',
   linkedin: 'https://www.linkedin.com/in/rohit-aggarwal-ba3890/',
-  // TODO: Replace with actual photo path e.g. /images/leadership/rohit-aggarwal.jpg
-  image: null as string | null,
+  image: '/images/leadership/CEO.png' as string | null,
   bio: 'TODO: Add Rohit Aggarwal bio content from the live site.',
   tags: ['30+ Years Experience', 'Customer Obsession', 'I < O Philosophy'],
   about: [
@@ -27,8 +26,7 @@ const TEAM = [
     title: 'Group Manager, Alliances & Corporate Sales',
     color: '#0694D1',
     linkedin: 'https://www.linkedin.com/in/subodh-chaudhary-440b394b/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/subodh-choudhary.jpg
-    image: null as string | null,
+    image: '/images/leadership/subodh-choudhary.png' as string | null,
     bio: 'TODO: Add Subodh Choudhary bio content from the live site.',
   },
   {
@@ -37,8 +35,7 @@ const TEAM = [
     title: 'Group Manager, HR, AR/AP & Pre-Sales',
     color: '#7c3aed',
     linkedin: 'https://www.linkedin.com/in/sakshigabadhawan/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/sakshi-gaba-dhawan.jpg
-    image: null as string | null,
+    image: '/images/leadership/sakshi.png' as string | null,
     bio: 'TODO: Add Sakshi Gaba Dhawan bio content from the live site.',
   },
   {
@@ -47,8 +44,7 @@ const TEAM = [
     title: 'Executive Director, Investments',
     color: '#059669',
     linkedin: 'https://www.linkedin.com/in/vardaan-aggarwal-309386174/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/vardaan-aggarwal.jpg
-    image: null as string | null,
+    image: '/images/leadership/verdan-aggarwal.png' as string | null,
     bio: 'TODO: Add Vardaan Aggarwal bio content from the live site.',
   },
   {
@@ -57,8 +53,7 @@ const TEAM = [
     title: 'Technical Lead, Automation',
     color: '#dc2626',
     linkedin: 'https://www.linkedin.com/in/aditya-sharma-22a7b784',
-    // TODO: Replace with actual photo path e.g. /images/leadership/aditya-sharma.jpg
-    image: null as string | null,
+    image: '/images/leadership/aditya-sharma.webp' as string | null,
     bio: 'TODO: Add Aditya Sharma bio content from the live site.',
   },
   {
@@ -67,8 +62,7 @@ const TEAM = [
     title: 'Finance Manager',
     color: '#d97706',
     linkedin: 'https://www.linkedin.com/in/praveen-chaudhary-47b9881b/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/praveen-kumar.jpg
-    image: null as string | null,
+    image: '/images/leadership/praveen-new-image.webp' as string | null,
     bio: 'TODO: Add Praveen Kumar bio content from the live site.',
   },
   {
@@ -77,8 +71,7 @@ const TEAM = [
     title: 'Group Manager, AI, Koenig Koshish, Strategy & Brand',
     color: '#0891b2',
     linkedin: 'https://www.linkedin.com/in/raahil-aggarwal-7b5895187/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/raahil-aggarwal.jpg
-    image: null as string | null,
+    image: '/images/leadership/raahil_new.png' as string | null,
     bio: 'TODO: Add Raahil Aggarwal bio content from the live site.',
   },
   {
@@ -87,8 +80,7 @@ const TEAM = [
     title: 'Regional Manager, Australia',
     color: '#16a34a',
     linkedin: 'https://www.linkedin.com/in/kunal-singh-0684b6255/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/kunal-singh.jpg
-    image: null as string | null,
+    image: '/images/leadership/kunal.webp' as string | null,
     bio: 'TODO: Add Kunal Singh bio content from the live site.',
   },
   {
@@ -97,8 +89,7 @@ const TEAM = [
     title: 'Manager, HR & Freelancer Management',
     color: '#be185d',
     linkedin: 'https://www.linkedin.com/in/nidhikumra/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/nidhi-kumra-ahuja.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_Nidhi.webp' as string | null,
     bio: 'TODO: Add Nidhi Kumra Ahuja bio content from the live site.',
   },
   {
@@ -107,8 +98,7 @@ const TEAM = [
     title: 'Asst. Manager, Brand & Digital Communications',
     color: '#7c3aed',
     linkedin: 'https://www.linkedin.com/in/rohit-tiwary-8958721a1/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/rohit-tiwary.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_RohitTiwari.webp' as string | null,
     bio: 'TODO: Add Rohit Tiwary bio content from the live site.',
   },
   {
@@ -117,8 +107,7 @@ const TEAM = [
     title: 'Asst. Technical Manager',
     color: '#0694D1',
     linkedin: 'https://www.linkedin.com/in/hardik-tike-b89a08197/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/hardik-tike.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_Hardik-Tike.webp' as string | null,
     bio: 'TODO: Add Hardik Tike bio content from the live site.',
   },
   {
@@ -127,8 +116,7 @@ const TEAM = [
     title: 'Asst. Technical Manager',
     color: '#dc2626',
     linkedin: 'https://www.linkedin.com/in/vatanjoshi/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/vatan-vijay-joshi.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_Vatan-Vijay-Joshi.webp' as string | null,
     bio: 'TODO: Add Vatan Vijay Joshi bio content from the live site.',
   },
   {
@@ -137,8 +125,7 @@ const TEAM = [
     title: 'Asst. Sales Manager',
     color: '#d97706',
     linkedin: 'https://www.linkedin.com/in/manishchaturvedii/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/manish-chaturvedi.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_Manish.webp' as string | null,
     bio: 'TODO: Add Manish Chaturvedi bio content from the live site.',
   },
 ]
@@ -149,8 +136,7 @@ const EXECUTIVE_TEAM = [
     name: 'Nidhi Kumra Ahuja',
     title: 'Manager - HR & Freelancer Management (FM)',
     linkedin: 'https://www.linkedin.com/in/nidhikumra/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/nidhi-kumra-ahuja.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_Nidhi.webp' as string | null,
     bio: 'TODO: Add Nidhi Kumra Ahuja bio content from the live site.',
   },
   {
@@ -158,8 +144,7 @@ const EXECUTIVE_TEAM = [
     name: 'Rohit Tiwary',
     title: 'Assistant Manager - Brand & Digital Communications',
     linkedin: 'https://www.linkedin.com/in/rohit-tiwary-8958721a1/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/rohit-tiwary.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_RohitTiwari.webp' as string | null,
     bio: 'TODO: Add Rohit Tiwary bio content from the live site.',
   },
   {
@@ -167,8 +152,7 @@ const EXECUTIVE_TEAM = [
     name: 'Hardik Tike',
     title: 'Assistant Technical Manager',
     linkedin: 'https://www.linkedin.com/in/hardik-tike-b89a08197/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/hardik-tike.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_Hardik-Tike.webp' as string | null,
     bio: 'TODO: Add Hardik Tike bio content from the live site.',
   },
   {
@@ -176,8 +160,7 @@ const EXECUTIVE_TEAM = [
     name: 'Vatan Vijay Joshi',
     title: 'Assistant Technical Manager',
     linkedin: 'https://www.linkedin.com/in/vatanjoshi/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/vatan-vijay-joshi.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_Vatan-Vijay-Joshi.webp' as string | null,
     bio: 'TODO: Add Vatan Vijay Joshi bio content from the live site.',
   },
   {
@@ -185,8 +168,7 @@ const EXECUTIVE_TEAM = [
     name: 'Manish Chaturvedi',
     title: 'Assistant Sales Manager',
     linkedin: 'https://www.linkedin.com/in/manishchaturvedii/',
-    // TODO: Replace with actual photo path e.g. /images/leadership/manish-chaturvedi.jpg
-    image: null as string | null,
+    image: '/images/leadership/Leadership_Manish.webp' as string | null,
     bio: 'TODO: Add Manish Chaturvedi bio content from the live site.',
   },
 ]
