@@ -477,29 +477,29 @@ export default function LeadershipPage() {
           style={{ backgroundColor: 'rgba(6,17,30,0.75)', backdropFilter: 'blur(6px)' }}
           onClick={() => setBioModal(null)}>
           <div
-            className="relative w-full max-w-2xl bg-white rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-full max-w-2xl bg-white dark:bg-[#0D1F30] rounded-2xl overflow-hidden shadow-2xl"
             onClick={e => e.stopPropagation()}>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-              <h3 className="text-xl font-bold text-[#0F172A]">{bioModal.name}</h3>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-white/10">
+              <h3 className="text-xl font-bold text-[#0F172A] dark:text-white">{bioModal.name}</h3>
               <button
                 onClick={() => setBioModal(null)}
-                className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors text-2xl leading-none"
+                className="w-7 h-7 flex items-center justify-center text-gray-400 dark:text-white/40 hover:text-gray-700 dark:hover:text-white transition-colors text-2xl leading-none"
                 aria-label="Close">
                 ×
               </button>
             </div>
 
             {/* Body: photo left + bio right */}
-            <div className="flex min-h-[220px]">
+            <div className="flex">
 
-              {/* Photo */}
-              <div className="w-52 flex-shrink-0 bg-[#0a3d5c] overflow-hidden">
+              {/* Photo — fixed height, self-stretch so it fills alongside bio column */}
+              <div className="w-52 flex-shrink-0 bg-[#0a3d5c] self-stretch min-h-[240px] overflow-hidden">
                 {bioModal.image ? (
-                  <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-top" />
+                  <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-center" style={{ minHeight: 240 }} />
                 ) : (
-                  <div className="flex items-center justify-center w-full h-full">
+                  <div className="flex items-center justify-center w-full min-h-[240px]">
                     <div
                       className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white"
                       style={{ backgroundColor: bioModal.color }}>
@@ -510,10 +510,10 @@ export default function LeadershipPage() {
               </div>
 
               {/* Bio */}
-              <div className="flex-1 p-6 flex flex-col justify-between">
+              <div className="flex-1 p-6 flex flex-col justify-between min-h-[240px]">
                 <div>
                   <p className="text-[#0694D1] text-sm font-semibold mb-3">{bioModal.title}</p>
-                  <p className="text-[#475569] text-sm leading-relaxed">{bioModal.bio}</p>
+                  <p className="text-[#475569] dark:text-white/70 text-sm leading-relaxed">{bioModal.bio}</p>
                 </div>
                 <a
                   href={bioModal.linkedin}
