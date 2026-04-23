@@ -128,7 +128,7 @@ export default function OurClientsPage() {
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Industries We <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Serve</span></h2>
           <p className="text-center text-white/60 mb-12">Koenig delivers specialist IT training across every major sector</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-            [
+            {[
               {
                 color: '#0694D1', glow: 'rgba(6,148,209,0.18)',
                 title: 'Banking & Finance',
