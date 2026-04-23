@@ -40,7 +40,7 @@ const TIMELINE = [
     desc: 'Pandemic shut down the world. Koenig made a full pivot to live online delivery and adopted a WFH model overnight. The crisis became a catalyst — student numbers surged.',
   },
   {
-    year: '2025',
+    year: '2026',
     event: 'Today',
     color: '#38bdf8',
     iconBg: 'rgba(56,189,248,0.12)',
