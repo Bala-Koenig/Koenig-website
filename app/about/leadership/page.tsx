@@ -10,7 +10,7 @@ const CEO = {
   title: 'CEO & Founder',
   linkedin: 'https://www.linkedin.com/in/rohit-aggarwal-ba3890/',
   image: '/images/leadership/CEO.png' as string | null,
-  bio: 'TODO: Add Rohit Aggarwal bio content from the live site.',
+  bio: 'Rohit Aggarwal has over 30 years of experience in the training industry. He is a strong proponent of customer obsession and constant innovation. Under his stewardship, Koenig has grown from a small training center in New Delhi to a respected industry player in the training space. He is an avid reader, yoga enthusiast, and loves spending his free time playing with his golden retriever, Leo.',
   tags: ['30+ Years Experience', 'Customer Obsession', 'I < O Philosophy'],
   about: [
     'Rohit Aggarwal founded Koenig Solutions in 1993 from a small office in Patel Nagar, Delhi. Over three decades he has led the company through three near-death crises — the Dotcom bust, the Oil price crash, and COVID-19 — emerging stronger each time.',
