@@ -104,16 +104,16 @@ export default function OurClientsPage() {
           </h2>
           <p className="text-center text-[#475569] mb-12">Organizations that rely on Koenig to develop their teams</p>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {CLIENTS.map(c => (
               <div
                 key={c.name}
-                className="flex items-center justify-center p-4 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:border-[#0694D1]/40 hover:bg-[#EFF6FF] hover:shadow-md transition-all group"
+                className="flex items-center justify-center p-6 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:border-[#0694D1]/40 hover:bg-[#EFF6FF] hover:shadow-md transition-all"
                 title={c.name}>
                 <img
                   src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
                   alt={c.name}
-                  className="h-10 w-auto max-w-full object-contain grayscale group-hover:grayscale-0 transition-all"
+                  className="h-14 w-auto max-w-full object-contain"
                 />
               </div>
             ))}
