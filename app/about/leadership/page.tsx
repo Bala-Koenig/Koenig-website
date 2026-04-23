@@ -81,7 +81,7 @@ const TEAM = [
     color: '#16a34a',
     linkedin: 'https://www.linkedin.com/in/kunal-singh-0684b6255/',
     image: '/images/leadership/kunal.webp' as string | null,
-    bio: 'TODO: Add Kunal Singh bio content from the live site.',
+    bio: 'Kunal Sibbal is a Science graduate with over 10+ years of experience in the IT training industry. He has extensive experience in IT Sales and client management with a primary focus on driving cloud enablement and end-user adoption. He is involved in business activities like client interaction, business research, and delivery management. Apart from his professional work, Kunal is an active member of MBLA (My Best Life Australia) Charitable Group which provides shelter to homeless people.',
   },
   {
     initials: 'NK',
