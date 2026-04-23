@@ -1,26 +1,57 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
 const PARTNERS = [
-  { name: 'Microsoft',    img: 'microsoft-cloud-t.png' },
-  { name: 'AWS',          img: 'amazon-authorized.png' },
-  { name: 'Cisco',        img: 'Cisco.png' },
-  { name: 'CompTIA',      img: 'comptia.png' },
-  { name: 'Oracle',       img: 'o-prtnr-clr-rgb (1).png' },
-  { name: 'SAP',          img: 'SAP.jpg' },
-  { name: 'PMI',          img: 'PMI1115-ATP-Badge-2024-rgb.png' },
-  { name: 'Red Hat',      img: 'Redvendorlogo.png' },
-  { name: 'EC-Council',   img: 'EC-Council-logo.png' },
-  { name: 'VMware',       img: 'VMware-Broadcom.png' },
-  { name: 'PeopleCert',   img: 'PeopleCert.png' },
-  { name: 'PECB',         img: 'Authorized PECB Certification Courses Training badge.png' },
-  { name: 'Linux Foundation', img: 'Linux-Foundation.png' },
-  { name: 'ISC2',         img: 'OTP-Preferred-Badge.png' },
-  { name: 'ISACA',        img: null },
-  { name: 'ISTQB',        img: 'ISTQB.png' },
+  { name: 'Microsoft',                    img: 'microsoft-cloud-t.png',                                    tier: 'Gold Partner',        courses: '380+' },
+  { name: 'Cisco',                        img: 'Cisco.png',                                                tier: 'Premier Partner',     courses: '210+' },
+  { name: 'AWS',                          img: 'amazon-authorized.png',                                    tier: 'Training Partner',    courses: '290+' },
+  { name: 'VMware',                       img: 'VMware-Broadcom.png',                                      tier: 'Principal Partner',   courses: '120+' },
+  { name: 'Oracle',                       img: 'o-prtnr-clr-rgb (1).png',                                  tier: 'Gold Partner',        courses: '160+' },
+  { name: 'PECB',                         img: 'Authorized PECB Certification Courses Training badge.png', tier: 'Authorized Partner',  courses: '80+'  },
+  { name: 'PeopleCert',                   img: 'PeopleCert.png',                                           tier: 'ATO Partner',         courses: '90+'  },
+  { name: 'SAP',                          img: 'SAP.jpg',                                                  tier: 'Gold Partner',        courses: '140+' },
+  { name: 'ISACA',                        img: null,                                                        tier: 'Authorized Partner',  courses: '60+'  },
+  { name: 'CompTIA',                      img: 'comptia.png',                                              tier: 'Platinum Partner',    courses: '180+' },
+  { name: 'ISC2',                         img: 'OTP-Preferred-Badge.png',                                  tier: 'Official Partner',    courses: '50+'  },
+  { name: 'PMI',                          img: 'PMI1115-ATP-Badge-2024-rgb.png',                           tier: 'Premier Partner',     courses: '140+' },
+  { name: 'EC-Council',                   img: 'EC-Council-logo.png',                                      tier: 'ATC Partner',         courses: '120+' },
+  { name: 'Red Hat',                      img: 'Redvendorlogo.png',                                        tier: 'Advanced Partner',    courses: '110+' },
+  { name: 'The Open Group',               img: 'Vendor-OG-logo.png',                                       tier: 'Authorized Partner',  courses: '45+'  },
+  { name: 'ISTQB',                        img: 'ISTQB.png',                                                tier: 'Authorized Partner',  courses: '40+'  },
+  { name: 'Check Point',                  img: 'Checkpoint ATC 2026 PLATINUM Badge.png',                   tier: 'Platinum Partner',    courses: '55+'  },
+  { name: 'Python Institute',             img: 'Python-logo.png',                                          tier: 'Authorized Partner',  courses: '35+'  },
+  { name: 'Omnissa',                      img: 'Omnissa.png',                                              tier: 'Partner',             courses: '30+'  },
+  { name: 'Broadcom',                     img: 'Broadcom.png',                                             tier: 'Partner',             courses: '70+'  },
+  { name: 'Linux Foundation',             img: 'Linux-Foundation.png',                                     tier: 'Training Partner',    courses: '60+'  },
+  { name: 'Autodesk',                     img: 'AutodeskCertification.png',                                tier: 'Authorized Partner',  courses: '45+'  },
+  { name: 'DevOps Institute',             img: 'Linux-Foundation.png',                                     tier: 'Authorized Partner',  courses: '30+'  },
+  { name: 'IIBA',                         img: null,                                                        tier: 'Authorized Partner',  courses: '20+'  },
+  { name: 'JS Institute',                 img: null,                                                        tier: 'Authorized Partner',  courses: '15+'  },
+  { name: 'ServiceNow',                   img: 'ServiceNow.png',                                           tier: 'Training Partner',    courses: '40+'  },
+  { name: 'BCS',                          img: 'BCS partner logo (1).png',                                 tier: 'ATO Partner',         courses: '35+'  },
+  { name: 'CertNexus',                    img: 'cnxatpweb-small.png',                                      tier: 'Authorized Partner',  courses: '30+'  },
+  { name: 'Android ATC',                  img: 'Android ATC Authorized Training Center.jpg',               tier: 'Authorized Partner',  courses: '30+'  },
+  { name: 'TÜV SÜD',                     img: 'Web-TS_Cobranding_Cooperation_partner_RGB_TS_Blue.png',    tier: 'Authorized Partner',  courses: '35+'  },
+  { name: 'AI CERTs',                     img: 'AICerts (1).png',                                          tier: 'Authorized Partner',  courses: '30+'  },
+  { name: 'GSDC',                         img: 'ATP badge.png',                                            tier: 'Authorized Partner',  courses: '20+'  },
+  { name: 'Dell EMC',                     img: 'emc.png',                                                  tier: 'Training Partner',    courses: '50+'  },
+  { name: 'SCRUMstudy',                   img: 'scrumstudy.png',                                           tier: 'Authorized Partner',  courses: '25+'  },
+  { name: 'CWNP',                         img: 'alc-standard-Basic-Logo.jpg',                              tier: 'Authorized Partner',  courses: '25+'  },
+  { name: 'SUSE',                         img: 'suse.jpg',                                                 tier: 'Training Partner',    courses: '20+'  },
+  { name: 'EXIN',                         img: 'EXIN.png',                                                 tier: 'Authorized Partner',  courses: '40+'  },
+  { name: 'Arcitura',                     img: null,                                                        tier: 'Authorized Partner',  courses: '15+'  },
+  { name: 'Cloud Security Alliance',      img: 'cloud-security-alliance.png',                              tier: 'Authorized Partner',  courses: '25+'  },
+  { name: 'Mirantis',                     img: null,                                                        tier: 'Training Partner',    courses: '15+'  },
+  { name: 'Cloudera',                     img: 'cloudera (1).png',                                         tier: 'Training Partner',    courses: '30+'  },
+  { name: 'OffSec Training',              img: 'OffSecLearningPartnerDarkPNG (1).png',                     tier: 'Learning Partner',    courses: '20+'  },
+  { name: 'DevOps Agile Skills (DASA)',   img: null,                                                        tier: 'Authorized Partner',  courses: '15+'  },
+  { name: 'Cloud Credential Council',     img: 'CCC_Logo.png',                                             tier: 'Authorized Partner',  courses: '20+'  },
+  { name: 'C++ Institute',               img: 'c-plus-2-logo.png',                                        tier: 'Authorized Partner',  courses: '10+'  },
+  { name: 'LPI',                          img: 'Linux.png',                                                tier: 'Authorized Partner',  courses: '15+'  },
+  { name: 'Symantec',                     img: null,                                                        tier: 'Training Partner',    courses: '20+'  },
+  { name: 'Global Assoc. for Quality Mgmt', img: null,                                                     tier: 'Authorized Partner',  courses: '10+'  },
 ]
 
 const WHY_POINTS = [
@@ -45,7 +76,6 @@ export default function OurPartnersPage() {
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
-
       <AboutSubNav />
 
       {/* DARK HERO */}
@@ -57,60 +87,96 @@ export default function OurPartnersPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
-                Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Partners</span>
-              </h1>
-              <p className="text-xl text-white/80 mb-4 leading-relaxed">
-                Koenig is an authorized training partner of the world's leading technology vendors. This isn't a badge we buy — it's an authorization we earn through rigorous assessment, certified instructors, and verified delivery.
-              </p>
-              <p className="text-lg text-white/60 leading-relaxed">
-                When you train with Koenig, you train with the source — the same curricula, the same standards, the same recognition that the vendor itself demands.
-              </p>
-            </div>
-            <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
-              <div className="aspect-video">
-                <iframe
-                  src="https://www.youtube.com/embed/z_6FnQE7-LA"
-                  title="Koenig Solutions — Your Trusted IT Training Partner"
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+              <div>
+                <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
+                  Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Partners</span>
+                </h1>
+                <p className="text-xl text-white/80 mb-4 leading-relaxed">
+                  Koenig is an authorized training partner of the world's leading technology vendors. This isn't a badge we buy — it's an authorization we earn through rigorous assessment, certified instructors, and verified delivery.
+                </p>
+                <p className="text-lg text-white/60 leading-relaxed">
+                  When you train with Koenig, you train with the source — the same curricula, the same standards, the same recognition that the vendor itself demands.
+                </p>
               </div>
-            </div>
+              <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
+                <div className="aspect-video">
+                  <iframe
+                    src="https://www.youtube.com/embed/z_6FnQE7-LA"
+                    title="Koenig Solutions — Your Trusted IT Training Partner"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* LIGHT SECTION – Partner logo grid */}
+      {/* LIGHT SECTION – Partner cards */}
       <section className="bg-white py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Authorized by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span></h2>
-          <p className="text-center text-[#475569] mb-12">16+ vendor authorizations across cloud, security, networking, and beyond</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">
+            Authorized by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span>
+          </h2>
+          <p className="text-center text-[#475569] mb-12">{PARTNERS.length}+ vendor authorizations across cloud, security, networking, and beyond</p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {PARTNERS.map(p => (
-              <div key={p.name}
-                className="kglass-light rounded-2xl p-5 flex flex-col items-center justify-center gap-3 transition-all min-h-[120px]">
-                {p.img ? (
-                  <div className="relative w-full h-14 flex items-center justify-center">
-                    <Image
+              <div
+                key={p.name}
+                className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1"
+                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(0,164,239,0.07)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 20px rgba(6,148,209,0.15)'; (e.currentTarget as HTMLElement).style.borderColor = '#A8D8F0' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 10px rgba(0,164,239,0.07)'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF' }}
+              >
+                {/* Logo area */}
+                <div className="flex h-24 w-full items-center justify-center bg-white p-3">
+                  {p.img ? (
+                    <img
                       src={`/images/partners/${encodeURIComponent(p.img)}`}
                       alt={p.name}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                      style={{ maxHeight: '80px' }}
                     />
-                  </div>
-                ) : (
-                  <div className="w-14 h-14 rounded-xl bg-[#0694D1] flex items-center justify-center text-white font-black text-lg">
-                    {p.name.slice(0, 3)}
-                  </div>
-                )}
-                <span className="text-sm font-semibold text-[#0F172A] text-center">{p.name}</span>
+                  ) : (
+                    <span className="text-3xl font-black" style={{ color: '#076D9D' }}>
+                      {p.name.slice(0, 2)}
+                    </span>
+                  )}
+                </div>
+
+                {/* Info area */}
+                <div className="flex flex-col gap-0.5 border-t border-[#EEF6FF] bg-[#FAFCFF] px-3 pt-2 pb-1">
+                  <p className="truncate text-center text-xs font-bold text-[#0b2545]">{p.name}</p>
+                  <p className="truncate text-center text-[10px] text-[#4a90b8]">{p.tier}</p>
+                  <p className="text-center text-[10px] font-semibold text-[#0694D1]">{p.courses} Courses</p>
+                </div>
+
+                {/* Verify button */}
+                <div className="px-3 pb-3 pt-2 bg-[#FAFCFF]">
+                  <button
+                    className="w-full rounded-lg border text-[10px] font-semibold py-1.5 transition-all duration-200"
+                    style={{ borderColor: '#0694D1', color: '#0694D1' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#0694D1'; (e.currentTarget as HTMLElement).style.color = '#fff' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#0694D1' }}
+                  >
+                    Verify Authorisation
+                  </button>
+                </div>
               </div>
             ))}
+          </div>
+
+          {/* Show more vendors */}
+          <div className="mt-10 text-center">
+            <p className="text-[#64748B] text-sm">
+              Showing all <span className="font-semibold text-[#0694D1]">{PARTNERS.length}</span> authorized vendor partners ·{' '}
+              <a href="mailto:sales@koenig-solutions.com" className="text-[#0694D1] font-semibold hover:underline">
+                Don't see your vendor? Contact us →
+              </a>
+            </p>
           </div>
         </div>
       </section>
@@ -125,8 +191,7 @@ export default function OurPartnersPage() {
           <p className="text-center text-white/60 mb-12">The difference between authorized and unauthorized training is significant</p>
           <div className="grid sm:grid-cols-3 gap-6">
             {WHY_POINTS.map(w => (
-              <div key={w.title}
-                className="kglass-dark rounded-2xl p-7 transition-all">
+              <div key={w.title} className="kglass-dark rounded-2xl p-7 transition-all">
                 <div className="text-3xl mb-4">{w.icon}</div>
                 <h3 className="text-lg font-bold text-white mb-3">{w.title}</h3>
                 <p className="text-white/60 text-sm leading-relaxed">{w.desc}</p>
