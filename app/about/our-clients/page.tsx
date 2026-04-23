@@ -36,11 +36,6 @@ const CLIENTS = [
   { name: 'Abin',               img: 'abin.png'                 },
 ]
 
-const BIG_STATS = [
-  { value: '1M+',  label: 'Professionals Certified' },
-  { value: '195+', label: 'Countries Reached' },
-  { value: '30+',  label: 'Fortune-500 Clients' },
-]
 
 export default function OurClientsPage() {
   return (
@@ -121,17 +116,30 @@ export default function OurClientsPage() {
         </div>
       </section>
 
-      {/* DARK SECTION – Big stats */}
+      {/* DARK SECTION – Industries We Serve */}
       <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-[#0694D1] opacity-[0.06] blur-[120px] rounded-full" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.06] blur-[120px] rounded-full" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-[#38bdf8] opacity-[0.04] blur-[100px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="grid sm:grid-cols-3 gap-8 text-center">
-            {BIG_STATS.map(s => (
-              <div key={s.label} className="kglass-dark rounded-2xl p-10 transition-all">
-                <div className="text-5xl font-black text-[#38bdf8] mb-3">{s.value}</div>
-                <div className="text-white/70 text-lg">{s.label}</div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Industries We <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Serve</span></h2>
+          <p className="text-center text-white/60 mb-12">Koenig delivers specialist IT training across every major sector</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+            {[
+              { icon: '🏦', title: 'Banking & Finance',     desc: 'HSBC, PwC, EY and global financial institutions upskilling teams in cloud, security and compliance.' },
+              { icon: '⚕️', title: 'Healthcare & NHS',      desc: 'NHS and healthcare providers training staff on Microsoft 365, data governance and digital transformation.' },
+              { icon: '⛽', title: 'Oil & Energy',          desc: 'Saudi Aramco, Shell and Chevron developing technical teams across infrastructure, cloud and automation.' },
+              { icon: '✈️', title: 'Aviation & Logistics',  desc: 'Emirates and DHL building certified professionals in networking, cloud operations and project management.' },
+              { icon: '💻', title: 'Technology & IT',       desc: 'TCS, Infosys, Wipro, HCL and Cognizant running large-scale upskilling programs across global teams.' },
+              { icon: '🌍', title: 'Government & UN',       desc: 'United Nations and public sector organisations training staff in cybersecurity, data and cloud platforms.' },
+              { icon: '🏭', title: 'Manufacturing & GE',    desc: 'GE, Fujifilm and industrial enterprises certifying engineers in cloud, IoT and enterprise technology.' },
+              { icon: '📡', title: 'Telecom & NTT',         desc: 'NTT and telecom leaders certifying network engineers across Cisco, Microsoft and cloud technologies.' },
+            ].map(ind => (
+              <div key={ind.title} className="kglass-dark rounded-2xl p-6 transition-all hover:-translate-y-1">
+                <div className="text-3xl mb-4">{ind.icon}</div>
+                <h3 className="text-white font-bold text-sm mb-2">{ind.title}</h3>
+                <p className="text-white/55 text-xs leading-relaxed">{ind.desc}</p>
               </div>
             ))}
           </div>
