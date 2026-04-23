@@ -63,7 +63,7 @@ const TEAM = [
     color: '#d97706',
     linkedin: 'https://www.linkedin.com/in/praveen-chaudhary-47b9881b/',
     image: '/images/leadership/praveen-new-image.webp' as string | null,
-    bio: 'TODO: Add Praveen Kumar bio content from the live site.',
+    bio: 'Praveen Chaudhary with a wealth of experience exceeding 22 years in the fields of Accounts & Finance. He is known for his strong capabilities in team management, tax planning, and achieving financial goals, He has been instrumental in overseeing the successful execution of tasks. He is passionate about personal well-being, actively engaging in activities like Gym and Yoga, reflecting his commitment to a balanced and healthy lifestyle. He indulges in a different form of self-expression - singing Indian melody songs.',
   },
   {
     initials: 'RA',
