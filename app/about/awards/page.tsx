@@ -107,7 +107,7 @@ export default function AwardsPage() {
       {/* LIGHT SECTION – Great Place to Work */}
       <section className="bg-white py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">Workplace Excellence</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">Workplace <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Excellence</span></h2>
           <div className="max-w-2xl mx-auto">
             <div className="kglass-light rounded-3xl p-10 text-center transition-all">
               <div className="text-6xl mb-5">🏆</div>
@@ -143,7 +143,7 @@ export default function AwardsPage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Vendor Awards</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Vendor <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Awards</span></h2>
           <p className="text-center text-white/60 mb-12">Recognition from the technology vendors we're authorized to represent</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {VENDOR_AWARDS.map(v => (

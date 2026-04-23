@@ -116,7 +116,7 @@ export default function OurStoryPage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">The Koenig Ethos</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">The Koenig <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Ethos</span></h2>
             <div className="kglass-dark rounded-2xl p-8 mb-8">
               <div className="text-5xl font-black text-[#38bdf8] mb-4">I &lt; O</div>
               <p className="text-white/80 text-lg leading-relaxed mb-6">
@@ -144,7 +144,7 @@ export default function OurStoryPage() {
       {/* LIGHT SECTION – CTA */}
       <section className="bg-[#F8FAFC] py-[60px] text-center">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Want to Be Part of Our Next Chapter?</h2>
+          <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Want to Be Part of Our Next <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Chapter?</span></h2>
           <p className="text-[#475569] mb-8 text-lg">Train with Koenig and write your own success story.</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a href="mailto:sales@koenig-solutions.com"

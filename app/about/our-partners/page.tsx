@@ -87,7 +87,7 @@ export default function OurPartnersPage() {
       {/* LIGHT SECTION – Partner logo grid */}
       <section className="bg-white py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Authorized by the World's Best</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Authorized by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span></h2>
           <p className="text-center text-[#475569] mb-12">16+ vendor authorizations across cloud, security, networking, and beyond</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
             {PARTNERS.map(p => (
@@ -121,7 +121,7 @@ export default function OurPartnersPage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Why Authorization Matters</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Why Authorization <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Matters</span></h2>
           <p className="text-center text-white/60 mb-12">The difference between authorized and unauthorized training is significant</p>
           <div className="grid sm:grid-cols-3 gap-6">
             {WHY_POINTS.map(w => (

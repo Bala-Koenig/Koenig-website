@@ -471,7 +471,7 @@ export default function LeadershipPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Join Our Team</h2>
+          <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Join Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Team</span></h2>
           <p className="text-[#475569] mb-8 text-lg max-w-xl mx-auto">
             We&#39;re always looking for passionate educators, tech experts, and business professionals to help us grow.
           </p>

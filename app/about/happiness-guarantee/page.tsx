@@ -48,7 +48,7 @@ export default function HappinessGuaranteePage() {
       <section className="bg-white py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3">We're Not Happy Until You Are</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3">We're Not Happy Until You <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are</span></h2>
             <p className="text-[#475569] text-lg">If you're not satisfied, we make it right — guaranteed.</p>
           </div>
           <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -78,7 +78,7 @@ export default function HappinessGuaranteePage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">How It Works</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">How It <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Works</span></h2>
           <p className="text-center text-white/60 mb-12">A simple, transparent process — no hoops, no small print</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {STEPS.map((s, i) => (
@@ -103,7 +103,7 @@ export default function HappinessGuaranteePage() {
       {/* LIGHT SECTION – CEO message */}
       <section className="bg-[#F8FAFC] py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">A Personal Promise</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">A Personal <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Promise</span></h2>
           <div className="max-w-3xl mx-auto">
             <div className="kglass-light rounded-3xl p-8 sm:p-10 transition-all">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
@@ -150,7 +150,7 @@ export default function HappinessGuaranteePage() {
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#0694D1] opacity-[0.05] blur-[100px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">The Four Pillars of Our Guarantee</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">The Four Pillars of Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Guarantee</span></h2>
           <p className="text-center text-white/60 mb-12">Every commitment is measurable, every promise is kept</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {PILLARS.map(p => (

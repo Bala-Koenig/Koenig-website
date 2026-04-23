@@ -74,7 +74,7 @@ export default function OurClientsPage() {
       {/* LIGHT SECTION – Client pills */}
       <section className="bg-white py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Trusted by the World's Best</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Trusted by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span></h2>
           <p className="text-center text-[#475569] mb-12">Organizations that rely on Koenig to develop their teams</p>
           <div className="flex flex-wrap gap-3 justify-center">
             {CLIENTS.map(c => (
@@ -109,7 +109,7 @@ export default function OurClientsPage() {
       <section className="bg-[#F8FAFC] py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-6">Enterprise Training Solutions</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-6">Enterprise Training <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Solutions</span></h2>
             <p className="text-[#475569] text-lg leading-relaxed mb-6">
               We deliver bespoke corporate training programs tailored to your organization's technology stack, business goals, and learning preferences. From instructor-led classroom sessions to fully remote live online cohorts — we build the program around you.
             </p>

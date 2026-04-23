@@ -112,7 +112,7 @@ export default function StudentFeedbackPage() {
       {/* LIGHT SECTION – Rating bars */}
       <section className="bg-white py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Platform Ratings</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Platform <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Ratings</span></h2>
           <p className="text-center text-[#475569] mb-12">Verified ratings from third-party review platforms</p>
           <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {RATINGS.map(r => (
@@ -143,7 +143,7 @@ export default function StudentFeedbackPage() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">What Our Learners Say</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">What Our Learners <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Say</span></h2>
           <p className="text-center text-white/60 mb-12">From post-course surveys — real feedback, unedited</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {TESTIMONIALS.map(t => (
@@ -180,7 +180,7 @@ export default function StudentFeedbackPage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
             <div className="text-4xl mb-5">🎬</div>
-            <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Video Testimonials</h2>
+            <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Video <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Testimonials</span></h2>
             <p className="text-[#475569] text-lg leading-relaxed mb-6">
               Learners from around the world share their Koenig experience on camera. Our video testimonials come from students in:
             </p>
@@ -202,7 +202,7 @@ export default function StudentFeedbackPage() {
       {/* DARK SECTION – CTA */}
       <section className="bg-[#06111E] py-[60px] text-center">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Join 5M+ Learners</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Join 5M+ <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Learners</span></h2>
           <p className="text-white/70 mb-8 text-lg">Write your own success story with Koenig.</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a href="mailto:sales@koenig-solutions.com"

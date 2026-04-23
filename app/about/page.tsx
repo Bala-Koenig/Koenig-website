@@ -199,7 +199,7 @@ export default function AboutPage() {
           {activeTab === 'who' && (
             <>
               <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">
-                Who We <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Are</span>
+                Who We <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are</span>
               </h2>
               <p className="text-center text-[#475569] mb-10">Three decades of training excellence, built on one belief</p>
 
@@ -282,7 +282,7 @@ export default function AboutPage() {
           {activeTab === 'global' && (
             <>
               <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">
-                Our Global <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Presence</span>
+                Our Global <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Presence</span>
               </h2>
               <p className="text-center text-[#475569] mb-10">13 offices. 195+ countries served.</p>
 
@@ -323,7 +323,7 @@ export default function AboutPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 text-center">
-            Awards &amp; <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Recognition</span>
+            Awards &amp; <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Recognition</span>
           </h2>
           <p className="text-center text-white/50 mb-10">Proud milestones that reflect our commitment to excellence</p>
 
@@ -385,7 +385,7 @@ export default function AboutPage() {
           <div className="about-blob3 absolute -bottom-16 -right-24 w-[350px] h-[350px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Upskill?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Upskill?</span></h2>
           <p className="text-white/70 mb-8 text-lg">Join 30,000+ students training with Koenig every month.</p>
           <a href="mailto:sales@koenig-solutions.com"
             className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">
