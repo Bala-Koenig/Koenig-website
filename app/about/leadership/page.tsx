@@ -117,7 +117,7 @@ const TEAM = [
     color: '#dc2626',
     linkedin: 'https://www.linkedin.com/in/vatanjoshi/',
     image: '/images/leadership/Leadership_Vatan-Vijay-Joshi.webp' as string | null,
-    bio: 'TODO: Add Vatan Vijay Joshi bio content from the live site.',
+    bio: 'Vatan has over 17 years of experience in the IT education industry, with a strong focus on customer cloud and on-prem strategies and innovation. He works closely with customers, partners, OEM teams, and technical trainers to design and deliver effective training and solution-selling programs that drive adoption and satisfaction. Currently managing Microsoft and AWS partnerships, Vatan helps organizations maximize cloud value. Outside work, he enjoys overlanding and spending time with his family.',
   },
   {
     initials: 'MC',
@@ -161,7 +161,7 @@ const EXECUTIVE_TEAM = [
     title: 'Assistant Technical Manager',
     linkedin: 'https://www.linkedin.com/in/vatanjoshi/',
     image: '/images/leadership/Leadership_Vatan-Vijay-Joshi.webp' as string | null,
-    bio: 'TODO: Add Vatan Vijay Joshi bio content from the live site.',
+    bio: 'Vatan has over 17 years of experience in the IT education industry, with a strong focus on customer cloud and on-prem strategies and innovation. He works closely with customers, partners, OEM teams, and technical trainers to design and deliver effective training and solution-selling programs that drive adoption and satisfaction. Currently managing Microsoft and AWS partnerships, Vatan helps organizations maximize cloud value. Outside work, he enjoys overlanding and spending time with his family.',
   },
   {
     initials: 'MC',
