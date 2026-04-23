@@ -126,7 +126,7 @@ const TEAM = [
     color: '#d97706',
     linkedin: 'https://www.linkedin.com/in/manishchaturvedii/',
     image: '/images/leadership/Leadership_Manish.webp' as string | null,
-    bio: 'TODO: Add Manish Chaturvedi bio content from the live site.',
+    bio: 'Manish brings nearly two decades of experience in Sales and Business Development, known for driving sustainable growth and building long-term customer relationships across diverse markets. With strong expertise in people management, strategic planning, and organizational leadership, he has consistently led high-performing teams to achieve strong business results. Outside work, Manish is a passionate sports enthusiast and music lover, bringing energy and balance to his professional and personal life.',
   },
 ]
 
@@ -169,7 +169,7 @@ const EXECUTIVE_TEAM = [
     title: 'Assistant Sales Manager',
     linkedin: 'https://www.linkedin.com/in/manishchaturvedii/',
     image: '/images/leadership/Leadership_Manish.webp' as string | null,
-    bio: 'TODO: Add Manish Chaturvedi bio content from the live site.',
+    bio: 'Manish brings nearly two decades of experience in Sales and Business Development, known for driving sustainable growth and building long-term customer relationships across diverse markets. With strong expertise in people management, strategic planning, and organizational leadership, he has consistently led high-performing teams to achieve strong business results. Outside work, Manish is a passionate sports enthusiast and music lover, bringing energy and balance to his professional and personal life.',
   },
 ]
 
