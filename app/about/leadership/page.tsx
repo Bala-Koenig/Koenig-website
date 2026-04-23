@@ -265,9 +265,8 @@ export default function LeadershipPage() {
       {/* CEO spotlight */}
       <section className="bg-white py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">Founder &amp; CEO</h2>
           <div className="max-w-4xl mx-auto">
-            <div className="kglass-light rounded-3xl p-8 sm:p-12 transition-all">
+            <div className="kglass-light rounded-3xl py-10 px-8 sm:px-12 transition-all">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8">
 
                 {/* Image / Avatar placeholder */}
@@ -296,8 +295,7 @@ export default function LeadershipPage() {
 
                 {/* Info */}
                 <div className="flex-1 text-center sm:text-left">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#0F172A] mb-1">{CEO.name}</h3>
-                  <p className="text-[#0694D1] font-semibold text-lg mb-4">{CEO.title}</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-[#0F172A] mb-4">{CEO.name}</h3>
                   <div className="flex flex-wrap gap-3 justify-center sm:justify-start mb-6">
                     {CEO.tags.map(tag => (
                       <span key={tag} className="bg-[#EFF6FF] text-[#0694D1] px-3 py-1 rounded-full text-sm font-medium">{tag}</span>
