@@ -54,7 +54,7 @@ const TEAM = [
     color: '#dc2626',
     linkedin: 'https://www.linkedin.com/in/aditya-sharma-22a7b784',
     image: '/images/leadership/aditya-sharma.webp' as string | null,
-    bio: 'TODO: Add Aditya Sharma bio content from the live site.',
+    bio: 'Aditya has over a decade\'s expertise in tech automation. Always up for a challenge, he excels in driving innovation and solving complex problems. He has been instrumental in creating and executing technical frameworks and standards, guiding his team through technical challenges. A devoted programmer, Aditya is always exploring new technologies, ensuring his team remains at the forefront of industry advancements.',
   },
   {
     initials: 'PK',
