@@ -88,7 +88,7 @@ export default function OurStoryPage() {
       {/* LIGHT SECTION – Timeline */}
       <section className="bg-white py-[60px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Three Decades of Resilience</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Three Decades of <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Resilience</span></h2>
           <p className="text-center text-[#475569] mb-12">From a single Delhi office to 30,000+ students monthly in 195 countries</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TIMELINE.map(t => (
