@@ -4,17 +4,42 @@ import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
 const CLIENTS = [
-  'Chevron', 'TCS', 'HCL', 'Microsoft', 'NTT', 'PwC',
-  'United Nations', 'HSBC', 'NHS', 'Saudi Aramco', 'Shell', 'Infosys',
-  'Adobe', 'Google', 'EY', 'GE', 'McKinsey', 'Bain & Company',
-  'Emirates', 'DHL', 'HP', 'Fujifilm', 'Accenture', 'Deloitte',
-  'IBM', 'Capgemini', 'Wipro', 'Cognizant', 'KPMG', 'Oracle',
+  { name: 'Google',             img: 'google.png'               },
+  { name: 'Microsoft',          img: 'ms.png'                   },
+  { name: 'Adobe',              img: 'adobe.png'                },
+  { name: 'Dell',               img: 'dell.png'                 },
+  { name: 'HP',                 img: 'hp.png'                   },
+  { name: 'Infosys',            img: 'infosys.png'              },
+  { name: 'TCS',                img: 'TCS.png'                  },
+  { name: 'Wipro',              img: 'wipro.png'                },
+  { name: 'HCL Technologies',   img: 'hcl-technologies.png'     },
+  { name: 'Cognizant',          img: 'cts.png'                  },
+  { name: 'EY',                 img: 'EY.png'                   },
+  { name: 'PwC',                img: 'pwc.png'                  },
+  { name: 'McKinsey & Company', img: 'mcKinsey-and-company.png' },
+  { name: 'Bain & Company',     img: 'Bain-and-Company.png'     },
+  { name: 'HSBC',               img: 'hsbc.png'                 },
+  { name: 'Shell',              img: 'shell 1.png'              },
+  { name: 'Chevron',            img: 'chevron.png'              },
+  { name: 'Saudi Aramco',       img: 'aramco.png'               },
+  { name: 'Bharat Petroleum',   img: 'Bharat-Petroleum.png'     },
+  { name: 'GE',                 img: 'ge.png'                   },
+  { name: 'Fujifilm',           img: 'fuji.png'                 },
+  { name: 'DHL',                img: 'dhl.png'                  },
+  { name: 'Emirates',           img: 'Emirates.png'             },
+  { name: 'NTT',                img: 'NTT.png'                  },
+  { name: 'NHS',                img: 'NHS.png'                  },
+  { name: 'United Nations',     img: 'united-nations.png'       },
+  { name: 'Capgemini',          img: 'capeg.png'                },
+  { name: 'Dept',               img: 'dept.png'                 },
+  { name: 'Link',               img: 'link.png'                 },
+  { name: 'Abin',               img: 'abin.png'                 },
 ]
 
 const BIG_STATS = [
-  { value: '1M+',     label: 'Professionals Certified' },
-  { value: '195+',    label: 'Countries Reached' },
-  { value: '30+',     label: 'Fortune-500 Clients' },
+  { value: '1M+',  label: 'Professionals Certified' },
+  { value: '195+', label: 'Countries Reached' },
+  { value: '30+',  label: 'Fortune-500 Clients' },
 ]
 
 export default function OurClientsPage() {
@@ -33,56 +58,64 @@ export default function OurClientsPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
-                Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Clients</span>
-              </h1>
-              <p className="text-xl text-white/80 mb-4 leading-relaxed">
-                From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
-              </p>
-              <div className="flex flex-wrap gap-6 mt-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-[#38bdf8]">1M+</div>
-                  <div className="text-white/60 text-sm">Professionals Certified</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-[#38bdf8]">195+</div>
-                  <div className="text-white/60 text-sm">Countries</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-[#38bdf8]">30+</div>
-                  <div className="text-white/60 text-sm">Fortune-500 Clients</div>
+              <div>
+                <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
+                  Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Clients</span>
+                </h1>
+                <p className="text-xl text-white/80 mb-4 leading-relaxed">
+                  From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
+                </p>
+                <div className="flex flex-wrap gap-6 mt-8">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-[#38bdf8]">1M+</div>
+                    <div className="text-white/60 text-sm">Professionals Certified</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-[#38bdf8]">195+</div>
+                    <div className="text-white/60 text-sm">Countries</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-[#38bdf8]">30+</div>
+                    <div className="text-white/60 text-sm">Fortune-500 Clients</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
-              <div className="aspect-video">
-                <iframe
-                  src="https://www.youtube.com/embed/z_6FnQE7-LA"
-                  title="Koenig Solutions — Your Trusted IT Training Partner"
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+              <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
+                <div className="aspect-video">
+                  <iframe
+                    src="https://www.youtube.com/embed/z_6FnQE7-LA"
+                    title="Koenig Solutions — Your Trusted IT Training Partner"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
               </div>
-            </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* LIGHT SECTION – Client pills */}
+      {/* LIGHT SECTION – Client logos grid */}
       <section className="bg-white py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Trusted by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span></h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">
+            Trusted by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span>
+          </h2>
           <p className="text-center text-[#475569] mb-12">Organizations that rely on Koenig to develop their teams</p>
-          <div className="flex flex-wrap gap-3 justify-center">
+
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
             {CLIENTS.map(c => (
-              <span key={c}
-                className="group inline-block bg-[#F1F5F9] border border-[#E2E8F0] text-[#0F172A] px-5 py-2.5 rounded-full text-sm font-medium
-                  hover:text-[#0694D1] hover:border-[#0694D1] hover:bg-[#EFF6FF] transition-all cursor-default">
-                {c}
-              </span>
+              <div
+                key={c.name}
+                className="flex items-center justify-center p-4 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:border-[#0694D1]/40 hover:bg-[#EFF6FF] hover:shadow-md transition-all group"
+                title={c.name}>
+                <img
+                  src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
+                  alt={c.name}
+                  className="h-10 w-auto max-w-full object-contain grayscale group-hover:grayscale-0 transition-all"
+                />
+              </div>
             ))}
           </div>
         </div>
