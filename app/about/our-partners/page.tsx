@@ -128,36 +128,42 @@ export default function OurPartnersPage() {
             {PARTNERS.map(p => (
               <div
                 key={p.name}
-                className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1"
-                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(0,164,239,0.07)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 20px rgba(6,148,209,0.15)'; (e.currentTarget as HTMLElement).style.borderColor = '#A8D8F0' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 10px rgba(0,164,239,0.07)'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF' }}
+                className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 12px rgba(0,164,239,0.08)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 28px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLElement).style.borderColor = '#0694D1' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 12px rgba(0,164,239,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF' }}
               >
+                {/* Top accent line */}
+                <div className="h-0.5 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
+
                 {/* Logo area */}
-                <div className="flex h-24 w-full items-center justify-center bg-white p-3">
+                <div className="flex h-[88px] w-full items-center justify-center bg-white px-4 py-3">
                   {p.img ? (
                     <img
                       src={`/images/partners/${encodeURIComponent(p.img)}`}
                       alt={p.name}
                       className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                      style={{ maxHeight: '80px' }}
+                      style={{ maxHeight: '72px' }}
                     />
                   ) : (
-                    <span className="text-3xl font-black" style={{ color: '#076D9D' }}>
+                    <span className="text-2xl font-black" style={{ color: '#076D9D' }}>
                       {p.name.slice(0, 2)}
                     </span>
                   )}
                 </div>
 
-                {/* Info area */}
-                <div className="flex flex-col gap-0.5 border-t border-[#EEF6FF] bg-[#FAFCFF] px-3 pt-2 pb-1">
-                  <p className="truncate text-center text-xs font-bold text-[#0b2545]">{p.name}</p>
-                  <p className="truncate text-center text-[10px] text-[#4a90b8]">{p.tier}</p>
-                  <p className="text-center text-[10px] font-semibold text-[#0694D1]">{p.courses} Courses</p>
+                {/* Name + courses */}
+                <div className="flex flex-col items-center gap-1 border-t border-[#EEF6FF] bg-[#F8FBFF] px-3 pt-2.5 pb-2">
+                  <p className="truncate w-full text-center text-[11px] font-bold text-[#0b2545]">{p.name}</p>
+                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold"
+                    style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1' }}>
+                    {p.courses} Courses
+                  </span>
                 </div>
 
                 {/* Verify button */}
-                <div className="px-3 pb-3 pt-2 bg-[#FAFCFF]">
+                <div className="px-3 pb-3 pt-1.5 bg-[#F8FBFF]">
                   {p.verify ? (
                     <a
                       href={p.verify}
@@ -165,8 +171,8 @@ export default function OurPartnersPage() {
                       rel="noopener noreferrer"
                       className="block w-full rounded-lg border text-[10px] font-semibold py-1.5 text-center transition-all duration-200"
                       style={{ borderColor: '#0694D1', color: '#0694D1' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#0694D1'; (e.currentTarget as HTMLElement).style.color = '#fff' }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#0694D1' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg,#0694D1,#38bdf8)'; (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.borderColor = 'transparent' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.borderColor = '#0694D1' }}
                     >
                       Verify Authorisation
                     </a>
