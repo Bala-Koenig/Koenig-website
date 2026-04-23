@@ -69,7 +69,7 @@ export default function AwardsPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[60px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -105,7 +105,7 @@ export default function AwardsPage() {
       </section>
 
       {/* LIGHT SECTION – Great Place to Work */}
-      <section className="bg-white py-[60px]">
+      <section className="bg-white py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">Workplace <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Excellence</span></h2>
           <div className="max-w-2xl mx-auto">
@@ -138,7 +138,7 @@ export default function AwardsPage() {
       </section>
 
       {/* DARK SECTION – Vendor awards */}
-      <section className="relative bg-[#06111E] py-[60px] overflow-hidden">
+      <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
         </div>

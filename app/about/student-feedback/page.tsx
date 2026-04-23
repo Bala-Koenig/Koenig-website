@@ -77,7 +77,7 @@ export default function StudentFeedbackPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[60px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -110,7 +110,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* LIGHT SECTION – Rating bars */}
-      <section className="bg-white py-[60px]">
+      <section className="bg-white py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Platform <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Ratings</span></h2>
           <p className="text-center text-[#475569] mb-12">Verified ratings from third-party review platforms</p>
@@ -138,7 +138,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* DARK SECTION – Testimonials */}
-      <section className="relative bg-[#06111E] py-[60px] overflow-hidden">
+      <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
         </div>
@@ -176,7 +176,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* LIGHT SECTION – Video testimonials note */}
-      <section className="bg-[#F8FAFC] py-[60px]">
+      <section className="bg-[#F8FAFC] py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
             <div className="text-4xl mb-5">🎬</div>
@@ -200,7 +200,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* DARK SECTION – CTA */}
-      <section className="bg-[#06111E] py-[60px] text-center">
+      <section className="bg-[#06111E] py-[50px] text-center">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Join 5M+ <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Learners</span></h2>
           <p className="text-white/70 mb-8 text-lg">Write your own success story with Koenig.</p>

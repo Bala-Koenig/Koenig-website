@@ -25,7 +25,7 @@ export default function HappinessGuaranteePage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[60px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -45,7 +45,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* LIGHT SECTION – Core promise */}
-      <section className="bg-white py-[60px]">
+      <section className="bg-white py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3">We're Not Happy Until You <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are</span></h2>
@@ -73,7 +73,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* DARK SECTION – How it works */}
-      <section className="relative bg-[#06111E] py-[60px] overflow-hidden">
+      <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
         </div>
@@ -101,7 +101,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* LIGHT SECTION – CEO message */}
-      <section className="bg-[#F8FAFC] py-[60px]">
+      <section className="bg-[#F8FAFC] py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">A Personal <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Promise</span></h2>
           <div className="max-w-3xl mx-auto">
@@ -145,7 +145,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* DARK SECTION – 4 pillars */}
-      <section className="relative bg-[#06111E] py-[60px] overflow-hidden">
+      <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#0694D1] opacity-[0.05] blur-[100px] rounded-full" />
         </div>
