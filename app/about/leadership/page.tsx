@@ -137,7 +137,7 @@ const EXECUTIVE_TEAM = [
     title: 'Manager - HR & Freelancer Management (FM)',
     linkedin: 'https://www.linkedin.com/in/nidhikumra/',
     image: '/images/leadership/Leadership_Nidhi.webp' as string | null,
-    bio: 'TODO: Add Nidhi Kumra Ahuja bio content from the live site.',
+    bio: 'Nidhi Kumra Ahuja has over 13 years of experience in Talent Acquisition, with 11 of those years dedicated to Koenig Solutions. She specializes in full-time hiring, freelancer engagements across IT and Non-IT roles. She believes in connecting talent with opportunity and has contributed to building efficient teams at Koenig. Nidhi is passionate about Continuous learning and modern HR practices including AI-driven talent engagement. Outside of work, she enjoys travelling.',
   },
   {
     initials: 'RT',
