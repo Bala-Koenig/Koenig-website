@@ -303,16 +303,7 @@ export default function LeadershipPage() {
                       <span key={tag} className="bg-[#EFF6FF] text-[#0694D1] px-3 py-1 rounded-full text-sm font-medium">{tag}</span>
                     ))}
                   </div>
-                  {CEO.about.map((para, i) => (
-                    <p key={i} className="text-[#475569] leading-relaxed mb-4">{para}</p>
-                  ))}
-
-                  {/* View Bio */}
-                  <button
-                    onClick={() => setBioModal({ name: CEO.name, title: CEO.title, initials: CEO.initials, color: '#0694D1', image: CEO.image, bio: CEO.bio, linkedin: CEO.linkedin })}
-                    className="mt-2 text-[#0694D1] font-semibold text-sm hover:text-[#0580bb] transition-colors flex items-center gap-1">
-                    View Bio +
-                  </button>
+                  <p className="text-[#475569] leading-relaxed mb-4">{CEO.bio}</p>
 
                   {/* LinkedIn */}
                   <a
