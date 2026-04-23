@@ -323,9 +323,14 @@ export default function LeadershipPage() {
       </section>
 
       {/* Team grid — below CEO */}
-      <section className="relative bg-[#06111E] py-[60px] overflow-hidden">
+      <section className="relative py-[60px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #0a1f35 40%, #06111E 100%)' }}>
+        {/* Background glow effects */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.05] blur-[120px] rounded-full" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0694D1] opacity-[0.08] blur-[130px] rounded-full" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-[#0694D1] opacity-[0.05] blur-[100px] rounded-full" />
+          <div className="absolute top-1/2 right-0 w-[350px] h-[350px] bg-[#38bdf8] opacity-[0.04] blur-[110px] rounded-full" />
+          {/* Subtle blue gradient line across top */}
+          <div className="absolute top-0 inset-x-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Senior Leadership</h2>
