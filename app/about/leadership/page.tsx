@@ -226,36 +226,8 @@ export default function LeadershipPage() {
         </div>
       </section>
 
-      {/* TABS */}
-      <section className="bg-white py-8 border-b border-[#E2EEF9]">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] flex justify-center">
-          <div className="inline-flex overflow-hidden rounded-2xl border border-[#0694D1]/20 bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
-            <button
-              onClick={() => setActiveTab('koenig')}
-              className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
-                activeTab === 'koenig'
-                  ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
-                  : 'text-[#64748B] hover:text-[#0F172A]'
-              }`}>
-              Koenig Leadership
-            </button>
-            <button
-              onClick={() => setActiveTab('executive')}
-              className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
-                activeTab === 'executive'
-                  ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
-                  : 'text-[#64748B] hover:text-[#0F172A]'
-              }`}>
-              Executive Leadership
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* KOENIG LEADERSHIP TAB — CEO + Team grid */}
-      {activeTab === 'koenig' && (<>
-
-      {/* CEO spotlight */}
+      {/* CEO spotlight — Koenig tab only */}
+      {activeTab === 'koenig' && (
       <section className="bg-white py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-4xl mx-auto">
@@ -265,18 +237,15 @@ export default function LeadershipPage() {
                 {/* Image / Avatar placeholder */}
                 <div className="flex-shrink-0">
                   {CEO.image ? (
-                    /* TODO: replace null with actual image path to activate */
                     <img
                       src={CEO.image}
                       alt={CEO.name}
                       className="w-48 h-48 rounded-2xl object-cover object-top shadow-lg"
                     />
                   ) : (
-                    /* Image placeholder — set CEO.image to the real photo path to replace */
                     <div
                       className="w-36 h-36 rounded-2xl flex flex-col items-center justify-center gap-2 shadow-lg"
-                      style={{ background: 'linear-gradient(135deg, #0694D133, #38bdf822)', border: '2px dashed #0694D155' }}
-                      title="Image placeholder — update CEO.image with actual photo path">
+                      style={{ background: 'linear-gradient(135deg, #0694D133, #38bdf822)', border: '2px dashed #0694D155' }}>
                       <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-black text-white"
                         style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>
                         {CEO.initials}
@@ -296,8 +265,6 @@ export default function LeadershipPage() {
                     ))}
                   </div>
                   <p className="text-[#475569] leading-relaxed mb-4">{CEO.bio}</p>
-
-                  {/* LinkedIn */}
                   <a
                     href={CEO.linkedin}
                     target="_blank"
@@ -314,102 +281,90 @@ export default function LeadershipPage() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* Team grid — below CEO */}
+      {/* Team grid — tab toggle lives here */}
       <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #0a1f35 40%, #06111E 100%)' }}>
         {/* Background glow effects */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0694D1] opacity-[0.08] blur-[130px] rounded-full" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-[#0694D1] opacity-[0.05] blur-[100px] rounded-full" />
           <div className="absolute top-1/2 right-0 w-[350px] h-[350px] bg-[#38bdf8] opacity-[0.04] blur-[110px] rounded-full" />
-          {/* Subtle blue gradient line across top */}
           <div className="absolute top-0 inset-x-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Senior <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Leadership</span></h2>
-          <p className="text-center text-white/60 mb-12">The experts driving global operations, growth, and innovation</p>
-          <div className="flex flex-wrap justify-center gap-5">
-            {TEAM.slice(0, 7).map(m => (
-              <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] xl:w-[calc(25%-15px)]">
 
-                {/* ── Photo / Image placeholder (top) ── */}
-                {m.image ? (
-                  /* TODO: set m.image to real photo path to activate */
-                  <img src={m.image} alt={m.name} className="w-full h-52 object-cover object-top flex-shrink-0" />
-                ) : (
-                  /* Image placeholder — set image field to actual photo path to replace */
-                  <div className="w-full h-52 flex flex-col items-center justify-center flex-shrink-0 border-b border-white/10">
-                    <div
-                      className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg mb-3"
-                      style={{ backgroundColor: m.color }}>
-                      {m.initials}
+          {/* Tab toggle */}
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex bg-white/5 rounded-xl p-1 border border-white/10">
+              <button
+                onClick={() => setActiveTab('koenig')}
+                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'koenig' ? 'bg-[#0694D1] text-white shadow' : 'text-white/60 hover:text-white'}`}>
+                Koenig Leadership
+              </button>
+              <button
+                onClick={() => setActiveTab('executive')}
+                className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all ${activeTab === 'executive' ? 'bg-[#0694D1] text-white shadow' : 'text-white/60 hover:text-white'}`}>
+                Executive Leadership
+              </button>
+            </div>
+          </div>
+
+          {/* Koenig grid */}
+          {activeTab === 'koenig' && (
+            <div className="flex flex-wrap justify-center gap-5">
+              {TEAM.slice(0, 7).map(m => (
+                <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] xl:w-[calc(25%-15px)]">
+
+                  {m.image ? (
+                    <img src={m.image} alt={m.name} className="w-full h-52 object-cover object-top flex-shrink-0" />
+                  ) : (
+                    <div className="w-full h-52 flex flex-col items-center justify-center flex-shrink-0 border-b border-white/10">
+                      <div
+                        className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg mb-3"
+                        style={{ backgroundColor: m.color }}>
+                        {m.initials}
+                      </div>
+                      <span className="text-white/25 text-[10px] tracking-widest uppercase">Photo placeholder</span>
                     </div>
-                    <span className="text-white/25 text-[10px] tracking-widest uppercase">Photo placeholder</span>
-                  </div>
-                )}
+                  )}
 
-                {/* ── Name, designation, actions (bottom) ── */}
-                <div className="p-5 flex flex-col flex-1">
-                  <div className="font-semibold text-white text-sm group-hover:text-[#38bdf8] transition-colors leading-snug mb-1">
-                    {m.name}
+                  <div className="p-5 flex flex-col flex-1">
+                    <div className="font-semibold text-white text-sm group-hover:text-[#38bdf8] transition-colors leading-snug mb-1">{m.name}</div>
+                    <p className="text-white/50 text-xs leading-relaxed mb-4">{m.title}</p>
+                    <div className="mt-auto">
+                      <div className="h-px mb-3" style={{ background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.3), rgba(6,148,209,0.4), rgba(56,189,248,0.3), transparent)' }} />
+                      <div className="flex items-center justify-between">
+                        <button
+                          onClick={() => setBioModal(m)}
+                          className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors cursor-pointer">
+                          View Bio +
+                        </button>
+                        <a
+                          href={m.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white/40 hover:text-[#38bdf8] transition-colors"
+                          aria-label={`${m.name} LinkedIn`}>
+                          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-white/50 text-xs leading-relaxed mb-4">{m.title}</p>
 
-                  <div className="mt-auto">
-                    {/* Gradient divider */}
-                    <div className="h-px mb-3" style={{ background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.3), rgba(6,148,209,0.4), rgba(56,189,248,0.3), transparent)' }} />
-                    <div className="flex items-center justify-between">
-                    {/* View Bio — opens modal */}
-                    <button
-                      onClick={() => setBioModal(m)}
-                      className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors cursor-pointer">
-                      View Bio +
-                    </button>
-
-                    {/* LinkedIn icon */}
-                    <a
-                      href={m.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white/40 hover:text-[#38bdf8] transition-colors"
-                      aria-label={`${m.name} LinkedIn`}>
-                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                      </svg>
-                    </a>
-                  </div>
-                  </div>
                 </div>
+              ))}
+            </div>
+          )}
 
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      </>)}
-
-      {/* EXECUTIVE LEADERSHIP TAB */}
-      {activeTab === 'executive' && (
-        <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #0a1f35 40%, #06111E 100%)' }}>
-          {/* Background glow effects */}
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0694D1] opacity-[0.08] blur-[130px] rounded-full" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-[#0694D1] opacity-[0.05] blur-[100px] rounded-full" />
-            <div className="absolute top-1/2 right-0 w-[350px] h-[350px] bg-[#38bdf8] opacity-[0.04] blur-[110px] rounded-full" />
-            <div className="absolute top-0 inset-x-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
-          </div>
-
-          <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Executive <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Leadership</span></h2>
-            <p className="text-center text-white/60 mb-12">Industry veterans with a passion for educational innovation and customers</p>
-
-            {/* Card grid — same sizing as Senior Leadership */}
+          {/* Executive grid */}
+          {activeTab === 'executive' && (
             <div className="flex flex-wrap justify-center gap-5">
               {EXECUTIVE_TEAM.map(m => (
                 <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] xl:w-[calc(25%-15px)]">
 
-                  {/* Photo */}
                   {m.image ? (
                     <img src={m.image} alt={m.name} className="w-full h-52 object-cover object-top flex-shrink-0" />
                   ) : (
@@ -420,13 +375,10 @@ export default function LeadershipPage() {
                     </div>
                   )}
 
-                  {/* Name, title, actions */}
                   <div className="p-5 flex flex-col flex-1">
                     <div className="font-semibold text-white text-sm group-hover:text-[#38bdf8] transition-colors leading-snug mb-1">{m.name}</div>
                     <p className="text-white/50 text-xs leading-relaxed mb-4">{m.title}</p>
-
                     <div className="mt-auto">
-                      {/* Gradient divider */}
                       <div className="h-px mb-3" style={{ background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.3), rgba(6,148,209,0.4), rgba(56,189,248,0.3), transparent)' }} />
                       <div className="flex items-center justify-between">
                         <button
@@ -451,10 +403,10 @@ export default function LeadershipPage() {
                 </div>
               ))}
             </div>
+          )}
 
-          </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* LIGHT SECTION – Join CTA */}
       <section
