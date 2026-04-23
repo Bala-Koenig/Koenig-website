@@ -200,8 +200,17 @@ export default function OurClientsPage() {
       </section>
 
       {/* LIGHT SECTION – Enterprise callout */}
-      <section className="bg-[#F8FAFC] py-[50px]">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section
+        className="relative py-[50px] overflow-hidden"
+        style={{
+          backgroundColor: '#EBF5FF',
+          backgroundImage: 'radial-gradient(rgba(6,148,209,0.28) 1.5px, transparent 1.5px)',
+          backgroundSize: '24px 24px',
+        }}>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[260px] bg-[#EBF5FF] opacity-80 blur-[60px] rounded-full" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-6">Enterprise Training <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Solutions</span></h2>
             <p className="text-[#475569] text-lg leading-relaxed mb-6">
