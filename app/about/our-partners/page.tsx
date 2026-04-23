@@ -237,9 +237,9 @@ export default function OurPartnersPage() {
                 <div className="absolute top-0 inset-x-0 h-px transition-opacity duration-300 opacity-50 group-hover:opacity-100"
                   style={{ background: `linear-gradient(90deg, transparent, ${w.color}, transparent)` }} />
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 ease-out group-hover:scale-110 group-hover:-rotate-6 group-hover:shadow-lg"
                     style={{ background: `linear-gradient(135deg, ${w.color}25, ${w.color}10)`, color: w.color, border: `1px solid ${w.color}35` }}>
-                    {w.svg}
+                    <span className="transition-transform duration-300 group-hover:scale-110 inline-flex">{w.svg}</span>
                   </div>
                   <h3 className="text-white font-semibold text-sm mb-2">{w.title}</h3>
                   <p className="text-white/50 text-xs leading-relaxed">{w.desc}</p>

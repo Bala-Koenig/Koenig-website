@@ -195,9 +195,9 @@ export default function OurClientsPage() {
                 <div className="absolute top-0 inset-x-0 h-px transition-opacity duration-300 opacity-50 group-hover:opacity-100"
                   style={{ background: `linear-gradient(90deg, transparent, ${ind.color}, transparent)` }} />
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 ease-out group-hover:scale-110 group-hover:-rotate-6 group-hover:shadow-lg"
                     style={{ background: `linear-gradient(135deg, ${ind.color}25, ${ind.color}10)`, color: ind.color, border: `1px solid ${ind.color}35` }}>
-                    {ind.svg}
+                    <span className="transition-transform duration-300 group-hover:scale-110 inline-flex">{ind.svg}</span>
                   </div>
                   <h3 className="text-white font-semibold text-sm mb-2">{ind.title}</h3>
                   <p className="text-white/50 text-xs leading-relaxed">{ind.desc}</p>
