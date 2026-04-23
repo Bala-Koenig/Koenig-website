@@ -427,6 +427,16 @@ export default function AboutPage() {
             </div>
 
           </div>
+
+          <div className="mt-10 text-center">
+            <a
+              href="https://www.koenig-solutions.com/koenig-awards-and-achievements"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block border border-[#0694D1] text-[#38bdf8] hover:bg-[#0694D1] hover:text-white font-semibold px-8 py-3 rounded-xl transition-colors">
+              View All Awards &amp; Achievements →
+            </a>
+          </div>
         </div>
       </section>
 
