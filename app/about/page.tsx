@@ -58,11 +58,12 @@ export default function AboutPage() {
         .www-icon-q{animation:wwwPulse 2.4s ease-in-out infinite}
         .www-icon-pin{animation:wwwBounce 2s ease-in-out infinite}
         .www-icon-clock{animation:wwwSpin 6s linear infinite}
-        @keyframes flowPulse{0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.22);opacity:1}}
-        .flow-badge{animation:flowPulse 1.5s ease-in-out infinite}
-        .flow-badge2{animation:flowPulse 1.5s ease-in-out 0.5s infinite}
-        .flow-badge-down{animation:flowPulse 1.5s ease-in-out 0.25s infinite}
-        .flow-badge3{animation:flowPulse 1.5s ease-in-out 1.0s infinite}
+        @keyframes chevSlide{0%,100%{transform:translateX(0);opacity:0.35}50%{transform:translateX(7px);opacity:0.9}}
+        @keyframes chevSlideDown{0%,100%{transform:translateY(0);opacity:0.35}50%{transform:translateY(7px);opacity:0.9}}
+        .chev-r{animation:chevSlide 1.6s ease-in-out infinite}
+        .chev-r2{animation:chevSlide 1.6s ease-in-out 0.53s infinite}
+        .chev-r3{animation:chevSlide 1.6s ease-in-out 1.06s infinite}
+        .chev-d{animation:chevSlideDown 1.6s ease-in-out 0.27s infinite}
       `}</style>
       <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
         <div className="pointer-events-none absolute inset-0">
@@ -227,11 +228,10 @@ export default function AboutPage() {
                 </div>
 
                 {/* Arrow 1→2 */}
-                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-10 w-full shrink-0">
-                  <div className="flow-badge w-9 h-9 rounded-full flex items-center justify-center rotate-90 sm:rotate-0"
-                    style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 0 14px rgba(6,148,209,0.45)' }}>
-                    <svg className="w-4 h-4" fill="white" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-8 w-full shrink-0">
+                  <div className="rotate-90 sm:rotate-0">
+                    <svg className="chev-r w-6 h-6" fill="none" stroke="#0694D1" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
                 </div>
@@ -252,11 +252,10 @@ export default function AboutPage() {
                 </div>
 
                 {/* Arrow 2→3 */}
-                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-10 w-full shrink-0">
-                  <div className="flow-badge2 w-9 h-9 rounded-full flex items-center justify-center rotate-90 sm:rotate-0"
-                    style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 0 14px rgba(6,148,209,0.45)' }}>
-                    <svg className="w-4 h-4" fill="white" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-8 w-full shrink-0">
+                  <div className="rotate-90 sm:rotate-0">
+                    <svg className="chev-r2 w-6 h-6" fill="none" stroke="#0694D1" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
                 </div>
@@ -279,13 +278,10 @@ export default function AboutPage() {
               </div>
 
               {/* Between-row down arrow */}
-              <div className="flex justify-center my-5">
-                <div className="flow-badge-down w-9 h-9 rounded-full flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 0 14px rgba(6,148,209,0.45)' }}>
-                  <svg className="w-4 h-4" fill="white" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </div>
+              <div className="flex justify-center my-4">
+                <svg className="chev-d w-6 h-6" fill="none" stroke="#0694D1" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
               </div>
 
               {/* Row 2: 2 cards centered */}
@@ -308,11 +304,10 @@ export default function AboutPage() {
                 </div>
 
                 {/* Arrow 4→5 */}
-                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-10 w-full shrink-0">
-                  <div className="flow-badge3 w-9 h-9 rounded-full flex items-center justify-center rotate-90 sm:rotate-0"
-                    style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 0 14px rgba(6,148,209,0.45)' }}>
-                    <svg className="w-4 h-4" fill="white" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-8 w-full shrink-0">
+                  <div className="rotate-90 sm:rotate-0">
+                    <svg className="chev-r3 w-6 h-6" fill="none" stroke="#0694D1" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
                 </div>
