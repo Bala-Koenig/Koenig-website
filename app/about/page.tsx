@@ -58,6 +58,11 @@ export default function AboutPage() {
         .www-icon-q{animation:wwwPulse 2.4s ease-in-out infinite}
         .www-icon-pin{animation:wwwBounce 2s ease-in-out infinite}
         .www-icon-clock{animation:wwwSpin 6s linear infinite}
+        @keyframes flowPulse{0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.22);opacity:1}}
+        .flow-badge{animation:flowPulse 1.5s ease-in-out infinite}
+        .flow-badge2{animation:flowPulse 1.5s ease-in-out 0.5s infinite}
+        .flow-badge-down{animation:flowPulse 1.5s ease-in-out 0.25s infinite}
+        .flow-badge3{animation:flowPulse 1.5s ease-in-out 1.0s infinite}
       `}</style>
       <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
         <div className="pointer-events-none absolute inset-0">
@@ -203,11 +208,11 @@ export default function AboutPage() {
               </h2>
               <p className="text-center text-[#475569] mb-10">Three decades of training excellence, built on one belief</p>
 
-              {/* 3-top + 2-bottom infographic card grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-6 gap-5">
+              {/* Row 1: 3 cards with animated arrows */}
+              <div className="flex flex-col sm:flex-row items-stretch">
 
                 {/* Card 1 — Founded in 1993 */}
-                <div className="sm:col-span-2 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
+                <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
                   style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 4px 20px rgba(6,148,209,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
                     style={{ background: 'rgba(6,148,209,0.12)', boxShadow: '0 4px 14px rgba(6,148,209,0.18)' }}>
@@ -221,8 +226,18 @@ export default function AboutPage() {
                   </p>
                 </div>
 
+                {/* Arrow 1→2 */}
+                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-10 w-full shrink-0">
+                  <div className="flow-badge w-9 h-9 rounded-full flex items-center justify-center rotate-90 sm:rotate-0"
+                    style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 0 14px rgba(6,148,209,0.45)' }}>
+                    <svg className="w-4 h-4" fill="white" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
                 {/* Card 2 — Our Vision */}
-                <div className="sm:col-span-2 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
+                <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
                   style={{ boxShadow: '0 0 0 1px rgba(5,150,105,0.18), 0 4px 20px rgba(5,150,105,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
                     style={{ background: 'rgba(5,150,105,0.12)', boxShadow: '0 4px 14px rgba(5,150,105,0.18)' }}>
@@ -236,8 +251,18 @@ export default function AboutPage() {
                   </p>
                 </div>
 
+                {/* Arrow 2→3 */}
+                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-10 w-full shrink-0">
+                  <div className="flow-badge2 w-9 h-9 rounded-full flex items-center justify-center rotate-90 sm:rotate-0"
+                    style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 0 14px rgba(6,148,209,0.45)' }}>
+                    <svg className="w-4 h-4" fill="white" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
                 {/* Card 3 — The Kites */}
-                <div className="sm:col-span-2 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
+                <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
                   style={{ boxShadow: '0 0 0 1px rgba(124,58,237,0.18), 0 4px 20px rgba(124,58,237,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
                     style={{ background: 'rgba(124,58,237,0.12)', boxShadow: '0 4px 14px rgba(124,58,237,0.18)' }}>
@@ -251,8 +276,23 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                {/* Card 4 — Koenig Ethos (col-start-2 centers the bottom two) */}
-                <div className="sm:col-span-2 sm:col-start-2 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
+              </div>
+
+              {/* Between-row down arrow */}
+              <div className="flex justify-center my-5">
+                <div className="flow-badge-down w-9 h-9 rounded-full flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 0 14px rgba(6,148,209,0.45)' }}>
+                  <svg className="w-4 h-4" fill="white" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Row 2: 2 cards centered */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:w-2/3 sm:mx-auto">
+
+                {/* Card 4 — Koenig Ethos */}
+                <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
                   style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 4px 20px rgba(6,148,209,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
                     style={{ background: 'rgba(6,148,209,0.12)', boxShadow: '0 4px 14px rgba(6,148,209,0.18)' }}>
@@ -267,8 +307,18 @@ export default function AboutPage() {
                   </p>
                 </div>
 
+                {/* Arrow 4→5 */}
+                <div className="flex items-center justify-center py-3 sm:py-0 sm:w-10 w-full shrink-0">
+                  <div className="flow-badge3 w-9 h-9 rounded-full flex items-center justify-center rotate-90 sm:rotate-0"
+                    style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 0 14px rgba(6,148,209,0.45)' }}>
+                    <svg className="w-4 h-4" fill="white" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
                 {/* Card 5 — Constant Improvement */}
-                <div className="sm:col-span-2 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
+                <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
                   style={{ boxShadow: '0 0 0 1px rgba(220,38,38,0.18), 0 4px 20px rgba(220,38,38,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
                     style={{ background: 'rgba(220,38,38,0.12)', boxShadow: '0 4px 14px rgba(220,38,38,0.18)' }}>
