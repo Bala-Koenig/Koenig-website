@@ -140,28 +140,62 @@ export default function OurStoryPage() {
       </section>
 
       {/* DARK SECTION – Koenig Ethos */}
-      <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
+      <section className="relative py-[50px] overflow-hidden"
+        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.22) 0%, rgba(6,17,30,1) 65%)' }}>
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.06] blur-[120px] rounded-full" />
+          {/* Centre top primary glow */}
+          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.20] blur-[100px]" />
+          {/* Left accent */}
+          <div className="absolute top-1/2 -translate-y-1/2 -left-32 w-[380px] h-[380px] rounded-full bg-[#38bdf8] opacity-[0.10] blur-[90px]" />
+          {/* Right accent */}
+          <div className="absolute top-1/2 -translate-y-1/2 -right-32 w-[380px] h-[380px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[90px]" />
+          {/* Bottom fade */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full bg-[#38bdf8] opacity-[0.07] blur-[80px]" />
+          {/* Subtle dot grid overlay */}
+          <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">The Koenig <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Ethos</span></h2>
-            <div className="kglass-dark rounded-2xl p-8 mb-8">
-              <div className="text-5xl font-black text-[#38bdf8] mb-4">I &lt; O</div>
-              <p className="text-white/80 text-lg leading-relaxed mb-6">
+
+            {/* Main I < O card */}
+            <div className="relative rounded-2xl p-8 mb-6 overflow-hidden"
+              style={{ background: 'linear-gradient(135deg, rgba(6,148,209,0.18) 0%, rgba(56,189,248,0.08) 100%)', border: '1px solid rgba(6,148,209,0.30)', boxShadow: '0 0 60px rgba(6,148,209,0.20), inset 0 1px 0 rgba(255,255,255,0.08)' }}>
+              {/* Inner glow spot */}
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                <div className="w-48 h-24 rounded-full bg-[#38bdf8] opacity-[0.12] blur-[40px]" />
+              </div>
+              <div className="relative text-6xl font-black mb-4 bg-clip-text text-transparent"
+                style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)', filter: 'drop-shadow(0 0 24px rgba(56,189,248,0.5))' }}>
+                I &lt; O
+              </div>
+              <p className="relative text-white/80 text-lg leading-relaxed">
                 <span className="font-bold text-white">Individual is less than Organisation.</span> Every decision, every hire, every product choice is made with the organisation's long-term health over any individual's short-term gain.
               </p>
             </div>
+
+            {/* Two pillar cards */}
             <div className="grid sm:grid-cols-2 gap-4 text-left">
-              <div className="kglass-dark rounded-xl p-5">
-                <div className="text-[#38bdf8] font-bold mb-2">Customer Obsession</div>
+              <div className="rounded-xl p-5"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.20)', boxShadow: '0 4px 24px rgba(6,148,209,0.10)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.20)' }}>
+                    <svg className="w-4 h-4 text-[#38bdf8]" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16V8z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" /></svg>
+                  </div>
+                  <div className="text-[#38bdf8] font-bold text-sm">Customer Obsession</div>
+                </div>
                 <p className="text-white/60 text-sm leading-relaxed">
                   We don't just train — we transform careers. Every interaction, every course, every support call is designed around one question: did this help the student?
                 </p>
               </div>
-              <div className="kglass-dark rounded-xl p-5">
-                <div className="text-[#38bdf8] font-bold mb-2">Constant Improvement</div>
+              <div className="rounded-xl p-5"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.20)', boxShadow: '0 4px 24px rgba(6,148,209,0.10)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.20)' }}>
+                    <svg className="w-4 h-4 text-[#38bdf8]" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
+                  </div>
+                  <div className="text-[#38bdf8] font-bold text-sm">Constant Improvement</div>
+                </div>
                 <p className="text-white/60 text-sm leading-relaxed">
                   We measure everything. NPS, on-time delivery (99.1%), trainer quality, course outcomes. If a number moves, we act — immediately.
                 </p>
