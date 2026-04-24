@@ -372,8 +372,9 @@ export default function HappinessGuaranteePage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-[#38bdf8] opacity-[0.10] blur-[70px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner rounded-2xl py-8 sm:py-10 px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-5">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white text-center sm:text-left">
+          <div className="rounded-2xl py-8 sm:py-10 px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-5"
+            style={{ background: '#ffffff', border: '1.5px solid rgba(6,148,209,0.25)', boxShadow: '0 4px 32px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)' }}>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center sm:text-left" style={{ color: '#053148' }}>
               Ready to Get Started?
             </h2>
             <Link href="/courses"
