@@ -53,6 +53,18 @@ const EC_AWARDS = [
     desc: "Koenig Solutions was honoured as the EC-Council Authorized Training Centre (ATC) of the Year for 2024, recognizing outstanding delivery of cybersecurity certifications including CEH, CHFI, and CPENT. This award reflects Koenig's commitment to excellence in ethical hacking and information security training globally.",
     year: '2024',
   },
+  {
+    awardImg: 'award-ec-2023.webp',
+    title: 'Winner of EC-Council ATC of the Year Award 2023',
+    desc: "Koenig Solutions received the EC-Council Global ATC of the Year Award for 2023, acknowledging its outstanding contribution to creating a skilled cybersecurity workforce. This recognition highlights Koenig's consistent performance in delivering world-class ethical hacking and security certification programmes.",
+    year: '2023',
+  },
+  {
+    awardImg: 'award-excellence-2022.webp',
+    title: 'EC-Council ATC Circle of Excellence 2022',
+    desc: "Koenig Solutions was inducted into the EC-Council ATC Circle of Excellence for 2022, recognizing its outstanding contribution to the mission of creating a skilled cybersecurity workforce. This honour reflects Koenig's dedication to delivering high-quality EC-Council certification training worldwide.",
+    year: '2022',
+  },
 ]
 
 export default function AwardsPage() {
