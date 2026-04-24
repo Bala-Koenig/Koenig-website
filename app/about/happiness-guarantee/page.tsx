@@ -97,8 +97,8 @@ export default function HappinessGuaranteePage() {
         </div>
       </section>
 
-      {/* ── HOW DOES IT WORK — dark + glow ── */}
-      <section className="relative bg-[#06111E] py-10 sm:py-[50px] overflow-hidden">
+      {/* ── HOW DOES IT WORK — dark navy + glow ── */}
+      <section className="relative py-10 sm:py-[50px] overflow-hidden" style={{ background: 'linear-gradient(135deg, #06111E 0%, #071f38 50%, #06111E 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 right-0 w-[450px] h-[450px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[110px]" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
