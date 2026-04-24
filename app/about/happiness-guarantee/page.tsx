@@ -447,13 +447,25 @@ export default function HappinessGuaranteePage() {
           {/* Tab buttons */}
           <div className="flex gap-3 mb-8 sm:mb-10">
             <button onClick={() => setTab('why')}
-              className="font-semibold px-5 py-2 rounded-full text-sm transition-all"
+              className="cursor-pointer inline-flex items-center gap-2 font-semibold px-5 py-2 rounded-full text-sm transition-all"
               style={tab === 'why' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { border: '1px solid rgba(6,148,209,0.4)', color: '#38bdf8' }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0"/>
+                <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/>
+                <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/>
+                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+              </svg>
               Why Choose Us
             </button>
             <button onClick={() => setTab('feedback')}
-              className="font-semibold px-5 py-2 rounded-full text-sm transition-all"
+              className="cursor-pointer inline-flex items-center gap-2 font-semibold px-5 py-2 rounded-full text-sm transition-all"
               style={tab === 'feedback' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { border: '1px solid rgba(6,148,209,0.4)', color: '#38bdf8' }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0"/>
+                <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/>
+                <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/>
+                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+              </svg>
               Student Feedback
             </button>
           </div>
