@@ -265,7 +265,12 @@ export default function AwardsPage() {
           </div>
 
           {/* AWS AWARDS CAROUSEL */}
-          <div className="max-w-2xl mx-auto mt-16" onMouseEnter={() => setAwsPaused(true)} onMouseLeave={() => setAwsPaused(false)}>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center mt-20">
+            AWS <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #ff9900, #FFD580)' }}>Awards</span>
+          </h2>
+          <p className="text-center text-[#475569] mb-10">Globally recognised by AWS for cloud training excellence</p>
+
+          <div className="max-w-2xl mx-auto" onMouseEnter={() => setAwsPaused(true)} onMouseLeave={() => setAwsPaused(false)}>
 
             {/* AWS vendor logo above */}
             <div className="flex justify-center mb-4">
