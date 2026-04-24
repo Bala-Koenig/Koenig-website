@@ -229,6 +229,60 @@ export default function AwardsPage() {
             </div>
           </div>
 
+          {/* AWS AWARDS — vertical list below MS carousel */}
+          <div className="max-w-2xl mx-auto mt-16">
+
+            {/* AWS vendor logo above */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-white rounded-2xl flex items-center justify-center p-1"
+                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(255,153,0,0.18)', border: '2px solid rgba(255,153,0,0.3)' }}>
+                <img src="/images/partners/amazon-authorized.png" alt="AWS" className="w-full h-full object-contain" />
+              </div>
+            </div>
+
+            {/* AWS awards list */}
+            <div className="flex flex-col gap-4">
+              {[
+                {
+                  awardImg: 'Finalist–AWS-Partner-of-the-Year-2024.webp',
+                  title: 'Finalist – AWS Partner of the Year (2024)',
+                  desc: 'Koenig Solutions was recognized as a Finalist for the AWS Partner of the Year Award in 2024, celebrating outstanding collaboration and impact. This honor highlights Koenig\'s commitment to cloud innovation, customer success, and advancing global digital skills through AWS-aligned training.',
+                  year: '2024',
+                },
+                {
+                  awardImg: 'award-commitment.webp',
+                  title: 'Winner of AWS High Standards Commitment Award',
+                  desc: 'Koenig Solutions was honored with the AWS High Standards Commitment Award, recognizing its relentless pursuit of excellence. This accolade underscores Koenig\'s commitment to delivering high-quality products, services, and processes, ensuring that customer expectations are consistently exceeded.',
+                  year: '2023',
+                },
+                {
+                  awardImg: 'award-aug-2022.webp',
+                  title: 'Winner of AWS Customer Obsession Award (August 2022)',
+                  desc: 'In August 2022, Koenig Solutions received the AWS Customer Obsession Award, highlighting the company\'s dedication to understanding and addressing customer needs. This award reflects Koenig\'s unwavering focus on delivering tailored solutions that enhance customer experiences.',
+                  year: '2022',
+                },
+              ].map((a, i) => (
+                <div key={i} className="bg-white rounded-2xl overflow-hidden flex gap-4 p-5"
+                  style={{ boxShadow: '0 4px 20px rgba(255,153,0,0.10), 0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(255,153,0,0.2)' }}>
+                  {/* Award image */}
+                  <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFFBF5] border border-[#FFE8C0]" style={{ width: '150px', height: '160px' }}>
+                    <img
+                      src={`/images/awards/${encodeURIComponent(a.awardImg)}`}
+                      alt={a.title}
+                      className="max-h-full max-w-full object-contain p-2"
+                    />
+                  </div>
+                  {/* Text */}
+                  <div className="flex flex-col justify-center gap-2 flex-1">
+                    <h3 className="font-bold text-[#0F172A] text-base leading-snug">{a.title}</h3>
+                    <p className="text-[#475569] text-sm leading-relaxed">{a.desc}</p>
+                    <span className="self-start text-xs font-semibold px-3 py-1 rounded-full text-white mt-1" style={{ backgroundColor: '#ff9900' }}>{a.year}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="text-center mt-12">
             <Link href="/about/our-partners"
               className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors">
