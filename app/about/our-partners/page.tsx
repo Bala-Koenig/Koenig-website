@@ -15,7 +15,7 @@ const PARTNERS = [
   { name: 'PECB',                         img: 'Authorized PECB Certification Courses Training badge.png', tier: 'Titanium Partner',    courses: '80+',  verify: BASE + 'PECBTitaniumPartnercertificatetill31stdec2026.pdf' },
   { name: 'PeopleCert',                   img: 'PeopleCert.png',                                           tier: 'ATO Partner',         courses: '90+',  verify: BASE + 'PeoplecertATOcertificate2026ITIL5ITIL4PRINCE2DEVOPSIASSC.pdf' },
   { name: 'SAP',                          img: 'SAP.jpg',                                                  tier: 'Gold Partner',        courses: '140+', verify: BASE + 'SAPAEPletterMay2025.pdf' },
-  { name: 'ISACA',                        img: null,                                                        tier: 'Elite Partner',       courses: '60+',  verify: BASE + 'ISACAElitecertificate2026.pdf' },
+  { name: 'ISACA',                        img: 'ISACA_ChannelPartner_Logo_Elite_3.png',                     tier: 'Elite Partner',       courses: '60+',  verify: BASE + 'ISACAElitecertificate2026.pdf' },
   { name: 'CompTIA',                      img: 'comptia.png',                                              tier: 'Platinum Partner',    courses: '180+', verify: BASE + 'CompTIAPartnerletter2026.pdf' },
   { name: 'ISC2',                         img: 'OTP-Preferred-Badge.png',                                  tier: 'Official Partner',    courses: '50+',  verify: BASE + 'KoenigPartnerPreferredCertificatetillDec2026.pdf' },
   { name: 'PMI',                          img: 'PMI1115-ATP-Badge-2024-rgb.png',                           tier: 'Premier Partner',     courses: '140+', verify: BASE + 'PMICertificationofMembershiptillApril2027.pdf' },
