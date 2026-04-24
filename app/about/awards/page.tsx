@@ -167,10 +167,9 @@ export default function AwardsPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center">
             Microsoft <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Awards</span>
           </h2>
-          <div className="mb-10" />
 
           {/* Carousel */}
           <div className="max-w-2xl mx-auto" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
@@ -265,10 +264,9 @@ export default function AwardsPage() {
           </div>
 
           {/* AWS AWARDS CAROUSEL */}
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center mt-20">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
             AWS <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #ff9900, #FFD580)' }}>Awards</span>
           </h2>
-          <div className="mb-10" />
 
           <div className="max-w-2xl mx-auto" onMouseEnter={() => setAwsPaused(true)} onMouseLeave={() => setAwsPaused(false)}>
 
