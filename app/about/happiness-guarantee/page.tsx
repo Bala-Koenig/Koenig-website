@@ -375,25 +375,44 @@ export default function HappinessGuaranteePage() {
           <div className="relative rounded-2xl py-8 sm:py-10 px-6 sm:px-12 overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-5"
             style={{ background: '#ffffff', border: '1.5px solid rgba(6,148,209,0.25)', boxShadow: '0 4px 32px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)' }}>
 
-            {/* Decorative background elements */}
+            {/* Decorative background shapes */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
-              {/* Soft blue gradient sweep on the right */}
-              <div className="absolute -right-10 -top-10 w-64 h-64 rounded-full opacity-[0.07]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }} />
-              <div className="absolute -right-4 -bottom-8 w-48 h-48 rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)' }} />
-              {/* Decorative concentric rings */}
-              <svg className="absolute right-8 top-1/2 -translate-y-1/2 opacity-[0.07]" width="180" height="180" viewBox="0 0 180 180" fill="none">
-                <circle cx="90" cy="90" r="40" stroke="#0694D1" strokeWidth="1.5"/>
-                <circle cx="90" cy="90" r="60" stroke="#0694D1" strokeWidth="1"/>
-                <circle cx="90" cy="90" r="80" stroke="#0694D1" strokeWidth="0.75"/>
+
+              {/* Diagonal stripe band — top-right corner */}
+              <svg className="absolute -right-4 -top-4 opacity-[0.06]" width="220" height="160" viewBox="0 0 220 160" fill="none">
+                {[0,1,2,3,4,5,6,7].map(i => (
+                  <line key={i} x1={i*28} y1="0" x2={i*28+160} y2="160" stroke="#0694D1" strokeWidth="10"/>
+                ))}
               </svg>
-              {/* Tiny dot grid top-left */}
-              <svg className="absolute left-0 top-0 opacity-[0.06]" width="120" height="80" viewBox="0 0 120 80">
-                {Array.from({ length: 5 }).map((_, row) =>
-                  Array.from({ length: 8 }).map((_, col) => (
-                    <circle key={`${row}-${col}`} cx={col * 16 + 8} cy={row * 16 + 8} r="1.5" fill="#0694D1" />
+
+              {/* Large faded shield watermark — right center */}
+              <svg className="absolute right-16 top-1/2 -translate-y-1/2 opacity-[0.055]" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <polyline points="9 12 11 14 15 10"/>
+              </svg>
+
+              {/* Floating rotated square — bottom-left */}
+              <svg className="absolute -left-6 -bottom-6 opacity-[0.06]" width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <rect x="20" y="20" width="80" height="80" rx="8" stroke="#0694D1" strokeWidth="2" transform="rotate(15 60 60)"/>
+                <rect x="32" y="32" width="56" height="56" rx="6" stroke="#38bdf8" strokeWidth="1.5" transform="rotate(15 60 60)"/>
+              </svg>
+
+              {/* Dot grid — centre-left */}
+              <svg className="absolute left-[38%] top-1/2 -translate-y-1/2 opacity-[0.07]" width="80" height="80" viewBox="0 0 80 80">
+                {Array.from({ length: 4 }).map((_, row) =>
+                  Array.from({ length: 4 }).map((_, col) => (
+                    <circle key={`${row}-${col}`} cx={col * 20 + 10} cy={row * 20 + 10} r="2" fill="#0694D1"/>
                   ))
                 )}
               </svg>
+
+              {/* Arc wave — bottom */}
+              <svg className="absolute bottom-0 left-0 w-full opacity-[0.05]" height="40" viewBox="0 0 900 40" preserveAspectRatio="none" fill="none">
+                <path d="M0 40 Q225 0 450 20 Q675 40 900 0 L900 40 Z" fill="#0694D1"/>
+              </svg>
+
+              {/* Small accent circle — top-left */}
+              <div className="absolute top-4 left-4 w-12 h-12 rounded-full opacity-[0.08]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }}/>
             </div>
 
             {/* Content */}
