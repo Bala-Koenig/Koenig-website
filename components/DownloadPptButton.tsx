@@ -6,12 +6,12 @@ export default function DownloadPptButton() {
       href="https://www.koenig-solutions.com/assets/media/ppt/Koenig-Corp-Presentation.pdf"
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative inline-flex items-center gap-2 border border-white/30 text-white/80 hover:border-[#0694D1] hover:text-[#38bdf8] font-semibold px-6 py-3 rounded-xl transition-all duration-300 mt-6 overflow-hidden"
+      className="group relative inline-flex items-center gap-2 border border-white/30 text-white/80 hover:border-[#0694D1] hover:text-[#38bdf8] font-semibold px-6 py-3 rounded-xl transition-all duration-300 my-6 overflow-hidden"
     >
-      {/* shimmer sweep on hover */}
+      {/* shimmer sweep — always animating */}
       <span
-        className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.12), transparent)' }}
+        className="pointer-events-none absolute inset-0 animate-shimmer-slide"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.15), transparent)' }}
       />
 
       {/* ping ring */}

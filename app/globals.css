@@ -15,9 +15,15 @@
   50%       { transform: translateY(3px); }
 }
 
+@keyframes shimmerSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 @theme {
-  --animate-aurora:       aurora 40s linear infinite;
-  --animate-bounce-slow:  bounceSlow 1.4s ease-in-out infinite;
+  --animate-aurora:        aurora 40s linear infinite;
+  --animate-bounce-slow:   bounceSlow 1.4s ease-in-out infinite;
+  --animate-shimmer-slide: shimmerSlide 2s ease-in-out infinite;
 }
 
 @font-face {
