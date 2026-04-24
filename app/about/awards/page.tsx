@@ -9,11 +9,21 @@ const VENDOR_AWARDS = [
     color: '#00a1f1',
     vendorLogo: 'microsoft-cloud-t.png',
     awardImg: 'MS-Partner-of-the-year-2025-popup.webp',
-    awards: [
-      '2025 Global Winner — Training Services Partner of the Year',
-      'FY24 ANZ Superstar Campaign Winner',
-      'FY22 Asia Superstar Campaign Winner',
-    ],
+    awards: ['2025 Global Winner — Training Services Partner of the Year'],
+  },
+  {
+    vendor: 'Microsoft',
+    color: '#00a1f1',
+    vendorLogo: 'microsoft-cloud-t.png',
+    awardImg: 'Microsoft-FY2024-Superstar-Award.webp',
+    awards: ['FY24 ANZ Superstar Campaign Winner'],
+  },
+  {
+    vendor: 'Microsoft',
+    color: '#00a1f1',
+    vendorLogo: 'microsoft-cloud-t.png',
+    awardImg: 'Microsoft-Superstar-Award-2022.webp',
+    awards: ['FY22 Asia Superstar Campaign Winner'],
   },
   {
     vendor: 'AWS',
@@ -165,9 +175,9 @@ export default function AwardsPage() {
           <p className="text-center text-[#475569] mb-12">Recognition from the technology vendors we're authorized to represent</p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {VENDOR_AWARDS.map(v => (
+            {VENDOR_AWARDS.map((v, idx) => (
               <div
-                key={v.vendor}
+                key={`${v.vendor}-${idx}`}
                 className="group flex flex-col bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
                 style={{ boxShadow: '0 4px 20px rgba(6,148,209,0.10), 0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(186,230,253,0.6)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 36px rgba(6,148,209,0.22), 0 2px 8px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = '#0694D1' }}
