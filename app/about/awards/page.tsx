@@ -137,6 +137,15 @@ export default function AwardsPage() {
 
           {/* Carousel */}
           <div className="max-w-2xl mx-auto">
+
+            {/* Vendor logo — above the card */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-white rounded-2xl flex items-center justify-center p-4"
+                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(6,148,209,0.18)', border: '2px solid rgba(6,148,209,0.3)' }}>
+                <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" className="w-full h-full object-contain" />
+              </div>
+            </div>
+
             {/* Card */}
             <div
               className="bg-white rounded-2xl overflow-hidden"
@@ -151,21 +160,15 @@ export default function AwardsPage() {
               {/* Blue top accent */}
               <div className="h-1 w-full" style={{ backgroundColor: '#00a1f1' }} />
 
-              {/* Vendor header */}
-              <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-[#EEF6FF]">
-                <div className="flex items-center gap-3">
-                  <div className="w-16 h-16 rounded-xl flex items-center justify-center shrink-0 bg-[#F8FBFF] border border-[#EEF6FF] p-1.5">
-                    <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" className="w-full h-full object-contain" />
-                  </div>
-                  <div className="font-bold text-[#0F172A] text-base">Microsoft</div>
-                </div>
+              {/* Year badge row */}
+              <div className="flex justify-end px-6 pt-4 pb-2">
                 <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#00a1f1' }}>
                   {award.year}
                 </span>
               </div>
 
               {/* Body — image left, text right */}
-              <div className="flex gap-5 p-6">
+              <div className="flex gap-5 px-6 pb-6">
                 {/* Award image */}
                 <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ width: '170px', height: '200px' }}>
                   <img
