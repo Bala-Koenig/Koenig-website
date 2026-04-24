@@ -28,6 +28,7 @@ const MS_AWARDS = [
 export default function AwardsPage() {
   const [active, setActive] = useState(0)
   const [animating, setAnimating] = useState(false)
+  const [paused, setPaused] = useState(false)
 
   const goTo = (idx: number) => {
     if (animating || idx === active) return
@@ -42,9 +43,10 @@ export default function AwardsPage() {
   const next = () => goTo((active + 1) % MS_AWARDS.length)
 
   useEffect(() => {
+    if (paused) return
     const t = setInterval(() => next(), 4000)
     return () => clearInterval(t)
-  }, [active])
+  }, [active, paused])
 
   const award = MS_AWARDS[active]
 
@@ -136,7 +138,7 @@ export default function AwardsPage() {
           <p className="text-center text-[#475569] mb-10">Globally recognised by Microsoft for training excellence</p>
 
           {/* Carousel */}
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-2xl mx-auto" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
 
             {/* Vendor logo — above the card */}
             <div className="flex justify-center mb-4">
