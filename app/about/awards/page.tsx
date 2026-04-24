@@ -25,28 +25,63 @@ const MS_AWARDS = [
   },
 ]
 
+const AWS_AWARDS = [
+  {
+    awardImg: 'Finalist–AWS-Partner-of-the-Year-2024.webp',
+    title: 'Finalist – AWS Partner of the Year (2024)',
+    desc: "Koenig Solutions was recognized as a Finalist for the AWS Partner of the Year Award in 2024, celebrating outstanding collaboration and impact. This honor highlights Koenig's commitment to cloud innovation, customer success, and advancing global digital skills through AWS-aligned training.",
+    year: '2024',
+  },
+  {
+    awardImg: 'award-commitment.webp',
+    title: 'Winner of AWS High Standards Commitment Award',
+    desc: "Koenig Solutions was honored with the AWS High Standards Commitment Award, recognizing its relentless pursuit of excellence. This accolade underscores Koenig's commitment to delivering high-quality products, services, and processes, ensuring that customer expectations are consistently exceeded.",
+    year: '2023',
+  },
+  {
+    awardImg: 'award-aug-2022.webp',
+    title: 'Winner of AWS Customer Obsession Award (August 2022)',
+    desc: "In August 2022, Koenig Solutions received the AWS Customer Obsession Award, highlighting the company's dedication to understanding and addressing customer needs. This award reflects Koenig's unwavering focus on delivering tailored solutions that enhance customer experiences.",
+    year: '2022',
+  },
+]
+
 export default function AwardsPage() {
   const [active, setActive] = useState(0)
   const [animating, setAnimating] = useState(false)
   const [paused, setPaused] = useState(false)
 
+  const [awsActive, setAwsActive] = useState(0)
+  const [awsAnimating, setAwsAnimating] = useState(false)
+  const [awsPaused, setAwsPaused] = useState(false)
+
   const goTo = (idx: number) => {
     if (animating || idx === active) return
     setAnimating(true)
-    setTimeout(() => {
-      setActive(idx)
-      setAnimating(false)
-    }, 250)
+    setTimeout(() => { setActive(idx); setAnimating(false) }, 250)
   }
-
   const prev = () => goTo((active - 1 + MS_AWARDS.length) % MS_AWARDS.length)
   const next = () => goTo((active + 1) % MS_AWARDS.length)
+
+  const awsGoTo = (idx: number) => {
+    if (awsAnimating || idx === awsActive) return
+    setAwsAnimating(true)
+    setTimeout(() => { setAwsActive(idx); setAwsAnimating(false) }, 250)
+  }
+  const awsPrev = () => awsGoTo((awsActive - 1 + AWS_AWARDS.length) % AWS_AWARDS.length)
+  const awsNext = () => awsGoTo((awsActive + 1) % AWS_AWARDS.length)
 
   useEffect(() => {
     if (paused) return
     const t = setInterval(() => next(), 4000)
     return () => clearInterval(t)
   }, [active, paused])
+
+  useEffect(() => {
+    if (awsPaused) return
+    const t = setInterval(() => awsNext(), 4000)
+    return () => clearInterval(t)
+  }, [awsActive, awsPaused])
 
   const award = MS_AWARDS[active]
 
@@ -229,8 +264,8 @@ export default function AwardsPage() {
             </div>
           </div>
 
-          {/* AWS AWARDS — vertical list below MS carousel */}
-          <div className="max-w-2xl mx-auto mt-16">
+          {/* AWS AWARDS CAROUSEL */}
+          <div className="max-w-2xl mx-auto mt-16" onMouseEnter={() => setAwsPaused(true)} onMouseLeave={() => setAwsPaused(false)}>
 
             {/* AWS vendor logo above */}
             <div className="flex justify-center mb-4">
@@ -240,46 +275,52 @@ export default function AwardsPage() {
               </div>
             </div>
 
-            {/* AWS awards list */}
-            <div className="flex flex-col gap-4">
-              {[
-                {
-                  awardImg: 'Finalist–AWS-Partner-of-the-Year-2024.webp',
-                  title: 'Finalist – AWS Partner of the Year (2024)',
-                  desc: 'Koenig Solutions was recognized as a Finalist for the AWS Partner of the Year Award in 2024, celebrating outstanding collaboration and impact. This honor highlights Koenig\'s commitment to cloud innovation, customer success, and advancing global digital skills through AWS-aligned training.',
-                  year: '2024',
-                },
-                {
-                  awardImg: 'award-commitment.webp',
-                  title: 'Winner of AWS High Standards Commitment Award',
-                  desc: 'Koenig Solutions was honored with the AWS High Standards Commitment Award, recognizing its relentless pursuit of excellence. This accolade underscores Koenig\'s commitment to delivering high-quality products, services, and processes, ensuring that customer expectations are consistently exceeded.',
-                  year: '2023',
-                },
-                {
-                  awardImg: 'award-aug-2022.webp',
-                  title: 'Winner of AWS Customer Obsession Award (August 2022)',
-                  desc: 'In August 2022, Koenig Solutions received the AWS Customer Obsession Award, highlighting the company\'s dedication to understanding and addressing customer needs. This award reflects Koenig\'s unwavering focus on delivering tailored solutions that enhance customer experiences.',
-                  year: '2022',
-                },
-              ].map((a, i) => (
-                <div key={i} className="bg-white rounded-2xl overflow-hidden flex gap-4 p-5"
-                  style={{ boxShadow: '0 4px 20px rgba(255,153,0,0.10), 0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(255,153,0,0.2)' }}>
-                  {/* Award image */}
-                  <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFFBF5] border border-[#FFE8C0]" style={{ width: '150px', height: '160px' }}>
-                    <img
-                      src={`/images/awards/${encodeURIComponent(a.awardImg)}`}
-                      alt={a.title}
-                      className="max-h-full max-w-full object-contain p-2"
-                    />
-                  </div>
-                  {/* Text */}
-                  <div className="flex flex-col justify-center gap-2 flex-1">
-                    <h3 className="font-bold text-[#0F172A] text-base leading-snug">{a.title}</h3>
-                    <p className="text-[#475569] text-sm leading-relaxed">{a.desc}</p>
-                    <span className="self-start text-xs font-semibold px-3 py-1 rounded-full text-white mt-1" style={{ backgroundColor: '#ff9900' }}>{a.year}</span>
-                  </div>
+            {/* Card */}
+            <div
+              className="bg-white rounded-2xl overflow-hidden"
+              style={{
+                boxShadow: '0 8px 32px rgba(255,153,0,0.16), 0 2px 8px rgba(0,0,0,0.06)',
+                border: '1px solid rgba(255,153,0,0.25)',
+                opacity: awsAnimating ? 0 : 1,
+                transform: awsAnimating ? 'translateY(10px)' : 'translateY(0)',
+                transition: 'opacity 0.25s ease, transform 0.25s ease',
+              }}
+            >
+              <div className="h-1 w-full" style={{ backgroundColor: '#ff9900' }} />
+              <div className="flex gap-5 px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFFBF5] border border-[#FFE8C0]" style={{ width: '150px', height: '160px' }}>
+                  <img src={`/images/awards/${encodeURIComponent(AWS_AWARDS[awsActive].awardImg)}`} alt={AWS_AWARDS[awsActive].title} className="max-h-full max-w-full object-contain p-3" />
                 </div>
-              ))}
+                <div className="flex flex-col justify-center gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">{AWS_AWARDS[awsActive].title}</h3>
+                  <p className="text-[#475569] text-sm leading-relaxed">{AWS_AWARDS[awsActive].desc}</p>
+                </div>
+              </div>
+              <div className="flex justify-end px-6 pb-4">
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#ff9900' }}>{AWS_AWARDS[awsActive].year}</span>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between mt-6">
+              <button onClick={awsPrev} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200 hover:text-white"
+                style={{ border: '1px solid #FFD580', color: '#ff9900', boxShadow: '0 2px 8px rgba(255,153,0,0.12)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ff9900'; (e.currentTarget as HTMLElement).style.borderColor = '#ff9900' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFD580' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="flex items-center gap-2">
+                {AWS_AWARDS.map((_, i) => (
+                  <button key={i} onClick={() => awsGoTo(i)} className="rounded-full transition-all duration-300"
+                    style={{ width: i === awsActive ? '24px' : '8px', height: '8px', backgroundColor: i === awsActive ? '#ff9900' : '#FFD580' }} />
+                ))}
+              </div>
+              <button onClick={awsNext} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+                style={{ border: '1px solid #FFD580', color: '#ff9900', boxShadow: '0 2px 8px rgba(255,153,0,0.12)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ff9900'; (e.currentTarget as HTMLElement).style.borderColor = '#ff9900'; (e.currentTarget as HTMLElement).style.color = 'white' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFD580'; (e.currentTarget as HTMLElement).style.color = '#ff9900' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
             </div>
           </div>
 
