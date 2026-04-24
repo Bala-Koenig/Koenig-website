@@ -160,17 +160,10 @@ export default function AwardsPage() {
               {/* Blue top accent */}
               <div className="h-1 w-full" style={{ backgroundColor: '#00a1f1' }} />
 
-              {/* Year badge row */}
-              <div className="flex justify-end px-6 pt-4 pb-2">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#00a1f1' }}>
-                  {award.year}
-                </span>
-              </div>
-
               {/* Body — image left, text right */}
-              <div className="flex gap-5 px-6 pb-6">
+              <div className="flex gap-5 px-6 pt-5 pb-4">
                 {/* Award image */}
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ width: '170px', height: '200px' }}>
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ width: '150px', height: '160px' }}>
                   <img
                     src={`/images/awards/${encodeURIComponent(award.awardImg)}`}
                     alt={award.title}
@@ -182,6 +175,13 @@ export default function AwardsPage() {
                   <h3 className="font-bold text-[#0F172A] text-base leading-snug">{award.title}</h3>
                   <p className="text-[#475569] text-sm leading-relaxed">{award.desc}</p>
                 </div>
+              </div>
+
+              {/* Year badge — bottom */}
+              <div className="flex justify-end px-6 pb-4">
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#00a1f1' }}>
+                  {award.year}
+                </span>
               </div>
             </div>
 
