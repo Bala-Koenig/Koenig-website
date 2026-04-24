@@ -379,7 +379,7 @@ export default function HappinessGuaranteePage() {
             <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
 
               {/* Diagonal stripe band — top-right corner */}
-              <svg className="absolute -right-4 -top-4 opacity-[0.07]" width="220" height="160" viewBox="0 0 220 160" fill="none">
+              <svg className="absolute -right-4 -top-4 opacity-[0.05]" width="220" height="160" viewBox="0 0 220 160" fill="none">
                 {[0,1,2,3,4,5,6,7].map(i => (
                   <line key={i} x1={i*28} y1="0" x2={i*28+160} y2="160" stroke="#0694D1" strokeWidth="10"/>
                 ))}
