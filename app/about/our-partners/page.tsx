@@ -56,7 +56,7 @@ const PARTNERS = [
   { name: 'C++ Institute',               img: 'c-plus-2-logo.png',                                        tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
   { name: 'LPI',                          img: 'Linux.png',                                                tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'LPIPartnerCertKoenigSolutionsPvt.Ltdsince2025.pdf' },
   { name: 'Symantec',                     img: 'Symantec.png',                                              tier: 'Training Partner',    courses: '20+',  verify: null },
-  { name: 'Global Assoc. for Quality Mgmt', img: null,                                                     tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'GAQMAuthorizedTrainingCentresinceJan2026.pdf' },
+  { name: 'Global Assoc. for Quality Mgmt', img: 'EC-Council-logo.png',                                    tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'GAQMAuthorizedTrainingCentresinceJan2026.pdf' },
 ]
 
 
