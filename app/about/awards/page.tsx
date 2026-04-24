@@ -1,91 +1,50 @@
 'use client'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
-const VENDOR_AWARDS = [
+const MS_AWARDS = [
   {
-    vendor: 'Microsoft',
-    color: '#00a1f1',
-    vendorLogo: 'microsoft-cloud-t.png',
     awardImg: 'MS-Partner-of-the-year-2025-popup.webp',
-    awards: ['2025 Global Winner — Training Services Partner of the Year'],
+    title: '2025 Global Winner',
+    subtitle: 'Training Services Partner of the Year',
   },
   {
-    vendor: 'Microsoft',
-    color: '#00a1f1',
-    vendorLogo: 'microsoft-cloud-t.png',
     awardImg: 'Microsoft-FY2024-Superstar-Award.webp',
-    awards: ['FY24 ANZ Superstar Campaign Winner'],
+    title: 'FY24 ANZ Superstar',
+    subtitle: 'Campaign Winner',
   },
   {
-    vendor: 'Microsoft',
-    color: '#00a1f1',
-    vendorLogo: 'microsoft-cloud-t.png',
     awardImg: 'Microsoft-Superstar-Award-2022.webp',
-    awards: ['FY22 Asia Superstar Campaign Winner'],
-  },
-  {
-    vendor: 'AWS',
-    color: '#ff9900',
-    vendorLogo: 'amazon-authorized.png',
-    awardImg: 'Finalist–AWS-Partner-of-the-Year-2024.webp',
-    awards: [
-      '2024 Partner of the Year Finalist',
-      '2022 Customer Obsession Award',
-    ],
-  },
-  {
-    vendor: 'EC-Council',
-    color: '#e63946',
-    vendorLogo: 'EC-Council-logo.png',
-    awardImg: 'Winner-of-EC-Council-ATC-of-the-Year-Award-2024.webp',
-    awards: [
-      '2024 ATC of the Year',
-      '2023 ATC of the Year',
-      '2022 ATC Circle of Excellence',
-    ],
-  },
-  {
-    vendor: 'PECB',
-    color: '#22c55e',
-    vendorLogo: 'Authorized PECB Certification Courses Training badge.png',
-    awardImg: 'Winner-of-the-PECB-Titanium-Partner-Award-2024.webp',
-    awards: [
-      '2024 Titanium Partner',
-      '2023 Titanium Partner',
-    ],
-  },
-  {
-    vendor: 'Oracle',
-    color: '#f80000',
-    vendorLogo: 'o-prtnr-clr-rgb (1).png',
-    awardImg: null,
-    awards: [
-      'Training Program Excellence Award',
-    ],
-  },
-  {
-    vendor: 'VMware',
-    color: '#607078',
-    vendorLogo: 'VMware-Broadcom.png',
-    awardImg: null,
-    awards: [
-      'Partner of the Year 2023',
-    ],
-  },
-  {
-    vendor: 'Red Hat',
-    color: '#ee0000',
-    vendorLogo: 'Redvendorlogo.png',
-    awardImg: 'Redhat-23.png',
-    awards: [
-      'Partner of the Year 2023',
-    ],
+    title: 'FY22 Asia Superstar',
+    subtitle: 'Campaign Winner',
   },
 ]
 
 export default function AwardsPage() {
+  const [active, setActive] = useState(0)
+  const [animating, setAnimating] = useState(false)
+
+  const goTo = (idx: number) => {
+    if (animating || idx === active) return
+    setAnimating(true)
+    setTimeout(() => {
+      setActive(idx)
+      setAnimating(false)
+    }, 250)
+  }
+
+  const prev = () => goTo((active - 1 + MS_AWARDS.length) % MS_AWARDS.length)
+  const next = () => goTo((active + 1) % MS_AWARDS.length)
+
+  useEffect(() => {
+    const t = setInterval(() => next(), 4000)
+    return () => clearInterval(t)
+  }, [active])
+
+  const award = MS_AWARDS[active]
+
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
@@ -160,9 +119,8 @@ export default function AwardsPage() {
         </div>
       </section>
 
-      {/* LIGHT SECTION – Vendor Awards */}
+      {/* MICROSOFT AWARDS CAROUSEL */}
       <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #ddf1fb 30%, #ffffff 60%, #c8eaf8 100%)' }}>
-        {/* Ambient glows */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 -left-24 w-[480px] h-[480px] rounded-full opacity-30 blur-[100px]" style={{ background: 'radial-gradient(circle, #BAE6FD, transparent 70%)' }} />
           <div className="absolute -bottom-24 -right-24 w-[420px] h-[420px] rounded-full opacity-25 blur-[90px]" style={{ background: 'radial-gradient(circle, #7DD3FA, transparent 70%)' }} />
@@ -170,69 +128,93 @@ export default function AwardsPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">
-            Vendor <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Awards</span>
+            Microsoft <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Awards</span>
           </h2>
-          <p className="text-center text-[#475569] mb-12">Recognition from the technology vendors we're authorized to represent</p>
+          <p className="text-center text-[#475569] mb-10">Globally recognised by Microsoft for training excellence</p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {VENDOR_AWARDS.map((v, idx) => (
-              <div
-                key={`${v.vendor}-${idx}`}
-                className="group flex flex-col bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
-                style={{ boxShadow: '0 4px 20px rgba(6,148,209,0.10), 0 1px 4px rgba(0,0,0,0.06)', border: '1px solid rgba(186,230,253,0.6)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 36px rgba(6,148,209,0.22), 0 2px 8px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = '#0694D1' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(6,148,209,0.10), 0 1px 4px rgba(0,0,0,0.06)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(186,230,253,0.6)' }}
-              >
-                {/* Colored top accent */}
-                <div className="h-1 w-full" style={{ backgroundColor: v.color }} />
+          {/* Carousel */}
+          <div className="max-w-sm mx-auto">
+            {/* Card */}
+            <div
+              className="bg-white rounded-2xl overflow-hidden"
+              style={{
+                boxShadow: '0 8px 32px rgba(6,148,209,0.16), 0 2px 8px rgba(0,0,0,0.06)',
+                border: '1px solid rgba(6,148,209,0.25)',
+                opacity: animating ? 0 : 1,
+                transform: animating ? 'translateY(10px)' : 'translateY(0)',
+                transition: 'opacity 0.25s ease, transform 0.25s ease',
+              }}
+            >
+              {/* Blue top accent */}
+              <div className="h-1 w-full" style={{ backgroundColor: '#00a1f1' }} />
 
-                {/* Vendor header */}
-                <div className="flex items-center gap-3 px-4 pt-4 pb-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-[#F8FBFF] border border-[#EEF6FF] p-1">
-                    <img
-                      src={`/images/partners/${encodeURIComponent(v.vendorLogo)}`}
-                      alt={v.vendor}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div>
-                    <div className="font-bold text-[#0F172A] text-sm leading-tight">{v.vendor}</div>
-                    <div className="text-[10px] text-[#94A3B8] mt-0.5">{v.awards.length} Award{v.awards.length > 1 ? 's' : ''}</div>
-                  </div>
+              {/* Vendor header */}
+              <div className="flex items-center gap-3 px-5 pt-5 pb-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-[#F8FBFF] border border-[#EEF6FF] p-1">
+                  <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" className="w-full h-full object-contain" />
                 </div>
-
-                {/* Award image */}
-                <div className="mx-4 mb-3 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ height: '140px' }}>
-                  {v.awardImg ? (
-                    <img
-                      src={`/images/awards/${encodeURIComponent(v.awardImg)}`}
-                      alt={`${v.vendor} award`}
-                      className="max-h-full max-w-full object-contain p-3 transition-transform duration-300 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
-                        style={{ backgroundColor: v.color + '18' }}>
-                        🏆
-                      </div>
-                      <span className="text-xs font-semibold" style={{ color: v.color }}>Award Winner</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Awards list */}
-                <div className="px-4 pb-4 flex-1">
-                  <ul className="space-y-2">
-                    {v.awards.map(a => (
-                      <li key={a} className="flex items-start gap-2">
-                        <span className="mt-0.5 shrink-0 text-xs" style={{ color: v.color }}>★</span>
-                        <span className="text-[#334155] text-xs leading-relaxed">{a}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div>
+                  <div className="font-bold text-[#0F172A] text-sm">Microsoft</div>
+                  <div className="text-[10px] text-[#94A3B8]">{active + 1} of {MS_AWARDS.length}</div>
                 </div>
               </div>
-            ))}
+
+              {/* Award image */}
+              <div className="mx-5 mb-4 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ height: '200px' }}>
+                <img
+                  src={`/images/awards/${encodeURIComponent(award.awardImg)}`}
+                  alt={award.title}
+                  className="max-h-full max-w-full object-contain p-4"
+                />
+              </div>
+
+              {/* Title */}
+              <div className="px-5 pb-5 text-center">
+                <div className="font-bold text-[#0F172A] text-base mb-1">{award.title}</div>
+                <div className="text-sm text-[#475569]">{award.subtitle}</div>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between mt-6">
+              {/* Prev */}
+              <button
+                onClick={prev}
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-[#BAE6FD] text-[#0694D1] hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1] transition-all duration-200"
+                style={{ boxShadow: '0 2px 8px rgba(6,148,209,0.12)' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+              </button>
+
+              {/* Dots */}
+              <div className="flex items-center gap-2">
+                {MS_AWARDS.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goTo(i)}
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width:  i === active ? '24px' : '8px',
+                      height: '8px',
+                      backgroundColor: i === active ? '#0694D1' : '#BAE6FD',
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Next */}
+              <button
+                onClick={next}
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-[#BAE6FD] text-[#0694D1] hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1] transition-all duration-200"
+                style={{ boxShadow: '0 2px 8px rgba(6,148,209,0.12)' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div className="text-center mt-12">
