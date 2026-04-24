@@ -2,6 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
+import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
 
 const BASE = 'https://rms.koenig-solutions.com/Sync_Data/Forms/CRM/Files/Freelancer/'
@@ -85,14 +86,7 @@ export default function OurPartnersPage() {
                 <p className="text-lg text-white/60 leading-relaxed">
                   When you train with Koenig, you train with the source — the same curricula, the same standards, the same recognition that the vendor itself demands.
                 </p>
-                <a
-                  href="https://www.koenig-solutions.com/assets/media/ppt/Koenig-Corp-Presentation.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 border border-white/30 text-white/80 hover:border-[#0694D1] hover:text-[#38bdf8] font-semibold px-6 py-3 rounded-xl transition-colors mt-6">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  Download Presentation
-                </a>
+                <DownloadPptButton />
               </div>
               <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
                 <div className="aspect-video">
