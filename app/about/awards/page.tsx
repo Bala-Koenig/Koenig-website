@@ -7,18 +7,21 @@ import AboutSubNav from '@/components/AboutSubNav'
 const MS_AWARDS = [
   {
     awardImg: 'MS-Partner-of-the-year-2025-popup.webp',
-    title: '2025 Global Winner',
-    subtitle: 'Training Services Partner of the Year',
+    title: 'Koenig Solutions is the Global Winner of 2025 Microsoft Training Services Partner of the Year Award!',
+    desc: 'Koenig Solutions has been named the winner of Microsoft\'s 2025 Training Services Partner of the Year Award — a global recognition for outstanding training delivery, certified instructor quality, and exceptional student outcomes across the Microsoft technology portfolio.',
+    year: '2025',
   },
   {
     awardImg: 'Microsoft-FY2024-Superstar-Award.webp',
-    title: 'FY24 ANZ Superstar',
-    subtitle: 'Campaign Winner',
+    title: 'Winner of Microsoft\'s FY24 ANZ Superstar Campaign',
+    desc: 'Koenig Solutions was recognised as the winner of Microsoft\'s FY2024 ANZ Superstar Campaign, acknowledging our exceptional performance and growth in training delivery across the Australia and New Zealand region.',
+    year: 'FY2024',
   },
   {
     awardImg: 'Microsoft-Superstar-Award-2022.webp',
-    title: 'FY22 Asia Superstar',
-    subtitle: 'Campaign Winner',
+    title: 'Winner of Microsoft\'s FY22 Asia Superstar Campaign',
+    desc: 'Koenig Solutions was honoured as the winner of Microsoft\'s FY22 Asia Superstar Campaign, celebrating outstanding contribution to Microsoft learning and certification outcomes across the Asia region.',
+    year: 'FY2022',
   },
 ]
 
@@ -133,7 +136,7 @@ export default function AwardsPage() {
           <p className="text-center text-[#475569] mb-10">Globally recognised by Microsoft for training excellence</p>
 
           {/* Carousel */}
-          <div className="max-w-sm mx-auto">
+          <div className="max-w-2xl mx-auto">
             {/* Card */}
             <div
               className="bg-white rounded-2xl overflow-hidden"
@@ -149,29 +152,33 @@ export default function AwardsPage() {
               <div className="h-1 w-full" style={{ backgroundColor: '#00a1f1' }} />
 
               {/* Vendor header */}
-              <div className="flex items-center gap-3 px-5 pt-5 pb-3">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-[#F8FBFF] border border-[#EEF6FF] p-1">
-                  <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" className="w-full h-full object-contain" />
-                </div>
-                <div>
+              <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-[#EEF6FF]">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-[#F8FBFF] border border-[#EEF6FF] p-1">
+                    <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" className="w-full h-full object-contain" />
+                  </div>
                   <div className="font-bold text-[#0F172A] text-sm">Microsoft</div>
-                  <div className="text-[10px] text-[#94A3B8]">{active + 1} of {MS_AWARDS.length}</div>
                 </div>
+                <span className="text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ backgroundColor: '#00a1f1' }}>
+                  {award.year}
+                </span>
               </div>
 
-              {/* Award image */}
-              <div className="mx-5 mb-4 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ height: '200px' }}>
-                <img
-                  src={`/images/awards/${encodeURIComponent(award.awardImg)}`}
-                  alt={award.title}
-                  className="max-h-full max-w-full object-contain p-4"
-                />
-              </div>
-
-              {/* Title */}
-              <div className="px-5 pb-5 text-center">
-                <div className="font-bold text-[#0F172A] text-base mb-1">{award.title}</div>
-                <div className="text-sm text-[#475569]">{award.subtitle}</div>
+              {/* Body — image left, text right */}
+              <div className="flex gap-4 p-5">
+                {/* Award image */}
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ width: '130px', height: '150px' }}>
+                  <img
+                    src={`/images/awards/${encodeURIComponent(award.awardImg)}`}
+                    alt={award.title}
+                    className="max-h-full max-w-full object-contain p-2"
+                  />
+                </div>
+                {/* Text */}
+                <div className="flex flex-col justify-center gap-2">
+                  <h3 className="font-bold text-[#0F172A] text-sm leading-snug">{award.title}</h3>
+                  <p className="text-[#475569] text-xs leading-relaxed">{award.desc}</p>
+                </div>
               </div>
             </div>
 
