@@ -1,4 +1,5 @@
 'use client'
+import React from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
@@ -78,9 +79,15 @@ export default function HappinessGuaranteePage() {
                 },
               ].map((item, i) => (
                 <div key={i} className="kglass-light flex gap-4 items-start rounded-2xl p-4 sm:p-5">
-                  <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-200 hover:scale-110"
-                    style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.2)', animation: 'iconFloat 3s ease-in-out infinite', animationDelay: `${i * 0.4}s` }}>
-                    {item.icon}
+                  <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110 hover:shadow-lg"
+                    style={{
+                      background: 'rgba(6,148,209,0.1)',
+                      border: '1px solid rgba(6,148,209,0.2)',
+                      animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.35}s both, iconFloat 3s ease-in-out ${i * 0.35 + 0.7}s infinite`,
+                    }}>
+                    {React.cloneElement(item.icon as React.ReactElement, {
+                      style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.35 + 0.1}s both` },
+                    })}
                   </div>
                   <p className="text-[#334155] text-sm sm:text-base leading-relaxed">{item.text}</p>
                 </div>
@@ -122,15 +129,16 @@ export default function HappinessGuaranteePage() {
               },
             ].map((card, i) => (
               <div key={card.title} className="kglass-dark rounded-2xl p-6 flex flex-col items-center text-center gap-3">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-200 hover:scale-110"
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-300 hover:scale-110"
                   style={{
                     background: 'rgba(56,189,248,0.1)',
                     border: '1px solid rgba(56,189,248,0.2)',
-                    animation: 'iconFloat 2.8s ease-in-out infinite',
-                    animationDelay: `${i * 0.35}s`,
-                    boxShadow: '0 0 16px rgba(56,189,248,0.12)',
+                    boxShadow: '0 0 20px rgba(56,189,248,0.15)',
+                    animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.3}s both, iconFloat 2.8s ease-in-out ${i * 0.3 + 0.7}s infinite`,
                   }}>
-                  {card.icon}
+                  {React.cloneElement(card.icon as React.ReactElement, {
+                    style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.3s ease ${i * 0.3 + 0.1}s both` },
+                  })}
                 </div>
                 <h3 className="font-bold text-[#38bdf8] text-base sm:text-lg">{card.title}</h3>
                 <p className="text-white/60 text-sm leading-relaxed">{card.desc}</p>
