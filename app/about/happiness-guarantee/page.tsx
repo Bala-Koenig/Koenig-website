@@ -32,7 +32,7 @@ export default function HappinessGuaranteePage() {
                   src="/images/happinessGuranty.webp"
                   alt="Happiness Guaranteed"
                   className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-2xl"
-                  style={{ filter: 'drop-shadow(0 0 40px rgba(6,148,209,0.4))' }}
+                  style={{ filter: 'drop-shadow(0 0 40px rgba(6,148,209,0.4))', animation: 'iconFloat 4s ease-in-out infinite' }}
                 />
               </div>
             </div>
@@ -78,7 +78,8 @@ export default function HappinessGuaranteePage() {
                 },
               ].map((item, i) => (
                 <div key={i} className="kglass-light flex gap-4 items-start rounded-2xl p-4 sm:p-5">
-                  <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.2)' }}>
+                  <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-200 hover:scale-110"
+                    style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.2)', animation: 'iconFloat 3s ease-in-out infinite', animationDelay: `${i * 0.4}s` }}>
                     {item.icon}
                   </div>
                   <p className="text-[#334155] text-sm sm:text-base leading-relaxed">{item.text}</p>
@@ -119,9 +120,16 @@ export default function HappinessGuaranteePage() {
                 title: 'Class Redo',
                 desc: 'You can re-enroll in the same course free of charge at a future date (subject to availability)',
               },
-            ].map((card) => (
+            ].map((card, i) => (
               <div key={card.title} className="kglass-dark rounded-2xl p-6 flex flex-col items-center text-center gap-3">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)' }}>
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-200 hover:scale-110"
+                  style={{
+                    background: 'rgba(56,189,248,0.1)',
+                    border: '1px solid rgba(56,189,248,0.2)',
+                    animation: 'iconFloat 2.8s ease-in-out infinite',
+                    animationDelay: `${i * 0.35}s`,
+                    boxShadow: '0 0 16px rgba(56,189,248,0.12)',
+                  }}>
                   {card.icon}
                 </div>
                 <h3 className="font-bold text-[#38bdf8] text-base sm:text-lg">{card.title}</h3>
