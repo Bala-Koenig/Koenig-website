@@ -527,6 +527,45 @@ export default function AwardsPage() {
             </div>
           </div>
 
+          {/* ORACLE AWARD — single card, no slider */}
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+            Oracle <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #c74634, #f46c44)' }}>Award</span>
+          </h2>
+
+          <div className="max-w-2xl mx-auto">
+
+            {/* Oracle logo above */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-white rounded-2xl flex items-center justify-center p-1"
+                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(199,70,52,0.18)', border: '2px solid rgba(199,70,52,0.3)' }}>
+                <img src="/images/partners/o-prtnr-clr-rgb.png" alt="Oracle" className="w-full h-full object-contain" />
+              </div>
+            </div>
+
+            {/* Card */}
+            <div
+              className="bg-white rounded-2xl overflow-hidden"
+              style={{
+                boxShadow: '0 8px 32px rgba(199,70,52,0.16), 0 2px 8px rgba(0,0,0,0.06)',
+                border: '1px solid rgba(199,70,52,0.25)',
+              }}
+            >
+              <div className="h-1 w-full" style={{ backgroundColor: '#c74634' }} />
+              <div className="flex gap-5 px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF8F7] border border-[#FFD9D3]" style={{ width: '150px', height: '160px' }}>
+                  <img src="/images/awards/award-oracle.webp" alt="Oracle Award" className="max-h-full max-w-full object-contain p-3" />
+                </div>
+                <div className="flex flex-col justify-center gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">Winner of the Oracle Award</h3>
+                  <p className="text-[#475569] text-sm leading-relaxed">Koenig Solutions was honored with the Oracle Award, recognizing its outstanding performance in delivering Oracle training programs. This accolade underscores Koenig's expertise in Oracle technologies and its role in empowering professionals with essential skills for the evolving IT industry.</p>
+                </div>
+              </div>
+              <div className="flex justify-end px-6 pb-4">
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#c74634' }}>2023</span>
+              </div>
+            </div>
+          </div>
+
           <div className="text-center mt-12">
             <Link href="/about/our-partners"
               className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors">
