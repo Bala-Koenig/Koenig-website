@@ -379,26 +379,26 @@ export default function HappinessGuaranteePage() {
             <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
 
               {/* Diagonal stripe band — top-right corner */}
-              <svg className="absolute -right-4 -top-4 opacity-[0.06]" width="220" height="160" viewBox="0 0 220 160" fill="none">
+              <svg className="absolute -right-4 -top-4 opacity-[0.18]" width="220" height="160" viewBox="0 0 220 160" fill="none">
                 {[0,1,2,3,4,5,6,7].map(i => (
                   <line key={i} x1={i*28} y1="0" x2={i*28+160} y2="160" stroke="#0694D1" strokeWidth="10"/>
                 ))}
               </svg>
 
               {/* Large faded shield watermark — right center */}
-              <svg className="absolute right-16 top-1/2 -translate-y-1/2 opacity-[0.055]" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="absolute right-16 top-1/2 -translate-y-1/2 opacity-[0.18]" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 <polyline points="9 12 11 14 15 10"/>
               </svg>
 
               {/* Floating rotated square — bottom-left */}
-              <svg className="absolute -left-6 -bottom-6 opacity-[0.06]" width="120" height="120" viewBox="0 0 120 120" fill="none">
+              <svg className="absolute -left-6 -bottom-6 opacity-[0.20]" width="120" height="120" viewBox="0 0 120 120" fill="none">
                 <rect x="20" y="20" width="80" height="80" rx="8" stroke="#0694D1" strokeWidth="2" transform="rotate(15 60 60)"/>
                 <rect x="32" y="32" width="56" height="56" rx="6" stroke="#38bdf8" strokeWidth="1.5" transform="rotate(15 60 60)"/>
               </svg>
 
               {/* Dot grid — centre-left */}
-              <svg className="absolute left-[38%] top-1/2 -translate-y-1/2 opacity-[0.07]" width="80" height="80" viewBox="0 0 80 80">
+              <svg className="absolute left-[38%] top-1/2 -translate-y-1/2 opacity-[0.22]" width="80" height="80" viewBox="0 0 80 80">
                 {Array.from({ length: 4 }).map((_, row) =>
                   Array.from({ length: 4 }).map((_, col) => (
                     <circle key={`${row}-${col}`} cx={col * 20 + 10} cy={row * 20 + 10} r="2" fill="#0694D1"/>
@@ -407,12 +407,12 @@ export default function HappinessGuaranteePage() {
               </svg>
 
               {/* Arc wave — bottom */}
-              <svg className="absolute bottom-0 left-0 w-full opacity-[0.05]" height="40" viewBox="0 0 900 40" preserveAspectRatio="none" fill="none">
+              <svg className="absolute bottom-0 left-0 w-full opacity-[0.18]" height="40" viewBox="0 0 900 40" preserveAspectRatio="none" fill="none">
                 <path d="M0 40 Q225 0 450 20 Q675 40 900 0 L900 40 Z" fill="#0694D1"/>
               </svg>
 
               {/* Small accent circle — top-left */}
-              <div className="absolute top-4 left-4 w-12 h-12 rounded-full opacity-[0.08]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }}/>
+              <div className="absolute top-4 left-4 w-16 h-16 rounded-full opacity-[0.22]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }}/>
             </div>
 
             {/* Content */}
