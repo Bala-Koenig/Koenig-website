@@ -562,12 +562,12 @@ export default function AwardsPage() {
                   <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work Certified" className="max-h-full max-w-full object-contain p-3" />
                 </div>
                 <div className="flex flex-col justify-center gap-3">
-                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">Great Place to Work — Certified for 15 Consecutive Years</h3>
-                  <p className="text-[#475569] text-sm leading-relaxed">Koenig Solutions has been certified as a Great Place to Work for 15 consecutive years (2011–2026). This certification is awarded based on direct employee feedback and reflects our commitment to a culture of trust, pride, and camaraderie — making Koenig one of India's most enduring workplace excellence stories.</p>
+                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">Certified as a Great Place to Work (2011–2027)</h3>
+                  <p className="text-[#475569] text-sm leading-relaxed">Koenig Solutions has been consistently certified as a Great Place to Work from 2011 to 2027. This prestigious certification recognizes the organization's commitment to fostering a positive, inclusive, and empowering work culture, where employees thrive and contribute to meaningful success. The certification reflects Koenig's dedication to excellence in workplace practices and employee satisfaction.</p>
                 </div>
               </div>
               <div className="flex justify-end px-6 pb-4">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ background: 'linear-gradient(90deg, #e8002d, #1a1a5e)' }}>2011 – 2026</span>
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ background: 'linear-gradient(90deg, #e8002d, #1a1a5e)' }}>2011 – 2027</span>
               </div>
             </div>
           </div>
