@@ -17,7 +17,7 @@ const TESTIMONIALS = [
   { quote: 'The Google Cloud course gave me exactly what I needed to transition from on-prem to cloud. Real labs, real scenarios, and a trainer who genuinely cared about my success.', name: 'Carlos Mendez', location: '🇲🇽 Mexico', course: 'Google Cloud Professional Architect', date: '20th Jan 2026', initials: 'CM', avatarBg: 'linear-gradient(135deg,#4285F4,#0694d1)', ringColor: '#10B981' },
 ]
 
-/* ── Card ─────────────────────────────────────────────────────── */
+/* ── Card (dark mode) ─────────────────────────────────────────── */
 function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; onExpandChange?: (e: boolean) => void }) {
   const [expanded, setExpanded] = useState(false)
   const extra = (t as { extra?: string }).extra
@@ -28,34 +28,34 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
     onExpandChange?.(next)
   }
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+    <div className="kglass-dark flex flex-col overflow-hidden rounded-2xl h-full">
       <div className="flex-1 p-5">
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
-        <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
+        <p className="mb-3 text-sm leading-relaxed text-white/75">{t.quote}</p>
         <div className="overflow-hidden transition-all duration-300 ease-in-out" style={{ maxHeight: expanded ? '200px' : '0px', opacity: expanded ? 1 : 0 }}>
-          <p className="mb-3 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{extra}</p>
+          <p className="mb-3 text-xs leading-relaxed text-white/50">{extra}</p>
         </div>
         {showMore && (
-          <button onClick={handleToggle} className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white" style={{ borderColor: '#0694D1' }}>
+          <button onClick={handleToggle} className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#38bdf8] transition-all hover:bg-[#38bdf8] hover:text-[#06111E]" style={{ borderColor: 'rgba(56,189,248,0.4)' }}>
             {expanded ? 'Show Less ↑' : 'Show More ↓'}
           </button>
         )}
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: t.avatarBg, border: '2px solid rgba(56,189,248,0.25)' }}>
             {t.initials}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
-            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.location}</p>
+            <p className="text-sm font-bold leading-tight text-white">{t.name}</p>
+            <p className="text-xs font-semibold text-[#38bdf8]">{t.location}</p>
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: 'rgba(56,189,248,0.12)', background: 'rgba(6,148,209,0.07)' }}>
         <div>
-          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
-          <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
+          <p className="text-xs font-bold text-white/80">{t.course}</p>
+          <p className="mt-0.5 text-xs text-white/35">{t.date}</p>
         </div>
-        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
+        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: 'rgba(56,189,248,0.12)', color: '#38bdf8' }}>✓ Verified</span>
       </div>
     </div>
   )
@@ -205,33 +205,35 @@ export default function StudentFeedbackPage() {
         </div>
       </section>
 
-      {/* ── Stories That Speak for Themselves ── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 md:px-8 lg:px-[50px] py-10 sm:py-[60px]">
-        <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
-        <div className="pointer-events-none absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
+      {/* ── Stories That Speak for Themselves — dark mode ── */}
+      <section className="relative overflow-hidden bg-[#06111E] px-4 md:px-8 lg:px-[50px] py-10 sm:py-[60px]">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-[#0694D1] opacity-[0.06] blur-[120px]" />
+          <div className="absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
+          <div className="absolute -left-20 top-1/2 h-[300px] w-[300px] -translate-y-1/2 rounded-full bg-[#0694D1] opacity-[0.04] blur-[90px]" />
+        </div>
         <div className="mx-auto max-w-7xl">
 
           {/* Header */}
           <div className="text-center" style={{ marginBottom: '35px' }}>
-            <span className="mb-3 inline-block rounded-full bg-[#0694d1]/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-[#0694d1]">Real Transformations</span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#093148]">Stories That <span className="bg-gradient-to-r from-[#0694d1] to-cyan-400 bg-clip-text text-transparent">Speak for Themselves</span></h2>
-            <p className="mx-auto max-w-2xl text-sm sm:text-base text-[#7a8c96]">Every number is real. Every name is used with permission. These are your peers — people who were exactly where you are and made the leap.</p>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-[#38bdf8]" style={{ background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)' }}>Real Transformations</span>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Stories That <span className="bg-gradient-to-r from-[#0694d1] to-cyan-400 bg-clip-text text-transparent">Speak for Themselves</span></h2>
+            <p className="mx-auto max-w-2xl text-sm sm:text-base text-white/50">Every number is real. Every name is used with permission. These are your peers — people who were exactly where you are and made the leap.</p>
           </div>
 
-          {/* Stats bar */}
-          <div className="mx-auto mb-10 max-w-3xl rounded-2xl bg-white px-6 py-5 shadow-md sm:px-10">
-            <div className="grid grid-cols-2 gap-px bg-[#CAEFFF] sm:flex sm:flex-wrap sm:gap-0 sm:bg-transparent sm:divide-x sm:divide-[#CAEFFF] sm:items-center sm:justify-center">
+          {/* Stats bar — dark glass */}
+          <div className="kglass-dark mx-auto mb-10 max-w-3xl rounded-2xl px-6 py-5 sm:px-10">
+            <div className="grid grid-cols-2 gap-px sm:flex sm:flex-wrap sm:gap-0 sm:bg-transparent sm:items-center sm:justify-center" style={{ background: 'rgba(56,189,248,0.06)' }}>
               {[
-                { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, val: '18,400+', label: 'Verified Reviews' },
+                { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, val: '18,400+', label: 'Verified Reviews' },
                 { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>, val: '4.9 / 5', label: 'Average Rating' },
-                { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, val: '95%', label: 'Would Recommend' },
-                { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, val: '1M+', label: 'Professionals Trained' },
-              ].map(s => (
-                <div key={s.label} className="bg-white px-4 py-4 text-center sm:px-8 sm:py-1 sm:first:pl-0 sm:last:pr-0">
+                { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, val: '95%', label: 'Would Recommend' },
+                { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, val: '1M+', label: 'Professionals Trained' },
+              ].map((s, i, arr) => (
+                <div key={s.label} className="px-4 py-4 text-center sm:px-8 sm:py-1 sm:first:pl-0 sm:last:pr-0" style={{ borderRight: i < arr.length - 1 ? '1px solid rgba(56,189,248,0.12)' : 'none' }}>
                   <div className="mb-1.5 flex items-center justify-center">{s.icon}</div>
-                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-[#093148]">{s.val}</div>
-                  <div className="mt-1 text-sm text-[#666]">{s.label}</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-white">{s.val}</div>
+                  <div className="mt-1 text-sm text-white/45">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -244,9 +246,9 @@ export default function StudentFeedbackPage() {
           <div
             className="hidden sm:block relative overflow-hidden"
             style={{
-              height: '520px',
-              maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+              height: '560px',
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
             }}
           >
             <div className="grid grid-cols-3 gap-4 h-full">
