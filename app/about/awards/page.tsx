@@ -190,16 +190,15 @@ export default function AwardsPage() {
                   { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB', count: 2, label: 'Awards', color: '#94a3b8' },
                   { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle', count: 1, label: 'Award', color: '#c74634' },
                   { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: 15, label: 'Years', color: '#e8002d' },
-                ].map(({ logo, vendor, count, label, color }) => (
+                ].map(({ logo, vendor, count, label }) => (
                   <div key={vendor} className="kglass-dark rounded-xl p-4 flex items-center gap-3">
-                    <div className="shrink-0 w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center p-1.5">
+                    <div className="shrink-0 w-12 h-12 flex items-center justify-center">
                       <img src={logo} alt={vendor} className="w-full h-full object-contain" />
                     </div>
                     <div>
                       <div className="text-2xl font-bold text-white leading-none">{count}<span className="text-xs font-normal text-white/50 ml-1">{label}</span></div>
                       <div className="text-white/60 text-xs mt-0.5">{vendor}</div>
                     </div>
-                    <div className="ml-auto w-1.5 h-8 rounded-full opacity-70" style={{ backgroundColor: color }} />
                   </div>
                 ))}
               </div>
