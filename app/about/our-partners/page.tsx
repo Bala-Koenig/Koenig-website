@@ -32,7 +32,7 @@ const PARTNERS = [
   { name: 'Linux Foundation',             img: 'Linux-Foundation.png',                                     tier: 'Training Partner',    courses: '60+',  verify: BASE + 'Linuxfoundationletterofauthorizationtill16thJul2026.pdf' },
   { name: 'Autodesk',                     img: 'AutodeskCertification.png',                                tier: 'Authorized Partner',  courses: '45+',  verify: BASE + 'AutodeskATCSiteauthorizationvalidtill1stfeb2027.pdf' },
   { name: 'DevOps Institute',             img: 'Linux-Foundation.png',                                     tier: 'Authorized Partner',  courses: '30+',  verify: BASE + '2025320429PeopleCertDevOpsvalidtillApril2026.pdf' },
-  { name: 'IIBA',                         img: null,                                                        tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'IIBA.pdf' },
+  { name: 'IIBA',                         img: 'iiba.png',                                                  tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'IIBA.pdf' },
   { name: 'JS Institute',                 img: 'JS-Institute.png',                                          tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
   { name: 'ServiceNow',                   img: 'ServiceNow.png',                                           tier: 'Training Partner',    courses: '40+',  verify: BASE + 'KoenigSolutionsATDstatusconfirmation270624.pdf' },
   { name: 'BCS',                          img: 'BCS partner logo (1).png',                                 tier: 'ATO Partner',         courses: '35+',  verify: BASE + 'BCSATPCertificatevalidtillSept2026.pdf' },
