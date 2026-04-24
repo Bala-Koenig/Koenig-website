@@ -198,39 +198,6 @@ export default function AwardsPage() {
         </div>
       </section>
 
-      {/* LIGHT SECTION – Great Place to Work */}
-      <section className="bg-white py-[50px]">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-12 text-center">Workplace <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Excellence</span></h2>
-          <div className="max-w-2xl mx-auto">
-            <div className="kglass-light rounded-3xl p-10 text-center transition-all">
-              <div className="text-6xl mb-5">🏆</div>
-              <h3 className="text-2xl font-bold text-[#0F172A] mb-3">Great Place to Work</h3>
-              <div className="inline-block bg-[#F59E0B] text-white font-bold px-4 py-2 rounded-full text-sm mb-5">
-                2011 – 2026 · 15 Consecutive Years
-              </div>
-              <p className="text-[#64748B] leading-relaxed">
-                Koenig Solutions has been certified as a Great Place to Work for 15 consecutive years. This certification is awarded based on direct employee feedback and reflects our commitment to a culture of trust, pride, and camaraderie.
-              </p>
-              <div className="mt-6 grid grid-cols-3 gap-4">
-                <div className="bg-white rounded-xl p-4 border border-[#E2E8F0]">
-                  <div className="text-2xl font-bold text-[#F59E0B]">15</div>
-                  <div className="text-xs text-[#64748B]">Consecutive Years</div>
-                </div>
-                <div className="bg-white rounded-xl p-4 border border-[#E2E8F0]">
-                  <div className="text-2xl font-bold text-[#F59E0B]">300+</div>
-                  <div className="text-xs text-[#64748B]">Team Members</div>
-                </div>
-                <div className="bg-white rounded-xl p-4 border border-[#E2E8F0]">
-                  <div className="text-2xl font-bold text-[#F59E0B]">2011</div>
-                  <div className="text-xs text-[#64748B]">First Certified</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* MICROSOFT AWARDS CAROUSEL */}
       <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #ddf1fb 30%, #ffffff 60%, #c8eaf8 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
@@ -562,6 +529,45 @@ export default function AwardsPage() {
               </div>
               <div className="flex justify-end px-6 pb-4">
                 <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#c74634' }}>2023</span>
+              </div>
+            </div>
+          </div>
+
+          {/* WORKPLACE EXCELLENCE — single card */}
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+            Workplace <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #e8002d, #1a1a5e)' }}>Excellence</span>
+          </h2>
+
+          <div className="max-w-2xl mx-auto">
+
+            {/* Logo above */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-white rounded-2xl flex items-center justify-center p-1"
+                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(232,0,45,0.18)', border: '2px solid rgba(232,0,45,0.3)' }}>
+                <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" className="w-full h-full object-contain" />
+              </div>
+            </div>
+
+            {/* Card */}
+            <div
+              className="bg-white rounded-2xl overflow-hidden"
+              style={{
+                boxShadow: '0 8px 32px rgba(232,0,45,0.12), 0 2px 8px rgba(0,0,0,0.06)',
+                border: '1px solid rgba(232,0,45,0.2)',
+              }}
+            >
+              <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #e8002d, #1a1a5e)' }} />
+              <div className="flex gap-5 px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF5F6] border border-[#FFD6DB]" style={{ width: '150px', height: '160px' }}>
+                  <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work Certified" className="max-h-full max-w-full object-contain p-3" />
+                </div>
+                <div className="flex flex-col justify-center gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">Great Place to Work — Certified for 15 Consecutive Years</h3>
+                  <p className="text-[#475569] text-sm leading-relaxed">Koenig Solutions has been certified as a Great Place to Work for 15 consecutive years (2011–2026). This certification is awarded based on direct employee feedback and reflects our commitment to a culture of trust, pride, and camaraderie — making Koenig one of India's most enduring workplace excellence stories.</p>
+                </div>
+              </div>
+              <div className="flex justify-end px-6 pb-4">
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ background: 'linear-gradient(90deg, #e8002d, #1a1a5e)' }}>2011 – 2026</span>
               </div>
             </div>
           </div>
