@@ -6,7 +6,7 @@ export default function DownloadPptButton() {
       href="https://www.koenig-solutions.com/assets/media/ppt/Koenig-Corp-Presentation.pdf"
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative inline-flex items-center gap-2 border border-white/30 text-white/80 hover:border-[#0694D1] hover:text-[#38bdf8] font-semibold px-6 py-3 rounded-xl transition-all duration-300 my-6 overflow-hidden"
+      className="group relative inline-flex items-center gap-2 border border-white/30 text-white/80 hover:border-[#0694D1] hover:text-[#38bdf8] font-semibold px-6 py-3 rounded-xl transition-all duration-300 mt-3 mb-0 overflow-hidden"
     >
       {/* shimmer sweep — always animating */}
       <span
