@@ -365,10 +365,11 @@ export default function HappinessGuaranteePage() {
         </div>
       </section>
 
-      {/* ── CTA — dark + kglass-banner ── */}
-      <section className="relative bg-[#06111E] py-10 sm:py-14 overflow-hidden">
+      {/* ── CTA — mild blue bg ── */}
+      <section className="relative py-10 sm:py-14 overflow-hidden" style={{ background: 'linear-gradient(135deg, #c8e6f5 0%, #ddf1fb 40%, #b8dff0 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[180px] bg-[#0694D1] opacity-[0.07] blur-[80px] rounded-full" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[200px] bg-[#0694D1] opacity-[0.12] blur-[80px] rounded-full" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-[#38bdf8] opacity-[0.10] blur-[70px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="kglass-banner rounded-2xl py-8 sm:py-10 px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-5">
