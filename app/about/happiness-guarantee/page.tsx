@@ -372,15 +372,47 @@ export default function HappinessGuaranteePage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-[#38bdf8] opacity-[0.10] blur-[70px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="rounded-2xl py-8 sm:py-10 px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-5"
+          <div className="relative rounded-2xl py-8 sm:py-10 px-6 sm:px-12 overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-5"
             style={{ background: '#ffffff', border: '1.5px solid rgba(6,148,209,0.25)', boxShadow: '0 4px 32px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)' }}>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center sm:text-left" style={{ color: '#053148' }}>
-              Ready to Get Started?
-            </h2>
+
+            {/* Decorative background elements */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+              {/* Soft blue gradient sweep on the right */}
+              <div className="absolute -right-10 -top-10 w-64 h-64 rounded-full opacity-[0.07]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }} />
+              <div className="absolute -right-4 -bottom-8 w-48 h-48 rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)' }} />
+              {/* Decorative concentric rings */}
+              <svg className="absolute right-8 top-1/2 -translate-y-1/2 opacity-[0.07]" width="180" height="180" viewBox="0 0 180 180" fill="none">
+                <circle cx="90" cy="90" r="40" stroke="#0694D1" strokeWidth="1.5"/>
+                <circle cx="90" cy="90" r="60" stroke="#0694D1" strokeWidth="1"/>
+                <circle cx="90" cy="90" r="80" stroke="#0694D1" strokeWidth="0.75"/>
+              </svg>
+              {/* Tiny dot grid top-left */}
+              <svg className="absolute left-0 top-0 opacity-[0.06]" width="120" height="80" viewBox="0 0 120 80">
+                {Array.from({ length: 5 }).map((_, row) =>
+                  Array.from({ length: 8 }).map((_, col) => (
+                    <circle key={`${row}-${col}`} cx={col * 16 + 8} cy={row * 16 + 8} r="1.5" fill="#0694D1" />
+                  ))
+                )}
+              </svg>
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 text-center sm:text-left">
+              <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3"
+                style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.18)' }}>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#0694D1] animate-pulse inline-block" />
+                Join 1M+ professionals trained
+              </div>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold" style={{ color: '#053148' }}>
+                Ready to Get Started?
+              </h2>
+              <p className="mt-1.5 text-sm text-[#475569]">Happiness Guaranteed — or your money back.</p>
+            </div>
+
             <Link href="/courses"
-              className="shrink-0 font-semibold px-6 sm:px-8 py-3 rounded-xl text-sm sm:text-base transition-colors text-white"
+              className="relative z-10 shrink-0 font-semibold px-6 sm:px-8 py-3 rounded-xl text-sm sm:text-base transition-all text-white hover:-translate-y-0.5"
               style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}>
-              Explore Our Courses
+              Explore Our Courses →
             </Link>
           </div>
         </div>
