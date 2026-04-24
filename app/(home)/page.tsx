@@ -180,7 +180,7 @@ const VENDORS_ROW2 = [
   { name: 'Cloud Security Alliance',     tier: 'Authorized Partner',  courses: '25+',  initial: 'C', img: 'cloud-security-alliance.png' },
   { name: 'OffSec Training',             tier: 'Learning Partner',    courses: '20+',  initial: 'O', img: 'OffSecLearningPartnerDarkPNG (1).png' },
   { name: 'Cloudera',                    tier: 'Training Partner',    courses: '30+',  initial: 'C', img: 'cloudera (1).png' },
-  { name: 'GAQM',                        tier: 'Authorized Partner',  courses: '25+',  initial: 'G', img: 'EC-Council-logo.png' },
+  { name: 'GAQM',                        tier: 'Authorized Partner',  courses: '25+',  initial: 'G', img: null },
   { name: 'Cloud Credential Council',    tier: 'Authorized Partner',  courses: '20+',  initial: 'C', img: 'CCC_Logo.png' },
   { name: 'LPI',                         tier: 'Authorized Partner',  courses: '15+',  initial: 'L', img: 'Linux.png' },
   { name: 'Symantec',                    tier: 'Authorized Partner',  courses: '20+',  initial: 'S', img: 'Symantec.png' },
