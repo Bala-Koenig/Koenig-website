@@ -182,22 +182,22 @@ export default function AwardsPage() {
                   These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {[
-                  { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft', count: 3, label: 'Awards', color: '#00a1f1' },
-                  { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS', count: 3, label: 'Awards', color: '#ff9900' },
-                  { logo: '/images/partners/EC-Council-logo.png', vendor: 'EC-Council', count: 3, label: 'Awards', color: '#c8102e' },
-                  { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB', count: 2, label: 'Awards', color: '#94a3b8' },
-                  { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle', count: 1, label: 'Award', color: '#c74634' },
-                  { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: 15, label: 'Years', color: '#e8002d' },
+                  { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft', count: '3', label: 'Awards' },
+                  { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS', count: '3', label: 'Awards' },
+                  { logo: '/images/partners/EC-Council-logo.png', vendor: 'EC-Council', count: '3', label: 'Awards' },
+                  { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB', count: '2', label: 'Awards' },
+                  { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle', count: '1', label: 'Award' },
+                  { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: '15', label: 'Yrs' },
                 ].map(({ logo, vendor, count, label }) => (
-                  <div key={vendor} className="kglass-dark rounded-xl p-4 flex items-center gap-3">
-                    <div className="shrink-0 w-12 h-12 flex items-center justify-center">
-                      <img src={logo} alt={vendor} className="w-full h-full object-contain" />
+                  <div key={vendor} className="kglass-dark rounded-xl overflow-hidden flex flex-col">
+                    <div className="bg-white flex items-center justify-center p-3" style={{ height: '72px' }}>
+                      <img src={logo} alt={vendor} className="max-h-full max-w-full object-contain" />
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-white leading-none">{count}<span className="text-xs font-normal text-white/50 ml-1">{label}</span></div>
-                      <div className="text-white/60 text-xs mt-0.5">{vendor}</div>
+                    <div className="flex flex-col items-center justify-center py-2 px-1">
+                      <span className="text-xl font-bold text-white leading-none">{count} <span className="text-xs font-normal text-white/50">{label}</span></span>
+                      <span className="text-white/50 text-[10px] mt-0.5 text-center leading-tight">{vendor}</span>
                     </div>
                   </div>
                 ))}
