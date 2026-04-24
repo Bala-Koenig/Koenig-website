@@ -465,7 +465,7 @@ export default function AwardsPage() {
 
           {/* PECB AWARDS CAROUSEL */}
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
-            PECB <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #e31e24, #ff6b6b)' }}>Awards</span>
+            PECB <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #334155, #64748b)' }}>Awards</span>
           </h2>
 
           <div className="max-w-2xl mx-auto" onMouseEnter={() => setPecbPaused(true)} onMouseLeave={() => setPecbPaused(false)}>
@@ -473,7 +473,7 @@ export default function AwardsPage() {
             {/* PECB vendor logo above */}
             <div className="flex justify-center mb-4">
               <div className="bg-white rounded-2xl flex items-center justify-center p-1"
-                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(227,30,36,0.18)', border: '2px solid rgba(227,30,36,0.3)' }}>
+                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(51,65,85,0.18)', border: '2px solid rgba(51,65,85,0.3)' }}>
                 <img src="/images/partners/Authorized PECB Certification Courses Training badge.png" alt="PECB" className="w-full h-full object-contain" />
               </div>
             </div>
@@ -482,16 +482,16 @@ export default function AwardsPage() {
             <div
               className="bg-white rounded-2xl overflow-hidden"
               style={{
-                boxShadow: '0 8px 32px rgba(227,30,36,0.16), 0 2px 8px rgba(0,0,0,0.06)',
-                border: '1px solid rgba(227,30,36,0.25)',
+                boxShadow: '0 8px 32px rgba(51,65,85,0.16), 0 2px 8px rgba(0,0,0,0.06)',
+                border: '1px solid rgba(51,65,85,0.25)',
                 opacity: pecbAnimating ? 0 : 1,
                 transform: pecbAnimating ? 'translateY(10px)' : 'translateY(0)',
                 transition: 'opacity 0.25s ease, transform 0.25s ease',
               }}
             >
-              <div className="h-1 w-full" style={{ backgroundColor: '#e31e24' }} />
+              <div className="h-1 w-full" style={{ backgroundColor: '#475569' }} />
               <div className="flex gap-5 px-6 pt-5 pb-4">
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF5F5] border border-[#FFD6D7]" style={{ width: '150px', height: '160px' }}>
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FAFC] border border-[#E2E8F0]" style={{ width: '150px', height: '160px' }}>
                   <img src={`/images/awards/${encodeURIComponent(PECB_AWARDS[pecbActive].awardImg)}`} alt={PECB_AWARDS[pecbActive].title} className="max-h-full max-w-full object-contain p-3" />
                 </div>
                 <div className="flex flex-col justify-center gap-3">
@@ -500,28 +500,28 @@ export default function AwardsPage() {
                 </div>
               </div>
               <div className="flex justify-end px-6 pb-4">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#e31e24' }}>{PECB_AWARDS[pecbActive].year}</span>
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#475569' }}>{PECB_AWARDS[pecbActive].year}</span>
               </div>
             </div>
 
             {/* Navigation */}
             <div className="flex items-center justify-between mt-6">
               <button onClick={pecbPrev} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
-                style={{ border: '1px solid #FFBDBE', color: '#e31e24', boxShadow: '0 2px 8px rgba(227,30,36,0.12)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#e31e24'; (e.currentTarget as HTMLElement).style.borderColor = '#e31e24'; (e.currentTarget as HTMLElement).style.color = 'white' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFBDBE'; (e.currentTarget as HTMLElement).style.color = '#e31e24' }}>
+                style={{ border: '1px solid #CBD5E1', color: '#475569', boxShadow: '0 2px 8px rgba(51,65,85,0.12)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#475569'; (e.currentTarget as HTMLElement).style.borderColor = '#475569'; (e.currentTarget as HTMLElement).style.color = 'white' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#CBD5E1'; (e.currentTarget as HTMLElement).style.color = '#475569' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
               <div className="flex items-center gap-2">
                 {PECB_AWARDS.map((_, i) => (
                   <button key={i} onClick={() => pecbGoTo(i)} className="rounded-full transition-all duration-300"
-                    style={{ width: i === pecbActive ? '24px' : '8px', height: '8px', backgroundColor: i === pecbActive ? '#e31e24' : '#FFBDBE' }} />
+                    style={{ width: i === pecbActive ? '24px' : '8px', height: '8px', backgroundColor: i === pecbActive ? '#475569' : '#CBD5E1' }} />
                 ))}
               </div>
               <button onClick={pecbNext} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
-                style={{ border: '1px solid #FFBDBE', color: '#e31e24', boxShadow: '0 2px 8px rgba(227,30,36,0.12)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#e31e24'; (e.currentTarget as HTMLElement).style.borderColor = '#e31e24'; (e.currentTarget as HTMLElement).style.color = 'white' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFBDBE'; (e.currentTarget as HTMLElement).style.color = '#e31e24' }}>
+                style={{ border: '1px solid #CBD5E1', color: '#475569', boxShadow: '0 2px 8px rgba(51,65,85,0.12)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#475569'; (e.currentTarget as HTMLElement).style.borderColor = '#475569'; (e.currentTarget as HTMLElement).style.color = 'white' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#CBD5E1'; (e.currentTarget as HTMLElement).style.color = '#475569' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
