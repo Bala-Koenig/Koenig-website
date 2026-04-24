@@ -152,32 +152,32 @@ export default function AwardsPage() {
               <div className="h-1 w-full" style={{ backgroundColor: '#00a1f1' }} />
 
               {/* Vendor header */}
-              <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-[#EEF6FF]">
+              <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-[#EEF6FF]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-[#F8FBFF] border border-[#EEF6FF] p-1">
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center shrink-0 bg-[#F8FBFF] border border-[#EEF6FF] p-1.5">
                     <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" className="w-full h-full object-contain" />
                   </div>
-                  <div className="font-bold text-[#0F172A] text-sm">Microsoft</div>
+                  <div className="font-bold text-[#0F172A] text-base">Microsoft</div>
                 </div>
-                <span className="text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ backgroundColor: '#00a1f1' }}>
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#00a1f1' }}>
                   {award.year}
                 </span>
               </div>
 
               {/* Body — image left, text right */}
-              <div className="flex gap-4 p-5">
+              <div className="flex gap-5 p-6">
                 {/* Award image */}
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ width: '130px', height: '150px' }}>
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ width: '170px', height: '200px' }}>
                   <img
                     src={`/images/awards/${encodeURIComponent(award.awardImg)}`}
                     alt={award.title}
-                    className="max-h-full max-w-full object-contain p-2"
+                    className="max-h-full max-w-full object-contain p-3"
                   />
                 </div>
                 {/* Text */}
-                <div className="flex flex-col justify-center gap-2">
-                  <h3 className="font-bold text-[#0F172A] text-sm leading-snug">{award.title}</h3>
-                  <p className="text-[#475569] text-xs leading-relaxed">{award.desc}</p>
+                <div className="flex flex-col justify-center gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">{award.title}</h3>
+                  <p className="text-[#475569] text-sm leading-relaxed">{award.desc}</p>
                 </div>
               </div>
             </div>
