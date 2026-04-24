@@ -174,7 +174,7 @@ const VENDORS_ROW2 = [
   { name: 'GSDC',                        tier: 'Authorized Partner',  courses: '20+',  initial: 'G', img: 'ATP badge.png' },
   { name: 'Dell EMC',                    tier: 'Training Partner',    courses: '50+',  initial: 'D', img: 'emc.png' },
   { name: 'AI CERTs',                    tier: 'Authorized Partner',  courses: '30+',  initial: 'A', img: 'AICerts (1).png' },
-  { name: 'Archura',                     tier: 'Authorized Partner',  courses: '20+',  initial: 'A', img: 'Arcituralogo.png' },
+  { name: 'Arcitura',                    tier: 'Authorized Partner',  courses: '20+',  initial: 'A', img: 'Arcituralogo.png' },
   { name: 'Mirantis',                    tier: 'Training Partner',    courses: '15+',  initial: 'M', img: 'mirantistraining.png' },
   { name: 'EXIN',                        tier: 'Authorized Partner',  courses: '40+',  initial: 'E', img: 'EXIN.png' },
   { name: 'Cloud Security Alliance',     tier: 'Authorized Partner',  courses: '25+',  initial: 'C', img: 'cloud-security-alliance.png' },
