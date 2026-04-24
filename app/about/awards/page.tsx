@@ -67,6 +67,21 @@ const EC_AWARDS = [
   },
 ]
 
+const PECB_AWARDS = [
+  {
+    awardImg: 'Winner-of-the-PECB-Titanium-Partner-Award-2024.webp',
+    title: 'PECB Titanium Partner of the Year 2024',
+    desc: "Koenig Solutions was recognised by PECB as the Titanium Partner of the Year for 2024 — the highest tier of partnership distinction. This award acknowledges Koenig's exceptional commitment and dedication to delivering PECB certification programmes, including ISO standards and cybersecurity management training, across a global audience.",
+    year: '2024',
+  },
+  {
+    awardImg: 'award-pecb-2023.webp',
+    title: 'PECB Insights Conference Recognition 2023',
+    desc: "Koenig Solutions was honoured at the PECB Insights Conference 2023 for its outstanding partnership and contribution to professional certification training. This recognition reflects Koenig's consistent performance in preparing students for internationally recognised PECB qualifications in information security and management standards.",
+    year: '2023',
+  },
+]
+
 export default function AwardsPage() {
   const [active, setActive] = useState(0)
   const [animating, setAnimating] = useState(false)
@@ -79,6 +94,10 @@ export default function AwardsPage() {
   const [ecActive, setEcActive] = useState(0)
   const [ecAnimating, setEcAnimating] = useState(false)
   const [ecPaused, setEcPaused] = useState(false)
+
+  const [pecbActive, setPecbActive] = useState(0)
+  const [pecbAnimating, setPecbAnimating] = useState(false)
+  const [pecbPaused, setPecbPaused] = useState(false)
 
   const goTo = (idx: number) => {
     if (animating || idx === active) return
@@ -116,11 +135,25 @@ export default function AwardsPage() {
     return () => clearInterval(t)
   }, [awsActive, awsPaused])
 
+  const pecbGoTo = (idx: number) => {
+    if (pecbAnimating || idx === pecbActive) return
+    setPecbAnimating(true)
+    setTimeout(() => { setPecbActive(idx); setPecbAnimating(false) }, 250)
+  }
+  const pecbPrev = () => pecbGoTo((pecbActive - 1 + PECB_AWARDS.length) % PECB_AWARDS.length)
+  const pecbNext = () => pecbGoTo((pecbActive + 1) % PECB_AWARDS.length)
+
   useEffect(() => {
     if (ecPaused) return
     const t = setInterval(() => ecNext(), 4000)
     return () => clearInterval(t)
   }, [ecActive, ecPaused])
+
+  useEffect(() => {
+    if (pecbPaused) return
+    const t = setInterval(() => pecbNext(), 4000)
+    return () => clearInterval(t)
+  }, [pecbActive, pecbPaused])
 
   const award = MS_AWARDS[active]
 
@@ -425,6 +458,70 @@ export default function AwardsPage() {
                 style={{ border: '1px solid #FFB3BC', color: '#c8102e', boxShadow: '0 2px 8px rgba(200,16,46,0.12)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c8102e'; (e.currentTarget as HTMLElement).style.borderColor = '#c8102e'; (e.currentTarget as HTMLElement).style.color = 'white' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFB3BC'; (e.currentTarget as HTMLElement).style.color = '#c8102e' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* PECB AWARDS CAROUSEL */}
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+            PECB <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #e31e24, #ff6b6b)' }}>Awards</span>
+          </h2>
+
+          <div className="max-w-2xl mx-auto" onMouseEnter={() => setPecbPaused(true)} onMouseLeave={() => setPecbPaused(false)}>
+
+            {/* PECB vendor logo above */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-white rounded-2xl flex items-center justify-center p-1"
+                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(227,30,36,0.18)', border: '2px solid rgba(227,30,36,0.3)' }}>
+                <img src="/images/partners/Authorized PECB Certification Courses Training badge.png" alt="PECB" className="w-full h-full object-contain" />
+              </div>
+            </div>
+
+            {/* Card */}
+            <div
+              className="bg-white rounded-2xl overflow-hidden"
+              style={{
+                boxShadow: '0 8px 32px rgba(227,30,36,0.16), 0 2px 8px rgba(0,0,0,0.06)',
+                border: '1px solid rgba(227,30,36,0.25)',
+                opacity: pecbAnimating ? 0 : 1,
+                transform: pecbAnimating ? 'translateY(10px)' : 'translateY(0)',
+                transition: 'opacity 0.25s ease, transform 0.25s ease',
+              }}
+            >
+              <div className="h-1 w-full" style={{ backgroundColor: '#e31e24' }} />
+              <div className="flex gap-5 px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF5F5] border border-[#FFD6D7]" style={{ width: '150px', height: '160px' }}>
+                  <img src={`/images/awards/${encodeURIComponent(PECB_AWARDS[pecbActive].awardImg)}`} alt={PECB_AWARDS[pecbActive].title} className="max-h-full max-w-full object-contain p-3" />
+                </div>
+                <div className="flex flex-col justify-center gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">{PECB_AWARDS[pecbActive].title}</h3>
+                  <p className="text-[#475569] text-sm leading-relaxed">{PECB_AWARDS[pecbActive].desc}</p>
+                </div>
+              </div>
+              <div className="flex justify-end px-6 pb-4">
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#e31e24' }}>{PECB_AWARDS[pecbActive].year}</span>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between mt-6">
+              <button onClick={pecbPrev} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+                style={{ border: '1px solid #FFBDBE', color: '#e31e24', boxShadow: '0 2px 8px rgba(227,30,36,0.12)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#e31e24'; (e.currentTarget as HTMLElement).style.borderColor = '#e31e24'; (e.currentTarget as HTMLElement).style.color = 'white' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFBDBE'; (e.currentTarget as HTMLElement).style.color = '#e31e24' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="flex items-center gap-2">
+                {PECB_AWARDS.map((_, i) => (
+                  <button key={i} onClick={() => pecbGoTo(i)} className="rounded-full transition-all duration-300"
+                    style={{ width: i === pecbActive ? '24px' : '8px', height: '8px', backgroundColor: i === pecbActive ? '#e31e24' : '#FFBDBE' }} />
+                ))}
+              </div>
+              <button onClick={pecbNext} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+                style={{ border: '1px solid #FFBDBE', color: '#e31e24', boxShadow: '0 2px 8px rgba(227,30,36,0.12)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#e31e24'; (e.currentTarget as HTMLElement).style.borderColor = '#e31e24'; (e.currentTarget as HTMLElement).style.color = 'white' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFBDBE'; (e.currentTarget as HTMLElement).style.color = '#e31e24' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
