@@ -1,10 +1,129 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
+/* ── Testimonial data ───────────────────────────────────────── */
+const TESTIMONIALS = [
+  { quote: 'I went from IT support to Cloud Architect in 6 months. The 1-on-1 format was a game-changer — my instructor built every session around my specific gaps, not a generic syllabus.', extra: 'The structured 1-on-1 curriculum meant every session built directly on the last. My instructor had real Azure enterprise deployments behind him — not just exam coaching. I passed the Solutions Architect exam with 890/1000.', showMore: true, name: 'Ravi Mehta', location: '🇮🇳 India', course: 'Azure Solutions Architect Expert', date: '18th Feb 2026', initials: 'RM', avatarBg: 'linear-gradient(135deg,#076D9D,#4DBFEF)' },
+  { quote: 'The guaranteed schedule gave me the confidence to hand in my notice and make the career change. My instructor had real enterprise experience — not just textbook knowledge.', name: "James O'Brien", location: '🇬🇧 United Kingdom', course: 'CompTIA Security+ SY0-701', date: '17th Feb 2026', initials: 'JO', avatarBg: 'linear-gradient(135deg,#093148,#076D9D)' },
+  { quote: "Koenig's FMAT format let me complete CCNP in under 2 weeks. Same quality, same dedication — just compressed for my timeline. My employer was shocked.", name: 'Farah Zahir', location: '🇦🇪 UAE', course: 'CCNP Enterprise Core (ENCOR)', date: '16th Feb 2026', initials: 'FZ', avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)' },
+  { quote: 'Rahul was an excellent trainer. His deep knowledge of the subject and patient teaching style made complex topics easy to understand.', extra: 'Rahul covered every Microsoft Identity scenario in depth — Conditional Access, PIM, and Defender integration. The labs mirrored real enterprise setups. I passed SC-300 first attempt with high confidence.', showMore: true, name: 'Elena Mancini', location: '🇮🇹 Italy', course: 'SC-300 Microsoft Identity', date: '18th Feb 2026', initials: 'EM', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)' },
+  { quote: 'Fantastic course, great instructor. The PMP prep was thorough and the practice exams were spot on. Passed first attempt!', name: 'Jackson Tate', location: '🇺🇸 USA', course: 'PMP Certification', date: '11th Feb 2026', initials: 'JT', avatarBg: 'linear-gradient(135deg,#093148,#F47920)' },
+  { quote: 'The AWS course exceeded all expectations. The instructor had real-world cloud experience and the hands-on labs were invaluable. I landed a senior cloud role within a month of certifying.', name: 'Priya Sharma', location: '🇸🇬 Singapore', course: 'AWS Solutions Architect – Associate', date: '5th Feb 2026', initials: 'PS', avatarBg: 'linear-gradient(135deg,#F47920,#076D9D)' },
+  { quote: 'Koenig made the impossible possible. I completed my CISSP in 3 weeks with their intensive 1-on-1 training. The instructor adapted the pace perfectly to my background.', extra: 'The intensive 1-on-1 format let me cover 3 weeks of CISSP content in the time I had available. My instructor focused on my weak domains identified in a pre-assessment. All 10 domains felt manageable by exam day.', showMore: true, name: 'Ahmed Al-Rashid', location: '🇦🇪 UAE', course: 'CISSP Certification', date: '2nd Feb 2026', initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)' },
+  { quote: 'Best training investment I have ever made. The DevOps course was hands-on from day one. Our entire team is now deploying to Kubernetes confidently.', name: 'Sophie Laurent', location: '🇫🇷 France', course: 'Certified Kubernetes Administrator', date: '28th Jan 2026', initials: 'SL', avatarBg: 'linear-gradient(135deg,#093148,#0694d1)' },
+  { quote: 'The Google Cloud course gave me exactly what I needed to transition from on-prem to cloud. Real labs, real scenarios, and a trainer who genuinely cared about my success.', name: 'Carlos Mendez', location: '🇲🇽 Mexico', course: 'Google Cloud Professional Architect', date: '20th Jan 2026', initials: 'CM', avatarBg: 'linear-gradient(135deg,#4285F4,#0694d1)' },
+]
+
+function TestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; onExpandChange?: (e: boolean) => void }) {
+  const [expanded, setExpanded] = useState(false)
+  const extra = (t as { extra?: string }).extra
+  const showMore = (t as { showMore?: boolean }).showMore
+  return (
+    <div className="kglass-dark flex flex-col overflow-hidden rounded-2xl h-full">
+      <div className="flex-1 p-5">
+        <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
+        <p className="mb-3 text-sm leading-relaxed text-white/75">{t.quote}</p>
+        <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: expanded ? '200px' : '0px', opacity: expanded ? 1 : 0 }}>
+          <p className="mb-3 text-xs leading-relaxed text-white/50">{extra}</p>
+        </div>
+        {showMore && (
+          <button onClick={() => { const n = !expanded; setExpanded(n); onExpandChange?.(n) }}
+            className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#38bdf8] transition-all hover:bg-[#38bdf8] hover:text-[#06111E]"
+            style={{ borderColor: 'rgba(56,189,248,0.4)' }}>
+            {expanded ? 'Show Less ↑' : 'Show More ↓'}
+          </button>
+        )}
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: t.avatarBg, border: '2px solid rgba(56,189,248,0.25)' }}>{t.initials}</div>
+          <div>
+            <p className="text-sm font-bold text-white">{t.name}</p>
+            <p className="text-xs font-semibold text-[#38bdf8]">{t.location}</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: 'rgba(56,189,248,0.12)', background: 'rgba(6,148,209,0.07)' }}>
+        <div>
+          <p className="text-xs font-bold text-white/80">{t.course}</p>
+          <p className="mt-0.5 text-xs text-white/35">{t.date}</p>
+        </div>
+        <span className="rounded-full px-2.5 py-1 text-xs font-bold text-[#38bdf8]" style={{ background: 'rgba(56,189,248,0.12)' }}>✓ Verified</span>
+      </div>
+    </div>
+  )
+}
+
+function MobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+  const expandedCount = useRef(0)
+  useEffect(() => {
+    const inner = trackRef.current
+    if (!inner) return
+    let prev = performance.now(); let raf: number
+    const tick = (now: number) => {
+      const dt = now - prev; prev = now
+      if (!paused.current && inner) {
+        pos.current += 0.04 * dt
+        const half = inner.scrollWidth / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+  return (
+    <div className="sm:hidden overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)' }}
+      onTouchStart={e => { paused.current = true }}
+      onTouchEnd={() => { if (expandedCount.current === 0) paused.current = false }}>
+      <div ref={trackRef} className="flex items-stretch gap-4 py-2" style={{ width: 'max-content' }}>
+        {[...items, ...items].map((t, i) => (
+          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
+            <TestimonialCard t={t} onExpandChange={exp => { expandedCount.current += exp ? 1 : -1; if (expandedCount.current < 0) expandedCount.current = 0; paused.current = expandedCount.current > 0 }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
+  const innerRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+  useEffect(() => {
+    const inner = innerRef.current
+    if (!inner) return
+    let prev = performance.now(); let raf: number
+    const tick = (now: number) => {
+      const dt = now - prev; prev = now
+      if (!paused.current && inner) {
+        pos.current += speed * dt
+        const half = inner.scrollHeight / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateY(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [speed])
+  return (
+    <div style={{ height: '520px', overflow: 'hidden' }} onMouseEnter={() => { paused.current = true }} onMouseLeave={() => { paused.current = false }}>
+      <div ref={innerRef} className="flex flex-col gap-4 pb-4">
+        {[...items, ...items].map((t, i) => <TestimonialCard key={i} t={t} />)}
+      </div>
+    </div>
+  )
+}
+
 export default function HappinessGuaranteePage() {
+  const [tab, setTab] = useState<'why' | 'feedback'>('why')
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
@@ -272,53 +391,76 @@ export default function HappinessGuaranteePage() {
           <div className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full bg-[#38bdf8] opacity-[0.04] blur-[90px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          {/* Tab buttons */}
           <div className="flex gap-3 mb-8 sm:mb-10">
-            <span className="font-semibold px-5 py-2 rounded-full text-sm text-white" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Why Choose Us</span>
-            <Link href="/about/student-feedback"
-              className="border border-[#0694D1]/50 text-[#38bdf8] hover:border-[#0694D1] font-semibold px-5 py-2 rounded-full text-sm transition-colors">
+            <button onClick={() => setTab('why')}
+              className="font-semibold px-5 py-2 rounded-full text-sm transition-all"
+              style={tab === 'why' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { border: '1px solid rgba(6,148,209,0.4)', color: '#38bdf8' }}>
+              Why Choose Us
+            </button>
+            <button onClick={() => setTab('feedback')}
+              className="font-semibold px-5 py-2 rounded-full text-sm transition-all"
+              style={tab === 'feedback' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { border: '1px solid rgba(6,148,209,0.4)', color: '#38bdf8' }}>
               Student Feedback
-            </Link>
+            </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {[
-              {
-                icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>,
-                title: 'Happiness Guarantee',
-                desc: "We're so confident in the quality of our training that we offer a comprehensive Happiness Guarantee",
-              },
-              {
-                icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>,
-                title: 'Unparalleled Course Selection',
-                desc: 'Explore over 5,000 courses across diverse industries and skill sets to find the perfect fit for your learning goals',
-              },
-              {
-                icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>,
-                title: 'Expert Instructors',
-                desc: 'Learn from industry veterans with real-world experience',
-              },
-              {
-                icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
-                title: 'Flexible Learning Options',
-                desc: 'Choose from online, classroom, or blended learning formats to suit your schedule',
-              },
-            ].map((p, i) => (
-              <div key={p.title} className="kglass-dark rounded-2xl p-5 sm:p-6 flex flex-col gap-3" style={{ borderTop: '2px solid rgba(56,189,248,0.3)' }}>
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                  style={{
-                    background: 'rgba(56,189,248,0.08)',
-                    border: '1px solid rgba(56,189,248,0.2)',
-                    boxShadow: '0 0 16px rgba(56,189,248,0.12)',
-                    animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.2}s both, iconFloat 3s ease-in-out ${i * 0.2 + 0.7}s infinite`,
-                  }}>
-                  {React.cloneElement(p.icon as React.ReactElement, {
-                    style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.2 + 0.1}s both` },
-                  })}
+
+          {/* Why Choose Us cards */}
+          {tab === 'why' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+              {[
+                { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>, title: 'Happiness Guarantee', desc: "We're so confident in the quality of our training that we offer a comprehensive Happiness Guarantee" },
+                { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>, title: 'Unparalleled Course Selection', desc: 'Explore over 5,000 courses across diverse industries and skill sets to find the perfect fit for your learning goals' },
+                { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>, title: 'Expert Instructors', desc: 'Learn from industry veterans with real-world experience' },
+                { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>, title: 'Flexible Learning Options', desc: 'Choose from online, classroom, or blended learning formats to suit your schedule' },
+              ].map((p, i) => (
+                <div key={p.title} className="kglass-dark rounded-2xl p-5 sm:p-6 flex flex-col gap-3" style={{ borderTop: '2px solid rgba(56,189,248,0.3)' }}>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', boxShadow: '0 0 16px rgba(56,189,248,0.12)', animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.2}s both, iconFloat 3s ease-in-out ${i * 0.2 + 0.7}s infinite` }}>
+                    {React.cloneElement(p.icon as React.ReactElement, { style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.2 + 0.1}s both` } })}
+                  </div>
+                  <h3 className="font-bold text-[#38bdf8] text-sm sm:text-base leading-snug">{p.title}</h3>
+                  <p className="text-white/55 text-xs sm:text-sm leading-relaxed">{p.desc}</p>
                 </div>
-                <h3 className="font-bold text-[#38bdf8] text-sm sm:text-base leading-snug">{p.title}</h3>
-                <p className="text-white/55 text-xs sm:text-sm leading-relaxed">{p.desc}</p>
+              ))}
+            </div>
+          )}
+
+          {/* Student Feedback — inline testimonials */}
+          {tab === 'feedback' && (
+            <div>
+              {/* Stats bar */}
+              <div className="kglass-dark mx-auto mb-8 max-w-3xl rounded-2xl px-4 py-4 sm:px-8">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-px" style={{ background: 'rgba(56,189,248,0.06)' }}>
+                  {[
+                    { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, val: '18,400+', label: 'Verified Reviews' },
+                    { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>, val: '4.9 / 5', label: 'Average Rating' },
+                    { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, val: '95%', label: 'Would Recommend' },
+                    { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, val: '1M+', label: 'Professionals Trained' },
+                  ].map((s, i, arr) => (
+                    <div key={s.label} className="px-3 py-3 text-center" style={{ borderRight: i < arr.length - 1 ? '1px solid rgba(56,189,248,0.12)' : 'none' }}>
+                      <div className="mb-1 flex justify-center">{s.icon}</div>
+                      <div className="text-base sm:text-xl font-bold text-white">{s.val}</div>
+                      <div className="text-xs text-white/45 mt-0.5">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+
+              {/* Mobile marquee */}
+              <MobileMarquee items={TESTIMONIALS} />
+
+              {/* Desktop 3-col scroll */}
+              <div className="hidden sm:block relative overflow-hidden"
+                style={{ height: '520px', maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)' }}>
+                <div className="grid grid-cols-3 gap-4 h-full">
+                  <ScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} />
+                  <ScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} />
+                  <ScrollColumn items={TESTIMONIALS.slice(6, 9)} speed={0.038} />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>
