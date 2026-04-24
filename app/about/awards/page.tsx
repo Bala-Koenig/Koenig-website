@@ -140,7 +140,7 @@ export default function AwardsPage() {
 
             {/* Vendor logo — above the card */}
             <div className="flex justify-center mb-4">
-              <div className="bg-white rounded-2xl flex items-center justify-center p-4"
+              <div className="bg-white rounded-2xl flex items-center justify-center p-1"
                 style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(6,148,209,0.18)', border: '2px solid rgba(6,148,209,0.3)' }}>
                 <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" className="w-full h-full object-contain" />
               </div>
