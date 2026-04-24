@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import DownloadPptButton from '@/components/DownloadPptButton'
@@ -65,6 +66,28 @@ const TIMELINE_ICONS = [
 ]
 
 export default function OurStoryPage() {
+  const gridRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const cards = gridRef.current?.querySelectorAll<HTMLElement>('.timeline-card')
+    if (!cards) return
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement
+            el.style.animationDelay = el.dataset.delay ?? '0s'
+            el.classList.add('visible')
+            observer.unobserve(el)
+          }
+        })
+      },
+      { threshold: 0.12 }
+    )
+    cards.forEach(card => observer.observe(card))
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
@@ -113,10 +136,11 @@ export default function OurStoryPage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Three Decades of <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Resilience</span></h2>
           <p className="text-center text-[#475569] mb-12">From a single Delhi office to 30,000+ students monthly in 195 countries</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div ref={gridRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TIMELINE.map((t, i) => (
               <div key={t.year}
-                className="rounded-2xl bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="timeline-card rounded-2xl bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                data-delay={`${i * 0.13}s`}
                 style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)', border: '1px solid rgba(0,0,0,0.07)' }}>
                 {/* Colored top accent */}
                 <div className="h-1" style={{ backgroundColor: t.color }} />
