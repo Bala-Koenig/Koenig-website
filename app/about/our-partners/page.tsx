@@ -6,6 +6,8 @@ import AboutSubNav from '@/components/AboutSubNav'
 
 const BASE = 'https://rms.koenig-solutions.com/Sync_Data/Forms/CRM/Files/Freelancer/'
 
+const LOGO_SCALE: Record<string, number> = { SCRUMstudy: 1.4, Mirantis: 1.4 }
+
 const PARTNERS = [
   { name: 'Microsoft',                    img: 'microsoft-cloud-t.png',                                    tier: 'Gold Partner',        courses: '380+', verify: BASE + 'MicrosoftSolutionspartnerletterMay15th2025.pdf' },
   { name: 'Cisco',                        img: 'Cisco.png',                                                tier: 'Premier Partner',     courses: '210+', verify: BASE + 'CiscoLearningpartnervalidtill28thJul2026.pdf' },
@@ -134,7 +136,7 @@ export default function OurPartnersPage() {
                       src={`/images/partners/${encodeURIComponent(p.img)}`}
                       alt={p.name}
                       className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                      style={{ maxHeight: '72px' }}
+                      style={{ maxHeight: '72px', transform: LOGO_SCALE[p.name] ? `scale(${LOGO_SCALE[p.name]})` : undefined }}
                     />
                   ) : (
                     <span className="text-2xl font-black" style={{ color: '#076D9D' }}>
