@@ -46,6 +46,15 @@ const AWS_AWARDS = [
   },
 ]
 
+const EC_AWARDS = [
+  {
+    awardImg: 'Winner-of-EC-Council-ATC-of-the-Year-Award-2024.webp',
+    title: 'Winner of EC-Council ATC of the Year Award 2024',
+    desc: "Koenig Solutions was honoured as the EC-Council Authorized Training Centre (ATC) of the Year for 2024, recognizing outstanding delivery of cybersecurity certifications including CEH, CHFI, and CPENT. This award reflects Koenig's commitment to excellence in ethical hacking and information security training globally.",
+    year: '2024',
+  },
+]
+
 export default function AwardsPage() {
   const [active, setActive] = useState(0)
   const [animating, setAnimating] = useState(false)
@@ -54,6 +63,10 @@ export default function AwardsPage() {
   const [awsActive, setAwsActive] = useState(0)
   const [awsAnimating, setAwsAnimating] = useState(false)
   const [awsPaused, setAwsPaused] = useState(false)
+
+  const [ecActive, setEcActive] = useState(0)
+  const [ecAnimating, setEcAnimating] = useState(false)
+  const [ecPaused, setEcPaused] = useState(false)
 
   const goTo = (idx: number) => {
     if (animating || idx === active) return
@@ -71,6 +84,14 @@ export default function AwardsPage() {
   const awsPrev = () => awsGoTo((awsActive - 1 + AWS_AWARDS.length) % AWS_AWARDS.length)
   const awsNext = () => awsGoTo((awsActive + 1) % AWS_AWARDS.length)
 
+  const ecGoTo = (idx: number) => {
+    if (ecAnimating || idx === ecActive) return
+    setEcAnimating(true)
+    setTimeout(() => { setEcActive(idx); setEcAnimating(false) }, 250)
+  }
+  const ecPrev = () => ecGoTo((ecActive - 1 + EC_AWARDS.length) % EC_AWARDS.length)
+  const ecNext = () => ecGoTo((ecActive + 1) % EC_AWARDS.length)
+
   useEffect(() => {
     if (paused) return
     const t = setInterval(() => next(), 4000)
@@ -82,6 +103,12 @@ export default function AwardsPage() {
     const t = setInterval(() => awsNext(), 4000)
     return () => clearInterval(t)
   }, [awsActive, awsPaused])
+
+  useEffect(() => {
+    if (ecPaused) return
+    const t = setInterval(() => ecNext(), 4000)
+    return () => clearInterval(t)
+  }, [ecActive, ecPaused])
 
   const award = MS_AWARDS[active]
 
@@ -322,6 +349,70 @@ export default function AwardsPage() {
                 style={{ border: '1px solid #FFD580', color: '#ff9900', boxShadow: '0 2px 8px rgba(255,153,0,0.12)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ff9900'; (e.currentTarget as HTMLElement).style.borderColor = '#ff9900'; (e.currentTarget as HTMLElement).style.color = 'white' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFD580'; (e.currentTarget as HTMLElement).style.color = '#ff9900' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* EC-COUNCIL AWARDS CAROUSEL */}
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+            EC-Council <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #c8102e, #ff4d6d)' }}>Awards</span>
+          </h2>
+
+          <div className="max-w-2xl mx-auto" onMouseEnter={() => setEcPaused(true)} onMouseLeave={() => setEcPaused(false)}>
+
+            {/* EC-Council vendor logo above */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-white rounded-2xl flex items-center justify-center p-1"
+                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(200,16,46,0.18)', border: '2px solid rgba(200,16,46,0.3)' }}>
+                <img src="/images/partners/EC-Council-logo.png" alt="EC-Council" className="w-full h-full object-contain" />
+              </div>
+            </div>
+
+            {/* Card */}
+            <div
+              className="bg-white rounded-2xl overflow-hidden"
+              style={{
+                boxShadow: '0 8px 32px rgba(200,16,46,0.16), 0 2px 8px rgba(0,0,0,0.06)',
+                border: '1px solid rgba(200,16,46,0.25)',
+                opacity: ecAnimating ? 0 : 1,
+                transform: ecAnimating ? 'translateY(10px)' : 'translateY(0)',
+                transition: 'opacity 0.25s ease, transform 0.25s ease',
+              }}
+            >
+              <div className="h-1 w-full" style={{ backgroundColor: '#c8102e' }} />
+              <div className="flex gap-5 px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF5F6] border border-[#FFD6DB]" style={{ width: '150px', height: '160px' }}>
+                  <img src={`/images/awards/${encodeURIComponent(EC_AWARDS[ecActive].awardImg)}`} alt={EC_AWARDS[ecActive].title} className="max-h-full max-w-full object-contain p-3" />
+                </div>
+                <div className="flex flex-col justify-center gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">{EC_AWARDS[ecActive].title}</h3>
+                  <p className="text-[#475569] text-sm leading-relaxed">{EC_AWARDS[ecActive].desc}</p>
+                </div>
+              </div>
+              <div className="flex justify-end px-6 pb-4">
+                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#c8102e' }}>{EC_AWARDS[ecActive].year}</span>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between mt-6">
+              <button onClick={ecPrev} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+                style={{ border: '1px solid #FFB3BC', color: '#c8102e', boxShadow: '0 2px 8px rgba(200,16,46,0.12)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c8102e'; (e.currentTarget as HTMLElement).style.borderColor = '#c8102e'; (e.currentTarget as HTMLElement).style.color = 'white' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFB3BC'; (e.currentTarget as HTMLElement).style.color = '#c8102e' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="flex items-center gap-2">
+                {EC_AWARDS.map((_, i) => (
+                  <button key={i} onClick={() => ecGoTo(i)} className="rounded-full transition-all duration-300"
+                    style={{ width: i === ecActive ? '24px' : '8px', height: '8px', backgroundColor: i === ecActive ? '#c8102e' : '#FFB3BC' }} />
+                ))}
+              </div>
+              <button onClick={ecNext} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+                style={{ border: '1px solid #FFB3BC', color: '#c8102e', boxShadow: '0 2px 8px rgba(200,16,46,0.12)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c8102e'; (e.currentTarget as HTMLElement).style.borderColor = '#c8102e'; (e.currentTarget as HTMLElement).style.color = 'white' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFB3BC'; (e.currentTarget as HTMLElement).style.color = '#c8102e' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
