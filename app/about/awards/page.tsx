@@ -182,16 +182,26 @@ export default function AwardsPage() {
                   These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
                 </p>
               </div>
-              <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
-                <div className="aspect-video">
-                  <iframe
-                    src="https://www.youtube.com/embed/z_6FnQE7-LA"
-                    title="Koenig Solutions — Your Trusted IT Training Partner"
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft', count: 3, label: 'Awards', color: '#00a1f1' },
+                  { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS', count: 3, label: 'Awards', color: '#ff9900' },
+                  { logo: '/images/partners/EC-Council-logo.png', vendor: 'EC-Council', count: 3, label: 'Awards', color: '#c8102e' },
+                  { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB', count: 2, label: 'Awards', color: '#94a3b8' },
+                  { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle', count: 1, label: 'Award', color: '#c74634' },
+                  { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: 15, label: 'Years', color: '#e8002d' },
+                ].map(({ logo, vendor, count, label, color }) => (
+                  <div key={vendor} className="kglass-dark rounded-xl p-4 flex items-center gap-3">
+                    <div className="shrink-0 w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center p-1.5">
+                      <img src={logo} alt={vendor} className="w-full h-full object-contain" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-white leading-none">{count}<span className="text-xs font-normal text-white/50 ml-1">{label}</span></div>
+                      <div className="text-white/60 text-xs mt-0.5">{vendor}</div>
+                    </div>
+                    <div className="ml-auto w-1.5 h-8 rounded-full opacity-70" style={{ backgroundColor: color }} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
