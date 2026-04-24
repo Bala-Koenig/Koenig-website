@@ -49,7 +49,7 @@ const PARTNERS = [
   { name: 'Mirantis',                     img: 'mirantistraining.png',                                      tier: 'Training Partner',    courses: '15+',  verify: BASE + 'MirantisATPlettertillDec2027.pdf' },
   { name: 'Cloudera',                     img: 'cloudera (1).png',                                         tier: 'Training Partner',    courses: '30+',  verify: BASE + 'FindaClouderapartner.pdf' },
   { name: 'OffSec Training',              img: 'OffSecLearningPartnerDarkPNG (1).png',                     tier: 'Learning Partner',    courses: '20+',  verify: BASE + 'OffSecFindaPartner.pdf' },
-  { name: 'DevOps Agile Skills (DASA)',   img: null,                                                        tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'DASAATPcertificatevalidtill31stDec2026.pdf' },
+  { name: 'DevOps Agile Skills (DASA)',   img: 'Vendor-Dasa.png',                                           tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'DASAATPcertificatevalidtill31stDec2026.pdf' },
   { name: 'Cloud Credential Council',     img: 'CCC_Logo.png',                                             tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'CCCTrainingPartnerCertificateissuedate30thDec2025.pdf' },
   { name: 'C++ Institute',               img: 'c-plus-2-logo.png',                                        tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
   { name: 'LPI',                          img: 'Linux.png',                                                tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'LPIPartnerCertKoenigSolutionsPvt.Ltdsince2025.pdf' },
