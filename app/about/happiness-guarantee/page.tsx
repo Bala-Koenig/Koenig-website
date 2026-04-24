@@ -53,11 +53,11 @@ export default function HappinessGuaranteePage() {
             What is the <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Happiness Guarantee?</span>
           </h2>
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-stretch">
-            {/* Classroom image */}
+            {/* HG image */}
             <div className="w-full lg:w-[42%] rounded-2xl overflow-hidden shrink-0 shadow-xl" style={{ minHeight: '280px', boxShadow: '0 8px 40px rgba(6,148,209,0.15)' }}>
               <img
-                src="/images/home-banner/classroom-training.png"
-                alt="Koenig Solutions classroom training"
+                src="/images/HG.png"
+                alt="Koenig Happiness Guarantee"
                 className="w-full h-full object-cover"
                 style={{ minHeight: '280px' }}
               />
