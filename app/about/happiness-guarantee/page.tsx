@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
-import DownloadPptButton from '@/components/DownloadPptButton'
 
 export default function HappinessGuaranteePage() {
   return (
@@ -23,10 +22,9 @@ export default function HappinessGuaranteePage() {
                 <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6">
                   Learn with <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Confidence:</span> Koenig Solutions' Happiness Guarantee
                 </h1>
-                <p className="text-sm sm:text-lg text-white/70 leading-relaxed mb-4">
+                <p className="text-sm sm:text-lg text-white/70 leading-relaxed">
                   Happiness is achieved when expectations are met. We set clear expectations and then we exceed them — every single time.
                 </p>
-                <DownloadPptButton />
               </div>
               <div className="flex items-center justify-center">
                 <img
