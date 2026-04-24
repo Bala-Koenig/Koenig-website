@@ -184,20 +184,20 @@ export default function AwardsPage() {
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft', count: '3', label: 'Awards' },
-                  { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS', count: '3', label: 'Awards' },
-                  { logo: '/images/partners/EC-Council-logo.png', vendor: 'EC-Council', count: '3', label: 'Awards' },
-                  { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB', count: '2', label: 'Awards' },
-                  { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle', count: '1', label: 'Award' },
-                  { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: '15', label: 'Yrs' },
-                ].map(({ logo, vendor, count, label }) => (
+                  { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft', count: '3', label: 'Awards', color: '#00a1f1' },
+                  { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS', count: '3', label: 'Awards', color: '#ff9900' },
+                  { logo: '/images/partners/EC-Council-logo.png', vendor: 'EC-Council', count: '3', label: 'Awards', color: '#c8102e' },
+                  { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB', count: '2', label: 'Awards', color: '#94a3b8' },
+                  { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle', count: '1', label: 'Award', color: '#c74634' },
+                  { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: '15', label: 'Yrs', color: '#e8002d' },
+                ].map(({ logo, vendor, count, label, color }) => (
                   <div key={vendor} className="kglass-dark rounded-xl overflow-hidden flex flex-col">
                     <div className="flex items-center justify-center p-3" style={{ height: '72px', backgroundColor: '#ddf1fb' }}>
                       <img src={logo} alt={vendor} className="max-h-full max-w-full object-contain" />
                     </div>
                     <div className="flex flex-col items-center justify-center py-2 px-1">
                       <span className="text-xl font-bold text-white leading-none">{count} <span className="text-xs font-normal text-white/50">{label}</span></span>
-                      <span className="text-white/50 text-[10px] mt-0.5 text-center leading-tight">{vendor}</span>
+                      <span className="text-[10px] font-semibold mt-0.5 text-center leading-tight" style={{ color }}>{vendor}</span>
                     </div>
                   </div>
                 ))}
