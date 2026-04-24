@@ -177,8 +177,6 @@ export default function HappinessGuaranteePage() {
                     />
                   </div>
                   <div className="text-center sm:text-left">
-                    {/* Big decorative quote */}
-                    <div className="text-6xl sm:text-7xl font-serif leading-none mb-1 select-none" style={{ color: '#0694D1', opacity: 0.25, lineHeight: 1 }}>&ldquo;</div>
                     <p className="text-lg sm:text-xl font-bold text-[#0F172A] mb-1">Dear Kustomer,</p>
                     <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
                       We take immense pride in delivering exceptional training experiences that meet your needs and equip you with the skills you need to succeed. We meticulously design our courses and ensure the services we promise are fully delivered.
@@ -197,25 +195,33 @@ export default function HappinessGuaranteePage() {
 
                 {/* Body paragraphs with left accent */}
                 <div className="flex flex-col gap-4 mb-6">
-                  <div className="flex gap-3 items-start">
-                    <div className="w-[3px] shrink-0 rounded-full self-stretch" style={{ background: 'linear-gradient(180deg, #0694D1, #38bdf8)' }} />
-                    <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
-                      However, we understand that sometimes things may not go as planned. If, for any reason, you're not satisfied with your Koenig experience and haven't found a resolution through our standard channels, please contact me directly at{' '}
-                      <a href="mailto:rohit.a@koenig-solutions.com" className="text-[#0694D1] hover:underline font-medium">rohit.a@koenig-solutions.com</a>.
-                    </p>
-                  </div>
-                  <div className="flex gap-3 items-start">
-                    <div className="w-[3px] shrink-0 rounded-full self-stretch" style={{ background: 'linear-gradient(180deg, #38bdf8, #0694D1)' }} />
-                    <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
-                      As CEO, it's my ultimate responsibility to ensure your satisfaction. I'm committed to personally addressing any concerns you may have and working towards a fair resolution.
-                    </p>
-                  </div>
-                  <div className="flex gap-3 items-start">
-                    <div className="w-[3px] shrink-0 rounded-full self-stretch" style={{ background: 'linear-gradient(180deg, #0694D1, #38bdf8)' }} />
-                    <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
-                      Enjoy your learning journey at Koenig Solutions. I am confident you'll gain valuable knowledge and skills.
-                    </p>
-                  </div>
+                  {[
+                    {
+                      gradient: 'linear-gradient(180deg, #0694D1, #38bdf8)',
+                      delay: '0s',
+                      content: <>However, we understand that sometimes things may not go as planned. If, for any reason, you're not satisfied with your Koenig experience and haven't found a resolution through our standard channels, please contact me directly at{' '}<a href="mailto:rohit.a@koenig-solutions.com" className="text-[#0694D1] hover:underline font-medium">rohit.a@koenig-solutions.com</a>.</>,
+                    },
+                    {
+                      gradient: 'linear-gradient(180deg, #38bdf8, #0694D1)',
+                      delay: '0.15s',
+                      content: <>As CEO, it's my ultimate responsibility to ensure your satisfaction. I'm committed to personally addressing any concerns you may have and working towards a fair resolution.</>,
+                    },
+                    {
+                      gradient: 'linear-gradient(180deg, #0694D1, #38bdf8)',
+                      delay: '0.3s',
+                      content: <>Enjoy your learning journey at Koenig Solutions. I am confident you'll gain valuable knowledge and skills.</>,
+                    },
+                  ].map((row, i) => (
+                    <div key={i} className="flex gap-3 items-start">
+                      <div className="w-[3px] shrink-0 rounded-full self-stretch"
+                        style={{
+                          background: row.gradient,
+                          transformOrigin: 'top',
+                          animation: `lineGrow 0.6s cubic-bezier(0.22,1,0.36,1) ${row.delay} both`,
+                        }} />
+                      <p className="text-[#475569] text-sm sm:text-base leading-relaxed">{row.content}</p>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Divider */}
