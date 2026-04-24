@@ -123,6 +123,14 @@ export default function AwardsPage() {
   const ecPrev = () => ecGoTo((ecActive - 1 + EC_AWARDS.length) % EC_AWARDS.length)
   const ecNext = () => ecGoTo((ecActive + 1) % EC_AWARDS.length)
 
+  const pecbGoTo = (idx: number) => {
+    if (pecbAnimating || idx === pecbActive) return
+    setPecbAnimating(true)
+    setTimeout(() => { setPecbActive(idx); setPecbAnimating(false) }, 250)
+  }
+  const pecbPrev = () => pecbGoTo((pecbActive - 1 + PECB_AWARDS.length) % PECB_AWARDS.length)
+  const pecbNext = () => pecbGoTo((pecbActive + 1) % PECB_AWARDS.length)
+
   useEffect(() => {
     if (paused) return
     const t = setInterval(() => next(), 4000)
@@ -134,14 +142,6 @@ export default function AwardsPage() {
     const t = setInterval(() => awsNext(), 4000)
     return () => clearInterval(t)
   }, [awsActive, awsPaused])
-
-  const pecbGoTo = (idx: number) => {
-    if (pecbAnimating || idx === pecbActive) return
-    setPecbAnimating(true)
-    setTimeout(() => { setPecbActive(idx); setPecbAnimating(false) }, 250)
-  }
-  const pecbPrev = () => pecbGoTo((pecbActive - 1 + PECB_AWARDS.length) % PECB_AWARDS.length)
-  const pecbNext = () => pecbGoTo((pecbActive + 1) % PECB_AWARDS.length)
 
   useEffect(() => {
     if (ecPaused) return
@@ -163,26 +163,26 @@ export default function AwardsPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-10 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-10 px-8 sm:px-10">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="kglass-banner py-7 px-4 sm:py-10 sm:px-8 lg:px-10">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
+                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6">
                   Awards &amp; <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Achievements</span>
                 </h1>
-                <p className="text-xl text-white/80 mb-4 leading-relaxed">
+                <p className="text-sm sm:text-lg lg:text-xl text-white/80 mb-3 sm:mb-4 leading-relaxed">
                   Recognized by the world's leading technology vendors and workplace authorities since 1993. Our awards reflect one thing: consistently excellent training outcomes.
                 </p>
-                <p className="text-lg text-white/60 leading-relaxed">
+                <p className="text-xs sm:text-base lg:text-lg text-white/60 leading-relaxed">
                   These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
                 </p>
               </div>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {[
                   { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft', count: '3', label: 'Awards', color: '#00a1f1' },
                   { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS', count: '3', label: 'Awards', color: '#ff9900' },
@@ -192,12 +192,12 @@ export default function AwardsPage() {
                   { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: '15', label: 'Yrs', color: '#e8002d' },
                 ].map(({ logo, vendor, count, label, color }) => (
                   <div key={vendor} className="kglass-dark rounded-xl overflow-hidden flex flex-col">
-                    <div className="flex items-center justify-center p-3" style={{ height: '72px', backgroundColor: '#ddf1fb' }}>
+                    <div className="flex items-center justify-center p-2 sm:p-3" style={{ height: '60px', backgroundColor: '#ddf1fb' }}>
                       <img src={logo} alt={vendor} className="max-h-full max-w-full object-contain" />
                     </div>
                     <div className="flex flex-col items-center justify-center py-2 px-1">
-                      <span className="text-xl font-bold text-white leading-none">{count} <span className="text-xs font-normal text-white/50">{label}</span></span>
-                      <span className="text-[10px] font-semibold mt-0.5 text-center leading-tight" style={{ color }}>{vendor}</span>
+                      <span className="text-base sm:text-xl font-bold text-white leading-none">{count} <span className="text-[10px] sm:text-xs font-normal text-white/50">{label}</span></span>
+                      <span className="text-[9px] sm:text-[10px] font-semibold mt-0.5 text-center leading-tight" style={{ color }}>{vendor}</span>
                     </div>
                   </div>
                 ))}
@@ -207,32 +207,29 @@ export default function AwardsPage() {
         </div>
       </section>
 
-      {/* MICROSOFT AWARDS CAROUSEL */}
-      <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #ddf1fb 30%, #ffffff 60%, #c8eaf8 100%)' }}>
+      {/* VENDOR AWARDS SECTION */}
+      <section className="relative py-10 sm:py-[50px] overflow-hidden" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #ddf1fb 30%, #ffffff 60%, #c8eaf8 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 -left-24 w-[480px] h-[480px] rounded-full opacity-30 blur-[100px]" style={{ background: 'radial-gradient(circle, #BAE6FD, transparent 70%)' }} />
           <div className="absolute -bottom-24 -right-24 w-[420px] h-[420px] rounded-full opacity-25 blur-[90px]" style={{ background: 'radial-gradient(circle, #7DD3FA, transparent 70%)' }} />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center">
+
+          {/* MICROSOFT AWARDS CAROUSEL */}
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center">
             Microsoft <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Awards</span>
           </h2>
 
-          {/* Carousel */}
           <div className="max-w-2xl mx-auto" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-
-            {/* Vendor logo — above the card */}
             <div className="flex justify-center mb-4">
               <div className="bg-white rounded-2xl flex items-center justify-center p-1"
-                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(6,148,209,0.18)', border: '2px solid rgba(6,148,209,0.3)' }}>
+                style={{ width: '140px', height: '88px', boxShadow: '0 4px 20px rgba(6,148,209,0.18)', border: '2px solid rgba(6,148,209,0.3)' }}>
                 <img src="/images/partners/microsoft-cloud-t.png" alt="Microsoft" className="w-full h-full object-contain" />
               </div>
             </div>
 
-            {/* Card */}
-            <div
-              className="bg-white rounded-2xl overflow-hidden"
+            <div className="bg-white rounded-2xl overflow-hidden"
               style={{
                 boxShadow: '0 8px 32px rgba(6,148,209,0.16), 0 2px 8px rgba(0,0,0,0.06)',
                 border: '1px solid rgba(6,148,209,0.25)',
@@ -241,94 +238,51 @@ export default function AwardsPage() {
                 transition: 'opacity 0.25s ease, transform 0.25s ease',
               }}
             >
-              {/* Blue top accent */}
               <div className="h-1 w-full" style={{ backgroundColor: '#00a1f1' }} />
-
-              {/* Body — image left, text right */}
-              <div className="flex gap-5 px-6 pt-5 pb-4">
-                {/* Award image */}
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF]" style={{ width: '150px', height: '160px' }}>
-                  <img
-                    src={`/images/awards/${encodeURIComponent(award.awardImg)}`}
-                    alt={award.title}
-                    className="max-h-full max-w-full object-contain p-3"
-                  />
+              <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FBFF] border border-[#EEF6FF] w-full h-[160px] sm:w-[150px] sm:h-[160px]">
+                  <img src={`/images/awards/${encodeURIComponent(award.awardImg)}`} alt={award.title} className="max-h-full max-w-full object-contain p-3" />
                 </div>
-                {/* Text */}
-                <div className="flex flex-col justify-center gap-3">
-                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">{award.title}</h3>
-                  <p className="text-[#475569] text-sm leading-relaxed">{award.desc}</p>
+                <div className="flex flex-col justify-center gap-2 sm:gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-sm sm:text-base leading-snug">{award.title}</h3>
+                  <p className="text-[#475569] text-xs sm:text-sm leading-relaxed">{award.desc}</p>
                 </div>
               </div>
-
-              {/* Year badge — bottom */}
-              <div className="flex justify-end px-6 pb-4">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#00a1f1' }}>
-                  {award.year}
-                </span>
+              <div className="flex justify-end px-4 sm:px-6 pb-4">
+                <span className="text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#00a1f1' }}>{award.year}</span>
               </div>
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between mt-6">
-              {/* Prev */}
-              <button
-                onClick={prev}
-                className="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-[#BAE6FD] text-[#0694D1] hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1] transition-all duration-200"
-                style={{ boxShadow: '0 2px 8px rgba(6,148,209,0.12)' }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6"/>
-                </svg>
+            <div className="flex items-center justify-between mt-5 sm:mt-6">
+              <button onClick={prev} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white border border-[#BAE6FD] text-[#0694D1] hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1] transition-all duration-200" style={{ boxShadow: '0 2px 8px rgba(6,148,209,0.12)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
-
-              {/* Dots */}
               <div className="flex items-center gap-2">
                 {MS_AWARDS.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => goTo(i)}
-                    className="rounded-full transition-all duration-300"
-                    style={{
-                      width:  i === active ? '24px' : '8px',
-                      height: '8px',
-                      backgroundColor: i === active ? '#0694D1' : '#BAE6FD',
-                    }}
-                  />
+                  <button key={i} onClick={() => goTo(i)} className="rounded-full transition-all duration-300"
+                    style={{ width: i === active ? '24px' : '8px', height: '8px', backgroundColor: i === active ? '#0694D1' : '#BAE6FD' }} />
                 ))}
               </div>
-
-              {/* Next */}
-              <button
-                onClick={next}
-                className="w-10 h-10 rounded-full flex items-center justify-center bg-white border border-[#BAE6FD] text-[#0694D1] hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1] transition-all duration-200"
-                style={{ boxShadow: '0 2px 8px rgba(6,148,209,0.12)' }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6"/>
-                </svg>
+              <button onClick={next} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white border border-[#BAE6FD] text-[#0694D1] hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1] transition-all duration-200" style={{ boxShadow: '0 2px 8px rgba(6,148,209,0.12)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
           </div>
 
           {/* AWS AWARDS CAROUSEL */}
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             AWS <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #ff9900, #FFD580)' }}>Awards</span>
           </h2>
 
           <div className="max-w-2xl mx-auto" onMouseEnter={() => setAwsPaused(true)} onMouseLeave={() => setAwsPaused(false)}>
-
-            {/* AWS vendor logo above */}
             <div className="flex justify-center mb-4">
               <div className="bg-white rounded-2xl flex items-center justify-center p-1"
-                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(255,153,0,0.18)', border: '2px solid rgba(255,153,0,0.3)' }}>
+                style={{ width: '140px', height: '88px', boxShadow: '0 4px 20px rgba(255,153,0,0.18)', border: '2px solid rgba(255,153,0,0.3)' }}>
                 <img src="/images/partners/amazon-authorized.png" alt="AWS" className="w-full h-full object-contain" />
               </div>
             </div>
 
-            {/* Card */}
-            <div
-              className="bg-white rounded-2xl overflow-hidden"
+            <div className="bg-white rounded-2xl overflow-hidden"
               style={{
                 boxShadow: '0 8px 32px rgba(255,153,0,0.16), 0 2px 8px rgba(0,0,0,0.06)',
                 border: '1px solid rgba(255,153,0,0.25)',
@@ -338,27 +292,26 @@ export default function AwardsPage() {
               }}
             >
               <div className="h-1 w-full" style={{ backgroundColor: '#ff9900' }} />
-              <div className="flex gap-5 px-6 pt-5 pb-4">
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFFBF5] border border-[#FFE8C0]" style={{ width: '150px', height: '160px' }}>
+              <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFFBF5] border border-[#FFE8C0] w-full h-[160px] sm:w-[150px] sm:h-[160px]">
                   <img src={`/images/awards/${encodeURIComponent(AWS_AWARDS[awsActive].awardImg)}`} alt={AWS_AWARDS[awsActive].title} className="max-h-full max-w-full object-contain p-3" />
                 </div>
-                <div className="flex flex-col justify-center gap-3">
-                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">{AWS_AWARDS[awsActive].title}</h3>
-                  <p className="text-[#475569] text-sm leading-relaxed">{AWS_AWARDS[awsActive].desc}</p>
+                <div className="flex flex-col justify-center gap-2 sm:gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-sm sm:text-base leading-snug">{AWS_AWARDS[awsActive].title}</h3>
+                  <p className="text-[#475569] text-xs sm:text-sm leading-relaxed">{AWS_AWARDS[awsActive].desc}</p>
                 </div>
               </div>
-              <div className="flex justify-end px-6 pb-4">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#ff9900' }}>{AWS_AWARDS[awsActive].year}</span>
+              <div className="flex justify-end px-4 sm:px-6 pb-4">
+                <span className="text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#ff9900' }}>{AWS_AWARDS[awsActive].year}</span>
               </div>
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between mt-6">
-              <button onClick={awsPrev} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200 hover:text-white"
+            <div className="flex items-center justify-between mt-5 sm:mt-6">
+              <button onClick={awsPrev} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
                 style={{ border: '1px solid #FFD580', color: '#ff9900', boxShadow: '0 2px 8px rgba(255,153,0,0.12)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ff9900'; (e.currentTarget as HTMLElement).style.borderColor = '#ff9900' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFD580' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ff9900'; (e.currentTarget as HTMLElement).style.borderColor = '#ff9900'; (e.currentTarget as HTMLElement).style.color = 'white' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFD580'; (e.currentTarget as HTMLElement).style.color = '#ff9900' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
               <div className="flex items-center gap-2">
                 {AWS_AWARDS.map((_, i) => (
@@ -366,33 +319,29 @@ export default function AwardsPage() {
                     style={{ width: i === awsActive ? '24px' : '8px', height: '8px', backgroundColor: i === awsActive ? '#ff9900' : '#FFD580' }} />
                 ))}
               </div>
-              <button onClick={awsNext} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+              <button onClick={awsNext} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
                 style={{ border: '1px solid #FFD580', color: '#ff9900', boxShadow: '0 2px 8px rgba(255,153,0,0.12)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#ff9900'; (e.currentTarget as HTMLElement).style.borderColor = '#ff9900'; (e.currentTarget as HTMLElement).style.color = 'white' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFD580'; (e.currentTarget as HTMLElement).style.color = '#ff9900' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
           </div>
 
           {/* EC-COUNCIL AWARDS CAROUSEL */}
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             EC-Council <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #c8102e, #ff4d6d)' }}>Awards</span>
           </h2>
 
           <div className="max-w-2xl mx-auto" onMouseEnter={() => setEcPaused(true)} onMouseLeave={() => setEcPaused(false)}>
-
-            {/* EC-Council vendor logo above */}
             <div className="flex justify-center mb-4">
               <div className="bg-white rounded-2xl flex items-center justify-center p-1"
-                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(200,16,46,0.18)', border: '2px solid rgba(200,16,46,0.3)' }}>
+                style={{ width: '140px', height: '88px', boxShadow: '0 4px 20px rgba(200,16,46,0.18)', border: '2px solid rgba(200,16,46,0.3)' }}>
                 <img src="/images/partners/EC-Council-logo.png" alt="EC-Council" className="w-full h-full object-contain" />
               </div>
             </div>
 
-            {/* Card */}
-            <div
-              className="bg-white rounded-2xl overflow-hidden"
+            <div className="bg-white rounded-2xl overflow-hidden"
               style={{
                 boxShadow: '0 8px 32px rgba(200,16,46,0.16), 0 2px 8px rgba(0,0,0,0.06)',
                 border: '1px solid rgba(200,16,46,0.25)',
@@ -402,27 +351,26 @@ export default function AwardsPage() {
               }}
             >
               <div className="h-1 w-full" style={{ backgroundColor: '#c8102e' }} />
-              <div className="flex gap-5 px-6 pt-5 pb-4">
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF5F6] border border-[#FFD6DB]" style={{ width: '150px', height: '160px' }}>
+              <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF5F6] border border-[#FFD6DB] w-full h-[160px] sm:w-[150px] sm:h-[160px]">
                   <img src={`/images/awards/${encodeURIComponent(EC_AWARDS[ecActive].awardImg)}`} alt={EC_AWARDS[ecActive].title} className="max-h-full max-w-full object-contain p-3" />
                 </div>
-                <div className="flex flex-col justify-center gap-3">
-                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">{EC_AWARDS[ecActive].title}</h3>
-                  <p className="text-[#475569] text-sm leading-relaxed">{EC_AWARDS[ecActive].desc}</p>
+                <div className="flex flex-col justify-center gap-2 sm:gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-sm sm:text-base leading-snug">{EC_AWARDS[ecActive].title}</h3>
+                  <p className="text-[#475569] text-xs sm:text-sm leading-relaxed">{EC_AWARDS[ecActive].desc}</p>
                 </div>
               </div>
-              <div className="flex justify-end px-6 pb-4">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#c8102e' }}>{EC_AWARDS[ecActive].year}</span>
+              <div className="flex justify-end px-4 sm:px-6 pb-4">
+                <span className="text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#c8102e' }}>{EC_AWARDS[ecActive].year}</span>
               </div>
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between mt-6">
-              <button onClick={ecPrev} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+            <div className="flex items-center justify-between mt-5 sm:mt-6">
+              <button onClick={ecPrev} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
                 style={{ border: '1px solid #FFB3BC', color: '#c8102e', boxShadow: '0 2px 8px rgba(200,16,46,0.12)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c8102e'; (e.currentTarget as HTMLElement).style.borderColor = '#c8102e'; (e.currentTarget as HTMLElement).style.color = 'white' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFB3BC'; (e.currentTarget as HTMLElement).style.color = '#c8102e' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
               <div className="flex items-center gap-2">
                 {EC_AWARDS.map((_, i) => (
@@ -430,33 +378,29 @@ export default function AwardsPage() {
                     style={{ width: i === ecActive ? '24px' : '8px', height: '8px', backgroundColor: i === ecActive ? '#c8102e' : '#FFB3BC' }} />
                 ))}
               </div>
-              <button onClick={ecNext} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+              <button onClick={ecNext} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
                 style={{ border: '1px solid #FFB3BC', color: '#c8102e', boxShadow: '0 2px 8px rgba(200,16,46,0.12)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c8102e'; (e.currentTarget as HTMLElement).style.borderColor = '#c8102e'; (e.currentTarget as HTMLElement).style.color = 'white' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#FFB3BC'; (e.currentTarget as HTMLElement).style.color = '#c8102e' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
           </div>
 
           {/* PECB AWARDS CAROUSEL */}
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             PECB <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #334155, #64748b)' }}>Awards</span>
           </h2>
 
           <div className="max-w-2xl mx-auto" onMouseEnter={() => setPecbPaused(true)} onMouseLeave={() => setPecbPaused(false)}>
-
-            {/* PECB vendor logo above */}
             <div className="flex justify-center mb-4">
               <div className="bg-white rounded-2xl flex items-center justify-center p-1"
-                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(51,65,85,0.18)', border: '2px solid rgba(51,65,85,0.3)' }}>
+                style={{ width: '140px', height: '88px', boxShadow: '0 4px 20px rgba(51,65,85,0.18)', border: '2px solid rgba(51,65,85,0.3)' }}>
                 <img src="/images/partners/Authorized PECB Certification Courses Training badge.png" alt="PECB" className="w-full h-full object-contain" />
               </div>
             </div>
 
-            {/* Card */}
-            <div
-              className="bg-white rounded-2xl overflow-hidden"
+            <div className="bg-white rounded-2xl overflow-hidden"
               style={{
                 boxShadow: '0 8px 32px rgba(51,65,85,0.16), 0 2px 8px rgba(0,0,0,0.06)',
                 border: '1px solid rgba(51,65,85,0.25)',
@@ -466,27 +410,26 @@ export default function AwardsPage() {
               }}
             >
               <div className="h-1 w-full" style={{ backgroundColor: '#475569' }} />
-              <div className="flex gap-5 px-6 pt-5 pb-4">
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FAFC] border border-[#E2E8F0]" style={{ width: '150px', height: '160px' }}>
+              <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#F8FAFC] border border-[#E2E8F0] w-full h-[160px] sm:w-[150px] sm:h-[160px]">
                   <img src={`/images/awards/${encodeURIComponent(PECB_AWARDS[pecbActive].awardImg)}`} alt={PECB_AWARDS[pecbActive].title} className="max-h-full max-w-full object-contain p-3" />
                 </div>
-                <div className="flex flex-col justify-center gap-3">
-                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">{PECB_AWARDS[pecbActive].title}</h3>
-                  <p className="text-[#475569] text-sm leading-relaxed">{PECB_AWARDS[pecbActive].desc}</p>
+                <div className="flex flex-col justify-center gap-2 sm:gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-sm sm:text-base leading-snug">{PECB_AWARDS[pecbActive].title}</h3>
+                  <p className="text-[#475569] text-xs sm:text-sm leading-relaxed">{PECB_AWARDS[pecbActive].desc}</p>
                 </div>
               </div>
-              <div className="flex justify-end px-6 pb-4">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#475569' }}>{PECB_AWARDS[pecbActive].year}</span>
+              <div className="flex justify-end px-4 sm:px-6 pb-4">
+                <span className="text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#475569' }}>{PECB_AWARDS[pecbActive].year}</span>
               </div>
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between mt-6">
-              <button onClick={pecbPrev} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+            <div className="flex items-center justify-between mt-5 sm:mt-6">
+              <button onClick={pecbPrev} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
                 style={{ border: '1px solid #CBD5E1', color: '#475569', boxShadow: '0 2px 8px rgba(51,65,85,0.12)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#475569'; (e.currentTarget as HTMLElement).style.borderColor = '#475569'; (e.currentTarget as HTMLElement).style.color = 'white' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#CBD5E1'; (e.currentTarget as HTMLElement).style.color = '#475569' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
               <div className="flex items-center gap-2">
                 {PECB_AWARDS.map((_, i) => (
@@ -494,96 +437,80 @@ export default function AwardsPage() {
                     style={{ width: i === pecbActive ? '24px' : '8px', height: '8px', backgroundColor: i === pecbActive ? '#475569' : '#CBD5E1' }} />
                 ))}
               </div>
-              <button onClick={pecbNext} className="w-10 h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
+              <button onClick={pecbNext} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-white transition-all duration-200"
                 style={{ border: '1px solid #CBD5E1', color: '#475569', boxShadow: '0 2px 8px rgba(51,65,85,0.12)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#475569'; (e.currentTarget as HTMLElement).style.borderColor = '#475569'; (e.currentTarget as HTMLElement).style.color = 'white' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'white'; (e.currentTarget as HTMLElement).style.borderColor = '#CBD5E1'; (e.currentTarget as HTMLElement).style.color = '#475569' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </button>
             </div>
           </div>
 
-          {/* ORACLE AWARD — single card, no slider */}
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+          {/* ORACLE AWARD — single card */}
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             Oracle <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #c74634, #f46c44)' }}>Award</span>
           </h2>
 
           <div className="max-w-2xl mx-auto">
-
-            {/* Oracle logo above */}
             <div className="flex justify-center mb-4">
               <div className="bg-white rounded-2xl flex items-center justify-center p-1"
-                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(199,70,52,0.18)', border: '2px solid rgba(199,70,52,0.3)' }}>
+                style={{ width: '140px', height: '88px', boxShadow: '0 4px 20px rgba(199,70,52,0.18)', border: '2px solid rgba(199,70,52,0.3)' }}>
                 <img src="/images/partners/o-prtnr-clr-rgb.png" alt="Oracle" className="w-full h-full object-contain" />
               </div>
             </div>
 
-            {/* Card */}
-            <div
-              className="bg-white rounded-2xl overflow-hidden"
-              style={{
-                boxShadow: '0 8px 32px rgba(199,70,52,0.16), 0 2px 8px rgba(0,0,0,0.06)',
-                border: '1px solid rgba(199,70,52,0.25)',
-              }}
-            >
+            <div className="bg-white rounded-2xl overflow-hidden"
+              style={{ boxShadow: '0 8px 32px rgba(199,70,52,0.16), 0 2px 8px rgba(0,0,0,0.06)', border: '1px solid rgba(199,70,52,0.25)' }}>
               <div className="h-1 w-full" style={{ backgroundColor: '#c74634' }} />
-              <div className="flex gap-5 px-6 pt-5 pb-4">
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF8F7] border border-[#FFD9D3]" style={{ width: '150px', height: '160px' }}>
+              <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF8F7] border border-[#FFD9D3] w-full h-[160px] sm:w-[150px] sm:h-[160px]">
                   <img src="/images/awards/award-oracle.webp" alt="Oracle Award" className="max-h-full max-w-full object-contain p-3" />
                 </div>
-                <div className="flex flex-col justify-center gap-3">
-                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">Winner of the Oracle Award</h3>
-                  <p className="text-[#475569] text-sm leading-relaxed">Koenig Solutions was honored with the Oracle Award, recognizing its outstanding performance in delivering Oracle training programs. This accolade underscores Koenig's expertise in Oracle technologies and its role in empowering professionals with essential skills for the evolving IT industry.</p>
+                <div className="flex flex-col justify-center gap-2 sm:gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-sm sm:text-base leading-snug">Winner of the Oracle Award</h3>
+                  <p className="text-[#475569] text-xs sm:text-sm leading-relaxed">Koenig Solutions was honored with the Oracle Award, recognizing its outstanding performance in delivering Oracle training programs. This accolade underscores Koenig's expertise in Oracle technologies and its role in empowering professionals with essential skills for the evolving IT industry.</p>
                 </div>
               </div>
-              <div className="flex justify-end px-6 pb-4">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#c74634' }}>2023</span>
+              <div className="flex justify-end px-4 sm:px-6 pb-4">
+                <span className="text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1.5 rounded-full text-white" style={{ backgroundColor: '#c74634' }}>2023</span>
               </div>
             </div>
           </div>
 
           {/* WORKPLACE EXCELLENCE — single card */}
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-20">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             Workplace <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #e8002d, #1a1a5e)' }}>Excellence</span>
           </h2>
 
           <div className="max-w-2xl mx-auto">
-
-            {/* Logo above */}
             <div className="flex justify-center mb-4">
               <div className="bg-white rounded-2xl flex items-center justify-center p-1"
-                style={{ width: '160px', height: '100px', boxShadow: '0 4px 20px rgba(232,0,45,0.18)', border: '2px solid rgba(232,0,45,0.3)' }}>
+                style={{ width: '140px', height: '88px', boxShadow: '0 4px 20px rgba(232,0,45,0.18)', border: '2px solid rgba(232,0,45,0.3)' }}>
                 <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" className="w-full h-full object-contain" />
               </div>
             </div>
 
-            {/* Card */}
-            <div
-              className="bg-white rounded-2xl overflow-hidden"
-              style={{
-                boxShadow: '0 8px 32px rgba(232,0,45,0.12), 0 2px 8px rgba(0,0,0,0.06)',
-                border: '1px solid rgba(232,0,45,0.2)',
-              }}
-            >
+            <div className="bg-white rounded-2xl overflow-hidden"
+              style={{ boxShadow: '0 8px 32px rgba(232,0,45,0.12), 0 2px 8px rgba(0,0,0,0.06)', border: '1px solid rgba(232,0,45,0.2)' }}>
               <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #e8002d, #1a1a5e)' }} />
-              <div className="flex gap-5 px-6 pt-5 pb-4">
-                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF5F6] border border-[#FFD6DB]" style={{ width: '150px', height: '160px' }}>
+              <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
+                <div className="shrink-0 rounded-xl overflow-hidden flex items-center justify-center bg-[#FFF5F6] border border-[#FFD6DB] w-full h-[160px] sm:w-[150px] sm:h-[160px]">
                   <img src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work Certified" className="max-h-full max-w-full object-contain p-3" />
                 </div>
-                <div className="flex flex-col justify-center gap-3">
-                  <h3 className="font-bold text-[#0F172A] text-base leading-snug">Certified as a Great Place to Work (2011–2027)</h3>
-                  <p className="text-[#475569] text-sm leading-relaxed">Koenig Solutions has been consistently certified as a Great Place to Work from 2011 to 2027. This prestigious certification recognizes the organization's commitment to fostering a positive, inclusive, and empowering work culture, where employees thrive and contribute to meaningful success. The certification reflects Koenig's dedication to excellence in workplace practices and employee satisfaction.</p>
+                <div className="flex flex-col justify-center gap-2 sm:gap-3">
+                  <h3 className="font-bold text-[#0F172A] text-sm sm:text-base leading-snug">Certified as a Great Place to Work (2011–2027)</h3>
+                  <p className="text-[#475569] text-xs sm:text-sm leading-relaxed">Koenig Solutions has been consistently certified as a Great Place to Work from 2011 to 2027. This prestigious certification recognizes the organization's commitment to fostering a positive, inclusive, and empowering work culture, where employees thrive and contribute to meaningful success. The certification reflects Koenig's dedication to excellence in workplace practices and employee satisfaction.</p>
                 </div>
               </div>
-              <div className="flex justify-end px-6 pb-4">
-                <span className="text-sm font-semibold px-4 py-1.5 rounded-full text-white" style={{ background: 'linear-gradient(90deg, #e8002d, #1a1a5e)' }}>2011 – 2027</span>
+              <div className="flex justify-end px-4 sm:px-6 pb-4">
+                <span className="text-xs sm:text-sm font-semibold px-3 sm:px-4 py-1.5 rounded-full text-white" style={{ background: 'linear-gradient(90deg, #e8002d, #1a1a5e)' }}>2011 – 2027</span>
               </div>
             </div>
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-10 sm:mt-12">
             <Link href="/about/our-partners"
-              className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors">
+              className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-colors text-sm sm:text-base">
               See Our Partners
             </Link>
           </div>
