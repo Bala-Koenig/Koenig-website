@@ -192,7 +192,7 @@ export default function AwardsPage() {
                   { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: '15', label: 'Yrs' },
                 ].map(({ logo, vendor, count, label }) => (
                   <div key={vendor} className="kglass-dark rounded-xl overflow-hidden flex flex-col">
-                    <div className="bg-white flex items-center justify-center p-3" style={{ height: '72px' }}>
+                    <div className="flex items-center justify-center p-3" style={{ height: '72px', backgroundColor: '#ddf1fb' }}>
                       <img src={logo} alt={vendor} className="max-h-full max-w-full object-contain" />
                     </div>
                     <div className="flex flex-col items-center justify-center py-2 px-1">
