@@ -160,38 +160,80 @@ export default function HappinessGuaranteePage() {
             A Message from <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Our CEO</span>
           </h2>
           <div className="max-w-4xl mx-auto">
-            <div className="kglass-light rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
-              <div className="shrink-0 mx-auto sm:mx-0">
-                <img
-                  src="/images/leadership/CEO.png"
-                  alt="Rohit Aggarwal — Founder & CEO"
-                  className="w-36 h-44 sm:w-40 sm:h-52 object-cover rounded-2xl"
-                  style={{ boxShadow: '0 8px 32px rgba(6,148,209,0.18)', border: '2px solid rgba(6,148,209,0.25)' }}
-                />
-              </div>
-              <div className="flex-1">
-                <p className="text-[#0F172A] text-sm sm:text-base leading-relaxed mb-3"><strong>Dear Kustomer,</strong></p>
-                <p className="text-[#475569] text-sm sm:text-base leading-relaxed mb-3">
-                  We take immense pride in delivering exceptional training experiences that meet your needs and equip you with the skills you need to succeed. We meticulously design our courses and ensure the services we promise are fully delivered.
-                </p>
-                <p className="text-[#475569] text-sm sm:text-base leading-relaxed mb-3">
-                  In short, <strong className="text-[#0F172A]">your happiness is our priority.</strong>
-                </p>
-                <p className="text-[#475569] text-sm sm:text-base leading-relaxed mb-3">
-                  However, we understand that sometimes things may not go as planned. If, for any reason, you're not satisfied with your Koenig experience and haven't found a resolution through our standard channels, please contact me directly at{' '}
-                  <a href="mailto:rohit.a@koenig-solutions.com" className="text-[#0694D1] hover:underline font-medium">rohit.a@koenig-solutions.com</a>.
-                </p>
-                <p className="text-[#475569] text-sm sm:text-base leading-relaxed mb-3">
-                  As CEO, it's my ultimate responsibility to ensure your satisfaction. I'm committed to personally addressing any concerns you may have and working towards a fair resolution.
-                </p>
-                <p className="text-[#475569] text-sm sm:text-base leading-relaxed mb-5">
-                  Enjoy your learning journey at Koenig Solutions. I am confident you'll gain valuable knowledge and skills.
-                </p>
-                <p className="text-[#0F172A] text-sm sm:text-base font-medium leading-relaxed">
-                  With kind regards,<br />
-                  <strong>Rohit Aggarwal</strong><br />
-                  Founder &amp; CEO
-                </p>
+            <div className="kglass-light rounded-3xl overflow-hidden" style={{ boxShadow: '0 8px 40px rgba(6,148,209,0.12)' }}>
+
+              {/* Top accent bar */}
+              <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8, #0694D1)' }} />
+
+              <div className="p-6 sm:p-8 lg:p-10">
+                {/* Profile row */}
+                <div className="flex flex-col sm:flex-row gap-5 sm:gap-8 items-center sm:items-start mb-6 sm:mb-8">
+                  <div className="shrink-0">
+                    <img
+                      src="/images/leadership/CEO.png"
+                      alt="Rohit Aggarwal — Founder & CEO"
+                      className="w-28 h-36 sm:w-32 sm:h-40 object-cover rounded-2xl"
+                      style={{ boxShadow: '0 8px 32px rgba(6,148,209,0.22)', border: '2px solid rgba(6,148,209,0.3)' }}
+                    />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    {/* Big decorative quote */}
+                    <div className="text-6xl sm:text-7xl font-serif leading-none mb-1 select-none" style={{ color: '#0694D1', opacity: 0.25, lineHeight: 1 }}>&ldquo;</div>
+                    <p className="text-lg sm:text-xl font-bold text-[#0F172A] mb-1">Dear Kustomer,</p>
+                    <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
+                      We take immense pride in delivering exceptional training experiences that meet your needs and equip you with the skills you need to succeed. We meticulously design our courses and ensure the services we promise are fully delivered.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Highlighted key message */}
+                <div className="rounded-2xl px-5 py-4 mb-6 flex items-center gap-3"
+                  style={{ background: 'linear-gradient(135deg, rgba(6,148,209,0.1), rgba(56,189,248,0.08))', border: '1px solid rgba(6,148,209,0.2)' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <p className="text-sm sm:text-base font-semibold text-[#0F172A]">
+                    In short — <span className="text-[#0694D1]">your happiness is our priority.</span>
+                  </p>
+                </div>
+
+                {/* Body paragraphs with left accent */}
+                <div className="flex flex-col gap-4 mb-6">
+                  <div className="flex gap-3 items-start">
+                    <div className="w-[3px] shrink-0 rounded-full self-stretch" style={{ background: 'linear-gradient(180deg, #0694D1, #38bdf8)' }} />
+                    <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
+                      However, we understand that sometimes things may not go as planned. If, for any reason, you're not satisfied with your Koenig experience and haven't found a resolution through our standard channels, please contact me directly at{' '}
+                      <a href="mailto:rohit.a@koenig-solutions.com" className="text-[#0694D1] hover:underline font-medium">rohit.a@koenig-solutions.com</a>.
+                    </p>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <div className="w-[3px] shrink-0 rounded-full self-stretch" style={{ background: 'linear-gradient(180deg, #38bdf8, #0694D1)' }} />
+                    <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
+                      As CEO, it's my ultimate responsibility to ensure your satisfaction. I'm committed to personally addressing any concerns you may have and working towards a fair resolution.
+                    </p>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <div className="w-[3px] shrink-0 rounded-full self-stretch" style={{ background: 'linear-gradient(180deg, #0694D1, #38bdf8)' }} />
+                    <p className="text-[#475569] text-sm sm:text-base leading-relaxed">
+                      Enjoy your learning journey at Koenig Solutions. I am confident you'll gain valuable knowledge and skills.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="h-px mb-5" style={{ background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.25), transparent)' }} />
+
+                {/* Signature row */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[#64748B] text-xs sm:text-sm mb-0.5">With kind regards,</p>
+                    <p className="text-[#0F172A] font-bold text-base sm:text-lg">Rohit Aggarwal</p>
+                    <p className="text-[#0694D1] text-xs sm:text-sm font-medium">Founder &amp; CEO, Koenig Solutions</p>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-[#0694D1]"
+                    style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.18)' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    rohit.a@koenig-solutions.com
+                  </div>
+                </div>
               </div>
             </div>
           </div>
