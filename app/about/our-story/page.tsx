@@ -138,26 +138,37 @@ export default function OurStoryPage() {
           <p className="text-center text-[#475569] mb-12">From a single Delhi office to 30,000+ students monthly in 195 countries</p>
           <div ref={gridRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TIMELINE.map((t, i) => (
-              <div key={t.year}
-                className="timeline-card rounded-2xl bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                data-delay={`${i * 0.13}s`}
-                style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)', border: '1px solid rgba(0,0,0,0.07)' }}>
-                {/* Colored top accent */}
-                <div className="h-1" style={{ backgroundColor: t.color }} />
-                <div className="p-6">
-                  {/* Icon + year badge row */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: t.iconBg, color: t.color }}>
-                      {TIMELINE_ICONS[i]}
-                    </div>
-                    <span className="text-xs font-bold px-3 py-1.5 rounded-full text-white tracking-wide"
-                      style={{ backgroundColor: t.color }}>
-                      {t.year}
-                    </span>
+              <div key={t.year} className="relative">
+                {/* Animated arrow between cards (not after last in each row) */}
+                {i % 3 !== 2 && (
+                  <div className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 items-center justify-center w-7 h-7 rounded-full bg-white shadow-md"
+                    style={{ border: '1px solid rgba(6,148,209,0.3)' }}>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="arrow-pulse">
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
                   </div>
-                  <h3 className="text-base font-bold text-[#0F172A] mb-2">{t.event}</h3>
-                  <p className="text-sm text-[#64748B] leading-relaxed">{t.desc}</p>
+                )}
+                <div
+                  className="timeline-card h-full rounded-2xl bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  data-delay={`${i * 0.13}s`}
+                  style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)', border: '1px solid rgba(0,0,0,0.07)' }}>
+                  {/* Colored top accent */}
+                  <div className="h-1" style={{ backgroundColor: t.color }} />
+                  <div className="p-6">
+                    {/* Icon + year badge row */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: t.iconBg, color: t.color }}>
+                        {TIMELINE_ICONS[i]}
+                      </div>
+                      <span className="text-xs font-bold px-3 py-1.5 rounded-full text-white tracking-wide"
+                        style={{ backgroundColor: t.color }}>
+                        {t.year}
+                      </span>
+                    </div>
+                    <h3 className="text-base font-bold text-[#0F172A] mb-2">{t.event}</h3>
+                    <p className="text-sm text-[#64748B] leading-relaxed">{t.desc}</p>
+                  </div>
                 </div>
               </div>
             ))}

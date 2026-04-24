@@ -30,6 +30,13 @@
   50%       { opacity: 0.4; }
 }
 
+@keyframes arrowPulse {
+  0%, 100% { transform: translateX(0);   opacity: 1;   }
+  50%       { transform: translateX(4px); opacity: 0.5; }
+}
+
+.arrow-pulse { animation: arrowPulse 1s ease-in-out infinite; }
+
 .timeline-card        { opacity: 0; }
 .timeline-card.visible { animation: cardReveal 0.7s cubic-bezier(0.22,1,0.36,1) both; }
 
