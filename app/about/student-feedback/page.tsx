@@ -255,6 +255,7 @@ function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
 export default function StudentFeedbackPage() {
   const [activeTab, setActiveTab] = useState<'testimonial' | 'videos'>('testimonial')
   const [revIdx, setRevIdx] = useState(0)
+  const [bannerVideoPlaying, setBannerVideoPlaying] = useState(false)
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -282,14 +283,28 @@ export default function StudentFeedbackPage() {
               </p>
               {/* Infographic stats */}
               <div className="flex flex-wrap gap-3">
-                {[
-                  { val: '5M+', label: 'Learners Upskilled', icon: '/images/home-banner/icon-infographic-5000+.svg' },
-                  { val: '195', label: 'Countries Served', icon: '/images/home-banner/icon-infographic-300+.svg' },
-                  { val: '18,400+', label: 'Verified Reviews', icon: '/images/home-banner/icon-infographic-99.svg' },
-                  { val: '30+', label: 'Years of Excellence', icon: '/images/home-banner/icon-infographic-30+.svg' },
-                ].map(s => (
+                {([
+                  {
+                    val: '5M+', label: 'Learners Upskilled',
+                    svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+                  },
+                  {
+                    val: '195', label: 'Countries Served',
+                    svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+                  },
+                  {
+                    val: '18,400+', label: 'Verified Reviews',
+                    svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+                  },
+                  {
+                    val: '30+', label: 'Years of Excellence',
+                    svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+                  },
+                ] as { val: string; label: string; svg: React.ReactNode }[]).map(s => (
                   <div key={s.label} className="flex items-center gap-3 rounded-xl bg-white px-4 py-3" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 10px rgba(6,148,209,0.09)', minWidth: '120px' }}>
-                    <Image src={s.icon} alt="" width={28} height={28} className="shrink-0" />
+                    <div className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg" style={{ background: 'rgba(6,148,209,0.08)' }}>
+                      {s.svg}
+                    </div>
                     <div>
                       <div className="text-lg font-extrabold leading-none" style={{ color: '#0694D1' }}>{s.val}</div>
                       <div className="text-[11px] text-[#7a8c96] mt-0.5 leading-tight">{s.label}</div>
@@ -298,15 +313,41 @@ export default function StudentFeedbackPage() {
                 ))}
               </div>
             </div>
+            {/* Testimonial video */}
             <div className="hidden md:flex shrink-0 items-center justify-center">
-              <div className="relative">
-                <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)', transform: 'scale(1.35)' }} />
-                <div className="relative w-[210px] h-[210px] lg:w-[240px] lg:h-[240px] rounded-full overflow-hidden" style={{ border: '5px solid white', boxShadow: '0 0 0 3px #DCEEFB, 0 16px 48px rgba(6,148,209,0.2)' }}>
-                  <div className="grid grid-cols-2 w-full h-full">
-                    <Image src="/images/headshots/headshot-1.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-2.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-5.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-3.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
+              <div className="relative w-[360px] lg:w-[400px] rounded-2xl overflow-hidden" style={{ boxShadow: '0 12px 48px rgba(6,148,209,0.18)', border: '3px solid white' }}>
+                <div className="relative" style={{ aspectRatio: '16/9', background: '#06111E', cursor: bannerVideoPlaying ? 'default' : 'pointer' }} onClick={() => setBannerVideoPlaying(true)}>
+                  {bannerVideoPlaying ? (
+                    <iframe
+                      src="https://www.youtube.com/embed/NfhIeqcHpCc?autoplay=1"
+                      className="absolute inset-0 w-full h-full"
+                      allow="autoplay; encrypted-media; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="https://img.youtube.com/vi/NfhIeqcHpCc/maxresdefault.jpg" alt="Learner testimonial" className="absolute inset-0 w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).src = 'https://img.youtube.com/vi/NfhIeqcHpCc/hqdefault.jpg' }} />
+                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.55) 100%)' }} />
+                      <div className="absolute top-3 right-3 rounded px-2 py-0.5 text-[9px] font-bold tracking-wider text-white" style={{ background: 'rgba(9,49,72,0.85)' }}>KOENIG</div>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
+                        <p className="text-white/75 text-[10px] font-semibold uppercase tracking-widest mb-1">SUCCESS SPEAKS:</p>
+                        <p className="text-base font-extrabold uppercase leading-tight" style={{ color: '#38bdf8', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>LEARNER<br/>TESTIMONIAL</p>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/80 bg-white/25 backdrop-blur-sm transition-transform hover:scale-110">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+                {/* Caption */}
+                <div className="flex items-center gap-3 px-4 py-3" style={{ background: '#06111E' }}>
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#093148)' }}>H</div>
+                  <div>
+                    <p className="text-sm font-semibold text-white leading-none">Husain</p>
+                    <p className="text-xs mt-0.5" style={{ color: '#38bdf8' }}>Tanzania · AZ-104: Microsoft Azure Administrator</p>
                   </div>
                 </div>
               </div>
