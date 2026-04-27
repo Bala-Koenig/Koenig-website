@@ -392,7 +392,7 @@ export default function StudentFeedbackPage() {
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-widest mb-1 text-[#38bdf8]">Overall Rating</p>
                       <div className="flex items-end gap-2">
-                        <span className="text-5xl font-black leading-none text-white">4.9</span>
+                        <span className="text-5xl font-black leading-none" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>4.9</span>
                         <span className="mb-1 text-sm font-medium text-white/40">/ 5</span>
                       </div>
                     </div>
@@ -422,8 +422,8 @@ export default function StudentFeedbackPage() {
                       { val: '4.9', label: 'Instructor rating' },
                       { val: '4.7', label: 'Support quality' },
                     ].map(s => (
-                      <div key={s.label} className="relative overflow-hidden rounded-2xl px-4 py-3.5 transition-all hover:-translate-y-0.5" style={{ background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)' }}>
-                        <div className="text-xl font-black leading-none mb-1 text-white">{s.val}</div>
+                      <div key={s.label} className="relative overflow-hidden rounded-2xl px-4 py-3.5 transition-all hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg, rgba(9,49,72,0.85), rgba(7,109,157,0.5))', border: '1px solid rgba(56,189,248,0.2)', backdropFilter: 'blur(8px)' }}>
+                        <div className="text-xl font-black leading-none mb-1" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s.val}</div>
                         <div className="text-[10px] font-medium leading-tight text-white/45">{s.label}</div>
                       </div>
                     ))}
