@@ -133,7 +133,7 @@
 **Metrics:**
 - 1M+ professionals certified
 - 5,000+ courses
-- 30+ years in business
+- 33+ years in business
 - 195+ countries served
 - 350+ certified trainers
 - 4.9/5 stars (18,400+ reviews)

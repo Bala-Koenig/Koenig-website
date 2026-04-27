@@ -96,7 +96,7 @@ const ENT_MORPH_WORDS = [
 const STATS = [
   { num: '1M+',   label: 'Professionals Trained', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-5-3.87M9 20H4v-2a4 4 0 015-3.87M16 7a4 4 0 11-8 0 4 4 0 018 0zm6 3a3 3 0 11-6 0 3 3 0 016 0zM1 10a3 3 0 116 0 3 3 0 01-6 0z"/> },
   { num: '5,000+',label: 'Courses Available',      icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/> },
-  { num: '30+',   label: 'Years of Excellence',    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/> },
+  { num: '33+',   label: 'Years of Excellence',    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/> },
   { num: '195+',  label: 'Countries Served',       icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/> },
 ]
 
@@ -1468,7 +1468,7 @@ function HeroStatsAnimation() {
   const cards = [
     { num: '1M+',    label: 'Professionals Trained', Canvas: CanvasNeuralNet   },
     { num: '5,000+', label: 'Courses Available',     Canvas: CanvasDataScience },
-    { num: '30+',    label: 'Years of Excellence',   Canvas: CanvasFinance     },
+    { num: '33+',    label: 'Years of Excellence',   Canvas: CanvasFinance     },
     { num: '195+',   label: 'Countries Served',      Canvas: CanvasTechnology  },
   ]
   return (
@@ -2837,7 +2837,7 @@ function KoenigDifferenceMobileCarousel() {
                   <p className="text-sm leading-relaxed" style={{ color: gi === 0 ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.6)' }}>{WHY[gi].desc}</p>
                   {gi === 0 && (
                     <div className="mt-4 flex gap-3">
-                      {[{ val: '50+', label: 'Vendors' }, { val: '195+', label: 'Countries' }, { val: '30+', label: 'Years' }].map(s => (
+                      {[{ val: '50+', label: 'Vendors' }, { val: '195+', label: 'Countries' }, { val: '33+', label: 'Years' }].map(s => (
                         <div key={s.label} className="flex-1 rounded-xl py-2 text-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
                           <div className="text-sm font-bold text-white">{s.val}</div>
                           <div className="text-xs text-white/70">{s.label}</div>
@@ -4921,7 +4921,7 @@ export default function EnterprisePage() {
                 </div>
               </div>
               <div className="flex shrink-0 gap-3">
-                {[{ val: '50+', label: 'Vendors' }, { val: '195+', label: 'Countries' }, { val: '30+', label: 'Years' }].map(s => (
+                {[{ val: '50+', label: 'Vendors' }, { val: '195+', label: 'Countries' }, { val: '33+', label: 'Years' }].map(s => (
                   <div key={s.label} className="rounded-xl px-4 py-3 text-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
                     <div className="text-base md:text-lg font-bold text-white">{s.val}</div>
                     <div className="text-sm text-white/70">{s.label}</div>

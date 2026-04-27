@@ -46,7 +46,7 @@ const TIMELINE = [
     event: 'Today',
     color: '#38bdf8',
     iconBg: 'rgba(56,189,248,0.12)',
-    desc: '30,000+ students/month. 300+ trainers. 5,000+ courses across 12 countries. Three near-deaths and 30 years later, Koenig stands as a global leader in IT training.',
+    desc: '30,000+ students/month. 300+ trainers. 5,000+ courses across 12 countries. Three near-deaths and 33 years later, Koenig stands as a global leader in IT training.',
   },
 ]
 

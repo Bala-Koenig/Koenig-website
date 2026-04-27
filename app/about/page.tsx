@@ -7,7 +7,7 @@ import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
 
 const STATS = [
-  { value: '30+',      label: 'Years of Excellence',            icon: '/images/home-banner/icon-infographic-30+.svg' },
+  { value: '33+',      label: 'Years of Excellence',            icon: '/images/home-banner/icon-infographic-30+.svg' },
   { value: '30,000+', label: 'Students Trained Every Month',    icon: '/images/home-banner/icon-infographic-30000+.svg' },
   { value: '99.1%',   label: 'On-Time Batch',                   icon: '/images/home-banner/icon-infographic-99.svg' },
   { value: '300+',    label: 'Excellent Trainers',              icon: '/images/home-banner/icon-infographic-300+.svg' },

@@ -350,7 +350,7 @@ export default function StudentFeedbackPage() {
                     svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
                   },
                   {
-                    val: '30+', label: 'Years of Excellence',
+                    val: '33+', label: 'Years of Excellence',
                     svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
                   },
                 ] as { val: string; label: string; svg: React.ReactNode }[]).map(s => (

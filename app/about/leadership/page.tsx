@@ -11,8 +11,8 @@ const CEO = {
   title: 'CEO & Founder',
   linkedin: 'https://www.linkedin.com/in/rohit-aggarwal-ba3890/',
   image: '/images/leadership/CEO.png' as string | null,
-  bio: 'Rohit Aggarwal has over 30 years of experience in the training industry. He is a strong proponent of customer obsession and constant innovation. Under his stewardship, Koenig has grown from a small training center in New Delhi to a respected industry player in the training space. He is an avid reader, yoga enthusiast, and loves spending his free time playing with his golden retriever, Leo.',
-  tags: ['30+ Years Experience', 'Customer Obsession', 'I < O Philosophy'],
+  bio: 'Rohit Aggarwal has over 33 years of experience in the training industry. He is a strong proponent of customer obsession and constant innovation. Under his stewardship, Koenig has grown from a small training center in New Delhi to a respected industry player in the training space. He is an avid reader, yoga enthusiast, and loves spending his free time playing with his golden retriever, Leo.',
+  tags: ['33+ Years Experience', 'Customer Obsession', 'I < O Philosophy'],
   about: [
     'Rohit Aggarwal founded Koenig Solutions in 1993 from a small office in Patel Nagar, Delhi. Over three decades he has led the company through three near-death crises — the Dotcom bust, the Oil price crash, and COVID-19 — emerging stronger each time.',
     'His guiding philosophy — I < O (Individual is less than Organisation) — is embedded in every team decision. He personally reviews student satisfaction scores and responds directly to unhappy learners.',
@@ -208,7 +208,7 @@ export default function LeadershipPage() {
                   Leadership <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Team</span>
                 </h1>
                 <p className="text-xl text-white/80 leading-relaxed">
-                  The people behind 30 years of innovation, resilience, and customer obsession. Each leader brings deep domain expertise and a shared commitment to student outcomes.
+                  The people behind 33 years of innovation, resilience, and customer obsession. Each leader brings deep domain expertise and a shared commitment to student outcomes.
                 </p>
                 <DownloadPptButton />
               </div>

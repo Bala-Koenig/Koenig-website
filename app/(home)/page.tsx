@@ -2743,7 +2743,7 @@ export default function Design4Page() {
 
               {/* Subtext */}
               <p className="h-fade-up h-d3 mx-auto mb-6 max-w-2xl text-sm text-white sm:text-base lg:mx-0">
-                30+ years. 5,000+ courses. 1M+ professionals certified. The world trusts Koenig to deliver results that matter.
+                33+ years. 5,000+ courses. 1M+ professionals certified. The world trusts Koenig to deliver results that matter.
               </p>
 
               {/* Search bar + Enterprise toggle */}
@@ -2903,7 +2903,7 @@ export default function Design4Page() {
                   <span className="h-3 w-px bg-white/20" />
                   <span className="flex items-center gap-1.5">
                     <svg className="h-3.5 w-3.5 text-[#0694D1] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span><span className="font-bold text-white">30+</span> Years</span>
+                    <span><span className="font-bold text-white">33+</span> Years</span>
                   </span>
                 </div>
               </div>
@@ -3262,7 +3262,7 @@ export default function Design4Page() {
         <div className="mx-auto max-w-7xl px-6 py-6" style={{ background: '#EBF8FE', borderRadius: '0 1.5rem 0 1.5rem' }}>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5 lg:gap-8">
           {[
-            { end: 30,   suffix: '+',  label: 'Years Training Excellence', barColor: '#0694d1', icon: '/images/home-banner/icon-infographic-30+.svg' },
+            { end: 33,   suffix: '+',  label: 'Years Training Excellence', barColor: '#0694d1', icon: '/images/home-banner/icon-infographic-30+.svg' },
             { end: 5000, suffix: '+',  label: 'Courses Offered',           barColor: '#076d9d', icon: '/images/home-banner/icon-infographic-5000+.svg' },
             { end: 30,   suffix: 'K+', label: 'Monthly Students',          barColor: '#0694d1', icon: '/images/home-banner/icon-infographic-30000+.svg' },
             { end: 99,   suffix: '%',  label: 'On-Time Delivery',          barColor: '#076d9d', icon: '/images/home-banner/icon-infographic-99.svg' },
