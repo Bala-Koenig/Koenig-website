@@ -432,13 +432,16 @@ export default function StudentFeedbackPage() {
               )}
 
               {/* Show More / Show Less */}
-              <div className="text-center mt-8">
+              <div className="mt-8 flex justify-center">
                 <button
                   onClick={() => setShowAllTestimonials(p => !p)}
-                  className="rounded-full px-8 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-105"
-                  style={{ background: '#0694D1' }}
+                  className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}
                 >
-                  {showAllTestimonials ? 'Show Less ↑' : 'Show More ↓'}
+                  {showAllTestimonials ? 'Show Less' : 'Show More'}
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>
+                    {showAllTestimonials ? '↑' : '↓'}
+                  </span>
                 </button>
               </div>
             </>
@@ -455,13 +458,16 @@ export default function StudentFeedbackPage() {
                 </div>
               )}
 
-              <div className="text-center mt-8">
+              <div className="mt-8 flex justify-center">
                 <button
                   onClick={() => setShowAllVideos(p => !p)}
-                  className="rounded-full px-8 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-105"
-                  style={{ background: '#0694D1' }}
+                  className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}
                 >
-                  {showAllVideos ? 'Show Less ↑' : 'Show More ↓'}
+                  {showAllVideos ? 'Show Less' : 'Show More'}
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>
+                    {showAllVideos ? '↑' : '↓'}
+                  </span>
                 </button>
               </div>
             </>
@@ -594,9 +600,10 @@ export default function StudentFeedbackPage() {
             ))}
           </div>
 
-          <div className="text-center">
-            <button className="rounded-full px-10 py-3 text-sm font-bold text-white transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #0694D1, #0569a8)', boxShadow: '0 4px 18px rgba(6,148,209,0.35)' }}>
+          <div className="flex justify-center">
+            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Show All Course
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
             </button>
           </div>
         </div>
