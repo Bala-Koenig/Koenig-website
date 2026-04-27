@@ -197,25 +197,41 @@ export default function StudentFeedbackPage() {
       <AboutSubNav />
 
       {/* HERO */}
-      <section className="bg-white py-10 sm:py-14">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-            <div className="max-w-xl">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0d1b2a] leading-tight mb-4">
-                Real Learners. Real Stories.
+      <section className="relative overflow-hidden py-14 sm:py-20" style={{ background: 'linear-gradient(135deg, #f0f8ff 0%, #e4f2fb 60%, #f8fcff 100%)' }}>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-20 right-0 w-[480px] h-[480px] rounded-full opacity-25 blur-[90px]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }} />
+          <div className="absolute bottom-0 left-1/3 w-[320px] h-[320px] rounded-full opacity-15 blur-[70px]" style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)' }} />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="flex flex-col md:flex-row md:items-center gap-10 lg:gap-16">
+            <div className="flex-1">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.12)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>
+                <span className="text-yellow-400">★</span> Trusted by 5M+ Learners Worldwide
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-5" style={{ color: '#0d1b2a' }}>
+                Real Learners.<br />
+                <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Stories.</span>
               </h1>
-              <p className="text-base text-[#4a6a8a] leading-relaxed">
+              <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-lg" style={{ color: '#4a6a8a' }}>
                 From first certifications to career breakthroughs — read how learners worldwide transformed their careers with Koenig Solutions.
               </p>
+              <div className="flex flex-wrap gap-3">
+                {[{ val: '5M+', label: 'Learners' }, { val: '195', label: 'Countries' }, { val: '18,400+', label: 'Reviews' }].map(s => (
+                  <div key={s.label} className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold" style={{ color: '#0d1b2a', border: '1px solid #DCEEFB', boxShadow: '0 2px 8px rgba(6,148,209,0.08)' }}>
+                    <span style={{ color: '#0694D1' }}>✓</span> {s.val} {s.label}
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="hidden md:flex shrink-0 items-center justify-center">
-              <div className="relative w-[200px] h-[200px] lg:w-[240px] lg:h-[240px]">
-                <div className="w-full h-full rounded-full overflow-hidden" style={{ border: '4px solid #DCEEFB', boxShadow: '0 8px 32px rgba(6,148,209,0.15)' }}>
+              <div className="relative">
+                <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)', transform: 'scale(1.35)' }} />
+                <div className="relative w-[220px] h-[220px] lg:w-[260px] lg:h-[260px] rounded-full overflow-hidden" style={{ border: '5px solid white', boxShadow: '0 0 0 3px #DCEEFB, 0 20px 60px rgba(6,148,209,0.2)' }}>
                   <div className="grid grid-cols-2 w-full h-full">
-                    <Image src="/images/headshots/headshot-1.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-2.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-5.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-3.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
+                    <Image src="/images/headshots/headshot-1.webp" alt="" width={130} height={130} className="w-full h-full object-cover" />
+                    <Image src="/images/headshots/headshot-2.webp" alt="" width={130} height={130} className="w-full h-full object-cover" />
+                    <Image src="/images/headshots/headshot-5.webp" alt="" width={130} height={130} className="w-full h-full object-cover" />
+                    <Image src="/images/headshots/headshot-3.webp" alt="" width={130} height={130} className="w-full h-full object-cover" />
                   </div>
                 </div>
               </div>
@@ -294,44 +310,63 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* LEARNER FEEDBACK ON REVISION CLASSES */}
-      <section className="bg-[#F8FAFC] py-12 sm:py-16">
+      <section className="py-14 sm:py-20" style={{ background: 'linear-gradient(180deg, #f0f8ff 0%, #ffffff 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="text-center mb-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#0d1b2a] mb-2">Learner Feedback on Our Revision Classes</h2>
+          <div className="text-center mb-12">
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
+              Revision Classes
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0d1b2a] mb-3">
+              Learner Feedback on Our <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Revision Classes</span>
+            </h2>
             <p className="text-sm sm:text-base text-[#7a8c96] max-w-2xl mx-auto">
-              Missed a concept or need extra clarity? Our revision classes are here to help you revisit, relearn, and master every topic. Read what our learners have to say about their experience.
+              Missed a concept or need extra clarity? Our revision classes are here to help you revisit, relearn, and master every topic.
             </p>
           </div>
 
-          {/* Cards */}
-          <div className="hidden sm:grid grid-cols-3 gap-5 mt-8">
+          {/* Desktop cards */}
+          <div className="hidden sm:grid grid-cols-3 gap-6">
             {REVISION_TESTIMONIALS.map((r, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                <div className="text-3xl text-[#DCEEFB] font-serif leading-none mb-3">&ldquo;</div>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: '#2d4a6a' }}>{r.quote}</p>
-                <div className="mt-auto pt-4 border-t" style={{ borderColor: '#E8F4FA' }}>
-                  <p className="text-sm font-bold text-[#0d1b2a]">{r.name}</p>
-                  <p className="text-xs text-[#7a8c96] mt-0.5">{r.course}</p>
-                  <p className="text-xs text-[#aaa] mt-0.5">{r.date}</p>
+              <div key={i} className="relative flex flex-col bg-white rounded-2xl p-6" style={{ boxShadow: '0 4px 24px rgba(6,148,209,0.1)', border: '1px solid #E8F4FA' }}>
+                <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
+                <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
+                <div className="text-5xl font-serif leading-none mb-2" style={{ color: '#DCEEFB' }}>&ldquo;</div>
+                <p className="text-sm leading-relaxed flex-1 mb-6" style={{ color: '#2d4a6a' }}>{r.quote}</p>
+                <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: '#E8F4FA' }}>
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#093148)' }}>
+                    {r.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-[#0d1b2a]">{r.name}</p>
+                    <p className="text-xs font-medium mt-0.5" style={{ color: '#0694D1' }}>{r.course}</p>
+                    <p className="text-xs text-[#aaa] mt-0.5">{r.date}</p>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Mobile: single card with dots */}
-          <div className="sm:hidden mt-8">
-            <div className="bg-white rounded-2xl p-6" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-              <div className="text-3xl text-[#DCEEFB] font-serif leading-none mb-3">&ldquo;</div>
-              <p className="text-sm leading-relaxed mb-4" style={{ color: '#2d4a6a' }}>{REVISION_TESTIMONIALS[revIdx].quote}</p>
-              <div className="pt-4 border-t" style={{ borderColor: '#E8F4FA' }}>
-                <p className="text-sm font-bold text-[#0d1b2a]">{REVISION_TESTIMONIALS[revIdx].name}</p>
-                <p className="text-xs text-[#7a8c96] mt-0.5">{REVISION_TESTIMONIALS[revIdx].course}</p>
-                <p className="text-xs text-[#aaa] mt-0.5">{REVISION_TESTIMONIALS[revIdx].date}</p>
+          <div className="sm:hidden">
+            <div className="relative bg-white rounded-2xl p-6" style={{ boxShadow: '0 4px 24px rgba(6,148,209,0.1)', border: '1px solid #E8F4FA' }}>
+              <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
+              <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
+              <div className="text-5xl font-serif leading-none mb-2" style={{ color: '#DCEEFB' }}>&ldquo;</div>
+              <p className="text-sm leading-relaxed mb-6" style={{ color: '#2d4a6a' }}>{REVISION_TESTIMONIALS[revIdx].quote}</p>
+              <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: '#E8F4FA' }}>
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#093148)' }}>
+                  {REVISION_TESTIMONIALS[revIdx].name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-[#0d1b2a]">{REVISION_TESTIMONIALS[revIdx].name}</p>
+                  <p className="text-xs font-medium mt-0.5" style={{ color: '#0694D1' }}>{REVISION_TESTIMONIALS[revIdx].course}</p>
+                  <p className="text-xs text-[#aaa] mt-0.5">{REVISION_TESTIMONIALS[revIdx].date}</p>
+                </div>
               </div>
             </div>
-            <div className="flex justify-center gap-2 mt-4">
+            <div className="flex justify-center gap-2 mt-5">
               {REVISION_TESTIMONIALS.map((_, i) => (
-                <button key={i} onClick={() => setRevIdx(i)} className="w-2 h-2 rounded-full transition-colors" style={{ background: i === revIdx ? '#0694D1' : '#DCEEFB' }} />
+                <button key={i} onClick={() => setRevIdx(i)} className="h-2 rounded-full transition-all" style={{ width: i === revIdx ? '24px' : '8px', background: i === revIdx ? '#0694D1' : '#DCEEFB' }} />
               ))}
             </div>
           </div>
@@ -339,33 +374,37 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* GOOGLE / FACEBOOK RATINGS */}
-      <section className="bg-white py-10 border-y" style={{ borderColor: '#E8F4FA' }}>
+      <section className="py-14 sm:py-16" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-10 sm:gap-20">
-            {/* Google */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-1 text-2xl font-bold tracking-tight">
-                <span style={{ color: '#4285F4' }}>G</span>
-                <span style={{ color: '#EA4335' }}>o</span>
-                <span style={{ color: '#FBBC05' }}>o</span>
-                <span style={{ color: '#4285F4' }}>g</span>
-                <span style={{ color: '#34A853' }}>l</span>
-                <span style={{ color: '#EA4335' }}>e</span>
+          <p className="text-center text-xs font-semibold uppercase tracking-widest mb-10" style={{ color: 'rgba(255,255,255,0.45)' }}>Rated highly across platforms</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8">
+            {/* Google card */}
+            <div className="flex items-center gap-5 bg-white rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>
+              <div>
+                <div className="text-2xl font-bold tracking-tight leading-none mb-2">
+                  <span style={{ color: '#4285F4' }}>G</span><span style={{ color: '#EA4335' }}>o</span><span style={{ color: '#FBBC05' }}>o</span><span style={{ color: '#4285F4' }}>g</span><span style={{ color: '#34A853' }}>l</span><span style={{ color: '#EA4335' }}>e</span>
+                </div>
+                <div className="text-yellow-400 text-base leading-none">★★★★<span style={{ opacity: 0.3 }}>★</span></div>
               </div>
-              <div className="flex items-center gap-1">
-                <span className="text-yellow-400 text-sm">★</span>
-                <span className="text-sm font-bold text-[#0d1b2a]">4.4/5 Rating</span>
+              <div className="h-12 w-px" style={{ background: '#E8F4FA' }} />
+              <div>
+                <div className="text-3xl font-bold text-[#0d1b2a] leading-none">4.4</div>
+                <div className="text-xs text-[#7a8c96] font-medium mt-1">out of 5</div>
               </div>
             </div>
-            {/* Facebook */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-2">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                <span className="text-xl font-bold" style={{ color: '#1877F2' }}>facebook</span>
+            {/* Facebook card */}
+            <div className="flex items-center gap-5 bg-white rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  <span className="text-lg font-bold leading-none" style={{ color: '#1877F2' }}>facebook</span>
+                </div>
+                <div className="text-yellow-400 text-base leading-none">★★★★<span style={{ opacity: 0.3 }}>★</span></div>
               </div>
-              <div className="flex items-center gap-1">
-                <span className="text-yellow-400 text-sm">★</span>
-                <span className="text-sm font-bold text-[#0d1b2a]">4.2/5 Rating</span>
+              <div className="h-12 w-px" style={{ background: '#E8F4FA' }} />
+              <div>
+                <div className="text-3xl font-bold text-[#0d1b2a] leading-none">4.2</div>
+                <div className="text-xs text-[#7a8c96] font-medium mt-1">out of 5</div>
               </div>
             </div>
           </div>
@@ -373,26 +412,30 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* JOIN 5 MILLION+ LEARNERS */}
-      <section className="bg-white py-12 sm:py-16">
+      <section className="py-14 sm:py-20 bg-white">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#0d1b2a] leading-snug mb-2">
-              Join 5 million+ learners who&apos;ve upskilled with Koenig&apos;s top-rated programs
+          <div className="text-center mb-10">
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
+              Explore Our Courses
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0d1b2a] leading-snug">
+              Join 5 million+ learners who&apos;ve upskilled with<br className="hidden sm:block" />
+              <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}> Koenig&apos;s top-rated programs</span>
             </h2>
-            <p className="text-sm text-[#7a8c96]">Explore Our Courses</p>
           </div>
 
           {/* Course grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
             {COURSES.map((course, i) => (
-              <div key={i} className="rounded-lg border px-3 py-3 text-xs leading-snug cursor-pointer transition-colors hover:border-[#0694D1] hover:bg-[#F0F8FF]" style={{ borderColor: '#DCEEFB', color: '#2d4a6a' }}>
-                {course}
+              <div key={i} className="group flex items-start justify-between gap-2 rounded-xl bg-white px-4 py-3.5 text-xs leading-snug cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-md" style={{ border: '1px solid #E2ECF5', borderLeftColor: '#0694D1', borderLeftWidth: '3px', color: '#2d4a6a' }}>
+                <span>{course}</span>
+                <svg className="mt-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </div>
             ))}
           </div>
 
           <div className="text-center">
-            <button className="rounded-full px-8 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+            <button className="rounded-full px-10 py-3 text-sm font-bold text-white transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #0694D1, #0569a8)', boxShadow: '0 4px 18px rgba(6,148,209,0.35)' }}>
               Show All Course
             </button>
           </div>
