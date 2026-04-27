@@ -314,23 +314,34 @@ export default function StudentFeedbackPage() {
       <Navbar />
       <AboutSubNav />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden py-10" style={{ background: 'linear-gradient(135deg, #f0f8ff 0%, #e4f2fb 60%, #f8fcff 100%)' }}>
+      {/* HERO — dark mode */}
+      <style>{`
+        @keyframes sfBlob1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(0.95)}}
+        @keyframes sfBlob2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-35px,25px) scale(1.08)}66%{transform:translate(25px,-15px) scale(0.92)}}
+        @keyframes sfBlob3{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,40px) scale(1.05)}66%{transform:translate(-30px,-20px) scale(1.1)}}
+        .sf-blob1{animation:sfBlob1 12s ease-in-out infinite}
+        .sf-blob2{animation:sfBlob2 15s ease-in-out infinite}
+        .sf-blob3{animation:sfBlob3 18s ease-in-out infinite}
+      `}</style>
+      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-20 right-0 w-[480px] h-[480px] rounded-full opacity-25 blur-[90px]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }} />
-          <div className="absolute bottom-0 left-1/3 w-[320px] h-[320px] rounded-full opacity-15 blur-[70px]" style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)' }} />
+          <div className="sf-blob1 absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#0694D1] opacity-[0.08] blur-[130px]" />
+          <div className="sf-blob2 absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
+          <div className="sf-blob3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#0694D1] opacity-[0.04] blur-[100px]" />
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="kglass-banner py-10 px-8 sm:px-10">
           <div className="flex flex-col md:flex-row md:items-center gap-8 lg:gap-14">
             <div className="flex-1">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.12)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(56,189,248,0.12)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.25)' }}>
                 <span className="text-yellow-400">★</span> Trusted by 5M+ Learners Worldwide
               </div>
-              <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-4" style={{ color: '#093148' }}>
+              <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-4 text-white">
                 Real Learners.<br />
                 <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Stories.</span>
               </h1>
-              <p className="text-base leading-relaxed mb-6 max-w-lg" style={{ color: '#4a6a8a' }}>
+              <p className="text-base leading-relaxed mb-6 max-w-lg text-white/65">
                 From first certifications to career breakthroughs — read how learners worldwide transformed their careers with Koenig Solutions.
               </p>
               {/* Infographic stats */}
@@ -338,28 +349,28 @@ export default function StudentFeedbackPage() {
                 {([
                   {
                     val: '5M+', label: 'Learners Upskilled',
-                    svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+                    svg: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
                   },
                   {
                     val: '195', label: 'Countries Served',
-                    svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+                    svg: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
                   },
                   {
                     val: '18,400+', label: 'Verified Reviews',
-                    svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+                    svg: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
                   },
                   {
                     val: '33+', label: 'Years of Excellence',
-                    svg: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+                    svg: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
                   },
                 ] as { val: string; label: string; svg: React.ReactNode }[]).map(s => (
-                  <div key={s.label} className="flex items-center gap-3 rounded-xl bg-white px-4 py-3" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 10px rgba(6,148,209,0.09)', minWidth: '120px' }}>
-                    <div className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg" style={{ background: 'rgba(6,148,209,0.08)' }}>
+                  <div key={s.label} className="flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(56,189,248,0.18)', minWidth: '120px' }}>
+                    <div className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg" style={{ background: 'rgba(56,189,248,0.12)' }}>
                       {s.svg}
                     </div>
                     <div>
-                      <div className="text-lg font-extrabold leading-none" style={{ color: '#0694D1' }}>{s.val}</div>
-                      <div className="text-[11px] text-[#7a8c96] mt-0.5 leading-tight">{s.label}</div>
+                      <div className="text-lg font-extrabold leading-none text-white">{s.val}</div>
+                      <div className="text-[11px] mt-0.5 leading-tight text-white/50">{s.label}</div>
                     </div>
                   </div>
                 ))}
@@ -421,6 +432,7 @@ export default function StudentFeedbackPage() {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </section>
