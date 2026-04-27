@@ -367,30 +367,57 @@ export default function StudentFeedbackPage() {
             </div>
             {/* Ratings card */}
             <div className="hidden md:flex shrink-0 items-center justify-center">
-              <div className="w-[320px] lg:w-[360px] rounded-2xl bg-white p-7" style={{ boxShadow: '0 12px 48px rgba(6,148,209,0.18)', border: '1px solid #DCEEFB' }}>
-                {/* Overall score */}
-                <div className="text-center pb-5 mb-5" style={{ borderBottom: '1px solid #EEF6FC' }}>
-                  <div className="text-6xl font-extrabold leading-none mb-2" style={{ color: '#0694D1' }}>4.9</div>
-                  <div className="flex items-center justify-center gap-0.5 mb-2">
-                    {[1,2,3,4,5].map(i => (
-                      <svg key={i} width="20" height="20" viewBox="0 0 24 24" fill="#FBBF24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <div className="relative w-[320px] lg:w-[360px] overflow-hidden rounded-3xl bg-white" style={{ boxShadow: '0 20px 60px rgba(6,148,209,0.2), 0 4px 16px rgba(6,148,209,0.1)' }}>
+                {/* Gradient top bar */}
+                <div className="h-1.5 w-full" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8, #076D9D)' }} />
+
+                {/* Ambient glow blobs */}
+                <div className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full opacity-20 blur-3xl" style={{ background: '#0694D1' }} />
+                <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full opacity-10 blur-3xl" style={{ background: '#38bdf8' }} />
+
+                <div className="relative px-7 pt-6 pb-7">
+                  {/* Header row */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#0694D1' }}>Overall Rating</p>
+                      <div className="flex items-end gap-2">
+                        <span className="text-5xl font-black leading-none" style={{ color: '#093148' }}>4.9</span>
+                        <span className="mb-1 text-sm font-medium" style={{ color: '#7a8c96' }}>/ 5</span>
+                      </div>
+                    </div>
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 8px 20px rgba(6,148,209,0.35)' }}>
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                  </div>
+
+                  {/* Stars + review count */}
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4,5].map(i => (
+                        <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="#FBBF24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                      ))}
+                    </div>
+                    <span className="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1' }}>18,400+ reviews</span>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="mb-5 h-px w-full" style={{ background: 'linear-gradient(90deg, #DCEEFB, transparent)' }} />
+
+                  {/* 2×2 stat grid */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { val: '98%', label: 'Would recommend', icon: '👍' },
+                      { val: '4.8', label: 'Course quality',    icon: '📚' },
+                      { val: '4.9', label: 'Instructor rating', icon: '🎓' },
+                      { val: '4.7', label: 'Support quality',   icon: '💬' },
+                    ].map(s => (
+                      <div key={s.label} className="group relative overflow-hidden rounded-2xl px-4 py-3.5 transition-all hover:-translate-y-0.5 hover:shadow-md" style={{ background: 'linear-gradient(135deg, #f0f8ff, #e8f4fb)', border: '1px solid #DCEEFB' }}>
+                        <div className="absolute top-0 right-0 text-2xl leading-none opacity-10 -mt-1 -mr-1 pointer-events-none select-none">{s.icon}</div>
+                        <div className="text-xl font-black leading-none mb-1" style={{ color: '#093148' }}>{s.val}</div>
+                        <div className="text-[10px] font-medium leading-tight" style={{ color: '#5a7a96' }}>{s.label}</div>
+                      </div>
                     ))}
                   </div>
-                  <p className="text-xs font-medium" style={{ color: '#7a8c96' }}>out of 5 · 18,400+ reviews</p>
-                </div>
-                {/* 2×2 stat grid */}
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { val: '98%',  label: 'Would recommend' },
-                    { val: '4.8',  label: 'Course quality' },
-                    { val: '4.9',  label: 'Instructor rating' },
-                    { val: '4.7',  label: 'Support quality' },
-                  ].map(s => (
-                    <div key={s.label} className="rounded-xl px-4 py-3 text-center" style={{ border: '1px solid #E2ECF5' }}>
-                      <div className="text-xl font-extrabold leading-none mb-1" style={{ color: '#0694D1' }}>{s.val}</div>
-                      <div className="text-[11px] leading-tight" style={{ color: '#7a8c96' }}>{s.label}</div>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
