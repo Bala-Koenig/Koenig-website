@@ -589,33 +589,47 @@ export default function StudentFeedbackPage() {
                 </div>
               ))}
             </div>
-            {/* Desktop pagination dots + arrows */}
-            <div className="flex items-center justify-center gap-4 mt-8">
+            {/* Desktop pagination */}
+            <div className="flex items-center justify-center gap-5 mt-10">
+              {/* Prev */}
               <button
                 onClick={() => setRevPage(p => Math.max(0, p - 1))}
                 disabled={revPage === 0}
-                className="flex h-8 w-8 items-center justify-center rounded-full border transition-all hover:border-[#0694D1] hover:text-[#0694D1] disabled:opacity-30 disabled:cursor-not-allowed"
-                style={{ borderColor: '#DCEEFB', color: '#7a8c96' }}
+                className="flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
+                style={revPage === 0
+                  ? { background: '#f0f6fb', border: '1.5px solid #DCEEFB', color: '#b0c8da' }
+                  : { background: 'white', border: '1.5px solid #0694D1', color: '#0694D1', boxShadow: '0 2px 12px rgba(6,148,209,0.18)' }
+                }
               >
-                ‹
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
               </button>
-              <div className="flex gap-2">
+
+              {/* Dots */}
+              <div className="flex items-center gap-2">
                 {Array.from({ length: revTotalPages }).map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setRevPage(i)}
-                    className="h-2.5 rounded-full transition-all"
-                    style={{ width: i === revPage ? '28px' : '10px', background: i === revPage ? '#0694D1' : '#DCEEFB' }}
+                    className="rounded-full transition-all duration-300"
+                    style={i === revPage
+                      ? { width: '32px', height: '10px', background: 'linear-gradient(90deg, #0694D1, #38bdf8)', boxShadow: '0 2px 8px rgba(6,148,209,0.4)' }
+                      : { width: '10px', height: '10px', background: '#D0E8F5', border: '1.5px solid #b8d9ee' }
+                    }
                   />
                 ))}
               </div>
+
+              {/* Next */}
               <button
                 onClick={() => setRevPage(p => Math.min(revTotalPages - 1, p + 1))}
                 disabled={revPage === revTotalPages - 1}
-                className="flex h-8 w-8 items-center justify-center rounded-full border transition-all hover:border-[#0694D1] hover:text-[#0694D1] disabled:opacity-30 disabled:cursor-not-allowed"
-                style={{ borderColor: '#DCEEFB', color: '#7a8c96' }}
+                className="flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
+                style={revPage === revTotalPages - 1
+                  ? { background: '#f0f6fb', border: '1.5px solid #DCEEFB', color: '#b0c8da' }
+                  : { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: 'white', boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }
+                }
               >
-                ›
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
               </button>
             </div>
           </div>
@@ -638,14 +652,39 @@ export default function StudentFeedbackPage() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-3 mt-5">
-              <button onClick={() => setRevIdx(p => Math.max(0, p - 1))} disabled={revIdx === 0} className="flex h-7 w-7 items-center justify-center rounded-full border transition-all hover:border-[#0694D1] hover:text-[#0694D1] disabled:opacity-30" style={{ borderColor: '#DCEEFB', color: '#7a8c96' }}>‹</button>
-              <div className="flex gap-1.5">
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <button
+                onClick={() => setRevIdx(p => Math.max(0, p - 1))}
+                disabled={revIdx === 0}
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
+                style={revIdx === 0
+                  ? { background: '#f0f6fb', border: '1.5px solid #DCEEFB', color: '#b0c8da' }
+                  : { background: 'white', border: '1.5px solid #0694D1', color: '#0694D1', boxShadow: '0 2px 10px rgba(6,148,209,0.18)' }
+                }
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div className="flex items-center gap-1.5">
                 {REVISION_TESTIMONIALS.map((_, i) => (
-                  <button key={i} onClick={() => setRevIdx(i)} className="h-2 rounded-full transition-all" style={{ width: i === revIdx ? '20px' : '8px', background: i === revIdx ? '#0694D1' : '#DCEEFB' }} />
+                  <button key={i} onClick={() => setRevIdx(i)} className="rounded-full transition-all duration-300"
+                    style={i === revIdx
+                      ? { width: '24px', height: '8px', background: 'linear-gradient(90deg, #0694D1, #38bdf8)', boxShadow: '0 2px 6px rgba(6,148,209,0.4)' }
+                      : { width: '8px', height: '8px', background: '#D0E8F5', border: '1.5px solid #b8d9ee' }
+                    }
+                  />
                 ))}
               </div>
-              <button onClick={() => setRevIdx(p => Math.min(REVISION_TESTIMONIALS.length - 1, p + 1))} disabled={revIdx === REVISION_TESTIMONIALS.length - 1} className="flex h-7 w-7 items-center justify-center rounded-full border transition-all hover:border-[#0694D1] hover:text-[#0694D1] disabled:opacity-30" style={{ borderColor: '#DCEEFB', color: '#7a8c96' }}>›</button>
+              <button
+                onClick={() => setRevIdx(p => Math.min(REVISION_TESTIMONIALS.length - 1, p + 1))}
+                disabled={revIdx === REVISION_TESTIMONIALS.length - 1}
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed"
+                style={revIdx === REVISION_TESTIMONIALS.length - 1
+                  ? { background: '#f0f6fb', border: '1.5px solid #DCEEFB', color: '#b0c8da' }
+                  : { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: 'white', boxShadow: '0 3px 12px rgba(6,148,209,0.35)' }
+                }
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
             </div>
           </div>
         </div>
