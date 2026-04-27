@@ -368,17 +368,23 @@ export default function StudentFeedbackPage() {
 
           {/* Tabs */}
           <div className="flex justify-center mb-8">
-            <div className="flex rounded-full overflow-hidden" style={{ border: '1.5px solid #0694D1' }}>
+            <div className="inline-flex overflow-hidden rounded-2xl border border-[#0694D1]/15 bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
               <button
                 onClick={() => setActiveTab('testimonial')}
-                className={`px-5 py-2.5 text-sm font-semibold transition-colors ${activeTab === 'testimonial' ? 'bg-[#0694D1] text-white' : 'bg-white text-[#0694D1] hover:bg-[#E8F4FA]'}`}
+                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'testimonial' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#0d1b2a]'}`}
               >
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
                 Students Testimonial
               </button>
               <button
                 onClick={() => setActiveTab('videos')}
-                className={`px-5 py-2.5 text-sm font-semibold transition-colors ${activeTab === 'videos' ? 'bg-[#0694D1] text-white' : 'bg-white text-[#0694D1] hover:bg-[#E8F4FA]'}`}
+                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'videos' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#0d1b2a]'}`}
               >
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
                 Student Testimonial Videos
               </button>
             </div>
