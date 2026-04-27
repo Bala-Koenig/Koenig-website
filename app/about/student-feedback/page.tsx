@@ -306,7 +306,6 @@ export default function StudentFeedbackPage() {
   const [revPage, setRevPage] = useState(0)
   const REV_PER_PAGE = 3
   const revTotalPages = Math.ceil(REVISION_TESTIMONIALS.length / REV_PER_PAGE)
-  const [bannerVideoPlaying, setBannerVideoPlaying] = useState(false)
   const [showAllTestimonials, setShowAllTestimonials] = useState(false)
   const [showAllVideos, setShowAllVideos] = useState(false)
 
@@ -366,37 +365,32 @@ export default function StudentFeedbackPage() {
                 ))}
               </div>
             </div>
-            {/* Testimonial video */}
+            {/* Ratings card */}
             <div className="hidden md:flex shrink-0 items-center justify-center">
-              <div className="relative w-[360px] lg:w-[400px] rounded-2xl overflow-hidden" style={{ boxShadow: '0 12px 48px rgba(6,148,209,0.18)', border: '3px solid white' }}>
-                <div className="relative" style={{ aspectRatio: '16/9', background: '#06111E', cursor: bannerVideoPlaying ? 'default' : 'pointer' }} onClick={() => setBannerVideoPlaying(true)}>
-                  {bannerVideoPlaying ? (
-                    <iframe
-                      src="https://www.youtube.com/embed/NfhIeqcHpCc?autoplay=1"
-                      className="absolute inset-0 w-full h-full"
-                      allow="autoplay; encrypted-media; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="https://img.youtube.com/vi/NfhIeqcHpCc/maxresdefault.jpg" alt="Learner testimonial" className="absolute inset-0 w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).src = 'https://img.youtube.com/vi/NfhIeqcHpCc/hqdefault.jpg' }} />
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.55) 100%)' }} />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/80 bg-white/25 backdrop-blur-sm transition-transform hover:scale-110">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-                {/* Caption */}
-                <div className="flex items-center gap-3 px-4 py-3" style={{ background: '#06111E' }}>
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#093148)' }}>H</div>
-                  <div>
-                    <p className="text-sm font-semibold text-white leading-none">Husain</p>
-                    <p className="text-xs mt-0.5" style={{ color: '#38bdf8' }}>Tanzania · AZ-104: Microsoft Azure Administrator</p>
+              <div className="w-[320px] lg:w-[360px] rounded-2xl bg-white p-7" style={{ boxShadow: '0 12px 48px rgba(6,148,209,0.18)', border: '1px solid #DCEEFB' }}>
+                {/* Overall score */}
+                <div className="text-center pb-5 mb-5" style={{ borderBottom: '1px solid #EEF6FC' }}>
+                  <div className="text-6xl font-extrabold leading-none mb-2" style={{ color: '#0694D1' }}>4.9</div>
+                  <div className="flex items-center justify-center gap-0.5 mb-2">
+                    {[1,2,3,4,5].map(i => (
+                      <svg key={i} width="20" height="20" viewBox="0 0 24 24" fill="#FBBF24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    ))}
                   </div>
+                  <p className="text-xs font-medium" style={{ color: '#7a8c96' }}>out of 5 · 18,400+ reviews</p>
+                </div>
+                {/* 2×2 stat grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { val: '98%',  label: 'Would recommend' },
+                    { val: '4.8',  label: 'Course quality' },
+                    { val: '4.9',  label: 'Instructor rating' },
+                    { val: '4.7',  label: 'Support quality' },
+                  ].map(s => (
+                    <div key={s.label} className="rounded-xl px-4 py-3 text-center" style={{ border: '1px solid #E2ECF5' }}>
+                      <div className="text-xl font-extrabold leading-none mb-1" style={{ color: '#0694D1' }}>{s.val}</div>
+                      <div className="text-[11px] leading-tight" style={{ color: '#7a8c96' }}>{s.label}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
