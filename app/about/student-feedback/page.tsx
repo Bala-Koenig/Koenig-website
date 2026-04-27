@@ -678,21 +678,22 @@ export default function StudentFeedbackPage() {
             {COURSES.map((course, i) => (
               <div
                 key={i}
-                className="group relative flex flex-col bg-white rounded-2xl p-5 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(6,148,209,0.18)]"
+                className="group relative flex items-center gap-4 bg-white rounded-2xl px-4 py-4 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(6,148,209,0.18)]"
                 style={{ border: '1px solid #E2ECF5' }}
               >
-                {/* top accent line on hover */}
-                <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
+                {/* left accent line on hover */}
+                <div className="absolute top-0 left-0 bottom-0 w-0.5 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ background: 'linear-gradient(180deg, #0694D1, #38bdf8)' }} />
                 {/* icon */}
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-200" style={{ background: 'rgba(6,148,209,0.08)' }}>
+                <div className="shrink-0 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.08)' }}>
                   {course.icon}
                 </div>
-                {/* name */}
-                <p className="text-xs leading-snug font-medium flex-1" style={{ color: '#093148' }}>{course.name}</p>
-                {/* hover cta */}
-                <div className="mt-3 flex items-center gap-1 text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0" style={{ color: '#0694D1' }}>
-                  View Course
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                {/* text */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs leading-snug font-medium" style={{ color: '#093148' }}>{course.name}</p>
+                  <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-200" style={{ color: '#0694D1' }}>
+                    View Course
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </div>
                 </div>
               </div>
             ))}
