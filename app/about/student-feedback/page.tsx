@@ -17,6 +17,16 @@ const TESTIMONIALS = [
   { quote: 'The Google Cloud course gave me exactly what I needed to transition from on-prem to cloud. Real labs, real scenarios, and a trainer who genuinely cared about my success.', name: 'Carlos Mendez', location: '🇲🇽 Mexico', course: 'Google Cloud Professional Architect', date: '20th Jan 2026', initials: 'CM', avatarBg: 'linear-gradient(135deg,#4285F4,#0694d1)', ringColor: '#10B981' },
 ]
 
+/* ── Video testimonials data ─────────────────────────────────── */
+const VIDEOS = [
+  { id: 'NfhIeqcHpCc', name: 'Husain', country: 'Tanzania', course: 'AZ-10NT00-A: Microsoft Azure Administrator' },
+  { id: 'OAk_pix9ofk', name: 'Mohammed Al Marhoobi', country: 'Oman', course: 'Mdm With Intune' },
+  { id: 'A5KE_hzUcCE', name: 'Fawaz Muhammad', country: 'Oman', course: 'AZ-800: Administering Windows Server Hybrid Core Infrastructure' },
+  { id: 'd5wEidVM07A', name: 'Kashan Memon', country: 'Saudi Arabia', course: 'ITIL® 4 Strategist: Direct, Plan And Improve' },
+  { id: '-DJhl5-lKj4', name: 'Joojo Chiputa', country: 'Zambia', course: 'Kubernetes Administration Using Docker' },
+  { id: 'Qi4Qxv_A0NA', name: 'Ali Omar', country: 'Iraq', course: 'Designing Cisco Data Center Infrastructure (DCID) v2.1' },
+]
+
 /* ── Revision class testimonials ─────────────────────────────── */
 const REVISION_TESTIMONIALS = [
   { quote: 'Way topics covered are really helpful. Understood the concepts with the examples showed in the training gadgets', name: 'Kiran Kumar G', course: 'AWS Certified Solutions Architect - Associate', date: '10th Oct 2024' },
@@ -187,6 +197,58 @@ function HomeScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed:
   )
 }
 
+/* ── Video card ──────────────────────────────────────────────── */
+function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
+  const [playing, setPlaying] = useState(false)
+  return (
+    <div className="flex flex-col bg-white rounded-xl overflow-hidden" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 16px rgba(6,148,209,0.09)' }}>
+      <div className="relative" style={{ aspectRatio: '16/9', background: '#06111E', cursor: 'pointer' }} onClick={() => setPlaying(true)}>
+        {playing ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${video.id}?autoplay=1`}
+            className="absolute inset-0 w-full h-full"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
+              alt={video.name}
+              className="absolute inset-0 w-full h-full object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg` }}
+            />
+            {/* Dark gradient overlay */}
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%)' }} />
+            {/* KOENIG badge */}
+            <div className="absolute top-2 right-2 rounded px-2 py-0.5 text-[9px] font-bold tracking-wider text-white" style={{ background: 'rgba(9,49,72,0.85)' }}>KOENIG</div>
+            {/* Text overlay */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
+              <p className="text-white/80 text-[10px] font-semibold uppercase tracking-widest mb-1">SUCCESS SPEAKS:</p>
+              <p className="text-lg font-extrabold uppercase leading-tight" style={{ color: '#38bdf8', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>LEARNER<br/>TESTIMONIAL</p>
+            </div>
+            {/* Play button */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/70 bg-white/20 backdrop-blur-sm transition-transform hover:scale-110">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+      <div className="px-4 pt-3 pb-4 text-center flex flex-col gap-1">
+        <p className="text-sm font-bold text-[#0d1b2a]">{video.name}</p>
+        <p className="text-xs font-medium" style={{ color: '#0694D1' }}>{video.country}</p>
+        <p className="text-xs leading-snug" style={{ color: '#4a6a8a' }}>{video.course}</p>
+        <button className="mt-2 w-full rounded-full border py-1.5 text-xs font-semibold transition-colors hover:bg-[#0694D1] hover:text-white" style={{ borderColor: '#0694D1', color: '#0694D1' }}>
+          View Courses
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function StudentFeedbackPage() {
   const [activeTab, setActiveTab] = useState<'testimonial' | 'videos'>('testimonial')
   const [revIdx, setRevIdx] = useState(0)
@@ -297,14 +359,16 @@ export default function StudentFeedbackPage() {
               </div>
             </>
           ) : (
-            <div className="py-10 text-center">
-              <p className="text-[#475569] mb-6">Learners from around the world share their Koenig experience on camera.</p>
-              <div className="flex flex-wrap gap-3 justify-center">
-                {['Tanzania', 'Oman', 'Saudi Arabia', 'Zambia', 'Iraq', 'Ghana', 'Angola', 'Kenya'].map(c => (
-                  <span key={c} className="bg-white border border-[#E2E8F0] text-[#0F172A] px-4 py-2 rounded-full text-sm font-medium">{c}</span>
-                ))}
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {VIDEOS.map(v => <VideoCard key={v.id} video={v} />)}
               </div>
-            </div>
+              <div className="text-center mt-8">
+                <button className="rounded-full px-8 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+                  Show More
+                </button>
+              </div>
+            </>
           )}
         </div>
       </section>
