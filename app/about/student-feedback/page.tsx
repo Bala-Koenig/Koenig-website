@@ -368,7 +368,7 @@ export default function StudentFeedbackPage() {
                     <div className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0" style={{ background: 'rgba(56,189,248,0.12)' }}>
                       {s.svg}
                     </div>
-                    <div className="text-base font-extrabold leading-none text-white">{s.val}</div>
+                    <div className="text-base font-extrabold leading-none" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s.val}</div>
                     <div className="text-[10px] leading-tight text-white/50">{s.label}</div>
                   </div>
                 ))}
