@@ -15,6 +15,15 @@ const TESTIMONIALS = [
   { quote: 'Koenig made the impossible possible. I completed my CISSP in 3 weeks with their intensive 1-on-1 training. The instructor adapted the pace perfectly to my background.', extra: 'The intensive 1-on-1 format let me cover 3 weeks of CISSP content in the time I had available. My instructor focused on my weak domains identified in a pre-assessment. All 10 domains felt manageable by exam day.', showMore: true, name: 'Ahmed Al-Rashid', location: '🇦🇪 UAE', course: 'CISSP Certification', date: '2nd Feb 2026', initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)', ringColor: '#06B6D4' },
   { quote: 'Best training investment I have ever made. The DevOps course was hands-on from day one. Our entire team is now deploying to Kubernetes confidently.', name: 'Sophie Laurent', location: '🇫🇷 France', course: 'Certified Kubernetes Administrator', date: '28th Jan 2026', initials: 'SL', avatarBg: 'linear-gradient(135deg,#093148,#0694d1)', ringColor: '#8B5CF6' },
   { quote: 'The Google Cloud course gave me exactly what I needed to transition from on-prem to cloud. Real labs, real scenarios, and a trainer who genuinely cared about my success.', name: 'Carlos Mendez', location: '🇲🇽 Mexico', course: 'Google Cloud Professional Architect', date: '20th Jan 2026', initials: 'CM', avatarBg: 'linear-gradient(135deg,#4285F4,#0694d1)', ringColor: '#10B981' },
+  { quote: 'The trainer was absolutely fantastic — very patient and knowledgeable. She adapted every session to my pace and ensured I was confident before moving on to the next topic.', extra: 'I passed SC-900 on my first attempt thanks to the personalised attention. The real-world examples made abstract concepts very concrete.', showMore: true, name: 'Nadia Al-Farsi', location: '🇴🇲 Oman', course: 'SC-900: Microsoft Security Fundamentals', date: '14th Mar 2026', initials: 'NF', avatarBg: 'linear-gradient(135deg,#0694d1,#4DBFEF)', ringColor: '#0694D1' },
+  { quote: 'Outstanding quality of training. The ITIL 4 course was structured perfectly and the trainer brought real-world service management experience to every module.', name: 'David Osei', location: '🇬🇭 Ghana', course: 'ITIL® 4 Foundation', date: '10th Mar 2026', initials: 'DO', avatarBg: 'linear-gradient(135deg,#F47920,#093148)', ringColor: '#F47920' },
+  { quote: 'I completed my AWS Cloud Practitioner in just 4 days with Koenig. The structured approach and practice questions were spot on. I passed with a high score on the first attempt!', name: 'Preet Bhandari', location: '🇮🇳 India', course: 'AWS Certified Cloud Practitioner', date: '5th Mar 2026', initials: 'PB', avatarBg: 'linear-gradient(135deg,#FF9900,#093148)', ringColor: '#FF9900' },
+  { quote: 'The Power BI course was incredibly well structured. My trainer gave me hands-on experience with real business datasets and the dashboards I built are now live in production.', extra: 'I went from zero Power BI knowledge to building complex DAX measures and publishing reports within 5 days. Koenig\'s 1-on-1 format made all the difference.', showMore: true, name: 'Amira Haddad', location: '🇹🇳 Tunisia', course: 'PL-300: Microsoft Power BI Data Analyst', date: '28th Feb 2026', initials: 'AH', avatarBg: 'linear-gradient(135deg,#F2C811,#0694d1)', ringColor: '#F2C811' },
+  { quote: 'Very professional and thorough training. The CompTIA CySA+ content was delivered at exactly the right pace and the hands-on labs reinforced every concept perfectly.', name: 'James Kariuki', location: '🇰🇪 Kenya', course: 'CompTIA CySA+ CS0-003', date: '21st Feb 2026', initials: 'JK', avatarBg: 'linear-gradient(135deg,#C00000,#076D9D)', ringColor: '#C00000' },
+  { quote: 'The DevSecOps training was a revelation. My trainer integrated security into every stage of the CI/CD pipeline and the knowledge I gained has already transformed how my team works.', name: 'Liu Wei', location: '🇨🇳 China', course: 'DevSecOps Foundation', date: '18th Feb 2026', initials: 'LW', avatarBg: 'linear-gradient(135deg,#076D9D,#F47920)', ringColor: '#076D9D' },
+  { quote: 'Excellent trainer and well-organised content. The SAP S/4HANA course was dense but the trainer made it easy to follow. I feel fully ready for my project now.', extra: 'The trainer\'s real SAP implementation experience meant every lesson was grounded in practical scenarios rather than theory alone. Highly valuable.', showMore: true, name: 'Fatima Al-Zahrani', location: '🇸🇦 Saudi Arabia', course: 'SAP S/4HANA Finance', date: '12th Feb 2026', initials: 'FZ', avatarBg: 'linear-gradient(135deg,#0ABFBC,#093148)', ringColor: '#0ABFBC' },
+  { quote: 'The ethical hacking course with Koenig was one of the best learning experiences I have had. Practical labs on real environments and a trainer who actively works in the field.', name: 'Marcus Webb', location: '🇦🇺 Australia', course: 'Certified Ethical Hacker (CEH)', date: '8th Feb 2026', initials: 'MW', avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)', ringColor: '#34A853' },
+  { quote: 'I gained more in 3 days with Koenig than in 3 months of self-study. The Azure Data Engineer course was exactly what I needed to upskill quickly for my new role.', name: 'Yuki Tanaka', location: '🇯🇵 Japan', course: 'DP-203: Azure Data Engineer Associate', date: '3rd Feb 2026', initials: 'YT', avatarBg: 'linear-gradient(135deg,#EB3349,#0694d1)', ringColor: '#EB3349' },
 ]
 
 /* ── Video testimonials data ─────────────────────────────────── */
@@ -256,6 +265,8 @@ export default function StudentFeedbackPage() {
   const [activeTab, setActiveTab] = useState<'testimonial' | 'videos'>('testimonial')
   const [revIdx, setRevIdx] = useState(0)
   const [bannerVideoPlaying, setBannerVideoPlaying] = useState(false)
+  const [showAllTestimonials, setShowAllTestimonials] = useState(false)
+  const [showAllVideos, setShowAllVideos] = useState(false)
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -393,9 +404,9 @@ export default function StudentFeedbackPage() {
           {activeTab === 'testimonial' ? (
             <>
               {/* Mobile: horizontal auto-scroll marquee */}
-              <MobileTestimonialMarquee items={TESTIMONIALS} />
+              <MobileTestimonialMarquee items={TESTIMONIALS.slice(0, 9)} />
 
-              {/* Desktop: 3-column auto-scroll */}
+              {/* Desktop: 3-column auto-scroll (first 9) */}
               <div
                 className="hidden sm:block relative overflow-hidden"
                 style={{
@@ -411,21 +422,46 @@ export default function StudentFeedbackPage() {
                 </div>
               </div>
 
-              {/* Show More */}
+              {/* Extra testimonials revealed on Show More */}
+              {showAllTestimonials && (
+                <div className="hidden sm:grid grid-cols-3 gap-4 mt-6">
+                  {TESTIMONIALS.slice(9).map((t, i) => (
+                    <HomeTestimonialCard key={i} t={t} />
+                  ))}
+                </div>
+              )}
+
+              {/* Show More / Show Less */}
               <div className="text-center mt-8">
-                <button className="rounded-full px-8 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
-                  Show More
+                <button
+                  onClick={() => setShowAllTestimonials(p => !p)}
+                  className="rounded-full px-8 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-105"
+                  style={{ background: '#0694D1' }}
+                >
+                  {showAllTestimonials ? 'Show Less ↑' : 'Show More ↓'}
                 </button>
               </div>
             </>
           ) : (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {VIDEOS.map(v => <VideoCard key={v.id} video={v} />)}
+                {VIDEOS.slice(0, 6).map(v => <VideoCard key={v.id} video={v} />)}
               </div>
+
+              {/* Extra 3 videos revealed on Show More */}
+              {showAllVideos && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+                  {VIDEOS.slice(6).map(v => <VideoCard key={v.id} video={v} />)}
+                </div>
+              )}
+
               <div className="text-center mt-8">
-                <button className="rounded-full px-8 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
-                  Show More
+                <button
+                  onClick={() => setShowAllVideos(p => !p)}
+                  className="rounded-full px-8 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-105"
+                  style={{ background: '#0694D1' }}
+                >
+                  {showAllVideos ? 'Show Less ↑' : 'Show More ↓'}
                 </button>
               </div>
             </>
