@@ -25,6 +25,9 @@ const VIDEOS = [
   { id: 'd5wEidVM07A', name: 'Kashan Memon', country: 'Saudi Arabia', course: 'ITIL® 4 Strategist: Direct, Plan And Improve' },
   { id: '-DJhl5-lKj4', name: 'Joojo Chiputa', country: 'Zambia', course: 'Kubernetes Administration Using Docker' },
   { id: 'Qi4Qxv_A0NA', name: 'Ali Omar', country: 'Iraq', course: 'Designing Cisco Data Center Infrastructure (DCID) v2.1' },
+  { id: 'Gsf3wEEc1tM', name: '', country: '', course: 'AZ-305: Designing Microsoft Azure Infrastructure Solutions' },
+  { id: 'IEitbo_0aIc', name: '', country: '', course: 'Oracle Linux 8: System Administration I' },
+  { id: 'igqdyizamvY', name: '', country: '', course: 'Certified Penetration Testing Professional (CPENT)' },
 ]
 
 /* ── Revision class testimonials ─────────────────────────────── */
@@ -238,8 +241,8 @@ function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
         )}
       </div>
       <div className="px-4 pt-3 pb-4 text-center flex flex-col gap-1">
-        <p className="text-sm font-bold text-[#0d1b2a]">{video.name}</p>
-        <p className="text-xs font-medium" style={{ color: '#0694D1' }}>{video.country}</p>
+        {video.name && <p className="text-sm font-bold text-[#0d1b2a]">{video.name}</p>}
+        {video.country && <p className="text-xs font-medium" style={{ color: '#0694D1' }}>{video.country}</p>}
         <p className="text-xs leading-snug" style={{ color: '#4a6a8a' }}>{video.course}</p>
         <button className="mt-2 w-full rounded-full border py-1.5 text-xs font-semibold transition-colors hover:bg-[#0694D1] hover:text-white" style={{ borderColor: '#0694D1', color: '#0694D1' }}>
           View Courses
