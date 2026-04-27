@@ -44,6 +44,12 @@ const REVISION_TESTIMONIALS = [
   { quote: 'Way topics covered are really helpful. Understood the concepts with the examples showed in the training gadgets', name: 'Kiran Kumar G', course: 'AWS Certified Solutions Architect - Associate', date: '10th Oct 2024' },
   { quote: 'Trainer is very committed and is ready to extend effort and hours to meet participants needs. Entire session was smooth and professional and no unwanted disturbances.', name: 'Krishnaprasad Shettigan T', course: 'AWS Certified Solutions Architect', date: '10th Oct 2024' },
   { quote: 'The training is very good. Excellent delivery of content and very good explanations were given to our doubts. However, presentation slides would be better to mark up the list of contents taught and provide a write-up for later reference', name: 'Poornima M', course: 'AWS Certified Solutions Architect', date: '16th Oct 2024' },
+  { quote: 'The revision class helped me clarify all the doubts I had after the main training. The trainer was patient and went through every question thoroughly until I was fully confident.', name: 'Rashid Al-Balushi', course: 'AZ-104: Microsoft Azure Administrator', date: '22nd Oct 2024' },
+  { quote: 'Excellent revision session. The instructor identified my weak areas quickly and focused the entire session on those topics. I passed my exam the very next day.', name: 'Sunita Rajan', course: 'ITIL® 4 Foundation', date: '28th Oct 2024' },
+  { quote: 'The revision class was structured just like the exam format which made it extremely useful. I felt fully prepared after attending. Highly recommended before any certification attempt.', name: 'George Nkemdirim', course: 'CompTIA Security+ SY0-701', date: '3rd Nov 2024' },
+  { quote: 'I struggled with a few networking topics and the revision class was exactly what I needed. Clear explanations, real examples, and the trainer answered every single question I had.', name: 'Mei Lin Zhang', course: 'CCNA 200-301', date: '8th Nov 2024' },
+  { quote: 'Very focused and productive session. The trainer covered all the high-weight exam topics and provided memory tricks that I still use today. Worth every minute.', name: 'Adebayo Okafor', course: 'PMP Certification', date: '14th Nov 2024' },
+  { quote: 'The revision class gave me a completely new perspective on the topics I was struggling with. The trainer used diagrams and live demos which made everything click into place instantly.', name: 'Priya Nambiar', course: 'Kubernetes Administrator (CKA)', date: '20th Nov 2024' },
 ]
 
 /* ── Courses list ─────────────────────────────────────────────── */
@@ -264,6 +270,9 @@ function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
 export default function StudentFeedbackPage() {
   const [activeTab, setActiveTab] = useState<'testimonial' | 'videos'>('testimonial')
   const [revIdx, setRevIdx] = useState(0)
+  const [revPage, setRevPage] = useState(0)
+  const REV_PER_PAGE = 3
+  const revTotalPages = Math.ceil(REVISION_TESTIMONIALS.length / REV_PER_PAGE)
   const [bannerVideoPlaying, setBannerVideoPlaying] = useState(false)
   const [showAllTestimonials, setShowAllTestimonials] = useState(false)
   const [showAllVideos, setShowAllVideos] = useState(false)
@@ -490,26 +499,57 @@ export default function StudentFeedbackPage() {
             </p>
           </div>
 
-          {/* Desktop cards */}
-          <div className="hidden sm:grid grid-cols-3 gap-6">
-            {REVISION_TESTIMONIALS.map((r, i) => (
-              <div key={i} className="relative flex flex-col bg-white rounded-2xl p-6" style={{ boxShadow: '0 4px 24px rgba(6,148,209,0.1)', border: '1px solid #E8F4FA' }}>
-                <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
-                <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
-                <div className="text-5xl font-serif leading-none mb-2" style={{ color: '#DCEEFB' }}>&ldquo;</div>
-                <p className="text-sm leading-relaxed flex-1 mb-6" style={{ color: '#2d4a6a' }}>{r.quote}</p>
-                <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: '#E8F4FA' }}>
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#093148)' }}>
-                    {r.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-[#0d1b2a]">{r.name}</p>
-                    <p className="text-xs font-medium mt-0.5" style={{ color: '#0694D1' }}>{r.course}</p>
-                    <p className="text-xs text-[#aaa] mt-0.5">{r.date}</p>
+          {/* Desktop slider — 3 cards per page */}
+          <div className="hidden sm:block">
+            <div className="grid grid-cols-3 gap-6">
+              {REVISION_TESTIMONIALS.slice(revPage * REV_PER_PAGE, revPage * REV_PER_PAGE + REV_PER_PAGE).map((r, i) => (
+                <div key={i} className="relative flex flex-col bg-white rounded-2xl p-6" style={{ boxShadow: '0 4px 24px rgba(6,148,209,0.1)', border: '1px solid #E8F4FA' }}>
+                  <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
+                  <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
+                  <div className="text-5xl font-serif leading-none mb-2" style={{ color: '#DCEEFB' }}>&ldquo;</div>
+                  <p className="text-sm leading-relaxed flex-1 mb-6" style={{ color: '#2d4a6a' }}>{r.quote}</p>
+                  <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: '#E8F4FA' }}>
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#093148)' }}>
+                      {r.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-[#0d1b2a]">{r.name}</p>
+                      <p className="text-xs font-medium mt-0.5" style={{ color: '#0694D1' }}>{r.course}</p>
+                      <p className="text-xs text-[#aaa] mt-0.5">{r.date}</p>
+                    </div>
                   </div>
                 </div>
+              ))}
+            </div>
+            {/* Desktop pagination dots + arrows */}
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <button
+                onClick={() => setRevPage(p => Math.max(0, p - 1))}
+                disabled={revPage === 0}
+                className="flex h-8 w-8 items-center justify-center rounded-full border transition-all hover:border-[#0694D1] hover:text-[#0694D1] disabled:opacity-30 disabled:cursor-not-allowed"
+                style={{ borderColor: '#DCEEFB', color: '#7a8c96' }}
+              >
+                ‹
+              </button>
+              <div className="flex gap-2">
+                {Array.from({ length: revTotalPages }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setRevPage(i)}
+                    className="h-2.5 rounded-full transition-all"
+                    style={{ width: i === revPage ? '28px' : '10px', background: i === revPage ? '#0694D1' : '#DCEEFB' }}
+                  />
+                ))}
               </div>
-            ))}
+              <button
+                onClick={() => setRevPage(p => Math.min(revTotalPages - 1, p + 1))}
+                disabled={revPage === revTotalPages - 1}
+                className="flex h-8 w-8 items-center justify-center rounded-full border transition-all hover:border-[#0694D1] hover:text-[#0694D1] disabled:opacity-30 disabled:cursor-not-allowed"
+                style={{ borderColor: '#DCEEFB', color: '#7a8c96' }}
+              >
+                ›
+              </button>
+            </div>
           </div>
 
           {/* Mobile: single card with dots */}
@@ -530,10 +570,14 @@ export default function StudentFeedbackPage() {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center gap-2 mt-5">
-              {REVISION_TESTIMONIALS.map((_, i) => (
-                <button key={i} onClick={() => setRevIdx(i)} className="h-2 rounded-full transition-all" style={{ width: i === revIdx ? '24px' : '8px', background: i === revIdx ? '#0694D1' : '#DCEEFB' }} />
-              ))}
+            <div className="flex items-center justify-center gap-3 mt-5">
+              <button onClick={() => setRevIdx(p => Math.max(0, p - 1))} disabled={revIdx === 0} className="flex h-7 w-7 items-center justify-center rounded-full border transition-all hover:border-[#0694D1] hover:text-[#0694D1] disabled:opacity-30" style={{ borderColor: '#DCEEFB', color: '#7a8c96' }}>‹</button>
+              <div className="flex gap-1.5">
+                {REVISION_TESTIMONIALS.map((_, i) => (
+                  <button key={i} onClick={() => setRevIdx(i)} className="h-2 rounded-full transition-all" style={{ width: i === revIdx ? '20px' : '8px', background: i === revIdx ? '#0694D1' : '#DCEEFB' }} />
+                ))}
+              </div>
+              <button onClick={() => setRevIdx(p => Math.min(REVISION_TESTIMONIALS.length - 1, p + 1))} disabled={revIdx === REVISION_TESTIMONIALS.length - 1} className="flex h-7 w-7 items-center justify-center rounded-full border transition-all hover:border-[#0694D1] hover:text-[#0694D1] disabled:opacity-30" style={{ borderColor: '#DCEEFB', color: '#7a8c96' }}>›</button>
             </div>
           </div>
         </div>
