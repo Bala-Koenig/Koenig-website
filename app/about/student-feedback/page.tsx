@@ -345,7 +345,7 @@ export default function StudentFeedbackPage() {
                 From first certifications to career breakthroughs — read how learners worldwide transformed their careers with Koenig Solutions.
               </p>
               {/* Infographic stats — single row, icon left + text right */}
-              <div className="grid grid-cols-4 gap-2">
+              <div className="flex gap-2">
                 {([
                   {
                     val: '5M+', label: 'Learners Upskilled',
@@ -364,7 +364,7 @@ export default function StudentFeedbackPage() {
                     svg: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
                   },
                 ] as { val: string; label: string; svg: React.ReactNode }[]).map(s => (
-                  <div key={s.label} className="flex items-center gap-2 rounded-xl px-2.5 py-2.5" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(56,189,248,0.18)' }}>
+                  <div key={s.label} className="flex items-center gap-2 rounded-xl px-3 py-2.5" style={{ background: 'linear-gradient(135deg, rgba(9,49,72,0.85), rgba(7,109,157,0.5))', border: '1px solid rgba(56,189,248,0.2)', backdropFilter: 'blur(8px)' }}>
                     <div className="shrink-0 flex items-center justify-center w-6 h-6 rounded-md" style={{ background: 'rgba(56,189,248,0.12)' }}>
                       {s.svg}
                     </div>
