@@ -237,15 +237,6 @@ function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
               className="absolute inset-0 w-full h-full object-cover"
               onError={(e) => { (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg` }}
             />
-            {/* Dark gradient overlay */}
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.55) 100%)' }} />
-            {/* KOENIG badge */}
-            <div className="absolute top-2 right-2 rounded px-2 py-0.5 text-[9px] font-bold tracking-wider text-white" style={{ background: 'rgba(9,49,72,0.85)' }}>KOENIG</div>
-            {/* Text overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
-              <p className="text-white/80 text-[10px] font-semibold uppercase tracking-widest mb-1">SUCCESS SPEAKS:</p>
-              <p className="text-lg font-extrabold uppercase leading-tight" style={{ color: '#38bdf8', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>LEARNER<br/>TESTIMONIAL</p>
-            </div>
             {/* Play button */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/70 bg-white/20 backdrop-blur-sm transition-transform hover:scale-110">
@@ -349,11 +340,6 @@ export default function StudentFeedbackPage() {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="https://img.youtube.com/vi/NfhIeqcHpCc/maxresdefault.jpg" alt="Learner testimonial" className="absolute inset-0 w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).src = 'https://img.youtube.com/vi/NfhIeqcHpCc/hqdefault.jpg' }} />
                       <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.55) 100%)' }} />
-                      <div className="absolute top-3 right-3 rounded px-2 py-0.5 text-[9px] font-bold tracking-wider text-white" style={{ background: 'rgba(9,49,72,0.85)' }}>KOENIG</div>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
-                        <p className="text-white/75 text-[10px] font-semibold uppercase tracking-widest mb-1">SUCCESS SPEAKS:</p>
-                        <p className="text-base font-extrabold uppercase leading-tight" style={{ color: '#38bdf8', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>LEARNER<br/>TESTIMONIAL</p>
-                      </div>
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/80 bg-white/25 backdrop-blur-sm transition-transform hover:scale-110">
                           <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
