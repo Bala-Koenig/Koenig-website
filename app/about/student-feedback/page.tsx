@@ -263,7 +263,7 @@ export default function StudentFeedbackPage() {
       <AboutSubNav />
 
       {/* HERO */}
-      <section className="relative overflow-hidden py-8 sm:py-[50px]" style={{ background: 'linear-gradient(135deg, #f0f8ff 0%, #e4f2fb 60%, #f8fcff 100%)' }}>
+      <section className="relative overflow-hidden py-10" style={{ background: 'linear-gradient(135deg, #f0f8ff 0%, #e4f2fb 60%, #f8fcff 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 right-0 w-[480px] h-[480px] rounded-full opacity-25 blur-[90px]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }} />
           <div className="absolute bottom-0 left-1/3 w-[320px] h-[320px] rounded-full opacity-15 blur-[70px]" style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)' }} />
@@ -357,7 +357,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* THE KOENIG EXPERIENCE */}
-      <section className="bg-white pb-12 sm:pb-16">
+      <section className="bg-white py-10">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Section heading */}
@@ -434,7 +434,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* LEARNER FEEDBACK ON REVISION CLASSES */}
-      <section className="py-14 sm:py-20" style={{ background: 'linear-gradient(180deg, #f0f8ff 0%, #ffffff 100%)' }}>
+      <section className="py-10" style={{ background: 'linear-gradient(180deg, #f0f8ff 0%, #ffffff 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-12">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
@@ -498,7 +498,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* GOOGLE / FACEBOOK RATINGS */}
-      <section className="py-14 sm:py-16" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
+      <section className="py-10" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <p className="text-center text-xs font-semibold uppercase tracking-widest mb-10" style={{ color: 'rgba(255,255,255,0.45)' }}>Rated highly across platforms</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8">
@@ -536,7 +536,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* JOIN 5 MILLION+ LEARNERS */}
-      <section className="py-14 sm:py-20 bg-white">
+      <section className="py-10 bg-white">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
