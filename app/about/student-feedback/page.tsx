@@ -262,28 +262,38 @@ export default function StudentFeedbackPage() {
       <AboutSubNav />
 
       {/* HERO */}
-      <section className="relative overflow-hidden py-14 sm:py-20" style={{ background: 'linear-gradient(135deg, #f0f8ff 0%, #e4f2fb 60%, #f8fcff 100%)' }}>
+      <section className="relative overflow-hidden py-8 sm:py-[50px]" style={{ background: 'linear-gradient(135deg, #f0f8ff 0%, #e4f2fb 60%, #f8fcff 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 right-0 w-[480px] h-[480px] rounded-full opacity-25 blur-[90px]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }} />
           <div className="absolute bottom-0 left-1/3 w-[320px] h-[320px] rounded-full opacity-15 blur-[70px]" style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="flex flex-col md:flex-row md:items-center gap-10 lg:gap-16">
+          <div className="flex flex-col md:flex-row md:items-center gap-8 lg:gap-14">
             <div className="flex-1">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.12)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.12)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>
                 <span className="text-yellow-400">★</span> Trusted by 5M+ Learners Worldwide
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-5" style={{ color: '#0d1b2a' }}>
+              <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-4" style={{ color: '#0d1b2a' }}>
                 Real Learners.<br />
                 <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Stories.</span>
               </h1>
-              <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-lg" style={{ color: '#4a6a8a' }}>
+              <p className="text-base leading-relaxed mb-6 max-w-lg" style={{ color: '#4a6a8a' }}>
                 From first certifications to career breakthroughs — read how learners worldwide transformed their careers with Koenig Solutions.
               </p>
+              {/* Infographic stats */}
               <div className="flex flex-wrap gap-3">
-                {[{ val: '5M+', label: 'Learners' }, { val: '195', label: 'Countries' }, { val: '18,400+', label: 'Reviews' }].map(s => (
-                  <div key={s.label} className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold" style={{ color: '#0d1b2a', border: '1px solid #DCEEFB', boxShadow: '0 2px 8px rgba(6,148,209,0.08)' }}>
-                    <span style={{ color: '#0694D1' }}>✓</span> {s.val} {s.label}
+                {[
+                  { val: '5M+', label: 'Learners Upskilled', icon: '/images/home-banner/icon-infographic-5000+.svg' },
+                  { val: '195', label: 'Countries Served', icon: '/images/home-banner/icon-infographic-300+.svg' },
+                  { val: '18,400+', label: 'Verified Reviews', icon: '/images/home-banner/icon-infographic-99.svg' },
+                  { val: '30+', label: 'Years of Excellence', icon: '/images/home-banner/icon-infographic-30+.svg' },
+                ].map(s => (
+                  <div key={s.label} className="flex items-center gap-3 rounded-xl bg-white px-4 py-3" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 10px rgba(6,148,209,0.09)', minWidth: '120px' }}>
+                    <Image src={s.icon} alt="" width={28} height={28} className="shrink-0" />
+                    <div>
+                      <div className="text-lg font-extrabold leading-none" style={{ color: '#0694D1' }}>{s.val}</div>
+                      <div className="text-[11px] text-[#7a8c96] mt-0.5 leading-tight">{s.label}</div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -291,12 +301,12 @@ export default function StudentFeedbackPage() {
             <div className="hidden md:flex shrink-0 items-center justify-center">
               <div className="relative">
                 <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)', transform: 'scale(1.35)' }} />
-                <div className="relative w-[220px] h-[220px] lg:w-[260px] lg:h-[260px] rounded-full overflow-hidden" style={{ border: '5px solid white', boxShadow: '0 0 0 3px #DCEEFB, 0 20px 60px rgba(6,148,209,0.2)' }}>
+                <div className="relative w-[210px] h-[210px] lg:w-[240px] lg:h-[240px] rounded-full overflow-hidden" style={{ border: '5px solid white', boxShadow: '0 0 0 3px #DCEEFB, 0 16px 48px rgba(6,148,209,0.2)' }}>
                   <div className="grid grid-cols-2 w-full h-full">
-                    <Image src="/images/headshots/headshot-1.webp" alt="" width={130} height={130} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-2.webp" alt="" width={130} height={130} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-5.webp" alt="" width={130} height={130} className="w-full h-full object-cover" />
-                    <Image src="/images/headshots/headshot-3.webp" alt="" width={130} height={130} className="w-full h-full object-cover" />
+                    <Image src="/images/headshots/headshot-1.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
+                    <Image src="/images/headshots/headshot-2.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
+                    <Image src="/images/headshots/headshot-5.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
+                    <Image src="/images/headshots/headshot-3.webp" alt="" width={120} height={120} className="w-full h-full object-cover" />
                   </div>
                 </div>
               </div>
