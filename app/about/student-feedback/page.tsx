@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
@@ -53,21 +53,63 @@ const REVISION_TESTIMONIALS = [
 ]
 
 /* ── Courses list ─────────────────────────────────────────────── */
-const COURSES = [
-  'AWS Certified Solutions Architect - Associate (Architecting on AWS)',
-  'F5 BIG IP LTM',
-  'AWS Certified CloudOps Engineer - Associate (Cloud Operations on AWS)',
-  'Implementing Cisco Application Centric Infrastructure (DCACI) v1.2',
-  'AZ-104v2/v3: Microsoft Azure Administrator',
-  'PL-300T00: Design and Manage Analytics Solutions Using Power BI',
-  'Fundamentals of Cisco Firewall Threat Defense and Intrusion Prevention (SFWIPP)',
-  'Generative AI Specialty',
-  'Generative AI Essentials on AWS',
-  'MS-N023: Explore Microsoft 365 Copilot Chat',
-  'Implementing and Administering Cisco Solutions (CCNA) 2.3',
-  'VMware Cloud Foundation: Solution Architecture and Design (V9.0)',
-  'VMware Cloud Foundation: Build, Manage and Secure (v5.0)',
-  'Technology Architecture L3',
+const COURSES: { name: string; icon: React.ReactNode }[] = [
+  {
+    name: 'AWS Certified Solutions Architect - Associate (Architecting on AWS)',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>,
+  },
+  {
+    name: 'F5 BIG IP LTM',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="8" width="5" height="8" rx="1"/><rect x="17" y="8" width="5" height="8" rx="1"/><path d="M7 12h10M12 8V4M12 20v-4"/><circle cx="12" cy="12" r="2"/></svg>,
+  },
+  {
+    name: 'AWS Certified CloudOps Engineer - Associate (Cloud Operations on AWS)',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/><polyline points="12 11 12 17 15 14"/></svg>,
+  },
+  {
+    name: 'Implementing Cisco Application Centric Infrastructure (DCACI) v1.2',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="4" rx="1"/><rect x="1" y="10" width="22" height="4" rx="1"/><rect x="1" y="16" width="22" height="4" rx="1"/><line x1="5" y1="6" x2="5" y2="6"/><line x1="5" y1="12" x2="5" y2="12"/><line x1="5" y1="18" x2="5" y2="18"/></svg>,
+  },
+  {
+    name: 'AZ-104v2/v3: Microsoft Azure Administrator',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+  },
+  {
+    name: 'PL-300T00: Design and Manage Analytics Solutions Using Power BI',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>,
+  },
+  {
+    name: 'Fundamentals of Cisco Firewall Threat Defense and Intrusion Prevention (SFWIPP)',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+  },
+  {
+    name: 'Generative AI Specialty',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>,
+  },
+  {
+    name: 'Generative AI Essentials on AWS',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/><circle cx="12" cy="13" r="2"/><path d="M12 11V9"/></svg>,
+  },
+  {
+    name: 'MS-N023: Explore Microsoft 365 Copilot Chat',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1" fill="#0694D1"/><circle cx="12" cy="10" r="1" fill="#0694D1"/><circle cx="15" cy="10" r="1" fill="#0694D1"/></svg>,
+  },
+  {
+    name: 'Implementing and Administering Cisco Solutions (CCNA) 2.3',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="12" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="19" y2="17"/><line x1="5" y1="19" x2="19" y2="19"/></svg>,
+  },
+  {
+    name: 'VMware Cloud Foundation: Solution Architecture and Design (V9.0)',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="4" rx="1"/><rect x="2" y="9" width="20" height="4" rx="1"/><rect x="2" y="15" width="20" height="4" rx="1"/></svg>,
+  },
+  {
+    name: 'VMware Cloud Foundation: Build, Manage and Secure (v5.0)',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="4" rx="1"/><rect x="2" y="9" width="20" height="4" rx="1"/><rect x="2" y="15" width="20" height="4" rx="1"/><path d="M6 5h.01M6 11h.01M6 17h.01"/></svg>,
+  },
+  {
+    name: 'Technology Architecture L3',
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>,
+  },
 ]
 
 /* ── Card ─────────────────────────────────────────────────────── */
@@ -98,14 +140,14 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
             {t.initials}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
+            <p className="text-sm font-bold leading-tight" style={{ color: '#093148' }}>{t.name}</p>
             <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.location}</p>
           </div>
         </div>
       </div>
       <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
         <div>
-          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
+          <p className="text-xs font-bold" style={{ color: '#093148' }}>{t.course}</p>
           <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
         </div>
         <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
@@ -247,7 +289,7 @@ function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
         )}
       </div>
       <div className="px-4 pt-3 pb-4 text-center flex flex-col gap-1">
-        {video.name && <p className="text-sm font-bold text-[#0d1b2a]">{video.name}</p>}
+        {video.name && <p className="text-sm font-bold text-[#093148]">{video.name}</p>}
         {video.country && <p className="text-xs font-medium" style={{ color: '#0694D1' }}>{video.country}</p>}
         <p className="text-xs leading-snug" style={{ color: '#4a6a8a' }}>{video.course}</p>
         <button className="mt-2 w-full rounded-full border py-1.5 text-xs font-semibold transition-colors hover:bg-[#0694D1] hover:text-white" style={{ borderColor: '#0694D1', color: '#0694D1' }}>
@@ -285,7 +327,7 @@ export default function StudentFeedbackPage() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.12)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>
                 <span className="text-yellow-400">★</span> Trusted by 5M+ Learners Worldwide
               </div>
-              <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-4" style={{ color: '#0d1b2a' }}>
+              <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-4" style={{ color: '#093148' }}>
                 Real Learners.<br />
                 <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Stories.</span>
               </h1>
@@ -368,7 +410,9 @@ export default function StudentFeedbackPage() {
 
           {/* Section heading */}
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#0d1b2a] mb-2">The Koenig Experience</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#093148' }}>
+              The Koenig <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Experience</span>
+            </h2>
             <p className="text-sm sm:text-base text-[#7a8c96]">Hear firsthand from students who&apos;ve experienced the Koenig difference.</p>
           </div>
 
@@ -377,7 +421,7 @@ export default function StudentFeedbackPage() {
             <div className="inline-flex overflow-hidden rounded-2xl border border-[#0694D1]/15 bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
               <button
                 onClick={() => setActiveTab('testimonial')}
-                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'testimonial' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#0d1b2a]'}`}
+                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'testimonial' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#093148]'}`}
               >
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -386,7 +430,7 @@ export default function StudentFeedbackPage() {
               </button>
               <button
                 onClick={() => setActiveTab('videos')}
-                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'videos' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#0d1b2a]'}`}
+                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'videos' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#093148]'}`}
               >
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -477,7 +521,7 @@ export default function StudentFeedbackPage() {
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
               Revision Classes
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0d1b2a] mb-3">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#093148] mb-3">
               Learner Feedback on Our <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Revision Classes</span>
             </h2>
             <p className="text-sm sm:text-base text-[#7a8c96] max-w-2xl mx-auto">
@@ -499,7 +543,7 @@ export default function StudentFeedbackPage() {
                       {r.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-[#0d1b2a]">{r.name}</p>
+                      <p className="text-sm font-bold text-[#093148]">{r.name}</p>
                       <p className="text-xs font-medium mt-0.5" style={{ color: '#0694D1' }}>{r.course}</p>
                       <p className="text-xs text-[#aaa] mt-0.5">{r.date}</p>
                     </div>
@@ -550,7 +594,7 @@ export default function StudentFeedbackPage() {
                   {REVISION_TESTIMONIALS[revIdx].name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#0d1b2a]">{REVISION_TESTIMONIALS[revIdx].name}</p>
+                  <p className="text-sm font-bold text-[#093148]">{REVISION_TESTIMONIALS[revIdx].name}</p>
                   <p className="text-xs font-medium mt-0.5" style={{ color: '#0694D1' }}>{REVISION_TESTIMONIALS[revIdx].course}</p>
                   <p className="text-xs text-[#aaa] mt-0.5">{REVISION_TESTIMONIALS[revIdx].date}</p>
                 </div>
@@ -572,7 +616,16 @@ export default function StudentFeedbackPage() {
       {/* GOOGLE / FACEBOOK RATINGS */}
       <section className="py-10" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest mb-10" style={{ color: 'rgba(255,255,255,0.45)' }}>Rated highly across platforms</p>
+          <div className="text-center mb-10">
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8' }}>
+              Our Reputation
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+              Rated Highly Across{' '}
+              <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Platforms</span>
+            </h2>
+            <p className="mt-2 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Thousands of learners rate us 4+ stars across the web</p>
+          </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8">
             {/* Google card */}
             <div className="flex items-center gap-5 bg-white rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>
@@ -584,7 +637,7 @@ export default function StudentFeedbackPage() {
               </div>
               <div className="h-12 w-px" style={{ background: '#E8F4FA' }} />
               <div>
-                <div className="text-3xl font-bold text-[#0d1b2a] leading-none">4.4</div>
+                <div className="text-3xl font-bold text-[#093148] leading-none">4.4</div>
                 <div className="text-xs text-[#7a8c96] font-medium mt-1">out of 5</div>
               </div>
             </div>
@@ -599,7 +652,7 @@ export default function StudentFeedbackPage() {
               </div>
               <div className="h-12 w-px" style={{ background: '#E8F4FA' }} />
               <div>
-                <div className="text-3xl font-bold text-[#0d1b2a] leading-none">4.2</div>
+                <div className="text-3xl font-bold text-[#093148] leading-none">4.2</div>
                 <div className="text-xs text-[#7a8c96] font-medium mt-1">out of 5</div>
               </div>
             </div>
@@ -614,18 +667,33 @@ export default function StudentFeedbackPage() {
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
               Explore Our Courses
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0d1b2a] leading-snug">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#093148] leading-snug">
               Join 5 million+ learners who&apos;ve upskilled with<br className="hidden sm:block" />
               <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}> Koenig&apos;s top-rated programs</span>
             </h2>
           </div>
 
           {/* Course grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {COURSES.map((course, i) => (
-              <div key={i} className="group flex items-start justify-between gap-2 rounded-xl bg-white px-4 py-3.5 text-xs leading-snug cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-md" style={{ border: '1px solid #E2ECF5', borderLeftColor: '#0694D1', borderLeftWidth: '3px', color: '#2d4a6a' }}>
-                <span>{course}</span>
-                <svg className="mt-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <div
+                key={i}
+                className="group relative flex flex-col bg-white rounded-2xl p-5 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(6,148,209,0.18)]"
+                style={{ border: '1px solid #E2ECF5' }}
+              >
+                {/* top accent line on hover */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
+                {/* icon */}
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-200" style={{ background: 'rgba(6,148,209,0.08)' }}>
+                  {course.icon}
+                </div>
+                {/* name */}
+                <p className="text-xs leading-snug font-medium flex-1" style={{ color: '#093148' }}>{course.name}</p>
+                {/* hover cta */}
+                <div className="mt-3 flex items-center gap-1 text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0" style={{ color: '#0694D1' }}>
+                  View Course
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
               </div>
             ))}
           </div>
