@@ -417,8 +417,24 @@ export default function StudentFeedbackPage() {
           </div>
 
           {/* Tabs */}
+          <style>{`
+            @keyframes tab-border-sweep {
+              0%   { background-position: 0% 50%; }
+              50%  { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+            .tab-border-glow {
+              background: linear-gradient(270deg, #0694D1, #38bdf8, #076D9D, #38bdf8, #0694D1);
+              background-size: 400% 400%;
+              animation: tab-border-sweep 3s ease infinite;
+              padding: 2px;
+              border-radius: 1rem;
+              display: inline-flex;
+            }
+          `}</style>
           <div className="flex justify-center mb-8">
-            <div className="inline-flex overflow-hidden rounded-2xl border border-[#0694D1]/15 bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
+            <div className="tab-border-glow">
+            <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
               <button
                 onClick={() => setActiveTab('testimonial')}
                 className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'testimonial' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#093148]'}`}
@@ -437,6 +453,7 @@ export default function StudentFeedbackPage() {
                 </svg>
                 Student Testimonial Videos
               </button>
+            </div>
             </div>
           </div>
 
