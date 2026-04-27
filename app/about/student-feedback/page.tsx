@@ -738,10 +738,16 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* JOIN 5 MILLION+ LEARNERS */}
-      <section className="py-10 bg-white">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="relative overflow-hidden py-14" style={{ background: 'linear-gradient(160deg, #f0f8ff 0%, #e4f2fb 50%, #f8fcff 100%)' }}>
+        {/* Background glow blobs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full opacity-30 blur-[100px]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }} />
+          <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full opacity-20 blur-[90px]" style={{ background: 'radial-gradient(circle, #38bdf8, transparent 70%)' }} />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10">
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.12)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>
               Explore Our Courses
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#093148] leading-snug">
@@ -751,25 +757,31 @@ export default function StudentFeedbackPage() {
           </div>
 
           {/* Course grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
             {COURSES.map((course, i) => (
               <div
                 key={i}
-                className="group relative flex items-center gap-4 bg-white rounded-2xl px-4 py-4 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(6,148,209,0.18)]"
-                style={{ border: '1px solid #E2ECF5' }}
+                className="group relative flex items-center gap-3 rounded-2xl px-4 py-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_10px_36px_rgba(6,148,209,0.22)]"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(232,244,252,0.85))',
+                  border: '1px solid rgba(6,148,209,0.18)',
+                  backdropFilter: 'blur(8px)',
+                }}
               >
-                {/* left accent line on hover */}
-                <div className="absolute top-0 left-0 bottom-0 w-0.5 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ background: 'linear-gradient(180deg, #0694D1, #38bdf8)' }} />
+                {/* Glow on hover */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(6,148,209,0.07), rgba(56,189,248,0.05))' }} />
+                {/* top accent line */}
+                <div className="absolute top-0 left-4 right-4 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, transparent)' }} />
                 {/* icon */}
-                <div className="shrink-0 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.08)' }}>
+                <div className="relative shrink-0 flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-200 group-hover:scale-110" style={{ background: 'rgba(6,148,209,0.1)', boxShadow: '0 2px 8px rgba(6,148,209,0.12)' }}>
                   {course.icon}
                 </div>
                 {/* text */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs leading-snug font-medium" style={{ color: '#093148' }}>{course.name}</p>
-                  <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-200" style={{ color: '#0694D1' }}>
+                <div className="relative flex-1 min-w-0">
+                  <p className="text-xs leading-snug font-semibold" style={{ color: '#093148' }}>{course.name}</p>
+                  <div className="mt-1.5 flex items-center gap-1 text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-all duration-200" style={{ color: '#0694D1' }}>
                     View Course
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </div>
                 </div>
               </div>
