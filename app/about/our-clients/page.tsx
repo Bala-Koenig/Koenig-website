@@ -53,7 +53,7 @@ export default function OurClientsPage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-10 px-8 sm:px-10">
+          <div className="kglass-banner py-10 px-4 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
@@ -63,17 +63,17 @@ export default function OurClientsPage() {
                   From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
                 </p>
                 <div className="grid grid-cols-3 mt-8 rounded-xl overflow-hidden" style={{ border: '1px solid rgba(56,189,248,0.25)' }}>
-                  <div className="text-center py-4 px-2" style={{ borderRight: '1px solid rgba(56,189,248,0.25)' }}>
-                    <div className="text-3xl font-bold text-[#38bdf8]">1M+</div>
-                    <div className="text-white/60 text-sm">Professionals Certified</div>
+                  <div className="text-center py-4 px-1" style={{ borderRight: '1px solid rgba(56,189,248,0.25)' }}>
+                    <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">1M+</div>
+                    <div className="text-white/60 text-xs leading-tight">Professionals Certified</div>
                   </div>
-                  <div className="text-center py-4 px-2" style={{ borderRight: '1px solid rgba(56,189,248,0.25)' }}>
-                    <div className="text-3xl font-bold text-[#38bdf8]">195+</div>
-                    <div className="text-white/60 text-sm">Countries</div>
+                  <div className="text-center py-4 px-1" style={{ borderRight: '1px solid rgba(56,189,248,0.25)' }}>
+                    <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">195+</div>
+                    <div className="text-white/60 text-xs leading-tight">Countries</div>
                   </div>
-                  <div className="text-center py-4 px-2">
-                    <div className="text-3xl font-bold text-[#38bdf8]">30+</div>
-                    <div className="text-white/60 text-sm">Fortune-500 Clients</div>
+                  <div className="text-center py-4 px-1">
+                    <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">30+</div>
+                    <div className="text-white/60 text-xs leading-tight">Fortune-500 Clients</div>
                   </div>
                 </div>
                 <DownloadPptButton />
