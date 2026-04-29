@@ -456,11 +456,14 @@ export default function LeadershipPage() {
             onClick={e => e.stopPropagation()}>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-              <h3 className="text-xl font-bold text-white">{bioModal.name}</h3>
+            <div className="flex items-start justify-between px-6 py-4 border-b border-white/10">
+              <div>
+                <h3 className="text-xl font-bold text-white leading-snug">{bioModal.name}</h3>
+                <p className="text-[#38bdf8] text-sm font-semibold mt-1">{bioModal.title}</p>
+              </div>
               <button
                 onClick={() => setBioModal(null)}
-                className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white transition-colors text-2xl leading-none"
+                className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white transition-colors text-2xl leading-none ml-3 flex-shrink-0"
                 aria-label="Close">
                 ×
               </button>
@@ -486,7 +489,6 @@ export default function LeadershipPage() {
 
               {/* Bio */}
               <div className="flex-1 min-w-0 w-full">
-                <p className="text-[#38bdf8] text-sm font-semibold mb-3">{bioModal.title}</p>
                 <p className="text-white/70 text-sm leading-relaxed mb-5">{bioModal.bio}</p>
                 <a
                   href={bioModal.linkedin}
