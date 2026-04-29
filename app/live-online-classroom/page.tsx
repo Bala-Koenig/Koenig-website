@@ -807,9 +807,9 @@ export default function LiveOnlineClassroomPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
                 Live Instructor-Led Training — Guaranteed to Run
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 text-white">
-                <span className="block">Master In-Demand Skills.</span>
-                <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-4 text-white">
+                <span className="block whitespace-nowrap">Master In-Demand Skills.</span>
+                <span className="block whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                   Live Online. Anywhere.
                 </span>
               </h1>
@@ -1257,9 +1257,9 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <section id="request" className="py-14 sm:py-20" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
-        <div className="mx-auto max-w-2xl px-4 md:px-8">
-          <div className="rounded-2xl px-6 sm:px-10 py-8 sm:py-10"
+      <section id="request" className="py-10 sm:py-14" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
+        <div className="mx-auto max-w-3xl px-4 md:px-8">
+          <div className="rounded-2xl px-8 sm:px-12 py-7 sm:py-9"
             style={{
               background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)',
               border: '1px solid rgba(6,148,209,0.25)',
