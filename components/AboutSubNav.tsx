@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useRef } from 'react'
 
 const LINKS = [
   { label: 'Overview',            href: '/about' },
@@ -14,18 +15,28 @@ const LINKS = [
 ]
 
 export default function AboutSubNav() {
-  const pathname = usePathname()
+  const pathname  = usePathname()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const activeRef = useRef<HTMLAnchorElement>(null)
+
+  useEffect(() => {
+    const container = scrollRef.current
+    const active    = activeRef.current
+    if (!container || !active) return
+    container.scrollLeft = active.offsetLeft - 16
+  }, [pathname])
 
   return (
     <div className="bg-[#06111E] border-b border-white/10 sticky top-0 z-40">
       <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-        <div className="flex gap-1 overflow-x-auto py-2 scrollbar-none">
+        <div ref={scrollRef} className="flex gap-1 overflow-x-auto py-2 scrollbar-none">
           {LINKS.map(n => {
             const isActive = pathname === n.href
             return (
               <Link
                 key={n.href}
                 href={n.href}
+                ref={isActive ? activeRef : undefined}
                 className="whitespace-nowrap px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
                 style={{
                   color:      isActive ? '#ffffff' : 'rgba(255,255,255,0.5)',
