@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 
@@ -421,6 +421,100 @@ function CourseCard({ course }: { course: typeof COURSES[0] }) {
   )
 }
 
+/* ── Filter data ─────────────────────────────────────────────── */
+const OEM_OPTIONS = ['Microsoft','AWS','PMI','EC-Council','CompTIA','Cisco','PECB','Oracle','Red Hat','VMware','SAP','Google Cloud','ISACA','ISC2']
+const TECH_OPTIONS = ['Cloud Computing','Cybersecurity','Project Management','Data & AI','Networking','DevOps & Cloud-Native','ITSM & Governance','SAP & ERP','Microsoft Office 365','Microsoft SQL Server','Linux & Open Source']
+const TZ_OPTIONS   = ['IST','GST','GMT','EST','CST','PST','AEST','CET','CEST','AFT','SST']
+
+/* ── FilterDropdown ──────────────────────────────────────────── */
+function FilterDropdown({
+  label, options, value, onChange,
+}: { label: string; options: string[]; value: string; onChange: (v: string) => void }) {
+  const [open, setOpen]       = useState(false)
+  const [query, setQuery]     = useState('')
+  const ref                   = useRef<HTMLDivElement>(null)
+  const inputRef              = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handle)
+    return () => document.removeEventListener('mousedown', handle)
+  }, [])
+
+  useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 50) }, [open])
+
+  const displayed = value && value !== label ? value : label
+  const filtered  = options.filter(o => o.toLowerCase().includes(query.toLowerCase()))
+  const hasValue  = value && value !== label
+
+  return (
+    <div ref={ref} className="relative shrink-0">
+      <button
+        onClick={() => setOpen(p => !p)}
+        className="inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all"
+        style={{
+          border:     `1px solid ${hasValue ? '#0694D1' : '#CAEFFF'}`,
+          background: hasValue ? 'rgba(6,148,209,0.08)' : 'white',
+          color:      hasValue ? '#0694D1' : '#475569',
+          boxShadow:  hasValue ? '0 0 0 3px rgba(6,148,209,0.12)' : '0 1px 4px rgba(6,148,209,0.06)',
+        }}>
+        <span className="max-w-[120px] truncate">{displayed}</span>
+        {hasValue && (
+          <span onClick={e => { e.stopPropagation(); onChange(''); setQuery('') }}
+            className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#0694D1] text-white hover:bg-[#076D9D]">
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </span>
+        )}
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} style={{ color: '#94A3B8' }}>
+          <path d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+
+      {open && (
+        <div className="absolute left-0 top-full mt-1.5 z-50 rounded-2xl overflow-hidden"
+          style={{ minWidth: '200px', background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.16)' }}>
+          {/* Search */}
+          <div className="p-2 border-b" style={{ borderColor: '#EBF8FE' }}>
+            <div className="flex items-center gap-2 rounded-lg px-3 py-1.5" style={{ background: '#F8FBFF', border: '1px solid #CAEFFF' }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)}
+                placeholder="Search…" className="flex-1 bg-transparent text-xs outline-none" style={{ color: '#0F172A' }} />
+            </div>
+          </div>
+          {/* Options */}
+          <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
+            {/* Clear option */}
+            <button onClick={() => { onChange(''); setQuery(''); setOpen(false) }}
+              className="flex w-full items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-colors"
+              style={{ color: '#0694D1', background: !hasValue ? 'rgba(6,148,209,0.06)' : 'transparent' }}>
+              <span className="w-3.5 h-3.5 flex items-center justify-center">
+                {!hasValue && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
+              </span>
+              {label}
+            </button>
+            {filtered.map(o => (
+              <button key={o} onClick={() => { onChange(o); setQuery(''); setOpen(false) }}
+                className="flex w-full items-center gap-2 px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF]"
+                style={{ color: value === o ? '#0694D1' : '#374151', background: value === o ? 'rgba(6,148,209,0.06)' : 'transparent', fontWeight: value === o ? 600 : 400 }}>
+                <span className="w-3.5 h-3.5 flex items-center justify-center shrink-0">
+                  {value === o && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                </span>
+                {o}
+              </button>
+            ))}
+            {filtered.length === 0 && (
+              <p className="px-4 py-3 text-xs text-center" style={{ color: '#94A3B8' }}>No results</p>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ── FAQ Item ─────────────────────────────────────────────────── */
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
@@ -445,16 +539,21 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab] = useState('ilo')
-  const [search, setSearch] = useState('')
+  const [search, setSearch]       = useState('')
+  const [filterOEM, setFilterOEM] = useState('')
+  const [filterTech, setFilterTech] = useState('')
+  const [filterTz, setFilterTz]   = useState('')
   const [page, setPage] = useState(0)
   const [formType, setFormType] = useState<'individual' | 'enterprise'>('individual')
   const PER_PAGE = 12
 
-  const filtered = COURSES.filter(c =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    c.vendor.toLowerCase().includes(search.toLowerCase()) ||
-    c.code.toLowerCase().includes(search.toLowerCase())
-  )
+  const filtered = COURSES.filter(c => {
+    const q = search.toLowerCase()
+    const matchSearch = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
+    const matchOEM    = !filterOEM  || c.vendor === filterOEM
+    const matchTz     = !filterTz   || c.schedules.some(s => s.time.includes(filterTz))
+    return matchSearch && matchOEM && matchTz
+  })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
 
@@ -630,13 +729,10 @@ export default function LiveOnlineClassroomPage() {
                 style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }}
               />
             </div>
-            <div className="flex gap-2">
-              {['Filter by OEM', 'Filter by Technology', 'IST'].map(f => (
-                <button key={f} className="rounded-xl px-3 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors hover:bg-[#0694D1] hover:text-white"
-                  style={{ border: '1px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
-                  {f}
-                </button>
-              ))}
+            <div className="flex flex-wrap gap-2">
+              <FilterDropdown label="Filter by OEM"        options={OEM_OPTIONS}  value={filterOEM}  onChange={v => { setFilterOEM(v);  setPage(0) }} />
+              <FilterDropdown label="Filter by Technology" options={TECH_OPTIONS} value={filterTech} onChange={v => { setFilterTech(v); setPage(0) }} />
+              <FilterDropdown label="Timezone"             options={TZ_OPTIONS}   value={filterTz}   onChange={v => { setFilterTz(v);   setPage(0) }} />
             </div>
           </div>
 
