@@ -1370,7 +1370,7 @@ export default function LiveOnlineClassroomPage() {
           </div>
 
           {/* ── Grouped interactive panel ── */}
-          <div className="rounded-2xl p-4 sm:p-5" style={{ background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
+          <div className="rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
 
           {/* Mobile technology pills — only show categories with matching courses */}
           <div className="flex lg:hidden overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
