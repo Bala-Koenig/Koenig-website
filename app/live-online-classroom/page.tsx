@@ -382,8 +382,6 @@ function getTechIcon(name: string) {
 function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll: () => void }) {
   const [expanded, setExpanded] = useState(false)
   const [selectedSlot, setSelectedSlot] = useState(0)
-  const [showOtherDate, setShowOtherDate] = useState(false)
-  const [otherDate, setOtherDate] = useState('')
 
   // For 5+ dates: show first 2 as full cards, rest as compact chips when expanded
   const FULL_VISIBLE = 2
@@ -425,9 +423,8 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
 
         {/* Full-size date cards (first 2) */}
         {fullCards.map((s, i) => {
-          const active = selectedSlot === i && !showOtherDate
-          return (
-            <button key={i} onClick={() => { setSelectedSlot(i); setShowOtherDate(false) }}
+          const active = selectedSlot === i          return (
+            <button key={i} onClick={() => { setSelectedSlot(i); }}
               className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all overflow-hidden relative"
               style={active
                 ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
@@ -474,9 +471,8 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {extraSlots.map((s, j) => {
                       const idx = j + FULL_VISIBLE
-                      const active = selectedSlot === idx && !showOtherDate
-                      return (
-                        <button key={idx} onClick={() => { setSelectedSlot(idx); setShowOtherDate(false) }}
+                      const active = selectedSlot === idx                      return (
+                        <button key={idx} onClick={() => { setSelectedSlot(idx); }}
                           className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-all"
                           style={active
                             ? { background: '#0694D1', color: 'white', border: '1px solid #0694D1', boxShadow: '0 2px 6px rgba(6,148,209,0.3)' }
@@ -500,9 +496,8 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
                   <div className="flex flex-col gap-2">
                     {extraSlots.map((s, j) => {
                       const idx = j + FULL_VISIBLE
-                      const active = selectedSlot === idx && !showOtherDate
-                      return (
-                        <button key={idx} onClick={() => { setSelectedSlot(idx); setShowOtherDate(false) }}
+                      const active = selectedSlot === idx                      return (
+                        <button key={idx} onClick={() => { setSelectedSlot(idx); }}
                           className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
                           style={active
                             ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
@@ -542,21 +537,6 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
           </>
         )}
 
-        {/* Other date option */}
-        <button onClick={() => { setShowOtherDate(o => !o); if (!showOtherDate) setSelectedSlot(-1) }}
-          className="self-start flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline"
-          style={{ color: showOtherDate ? '#0694D1' : '#94A3B8' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-            <line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/>
-          </svg>
-          {showOtherDate ? 'Cancel' : 'Request Another Date'}
-        </button>
-        {showOtherDate && (
-          <input type="date" value={otherDate} onChange={e => setOtherDate(e.target.value)}
-            className="rounded-xl px-3 py-2 text-xs outline-none w-full"
-            style={{ border: '1.5px solid #0694D1', background: '#F0F9FF', color: '#0F172A' }} />
-        )}
       </div>
 
       {/* Action buttons — Learn More left, Enroll Now right */}
