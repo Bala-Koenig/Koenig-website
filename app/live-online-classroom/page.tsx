@@ -11,6 +11,7 @@ const COURSES = [
     name: 'Microsoft Azure Administrator',
     duration: 32,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: '$1,245',
+    techs: ['Cloud Computing', 'Microsoft Azure'],
     schedules: [
       { dates: '05 – 08 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -22,6 +23,7 @@ const COURSES = [
     name: 'Designing and Implementing a Microsoft Azure AI Solution',
     duration: 40,
     tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: '$995',
+    techs: ['AI & Machine Learning', 'Microsoft Azure', 'Data & AI'],
     schedules: [
       { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 25 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -33,6 +35,7 @@ const COURSES = [
     name: 'Microsoft Fabric Data Engineer',
     duration: 32,
     tags: ['ASSOCIATE'], rating: 4.8, enrolled: '720+', price: '$995',
+    techs: ['Data Engineering', 'Microsoft Fabric', 'Data & AI'],
     schedules: [
       { dates: '04 – 07 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
       { dates: '18 – 21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -44,6 +47,7 @@ const COURSES = [
     name: 'Microsoft Identity and Access Administrator',
     duration: 32,
     tags: ['ASSOCIATE'], rating: 4.7, enrolled: '840+', price: '$996',
+    techs: ['Cybersecurity', 'Microsoft Identity'],
     schedules: [
       { dates: '04 – 07 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '11 – 14 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -55,6 +59,7 @@ const COURSES = [
     name: 'Microsoft Security Operations Analyst',
     duration: 32,
     tags: ['ASSOCIATE'], rating: 4.8, enrolled: '780+', price: '$996',
+    techs: ['Cybersecurity'],
     schedules: [
       { dates: '04 – 07 May', time: '03:30 AM – 11:30 AM IST', gtr: true },
       { dates: '18 – 21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -66,6 +71,7 @@ const COURSES = [
     name: 'Microsoft Fabric Analytics Engineer',
     duration: 32,
     tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: '$995',
+    techs: ['Data Engineering', 'Microsoft Fabric', 'Data & AI'],
     schedules: [
       { dates: '24 – 27 Aug', time: '12:30 PM – 08:30 PM IST', gtr: true },
       { dates: '08 – 11 Sep', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -76,6 +82,7 @@ const COURSES = [
     name: 'Developing Solutions for Microsoft Azure',
     duration: 40,
     tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: '$1,245',
+    techs: ['Cloud Computing', 'Microsoft Azure', 'DevOps'],
     schedules: [
       { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 25 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -87,6 +94,7 @@ const COURSES = [
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32,
     tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: '$1,245',
+    techs: ['Cloud Computing', 'Microsoft Azure'],
     schedules: [
       { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -98,6 +106,7 @@ const COURSES = [
     name: 'Project Management Professional (PMP®) Certification Training',
     duration: 40,
     tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: '$1,095',
+    techs: ['Project Management'],
     schedules: [
       { dates: '04 – 08 May', time: '11:30 AM – 07:30 PM IST', gtr: true },
       { dates: '18 – 22 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -109,6 +118,7 @@ const COURSES = [
     name: 'Microsoft Power BI Data Analyst',
     duration: 8,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: '$398',
+    techs: ['Data & AI'],
     schedules: [
       { dates: '14 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '28 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -120,6 +130,7 @@ const COURSES = [
     name: 'AWS Certified Solutions Architect – Associate (Architecting on AWS)',
     duration: 24,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: '$1,395',
+    techs: ['Cloud Computing'],
     schedules: [
       { dates: '04 – 08 May', time: '01:30 PM – 09:30 PM IST', gtr: true },
       { dates: '18 – 22 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -131,6 +142,7 @@ const COURSES = [
     name: 'AWS Certified CloudOps Engineer – Associate (Cloud Operations on AWS)',
     duration: 24,
     tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: '$1,195',
+    techs: ['Cloud Computing', 'DevOps'],
     schedules: [
       { dates: '11 – 13 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '25 – 27 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -142,6 +154,7 @@ const COURSES = [
     name: 'Certified Ethical Hacker (CEH v13)',
     duration: 40,
     tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: '$1,350',
+    techs: ['Cybersecurity'],
     schedules: [
       { dates: '05 – 09 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
@@ -153,6 +166,7 @@ const COURSES = [
     name: 'CompTIA Security+ SY0-701',
     duration: 40,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: '$945',
+    techs: ['Cybersecurity'],
     schedules: [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '26 – 30 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -164,6 +178,7 @@ const COURSES = [
     name: 'Implementing and Administering Cisco Solutions (CCNA)',
     duration: 40,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: '$995',
+    techs: ['Networking'],
     schedules: [
       { dates: '05 – 09 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -175,6 +190,7 @@ const COURSES = [
     name: 'ISO/IEC 27001 Lead Implementer',
     duration: 40,
     tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: '$1,295',
+    techs: ['Cybersecurity'],
     schedules: [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '26 – 30 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
@@ -502,27 +518,31 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   )
 }
 
-/* ── Sidebar vendor data ─────────────────────────────────────── */
-const SIDEBAR_VENDORS = [
-  { name: 'All',        label: 'All Vendors', count: 16, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
-  { name: 'Microsoft',  label: 'Microsoft',   count: 9,  bg: '#E3F2FD', color: '#0078d4', initial: 'M' },
-  { name: 'AWS',        label: 'AWS',         count: 2,  bg: '#FFF3E0', color: '#FF9900', initial: 'A' },
-  { name: 'PMI',        label: 'PMI',         count: 1,  bg: '#EDE7F6', color: '#7c3aed', initial: 'P' },
-  { name: 'EC-Council', label: 'EC-Council',  count: 1,  bg: '#FFEBEE', color: '#c8102e', initial: 'E' },
-  { name: 'CompTIA',    label: 'CompTIA',     count: 1,  bg: '#FFF8E1', color: '#d97706', initial: 'C' },
-  { name: 'Cisco',      label: 'Cisco',       count: 1,  bg: '#E0F7FA', color: '#1ba0d7', initial: 'C' },
-  { name: 'PECB',       label: 'PECB',        count: 1,  bg: '#ECEFF1', color: '#475569', initial: 'P' },
+/* ── Sidebar technology data ─────────────────────────────────── */
+const SIDEBAR_TECHNOLOGIES = [
+  { name: 'All',                 label: 'All Technologies',   count: 16, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
+  { name: 'Cloud Computing',     label: 'Cloud Computing',    count: 5,  bg: '#E3F2FD', color: '#0078d4', initial: '☁' },
+  { name: 'Cybersecurity',       label: 'Cybersecurity',      count: 5,  bg: '#FFEBEE', color: '#c8102e', initial: 'Cy' },
+  { name: 'Data & AI',           label: 'Data & AI',          count: 4,  bg: '#E8F5E9', color: '#2e7d32', initial: 'DA' },
+  { name: 'Microsoft Azure',     label: 'Microsoft Azure',    count: 4,  bg: '#E3F2FD', color: '#0078d4', initial: 'Az' },
+  { name: 'DevOps',              label: 'DevOps',             count: 2,  bg: '#F3E5F5', color: '#7b1fa2', initial: 'DO' },
+  { name: 'Microsoft Fabric',    label: 'Microsoft Fabric',   count: 2,  bg: '#FFF3E0', color: '#e65100', initial: 'MF' },
+  { name: 'AI & Machine Learning', label: 'AI & ML',          count: 1,  bg: '#E0F2F1', color: '#00695c', initial: 'AI' },
+  { name: 'Networking',          label: 'Networking',         count: 1,  bg: '#E0F7FA', color: '#1ba0d7', initial: 'Nw' },
+  { name: 'Project Management',  label: 'Project Mgmt',       count: 1,  bg: '#EDE7F6', color: '#7c3aed', initial: 'PM' },
 ]
 
-const VENDOR_DESCS: Record<string, string> = {
-  All:          'Browse all 16 Guaranteed-to-Run classes across Microsoft, AWS, PMI, EC-Council, CompTIA, Cisco and PECB.',
-  Microsoft:    'Master Azure, AI, Security, Power BI and more — from core administration to advanced infrastructure solutions.',
-  AWS:          "Build, deploy and scale on the world's most comprehensive cloud platform with AWS certified training.",
-  PMI:          'Advance your project management career with PMP® exam preparation and globally recognised PMI certification.',
-  'EC-Council': 'Master ethical hacking and cybersecurity with the world-renowned Certified Ethical Hacker (CEH v13).',
-  CompTIA:      "Validate your IT skills with CompTIA Security+ SY0-701, the industry's leading vendor-neutral certification.",
-  Cisco:        'From CCNA to CCIE — master enterprise networking with Cisco premier certified instructor-led training.',
-  PECB:         'Become an ISO/IEC 27001 Lead Implementer with PECB internationally recognised certification training.',
+const TECH_DESCS: Record<string, string> = {
+  'All':                   'Browse all 16 Guaranteed-to-Run classes across Cloud, Cybersecurity, Data & AI, DevOps, Networking and more.',
+  'Cloud Computing':       'Master Azure, AWS and cloud platform architecture — from core administration to advanced infrastructure design.',
+  'Cybersecurity':         'Protect organisations with CEH, CompTIA Security+, SC-200 and ISO 27001 instructor-led certification training.',
+  'Data & AI':             'Unlock the power of data with Azure AI, Power BI, Microsoft Fabric and advanced analytics certifications.',
+  'Microsoft Azure':       'Deep-dive into Azure administration, AI, developer solutions and infrastructure design with Microsoft training.',
+  'DevOps':                'Bridge development and operations with Azure DevOps, AWS CloudOps and cloud-native toolchain training.',
+  'Microsoft Fabric':      'Build unified analytics solutions with Microsoft Fabric data engineering and analytics engineer certification.',
+  'AI & Machine Learning': 'Design and implement production-ready AI solutions on Microsoft Azure with the AI-102 certification course.',
+  'Networking':            'Master enterprise networking fundamentals and advanced routing with Cisco CCNA instructor-led training.',
+  'Project Management':    'Advance your PM career with the globally recognised PMP® certification exam-prep training.',
 }
 
 /* ── Shared form data ────────────────────────────────────────── */
@@ -676,7 +696,7 @@ function InquiryForm({
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab]     = useState('ilo')
-  const [activeVendor, setActiveVendor] = useState('All')
+  const [activeTech, setActiveTech]   = useState('All')
   const [search, setSearch]           = useState('')
   const [filterTz, setFilterTz]       = useState('')
   const [page, setPage]               = useState(0)
@@ -695,13 +715,13 @@ export default function LiveOnlineClassroomPage() {
   const filtered = COURSES.filter(c => {
     const q = search.toLowerCase()
     const matchSearch  = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
-    const matchVendor  = activeVendor === 'All' || c.vendor === activeVendor
+    const matchTech    = activeTech === 'All' || (c.techs ?? []).includes(activeTech)
     const matchTz      = !filterTz || c.schedules.some(s => s.time.includes(filterTz))
-    return matchSearch && matchVendor && matchTz
+    return matchSearch && matchTech && matchTz
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
-  const activeVendorData = SIDEBAR_VENDORS.find(v => v.name === activeVendor) ?? SIDEBAR_VENDORS[0]
+  const activeTechData = SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTech) ?? SIDEBAR_TECHNOLOGIES[0]
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -1028,7 +1048,7 @@ export default function LiveOnlineClassroomPage() {
                 Find Your <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Guaranteed to Run</em> Course
               </h2>
               <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>
-                Browse {COURSES.length} live online GTR classes across {SIDEBAR_VENDORS.length - 1} vendors — confirmed to run regardless of enrolment numbers.
+                Browse {COURSES.length} live online GTR classes across {SIDEBAR_TECHNOLOGIES.length - 1} technologies — confirmed to run regardless of enrolment numbers.
               </p>
             </div>
             <button onClick={() => setShowFormModal(true)}
@@ -1040,16 +1060,16 @@ export default function LiveOnlineClassroomPage() {
             </button>
           </div>
 
-          {/* Mobile vendor pills */}
+          {/* Mobile technology pills */}
           <div className="flex lg:hidden overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
-            {SIDEBAR_VENDORS.map(v => (
-              <button key={v.name}
-                onClick={() => { setActiveVendor(v.name); setPage(0) }}
+            {SIDEBAR_TECHNOLOGIES.map(t => (
+              <button key={t.name}
+                onClick={() => { setActiveTech(t.name); setPage(0) }}
                 className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all"
-                style={activeVendor === v.name
+                style={activeTech === t.name
                   ? { background: '#0694D1', color: 'white', border: '1px solid #0694D1' }
                   : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
-                {v.label} ({v.count})
+                {t.label} ({t.count})
               </button>
             ))}
           </div>
@@ -1061,33 +1081,33 @@ export default function LiveOnlineClassroomPage() {
             <div className="hidden lg:flex flex-col w-[190px] shrink-0 rounded-2xl overflow-hidden bg-white"
               style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
               <p className="px-4 py-3 text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8', borderBottom: '1px solid #EBF8FE' }}>
-                VENDORS
+                TECHNOLOGY
               </p>
               <div className="flex flex-col">
-                {SIDEBAR_VENDORS.map(v => (
-                  <button key={v.name}
-                    onClick={() => { setActiveVendor(v.name); setPage(0) }}
+                {SIDEBAR_TECHNOLOGIES.map(t => (
+                  <button key={t.name}
+                    onClick={() => { setActiveTech(t.name); setPage(0) }}
                     className="flex items-center justify-between w-full px-4 py-3 text-left transition-colors hover:bg-[#F0FAFF]"
                     style={{
-                      borderLeft: `3px solid ${activeVendor === v.name ? '#0694D1' : 'transparent'}`,
-                      background:  activeVendor === v.name ? '#EBF8FE' : 'white',
+                      borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`,
+                      background:  activeTech === t.name ? '#EBF8FE' : 'white',
                     }}>
                     <div className="flex items-center gap-2.5">
                       <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0"
-                        style={{ background: v.bg, color: v.color }}>
-                        {v.initial}
+                        style={{ background: t.bg, color: t.color }}>
+                        {t.initial}
                       </div>
                       <span className="text-sm font-semibold leading-tight"
-                        style={{ color: activeVendor === v.name ? '#0694D1' : '#374151' }}>
-                        {v.label}
+                        style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>
+                        {t.label}
                       </span>
                     </div>
                     <span className="text-[11px] font-bold rounded-full px-2 py-0.5 shrink-0 ml-1"
                       style={{
-                        background: activeVendor === v.name ? '#0694D1' : '#E2E8F0',
-                        color:      activeVendor === v.name ? 'white' : '#6B7280',
+                        background: activeTech === t.name ? '#0694D1' : '#E2E8F0',
+                        color:      activeTech === t.name ? 'white' : '#6B7280',
                       }}>
-                      {v.count}
+                      {t.count}
                     </span>
                   </button>
                 ))}
@@ -1104,17 +1124,17 @@ export default function LiveOnlineClassroomPage() {
             {/* ── Right panel ── */}
             <div className="flex-1 min-w-0">
 
-              {/* Vendor header */}
+              {/* Technology header */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5 p-5 rounded-2xl bg-white"
                 style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)' }}>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-black shrink-0"
-                    style={{ background: activeVendorData.bg, color: activeVendorData.color }}>
-                    {activeVendorData.initial}
+                    style={{ background: activeTechData.bg, color: activeTechData.color }}>
+                    {activeTechData.initial}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeVendorData.label}</h3>
-                    <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{VENDOR_DESCS[activeVendor]}</p>
+                    <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
+                    <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech]}</p>
                   </div>
                 </div>
                 <button onClick={() => setShowFormModal(true)} className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
