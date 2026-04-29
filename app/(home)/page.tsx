@@ -1063,7 +1063,18 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
 
 /* ─── Dropdown data ─────────────────────────────────────────── */
 const ABOUT_LINKS = ['About Us','Our Clientele','Leadership','Our Partners','Happiness Guarantee','Student Feedback','Testimonials','Koenig Koshish','Our Awards']
-const LEARNING_LINKS = ['Live Online Training','Classroom Training','1-on-1 Training','Fly-Me-a-Trainer','Flexi','Customized Training','Webinar as a Service','Qubits','Upcoming Webinars','Learnova']
+const LEARNING_LINKS = [
+  { label: 'Live Online Training', href: '/live-online-classroom' },
+  { label: 'Classroom Training',   href: '#' },
+  { label: '1-on-1 Training',      href: '#' },
+  { label: 'Fly-Me-a-Trainer',     href: '#' },
+  { label: 'Flexi',                href: '#' },
+  { label: 'Customized Training',  href: '#' },
+  { label: 'Webinar as a Service', href: '#' },
+  { label: 'Qubits',               href: '#' },
+  { label: 'Upcoming Webinars',    href: '#' },
+  { label: 'Learnova',             href: '#' },
+]
 
 const MEGA_MENU_VENDORS = [
   { name: 'Microsoft',        img: 'microsoft-cloud-t.png',                                    courses: '380+' },
@@ -1609,6 +1620,10 @@ export default function Design4Page() {
   const aboutMenuRef = useRef<HTMLDivElement>(null)
   const [learningMenuOpen, setLearningMenuOpen] = useState(false)
   const learningMenuRef = useRef<HTMLDivElement>(null)
+  const learningTriggerRef = useRef<HTMLButtonElement>(null)
+  const [learningDropPos, setLearningDropPos] = useState({ top: 0, left: 0 })
+  const aboutTriggerRef = useRef<HTMLButtonElement>(null)
+  const [aboutDropPos, setAboutDropPos] = useState({ top: 0, left: 0 })
 
   const router = useRouter()
 
@@ -1722,8 +1737,10 @@ export default function Design4Page() {
       if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) setHeroResultsOpen(false)
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
       if (techMenuRef.current && !techMenuRef.current.contains(e.target as Node)) setTechMenuOpen(false)
-      if (aboutMenuRef.current && !aboutMenuRef.current.contains(e.target as Node)) setAboutMenuOpen(false)
-      if (learningMenuRef.current && !learningMenuRef.current.contains(e.target as Node)) setLearningMenuOpen(false)
+      const insideAbout = aboutMenuRef.current?.contains(e.target as Node) || aboutTriggerRef.current?.contains(e.target as Node)
+      if (!insideAbout) setAboutMenuOpen(false)
+      const insideLearning = learningMenuRef.current?.contains(e.target as Node) || learningTriggerRef.current?.contains(e.target as Node)
+      if (!insideLearning) setLearningMenuOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -2090,69 +2107,45 @@ export default function Design4Page() {
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </a>
 
-              {/* Learning Options with dropdown */}
-              <div className="relative" ref={learningMenuRef}>
-                <a
-                  href="#"
-                  onClick={(e) => { e.preventDefault(); setLearningMenuOpen(v => !v); setAboutMenuOpen(false); setTechMenuOpen(false); setMegaMenuOpen(false); }}
-                  className="flex items-center gap-1 whitespace-nowrap px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
-                  style={{ color: learningMenuOpen ? '#38bdf8' : '#ffffff', background: learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
-                >
-                  Learning Options
-                  <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                </a>
-                {learningMenuOpen && (
-                  <div className="absolute left-0 top-full mt-2 z-[300] rounded-xl shadow-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}>
-                    {LEARNING_LINKS.map((link) => (
-                      <a
-                        key={link}
-                        href="#"
-                        className="block px-5 py-2.5 text-sm transition-colors"
-                        style={{ color: '#374151' }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)'; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-                        onClick={() => setLearningMenuOpen(false)}
-                      >
-                        {link}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {/* Learning Options — portal approach to escape nav-pill stacking context */}
+              <button
+                type="button"
+                ref={learningTriggerRef}
+                onClick={() => {
+                  if (learningTriggerRef.current) {
+                    const r = learningTriggerRef.current.getBoundingClientRect()
+                    setLearningDropPos({ top: r.bottom + 8, left: r.left })
+                  }
+                  setLearningMenuOpen(v => !v); setAboutMenuOpen(false); setTechMenuOpen(false); setMegaMenuOpen(false)
+                }}
+                className="flex items-center gap-1 whitespace-nowrap px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                style={{ color: learningMenuOpen ? '#38bdf8' : '#ffffff', background: learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
+              >
+                Learning Options
+                <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+              </button>
 
-              {/* About with dropdown */}
-              <div className="relative" ref={aboutMenuRef}>
-                <a
-                  href="#"
-                  onClick={(e) => { e.preventDefault(); setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); setLearningMenuOpen(false); }}
-                  className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
-                  style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
-                >
-                  About
-                  <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                </a>
-                {aboutMenuOpen && (
-                  <div className="absolute left-0 top-full mt-2 z-[300] rounded-xl shadow-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}>
-                    {ABOUT_LINKS.map((link) => (
-                      <a
-                        key={link}
-                        href="#"
-                        className="block px-5 py-2.5 text-sm transition-colors"
-                        style={{ color: '#374151' }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)'; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-                        onClick={() => setAboutMenuOpen(false)}
-                      >
-                        {link}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {/* About — portal approach to escape nav-pill stacking context */}
+              <button
+                type="button"
+                ref={aboutTriggerRef}
+                onClick={() => {
+                  if (aboutTriggerRef.current) {
+                    const r = aboutTriggerRef.current.getBoundingClientRect()
+                    setAboutDropPos({ top: r.bottom + 8, left: r.left })
+                  }
+                  setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); setLearningMenuOpen(false)
+                }}
+                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
+              >
+                About
+                <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+              </button>
 
               <a
                 href="#"
@@ -2429,7 +2422,7 @@ export default function Design4Page() {
                 {mobileLearningOpen && (
                   <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
                     {LEARNING_LINKS.map(link => (
-                      <a key={link} href="#" className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }}>{link}</a>
+                      <a key={link.label} href={link.href} className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }}>{link.label}</a>
                     ))}
                   </div>
                 )}
@@ -2655,6 +2648,53 @@ export default function Design4Page() {
           </div>
         )}
       </header>
+
+      {/* Portalled dropdowns — in document.body to fully escape nav-pill stacking context */}
+      {typeof window !== 'undefined' && learningMenuOpen && createPortal(
+        <div
+          ref={learningMenuRef}
+          className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
+          style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+        >
+          {LEARNING_LINKS.map(link => (
+            <button
+              key={link.label}
+              type="button"
+              className="block w-full text-left px-5 py-2.5 text-sm transition-colors"
+              style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent'; }}
+              onClick={() => { setLearningMenuOpen(false); if (link.href !== '#') router.push(link.href) }}
+            >
+              {link.label}
+            </button>
+          ))}
+        </div>,
+        document.body
+      )}
+
+      {typeof window !== 'undefined' && aboutMenuOpen && createPortal(
+        <div
+          ref={aboutMenuRef}
+          className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
+          style={{ top: `${aboutDropPos.top}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+        >
+          {ABOUT_LINKS.map(link => (
+            <button
+              key={link}
+              type="button"
+              className="block w-full text-left px-5 py-2.5 text-sm transition-colors"
+              style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent'; }}
+              onClick={() => setAboutMenuOpen(false)}
+            >
+              {link}
+            </button>
+          ))}
+        </div>,
+        document.body
+      )}
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="relative flex items-center px-4 md:px-8 lg:px-[50px] py-5 sm:py-[25px]" style={{ background: '#06111E' }}>
