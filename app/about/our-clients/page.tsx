@@ -62,7 +62,7 @@ export default function OurClientsPage() {
                 <p className="text-xl text-white/80 mb-4 leading-relaxed">
                   From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
                 </p>
-                <div className="flex flex-wrap gap-6 mt-8">
+                <div className="grid grid-cols-3 gap-4 mt-8">
                   <div className="text-center">
                     <div className="text-3xl font-bold text-[#38bdf8]">1M+</div>
                     <div className="text-white/60 text-sm">Professionals Certified</div>
