@@ -345,7 +345,7 @@ export default function StudentFeedbackPage() {
                 From first certifications to career breakthroughs — read how learners worldwide transformed their careers with Koenig Solutions.
               </p>
               {/* Infographic stats — single row, icon left + text right */}
-              <div className="flex gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-2">
                 {([
                   {
                     val: '5M+', label: 'Learners Upskilled',
