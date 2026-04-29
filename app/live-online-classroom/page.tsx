@@ -1626,12 +1626,12 @@ export default function LiveOnlineClassroomPage() {
 
           {/* ── Vendor filter drawer — inside grouped panel ── */}
           {showVendorPanel && (
-            <div className="absolute inset-0 z-50 flex justify-end rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 z-50 flex items-start justify-end rounded-2xl overflow-hidden">
               {/* Backdrop */}
               <div className="absolute inset-0" style={{ background: 'rgba(6,17,30,0.4)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
                 onClick={() => setShowVendorPanel(false)} />
               {/* Drawer panel */}
-              <div className="relative z-10 flex flex-col bg-white h-full" style={{ width: 320, boxShadow: '-8px 0 40px rgba(6,148,209,0.2)' }}>
+              <div className="relative z-10 flex flex-col bg-white" style={{ width: 320, maxHeight: 'calc(100vh - 80px)', boxShadow: '-8px 0 40px rgba(6,148,209,0.2)', borderRadius: '0 0 0 12px' }}>
                 {/* Header */}
                 <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #E2E8F0' }}>
                   <h3 className="text-base font-bold" style={{ color: '#06111E' }}>Filters</h3>
