@@ -239,46 +239,85 @@ const CATEGORIES = [
 
 const FAQS = [
   {
-    q: 'What is a Guaranteed to Run (GTR) batch?',
-    a: 'A GTR batch is confirmed to run on the scheduled dates regardless of enrolment numbers. Once you see the GTR badge on a schedule slot, your training will not be cancelled or postponed — giving you confidence to book travel, take leave, and prepare without risk.',
+    q: 'How do I register for a Live Online Training session?',
+    a: 'Simply choose your preferred date from the batches mentioned above. Click on "Register Now" and enter your details to secure your spot. Our team will confirm your enrolment and send virtual classroom credentials within 24 hours.',
   },
   {
-    q: 'What equipment do I need to attend a live online class?',
-    a: 'A stable internet connection (minimum 5 Mbps), a modern browser (Chrome, Edge, or Firefox), a working webcam and microphone, and any vendor-specific lab prerequisites (shared in your confirmation email). No additional software installation is typically required.',
+    q: 'What technology do I need to participate in Live Online Training?',
+    a: 'For Live Online Training, all you need is a stable internet connection and a laptop or PC. No specialist hardware is required. Any vendor-specific lab prerequisites will be shared in your enrolment confirmation email before day one.',
   },
   {
-    q: 'Are the sessions recorded?',
-    a: 'Live sessions are not recorded to ensure full vendor compliance and participant privacy. However, you retain access to all course materials, lab guides, and official courseware for 30 days after training ends. A revision class option is also available.',
+    q: 'Can I interact with the instructor and other participants during the session?',
+    a: 'Absolutely! Live Online Training shines with two key benefits: instant doubt resolution and student interaction. You can ask questions in real time, participate in breakout exercises, and collaborate with fellow learners from around the world — just like a physical classroom.',
   },
   {
-    q: 'What time zones do you offer classes in?',
-    a: 'We run multiple daily batches covering IST (India), GST (Gulf), GMT (UK/Europe), EST (Americas), and AEST (Australia/Pacific). Each course card shows available batch timings so you can select one that works for your region.',
+    q: 'Are Live Online Training sessions recorded?',
+    a: 'Yes, you can access recordings of most Live Online Training sessions through the LET Platform for future reference. This ensures you never miss a concept, even if you need to step away momentarily during a session.',
   },
   {
-    q: 'Can my corporate team attend the same live online batch?',
-    a: 'Yes. We accommodate group enrolments of any size in open GTR batches. For teams of 5 or more, we also offer dedicated private batches at a time entirely of your choosing — contact us for a corporate quote.',
+    q: 'What is your cancellation and refund policy for Live Online Training?',
+    a: "Koenig Solutions offers a flexible rescheduling and cancellation policy. If you need to reschedule, simply contact our support team and we'll find the next available GTR batch for you at no extra charge. For full details on refunds, please refer to our Terms of Service.",
   },
   {
-    q: 'Is the training instructor-led or self-paced?',
-    a: 'All Live Online Classroom (ILO) sessions are 100% instructor-led in real time. You interact with a certified trainer and fellow learners live. If you prefer self-paced study, ask about our Flexi Training option.',
+    q: 'How can I provide feedback on my Live Online Training experience?',
+    a: "Your feedback matters! We'll ask you to complete a short feedback form on the first and last day of training. This helps us continuously improve our delivery quality, instructor performance, and course content.",
   },
   {
-    q: 'What if I miss a session?',
-    a: "Koenig's Happiness Guarantee covers you. If you miss a session due to unavoidable circumstances, you can rejoin the same course in a future batch at no extra charge, subject to seat availability.",
+    q: 'How can I find courses that are Guaranteed to Run?',
+    a: 'All the courses listed on this page are Guaranteed-to-Run (GTR). Look for the GTR badge on any schedule slot — it means that batch is confirmed to run regardless of enrolment numbers, giving you full confidence to plan your schedule.',
   },
   {
-    q: 'How do I get an invoice or PO for my company?',
-    a: "After confirming your enrolment, our support team raises a proforma invoice within 24 hours. We accept bank transfers, credit cards, and corporate POs. Contact us via the Request Info form and select 'Enterprise' to fast-track the process.",
+    q: 'What happens if I cannot attend a class I am enrolled in?',
+    a: "Koenig Solutions offers a flexible rescheduling policy. If you're unable to attend, contact us as early as possible and we'll transfer you to the next available batch for the same course. Our Happiness Guarantee ensures your learning journey continues without extra cost.",
   },
 ]
 
 const TESTIMONIALS = [
-  { name: 'Ravi Mehta', location: '🇮🇳 India', course: 'AZ-104: Microsoft Azure Administrator', quote: 'The GTR guarantee meant I could plan my schedule confidently. Excellent instructor with real Azure enterprise experience.', initials: 'RM', bg: 'linear-gradient(135deg,#076D9D,#4DBFEF)' },
-  { name: "James O'Brien", location: '🇬🇧 UK', course: 'CompTIA Security+ SY0-701', quote: 'Attended from London in the GMT batch — perfect timing, zero tech issues, and the labs were enterprise-grade.', initials: 'JO', bg: 'linear-gradient(135deg,#093148,#076D9D)' },
-  { name: 'Farah Zahir', location: '🇦🇪 UAE', course: 'AWS Solutions Architect – Associate', quote: 'GST batch was ideal for Dubai. Passed my exam first attempt. The instructor\'s real AWS project experience made the difference.', initials: 'FZ', bg: 'linear-gradient(135deg,#FF9900,#c47a00)' },
-  { name: 'Elena Mancini', location: '🇮🇹 Italy', course: 'PMP Certification Training', quote: 'Koenig\'s live online PMP prep is the best I found. Interactive sessions, practice exams, and a trainer who answered every question.', initials: 'EM', bg: 'linear-gradient(135deg,#0d2a5e,#076D9D)' },
-  { name: 'Ahmed Al-Rashid', location: '🇸🇦 Saudi Arabia', course: 'CEH v13 – Certified Ethical Hacker', quote: 'Completed CEH live online in one intensive week. Hands-on labs in a real virtual environment — no sandbox limitations.', initials: 'AA', bg: 'linear-gradient(135deg,#c8102e,#f47920)' },
-  { name: 'Priya Sharma', location: '🇸🇬 Singapore', course: 'ISO/IEC 27001 Lead Implementer', quote: 'The PECB course content was thorough. Live online format meant I could attend from Singapore without travel costs.', initials: 'PS', bg: 'linear-gradient(135deg,#475569,#076D9D)' },
+  {
+    name: 'Adham Al Mayasi', location: '🇴🇲 Oman',
+    quote: 'Your exceptional skills as a trainer, dedication, expertise, and unwavering commitment are truly inspiring. The live online sessions felt just as engaging as classroom training.',
+    initials: 'AA', bg: 'linear-gradient(135deg,#076D9D,#4DBFEF)',
+  },
+  {
+    name: 'Emmanuel Masabo', location: '🇷🇼 Rwanda',
+    quote: 'The trainer is very organized and helped us understand difficult concepts simply. Content delivery was perfect — the live online format made it easy to follow from Kigali.',
+    initials: 'EM', bg: 'linear-gradient(135deg,#093148,#076D9D)',
+  },
+  {
+    name: 'Yoosuf Nizam', location: '🇲🇻 Maldives',
+    quote: "This trainer is undoubtedly one of the finest I have encountered. His profound knowledge makes complex concepts accessible. The GTR guarantee meant I could plan around the confirmed schedule.",
+    initials: 'YN', bg: 'linear-gradient(135deg,#F47920,#f6a05c)',
+  },
+  {
+    name: 'Anacleto Francisco da Rosa', location: '🇦🇴 Angola',
+    quote: 'The teacher is very friendly, knowledgeable, and passionate. Excellent hands-on training experience — the live labs worked flawlessly even on my connection from Luanda.',
+    initials: 'AF', bg: 'linear-gradient(135deg,#076D9D,#093148)',
+  },
+  {
+    name: 'David Muriuki', location: '🇰🇪 Kenya',
+    quote: 'His pedagogical skills were exceptional, blending professionalism with deep subject matter understanding throughout. Live online delivery from Nairobi was seamless.',
+    initials: 'DM', bg: 'linear-gradient(135deg,#34A853,#076D9D)',
+  },
+  {
+    name: 'Fredrick Fiifi Arthur', location: '🇬🇭 Ghana',
+    quote: 'Your passion and expertise in teaching Power BI have been incredibly motivating and empowering. The interactive sessions made every module click into place immediately.',
+    initials: 'FA', bg: 'linear-gradient(135deg,#F2C811,#0694d1)',
+  },
+  {
+    name: 'Amjaad Kushar', location: '🇸🇦 Saudi Arabia',
+    quote: 'I would like to express my sincere appreciation for such an outstanding learning experience. The GST-time batch was perfectly scheduled for the Gulf region.',
+    initials: 'AK', bg: 'linear-gradient(135deg,#093148,#F47920)',
+  },
+  {
+    name: 'Monica Kalamula', location: '🇲🇼 Malawi',
+    quote: 'The instructor possessed deep understanding, translating complex ideas into easily digestible information effectively. Koenig live online truly bridges the gap across continents.',
+    initials: 'MK', bg: 'linear-gradient(135deg,#476D8D,#0694D1)',
+  },
+  {
+    name: 'Emanuel Bento Mahina', location: '🇦🇴 Angola',
+    quote: 'I received one of the best trainings with exceptional security expertise. Highly motivated and well-prepared instructor who kept the live online sessions energetic from start to finish.',
+    initials: 'EB', bg: 'linear-gradient(135deg,#c8102e,#f47920)',
+  },
 ]
 
 /* ── Course Card ─────────────────────────────────────────────── */
@@ -736,7 +775,7 @@ export default function LiveOnlineClassroomPage() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
-                  <p className="text-xs font-bold truncate pr-2" style={{ color: '#093148' }}>{t.course}</p>
+                  <p className="text-xs font-bold truncate pr-2" style={{ color: '#093148' }}>Live Online Training</p>
                   <span className="shrink-0 rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
                 </div>
               </div>
