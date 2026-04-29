@@ -631,7 +631,26 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
 /* ── Filter data ─────────────────────────────────────────────── */
 const OEM_OPTIONS = ['Microsoft','AWS','PMI','EC-Council','CompTIA','Cisco','PECB','Oracle','Red Hat','VMware','SAP','Google Cloud','ISACA','ISC2']
 const TECH_OPTIONS = ['Cloud Computing','Cybersecurity','Project Management','Data & AI','Networking','DevOps & Cloud-Native','ITSM & Governance','SAP & ERP','Microsoft Office 365','Microsoft SQL Server','Linux & Open Source']
-const TZ_OPTIONS   = ['IST','GST','GMT','EST','CST','PST','AEST','CET','CEST','AFT','SST']
+const TZ_OPTIONS   = [
+  'IST — India (UTC+5:30)',
+  'GST — UAE / Gulf (UTC+4)',
+  'GMT — UK (UTC+0)',
+  'CET — Central Europe (UTC+1)',
+  'CEST — Central Europe Summer (UTC+2)',
+  'EST — US East (UTC−5)',
+  'CST — US Central (UTC−6)',
+  'PST — US West (UTC−8)',
+  'AEST — Australia East (UTC+10)',
+  'SGT — Singapore (UTC+8)',
+  'AFT — Afghanistan (UTC+4:30)',
+  'NPT — Nepal (UTC+5:45)',
+  'PKT — Pakistan (UTC+5)',
+  'BDT — Bangladesh (UTC+6)',
+  'GST — Gulf Standard (UTC+4)',
+  'EAT — East Africa (UTC+3)',
+  'WAT — West Africa (UTC+1)',
+  'CAT — Central Africa (UTC+2)',
+]
 
 /* ── FilterDropdown ──────────────────────────────────────────── */
 function FilterDropdown({
@@ -1006,7 +1025,7 @@ export default function LiveOnlineClassroomPage() {
   const [activeTech, setActiveTech]   = useState('All')
   const [techSearch, setTechSearch]   = useState('')
   const [search, setSearch]           = useState('')
-  const [filterTz, setFilterTz]       = useState('')
+  const [filterTz, setFilterTz]       = useState('IST — India (UTC+5:30)')
   const [filterVendor, setFilterVendor] = useState('')
   const [vendorExpanded, setVendorExpanded] = useState(false)
   const [page, setPage]               = useState(0)
