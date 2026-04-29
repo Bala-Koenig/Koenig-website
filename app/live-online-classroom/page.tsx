@@ -11,7 +11,7 @@ const COURSES = [
     name: 'Microsoft Azure Administrator',
     duration: 32,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: '$1,245',
-    techs: ['Cloud Computing'],
+    techs: ['Microsoft Azure'],
     schedules: [
       { dates: '05 – 08 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -23,7 +23,7 @@ const COURSES = [
     name: 'Designing and Implementing a Microsoft Azure AI Solution',
     duration: 40,
     tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: '$995',
-    techs: ['Data & AI'],
+    techs: ['Artificial Intelligence (AI)', 'Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 25 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -35,7 +35,7 @@ const COURSES = [
     name: 'Microsoft Fabric Data Engineer',
     duration: 32,
     tags: ['ASSOCIATE'], rating: 4.8, enrolled: '720+', price: '$995',
-    techs: ['Data & AI'],
+    techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '04 – 07 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
       { dates: '18 – 21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -47,7 +47,7 @@ const COURSES = [
     name: 'Microsoft Identity and Access Administrator',
     duration: 32,
     tags: ['ASSOCIATE'], rating: 4.7, enrolled: '840+', price: '$996',
-    techs: ['Cybersecurity'],
+    techs: ['Identity and Access Management (IAM)'],
     schedules: [
       { dates: '04 – 07 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '11 – 14 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -59,7 +59,7 @@ const COURSES = [
     name: 'Microsoft Security Operations Analyst',
     duration: 32,
     tags: ['ASSOCIATE'], rating: 4.8, enrolled: '780+', price: '$996',
-    techs: ['Cybersecurity'],
+    techs: ['Cyber Security'],
     schedules: [
       { dates: '04 – 07 May', time: '03:30 AM – 11:30 AM IST', gtr: true },
       { dates: '18 – 21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -71,7 +71,7 @@ const COURSES = [
     name: 'Microsoft Fabric Analytics Engineer',
     duration: 32,
     tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: '$995',
-    techs: ['Data & AI'],
+    techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '24 – 27 Aug', time: '12:30 PM – 08:30 PM IST', gtr: true },
       { dates: '08 – 11 Sep', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -82,7 +82,7 @@ const COURSES = [
     name: 'Developing Solutions for Microsoft Azure',
     duration: 40,
     tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: '$1,245',
-    techs: ['Cloud Computing', 'DevOps & Cloud-Native'],
+    techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 25 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -94,7 +94,7 @@ const COURSES = [
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32,
     tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: '$1,245',
-    techs: ['Cloud Computing'],
+    techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -118,7 +118,7 @@ const COURSES = [
     name: 'Microsoft Power BI Data Analyst',
     duration: 8,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: '$398',
-    techs: ['Data & AI'],
+    techs: ['Data Management & Analytics'],
     schedules: [
       { dates: '14 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '28 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -130,7 +130,7 @@ const COURSES = [
     name: 'AWS Certified Solutions Architect – Associate (Architecting on AWS)',
     duration: 24,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: '$1,395',
-    techs: ['Cloud Computing'],
+    techs: ['AWS Cloud'],
     schedules: [
       { dates: '04 – 08 May', time: '01:30 PM – 09:30 PM IST', gtr: true },
       { dates: '18 – 22 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -142,7 +142,7 @@ const COURSES = [
     name: 'AWS Certified CloudOps Engineer – Associate (Cloud Operations on AWS)',
     duration: 24,
     tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: '$1,195',
-    techs: ['Cloud Computing', 'DevOps & Cloud-Native'],
+    techs: ['AWS Cloud'],
     schedules: [
       { dates: '11 – 13 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '25 – 27 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -154,7 +154,7 @@ const COURSES = [
     name: 'Certified Ethical Hacker (CEH v13)',
     duration: 40,
     tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: '$1,350',
-    techs: ['Cybersecurity'],
+    techs: ['Ethical Hacking and Penetration Testing', 'Cyber Security'],
     schedules: [
       { dates: '05 – 09 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
@@ -166,7 +166,7 @@ const COURSES = [
     name: 'CompTIA Security+ SY0-701',
     duration: 40,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: '$945',
-    techs: ['Cybersecurity'],
+    techs: ['Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '26 – 30 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -178,7 +178,7 @@ const COURSES = [
     name: 'Implementing and Administering Cisco Solutions (CCNA)',
     duration: 40,
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: '$995',
-    techs: ['Networking'],
+    techs: ['CCNA'],
     schedules: [
       { dates: '05 – 09 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -190,7 +190,7 @@ const COURSES = [
     name: 'ISO/IEC 27001 Lead Implementer',
     duration: 40,
     tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: '$1,295',
-    techs: ['Cybersecurity', 'ITSM & Governance'],
+    techs: ['ISO', 'Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '26 – 30 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
@@ -518,29 +518,35 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   )
 }
 
-/* ── Sidebar technology data ─────────────────────────────────── */
+/* ── Sidebar technology data (names match Koenig filter dropdown) */
 const SIDEBAR_TECHNOLOGIES = [
-  { name: 'All',                  label: 'All Technologies',    count: 16, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
-  { name: 'Cloud Computing',      label: 'Cloud Computing',     count: 5,  bg: '#E3F2FD', color: '#0078d4', initial: '☁' },
-  { name: 'Cybersecurity',        label: 'Cybersecurity',       count: 5,  bg: '#FFEBEE', color: '#c8102e', initial: 'Cy' },
-  { name: 'Project Management',   label: 'Project Management',  count: 1,  bg: '#EDE7F6', color: '#7c3aed', initial: 'PM' },
-  { name: 'Data & AI',            label: 'Data & AI',           count: 4,  bg: '#E8F5E9', color: '#2e7d32', initial: 'DA' },
-  { name: 'Networking',           label: 'Networking',          count: 1,  bg: '#E0F7FA', color: '#1ba0d7', initial: 'Nw' },
-  { name: 'DevOps & Cloud-Native',label: 'DevOps & Cloud-Native', count: 2, bg: '#F3E5F5', color: '#7b1fa2', initial: 'DO' },
-  { name: 'ITSM & Governance',    label: 'ITSM & Governance',   count: 1,  bg: '#ECEFF1', color: '#475569', initial: 'IT' },
-  { name: 'SAP & ERP',            label: 'SAP & ERP',           count: 0,  bg: '#FFF8E1', color: '#d97706', initial: 'SE' },
+  { name: 'All',                                        label: 'All Technologies',        count: 16, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
+  { name: 'Microsoft Azure',                            label: 'Microsoft Azure',          count: 4,  bg: '#E3F2FD', color: '#0078d4', initial: 'Az' },
+  { name: 'Cyber Security',                             label: 'Cyber Security',           count: 4,  bg: '#FFEBEE', color: '#c8102e', initial: 'CS' },
+  { name: 'AWS Cloud',                                  label: 'AWS Cloud',                count: 2,  bg: '#FFF3E0', color: '#FF9900', initial: 'AW' },
+  { name: 'Microsoft Fabric',                           label: 'Microsoft Fabric',         count: 2,  bg: '#FFF3E0', color: '#e65100', initial: 'MF' },
+  { name: 'Artificial Intelligence (AI)',               label: 'Artificial Intelligence',  count: 1,  bg: '#E0F2F1', color: '#00695c', initial: 'AI' },
+  { name: 'Identity and Access Management (IAM)',       label: 'IAM',                      count: 1,  bg: '#EDE7F6', color: '#7c3aed', initial: 'IA' },
+  { name: 'Project Management',                         label: 'Project Management',       count: 1,  bg: '#E8EAF6', color: '#3949ab', initial: 'PM' },
+  { name: 'Data Management & Analytics',                label: 'Data & Analytics',         count: 1,  bg: '#E8F5E9', color: '#2e7d32', initial: 'DA' },
+  { name: 'Ethical Hacking and Penetration Testing',    label: 'Ethical Hacking',          count: 1,  bg: '#FCE4EC', color: '#c2185b', initial: 'EH' },
+  { name: 'CCNA',                                       label: 'CCNA',                     count: 1,  bg: '#E0F7FA', color: '#1ba0d7', initial: 'CN' },
+  { name: 'ISO',                                        label: 'ISO',                      count: 1,  bg: '#ECEFF1', color: '#475569', initial: 'IS' },
 ]
 
 const TECH_DESCS: Record<string, string> = {
-  'All':                   'Browse all 16 Guaranteed-to-Run classes across Cloud, Cybersecurity, Data & AI, DevOps, Networking and more.',
-  'Cloud Computing':       'Master Azure, AWS and cloud platform architecture — from core administration to advanced infrastructure design.',
-  'Cybersecurity':         'Protect organisations with CEH, CompTIA Security+, SC-200 and ISO 27001 instructor-led certification training.',
-  'Project Management':    'Advance your PM career with the globally recognised PMP® certification exam-prep training.',
-  'Data & AI':             'Unlock the power of data with Azure AI, Power BI, Microsoft Fabric and advanced analytics certifications.',
-  'Networking':            'Master enterprise networking fundamentals and advanced routing with Cisco CCNA instructor-led training.',
-  'DevOps & Cloud-Native': 'Bridge development and operations with Azure DevOps, AWS CloudOps, Kubernetes and cloud-native toolchain training.',
-  'ITSM & Governance':     'Govern IT with confidence — ITIL 4, COBIT, ISO 27001 and ISO 20000 instructor-led certification training.',
-  'SAP & ERP':             'Maximise enterprise resource planning skills with SAP S/4HANA, Basis, FICO, MM and SD certification training.',
+  'All':                                      'Browse all 16 Guaranteed-to-Run classes across Azure, Cyber Security, AWS, Fabric, AI, Networking and more.',
+  'Microsoft Azure':                          'Master Azure administration, AI, developer solutions and infrastructure design with Microsoft certified training.',
+  'Cyber Security':                           'Protect organisations with CEH, CompTIA Security+ and SC-200 Microsoft Security Operations analyst training.',
+  'AWS Cloud':                                "Build, deploy and scale on the world's most comprehensive cloud platform with AWS certified instructor-led training.",
+  'Microsoft Fabric':                         'Build unified analytics solutions with Microsoft Fabric data engineering and analytics engineer certification.',
+  'Artificial Intelligence (AI)':            'Design and implement production-ready AI solutions on Microsoft Azure with the AI-102 certification course.',
+  'Identity and Access Management (IAM)':    'Govern identity, access policies and compliance with the Microsoft Identity and Access Administrator (SC-300) course.',
+  'Project Management':                       'Advance your PM career with the globally recognised PMP® certification exam-prep training.',
+  'Data Management & Analytics':              'Analyse business data and build powerful reports with the Microsoft Power BI Data Analyst (PL-300) certification.',
+  'Ethical Hacking and Penetration Testing':  'Master ethical hacking methodologies with the world-renowned Certified Ethical Hacker (CEH v13) certification.',
+  'CCNA':                                     'Master enterprise networking fundamentals and advanced routing with Cisco CCNA instructor-led training.',
+  'ISO':                                      'Become an ISO/IEC 27001 Lead Implementer with PECB internationally recognised certification training.',
 }
 
 /* ── Shared form data ────────────────────────────────────────── */
