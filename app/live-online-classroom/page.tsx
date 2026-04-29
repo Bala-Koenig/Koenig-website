@@ -9,19 +9,20 @@ const COURSES = [
     id: 1, vendor: 'Microsoft', code: 'AZ-104T00-A',
     name: 'Microsoft Azure Administrator',
     duration: 32,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: '$1,245',
     schedules: [
-      { dates: '05 – 08 May', time: '06:30 AM – 02:30 PM IST', gtr: true, highlight: true },
+      { dates: '05 – 08 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
-      { dates: '11 – 14 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '11 – 14 May', time: '09:30 PM – 05:30 AM IST', gtr: true },
     ],
   },
   {
     id: 2, vendor: 'Microsoft', code: 'AI-102T00',
-    name: 'Develop AI Solutions with Azure',
+    name: 'Designing and Implementing a Microsoft Azure AI Solution',
     duration: 40,
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: '$995',
     schedules: [
-      { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true, highlight: true },
+      { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 25 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '02 – 08 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
     ],
@@ -30,8 +31,9 @@ const COURSES = [
     id: 3, vendor: 'Microsoft', code: 'DP-700T00',
     name: 'Microsoft Fabric Data Engineer',
     duration: 32,
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '720+', price: '$995',
     schedules: [
-      { dates: '04 – 07 May', time: '12:30 PM – 08:30 PM IST', gtr: true, highlight: true },
+      { dates: '04 – 07 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
       { dates: '18 – 21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '01 – 04 Jun', time: '06:30 AM – 02:30 PM IST', gtr: true },
     ],
@@ -40,8 +42,9 @@ const COURSES = [
     id: 4, vendor: 'Microsoft', code: 'SC-300T00',
     name: 'Microsoft Identity and Access Administrator',
     duration: 32,
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '840+', price: '$996',
     schedules: [
-      { dates: '04 – 07 May', time: '04:30 AM – 12:30 PM IST', gtr: true, highlight: true },
+      { dates: '04 – 07 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '11 – 14 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '25 – 28 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
     ],
@@ -50,8 +53,9 @@ const COURSES = [
     id: 5, vendor: 'Microsoft', code: 'SC-200T00',
     name: 'Microsoft Security Operations Analyst',
     duration: 32,
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '780+', price: '$996',
     schedules: [
-      { dates: '04 – 07 May', time: '03:30 AM – 11:30 AM IST', gtr: true, highlight: true },
+      { dates: '04 – 07 May', time: '03:30 AM – 11:30 AM IST', gtr: true },
       { dates: '18 – 21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '01 – 04 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
     ],
@@ -60,8 +64,9 @@ const COURSES = [
     id: 6, vendor: 'Microsoft', code: 'DP-600T00',
     name: 'Microsoft Fabric Analytics Engineer',
     duration: 32,
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: '$995',
     schedules: [
-      { dates: '24 – 27 Aug', time: '12:30 PM – 08:30 PM IST', gtr: true, highlight: true },
+      { dates: '24 – 27 Aug', time: '12:30 PM – 08:30 PM IST', gtr: true },
       { dates: '08 – 11 Sep', time: '09:00 AM – 05:00 PM IST', gtr: true },
     ],
   },
@@ -69,8 +74,9 @@ const COURSES = [
     id: 7, vendor: 'Microsoft', code: 'AZ-204T00',
     name: 'Developing Solutions for Microsoft Azure',
     duration: 40,
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: '$1,245',
     schedules: [
-      { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true, highlight: true },
+      { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 25 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '02 – 08 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
     ],
@@ -79,8 +85,9 @@ const COURSES = [
     id: 8, vendor: 'Microsoft', code: 'AZ-305T00',
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32,
+    tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: '$1,245',
     schedules: [
-      { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true, highlight: true },
+      { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '02 – 06 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
     ],
@@ -89,48 +96,53 @@ const COURSES = [
     id: 9, vendor: 'PMI', code: 'PMP',
     name: 'Project Management Professional (PMP®) Certification Training',
     duration: 40,
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: '$1,095',
     schedules: [
-      { dates: '04 – 08 May', time: '11:30 AM – 07:30 PM IST', gtr: true, highlight: true },
+      { dates: '04 – 08 May', time: '11:30 AM – 07:30 PM IST', gtr: true },
       { dates: '18 – 22 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '01 – 05 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
     ],
   },
   {
     id: 10, vendor: 'Microsoft', code: 'PL-300T00',
-    name: 'Power BI Dashboard in a Day',
+    name: 'Microsoft Power BI Data Analyst',
     duration: 8,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: '$398',
     schedules: [
-      { dates: '14 May', time: '04:30 AM – 12:30 PM IST', gtr: true, highlight: true },
+      { dates: '14 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '28 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '11 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
     ],
   },
   {
-    id: 11, vendor: 'AWS', code: 'AWS-SAA',
+    id: 11, vendor: 'AWS', code: 'AWS-SAA-C03',
     name: 'AWS Certified Solutions Architect – Associate (Architecting on AWS)',
     duration: 24,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: '$1,395',
     schedules: [
-      { dates: '04 – 08 May', time: '01:30 PM – 09:30 PM IST', gtr: true, highlight: true },
+      { dates: '04 – 08 May', time: '01:30 PM – 09:30 PM IST', gtr: true },
       { dates: '18 – 22 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '01 – 05 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
     ],
   },
   {
-    id: 12, vendor: 'AWS', code: 'AWS-COA',
+    id: 12, vendor: 'AWS', code: 'AWS-COA-C02',
     name: 'AWS Certified CloudOps Engineer – Associate (Cloud Operations on AWS)',
     duration: 24,
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: '$1,195',
     schedules: [
-      { dates: '11 – 13 May', time: '04:30 AM – 12:30 PM IST', gtr: true, highlight: true },
+      { dates: '11 – 13 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '25 – 27 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '08 – 10 Jun', time: '01:30 PM – 09:30 PM IST', gtr: true },
     ],
   },
   {
-    id: 13, vendor: 'EC-Council', code: 'CEH',
+    id: 13, vendor: 'EC-Council', code: 'CEH-v13',
     name: 'Certified Ethical Hacker (CEH v13)',
     duration: 40,
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: '$1,350',
     schedules: [
-      { dates: '05 – 09 May', time: '09:00 AM – 05:00 PM IST', gtr: true, highlight: true },
+      { dates: '05 – 09 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '02 – 06 Jun', time: '06:30 AM – 02:30 PM IST', gtr: true },
     ],
@@ -139,43 +151,42 @@ const COURSES = [
     id: 14, vendor: 'CompTIA', code: 'SY0-701',
     name: 'CompTIA Security+ SY0-701',
     duration: 40,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: '$945',
     schedules: [
-      { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true, highlight: true },
+      { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '26 – 30 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '09 – 13 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
     ],
   },
   {
-    id: 15, vendor: 'Cisco', code: 'CCNA',
+    id: 15, vendor: 'Cisco', code: 'CCNA-200-301',
     name: 'Implementing and Administering Cisco Solutions (CCNA)',
     duration: 40,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: '$995',
     schedules: [
-      { dates: '05 – 09 May', time: '02:30 PM – 10:30 PM IST', gtr: true, highlight: true },
+      { dates: '05 – 09 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '02 – 06 Jun', time: '06:30 AM – 02:30 PM IST', gtr: true },
     ],
   },
   {
-    id: 16, vendor: 'PECB', code: 'ISO27001',
+    id: 16, vendor: 'PECB', code: 'ISO-27001-LI',
     name: 'ISO/IEC 27001 Lead Implementer',
     duration: 40,
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: '$1,295',
     schedules: [
-      { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true, highlight: true },
+      { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '26 – 30 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '09 – 13 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
     ],
   },
 ]
 
-const VENDOR_COLORS: Record<string, string> = {
-  Microsoft: '#0078d4',
-  AWS:       '#ff9900',
-  PMI:       '#0d2a5e',
-  'EC-Council': '#c8102e',
-  CompTIA:   '#c00000',
-  Cisco:     '#1ba0d7',
-  PECB:      '#475569',
-  Google:    '#4285F4',
+const TAG_STYLES: Record<string, { bg: string; color: string; dot?: boolean }> = {
+  POPULAR:     { bg: '#06111E',              color: 'white',    dot: true  },
+  ASSOCIATE:   { bg: 'rgba(6,148,209,0.12)', color: '#0694D1'              },
+  EXPERT:      { bg: 'rgba(234,88,12,0.12)', color: '#ea580c'              },
+  FUNDAMENTALS:{ bg: 'rgba(6,148,209,0.12)', color: '#0694D1'              },
 }
 
 const TRAINING_TABS = [
@@ -322,99 +333,86 @@ const TESTIMONIALS = [
 
 /* ── Course Card ─────────────────────────────────────────────── */
 function CourseCard({ course }: { course: typeof COURSES[0] }) {
-  const [showAll, setShowAll] = useState(false)
-  const visible = showAll ? course.schedules : course.schedules.slice(0, 1)
-  const color = VENDOR_COLORS[course.vendor] ?? '#0694D1'
+  const daysFromHours = Math.ceil(course.duration / 8)
+  const nextBatch = course.schedules[0]
 
   return (
     <div className="flex flex-col bg-white rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(6,148,209,0.16)]"
-      style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(0,164,239,0.07)' }}>
-      {/* Top accent */}
-      <div className="h-0.5 w-full" style={{ backgroundColor: color }} />
-
-      <div className="flex flex-col flex-1 p-4">
-        {/* Vendor */}
-        <p className="text-[11px] font-semibold mb-1" style={{ color: '#7a8c96' }}>{course.vendor}</p>
+      style={{ border: '1px solid #E2E8F0', boxShadow: '0 2px 10px rgba(0,0,0,0.06)' }}>
+      <div className="flex flex-col flex-1 p-5">
+        {/* Badge row */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {course.tags.map(tag => {
+              const s = TAG_STYLES[tag] ?? TAG_STYLES.ASSOCIATE
+              return (
+                <span key={tag} className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold"
+                  style={{ background: s.bg, color: s.color }}>
+                  {s.dot && <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: s.color === 'white' ? 'rgba(255,255,255,0.7)' : s.color }} />}
+                  {tag}
+                </span>
+              )
+            })}
+          </div>
+          <button className="text-xs font-semibold whitespace-nowrap ml-2 hover:underline" style={{ color: '#0694D1' }}>
+            Cert Details →
+          </button>
+        </div>
 
         {/* Title */}
-        <h3 className="text-sm font-bold leading-snug mb-4" style={{ color: '#0F172A' }}>
-          {course.code}: {course.name}
+        <h3 className="text-sm font-bold leading-snug mb-3" style={{ color: '#0F172A', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          {course.name}
         </h3>
 
-        {/* Course Contents pill */}
-        <div className="flex justify-center mb-3">
-          <button className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-colors hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1]"
-            style={{ borderColor: '#0694D1', color: '#0694D1' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-            Course Contents
-          </button>
+        {/* Code + Duration pills */}
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          <span className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
+            style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0' }}>
+            {course.code}
+          </span>
+          <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold"
+            style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0' }}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            {daysFromHours} {daysFromHours === 1 ? 'day' : 'days'} · {course.duration} hrs
+          </span>
         </div>
 
-        {/* Duration */}
-        <div className="flex items-center justify-center gap-1.5 mb-3 text-xs" style={{ color: '#475569' }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-          </svg>
-          Duration : <span className="font-semibold">{course.duration} hr</span>
-        </div>
+        {/* Enrolled + rating */}
+        <p className="flex items-center gap-1 text-xs mb-4" style={{ color: '#64748B' }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          &nbsp;{course.enrolled} enrolled &nbsp;·&nbsp; <span style={{ color: '#FBBF24' }}>★</span>&nbsp;{course.rating}
+        </p>
 
-        {/* Schedule slots */}
-        <div className="flex flex-col gap-1.5 mb-2">
-          {visible.map((s, i) => (
-            <div key={i} className="rounded-lg px-3 py-2 text-xs"
-              style={s.highlight
-                ? { background: 'linear-gradient(135deg, rgba(6,148,209,0.12), rgba(56,189,248,0.1))', border: '1px solid rgba(6,148,209,0.35)' }
-                : { background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
-              <div className="flex items-center gap-1 font-semibold mb-0.5" style={{ color: s.highlight ? '#0694D1' : '#0F172A' }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                {s.dates}
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3 text-[10px]" style={{ color: '#475569' }}>
-                  <span className="flex items-center gap-1">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    {s.time}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    Online
-                  </span>
-                </div>
-                {s.gtr && (
-                  <span className="inline-flex items-center gap-0.5 text-[9px] font-bold rounded-full px-1.5 py-0.5"
-                    style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    GTR
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Show More Dates */}
-        {course.schedules.length > 1 && (
-          <button onClick={() => setShowAll(p => !p)}
-            className="text-[11px] font-semibold mb-3 self-center transition-colors hover:text-[#0694D1]"
-            style={{ color: '#475569' }}>
-            {showAll ? 'Show Less ↑' : `Show More Dates ↓`}
-          </button>
+        {/* Next GTR batch */}
+        {nextBatch && (
+          <div className="flex items-center gap-1.5 mb-4 rounded-lg px-3 py-2 text-xs"
+            style={{ background: 'rgba(6,148,209,0.07)', border: '1px solid rgba(6,148,209,0.2)', color: '#0694D1' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span className="font-semibold">Next GTR:</span>
+            <span>{nextBatch.dates}</span>
+            <span className="mx-0.5">·</span>
+            <span>{nextBatch.time}</span>
+          </div>
         )}
+
+        {/* Divider + Price */}
+        <div className="border-t pt-3 mt-auto" style={{ borderColor: '#F1F5F9' }}>
+          <div className="flex items-baseline justify-between">
+            <span className="text-xl font-black" style={{ color: '#0F172A' }}>{course.price}</span>
+            <span className="text-xs" style={{ color: '#94A3B8' }}>per person · USD</span>
+          </div>
+        </div>
       </div>
 
       {/* CTAs */}
-      <div className="px-4 pb-4 flex flex-col gap-2 mt-auto">
-        <button className="w-full rounded-xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
-          style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
-          Request Price
+      <div className="px-5 pb-5 flex gap-2">
+        <button className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-gray-50"
+          style={{ border: '1px solid #E2E8F0', color: '#374151' }}>
+          Enroll Now
         </button>
-        <button className="w-full rounded-xl py-2.5 text-sm font-semibold transition-colors hover:bg-[#0694D1] hover:text-white"
-          style={{ border: '1px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
-          More Details
+        <button className="flex-1 rounded-xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+          style={{ background: '#06111E' }}>
+          Learn More
         </button>
       </div>
     </div>
