@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -303,6 +304,9 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
   const learningTriggerRef = useRef<HTMLButtonElement>(null)
   const [learningDropPos, setLearningDropPos] = useState({ top: 0, left: 0 })
 
+  // Portal mount guard (createPortal needs document.body)
+  const [mounted, setMounted] = useState(false)
+
   // Scroll
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -313,6 +317,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
   }
 
   useEffect(() => {
+    setMounted(true)
     const onScroll = () => {
       const scrollTop = window.scrollY
       setScrolled(scrollTop > 8)
@@ -846,51 +851,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
           </div>
         )}
 
-        {/* Learning Options dropdown — position:fixed escapes all stacking contexts */}
-        {learningMenuOpen && (
-          <div
-            ref={learningMenuRef}
-            className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
-            style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
-          >
-            {LEARNING_LINKS.map(link => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="block px-5 py-2.5 text-sm transition-colors"
-                style={{ color: '#374151' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
-                onClick={() => setLearningMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        )}
-
-        {/* About dropdown — position:fixed escapes all stacking contexts */}
-        {aboutMenuOpen && (
-          <div
-            ref={aboutMenuRef}
-            className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
-            style={{ top: `${aboutDropPos.top}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
-          >
-            {ABOUT_LINKS.map(link => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="block px-5 py-2.5 text-sm transition-colors"
-                style={{ color: '#374151' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
-                onClick={() => setAboutMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        )}
+        {/* Learning Options + About dropdowns are portalled to document.body to fully escape
+            the nav-pill backdrop-filter stacking/containing-block context */}
 
         {/* Technologies Mega Menu */}
         {techMenuOpen && (
@@ -980,6 +942,54 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
           </div>
         )}
       </header>
+
+      {/* Portalled dropdowns — rendered directly in document.body so backdrop-filter
+          on the nav pill cannot affect their containing block or stacking context */}
+      {mounted && learningMenuOpen && createPortal(
+        <div
+          ref={learningMenuRef}
+          className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
+          style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+        >
+          {LEARNING_LINKS.map(link => (
+            <button
+              key={link.label}
+              type="button"
+              className="block w-full text-left px-5 py-2.5 text-sm transition-colors"
+              style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent' }}
+              onClick={() => { setLearningMenuOpen(false); if (link.href !== '#') router.push(link.href) }}
+            >
+              {link.label}
+            </button>
+          ))}
+        </div>,
+        document.body
+      )}
+
+      {mounted && aboutMenuOpen && createPortal(
+        <div
+          ref={aboutMenuRef}
+          className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
+          style={{ top: `${aboutDropPos.top}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+        >
+          {ABOUT_LINKS.map(link => (
+            <button
+              key={link.label}
+              type="button"
+              className="block w-full text-left px-5 py-2.5 text-sm transition-colors"
+              style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent' }}
+              onClick={() => { setAboutMenuOpen(false); if (link.href !== '#') router.push(link.href) }}
+            >
+              {link.label}
+            </button>
+          ))}
+        </div>,
+        document.body
+      )}
     </>
   )
 }
