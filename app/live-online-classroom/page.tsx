@@ -516,7 +516,7 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
 
       {/* Date selection */}
       <div className="px-4 py-3 flex flex-col gap-2">
-        <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>Select a Date</p>
+        <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: '#94A3B8' }}>Select a Date</p>
 
         {/* Full-size date cards (first 2) */}
         {fullCards.map((s, i) => {
