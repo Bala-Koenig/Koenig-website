@@ -331,7 +331,7 @@ export default function StudentFeedbackPage() {
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-10 px-8 sm:px-10">
+          <div className="kglass-banner py-7 px-4 sm:py-10 sm:px-10">
           <div className="flex flex-col md:flex-row md:items-center gap-8 lg:gap-14">
             <div className="flex-1">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(56,189,248,0.12)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.25)' }}>
