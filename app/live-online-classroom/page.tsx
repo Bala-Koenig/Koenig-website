@@ -701,7 +701,7 @@ function FilterDropdown({
 
       {open && (
         <div className="absolute left-0 top-full mt-1.5 z-50 rounded-2xl overflow-hidden"
-          style={{ minWidth: '200px', background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.16)' }}>
+          style={{ minWidth: '290px', background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.16)' }}>
           {/* Search */}
           <div className="p-2 border-b" style={{ borderColor: '#EBF8FE' }}>
             <div className="flex items-center gap-2 rounded-lg px-3 py-1.5" style={{ background: '#F8FBFF', border: '1px solid #CAEFFF' }}>
@@ -724,7 +724,7 @@ function FilterDropdown({
             {filtered.map(o => (
               <button key={o} onClick={() => { onChange(o); setQuery(''); setOpen(false) }}
                 className="flex w-full items-center gap-2 px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF]"
-                style={{ color: value === o ? '#0694D1' : '#374151', background: value === o ? 'rgba(6,148,209,0.06)' : 'transparent', fontWeight: value === o ? 600 : 400 }}>
+                style={{ color: value === o ? '#0694D1' : '#374151', background: value === o ? 'rgba(6,148,209,0.06)' : 'transparent', fontWeight: value === o ? 600 : 400, whiteSpace: 'nowrap' }}>
                 <span className="w-3.5 h-3.5 flex items-center justify-center shrink-0">
                   {value === o && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
                 </span>
@@ -1421,9 +1421,16 @@ export default function LiveOnlineClassroomPage() {
                   </svg>
                   <input type="text" placeholder="Search..." value={techSearch}
                     onChange={e => setTechSearch(e.target.value)}
-                    className="w-full pl-7 pr-2 py-1.5 text-[11px] rounded-lg outline-none"
-                    style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A' }}
+                    className="w-full pl-7 py-1.5 text-[11px] rounded-lg outline-none"
+                    style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: techSearch ? '24px' : '8px' }}
                   />
+                  {techSearch && (
+                    <button onClick={() => setTechSearch('')}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-4 h-4 hover:bg-[#CAEFFF] transition-all"
+                      style={{ color: '#94A3B8' }}>
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 420 }}>
@@ -1533,35 +1540,59 @@ export default function LiveOnlineClassroomPage() {
                           )}
                         </button>
 
-                        {/* Vendor panel */}
-                        {showVendorPanel && <div className="fixed inset-0 z-40" onClick={() => setShowVendorPanel(false)} />}
+                        {/* Vendor drawer */}
                         {showVendorPanel && (
-                          <div className="absolute right-0 top-full mt-2 z-50 rounded-2xl bg-white p-3"
-                            style={{ minWidth: 200, border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.15)' }}>
-                            <p className="text-[10px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: '#94A3B8' }}>Filter by Vendor</p>
-                            <div className="flex flex-col gap-0.5 max-h-64 overflow-y-auto">
-                              {ALL_VENDORS.map(v => {
-                                const active = filterVendors.includes(v)
-                                return (
-                                  <button key={v} onClick={() => toggleVendor(v)}
-                                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-left transition-all hover:bg-[#F0F9FF]"
-                                    style={{ color: active ? '#0694D1' : '#374151', fontWeight: active ? 600 : 400 }}>
-                                    <span className="w-4 h-4 rounded flex items-center justify-center shrink-0"
-                                      style={active ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
-                                      {active && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                                    </span>
-                                    {v}
-                                  </button>
-                                )
-                              })}
+                          <div className="fixed inset-0 z-[100] flex justify-end">
+                            {/* Backdrop */}
+                            <div className="absolute inset-0" style={{ background: 'rgba(6,17,30,0.45)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }} onClick={() => setShowVendorPanel(false)} />
+                            {/* Drawer */}
+                            <div className="relative z-10 flex flex-col bg-white h-full" style={{ width: 320, boxShadow: '-8px 0 40px rgba(6,148,209,0.18)' }}>
+                              {/* Header */}
+                              <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #E2E8F0' }}>
+                                <h3 className="text-base font-bold" style={{ color: '#06111E' }}>Filters</h3>
+                                <button onClick={() => setShowVendorPanel(false)}
+                                  className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-[#F0F9FF]"
+                                  style={{ border: '1px solid #E2E8F0', color: '#475569' }}>
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                                </button>
+                              </div>
+                              {/* Content */}
+                              <div className="flex-1 overflow-y-auto px-5 py-5">
+                                <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Vendor</p>
+                                <div className="flex flex-wrap gap-2">
+                                  {ALL_VENDORS.map(v => {
+                                    const active = filterVendors.includes(v)
+                                    const count = COURSES.filter(c => c.vendor === v).length
+                                    return (
+                                      <button key={v} onClick={() => toggleVendor(v)}
+                                        className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-all"
+                                        style={active
+                                          ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: '1.5px solid transparent', boxShadow: '0 2px 10px rgba(6,148,209,0.3)' }
+                                          : { background: 'white', color: '#374151', border: '1.5px solid #E2E8F0' }}>
+                                        {v}
+                                        <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
+                                          style={active ? { background: 'rgba(255,255,255,0.25)', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>
+                                          {count}
+                                        </span>
+                                      </button>
+                                    )
+                                  })}
+                                </div>
+                              </div>
+                              {/* Footer */}
+                              <div className="flex gap-3 px-5 py-4" style={{ borderTop: '1px solid #E2E8F0' }}>
+                                <button onClick={() => { setFilterVendors([]); setPage(0) }}
+                                  className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F9FF]"
+                                  style={{ border: '1.5px solid #0694D1', color: '#0694D1' }}>
+                                  Clear all
+                                </button>
+                                <button onClick={() => setShowVendorPanel(false)}
+                                  className="flex-1 rounded-xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+                                  style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>
+                                  Show {filtered.length} courses →
+                                </button>
+                              </div>
                             </div>
-                            {filterVendors.length > 0 && (
-                              <button onClick={() => { setFilterVendors([]); setPage(0) }}
-                                className="mt-2 w-full rounded-lg py-1.5 text-xs font-semibold transition-all hover:bg-red-50"
-                                style={{ color: '#EF4444', border: '1px solid #FEE2E2' }}>
-                                Clear all vendors
-                              </button>
-                            )}
                           </div>
                         )}
                       </div>
@@ -1572,7 +1603,7 @@ export default function LiveOnlineClassroomPage() {
                       <div className="flex items-center gap-2 flex-wrap mb-3">
                         {filterVendors.map(v => (
                           <span key={v} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                            style={{ background: '#EBF8FE', color: '#0694D1', border: '1px solid #CAEFFF' }}>
+                            style={{ background: 'white', color: '#0694D1', border: '1.5px solid #0694D1', boxShadow: '0 1px 4px rgba(6,148,209,0.15)' }}>
                             {v}
                             <button onClick={() => toggleVendor(v)} className="hover:opacity-70">
                               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
