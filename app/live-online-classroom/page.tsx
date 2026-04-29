@@ -381,101 +381,115 @@ function getTechIcon(name: string) {
 /* ── Course Card ─────────────────────────────────────────────── */
 function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll: () => void }) {
   const [expanded, setExpanded] = useState(false)
-  const visible = expanded ? course.schedules : course.schedules.slice(0, 1)
+  const [selectedSlot, setSelectedSlot] = useState(0)
+  const [showOtherDate, setShowOtherDate] = useState(false)
+  const [otherDate, setOtherDate] = useState('')
+  const visible = expanded ? course.schedules : course.schedules.slice(0, 2)
 
   return (
     <div className="flex flex-col rounded-2xl bg-white overflow-hidden"
-      style={{ border: '1px solid #E2E8F0', boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}>
+      style={{ border: '1px solid #E2E8F0', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
 
-      <div className="flex flex-col gap-3 p-4">
-        {/* Vendor */}
-        <p className="text-xs font-medium" style={{ color: '#94A3B8' }}>{course.vendor}</p>
-
-        {/* Code + Name */}
-        <h3 className="text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>
+      {/* Card header */}
+      <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F1F5F9' }}>
+        <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full"
+          style={{ background: '#EBF8FE', color: '#0694D1' }}>{course.vendor}</span>
+        <h3 className="mt-2 text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>
           {course.code}: {course.name}
         </h3>
-
-        {/* Course Contents button */}
-        <button className="self-start flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-semibold transition-all hover:bg-[#EBF8FE]"
-          style={{ border: '1px solid #0694D1', color: '#0694D1' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Course Contents
-        </button>
-
-        {/* Duration */}
-        <div className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: '#0F172A' }}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-          </svg>
-          Duration : {course.duration} hr
+        <div className="flex items-center gap-3 mt-2.5">
+          <button className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all hover:bg-[#EBF8FE]"
+            style={{ border: '1px solid #0694D1', color: '#0694D1' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Course Contents
+          </button>
+          <div className="flex items-center gap-1 text-xs font-semibold" style={{ color: '#475569' }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            {course.duration} hr
+          </div>
         </div>
+      </div>
 
-        {/* Schedule slots */}
-        <div className="flex flex-col gap-2">
-          {visible.map((s, i) => (
-            <div key={i} className="rounded-xl px-3 py-2.5 text-xs relative"
-              style={i === 0
-                ? { background: '#EBF8FE', border: '1px solid #0694D1' }
+      {/* Date selection */}
+      <div className="px-4 py-3 flex flex-col gap-2">
+        <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>Select a Date</p>
+
+        {visible.map((s, i) => {
+          const active = selectedSlot === i && !showOtherDate
+          return (
+            <button key={i} onClick={() => { setSelectedSlot(i); setShowOtherDate(false) }}
+              className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
+              style={active
+                ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: '1px solid #0694D1' }
                 : { background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
-              {i === 0 && (
-                <span className="absolute top-2.5 left-[-1px] w-5 h-5 rounded-full flex items-center justify-center"
-                  style={{ background: '#0694D1', marginLeft: '-10px', display: 'none' }} />
-              )}
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? '#0694D1' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                  </svg>
-                  <span className="font-semibold" style={{ color: i === 0 ? '#0694D1' : '#374151' }}>{s.dates}</span>
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-bold" style={{ color: active ? 'white' : '#0F172A' }}>{s.dates}</span>
+                  <span className="text-[11px]" style={{ color: active ? 'rgba(255,255,255,0.85)' : '#64748B' }}>
+                    {s.time} &nbsp;·&nbsp; Online
+                  </span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? '#0694D1' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                  <span style={{ color: i === 0 ? '#0694D1' : '#475569' }}>{s.time}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? '#0694D1' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-                    </svg>
-                    <span style={{ color: i === 0 ? '#0694D1' : '#475569' }}>Online</span>
-                  </div>
+                <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
                   {s.gtr && (
-                    <span className="flex items-center gap-0.5 text-[10px] font-bold" style={{ color: i === 0 ? '#0694D1' : '#64748B' }}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                      style={active
+                        ? { background: 'rgba(255,255,255,0.2)', color: 'white' }
+                        : { background: '#EBF8FE', color: '#0694D1' }}>
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                       </svg>
                       GTR
                     </span>
                   )}
+                  {active && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  )}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            </button>
+          )
+        })}
 
         {/* Show more / less */}
-        {course.schedules.length > 1 && (
+        {course.schedules.length > 2 && (
           <button onClick={() => setExpanded(e => !e)}
-            className="self-start flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-semibold transition-all hover:bg-[#F0FAFF]"
-            style={{ border: '1px solid #CBD5E1', color: '#475569' }}>
-            {expanded ? 'Show Less Dates ↑' : 'Show More Dates ↓'}
+            className="self-start text-xs font-semibold transition-all hover:underline"
+            style={{ color: '#0694D1' }}>
+            {expanded ? '↑ Show Less' : `↓ ${course.schedules.length - 2} More Dates`}
           </button>
+        )}
+
+        {/* Other date option */}
+        <button onClick={() => { setShowOtherDate(o => !o); if (!showOtherDate) setSelectedSlot(-1) }}
+          className="self-start flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline"
+          style={{ color: showOtherDate ? '#0694D1' : '#64748B' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            <line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/>
+          </svg>
+          {showOtherDate ? 'Cancel' : 'Select Other Date'}
+        </button>
+        {showOtherDate && (
+          <input type="date" value={otherDate} onChange={e => setOtherDate(e.target.value)}
+            className="rounded-xl px-3 py-2 text-xs outline-none w-full"
+            style={{ border: '1px solid #0694D1', background: '#F0F9FF', color: '#0F172A' }} />
         )}
       </div>
 
-      {/* Action buttons */}
-      <div className="flex flex-col gap-2 px-4 pb-4">
+      {/* Action buttons — side by side */}
+      <div className="flex gap-2 px-4 pb-4">
         <button onClick={onEnroll}
-          className="w-full rounded-2xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+          className="flex-1 rounded-2xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
           style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
-          Request Price
+          Enroll Now
         </button>
-        <button className="w-full rounded-2xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0FAFF]"
+        <button className="flex-1 rounded-2xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0FAFF]"
           style={{ border: '1px solid #CBD5E1', color: '#374151' }}>
           More Details
         </button>
