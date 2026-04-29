@@ -338,83 +338,50 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
   const nextBatch = course.schedules[0]
 
   return (
-    <div className="flex flex-col bg-white rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(6,148,209,0.16)]"
-      style={{ border: '1px solid #E2E8F0', boxShadow: '0 2px 10px rgba(0,0,0,0.06)' }}>
-      <div className="flex flex-col flex-1 p-5">
-        {/* Badge row */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {course.tags.map(tag => {
-              const s = TAG_STYLES[tag] ?? TAG_STYLES.ASSOCIATE
-              return (
-                <span key={tag} className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold"
-                  style={{ background: s.bg, color: s.color }}>
-                  {s.dot && <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: s.color === 'white' ? 'rgba(255,255,255,0.7)' : s.color }} />}
-                  {tag}
-                </span>
-              )
-            })}
-          </div>
-          <button className="text-xs font-semibold whitespace-nowrap ml-2 hover:underline" style={{ color: '#0694D1' }}>
-            Cert Details →
-          </button>
-        </div>
-
-        {/* Title */}
-        <h3 className="text-sm font-bold leading-snug mb-3" style={{ color: '#0F172A', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-          {course.name}
-        </h3>
-
-        {/* Code + Duration pills */}
-        <div className="flex items-center gap-2 mb-3 flex-wrap">
-          <span className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold"
-            style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0' }}>
-            {course.code}
+    <div className="batch-card" onClick={onEnroll}>
+      {/* Row 1 — badges + GTR indicator */}
+      <div className="batch-card-row1">
+        <div className="batch-badges">
+          <span className="batch-vendor-badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            {course.vendor}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold"
-            style={{ background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0' }}>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            {daysFromHours} {daysFromHours === 1 ? 'day' : 'days'} · {course.duration} hrs
+          <span className="batch-format-badge batch-format-online">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
+            Live Online
           </span>
         </div>
-
-        {/* Enrolled + rating */}
-        <p className="flex items-center gap-1 text-xs mb-4" style={{ color: '#64748B' }}>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          &nbsp;{course.enrolled} enrolled &nbsp;·&nbsp; <span style={{ color: '#FBBF24' }}>★</span>&nbsp;{course.rating}
-        </p>
-
-        {/* Next GTR batch */}
-        {nextBatch && (
-          <div className="flex items-center gap-1.5 mb-4 rounded-lg px-3 py-2 text-xs"
-            style={{ background: 'rgba(6,148,209,0.07)', border: '1px solid rgba(6,148,209,0.2)', color: '#0694D1' }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <span className="font-semibold">Next GTR:</span>
-            <span>{nextBatch.dates}</span>
-            <span className="mx-0.5">·</span>
-            <span>{nextBatch.time}</span>
-          </div>
-        )}
-
-        {/* Divider + Price */}
-        <div className="border-t pt-3 mt-auto" style={{ borderColor: '#F1F5F9' }}>
-          <div className="flex items-baseline justify-between">
-            <span className="text-xl font-black" style={{ color: '#0F172A' }}>{course.price}</span>
-            <span className="text-xs" style={{ color: '#94A3B8' }}>per person · USD</span>
-          </div>
-        </div>
+        <span className="batch-seats batch-seats-ok">GTR ✓</span>
       </div>
 
-      {/* CTAs */}
-      <div className="px-5 pb-5 flex gap-2">
-        <button onClick={onEnroll} className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-gray-50"
-          style={{ border: '1px solid #E2E8F0', color: '#374151' }}>
-          Enroll Now
-        </button>
-        <button className="flex-1 rounded-xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
-          style={{ background: '#06111E' }}>
-          Learn More
-        </button>
+      {/* Course name */}
+      <div className="batch-name">{course.name}</div>
+
+      {/* Meta row */}
+      <div className="batch-meta">
+        <span className="batch-meta-item">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          {nextBatch?.dates ?? '—'}
+        </span>
+        <span>·</span>
+        <span className="batch-meta-item">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          {course.duration} hrs ({daysFromHours} days)
+        </span>
+        <span>·</span>
+        <span className="batch-meta-item" style={{ overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:110 }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          {nextBatch?.time?.split(' ')[2] ?? 'IST'}
+        </span>
+      </div>
+
+      {/* Footer — price + reserve */}
+      <div className="batch-footer">
+        <div>
+          <div className="batch-location-label">Price per person</div>
+          <div className="batch-location-val" style={{ color: '#071e2e', fontWeight: 800, fontSize: 16 }}>{course.price} <span style={{ fontSize: 11, fontWeight: 500, color: '#8faabf' }}>USD</span></div>
+        </div>
+        <button className="batch-reserve-btn" onClick={e => { e.stopPropagation(); onEnroll() }}>Reserve My Seat →</button>
       </div>
     </div>
   )
@@ -1021,20 +988,56 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── UPCOMING SCHEDULE ────────────────────────────────── */}
-      <section id="schedule" className="py-12 sm:py-16" style={{ background: 'linear-gradient(160deg, #EBF8FE 0%, #F5FBFF 50%, #EDF6FF 100%)' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <style>{`
+        @keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .batch-card { background:#fff; border:1px solid #CAEFFF; border-radius:12px; padding:20px; cursor:pointer; transition:transform 0.3s,box-shadow 0.3s; box-shadow:0 4px 16px rgba(0,164,239,0.10); position:relative; }
+        .batch-card:hover { transform:translateY(-8px); box-shadow:0 20px 40px rgba(6,148,209,0.15); }
+        .batch-card-row1 { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+        .batch-badges { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+        .batch-vendor-badge { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; padding:2px 10px; border-radius:20px; background:rgba(6,148,209,0.12); color:#0694D1; border:1px solid rgba(6,148,209,0.3); letter-spacing:0.03em; }
+        .batch-format-badge { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }
+        .batch-format-online { background:#EBF8FE; color:#0694d1; }
+        .batch-seats { font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px; white-space:nowrap; }
+        .batch-seats-ok { background:rgba(34,197,94,0.08); color:#16a34a; }
+        .batch-name { font-size:14px; font-weight:600; color:#071e2e; margin-bottom:8px; line-height:1.4; transition:color 0.2s; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+        .batch-card:hover .batch-name { color:#0694D1; }
+        .batch-meta { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:11.5px; color:#5a7a90; margin-bottom:14px; }
+        .batch-meta-item { display:inline-flex; align-items:center; gap:3px; }
+        .batch-footer { display:flex; align-items:center; justify-content:space-between; border-top:1px solid #CAEFFF; padding-top:12px; }
+        .batch-location-label { font-size:11px; color:#8faabf; }
+        .batch-location-val { display:flex; align-items:center; gap:4px; margin-top:2px; }
+        .batch-reserve-btn { padding:8px 16px; background:linear-gradient(135deg,#0694D1,#076D9D); border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.2s,box-shadow 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(6,148,209,0.25); }
+        .batch-reserve-btn:hover { box-shadow:0 6px 20px rgba(6,148,209,0.4); transform:translateY(-1px); }
+      `}</style>
+      <section id="schedule" className="relative overflow-hidden py-12 sm:py-16" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+        {/* background blobs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
+          <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Section header */}
-          <div className="mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
-              Find Your{' '}
-              <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Guaranteed to Run
-              </span>{' '}Course
-            </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
-              Browse {COURSES.length} live online GTR classes across {SIDEBAR_VENDORS.length - 1} vendors — confirmed to run regardless of enrolment numbers.
-            </p>
+          <div className="flex items-start justify-between flex-wrap gap-4 mb-10">
+            <div>
+              <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2"
+                style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
+                Guaranteed Schedules
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e', lineHeight: 1.2 }}>
+                Find Your <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Guaranteed to Run</em> Course
+              </h2>
+              <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>
+                Browse {COURSES.length} live online GTR classes across {SIDEBAR_VENDORS.length - 1} vendors — confirmed to run regardless of enrolment numbers.
+              </p>
+            </div>
+            <button onClick={() => setShowFormModal(true)}
+              className="inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg shrink-0 self-end"
+              style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+              View Full Schedule
+              <span className="w-6 h-6 rounded-full flex items-center justify-center text-sm"
+                style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
+            </button>
           </div>
 
           {/* Mobile vendor pills */}
