@@ -534,26 +534,49 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   )
 }
 
+/* ── Sidebar vendor data ─────────────────────────────────────── */
+const SIDEBAR_VENDORS = [
+  { name: 'All',        label: 'All Vendors', count: 16, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
+  { name: 'Microsoft',  label: 'Microsoft',   count: 9,  bg: '#E3F2FD', color: '#0078d4', initial: 'M' },
+  { name: 'AWS',        label: 'AWS',         count: 2,  bg: '#FFF3E0', color: '#FF9900', initial: 'A' },
+  { name: 'PMI',        label: 'PMI',         count: 1,  bg: '#EDE7F6', color: '#7c3aed', initial: 'P' },
+  { name: 'EC-Council', label: 'EC-Council',  count: 1,  bg: '#FFEBEE', color: '#c8102e', initial: 'E' },
+  { name: 'CompTIA',    label: 'CompTIA',     count: 1,  bg: '#FFF8E1', color: '#d97706', initial: 'C' },
+  { name: 'Cisco',      label: 'Cisco',       count: 1,  bg: '#E0F7FA', color: '#1ba0d7', initial: 'C' },
+  { name: 'PECB',       label: 'PECB',        count: 1,  bg: '#ECEFF1', color: '#475569', initial: 'P' },
+]
+
+const VENDOR_DESCS: Record<string, string> = {
+  All:          'Browse all 16 Guaranteed-to-Run classes across Microsoft, AWS, PMI, EC-Council, CompTIA, Cisco and PECB.',
+  Microsoft:    'Master Azure, AI, Security, Power BI and more — from core administration to advanced infrastructure solutions.',
+  AWS:          "Build, deploy and scale on the world's most comprehensive cloud platform with AWS certified training.",
+  PMI:          'Advance your project management career with PMP® exam preparation and globally recognised PMI certification.',
+  'EC-Council': 'Master ethical hacking and cybersecurity with the world-renowned Certified Ethical Hacker (CEH v13).',
+  CompTIA:      "Validate your IT skills with CompTIA Security+ SY0-701, the industry's leading vendor-neutral certification.",
+  Cisco:        'From CCNA to CCIE — master enterprise networking with Cisco premier certified instructor-led training.',
+  PECB:         'Become an ISO/IEC 27001 Lead Implementer with PECB internationally recognised certification training.',
+}
+
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function LiveOnlineClassroomPage() {
-  const [activeTab, setActiveTab] = useState('ilo')
-  const [search, setSearch]       = useState('')
-  const [filterOEM, setFilterOEM] = useState('')
-  const [filterTech, setFilterTech] = useState('')
-  const [filterTz, setFilterTz]   = useState('')
-  const [page, setPage] = useState(0)
-  const [formType, setFormType] = useState<'individual' | 'enterprise'>('individual')
-  const PER_PAGE = 12
+  const [activeTab, setActiveTab]     = useState('ilo')
+  const [activeVendor, setActiveVendor] = useState('All')
+  const [search, setSearch]           = useState('')
+  const [filterTz, setFilterTz]       = useState('')
+  const [page, setPage]               = useState(0)
+  const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
+  const PER_PAGE = 9
 
   const filtered = COURSES.filter(c => {
     const q = search.toLowerCase()
-    const matchSearch = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
-    const matchOEM    = !filterOEM  || c.vendor === filterOEM
-    const matchTz     = !filterTz   || c.schedules.some(s => s.time.includes(filterTz))
-    return matchSearch && matchOEM && matchTz
+    const matchSearch  = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
+    const matchVendor  = activeVendor === 'All' || c.vendor === activeVendor
+    const matchTz      = !filterTz || c.schedules.some(s => s.time.includes(filterTz))
+    return matchSearch && matchVendor && matchTz
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
+  const activeVendorData = SIDEBAR_VENDORS.find(v => v.name === activeVendor) ?? SIDEBAR_VENDORS[0]
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -718,79 +741,181 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── UPCOMING SCHEDULE ────────────────────────────────── */}
-      <section id="schedule" className="py-12 sm:py-16 bg-white">
+      <section id="schedule" className="py-12 sm:py-16" style={{ background: 'linear-gradient(160deg, #EBF8FE 0%, #F5FBFF 50%, #EDF6FF 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="text-center mb-8">
+
+          {/* Section header */}
+          <div className="mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
-              Upcoming Schedule of{' '}
+              Find Your{' '}
               <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 Guaranteed to Run
-              </span>{' '}Classes
+              </span>{' '}Course
             </h2>
             <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
-              {filtered.length} courses available — filter by vendor, OEM, or technology
+              Browse {COURSES.length} live online GTR classes across {SIDEBAR_VENDORS.length - 1} vendors — confirmed to run regardless of enrolment numbers.
             </p>
           </div>
 
-          {/* Search */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-8">
-            <div className="relative flex-1 max-w-md">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-              <input
-                type="text" placeholder="Search Course, Vendor or Code…"
-                value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
-                className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm outline-none"
-                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }}
-              />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <FilterDropdown label="Filter by OEM"        options={OEM_OPTIONS}  value={filterOEM}  onChange={v => { setFilterOEM(v);  setPage(0) }} />
-              <FilterDropdown label="Filter by Technology" options={TECH_OPTIONS} value={filterTech} onChange={v => { setFilterTech(v); setPage(0) }} />
-              <FilterDropdown label="Timezone"             options={TZ_OPTIONS}   value={filterTz}   onChange={v => { setFilterTz(v);   setPage(0) }} />
-            </div>
-          </div>
-
-          {/* GTR legend */}
-          <div className="flex items-center gap-2 mb-6">
-            <span className="inline-flex items-center gap-1 text-xs font-semibold rounded-full px-2.5 py-1"
-              style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-              GTR
-            </span>
-            <span className="text-xs" style={{ color: '#7a8c96' }}>= Guaranteed to Run — this batch will not be cancelled</span>
-          </div>
-
-          {/* Course grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {paginated.map(c => <CourseCard key={c.id} course={c} />)}
-          </div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 mt-10">
-              <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
-                style={{ border: '1px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          {/* Mobile vendor pills */}
+          <div className="flex lg:hidden overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
+            {SIDEBAR_VENDORS.map(v => (
+              <button key={v.name}
+                onClick={() => { setActiveVendor(v.name); setPage(0) }}
+                className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all"
+                style={activeVendor === v.name
+                  ? { background: '#0694D1', color: 'white', border: '1px solid #0694D1' }
+                  : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
+                {v.label} ({v.count})
               </button>
-              {Array.from({ length: totalPages }).map((_, i) => (
-                <button key={i} onClick={() => setPage(i)}
-                  className="w-9 h-9 rounded-full text-sm font-semibold transition-all"
-                  style={i === page
-                    ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none' }
-                    : { border: '1px solid #CAEFFF', color: '#475569', background: 'white' }}>
-                  {i + 1}
+            ))}
+          </div>
+
+          {/* Two-panel layout */}
+          <div className="flex gap-5 items-start">
+
+            {/* ── Left sidebar ── */}
+            <div className="hidden lg:flex flex-col w-[190px] shrink-0 rounded-2xl overflow-hidden bg-white"
+              style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
+              <p className="px-4 py-3 text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8', borderBottom: '1px solid #EBF8FE' }}>
+                VENDORS
+              </p>
+              <div className="flex flex-col">
+                {SIDEBAR_VENDORS.map(v => (
+                  <button key={v.name}
+                    onClick={() => { setActiveVendor(v.name); setPage(0) }}
+                    className="flex items-center justify-between w-full px-4 py-3 text-left transition-colors hover:bg-[#F0FAFF]"
+                    style={{
+                      borderLeft: `3px solid ${activeVendor === v.name ? '#0694D1' : 'transparent'}`,
+                      background:  activeVendor === v.name ? '#EBF8FE' : 'white',
+                    }}>
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0"
+                        style={{ background: v.bg, color: v.color }}>
+                        {v.initial}
+                      </div>
+                      <span className="text-sm font-semibold leading-tight"
+                        style={{ color: activeVendor === v.name ? '#0694D1' : '#374151' }}>
+                        {v.label}
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-bold rounded-full px-2 py-0.5 shrink-0 ml-1"
+                      style={{
+                        background: activeVendor === v.name ? '#0694D1' : '#E2E8F0',
+                        color:      activeVendor === v.name ? 'white' : '#6B7280',
+                      }}>
+                      {v.count}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <div className="p-4 mt-auto" style={{ borderTop: '1px solid #EBF8FE' }}>
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  Enquire Now
                 </button>
-              ))}
-              <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
-                className="w-9 h-9 rounded-full flex items-center justify-center transition-all disabled:opacity-30"
-                style={{ border: '1px solid #CAEFFF', color: 'white', background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-              </button>
+              </div>
             </div>
-          )}
+
+            {/* ── Right panel ── */}
+            <div className="flex-1 min-w-0">
+
+              {/* Vendor header */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5 p-5 rounded-2xl bg-white"
+                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)' }}>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-black shrink-0"
+                    style={{ background: activeVendorData.bg, color: activeVendorData.color }}>
+                    {activeVendorData.initial}
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeVendorData.label}</h3>
+                    <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{VENDOR_DESCS[activeVendor]}</p>
+                  </div>
+                </div>
+                <button className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                  Enquire Now →
+                </button>
+              </div>
+
+              {/* Search + Timezone + Filters row */}
+              <div className="flex items-center gap-2 mb-5 flex-wrap sm:flex-nowrap">
+                <div className="relative flex-1 min-w-0">
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input
+                    type="text" placeholder="Search courses..."
+                    value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
+                    className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm outline-none"
+                    style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A' }}
+                  />
+                </div>
+                <FilterDropdown label="Sort by" options={['Price: Low to High', 'Price: High to Low', 'Most Popular', 'Duration']} value="" onChange={() => {}} />
+                <button className="flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all hover:bg-[#F0FAFF] shrink-0"
+                  style={{ border: '1px solid #CAEFFF', background: 'white', color: '#475569' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                  </svg>
+                  Filters
+                </button>
+              </div>
+
+              {/* Course grid */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {paginated.length > 0
+                  ? paginated.map(c => <CourseCard key={c.id} course={c} />)
+                  : (
+                    <div className="col-span-full flex flex-col items-center py-16 rounded-2xl bg-white"
+                      style={{ border: '1px solid #CAEFFF' }}>
+                      <svg className="mb-3 opacity-30" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      <p className="text-sm font-semibold" style={{ color: '#94A3B8' }}>No courses found</p>
+                    </div>
+                  )
+                }
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-1.5 mt-8">
+                  <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30"
+                    style={{ border: '1px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
+                    ‹
+                  </button>
+                  <button onClick={() => setPage(0)}
+                    className="w-9 h-9 rounded-full text-sm font-semibold transition-all"
+                    style={page === 0 ? { background: '#0694D1', color: 'white', border: 'none' } : { border: '1px solid #CAEFFF', color: '#475569', background: 'white' }}>
+                    1
+                  </button>
+                  {totalPages >= 2 && (
+                    <button onClick={() => setPage(1)}
+                      className="w-9 h-9 rounded-full text-sm font-semibold transition-all"
+                      style={page === 1 ? { background: '#0694D1', color: 'white', border: 'none' } : { border: '1px solid #CAEFFF', color: '#475569', background: 'white' }}>
+                      2
+                    </button>
+                  )}
+                  {totalPages > 3 && (
+                    <span className="text-sm font-semibold" style={{ color: '#94A3B8' }}>…</span>
+                  )}
+                  {totalPages > 2 && (
+                    <button onClick={() => setPage(totalPages - 1)}
+                      className="w-9 h-9 rounded-full text-sm font-semibold transition-all"
+                      style={page === totalPages - 1 ? { background: '#0694D1', color: 'white', border: 'none' } : { border: '1px solid #CAEFFF', color: '#475569', background: 'white' }}>
+                      {totalPages}
+                    </button>
+                  )}
+                  <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30"
+                    style={{ border: '1px solid #CAEFFF', color: 'white', background: '#0694D1' }}>
+                    ›
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
