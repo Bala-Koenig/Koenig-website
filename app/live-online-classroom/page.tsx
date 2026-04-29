@@ -619,7 +619,7 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
         </button>
         <button onClick={onEnroll}
           className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
-          style={{ background: '#093148' }}>
+          style={{ background: 'linear-gradient(135deg, #093148, #076D9D)' }}>
           Enroll Now
         </button>
       </div>
