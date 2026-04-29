@@ -698,10 +698,24 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
                 ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
                 : { background: 'white', border: '1px solid #E8EFF5', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
               <div className="flex items-start justify-between gap-2">
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-bold" style={{ color: active ? '#0694D1' : '#0F172A' }}>{s.dates}</span>
-                  <span className="text-[11px]" style={{ color: active ? '#0694D1' : '#64748B', opacity: active ? 0.85 : 1 }}>
-                    {s.time} &nbsp;·&nbsp; Online
+                <div className="flex flex-col gap-1">
+                  <span className="flex items-center gap-1.5 font-bold" style={{ color: active ? '#0694D1' : '#0F172A' }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                      <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    {s.dates}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? '#0694D1' : '#64748B', opacity: active ? 0.85 : 1 }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    {s.time}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? '#0694D1' : '#94A3B8' }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                      <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    Online
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
