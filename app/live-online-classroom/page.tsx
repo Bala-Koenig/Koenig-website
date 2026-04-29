@@ -423,7 +423,8 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
 
         {/* Full-size date cards (first 2) */}
         {fullCards.map((s, i) => {
-          const active = selectedSlot === i          return (
+          const active = selectedSlot === i
+          return (
             <button key={i} onClick={() => { setSelectedSlot(i); }}
               className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all overflow-hidden relative"
               style={active
@@ -471,7 +472,8 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {extraSlots.map((s, j) => {
                       const idx = j + FULL_VISIBLE
-                      const active = selectedSlot === idx                      return (
+                      const active = selectedSlot === idx
+                      return (
                         <button key={idx} onClick={() => { setSelectedSlot(idx); }}
                           className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-all"
                           style={active
@@ -496,7 +498,8 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
                   <div className="flex flex-col gap-2">
                     {extraSlots.map((s, j) => {
                       const idx = j + FULL_VISIBLE
-                      const active = selectedSlot === idx                      return (
+                      const active = selectedSlot === idx
+                      return (
                         <button key={idx} onClick={() => { setSelectedSlot(idx); }}
                           className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
                           style={active
