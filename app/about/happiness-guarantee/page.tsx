@@ -204,7 +204,7 @@ export default function HappinessGuaranteePage() {
                       border: '1px solid rgba(6,148,209,0.2)',
                       animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.35}s both, iconFloat 3s ease-in-out ${i * 0.35 + 0.7}s infinite`,
                     }}>
-                    {React.cloneElement(item.icon as React.ReactElement, {
+                    {React.cloneElement(item.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, {
                       style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.35 + 0.1}s both` },
                     })}
                   </div>
@@ -255,7 +255,7 @@ export default function HappinessGuaranteePage() {
                     boxShadow: '0 0 20px rgba(56,189,248,0.15)',
                     animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.3}s both, iconFloat 2.8s ease-in-out ${i * 0.3 + 0.7}s infinite`,
                   }}>
-                  {React.cloneElement(card.icon as React.ReactElement, {
+                  {React.cloneElement(card.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, {
                     style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.3s ease ${i * 0.3 + 0.1}s both` },
                   })}
                 </div>
@@ -470,7 +470,7 @@ export default function HappinessGuaranteePage() {
                 <div key={p.title} className="kglass-dark rounded-2xl p-5 sm:p-6 flex flex-col gap-3" style={{ borderTop: '2px solid rgba(56,189,248,0.3)' }}>
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                     style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', boxShadow: '0 0 16px rgba(56,189,248,0.12)', animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.2}s both, iconFloat 3s ease-in-out ${i * 0.2 + 0.7}s infinite` }}>
-                    {React.cloneElement(p.icon as React.ReactElement, { style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.2 + 0.1}s both` } })}
+                    {React.cloneElement(p.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, { style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.2 + 0.1}s both` } })}
                   </div>
                   <h3 className="font-bold text-[#38bdf8] text-sm sm:text-base leading-snug">{p.title}</h3>
                   <p className="text-white/55 text-xs sm:text-sm leading-relaxed">{p.desc}</p>
