@@ -448,41 +448,112 @@ function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: (
 
 /* ── Vendor Logo ─────────────────────────────────────────────── */
 function VendorLogo({ name, size = 24 }: { name: string; size?: number }) {
-  const s = size, fs = Math.round(s * 0.37)
-  const ms = Math.round(s * 0.62)
-  const logos: Record<string, React.ReactNode> = {
-    Microsoft: (
+  const s = size, ms = Math.round(s * 0.62), fs = Math.round(s * 0.35)
+  type E = { bg: string; icon: React.ReactNode; border?: string }
+  const hue = name.charCodeAt(0) * 37 % 360
+  const txt = (t: string, sz = 9, color = 'white') => (
+    <svg width={ms} height={ms} viewBox="0 0 24 24">
+      <text x="12" y="16" fill={color} fontFamily="Arial,sans-serif" fontWeight="900" fontSize={sz} textAnchor="middle">{t}</text>
+    </svg>
+  )
+  const map: Record<string, E> = {
+    Microsoft: { bg: '#f3f3f3', border: '1px solid #e0e0e0', icon: (
       <svg width={ms} height={ms} viewBox="0 0 21 21">
         <rect x="0" y="0" width="10" height="10" fill="#f25022"/><rect x="11" y="0" width="10" height="10" fill="#7fba00"/>
         <rect x="0" y="11" width="10" height="10" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/>
       </svg>
-    ),
-    AWS: <span style={{ fontSize: fs - 1, fontWeight: 900, color: '#ff9900', letterSpacing: -0.5, lineHeight: 1 }}>aws</span>,
-    Cisco: <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>CS</span>,
-    PMI: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>PMI</span>,
-    'EC-Council': <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>EC</span>,
-    CompTIA: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>CT+</span>,
-    PECB: <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>PB</span>,
-    Oracle: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>ORA</span>,
-    'Red Hat': <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>RH</span>,
-    VMware: <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>VM</span>,
-    SAP: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>SAP</span>,
-    'Google Cloud': <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>GC</span>,
-    ISACA: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>ISA</span>,
-    ISC2: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>ISC</span>,
+    )},
+    AWS: { bg: '#232f3e', icon: (
+      <svg width={ms} height={ms} viewBox="0 0 30 28" fill="none">
+        <text x="15" y="15" fill="#ff9900" fontFamily="Arial,sans-serif" fontWeight="900" fontSize="13" textAnchor="middle">aws</text>
+        <path d="M6 22 Q15 28 24 22" stroke="#ff9900" strokeWidth="2.2" strokeLinecap="round"/>
+        <path d="M21.5 19.5 L24 22 L21.5 24.5" stroke="#ff9900" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    )},
+    Cisco: { bg: 'white', border: '1px solid #e8e8e8', icon: (
+      <svg width={ms} height={Math.round(ms * 0.65)} viewBox="0 0 22 14" fill="#049fd9">
+        <rect x="0"    y="8" width="2.5" height="6"  rx="1.2"/>
+        <rect x="3.25" y="5" width="2.5" height="9"  rx="1.2"/>
+        <rect x="6.5"  y="2" width="2.5" height="12" rx="1.2"/>
+        <rect x="9.75" y="0" width="2.5" height="14" rx="1.2"/>
+        <rect x="13"   y="2" width="2.5" height="12" rx="1.2"/>
+        <rect x="16.25"y="5" width="2.5" height="9"  rx="1.2"/>
+        <rect x="19.5" y="8" width="2.5" height="6"  rx="1.2"/>
+      </svg>
+    )},
+    CompTIA:      { bg: '#c8202f', icon: txt('A+', 11) },
+    'EC-Council': { bg: '#c41230', icon: (
+      <svg width={ms} height={ms} viewBox="0 0 24 24" fill="none">
+        <path d="M12 3 L20 7 L20 13.5 C20 17.5 16.4 20.8 12 22 C7.6 20.8 4 17.5 4 13.5 L4 7 Z" stroke="white" strokeWidth="1.8"/>
+        <text x="12" y="15.5" fill="white" fontFamily="Arial,sans-serif" fontWeight="900" fontSize="6.5" textAnchor="middle">EC</text>
+      </svg>
+    )},
+    PMI:          { bg: '#003087', icon: txt('PMI', 9) },
+    PECB:         { bg: '#004b87', icon: txt('PECB', 7.5) },
+    Oracle: { bg: '#c74634', icon: (
+      <svg width={ms} height={Math.round(ms * 0.65)} viewBox="0 0 28 18" fill="none">
+        <ellipse cx="14" cy="9" rx="12" ry="7" stroke="white" strokeWidth="3.5"/>
+      </svg>
+    )},
+    'Red Hat': { bg: '#cc0000', icon: (
+      <svg width={ms} height={ms} viewBox="0 0 24 24" fill="white">
+        <ellipse cx="12" cy="20" rx="9.5" ry="2.8"/>
+        <path d="M4 20 Q4 10 12 7 Q20 10 20 20"/>
+      </svg>
+    )},
+    VMware:       { bg: '#607078', icon: txt('VM', 9) },
+    SAP:          { bg: '#0070f2', icon: txt('SAP', 9.5) },
+    'Google Cloud': { bg: 'white', border: '1px solid #e0e0e0', icon: (
+      <svg width={ms} height={Math.round(ms * 0.8)} viewBox="0 0 28 22" fill="none">
+        <path d="M23 17H8a5 5 0 1 1 1-9.9 7 7 0 0 1 14 2.2A4.5 4.5 0 1 1 23 17z" fill="#4285f4"/>
+      </svg>
+    )},
+    ISACA:        { bg: '#0065a0', icon: txt('ISACA', 7) },
+    ISC2:         { bg: '#3e7d32', icon: txt('ISC²', 8) },
+    IBM: { bg: '#006699', icon: (
+      <svg width={ms} height={ms} viewBox="0 0 24 18" fill="white">
+        <rect x="1" y="0"    width="22" height="3"/>
+        <rect x="1" y="5"    width="22" height="3"/>
+        <rect x="1" y="10"   width="22" height="3"/>
+        <rect x="1" y="15"   width="22" height="3"/>
+      </svg>
+    )},
+    Juniper:              { bg: '#006a00',  icon: txt('JN', 9) },
+    Fortinet: { bg: '#ee3124', icon: (
+      <svg width={ms} height={ms} viewBox="0 0 24 24" fill="none">
+        <path d="M12 3 L19.5 7 L19.5 13.5 C19.5 17.5 16.2 20.5 12 21.5 C7.8 20.5 4.5 17.5 4.5 13.5 L4.5 7 Z" stroke="white" strokeWidth="1.8"/>
+        <text x="12" y="16" fill="white" fontFamily="Arial,sans-serif" fontWeight="900" fontSize="8" textAnchor="middle">F</text>
+      </svg>
+    )},
+    'Palo Alto Networks': { bg: '#fa5e1f',  icon: txt('PA', 9) },
+    CrowdStrike:          { bg: '#060e21',  icon: txt('CS', 9, '#e8192c') },
+    Splunk:               { bg: '#181719',  icon: txt('S', 14, '#65a637') },
+    ServiceNow:           { bg: '#81b5a1',  icon: txt('SN', 8.5) },
+    Salesforce: { bg: '#00a1e0', icon: (
+      <svg width={ms} height={Math.round(ms * 0.8)} viewBox="0 0 28 22" fill="none">
+        <path d="M23 17H8a5 5 0 1 1 1-9.9 7 7 0 0 1 14 2.2A4.5 4.5 0 1 1 23 17z" fill="white"/>
+      </svg>
+    )},
+    'Axelos (ITIL/PRINCE2)': { bg: '#4a1a8d', icon: txt('AX', 9) },
+    'Scrum Alliance': { bg: '#009b77',  icon: txt('SA', 9) },
+    'Scrum.org':      { bg: '#0052b4',  icon: txt('SO', 8.5) },
+    PeopleCert:       { bg: '#0033a0',  icon: txt('PC', 9) },
+    IAPP:             { bg: '#005487',  icon: txt('IAPP', 8) },
+    DAMA:             { bg: '#e87722',  icon: txt('DAMA', 8) },
+    'Linux Foundation': { bg: '#1a1a1a', icon: txt('LF', 10) },
+    HashiCorp: { bg: '#7B42BC', icon: (
+      <svg width={ms} height={ms} viewBox="0 0 24 24" fill="none">
+        <polygon points="12,3 21,8 21,16 12,21 3,16 3,8" stroke="white" strokeWidth="2"/>
+        <text x="12" y="16" fill="white" fontFamily="Arial,sans-serif" fontWeight="900" fontSize="8" textAnchor="middle">H</text>
+      </svg>
+    )},
   }
-  const bgs: Record<string, string> = {
-    Microsoft: '#f8f8f8', AWS: '#232f3e', Cisco: '#1ba0d7', PMI: '#003087',
-    'EC-Council': '#c41230', CompTIA: '#c8202f', PECB: '#004b87',
-    Oracle: '#c74634', 'Red Hat': '#cc0000', VMware: '#607078',
-    SAP: '#007db8', 'Google Cloud': '#4285f4', ISACA: '#0065a0', ISC2: '#3e7d32',
-  }
-  const hue = name.charCodeAt(0) * 37 % 360
-  const bg = bgs[name] ?? `hsl(${hue},55%,42%)`
-  const icon = logos[name] ?? <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>{name.slice(0,2).toUpperCase()}</span>
+  const e = map[name]
+  const bg = e?.bg ?? `hsl(${hue},55%,42%)`
+  const icon = e?.icon ?? <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>{name.slice(0,2).toUpperCase()}</span>
   return (
     <span className="rounded-lg flex items-center justify-center shrink-0 overflow-hidden"
-      style={{ width: s, height: s, background: bg }}>
+      style={{ width: s, height: s, background: bg, ...(e?.border ? { border: e.border } : {}) }}>
       {icon}
     </span>
   )
@@ -1840,6 +1911,7 @@ export default function LiveOnlineClassroomPage() {
                             style={active
                               ? { background: 'linear-gradient(135deg,#EFF9FF,#E6F6FD)', color: '#0694D1', border: '1.5px solid #0694D1' }
                               : { background: 'white', color: '#374151', border: '1.5px solid #E2E8F0' }}>
+                            <VendorLogo name={v} size={28} />
                             <span className="flex-1">{v}</span>
                             <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0"
                               style={active ? { background: '#0694D1', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>
