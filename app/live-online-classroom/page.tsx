@@ -518,35 +518,113 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   )
 }
 
-/* ── Sidebar technology data (names match Koenig filter dropdown) */
+/* ── All technology names from Koenig live-online-classes filter ─ */
+const ALL_TECH_NAMES: string[] = [
+  'Project Management','Microsoft Office 365','Microsoft SQL Server',
+  'Citrix ADC (formerly NetScaler)','MS Office','VMware vSphere','VMware Horizon',
+  'VMware NSX','ISO','Cisco Routing and Switching','Oracle Development',
+  'Oracle Golden Gate','Oracle Database Administration','Soft Skills','ITIL',
+  'Web Development','Cisco Collaboration','Cisco Service Provider','Cisco Security',
+  'Cisco Data Center','Software Testing','Microsoft Azure','Linux OS Administration',
+  'Microsoft SQL Administration','Oracle EBS','Security Testing','Security Management',
+  'Security Products','Red Hat JBoss','Architecture Methodologies','Business Analysis',
+  'Penetration Testing','Digital Forensics','Data Science','Oracle Weblogic',
+  'Programming','Network Security','Red Hat Server Administration','Security',
+  'DevOps Linux','CCNA','ERP','VMware vSAN','Graphic Designing',
+  'User Experience Design','Python','Microsoft Excel','DBA - Database Administration',
+  'Microsoft SQL Development','Software Development','Cyber Security','AWS Cloud',
+  'COBIT','Microsoft Dynamics 365','Agile','Windows Server','Active Directory',
+  'Oracle EBS SCM','Containers','PCI DSS','Angular','Artificial Intelligence (AI)',
+  'Microsoft 365','Service Management','CWNP Wireless','Firewall',
+  'Identity and Access Management (IAM)','Network Monitoring','IoT',
+  'IT Service Management (ITSM)','Quality Management','SOC',
+  'Red Hat Enterprise Linux (RHEL)','Red Hat OpenShift','Oracle Server',
+  'Data Engineer','Microservices','AWS Architect','Data Warehouse','Cisco Enterprise',
+  'Cisco DevNet','Robotic Process Automation (RPA)','Microsoft Artificial Intelligence',
+  'Supply Chain Management (SCM)','Open Source','Middleware','Information Security',
+  'Health and Safety','IT Governance','Networking',
+  'Microsoft Dynamics 365 Finance and Operations','Microsoft Dynamics 365 CRM',
+  'Network Monitoring and Analysis','Scrum','Business Continuity','Incident Response',
+  'Secure Coding','Disaster Recovery','IBM WebSphere',
+  'Vulnerability Assessment and Penetration Testing (VAPT)',
+  'Microsoft Security Engineer','Oracle 19c','Oracle 12c',
+  'Microsoft Power Platform','Blockchain','CCNP Security','CCNP Data Center',
+  'Microsoft 365 Certified: Enterprise Administrator Expert','CCNP Service Provider',
+  'ITIL® and PRINCE2®','Azure Development','Azure Infrastructure','Azure Security',
+  'Microsoft Teams','Microsoft SharePoint Online','Oracle PL/SQL','Program Management',
+  'Inventory Management','Procurement','Data Architect','Professional',
+  'Lead Implementer','Lead Auditor','Payroll','Delivery Manager','Product Management',
+  'Business Automation','Data Governance','Management','Business Administration',
+  'Leadership and Management','Document Management System (DMS)','Azure Database',
+  'Oracle EBS Functional','Meraki','Agile Project Management','React','DevSecOps',
+  'VMware Spring','Ethical Hacking and Penetration Testing','Oracle Java',
+  'Industrial Automation','Linux Administration','Containerization','Power Automate',
+  'ServiceNow AID','Oracle Database 19c','Oracle Database Development',
+  'Microsoft Dynamics 365 Finance & Operation (Technical)',
+  'Microsoft Dynamics 365 Finance & Operation (Functional)','Oracle E-Business Suite',
+  'GRC Management','ISC2 Security','Container Orchestration','Reporting','DevOps Tools',
+  'Big Data - Data Analytics and Data Engineering','Google Cloud Platform',
+  'Embedded Systems','DAMA','Software Testing Process','Figma','Adobe',
+  'SAP Finance (FI)','SAP Human Capital Management (HCM)','SAP Material Management (MM)',
+  'SAP Production Planning (PP)','SAP Successfactors (SF)','SAP SCM',
+  'SAP Treasury and Risk Management (TRM)','EC-Council Security Testing',
+  'Storage Administration','ITSM Tools and Services','CCNP Collaboration','JIRA',
+  'SAP S/4 HANA','Kubernetes','PostgreSQL Technology','Microsoft IAM','AWS Kubernetes',
+  'Electrical Engineering','Data Management & Analytics','Co-Pilot Github/Developer',
+  'Microsoft Fabric','Supply Chain Management – Non Technical',
+  'ASQ ( American Society for Quality)','Data Privacy and Security – IAPP',
+  'Microsoft SQL Server Business Intelligence','Microsoft Data Engineering',
+  'Microsoft Device management','VMware','Microsoft 365 Security','Audit & Compliance',
+  'CAD, CAM and CAE','Computer-Aided Design (CAD)','Electrical Design','Data Analysis',
+  'Python Programming','Risk Assessment','SAP Business One',
+  'ServiceNow IT Service Management','Autodesk Architecture Engineering & Construction',
+  'Agile Testing',
+  'ManageEngine Endpoint management and protection platform (UEM and EPP)',
+  'UiPath Automation Developer','MLOps','Cloud Native Architecture',
+  'Natural Language Processing','AI Ethics & Governance','Design Systems',
+  'Intelligent Document Processing','Human-Computer Interaction Expansion',
+  'Industrial IoT (IIoT)','Azure AI','Finance and Accounts','Microsoft Dataverse',
+  'IT Service Desk','AI Engineering','Generative AI Platforms',
+  'AI Agents & Autonomous Systems','AI Cloud Platforms','Enterprise AI Architecture',
+  'Intelligent Automation','AI Governance','Cisco Automation','CCNA Automation',
+  'Electric Vehicle (EV)',
+]
+
+const _TECH_PALETTE = [
+  { bg: '#E3F2FD', color: '#0078d4' }, { bg: '#E8F5E9', color: '#2e7d32' },
+  { bg: '#FFF3E0', color: '#e65100' }, { bg: '#FCE4EC', color: '#c2185b' },
+  { bg: '#EDE7F6', color: '#7c3aed' }, { bg: '#E0F7FA', color: '#1ba0d7' },
+  { bg: '#FFF8E1', color: '#d97706' }, { bg: '#ECEFF1', color: '#475569' },
+  { bg: '#E8EAF6', color: '#3949ab' }, { bg: '#E0F2F1', color: '#00695c' },
+]
+function _tStyle(n: string) { return _TECH_PALETTE[n.charCodeAt(0) % _TECH_PALETTE.length] }
+function _tInitial(n: string) {
+  const w = n.split(/[\s&(]+/).filter(x => x.length > 1)
+  return w.length < 2 ? n.slice(0,2).toUpperCase() : (w[0][0]+w[1][0]).toUpperCase()
+}
+const _TECH_COUNTS = Object.fromEntries(
+  ALL_TECH_NAMES.map(t => [t, COURSES.filter(c => (c.techs ?? []).includes(t)).length])
+)
 const SIDEBAR_TECHNOLOGIES = [
-  { name: 'All',                                        label: 'All Technologies',        count: 16, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
-  { name: 'Microsoft Azure',                            label: 'Microsoft Azure',          count: 4,  bg: '#E3F2FD', color: '#0078d4', initial: 'Az' },
-  { name: 'Cyber Security',                             label: 'Cyber Security',           count: 4,  bg: '#FFEBEE', color: '#c8102e', initial: 'CS' },
-  { name: 'AWS Cloud',                                  label: 'AWS Cloud',                count: 2,  bg: '#FFF3E0', color: '#FF9900', initial: 'AW' },
-  { name: 'Microsoft Fabric',                           label: 'Microsoft Fabric',         count: 2,  bg: '#FFF3E0', color: '#e65100', initial: 'MF' },
-  { name: 'Artificial Intelligence (AI)',               label: 'Artificial Intelligence',  count: 1,  bg: '#E0F2F1', color: '#00695c', initial: 'AI' },
-  { name: 'Identity and Access Management (IAM)',       label: 'IAM',                      count: 1,  bg: '#EDE7F6', color: '#7c3aed', initial: 'IA' },
-  { name: 'Project Management',                         label: 'Project Management',       count: 1,  bg: '#E8EAF6', color: '#3949ab', initial: 'PM' },
-  { name: 'Data Management & Analytics',                label: 'Data & Analytics',         count: 1,  bg: '#E8F5E9', color: '#2e7d32', initial: 'DA' },
-  { name: 'Ethical Hacking and Penetration Testing',    label: 'Ethical Hacking',          count: 1,  bg: '#FCE4EC', color: '#c2185b', initial: 'EH' },
-  { name: 'CCNA',                                       label: 'CCNA',                     count: 1,  bg: '#E0F7FA', color: '#1ba0d7', initial: 'CN' },
-  { name: 'ISO',                                        label: 'ISO',                      count: 1,  bg: '#ECEFF1', color: '#475569', initial: 'IS' },
+  { name: 'All', label: 'All Technologies', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
+  ...[...ALL_TECH_NAMES]
+    .sort((a,b) => (_TECH_COUNTS[b]??0) - (_TECH_COUNTS[a]??0) || a.localeCompare(b))
+    .map(name => { const s = _tStyle(name); return { name, label: name, count: _TECH_COUNTS[name]??0, bg: s.bg, color: s.color, initial: _tInitial(name) } }),
 ]
 
 const TECH_DESCS: Record<string, string> = {
-  'All':                                      'Browse all 16 Guaranteed-to-Run classes across Azure, Cyber Security, AWS, Fabric, AI, Networking and more.',
-  'Microsoft Azure':                          'Master Azure administration, AI, developer solutions and infrastructure design with Microsoft certified training.',
-  'Cyber Security':                           'Protect organisations with CEH, CompTIA Security+ and SC-200 Microsoft Security Operations analyst training.',
-  'AWS Cloud':                                "Build, deploy and scale on the world's most comprehensive cloud platform with AWS certified instructor-led training.",
-  'Microsoft Fabric':                         'Build unified analytics solutions with Microsoft Fabric data engineering and analytics engineer certification.',
-  'Artificial Intelligence (AI)':            'Design and implement production-ready AI solutions on Microsoft Azure with the AI-102 certification course.',
-  'Identity and Access Management (IAM)':    'Govern identity, access policies and compliance with the Microsoft Identity and Access Administrator (SC-300) course.',
-  'Project Management':                       'Advance your PM career with the globally recognised PMP® certification exam-prep training.',
-  'Data Management & Analytics':              'Analyse business data and build powerful reports with the Microsoft Power BI Data Analyst (PL-300) certification.',
-  'Ethical Hacking and Penetration Testing':  'Master ethical hacking methodologies with the world-renowned Certified Ethical Hacker (CEH v13) certification.',
-  'CCNA':                                     'Master enterprise networking fundamentals and advanced routing with Cisco CCNA instructor-led training.',
-  'ISO':                                      'Become an ISO/IEC 27001 Lead Implementer with PECB internationally recognised certification training.',
+  'All':                                     'Browse all 16 Guaranteed-to-Run classes — filter by any technology to find your next certification.',
+  'Microsoft Azure':                         'Master Azure administration, AI, developer solutions and infrastructure design with Microsoft certified training.',
+  'Cyber Security':                          'Protect organisations with CEH, CompTIA Security+ and SC-200 Microsoft Security Operations analyst training.',
+  'AWS Cloud':                               "Build, deploy and scale on the world's most comprehensive cloud platform with AWS certified instructor-led training.",
+  'Microsoft Fabric':                        'Build unified analytics solutions with Microsoft Fabric data engineering and analytics engineer certification.',
+  'Artificial Intelligence (AI)':           'Design and implement production-ready AI solutions on Microsoft Azure with the AI-102 certification course.',
+  'Identity and Access Management (IAM)':   'Govern identity, access policies and compliance with the Microsoft Identity and Access Administrator (SC-300) course.',
+  'Project Management':                      'Advance your PM career with the globally recognised PMP® certification exam-prep training.',
+  'Data Management & Analytics':             'Analyse business data and build powerful reports with the Microsoft Power BI Data Analyst (PL-300) certification.',
+  'Ethical Hacking and Penetration Testing': 'Master ethical hacking methodologies with the world-renowned Certified Ethical Hacker (CEH v13) certification.',
+  'CCNA':                                    'Master enterprise networking fundamentals and advanced routing with Cisco CCNA instructor-led training.',
+  'ISO':                                     'Become an ISO/IEC 27001 Lead Implementer with PECB internationally recognised certification training.',
 }
 
 /* ── Shared form data ────────────────────────────────────────── */
@@ -1052,7 +1130,7 @@ export default function LiveOnlineClassroomPage() {
                 Find Your <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Guaranteed to Run</em> Course
               </h2>
               <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>
-                Browse {COURSES.length} live online GTR classes across {SIDEBAR_TECHNOLOGIES.length - 1} technologies — confirmed to run regardless of enrolment numbers.
+                Browse {COURSES.length} live online GTR classes — filter by technology to find your next certification.
               </p>
             </div>
             <button onClick={() => setShowFormModal(true)}
@@ -1064,12 +1142,12 @@ export default function LiveOnlineClassroomPage() {
             </button>
           </div>
 
-          {/* Mobile technology pills */}
+          {/* Mobile technology pills — only show categories with matching courses */}
           <div className="flex lg:hidden overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
-            {SIDEBAR_TECHNOLOGIES.map(t => (
+            {SIDEBAR_TECHNOLOGIES.filter(t => t.name === 'All' || t.count > 0).map(t => (
               <button key={t.name}
                 onClick={() => { setActiveTech(t.name); setPage(0) }}
-                className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all"
+                className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all whitespace-nowrap"
                 style={activeTech === t.name
                   ? { background: '#0694D1', color: 'white', border: '1px solid #0694D1' }
                   : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
@@ -1087,26 +1165,27 @@ export default function LiveOnlineClassroomPage() {
               <p className="px-4 py-3 text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8', borderBottom: '1px solid #EBF8FE' }}>
                 TECHNOLOGY
               </p>
-              <div className="flex flex-col">
+              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 460 }}>
                 {SIDEBAR_TECHNOLOGIES.map(t => (
                   <button key={t.name}
                     onClick={() => { setActiveTech(t.name); setPage(0) }}
-                    className="flex items-center justify-between w-full px-4 py-3 text-left transition-colors hover:bg-[#F0FAFF]"
+                    className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
                     style={{
                       borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`,
                       background:  activeTech === t.name ? '#EBF8FE' : 'white',
                     }}>
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black shrink-0"
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-black shrink-0"
                         style={{ background: t.bg, color: t.color }}>
                         {t.initial}
                       </div>
-                      <span className="text-sm font-semibold leading-tight"
-                        style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>
+                      <span className="text-xs font-semibold leading-tight truncate"
+                        style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}
+                        title={t.label}>
                         {t.label}
                       </span>
                     </div>
-                    <span className="text-[11px] font-bold rounded-full px-2 py-0.5 shrink-0 ml-1"
+                    <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
                       style={{
                         background: activeTech === t.name ? '#0694D1' : '#E2E8F0',
                         color:      activeTech === t.name ? 'white' : '#6B7280',
@@ -1138,7 +1217,7 @@ export default function LiveOnlineClassroomPage() {
                   </div>
                   <div>
                     <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
-                    <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech]}</p>
+                    <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
                   </div>
                 </div>
                 <button onClick={() => setShowFormModal(true)} className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
