@@ -1390,7 +1390,7 @@ export default function LiveOnlineClassroomPage() {
           <div className="flex gap-5 items-start">
 
             {/* ── Left sidebar ── */}
-            <div className="hidden lg:flex flex-col w-[190px] shrink-0 rounded-2xl overflow-hidden bg-white self-start sticky top-4"
+            <div className="hidden lg:flex flex-col w-[220px] shrink-0 rounded-2xl overflow-hidden bg-white self-start sticky top-4"
               style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
               {/* Sidebar header + search */}
               <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
