@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
@@ -155,6 +155,11 @@ export default function AwardsPage() {
     return () => clearInterval(t)
   }, [pecbActive, pecbPaused])
 
+  const msTouchX   = useRef(0)
+  const awsTouchX  = useRef(0)
+  const ecTouchX   = useRef(0)
+  const pecbTouchX = useRef(0)
+
   const award = MS_AWARDS[active]
 
   return (
@@ -237,6 +242,8 @@ export default function AwardsPage() {
                 transform: animating ? 'translateY(10px)' : 'translateY(0)',
                 transition: 'opacity 0.25s ease, transform 0.25s ease',
               }}
+              onTouchStart={e => { msTouchX.current = e.touches[0].clientX }}
+              onTouchEnd={e => { const dx = e.changedTouches[0].clientX - msTouchX.current; if (dx > 40) prev(); else if (dx < -40) next() }}
             >
               <div className="h-1 w-full" style={{ backgroundColor: '#00a1f1' }} />
               <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
@@ -290,6 +297,8 @@ export default function AwardsPage() {
                 transform: awsAnimating ? 'translateY(10px)' : 'translateY(0)',
                 transition: 'opacity 0.25s ease, transform 0.25s ease',
               }}
+              onTouchStart={e => { awsTouchX.current = e.touches[0].clientX }}
+              onTouchEnd={e => { const dx = e.changedTouches[0].clientX - awsTouchX.current; if (dx > 40) awsPrev(); else if (dx < -40) awsNext() }}
             >
               <div className="h-1 w-full" style={{ backgroundColor: '#ff9900' }} />
               <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
@@ -349,6 +358,8 @@ export default function AwardsPage() {
                 transform: ecAnimating ? 'translateY(10px)' : 'translateY(0)',
                 transition: 'opacity 0.25s ease, transform 0.25s ease',
               }}
+              onTouchStart={e => { ecTouchX.current = e.touches[0].clientX }}
+              onTouchEnd={e => { const dx = e.changedTouches[0].clientX - ecTouchX.current; if (dx > 40) ecPrev(); else if (dx < -40) ecNext() }}
             >
               <div className="h-1 w-full" style={{ backgroundColor: '#c8102e' }} />
               <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
@@ -408,6 +419,8 @@ export default function AwardsPage() {
                 transform: pecbAnimating ? 'translateY(10px)' : 'translateY(0)',
                 transition: 'opacity 0.25s ease, transform 0.25s ease',
               }}
+              onTouchStart={e => { pecbTouchX.current = e.touches[0].clientX }}
+              onTouchEnd={e => { const dx = e.changedTouches[0].clientX - pecbTouchX.current; if (dx > 40) pecbPrev(); else if (dx < -40) pecbNext() }}
             >
               <div className="h-1 w-full" style={{ backgroundColor: '#475569' }} />
               <div className="flex flex-col sm:flex-row gap-4 px-4 sm:px-6 pt-5 pb-4">
