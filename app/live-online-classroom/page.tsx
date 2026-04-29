@@ -631,6 +631,8 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
 /* ── Filter data ─────────────────────────────────────────────── */
 const OEM_OPTIONS = ['Microsoft','AWS','PMI','EC-Council','CompTIA','Cisco','PECB','Oracle','Red Hat','VMware','SAP','Google Cloud','ISACA','ISC2']
 const TECH_OPTIONS = ['Cloud Computing','Cybersecurity','Project Management','Data & AI','Networking','DevOps & Cloud-Native','ITSM & Governance','SAP & ERP','Microsoft Office 365','Microsoft SQL Server','Linux & Open Source']
+const ALL_VENDORS = Array.from(new Set(COURSES.map(c => c.vendor)))
+
 const TZ_OPTIONS   = [
   'IST — India (UTC+5:30)',
   'GST — UAE / Gulf (UTC+4)',
@@ -1036,6 +1038,11 @@ export default function LiveOnlineClassroomPage() {
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
 
+  const toggleVendor = (v: string) => {
+    setFilterVendors(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])
+    setPage(0)
+  }
+
   useEffect(() => {
     if (!showFormModal) return
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setShowFormModal(false) }
@@ -1390,7 +1397,7 @@ export default function LiveOnlineClassroomPage() {
           </div>
 
           {/* ── Grouped interactive panel ── */}
-          <div className="rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
+          <div className="relative rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
 
           {/* Mobile technology pills — only show categories with matching courses */}
           <div className="flex lg:hidden overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
@@ -1500,129 +1507,67 @@ export default function LiveOnlineClassroomPage() {
               </div>
 
               {/* Search + Timezone + Vendor row */}
-              {(() => {
-                const ALL_VENDORS = Array.from(new Set(COURSES.map(c => c.vendor)))
-                const toggleVendor = (v: string) => {
-                  setFilterVendors(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])
-                  setPage(0)
-                }
-                return (
-                  <>
-                    <div className="flex items-center gap-2 mb-2">
-                      {/* Search — grows to fill */}
-                      <div className="relative flex-1 min-w-0">
-                        <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                        </svg>
-                        <input type="text" placeholder="Search courses..."
-                          value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
-                          className="w-full rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none"
-                          style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A' }} />
-                      </div>
-                      {/* Timezone */}
-                      <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
-                      {/* Vendor button */}
-                      <div className="relative shrink-0">
-                        <button onClick={() => setShowVendorPanel(p => !p)}
-                          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all"
-                          style={filterVendors.length > 0
-                            ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
-                            : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
-                          </svg>
-                          Vendor
-                          {filterVendors.length > 0 && (
-                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold"
-                              style={{ background: 'rgba(255,255,255,0.25)', color: 'white' }}>
-                              {filterVendors.length}
-                            </span>
-                          )}
-                        </button>
+              <div className="flex items-center gap-2 mb-2">
+                {/* Search — grows to fill */}
+                <div className="relative flex-1 min-w-0">
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input type="text" placeholder="Search courses..."
+                    value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
+                    className="w-full rounded-xl pl-9 py-2.5 text-sm outline-none"
+                    style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A', paddingRight: search ? '32px' : '12px' }} />
+                  {search && (
+                    <button onClick={() => { setSearch(''); setPage(0) }}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5 hover:bg-[#EBF8FE] transition-all"
+                      style={{ color: '#94A3B8' }}>
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                  )}
+                </div>
+                {/* Timezone */}
+                <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
+                {/* Vendor button */}
+                <button onClick={() => setShowVendorPanel(p => !p)}
+                  className="shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all"
+                  style={filterVendors.length > 0
+                    ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
+                    : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                  </svg>
+                  Vendor
+                  {filterVendors.length > 0 && (
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold"
+                      style={{ background: 'rgba(255,255,255,0.25)', color: 'white' }}>
+                      {filterVendors.length}
+                    </span>
+                  )}
+                </button>
+              </div>
 
-                        {/* Vendor drawer */}
-                        {showVendorPanel && (
-                          <div className="fixed inset-0 z-[100] flex justify-end">
-                            {/* Backdrop */}
-                            <div className="absolute inset-0" style={{ background: 'rgba(6,17,30,0.45)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }} onClick={() => setShowVendorPanel(false)} />
-                            {/* Drawer */}
-                            <div className="relative z-10 flex flex-col bg-white h-full" style={{ width: 320, boxShadow: '-8px 0 40px rgba(6,148,209,0.18)' }}>
-                              {/* Header */}
-                              <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #E2E8F0' }}>
-                                <h3 className="text-base font-bold" style={{ color: '#06111E' }}>Filters</h3>
-                                <button onClick={() => setShowVendorPanel(false)}
-                                  className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-[#F0F9FF]"
-                                  style={{ border: '1px solid #E2E8F0', color: '#475569' }}>
-                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                                </button>
-                              </div>
-                              {/* Content */}
-                              <div className="flex-1 overflow-y-auto px-5 py-5">
-                                <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Vendor</p>
-                                <div className="flex flex-wrap gap-2">
-                                  {ALL_VENDORS.map(v => {
-                                    const active = filterVendors.includes(v)
-                                    const count = COURSES.filter(c => c.vendor === v).length
-                                    return (
-                                      <button key={v} onClick={() => toggleVendor(v)}
-                                        className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-all"
-                                        style={active
-                                          ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: '1.5px solid transparent', boxShadow: '0 2px 10px rgba(6,148,209,0.3)' }
-                                          : { background: 'white', color: '#374151', border: '1.5px solid #E2E8F0' }}>
-                                        {v}
-                                        <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
-                                          style={active ? { background: 'rgba(255,255,255,0.25)', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>
-                                          {count}
-                                        </span>
-                                      </button>
-                                    )
-                                  })}
-                                </div>
-                              </div>
-                              {/* Footer */}
-                              <div className="flex gap-3 px-5 py-4" style={{ borderTop: '1px solid #E2E8F0' }}>
-                                <button onClick={() => { setFilterVendors([]); setPage(0) }}
-                                  className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F9FF]"
-                                  style={{ border: '1.5px solid #0694D1', color: '#0694D1' }}>
-                                  Clear all
-                                </button>
-                                <button onClick={() => setShowVendorPanel(false)}
-                                  className="flex-1 rounded-xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
-                                  style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>
-                                  Show {filtered.length} courses →
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Active vendor chips + count */}
-                    {filterVendors.length > 0 && (
-                      <div className="flex items-center gap-2 flex-wrap mb-3">
-                        {filterVendors.map(v => (
-                          <span key={v} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                            style={{ background: 'white', color: '#0694D1', border: '1.5px solid #0694D1', boxShadow: '0 1px 4px rgba(6,148,209,0.15)' }}>
-                            {v}
-                            <button onClick={() => toggleVendor(v)} className="hover:opacity-70">
-                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                            </button>
-                          </span>
-                        ))}
-                        <button onClick={() => { setFilterVendors([]); setPage(0) }}
-                          className="text-xs font-semibold transition-all hover:underline"
-                          style={{ color: '#0694D1' }}>
-                          Clear all
-                        </button>
-                        <span className="ml-auto text-xs font-medium" style={{ color: '#64748B' }}>
-                          Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}
-                        </span>
-                      </div>
-                    )}
-                  </>
-                )
-              })()}
+              {/* Active vendor chips + count */}
+              {filterVendors.length > 0 && (
+                <div className="flex items-center gap-2 flex-wrap mb-3">
+                  {filterVendors.map(v => (
+                    <span key={v} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                      style={{ background: 'white', color: '#0694D1', border: '1.5px solid #0694D1', boxShadow: '0 1px 4px rgba(6,148,209,0.15)' }}>
+                      {v}
+                      <button onClick={() => toggleVendor(v)} className="hover:opacity-70">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </button>
+                    </span>
+                  ))}
+                  <button onClick={() => { setFilterVendors([]); setPage(0) }}
+                    className="text-xs font-semibold transition-all hover:underline"
+                    style={{ color: '#0694D1' }}>
+                    Clear all
+                  </button>
+                  <span className="ml-auto text-xs font-medium" style={{ color: '#64748B' }}>
+                    Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              )}
 
               {/* Course grid */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1679,6 +1624,62 @@ export default function LiveOnlineClassroomPage() {
             </div>
           </div>
 
+          {/* ── Vendor filter drawer — inside grouped panel ── */}
+          {showVendorPanel && (
+            <div className="absolute inset-0 z-50 flex justify-end rounded-2xl overflow-hidden">
+              {/* Backdrop */}
+              <div className="absolute inset-0" style={{ background: 'rgba(6,17,30,0.4)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
+                onClick={() => setShowVendorPanel(false)} />
+              {/* Drawer panel */}
+              <div className="relative z-10 flex flex-col bg-white h-full" style={{ width: 320, boxShadow: '-8px 0 40px rgba(6,148,209,0.2)' }}>
+                {/* Header */}
+                <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #E2E8F0' }}>
+                  <h3 className="text-base font-bold" style={{ color: '#06111E' }}>Filters</h3>
+                  <button onClick={() => setShowVendorPanel(false)}
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:bg-[#F0F9FF]"
+                    style={{ border: '1.5px solid #E2E8F0', color: '#475569' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  </button>
+                </div>
+                {/* Content */}
+                <div className="flex-1 overflow-y-auto px-5 py-5">
+                  <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Vendor</p>
+                  <div className="flex flex-wrap gap-2">
+                    {ALL_VENDORS.map(v => {
+                      const active = filterVendors.includes(v)
+                      const count = COURSES.filter(c => c.vendor === v).length
+                      return (
+                        <button key={v} onClick={() => toggleVendor(v)}
+                          className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-all"
+                          style={active
+                            ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: '1.5px solid transparent', boxShadow: '0 2px 10px rgba(6,148,209,0.3)' }
+                            : { background: 'white', color: '#374151', border: '1.5px solid #E2E8F0' }}>
+                          {v}
+                          <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
+                            style={active ? { background: 'rgba(255,255,255,0.25)', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>
+                            {count}
+                          </span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+                {/* Footer */}
+                <div className="flex gap-3 px-5 py-4" style={{ borderTop: '1px solid #E2E8F0' }}>
+                  <button onClick={() => { setFilterVendors([]); setPage(0) }}
+                    className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F9FF]"
+                    style={{ border: '1.5px solid #0694D1', color: '#0694D1' }}>
+                    Clear all
+                  </button>
+                  <button onClick={() => setShowVendorPanel(false)}
+                    className="flex-1 rounded-xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+                    style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>
+                    Show {filtered.length} courses →
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           </div>{/* end grouped interactive panel */}
         </div>
       </section>
