@@ -1026,8 +1026,8 @@ export default function LiveOnlineClassroomPage() {
   const [techSearch, setTechSearch]   = useState('')
   const [search, setSearch]           = useState('')
   const [filterTz, setFilterTz]       = useState('IST — India (UTC+5:30)')
-  const [filterVendor, setFilterVendor] = useState('')
-  const [vendorExpanded, setVendorExpanded] = useState(false)
+  const [filterVendors, setFilterVendors] = useState<string[]>([])
+  const [showVendorPanel, setShowVendorPanel] = useState(false)
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [showFormModal, setShowFormModal] = useState(false)
@@ -1049,7 +1049,7 @@ export default function LiveOnlineClassroomPage() {
     const matchSearch  = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
     const matchTech    = activeTech === 'All' || (c.techs ?? []).includes(activeTech)
     const matchTz      = !filterTz || c.schedules.some(s => s.time.includes(filterTz))
-    const matchVendor  = !filterVendor || c.vendor === filterVendor
+    const matchVendor  = filterVendors.length === 0 || filterVendors.includes(c.vendor)
     return matchSearch && matchTech && matchTz && matchVendor
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
@@ -1492,55 +1492,104 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Search + Timezone row */}
-              <div className="flex items-center gap-2 mb-3">
-                <div className="relative w-56 shrink-0">
-                  <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                  </svg>
-                  <input
-                    type="text" placeholder="Search courses..."
-                    value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
-                    className="w-full rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none"
-                    style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A' }}
-                  />
-                </div>
-                <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
-              </div>
-
-              {/* Vendor pills */}
+              {/* Search + Timezone + Vendor row */}
               {(() => {
-                const allVendors = ['All', ...Array.from(new Set(COURSES.map(c => c.vendor)))]
-                const SHOW = 8
-                const visible = vendorExpanded ? allVendors : allVendors.slice(0, SHOW)
-                const hidden  = allVendors.length - SHOW
+                const ALL_VENDORS = Array.from(new Set(COURSES.map(c => c.vendor)))
+                const toggleVendor = (v: string) => {
+                  setFilterVendors(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])
+                  setPage(0)
+                }
                 return (
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {visible.map(v => (
-                      <button key={v}
-                        onClick={() => { setFilterVendor(v === 'All' ? '' : v); setPage(0) }}
-                        className="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap"
-                        style={filterVendor === (v === 'All' ? '' : v)
-                          ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: '1px solid #0694D1' }
-                          : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
-                        {v}
-                      </button>
-                    ))}
-                    {!vendorExpanded && hidden > 0 && (
-                      <button onClick={() => setVendorExpanded(true)}
-                        className="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap"
-                        style={{ background: '#F0F9FF', color: '#0694D1', border: '1px solid #CAEFFF' }}>
-                        +{hidden} more
-                      </button>
+                  <>
+                    <div className="flex items-center gap-2 mb-2">
+                      {/* Search — grows to fill */}
+                      <div className="relative flex-1 min-w-0">
+                        <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <input type="text" placeholder="Search courses..."
+                          value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
+                          className="w-full rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none"
+                          style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A' }} />
+                      </div>
+                      {/* Timezone */}
+                      <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
+                      {/* Vendor button */}
+                      <div className="relative shrink-0">
+                        <button onClick={() => setShowVendorPanel(p => !p)}
+                          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all"
+                          style={filterVendors.length > 0
+                            ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
+                            : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                          </svg>
+                          Vendor
+                          {filterVendors.length > 0 && (
+                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold"
+                              style={{ background: 'rgba(255,255,255,0.25)', color: 'white' }}>
+                              {filterVendors.length}
+                            </span>
+                          )}
+                        </button>
+
+                        {/* Vendor panel */}
+                        {showVendorPanel && <div className="fixed inset-0 z-40" onClick={() => setShowVendorPanel(false)} />}
+                        {showVendorPanel && (
+                          <div className="absolute right-0 top-full mt-2 z-50 rounded-2xl bg-white p-3"
+                            style={{ minWidth: 200, border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.15)' }}>
+                            <p className="text-[10px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: '#94A3B8' }}>Filter by Vendor</p>
+                            <div className="flex flex-col gap-0.5 max-h-64 overflow-y-auto">
+                              {ALL_VENDORS.map(v => {
+                                const active = filterVendors.includes(v)
+                                return (
+                                  <button key={v} onClick={() => toggleVendor(v)}
+                                    className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-left transition-all hover:bg-[#F0F9FF]"
+                                    style={{ color: active ? '#0694D1' : '#374151', fontWeight: active ? 600 : 400 }}>
+                                    <span className="w-4 h-4 rounded flex items-center justify-center shrink-0"
+                                      style={active ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
+                                      {active && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                                    </span>
+                                    {v}
+                                  </button>
+                                )
+                              })}
+                            </div>
+                            {filterVendors.length > 0 && (
+                              <button onClick={() => { setFilterVendors([]); setPage(0) }}
+                                className="mt-2 w-full rounded-lg py-1.5 text-xs font-semibold transition-all hover:bg-red-50"
+                                style={{ color: '#EF4444', border: '1px solid #FEE2E2' }}>
+                                Clear all vendors
+                              </button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Active vendor chips + count */}
+                    {filterVendors.length > 0 && (
+                      <div className="flex items-center gap-2 flex-wrap mb-3">
+                        {filterVendors.map(v => (
+                          <span key={v} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                            style={{ background: '#EBF8FE', color: '#0694D1', border: '1px solid #CAEFFF' }}>
+                            {v}
+                            <button onClick={() => toggleVendor(v)} className="hover:opacity-70">
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                            </button>
+                          </span>
+                        ))}
+                        <button onClick={() => { setFilterVendors([]); setPage(0) }}
+                          className="text-xs font-semibold transition-all hover:underline"
+                          style={{ color: '#0694D1' }}>
+                          Clear all
+                        </button>
+                        <span className="ml-auto text-xs font-medium" style={{ color: '#64748B' }}>
+                          Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}
+                        </span>
+                      </div>
                     )}
-                    {vendorExpanded && hidden > 0 && (
-                      <button onClick={() => setVendorExpanded(false)}
-                        className="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap"
-                        style={{ background: '#F0F9FF', color: '#64748B', border: '1px solid #E2E8F0' }}>
-                        Show less
-                      </button>
-                    )}
-                  </div>
+                  </>
                 )
               })()}
 
