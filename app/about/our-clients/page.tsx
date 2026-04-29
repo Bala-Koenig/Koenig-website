@@ -238,11 +238,11 @@ export default function OurClientsPage() {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a href="mailto:sales@koenig-solutions.com"
-                className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">
+                className="inline-block w-full sm:w-auto text-center bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">
                 Talk to Enterprise Sales
               </a>
               <Link href="/about/happiness-guarantee"
-                className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors">
+                className="inline-block w-full sm:w-auto text-center border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors">
                 Our Happiness Guarantee
               </Link>
             </div>
