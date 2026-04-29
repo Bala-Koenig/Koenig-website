@@ -332,7 +332,7 @@ const TESTIMONIALS = [
 ]
 
 /* ── Course Card ─────────────────────────────────────────────── */
-function CourseCard({ course }: { course: typeof COURSES[0] }) {
+function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll: () => void }) {
   const daysFromHours = Math.ceil(course.duration / 8)
   const nextBatch = course.schedules[0]
 
@@ -406,7 +406,7 @@ function CourseCard({ course }: { course: typeof COURSES[0] }) {
 
       {/* CTAs */}
       <div className="px-5 pb-5 flex gap-2">
-        <button className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-gray-50"
+        <button onClick={onEnroll} className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-gray-50"
           style={{ border: '1px solid #E2E8F0', color: '#374151' }}>
           Enroll Now
         </button>
@@ -565,7 +565,16 @@ export default function LiveOnlineClassroomPage() {
   const [filterTz, setFilterTz]       = useState('')
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
+  const [showFormModal, setShowFormModal] = useState(false)
   const PER_PAGE = 9
+
+  useEffect(() => {
+    if (!showFormModal) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setShowFormModal(false) }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [showFormModal])
 
   const filtered = COURSES.filter(c => {
     const q = search.toLowerCase()
@@ -581,6 +590,96 @@ export default function LiveOnlineClassroomPage() {
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
+
+      {/* ── FORM MODAL ───────────────────────────────────────── */}
+      {showFormModal && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={() => setShowFormModal(false)}>
+          <div className="absolute inset-0" style={{ background: 'rgba(6,17,30,0.78)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }} />
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl"
+            style={{ background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 24px 80px rgba(6,148,209,0.22)' }}
+            onClick={e => e.stopPropagation()}>
+
+            {/* Header */}
+            <div className="flex items-start justify-between px-6 sm:px-10 pt-8 pb-0">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#06111E' }}>Request for more information</h2>
+                <p className="text-sm mt-1" style={{ color: '#7a8c96' }}>Our team will respond within 24 hours with batch options and pricing.</p>
+              </div>
+              <button onClick={() => setShowFormModal(false)}
+                className="ml-4 mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-gray-100"
+                style={{ color: '#475569' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+
+            {/* Form body */}
+            <div className="px-6 sm:px-10 py-6">
+              {/* Contact method */}
+              <div className="flex justify-center gap-3 mb-5">
+                {['Email 📧', 'WhatsApp 💬'].map(m => (
+                  <button key={m} className="rounded-full px-5 py-2 text-sm font-semibold transition-colors hover:bg-[#0694D1] hover:text-white"
+                    style={{ border: '1px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
+                    {m}
+                  </button>
+                ))}
+              </div>
+              {/* Type toggle */}
+              <div className="flex justify-center gap-6 mb-6">
+                {(['individual', 'enterprise'] as const).map(t => (
+                  <label key={t} className="flex items-center gap-2 cursor-pointer text-sm font-medium capitalize" style={{ color: '#475569' }}>
+                    <input type="radio" checked={formType === t} onChange={() => setFormType(t)} className="accent-[#0694D1]" />
+                    {t}
+                  </label>
+                ))}
+              </div>
+              <div className="grid sm:grid-cols-2 gap-3 mb-3">
+                <input placeholder="Full Name *" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
+                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
+                <input placeholder="Business Email *" type="email" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
+                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
+                <input placeholder="Phone" type="tel" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
+                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
+                <select className="rounded-xl px-4 py-3 text-sm outline-none w-full"
+                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#475569' }}>
+                  <option value="">Select Course Name</option>
+                  {COURSES.map(c => <option key={c.id} value={c.id}>{c.code}: {c.name}</option>)}
+                </select>
+              </div>
+              <div className="mb-3">
+                <select className="rounded-xl px-4 py-3 text-sm outline-none w-full"
+                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#475569' }}>
+                  <option value="">How did you hear about us? — Select Option</option>
+                  <option>Google Search</option>
+                  <option>LinkedIn</option>
+                  <option>Colleague / Referral</option>
+                  <option>Email Newsletter</option>
+                  <option>Social Media</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div className="mb-5">
+                <textarea placeholder="Tell us more about your Training Request" rows={3}
+                  className="rounded-xl px-4 py-3 text-sm outline-none w-full resize-none"
+                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
+              </div>
+              {/* reCAPTCHA placeholder */}
+              <div className="flex items-center gap-3 mb-5 rounded-xl px-4 py-3"
+                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF' }}>
+                <input type="checkbox" className="w-4 h-4 accent-[#0694D1]" />
+                <span className="text-sm" style={{ color: '#475569' }}>I&apos;m not a robot</span>
+                <div className="ml-auto text-right">
+                  <p className="text-[9px] font-bold" style={{ color: '#4A90D9' }}>reCAPTCHA</p>
+                  <p className="text-[8px]" style={{ color: '#9AA5B1' }}>Privacy · Terms</p>
+                </div>
+              </div>
+              <button className="w-full rounded-2xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)' }}>
@@ -610,8 +709,8 @@ export default function LiveOnlineClassroomPage() {
                 Live Instructor-Led Training — Guaranteed to Run
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 text-white">
-                Master In-Demand Skills.<br />
-                <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                <span className="block">Master In-Demand Skills.</span>
+                <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                   Live Online. Anywhere.
                 </span>
               </h1>
@@ -624,10 +723,10 @@ export default function LiveOnlineClassroomPage() {
                   View Upcoming Batches
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <a href="#request" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
+                <button onClick={() => setShowFormModal(true)} className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
                   style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
                   Request Info
-                </a>
+                </button>
               </div>
             </div>
 
@@ -851,7 +950,7 @@ export default function LiveOnlineClassroomPage() {
                     <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{VENDOR_DESCS[activeVendor]}</p>
                   </div>
                 </div>
-                <button className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                <button onClick={() => setShowFormModal(true)} className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
                   style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
                   Enquire Now →
                 </button>
@@ -883,7 +982,7 @@ export default function LiveOnlineClassroomPage() {
               {/* Course grid */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {paginated.length > 0
-                  ? paginated.map(c => <CourseCard key={c.id} course={c} />)
+                  ? paginated.map(c => <CourseCard key={c.id} course={c} onEnroll={() => setShowFormModal(true)} />)
                   : (
                     <div className="col-span-full flex flex-col items-center py-16 rounded-2xl bg-white"
                       style={{ border: '1px solid #CAEFFF' }}>
