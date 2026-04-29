@@ -17,7 +17,18 @@ const ABOUT_LINKS: { label: string; href: string }[] = [
   { label: 'Happiness Guarantee', href: '/about/happiness-guarantee' },
   { label: 'Student Feedback',    href: '/about/student-feedback' },
 ]
-const LEARNING_LINKS = ['Live Online Training','Classroom Training','1-on-1 Training','Fly-Me-a-Trainer','Flexi','Customized Training','Webinar as a Service','Qubits','Upcoming Webinars','Learnova']
+const LEARNING_LINKS: { label: string; href: string }[] = [
+  { label: 'Live Online Training',  href: '/live-online-classroom' },
+  { label: 'Classroom Training',    href: '#' },
+  { label: '1-on-1 Training',       href: '#' },
+  { label: 'Fly-Me-a-Trainer',      href: '#' },
+  { label: 'Flexi',                 href: '#' },
+  { label: 'Customized Training',   href: '#' },
+  { label: 'Webinar as a Service',  href: '#' },
+  { label: 'Qubits',                href: '#' },
+  { label: 'Upcoming Webinars',     href: '#' },
+  { label: 'Learnova',              href: '#' },
+]
 
 const MEGA_MENU_VENDORS = [
   { name: 'Microsoft',        img: 'microsoft-cloud-t.png',                                    courses: '380+' },
@@ -421,17 +432,17 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 {learningMenuOpen && (
                   <div className="absolute left-0 top-full mt-2 z-[300] rounded-xl shadow-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}>
                     {LEARNING_LINKS.map(link => (
-                      <a
-                        key={link}
-                        href="#"
+                      <Link
+                        key={link.label}
+                        href={link.href}
                         className="block px-5 py-2.5 text-sm transition-colors"
                         style={{ color: '#374151' }}
                         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)' }}
                         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
                         onClick={() => setLearningMenuOpen(false)}
                       >
-                        {link}
-                      </a>
+                        {link.label}
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -731,7 +742,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 {mobileLearningOpen && (
                   <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
                     {LEARNING_LINKS.map(link => (
-                      <a key={link} href="#" className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }}>{link}</a>
+                      <Link key={link.label} href={link.href} className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }} onClick={() => { setMobileLearningOpen(false); setMobileOpen(false) }}>{link.label}</Link>
                     ))}
                   </div>
                 )}
