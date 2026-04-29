@@ -1422,7 +1422,7 @@ export default function LiveOnlineClassroomPage() {
                         style={{ background: t.bg, color: t.color }}>
                         {getTechIcon(t.name)}
                       </div>
-                      <span className="text-[11px] font-medium leading-tight truncate"
+                      <span className="text-[14px] font-medium leading-tight truncate"
                         style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}
                         title={t.label}>
                         {t.label}
