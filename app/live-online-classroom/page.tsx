@@ -1008,6 +1008,7 @@ export default function LiveOnlineClassroomPage() {
   const [search, setSearch]           = useState('')
   const [filterTz, setFilterTz]       = useState('')
   const [filterVendor, setFilterVendor] = useState('')
+  const [vendorExpanded, setVendorExpanded] = useState(false)
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [showFormModal, setShowFormModal] = useState(false)
@@ -1489,18 +1490,40 @@ export default function LiveOnlineClassroomPage() {
               </div>
 
               {/* Vendor pills */}
-              <div className="flex overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
-                {['All', ...Array.from(new Set(COURSES.map(c => c.vendor)))].map(v => (
-                  <button key={v}
-                    onClick={() => { setFilterVendor(v === 'All' ? '' : v); setPage(0) }}
-                    className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap"
-                    style={filterVendor === (v === 'All' ? '' : v)
-                      ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: '1px solid #0694D1' }
-                      : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
-                    {v}
-                  </button>
-                ))}
-              </div>
+              {(() => {
+                const allVendors = ['All', ...Array.from(new Set(COURSES.map(c => c.vendor)))]
+                const SHOW = 8
+                const visible = vendorExpanded ? allVendors : allVendors.slice(0, SHOW)
+                const hidden  = allVendors.length - SHOW
+                return (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {visible.map(v => (
+                      <button key={v}
+                        onClick={() => { setFilterVendor(v === 'All' ? '' : v); setPage(0) }}
+                        className="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap"
+                        style={filterVendor === (v === 'All' ? '' : v)
+                          ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: '1px solid #0694D1' }
+                          : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
+                        {v}
+                      </button>
+                    ))}
+                    {!vendorExpanded && hidden > 0 && (
+                      <button onClick={() => setVendorExpanded(true)}
+                        className="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap"
+                        style={{ background: '#F0F9FF', color: '#0694D1', border: '1px solid #CAEFFF' }}>
+                        +{hidden} more
+                      </button>
+                    )}
+                    {vendorExpanded && hidden > 0 && (
+                      <button onClick={() => setVendorExpanded(false)}
+                        className="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap"
+                        style={{ background: '#F0F9FF', color: '#64748B', border: '1px solid #E2E8F0' }}>
+                        Show less
+                      </button>
+                    )}
+                  </div>
+                )
+              })()}
 
               {/* Course grid */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1543,13 +1566,13 @@ export default function LiveOnlineClassroomPage() {
                 return (
                   <div className="flex items-center justify-center gap-2 mt-8">
                     <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
+                      className="w-11 h-11 rounded-full flex items-center justify-center text-xl font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
                       style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>‹</button>
                     {start > 0 && <><PageBtn p={0} /><span className="text-sm" style={{ color: '#94A3B8' }}>…</span></>}
                     {pages.map(p => <PageBtn key={p} p={p} />)}
                     {end < totalPages - 1 && <><span className="text-sm" style={{ color: '#94A3B8' }}>…</span><PageBtn p={totalPages - 1} /></>}
                     <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
+                      className="w-11 h-11 rounded-full flex items-center justify-center text-xl font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
                       style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>›</button>
                   </div>
                 )
