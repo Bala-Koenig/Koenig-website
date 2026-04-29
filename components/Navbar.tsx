@@ -429,8 +429,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 onClick={() => {
                   if (learningTriggerRef.current) {
                     const r = learningTriggerRef.current.getBoundingClientRect()
-                    const h = learningTriggerRef.current.closest('header')?.getBoundingClientRect()
-                    if (h) setLearningDropPos({ top: r.bottom - h.top, left: r.left - h.left })
+                    setLearningDropPos({ top: r.bottom + 8, left: r.left })
                   }
                   setLearningMenuOpen(v => !v); setAboutMenuOpen(false); setTechMenuOpen(false); setMegaMenuOpen(false)
                 }}
@@ -449,8 +448,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 onClick={() => {
                   if (aboutTriggerRef.current) {
                     const r = aboutTriggerRef.current.getBoundingClientRect()
-                    const h = aboutTriggerRef.current.closest('header')?.getBoundingClientRect()
-                    if (h) setAboutDropPos({ top: r.bottom - h.top, left: r.left - h.left })
+                    setAboutDropPos({ top: r.bottom + 8, left: r.left })
                   }
                   setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); setLearningMenuOpen(false)
                 }}
@@ -848,12 +846,12 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
           </div>
         )}
 
-        {/* Learning Options dropdown — rendered at header level to escape nav-pill stacking context */}
+        {/* Learning Options dropdown — position:fixed escapes all stacking contexts */}
         {learningMenuOpen && (
           <div
             ref={learningMenuRef}
-            className="absolute z-[500] rounded-xl shadow-2xl overflow-hidden"
-            style={{ top: `${learningDropPos.top + 8}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+            className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
+            style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
           >
             {LEARNING_LINKS.map(link => (
               <Link
@@ -871,12 +869,12 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
           </div>
         )}
 
-        {/* About dropdown — rendered at header level to escape nav-pill stacking context */}
+        {/* About dropdown — position:fixed escapes all stacking contexts */}
         {aboutMenuOpen && (
           <div
             ref={aboutMenuRef}
-            className="absolute z-[500] rounded-xl shadow-2xl overflow-hidden"
-            style={{ top: `${aboutDropPos.top + 8}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+            className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
+            style={{ top: `${aboutDropPos.top}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
           >
             {ABOUT_LINKS.map(link => (
               <Link
