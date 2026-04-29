@@ -702,14 +702,14 @@ const _TECH_COUNTS = Object.fromEntries(
   ALL_TECH_NAMES.map(t => [t, COURSES.filter(c => (c.techs ?? []).includes(t)).length])
 )
 const SIDEBAR_TECHNOLOGIES = [
-  { name: 'All', label: 'All Technologies', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
+  { name: 'All', label: 'Live Online Classroom', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
   ...[...ALL_TECH_NAMES]
     .sort((a,b) => (_TECH_COUNTS[b]??0) - (_TECH_COUNTS[a]??0) || a.localeCompare(b))
     .map(name => { const s = _tStyle(name); return { name, label: name, count: _TECH_COUNTS[name]??0, bg: s.bg, color: s.color, initial: _tInitial(name) } }),
 ]
 
 const TECH_DESCS: Record<string, string> = {
-  'All':                                     'Browse all 16 Guaranteed-to-Run classes — filter by any technology to find your next certification.',
+  'All':                                     'Koenig\'s Live Online Classroom delivers expert-led, Guaranteed-to-Run courses — book with confidence and advance your career from anywhere in the world.',
   'Microsoft Azure':                         'Master Azure administration, AI, developer solutions and infrastructure design with Microsoft certified training.',
   'Cyber Security':                          'Protect organisations with CEH, CompTIA Security+ and SC-200 Microsoft Security Operations analyst training.',
   'AWS Cloud':                               "Build, deploy and scale on the world's most comprehensive cloud platform with AWS certified instructor-led training.",
