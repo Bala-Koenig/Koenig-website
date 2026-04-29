@@ -1219,26 +1219,17 @@ export default function LiveOnlineClassroomPage() {
         <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Section header */}
-          <div className="flex items-start justify-between flex-wrap gap-4 mb-10">
-            <div>
-              <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2"
-                style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
-                Guaranteed Schedules
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e', lineHeight: 1.2 }}>
-                Find Your <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Guaranteed to Run</em> Course
-              </h2>
-              <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>
-                Browse {COURSES.length} live online GTR classes — filter by technology to find your next certification.
-              </p>
+          <div className="flex flex-col items-center text-center mb-10">
+            <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2"
+              style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
+              Guaranteed Schedules
             </div>
-            <button onClick={() => setShowFormModal(true)}
-              className="inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg shrink-0 self-end"
-              style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
-              View Full Schedule
-              <span className="w-6 h-6 rounded-full flex items-center justify-center text-sm"
-                style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </button>
+            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e', lineHeight: 1.2 }}>
+              Find Your <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Guaranteed to Run</em> Course
+            </h2>
+            <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>
+              Browse {COURSES.length} live online GTR classes — filter by technology to find your next certification.
+            </p>
           </div>
 
           {/* Mobile technology pills — only show categories with matching courses */}
