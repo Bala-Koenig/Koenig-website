@@ -482,9 +482,9 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
       {/* Popular badge */}
       {isPopular && (
         <div className="absolute top-0 right-0 z-10">
-          <span className="flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-bl-xl rounded-tr-2xl"
-            style={{ background: 'linear-gradient(135deg,#F97316,#EA580C)', color: 'white' }}>
-            🔥 Popular
+          <span className="flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-bl-xl rounded-tr-2xl tracking-wide uppercase"
+            style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', letterSpacing: '0.04em' }}>
+            ★ Popular
           </span>
         </div>
       )}
