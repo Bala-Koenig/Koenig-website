@@ -228,6 +228,22 @@ body {
   pointer-events: none;
 }
 
+/* ── About pages: mobile typography scale ────────────────────────────── */
+@media (max-width: 639px) {
+  /* H1 / page hero titles: 48px → 26px */
+  .about-page section .text-5xl { font-size: 1.625rem; line-height: 1.2; }
+  /* H1 variants: 36px → 22px */
+  .about-page section .text-4xl { font-size: 1.375rem; line-height: 1.25; }
+  /* H2 / section titles: 30px → 20px */
+  .about-page section .text-3xl { font-size: 1.25rem;  line-height: 1.3; }
+  /* H3 / card titles: 24px → 18px */
+  .about-page section .text-2xl { font-size: 1.125rem; line-height: 1.35; }
+  /* Intro / subtitle body: 20px → 16px */
+  .about-page section .text-xl  { font-size: 1rem;     line-height: 1.5; }
+  /* Body text: 18px → 14.5px */
+  .about-page section .text-lg  { font-size: 0.9rem;   line-height: 1.6; }
+}
+
 /* ── Mobile: 15px spacing between elements inside sections (all pages) ── */
 @media (max-width: 639px) {
   section .gap-4,  section .gap-5,  section .gap-6,  section .gap-7,

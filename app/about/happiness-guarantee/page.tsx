@@ -125,7 +125,7 @@ function ScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: num
 export default function HappinessGuaranteePage() {
   const [tab, setTab] = useState<'why' | 'feedback'>('why')
   return (
-    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+    <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
       <AboutSubNav />
 

@@ -310,7 +310,7 @@ export default function StudentFeedbackPage() {
   const [showAllVideos, setShowAllVideos] = useState(false)
 
   return (
-    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+    <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
       <AboutSubNav />
 

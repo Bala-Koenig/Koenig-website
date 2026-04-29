@@ -41,7 +41,7 @@ const CLIENTS = [
 
 export default function OurClientsPage() {
   return (
-    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+    <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
 
       <AboutSubNav />

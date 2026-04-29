@@ -158,7 +158,7 @@ export default function AwardsPage() {
   const award = MS_AWARDS[active]
 
   return (
-    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+    <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
       <AboutSubNav />
 
