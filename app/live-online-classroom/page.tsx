@@ -909,10 +909,10 @@ export default function LiveOnlineClassroomPage() {
               <div className="inline-flex overflow-x-auto overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)] scrollbar-none">
                 {TRAINING_TABS.map(t => (
                   <button key={t.id} onClick={() => setActiveTab(t.id)}
-                    className={`relative whitespace-nowrap rounded-xl px-4 sm:px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] shrink-0 ${
+                    className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${
                       activeTab === t.id
-                        ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
-                        : 'text-[#7a8c96] hover:text-[#093148]'
+                        ? 'px-6 sm:px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                        : 'px-4 sm:px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]'
                     }`}>
                     {t.label}
                   </button>
