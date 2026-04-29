@@ -557,6 +557,154 @@ const VENDOR_DESCS: Record<string, string> = {
   PECB:         'Become an ISO/IEC 27001 Lead Implementer with PECB internationally recognised certification training.',
 }
 
+/* ── Shared form data ────────────────────────────────────────── */
+const HEAR_OPTIONS = [
+  'Organic Search (Google/Bing/Yahoo)',
+  'Paid Search Ads (Google Ads, Bing Ads)',
+  'Webinars',
+  'Email Outreach',
+  'LinkedIn',
+  'Social Media (Facebook, Instagram, X)',
+  'YouTube',
+  'Trustpilot',
+  'Word of Mouth',
+  'Existing customer referral',
+  'Press release',
+  'Other',
+]
+
+/* ── InquiryForm ─────────────────────────────────────────────── */
+function InquiryForm({
+  formType,
+  setFormType,
+}: {
+  formType: 'individual' | 'enterprise'
+  setFormType: (t: 'individual' | 'enterprise') => void
+}) {
+  const inputCls = 'w-full rounded-xl px-4 py-2.5 text-sm outline-none placeholder:text-white/35 transition-colors'
+  const inputSty = { background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.14)', color: 'white' }
+  const selectSty = { background: '#0b1c2e', border: '1px solid rgba(255,255,255,0.14)', color: 'rgba(255,255,255,0.55)' }
+  const optSty = { background: '#0b1c2e' }
+
+  return (
+    <>
+      {/* WhatsApp / Email buttons */}
+      <div className="flex gap-3 mb-5">
+        <button className="flex-1 flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition hover:bg-white/10"
+          style={{ border: '1px solid rgba(255,255,255,0.18)', color: 'white', background: 'rgba(255,255,255,0.06)' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#25D366' }}>
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          WhatsApp us
+        </button>
+        <button className="flex-1 flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition hover:bg-white/10"
+          style={{ border: '1px solid rgba(255,255,255,0.18)', color: 'white', background: 'rgba(255,255,255,0.06)' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          Email us
+        </button>
+      </div>
+
+      {/* Individual / Enterprise toggle */}
+      <div className="flex rounded-xl p-1 mb-5" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        {(['individual', 'enterprise'] as const).map(t => (
+          <button key={t} type="button" onClick={() => setFormType(t)}
+            className="flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all"
+            style={formType === t
+              ? { background: 'linear-gradient(135deg, #0694D1, #00B4D8)', color: 'white', boxShadow: '0 2px 12px rgba(6,148,209,0.40)' }
+              : { color: 'rgba(255,255,255,0.45)', background: 'transparent' }
+            }>
+            {t === 'individual'
+              ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            }
+            {t === 'individual' ? 'Individual' : 'Enterprise'}
+          </button>
+        ))}
+      </div>
+
+      {/* Name + Email */}
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        <div>
+          <label className="block text-xs font-semibold mb-1.5 text-white">Full Name <span className="text-red-400">*</span></label>
+          <input className={inputCls} style={inputSty} placeholder="John Smith" />
+        </div>
+        <div>
+          <label className="block text-xs font-semibold mb-1.5 text-white">
+            {formType === 'enterprise' ? 'Business Email' : 'Email'} <span className="text-red-400">*</span>
+          </label>
+          <input className={inputCls} style={inputSty} type="email"
+            placeholder={formType === 'enterprise' ? 'john@company.com' : 'john@example.com'} />
+        </div>
+      </div>
+
+      {/* Phone + Course / Trainees */}
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        <div>
+          <label className="block text-xs font-semibold mb-1.5 text-white">Phone</label>
+          <input className={inputCls} style={inputSty} type="tel" placeholder="+1 (555) 000-0000" />
+        </div>
+        <div>
+          {formType === 'enterprise' ? (
+            <>
+              <label className="block text-xs font-semibold mb-1.5 text-white">Number of Trainees</label>
+              <input className={inputCls} style={inputSty} placeholder="e.g. 25" />
+            </>
+          ) : (
+            <>
+              <label className="block text-xs font-semibold mb-1.5 text-white">Select Course Name</label>
+              <select className="w-full rounded-xl px-4 py-2.5 text-sm outline-none" style={selectSty}>
+                <option value="" style={optSty}>Select Course Name</option>
+                {COURSES.map(c => <option key={c.id} value={c.id} style={optSty}>{c.code}: {c.name}</option>)}
+              </select>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Source */}
+      <div className="mb-3">
+        <label className="block text-xs font-semibold mb-1.5 text-white">How did you hear about us?</label>
+        <select className="w-full rounded-xl px-4 py-2.5 text-sm outline-none" style={selectSty}>
+          <option value="" style={optSty}>Select Option</option>
+          {HEAR_OPTIONS.map(o => <option key={o} style={optSty}>{o}</option>)}
+        </select>
+      </div>
+
+      {/* Message */}
+      <div className="mb-5">
+        <label className="block text-xs font-semibold mb-1.5 text-white">Tell us more about your Training Request</label>
+        <textarea className={`${inputCls} resize-none`} style={inputSty} rows={4}
+          placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..." />
+      </div>
+
+      {/* reCAPTCHA */}
+      <div className="flex justify-center mb-5">
+        <div className="inline-flex items-center gap-3 rounded-xl px-5 py-3"
+          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}>
+          <input type="checkbox" className="w-4 h-4" style={{ accentColor: '#0694D1' }} />
+          <span className="text-sm text-white">I&apos;m not a robot</span>
+          <div className="ml-4 text-right">
+            <p className="text-[9px] font-bold" style={{ color: '#4A90D9' }}>reCAPTCHA</p>
+            <p className="text-[8px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Privacy · Terms</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Submit */}
+      <button type="button" className="w-full rounded-xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5"
+        style={{ background: 'linear-gradient(135deg, #0694D1, #00B4D8)', boxShadow: '0 4px 20px rgba(6,148,209,0.40)' }}>
+        Submit — Get a Free Consultation
+      </button>
+
+      <p className="text-center text-xs mt-3" style={{ color: 'rgba(255,255,255,0.35)' }}>
+        We&apos;ll respond within 1 business day · No spam, ever.
+      </p>
+    </>
+  )
+}
+
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab]     = useState('ilo')
@@ -594,88 +742,37 @@ export default function LiveOnlineClassroomPage() {
       {/* ── FORM MODAL ───────────────────────────────────────── */}
       {showFormModal && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={() => setShowFormModal(false)}>
-          <div className="absolute inset-0" style={{ background: 'rgba(6,17,30,0.78)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }} />
-          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl"
-            style={{ background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 24px 80px rgba(6,148,209,0.22)' }}
+          <div className="absolute inset-0" style={{ background: 'rgba(4,10,20,0.82)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }} />
+          <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-2xl"
+            style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 32px 80px rgba(0,0,0,0.65)' }}
             onClick={e => e.stopPropagation()}>
 
-            {/* Header */}
-            <div className="flex items-start justify-between px-6 sm:px-10 pt-8 pb-0">
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#06111E' }}>Request for more information</h2>
-                <p className="text-sm mt-1" style={{ color: '#7a8c96' }}>Our team will respond within 24 hours with batch options and pricing.</p>
-              </div>
-              <button onClick={() => setShowFormModal(false)}
-                className="ml-4 mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition hover:bg-gray-100"
-                style={{ color: '#475569' }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-            </div>
+            {/* X close */}
+            <button onClick={() => setShowFormModal(false)}
+              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-white/10"
+              style={{ color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.15)' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
 
-            {/* Form body */}
-            <div className="px-6 sm:px-10 py-6">
-              {/* Contact method */}
-              <div className="flex justify-center gap-3 mb-5">
-                {['Email 📧', 'WhatsApp 💬'].map(m => (
-                  <button key={m} className="rounded-full px-5 py-2 text-sm font-semibold transition-colors hover:bg-[#0694D1] hover:text-white"
-                    style={{ border: '1px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
-                    {m}
-                  </button>
-                ))}
+            <div className="px-6 sm:px-8 pt-8 pb-7">
+              {/* LET'S TALK pill */}
+              <div className="flex justify-center mb-4">
+                <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest"
+                  style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>
+                  LET&apos;S TALK
+                </span>
               </div>
-              {/* Type toggle */}
-              <div className="flex justify-center gap-6 mb-6">
-                {(['individual', 'enterprise'] as const).map(t => (
-                  <label key={t} className="flex items-center gap-2 cursor-pointer text-sm font-medium capitalize" style={{ color: '#475569' }}>
-                    <input type="radio" checked={formType === t} onChange={() => setFormType(t)} className="accent-[#0694D1]" />
-                    {t}
-                  </label>
-                ))}
-              </div>
-              <div className="grid sm:grid-cols-2 gap-3 mb-3">
-                <input placeholder="Full Name *" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
-                <input placeholder="Business Email *" type="email" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
-                <input placeholder="Phone" type="tel" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
-                <select className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#475569' }}>
-                  <option value="">Select Course Name</option>
-                  {COURSES.map(c => <option key={c.id} value={c.id}>{c.code}: {c.name}</option>)}
-                </select>
-              </div>
-              <div className="mb-3">
-                <select className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#475569' }}>
-                  <option value="">How did you hear about us? — Select Option</option>
-                  <option>Google Search</option>
-                  <option>LinkedIn</option>
-                  <option>Colleague / Referral</option>
-                  <option>Email Newsletter</option>
-                  <option>Social Media</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div className="mb-5">
-                <textarea placeholder="Tell us more about your Training Request" rows={3}
-                  className="rounded-xl px-4 py-3 text-sm outline-none w-full resize-none"
-                  style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
-              </div>
-              {/* reCAPTCHA placeholder */}
-              <div className="flex items-center gap-3 mb-5 rounded-xl px-4 py-3"
-                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF' }}>
-                <input type="checkbox" className="w-4 h-4 accent-[#0694D1]" />
-                <span className="text-sm" style={{ color: '#475569' }}>I&apos;m not a robot</span>
-                <div className="ml-auto text-right">
-                  <p className="text-[9px] font-bold" style={{ color: '#4A90D9' }}>reCAPTCHA</p>
-                  <p className="text-[8px]" style={{ color: '#9AA5B1' }}>Privacy · Terms</p>
-                </div>
-              </div>
-              <button className="w-full rounded-2xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
-                Submit
-              </button>
+
+              {/* Title */}
+              <h2 className="text-center text-xl sm:text-2xl font-bold text-white mb-1">
+                Request for more{' '}
+                <span style={{ color: '#38bdf8' }}>information</span>
+              </h2>
+              <p className="text-center text-sm mb-6" style={{ color: 'rgba(255,255,255,0.42)' }}>
+                Microsoft Certification Training with Koenig Solutions
+              </p>
+
+              <InquiryForm formType={formType} setFormType={setFormType} />
             </div>
           </div>
         </div>
@@ -1158,84 +1255,25 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <section id="request" className="py-12 sm:py-16" style={{ background: 'linear-gradient(135deg, #EBF8FE 0%, #ddf1fb 100%)' }}>
-        <div className="mx-auto max-w-2xl px-4 md:px-8">
-          <div className="bg-white rounded-3xl p-6 sm:p-10" style={{ border: '1px solid #CAEFFF', boxShadow: '0 8px 40px rgba(6,148,209,0.12)' }}>
-            <h2 className="text-xl sm:text-2xl font-bold text-center mb-2" style={{ color: '#06111E' }}>
-              Request for more information
-            </h2>
-            <p className="text-sm text-center mb-6" style={{ color: '#7a8c96' }}>
-              Our team will respond within 24 hours with batch options and pricing.
-            </p>
-
-            {/* Contact method */}
-            <div className="flex justify-center gap-3 mb-5">
-              {['Email 📧', 'WhatsApp 💬'].map(m => (
-                <button key={m} className="rounded-full px-5 py-2 text-sm font-semibold transition-colors hover:bg-[#0694D1] hover:text-white"
-                  style={{ border: '1px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
-                  {m}
-                </button>
-              ))}
-            </div>
-
-            {/* Type toggle */}
-            <div className="flex justify-center gap-6 mb-6">
-              {(['individual', 'enterprise'] as const).map(t => (
-                <label key={t} className="flex items-center gap-2 cursor-pointer text-sm font-medium capitalize" style={{ color: '#475569' }}>
-                  <input type="radio" checked={formType === t} onChange={() => setFormType(t)}
-                    className="accent-[#0694D1]" />
-                  {t}
-                </label>
-              ))}
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-3 mb-3">
-              <input placeholder="Full Name *" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
-              <input placeholder="Business Email *" type="email" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
-              <input placeholder="Phone" type="tel" className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
-              <select className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#475569' }}>
-                <option value="">Select Course Name</option>
-                {COURSES.map(c => <option key={c.id} value={c.id}>{c.code}: {c.name}</option>)}
-              </select>
-            </div>
-            <div className="mb-3">
-              <select className="rounded-xl px-4 py-3 text-sm outline-none w-full"
-                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#475569' }}>
-                <option value="">How did you hear about us? — Select Option</option>
-                <option>Google Search</option>
-                <option>LinkedIn</option>
-                <option>Colleague / Referral</option>
-                <option>Email Newsletter</option>
-                <option>Social Media</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div className="mb-5">
-              <textarea placeholder="Tell us more about your Training Request" rows={4}
-                className="rounded-xl px-4 py-3 text-sm outline-none w-full resize-none"
-                style={{ border: '1px solid #CAEFFF', background: '#F8FBFF', color: '#0F172A' }} />
-            </div>
-
-            {/* reCAPTCHA placeholder */}
-            <div className="flex items-center gap-3 mb-5 rounded-xl px-4 py-3"
-              style={{ border: '1px solid #CAEFFF', background: '#F8FBFF' }}>
-              <input type="checkbox" className="w-4 h-4 accent-[#0694D1]" />
-              <span className="text-sm" style={{ color: '#475569' }}>I&apos;m not a robot</span>
-              <div className="ml-auto text-right">
-                <p className="text-[9px] font-bold" style={{ color: '#4A90D9' }}>reCAPTCHA</p>
-                <p className="text-[8px]" style={{ color: '#9AA5B1' }}>Privacy · Terms</p>
-              </div>
-            </div>
-
-            <button className="w-full rounded-2xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
-              Submit
-            </button>
+      <section id="request" className="py-14 sm:py-20" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
+        <div className="mx-auto max-w-lg px-4 md:px-8">
+          {/* LET'S TALK pill */}
+          <div className="flex justify-center mb-4">
+            <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest"
+              style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>
+              LET&apos;S TALK
+            </span>
           </div>
+          {/* Title */}
+          <h2 className="text-center text-2xl sm:text-3xl font-bold text-white mb-1">
+            Request for more{' '}
+            <span style={{ color: '#38bdf8' }}>information</span>
+          </h2>
+          <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.42)' }}>
+            Microsoft Certification Training with Koenig Solutions
+          </p>
+
+          <InquiryForm formType={formType} setFormType={setFormType} />
         </div>
       </section>
     </div>
