@@ -1511,51 +1511,36 @@ export default function LiveOnlineClassroomPage() {
               </div>
 
               {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-8">
-                  {/* Prev */}
-                  <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
-                    style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
-                    ‹
-                  </button>
-                  {/* Page numbers */}
-                  <button onClick={() => setPage(0)}
-                    className="w-9 h-9 rounded-full text-sm font-bold transition-all"
-                    style={page === 0
+              {totalPages > 1 && (() => {
+                const WINDOW = 5
+                const half = Math.floor(WINDOW / 2)
+                let start = Math.max(0, page - half)
+                let end   = Math.min(totalPages - 1, start + WINDOW - 1)
+                if (end - start < WINDOW - 1) start = Math.max(0, end - WINDOW + 1)
+                const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i)
+                const PageBtn = ({ p }: { p: number }) => (
+                  <button onClick={() => setPage(p)}
+                    className="w-9 h-9 rounded-full text-sm font-bold transition-all hover:opacity-80"
+                    style={page === p
                       ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' }
                       : { border: '1.5px solid #E2E8F0', color: '#64748B', background: 'white' }}>
-                    1
+                    {p + 1}
                   </button>
-                  {totalPages >= 2 && (
-                    <button onClick={() => setPage(1)}
-                      className="w-9 h-9 rounded-full text-sm font-bold transition-all"
-                      style={page === 1
-                        ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' }
-                        : { border: '1.5px solid #E2E8F0', color: '#64748B', background: 'white' }}>
-                      2
-                    </button>
-                  )}
-                  {totalPages > 3 && (
-                    <span className="text-sm font-semibold px-1" style={{ color: '#94A3B8' }}>…</span>
-                  )}
-                  {totalPages > 2 && (
-                    <button onClick={() => setPage(totalPages - 1)}
-                      className="w-9 h-9 rounded-full text-sm font-bold transition-all"
-                      style={page === totalPages - 1
-                        ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' }
-                        : { border: '1.5px solid #E2E8F0', color: '#64748B', background: 'white' }}>
-                      {totalPages}
-                    </button>
-                  )}
-                  {/* Next */}
-                  <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
-                    style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
-                    ›
-                  </button>
-                </div>
-              )}
+                )
+                return (
+                  <div className="flex items-center justify-center gap-2 mt-8">
+                    <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
+                      style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>‹</button>
+                    {start > 0 && <><PageBtn p={0} /><span className="text-sm" style={{ color: '#94A3B8' }}>…</span></>}
+                    {pages.map(p => <PageBtn key={p} p={p} />)}
+                    {end < totalPages - 1 && <><span className="text-sm" style={{ color: '#94A3B8' }}>…</span><PageBtn p={totalPages - 1} /></>}
+                    <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
+                      style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>›</button>
+                  </div>
+                )
+              })()}
             </div>
           </div>
 
