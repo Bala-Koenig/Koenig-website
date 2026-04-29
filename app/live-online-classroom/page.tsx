@@ -446,17 +446,197 @@ function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: (
   )
 }
 
+/* ── Vendor Logo ─────────────────────────────────────────────── */
+function VendorLogo({ name, size = 24 }: { name: string; size?: number }) {
+  const s = size, fs = Math.round(s * 0.37)
+  const ms = Math.round(s * 0.62)
+  const logos: Record<string, React.ReactNode> = {
+    Microsoft: (
+      <svg width={ms} height={ms} viewBox="0 0 21 21">
+        <rect x="0" y="0" width="10" height="10" fill="#f25022"/><rect x="11" y="0" width="10" height="10" fill="#7fba00"/>
+        <rect x="0" y="11" width="10" height="10" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/>
+      </svg>
+    ),
+    AWS: <span style={{ fontSize: fs - 1, fontWeight: 900, color: '#ff9900', letterSpacing: -0.5, lineHeight: 1 }}>aws</span>,
+    Cisco: <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>CS</span>,
+    PMI: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>PMI</span>,
+    'EC-Council': <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>EC</span>,
+    CompTIA: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>CT+</span>,
+    PECB: <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>PB</span>,
+    Oracle: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>ORA</span>,
+    'Red Hat': <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>RH</span>,
+    VMware: <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>VM</span>,
+    SAP: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>SAP</span>,
+    'Google Cloud': <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>GC</span>,
+    ISACA: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>ISA</span>,
+    ISC2: <span style={{ fontSize: fs - 1, fontWeight: 900, color: 'white', lineHeight: 1 }}>ISC</span>,
+  }
+  const bgs: Record<string, string> = {
+    Microsoft: '#f8f8f8', AWS: '#232f3e', Cisco: '#1ba0d7', PMI: '#003087',
+    'EC-Council': '#c41230', CompTIA: '#c8202f', PECB: '#004b87',
+    Oracle: '#c74634', 'Red Hat': '#cc0000', VMware: '#607078',
+    SAP: '#007db8', 'Google Cloud': '#4285f4', ISACA: '#0065a0', ISC2: '#3e7d32',
+  }
+  const hue = name.charCodeAt(0) * 37 % 360
+  const bg = bgs[name] ?? `hsl(${hue},55%,42%)`
+  const icon = logos[name] ?? <span style={{ fontSize: fs, fontWeight: 900, color: 'white', lineHeight: 1 }}>{name.slice(0,2).toUpperCase()}</span>
+  return (
+    <span className="rounded-lg flex items-center justify-center shrink-0 overflow-hidden"
+      style={{ width: s, height: s, background: bg }}>
+      {icon}
+    </span>
+  )
+}
+
+/* ── Dates Modal ─────────────────────────────────────────────── */
+function DatesModal({ course, onClose, onEnroll }: {
+  course: typeof COURSES[0]; onClose: () => void; onEnroll: () => void
+}) {
+  const [filter, setFilter] = useState<'All'|'Online'|'Classroom'|'1-on-1'>('All')
+  const [selectedIdx, setSelectedIdx] = useState(0)
+  const days = Math.ceil(course.duration / 8)
+
+  useEffect(() => {
+    const fn = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', fn)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', fn); document.body.style.overflow = '' }
+  }, [onClose])
+
+  const MONTH_RE = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/
+  const MONTH_ORDER = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const allRows = course.schedules.map((s, i) => ({ ...s, idx: i, type: 'Online' as const }))
+  const rows = filter === 'All' ? allRows : allRows.filter(r => r.type === filter)
+
+  const grouped: { month: string; items: typeof rows }[] = []
+  rows.forEach(r => {
+    const m = r.dates.match(MONTH_RE)?.[1] ?? 'Other'
+    const g = grouped.find(x => x.month === m)
+    if (g) g.items.push(r); else grouped.push({ month: m, items: [r] })
+  })
+  grouped.sort((a, b) => MONTH_ORDER.indexOf(a.month) - MONTH_ORDER.indexOf(b.month))
+  const selected = course.schedules[selectedIdx]
+
+  return (
+    <div className="fixed inset-0 z-[300] flex items-center justify-center px-4"
+      style={{ background: 'rgba(12,25,41,0.72)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+      onClick={onClose}>
+      <style>{`@keyframes dmIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}`}</style>
+      <div className="relative w-full max-w-lg rounded-2xl overflow-hidden flex flex-col bg-white"
+        style={{ maxHeight: '88vh', boxShadow: '0 24px 80px rgba(12,25,41,0.4)', animation: 'dmIn 0.25s cubic-bezier(0.22,1,0.36,1)' }}
+        onClick={e => e.stopPropagation()}>
+
+        {/* Header */}
+        <div className="relative px-6 pt-5 pb-4" style={{ borderBottom: '1px solid #DDE6EE' }}>
+          <button onClick={onClose}
+            className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all hover:bg-[#E6F6FD]"
+            style={{ border: '1.5px solid #DDE6EE', color: '#5a7a90' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+          <span className="inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full mb-2"
+            style={{ background: '#E6F6FD', color: '#009ED8' }}>{course.vendor}</span>
+          <h2 className="text-sm font-bold leading-snug pr-10 mb-2" style={{ color: '#0C1929' }}>
+            {course.code}: {course.name}
+          </h2>
+          <span className="flex items-center gap-1.5 text-xs" style={{ color: '#5a7a90' }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            {course.duration} hrs ({days} {days === 1 ? 'Day' : 'Days'})
+          </span>
+        </div>
+
+        {/* Filter strip */}
+        <div className="flex items-center gap-2 px-6 py-3 flex-wrap" style={{ borderBottom: '1px solid #DDE6EE', background: '#FAFCFE' }}>
+          {(['All','Online','Classroom','1-on-1'] as const).map(f => (
+            <button key={f} onClick={() => setFilter(f)}
+              className="rounded-full px-3.5 py-1 text-xs font-semibold transition-all"
+              style={filter === f
+                ? { background: '#009ED8', color: 'white', border: '1px solid #009ED8' }
+                : { background: 'white', color: '#5a7a90', border: '1px solid #DDE6EE' }}>
+              {f}
+            </button>
+          ))}
+          <span className="ml-auto text-xs font-medium whitespace-nowrap" style={{ color: '#5a7a90' }}>
+            {rows.length} date{rows.length !== 1 ? 's' : ''} available
+          </span>
+        </div>
+
+        {/* Dates list */}
+        <div className="flex-1 overflow-y-auto px-6 py-4" style={{ minHeight: 0 }}>
+          {grouped.length > 0 ? grouped.map(({ month, items }) => (
+            <div key={month} className="mb-4">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-[11px] font-black uppercase tracking-widest shrink-0" style={{ color: '#94A3B8' }}>{month} 2026</span>
+                <div className="flex-1 h-px" style={{ background: '#E2E8F0' }} />
+              </div>
+              <div className="flex flex-col gap-2">
+                {items.map(({ idx, dates, time, gtr, type }) => {
+                  const sel = selectedIdx === idx
+                  return (
+                    <button key={idx} onClick={() => setSelectedIdx(idx)}
+                      className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all"
+                      style={sel ? { background: '#E6F6FD', border: '1.5px solid #009ED8' } : { background: 'white', border: '1px solid #DDE6EE' }}>
+                      <div className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center"
+                        style={sel ? { background: '#009ED8' } : { border: '1.5px solid #CBD5E1' }}>
+                        {sel && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold" style={{ color: sel ? '#009ED8' : '#0C1929' }}>{dates} 2026</p>
+                        <p className="text-xs mt-0.5" style={{ color: '#5a7a90' }}>{time} · Online</p>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {gtr && (
+                          <span className="flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: '#DCFCE7', color: '#16A34A' }}>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            GTR
+                          </span>
+                        )}
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: '#E6F6FD', color: '#009ED8' }}>{type}</span>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )) : (
+            <div className="flex flex-col items-center justify-center py-12">
+              <p className="text-sm font-semibold" style={{ color: '#94A3B8' }}>No dates for this filter</p>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between px-6 py-4" style={{ background: '#F5F8FB', borderTop: '1px solid #DDE6EE' }}>
+          <div className="min-w-0 mr-4">
+            <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#94A3B8' }}>Selected</p>
+            <p className="text-sm font-bold" style={{ color: '#0C1929' }}>{selected ? `${selected.dates} 2026` : '—'}</p>
+          </div>
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button onClick={onClose}
+              className="rounded-xl px-5 py-2.5 text-sm font-semibold transition-all hover:bg-[#E6F6FD]"
+              style={{ border: '1px solid #DDE6EE', color: '#5a7a90', background: 'white' }}>
+              Cancel
+            </button>
+            <button onClick={onEnroll}
+              className="rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg,#009ED8,#0694D1)', boxShadow: '0 4px 12px rgba(0,158,216,0.3)' }}>
+              Enroll Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ── Course Card ─────────────────────────────────────────────── */
-function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }: {
-  course: typeof COURSES[0]; onEnroll: () => void
-  isExpanded: boolean; onToggleExpand: () => void; onSyllabus: () => void
+function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
+  course: typeof COURSES[0]; onEnroll: () => void; onViewDates: () => void; onSyllabus: () => void
 }) {
   const [selectedSlot, setSelectedSlot] = useState(0)
-
   const FULL_VISIBLE = 2
-  const manyDates = course.schedules.length >= 5
   const fullCards = course.schedules.slice(0, FULL_VISIBLE)
-  const extraSlots = course.schedules.slice(FULL_VISIBLE)
+  const extraCount = course.schedules.length - FULL_VISIBLE
+  const hasMore = extraCount > 0
   const isPopular = (course.tags ?? []).includes('POPULAR')
   const days = Math.ceil(course.duration / 8)
 
@@ -476,8 +656,10 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
   )
 
   return (
-    <div className="flex flex-col rounded-2xl bg-white overflow-hidden relative"
-      style={{ border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
+    <div className="flex flex-col rounded-2xl bg-white overflow-hidden relative group/card transition-all duration-300 hover:-translate-y-1"
+      style={{ border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#CAEFFF' }}
+      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#E2E8F0' }}>
 
       {/* Popular badge */}
       {isPopular && (
@@ -509,7 +691,7 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
             </svg>
-            {course.duration} hr · {days} {days === 1 ? 'Day' : 'Days'}
+            {course.duration} hrs ({days} {days === 1 ? 'Day' : 'Days'})
           </div>
         </div>
       </div>
@@ -518,7 +700,6 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
       <div className="px-4 py-3 flex flex-col gap-2">
         <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: '#94A3B8' }}>Select a Date</p>
 
-        {/* Full-size date cards (first 2) */}
         {fullCards.map((s, i) => {
           const active = selectedSlot === i
           return (
@@ -543,81 +724,24 @@ function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }
           )
         })}
 
-        {/* Extra dates */}
-        {extraSlots.length > 0 && (
-          <>
-            {isExpanded && (
-              manyDates
-                ? <div className="flex flex-wrap gap-1.5 pt-1">
-                    {extraSlots.map((s, j) => {
-                      const idx = j + FULL_VISIBLE
-                      const active = selectedSlot === idx
-                      return (
-                        <button key={idx} onClick={() => setSelectedSlot(idx)}
-                          className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-all"
-                          style={active
-                            ? { background: '#EFF9FF', border: '1.5px solid #0694D1', color: '#0694D1', boxShadow: '0 2px 6px rgba(6,148,209,0.2)' }
-                            : { background: 'white', color: '#374151', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-                          <RadioDot active={active} />
-                          {s.dates}
-                          {s.gtr && (
-                            <span className="flex items-center gap-0.5 rounded-full px-1 font-bold"
-                              style={{ fontSize: 9, background: '#DCFCE7', color: '#15803D' }}>
-                              <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                              GTR
-                            </span>
-                          )}
-                        </button>
-                      )
-                    })}
-                  </div>
-                : <div className="flex flex-col gap-2">
-                    {extraSlots.map((s, j) => {
-                      const idx = j + FULL_VISIBLE
-                      const active = selectedSlot === idx
-                      return (
-                        <button key={idx} onClick={() => setSelectedSlot(idx)}
-                          className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
-                          style={active
-                            ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
-                            : { background: 'white', border: '1px solid #E8EFF5', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="flex flex-col gap-0.5">
-                              <span className="font-bold" style={{ color: active ? '#0694D1' : '#0F172A' }}>{s.dates}</span>
-                              <span className="text-[11px]" style={{ color: '#64748B' }}>{s.time} · Online</span>
-                            </div>
-                            <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
-                              {s.gtr && <GtrBadge />}
-                              <RadioDot active={active} />
-                            </div>
-                          </div>
-                        </button>
-                      )
-                    })}
-                  </div>
-            )}
-
-            <button onClick={onToggleExpand}
-              className="self-start flex items-center gap-1 text-xs font-semibold transition-all hover:underline"
-              style={{ color: '#0694D1' }}>
-              {isExpanded
-                ? <>↑ Show Less</>
-                : manyDates
-                  ? <><span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold text-white mr-0.5" style={{ background: '#0694D1' }}>{extraSlots.length}</span> More Dates</>
-                  : <>↓ {extraSlots.length} More Dates</>
-              }
-            </button>
-          </>
+        {hasMore && (
+          <button onClick={onViewDates}
+            className="self-start flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline mt-0.5"
+            style={{ color: '#0694D1' }}>
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold text-white"
+              style={{ background: '#0694D1' }}>+{extraCount}</span>
+            View All {course.schedules.length} Dates
+          </button>
         )}
       </div>
 
       {/* Action buttons */}
-      <div className="flex gap-2 px-4 pb-4">
+      <div className="flex gap-2 px-4 pb-4 mt-auto">
         <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F4F8]"
           style={{ border: '1.5px solid #093148', color: '#093148' }}>
           Learn More
         </button>
-        <button onClick={onEnroll}
+        <button onClick={hasMore ? onViewDates : onEnroll}
           className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
           style={{ background: 'linear-gradient(135deg, #093148, #076D9D)' }}>
           Enroll Now
@@ -1034,7 +1158,7 @@ export default function LiveOnlineClassroomPage() {
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [showFormModal, setShowFormModal] = useState(false)
-  const [expandedCardId, setExpandedCardId] = useState<number | null>(null)
+  const [datesModalCourse, setDatesModalCourse] = useState<typeof COURSES[0] | null>(null)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
@@ -1071,6 +1195,15 @@ export default function LiveOnlineClassroomPage() {
       {/* ── SYLLABUS MODAL ───────────────────────────────────── */}
       {showSyllabusModal && (
         <SyllabusModal courseName={syllabusCourseName} onClose={() => setShowSyllabusModal(false)} />
+      )}
+
+      {/* ── DATES MODAL ──────────────────────────────────────── */}
+      {datesModalCourse && (
+        <DatesModal
+          course={datesModalCourse}
+          onClose={() => setDatesModalCourse(null)}
+          onEnroll={() => { setDatesModalCourse(null); setShowFormModal(true) }}
+        />
       )}
 
       {/* ── FORM MODAL ───────────────────────────────────────── */}
@@ -1434,9 +1567,9 @@ export default function LiveOnlineClassroomPage() {
                   />
                   {techSearch && (
                     <button onClick={() => setTechSearch('')}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-4 h-4 hover:bg-[#CAEFFF] transition-all"
-                      style={{ color: '#94A3B8' }}>
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5 hover:bg-[#CAEFFF] transition-all"
+                      style={{ color: '#64748B' }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
                     </button>
                   )}
                 </div>
@@ -1520,9 +1653,9 @@ export default function LiveOnlineClassroomPage() {
                     style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A', paddingRight: search ? '32px' : '12px' }} />
                   {search && (
                     <button onClick={() => { setSearch(''); setPage(0) }}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5 hover:bg-[#EBF8FE] transition-all"
-                      style={{ color: '#94A3B8' }}>
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-6 h-6 hover:bg-[#EBF8FE] transition-all"
+                      style={{ color: '#64748B' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
                     </button>
                   )}
                 </div>
@@ -1576,8 +1709,7 @@ export default function LiveOnlineClassroomPage() {
                   ? paginated.map(c => (
                       <CourseCard key={c.id} course={c}
                         onEnroll={() => setShowFormModal(true)}
-                        isExpanded={expandedCardId === c.id}
-                        onToggleExpand={() => setExpandedCardId(id => id === c.id ? null : c.id)}
+                        onViewDates={() => setDatesModalCourse(c)}
                         onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
                       />
                     ))
@@ -1678,21 +1810,25 @@ export default function LiveOnlineClassroomPage() {
                       )}
                     </div>
                     {/* Vendor pills */}
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-col gap-1.5 overflow-y-auto" style={{ maxHeight: 320 }}>
                       {visibleVendors.map(v => {
                         const active = filterVendors.includes(v)
                         const count = COURSES.filter(c => c.vendor === v).length
                         return (
                           <button key={v} onClick={() => toggleVendor(v)}
-                            className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-semibold transition-all"
+                            className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-semibold transition-all w-full text-left"
                             style={active
-                              ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: '1.5px solid transparent', boxShadow: '0 2px 10px rgba(6,148,209,0.3)' }
+                              ? { background: 'linear-gradient(135deg,#EFF9FF,#E6F6FD)', color: '#0694D1', border: '1.5px solid #0694D1' }
                               : { background: 'white', color: '#374151', border: '1.5px solid #E2E8F0' }}>
-                            {v}
-                            <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
-                              style={active ? { background: 'rgba(255,255,255,0.25)', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>
+                            <VendorLogo name={v} size={28} />
+                            <span className="flex-1">{v}</span>
+                            <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0"
+                              style={active ? { background: '#0694D1', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>
                               {count}
                             </span>
+                            {active && (
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            )}
                           </button>
                         )
                       })}
