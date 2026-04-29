@@ -323,7 +323,7 @@ export default function StudentFeedbackPage() {
         .sf-blob2{animation:sfBlob2 15s ease-in-out infinite}
         .sf-blob3{animation:sfBlob3 18s ease-in-out infinite}
       `}</style>
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="sf-blob1 absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#0694D1] opacity-[0.08] blur-[130px]" />
           <div className="sf-blob2 absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
@@ -437,7 +437,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* THE KOENIG EXPERIENCE */}
-      <section className="bg-white py-10">
+      <section className="bg-white py-5 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Section heading */}
@@ -564,7 +564,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* LEARNER FEEDBACK ON REVISION CLASSES */}
-      <section className="py-10" style={{ background: 'linear-gradient(180deg, #f0f8ff 0%, #ffffff 100%)' }}>
+      <section className="py-5 sm:py-10" style={{ background: 'linear-gradient(180deg, #f0f8ff 0%, #ffffff 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-12">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
@@ -702,7 +702,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* GOOGLE / FACEBOOK RATINGS */}
-      <section className="py-10" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
+      <section className="py-5 sm:py-10" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8' }}>
@@ -749,7 +749,7 @@ export default function StudentFeedbackPage() {
       </section>
 
       {/* JOIN 5 MILLION+ LEARNERS */}
-      <section className="relative overflow-hidden py-14" style={{ background: 'linear-gradient(160deg, #f0f8ff 0%, #e4f2fb 50%, #f8fcff 100%)' }}>
+      <section className="relative overflow-hidden py-5 sm:py-14" style={{ background: 'linear-gradient(160deg, #f0f8ff 0%, #e4f2fb 50%, #f8fcff 100%)' }}>
         {/* Background glow blobs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full opacity-30 blur-[100px]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }} />

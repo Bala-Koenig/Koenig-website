@@ -66,7 +66,7 @@ export default function AboutPage() {
         .chev-r3{animation:chevSlide 1.6s ease-in-out 1.06s infinite}
         .chev-d{animation:chevSlideDown 1.6s ease-in-out 0.27s infinite}
       `}</style>
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="about-blob1 absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#0694D1] opacity-[0.08] blur-[130px]" />
           <div className="about-blob2 absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
@@ -161,7 +161,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── WHO WE ARE + GLOBAL PRESENCE (TABS) ───────────── */}
-      <section className="relative bg-white overflow-hidden py-[50px]">
+      <section className="relative bg-white overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="about-blob1 absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="about-blob3 absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[110px]" />
@@ -369,7 +369,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── AWARDS ─────────────────────────────────────────── */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0"
             style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(6,148,209,0.18) 0%, rgba(56,189,248,0.08) 45%, transparent 70%)' }} />
@@ -445,7 +445,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA ────────────────────────────────────────────── */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px] text-center">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px] text-center">
         <div className="pointer-events-none absolute inset-0">
           <div className="about-blob1 absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[120px]" />
           <div className="about-blob2 absolute -bottom-16 -left-24 w-[350px] h-[350px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[100px]" />

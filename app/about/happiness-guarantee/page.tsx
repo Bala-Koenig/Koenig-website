@@ -130,7 +130,7 @@ export default function HappinessGuaranteePage() {
       <AboutSubNav />
 
       {/* ── BANNER — dark + blue glow ── */}
-      <section className="relative bg-[#06111E] overflow-hidden py-10 sm:py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.07] blur-[100px]" />
@@ -161,7 +161,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* ── WHAT IS THE HAPPINESS GUARANTEE — sky-blue gradient + glow ── */}
-      <section className="relative overflow-hidden py-10 sm:py-[50px]"
+      <section className="relative overflow-hidden py-5 sm:py-[50px]"
         style={{ background: 'linear-gradient(135deg, #ffffff 0%, #ddf1fb 35%, #ffffff 65%, #c8eaf8 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 -left-20 w-[400px] h-[400px] rounded-full opacity-40 blur-[90px]" style={{ background: 'radial-gradient(circle, #BAE6FD, transparent 70%)' }} />
@@ -217,7 +217,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* ── HOW DOES IT WORK — dark navy + glow ── */}
-      <section className="relative py-10 sm:py-[50px] overflow-hidden" style={{ background: 'linear-gradient(135deg, #06111E 0%, #071f38 50%, #06111E 100%)' }}>
+      <section className="relative py-5 sm:py-[50px] overflow-hidden" style={{ background: 'linear-gradient(135deg, #06111E 0%, #071f38 50%, #06111E 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 right-0 w-[450px] h-[450px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[110px]" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -268,7 +268,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* ── CEO MESSAGE — sky-blue gradient + glassmorphism ── */}
-      <section className="relative overflow-hidden py-10 sm:py-[50px]"
+      <section className="relative overflow-hidden py-5 sm:py-[50px]"
         style={{ background: 'linear-gradient(135deg, #f0f9ff 0%, #ddf1fb 40%, #f0f9ff 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full opacity-40 blur-[90px]" style={{ background: 'radial-gradient(circle, #BAE6FD, transparent 70%)' }} />
@@ -366,7 +366,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* ── CTA — mild blue bg ── */}
-      <section className="relative py-10 sm:py-14 overflow-hidden" style={{ background: 'linear-gradient(135deg, #c8e6f5 0%, #ddf1fb 40%, #b8dff0 100%)' }}>
+      <section className="relative py-5 sm:py-14 overflow-hidden" style={{ background: 'linear-gradient(135deg, #c8e6f5 0%, #ddf1fb 40%, #b8dff0 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[200px] bg-[#0694D1] opacity-[0.12] blur-[80px] rounded-full" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-[#38bdf8] opacity-[0.10] blur-[70px] rounded-full" />
@@ -438,7 +438,7 @@ export default function HappinessGuaranteePage() {
       </section>
 
       {/* ── WHY CHOOSE US — dark + kglass-dark cards ── */}
-      <section className="relative bg-[#06111E] py-10 sm:py-[50px] overflow-hidden">
+      <section className="relative bg-[#06111E] py-5 sm:py-[50px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -bottom-20 -right-20 w-[450px] h-[450px] rounded-full bg-[#0694D1] opacity-[0.05] blur-[110px]" />
           <div className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full bg-[#38bdf8] opacity-[0.04] blur-[90px]" />

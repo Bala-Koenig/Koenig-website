@@ -47,7 +47,7 @@ export default function OurClientsPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -95,7 +95,7 @@ export default function OurClientsPage() {
       </section>
 
       {/* LIGHT SECTION – Client logos grid */}
-      <section className="bg-white py-[50px]">
+      <section className="bg-white py-5 sm:py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">
             Trusted by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span>
@@ -120,7 +120,7 @@ export default function OurClientsPage() {
       </section>
 
       {/* DARK SECTION – Industries We Serve */}
-      <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #071828 50%, #06111E 100%)' }}>
+      <section className="relative py-5 sm:py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #071828 50%, #06111E 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 left-1/4 w-[500px] h-[400px] bg-[#0694D1] opacity-[0.08] blur-[130px] rounded-full" />
           <div className="absolute bottom-0 right-1/4 w-[500px] h-[350px] bg-[#38bdf8] opacity-[0.06] blur-[120px] rounded-full" />
@@ -216,7 +216,7 @@ export default function OurClientsPage() {
 
       {/* LIGHT SECTION – Enterprise callout */}
       <section
-        className="relative py-[50px] overflow-hidden"
+        className="relative py-5 sm:py-[50px] overflow-hidden"
         style={{
           backgroundColor: '#EBF5FF',
           backgroundImage: 'radial-gradient(rgba(6,148,209,0.28) 1.5px, transparent 1.5px)',

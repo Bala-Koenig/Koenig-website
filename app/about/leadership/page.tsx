@@ -195,7 +195,7 @@ export default function LeadershipPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -230,7 +230,7 @@ export default function LeadershipPage() {
 
       {/* CEO spotlight — Koenig tab only */}
       {activeTab === 'koenig' && (
-      <section className="bg-white py-[50px]">
+      <section className="bg-white py-5 sm:py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-4xl mx-auto">
             <div className="kglass-light rounded-3xl py-10 px-8 sm:px-12 transition-all">
@@ -286,7 +286,7 @@ export default function LeadershipPage() {
       )}
 
       {/* Team grid — tab toggle lives here */}
-      <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #0a1f35 40%, #06111E 100%)' }}>
+      <section className="relative py-5 sm:py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #0a1f35 40%, #06111E 100%)' }}>
         {/* Background glow effects */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0694D1] opacity-[0.08] blur-[130px] rounded-full" />
@@ -420,7 +420,7 @@ export default function LeadershipPage() {
 
       {/* LIGHT SECTION – Join CTA */}
       <section
-        className="relative py-[50px] text-center overflow-hidden"
+        className="relative py-5 sm:py-[50px] text-center overflow-hidden"
         style={{
           backgroundColor: '#EBF5FF',
           backgroundImage: 'radial-gradient(rgba(6,148,209,0.28) 1.5px, transparent 1.5px)',

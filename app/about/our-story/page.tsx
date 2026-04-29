@@ -95,7 +95,7 @@ export default function OurStoryPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -132,7 +132,7 @@ export default function OurStoryPage() {
       </section>
 
       {/* LIGHT SECTION – Timeline */}
-      <section className="bg-white py-[50px]">
+      <section className="bg-white py-5 sm:py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Three Decades of <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Resilience</span></h2>
           <p className="text-center text-[#475569] mb-12">From a single Delhi office to 30,000+ students monthly in 195 countries</p>
@@ -177,7 +177,7 @@ export default function OurStoryPage() {
       </section>
 
       {/* DARK SECTION – Koenig Ethos */}
-      <section className="relative bg-[#06111E] py-[50px] overflow-hidden">
+      <section className="relative bg-[#06111E] py-5 sm:py-[50px] overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#0694D1] opacity-[0.10] blur-[120px] rounded-full" />
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-[#38bdf8] opacity-[0.06] blur-[100px] rounded-full" />
@@ -235,7 +235,7 @@ export default function OurStoryPage() {
 
       {/* LIGHT SECTION – CTA */}
       <section
-        className="relative py-[50px] text-center overflow-hidden"
+        className="relative py-5 sm:py-[50px] text-center overflow-hidden"
         style={{
           backgroundColor: '#EBF5FF',
           backgroundImage: 'radial-gradient(rgba(6,148,209,0.28) 1.5px, transparent 1.5px)',

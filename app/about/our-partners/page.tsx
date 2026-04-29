@@ -68,7 +68,7 @@ export default function OurPartnersPage() {
       <AboutSubNav />
 
       {/* DARK HERO */}
-      <section className="relative bg-[#06111E] overflow-hidden py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
@@ -105,7 +105,7 @@ export default function OurPartnersPage() {
       </section>
 
       {/* LIGHT SECTION – Partner cards */}
-      <section className="relative overflow-hidden py-[50px]" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #ddf1fb 25%, #ffffff 50%, #c8eaf8 75%, #ffffff 100%)' }}>
+      <section className="relative overflow-hidden py-5 sm:py-[50px]" style={{ background: 'linear-gradient(135deg, #ffffff 0%, #ddf1fb 25%, #ffffff 50%, #c8eaf8 75%, #ffffff 100%)' }}>
         {/* Ambient glow blobs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-24 -left-24 w-[480px] h-[480px] rounded-full opacity-40 blur-[100px]" style={{ background: 'radial-gradient(circle, #BAE6FD, transparent 70%)' }} />
@@ -194,7 +194,7 @@ export default function OurPartnersPage() {
       </section>
 
       {/* DARK SECTION – Why authorization matters */}
-      <section className="relative py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #071828 50%, #06111E 100%)' }}>
+      <section className="relative py-5 sm:py-[50px] overflow-hidden" style={{ background: 'linear-gradient(160deg, #06111E 0%, #071828 50%, #06111E 100%)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-20 left-1/4 w-[500px] h-[400px] bg-[#0694D1] opacity-[0.08] blur-[130px] rounded-full" />
           <div className="absolute bottom-0 right-1/4 w-[500px] h-[350px] bg-[#38bdf8] opacity-[0.06] blur-[120px] rounded-full" />
