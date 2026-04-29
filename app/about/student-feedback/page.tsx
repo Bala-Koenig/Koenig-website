@@ -308,6 +308,7 @@ export default function StudentFeedbackPage() {
   const revTotalPages = Math.ceil(REVISION_TESTIMONIALS.length / REV_PER_PAGE)
   const [showAllTestimonials, setShowAllTestimonials] = useState(false)
   const [showAllVideos, setShowAllVideos] = useState(false)
+  const revTouchX = useRef(0)
 
   return (
     <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -647,7 +648,14 @@ export default function StudentFeedbackPage() {
 
           {/* Mobile: single card with dots */}
           <div className="sm:hidden">
-            <div className="relative bg-white rounded-2xl p-6" style={{ boxShadow: '0 4px 24px rgba(6,148,209,0.1)', border: '1px solid #E8F4FA' }}>
+            <div className="relative bg-white rounded-2xl p-6" style={{ boxShadow: '0 4px 24px rgba(6,148,209,0.1)', border: '1px solid #E8F4FA' }}
+              onTouchStart={e => { revTouchX.current = e.touches[0].clientX }}
+              onTouchEnd={e => {
+                const dx = e.changedTouches[0].clientX - revTouchX.current
+                if (dx > 40) setRevIdx(p => Math.max(0, p - 1))
+                else if (dx < -40) setRevIdx(p => Math.min(REVISION_TESTIMONIALS.length - 1, p + 1))
+              }}
+            >
               <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
               <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
               <div className="text-5xl font-serif leading-none mb-2" style={{ color: '#DCEEFB' }}>&ldquo;</div>
@@ -675,16 +683,9 @@ export default function StudentFeedbackPage() {
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
               </button>
-              <div className="flex items-center gap-1.5">
-                {REVISION_TESTIMONIALS.map((_, i) => (
-                  <button key={i} onClick={() => setRevIdx(i)} className="rounded-full transition-all duration-300"
-                    style={i === revIdx
-                      ? { width: '24px', height: '8px', background: 'linear-gradient(90deg, #0694D1, #38bdf8)', boxShadow: '0 2px 6px rgba(6,148,209,0.4)' }
-                      : { width: '8px', height: '8px', background: '#D0E8F5', border: '1.5px solid #b8d9ee' }
-                    }
-                  />
-                ))}
-              </div>
+              <span className="text-sm font-semibold" style={{ color: '#093148' }}>
+                {revIdx + 1}<span className="text-[#7a8c96] font-normal">/{REVISION_TESTIMONIALS.length}</span>
+              </span>
               <button
                 onClick={() => setRevIdx(p => Math.min(REVISION_TESTIMONIALS.length - 1, p + 1))}
                 disabled={revIdx === REVISION_TESTIMONIALS.length - 1}
