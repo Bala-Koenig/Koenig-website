@@ -831,7 +831,7 @@ const _TECH_COUNTS = Object.fromEntries(
   ALL_TECH_NAMES.map(t => [t, COURSES.filter(c => (c.techs ?? []).includes(t)).length])
 )
 const SIDEBAR_TECHNOLOGIES = [
-  { name: 'All', label: 'Live Online Classroom', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
+  { name: 'All', label: 'All Technologies', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
   ...[...ALL_TECH_NAMES]
     .sort((a,b) => (_TECH_COUNTS[b]??0) - (_TECH_COUNTS[a]??0) || a.localeCompare(b))
     .map(name => { const s = _tStyle(name); return { name, label: name, count: _TECH_COUNTS[name]??0, bg: s.bg, color: s.color, initial: _tInitial(name) } }),
