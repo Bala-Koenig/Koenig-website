@@ -1001,14 +1001,18 @@ export default function LiveOnlineClassroomPage() {
                 }}
               >
                 <div className="ben-accent" />
-                <div className="ben-icon-box mb-4" style={{ animationDelay: `${i * 0.6}s` }}>
-                  <div className="ben-icon-svg" style={{ animationDelay: `${i * 0.4}s`, ['--fy' as string]: `${i % 2 === 0 ? '0px' : '-2px'}`, ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>
-                    {b.icon}
+                <div className="flex gap-4 items-start">
+                  <div className="ben-icon-box shrink-0" style={{ animationDelay: `${i * 0.6}s` }}>
+                    <div className="ben-icon-svg" style={{ animationDelay: `${i * 0.4}s`, ['--fy' as string]: `${i % 2 === 0 ? '0px' : '-2px'}`, ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>
+                      {b.icon}
+                    </div>
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-base font-bold text-white">{b.title}</h3>
+                    <div className="ben-divider" />
+                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{b.desc}</p>
                   </div>
                 </div>
-                <h3 className="text-base font-bold text-white">{b.title}</h3>
-                <div className="ben-divider" />
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{b.desc}</p>
                 <div className="ben-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</div>
               </div>
             ))}
