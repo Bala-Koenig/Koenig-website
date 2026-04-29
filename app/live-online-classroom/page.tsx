@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
+import AuroraCanvas from '@/components/AuroraCanvas'
 
 /* ── Course data ─────────────────────────────────────────────── */
 const COURSES = [
@@ -924,31 +925,91 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── BENEFITS ─────────────────────────────────────────── */}
-      <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(135deg, #f0faff 0%, #fff 60%, #EBF8FE 100%)' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
+      <section className="relative overflow-hidden py-12 sm:py-16 px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e' }}>
+        <AuroraCanvas />
+        <style>{`
+          @keyframes indIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
+          @keyframes indCardIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+          .ben-card { position:relative;overflow:hidden;border-radius:18px;padding:28px;cursor:default;
+            background:linear-gradient(145deg,rgba(13,32,53,.92) 0%,rgba(10,22,40,.96) 60%,rgba(11,37,69,.88) 100%);
+            border:1px solid rgba(19,168,212,.18);
+            transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease;
+            opacity:0; }
+          .ben-card.ben-visible { animation:indCardIn .55s cubic-bezier(.22,1,.36,1) forwards; }
+          .ben-card:hover { transform:translateY(-7px); border-color:rgba(19,168,212,.55); box-shadow:0 0 0 1px rgba(19,168,212,.2),0 16px 40px rgba(0,0,0,.4),0 0 32px rgba(19,168,212,.12); }
+          .ben-card::before { content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:220px;border-radius:50%;
+            background:radial-gradient(ellipse,rgba(19,168,212,.13) 0%,transparent 70%);
+            opacity:0;transition:opacity .4s ease;pointer-events:none; }
+          .ben-card:hover::before { opacity:1; }
+          .ben-accent { position:absolute;top:0;left:50%;transform:translateX(-50%);height:2.5px;width:0;border-radius:2px;
+            background:linear-gradient(90deg,transparent,#13a8d4,#38bdf8,#13a8d4,transparent);
+            transition:width .45s cubic-bezier(.22,1,.36,1);pointer-events:none; }
+          .ben-card:hover .ben-accent { width:100%; }
+          @keyframes indDraw { from{stroke-dashoffset:500} to{stroke-dashoffset:0} }
+          @keyframes indFloat { from{transform:translateY(0px)} to{transform:translateY(-5px)} }
+          @keyframes indShake { 0%{transform:translateY(var(--fy,0px)) rotate(0deg) scale(1)} 15%{transform:translateY(var(--fy,0px)) rotate(-6deg) scale(1.06)} 30%{transform:translateY(var(--fy,0px)) rotate(5deg) scale(1.1)} 45%{transform:translateY(var(--fy,0px)) rotate(-3deg) scale(1.08)} 60%{transform:translateY(var(--fy,0px)) rotate(2deg) scale(1.09)} 75%{transform:translateY(var(--fy,0px)) rotate(-1deg) scale(1.1)} 100%{transform:translateY(var(--fy,0px)) rotate(-3deg) scale(1.08)} }
+          .ben-icon-box { width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+            background:rgba(19,168,212,.08);border:1px solid rgba(19,168,212,.28);
+            animation:indIconPulse 3s ease-in-out infinite;transition:background .3s,border-color .3s; }
+          .ben-card:hover .ben-icon-box { background:rgba(19,168,212,.22);border-color:#13a8d4; }
+          .ben-icon-svg { display:flex;align-items:center;justify-content:center;animation:indFloat 3s ease-in-out infinite alternate; }
+          .ben-card:hover .ben-icon-svg { animation:indShake .55s cubic-bezier(.36,.07,.19,.97) both; }
+          .ben-icon-svg svg path,.ben-icon-svg svg circle,.ben-icon-svg svg line,.ben-icon-svg svg polyline,.ben-icon-svg svg rect {
+            stroke-dasharray:500;stroke-dashoffset:500;stroke:#13a8d4;transition:stroke .3s ease; }
+          .ben-card.ben-visible .ben-icon-svg svg path,
+          .ben-card.ben-visible .ben-icon-svg svg circle,
+          .ben-card.ben-visible .ben-icon-svg svg line,
+          .ben-card.ben-visible .ben-icon-svg svg polyline,
+          .ben-card.ben-visible .ben-icon-svg svg rect { animation:indDraw 1.2s ease-in-out var(--draw-delay,0s) forwards; }
+          .ben-card:hover .ben-icon-svg svg path,
+          .ben-card:hover .ben-icon-svg svg circle,
+          .ben-card:hover .ben-icon-svg svg line,
+          .ben-card:hover .ben-icon-svg svg polyline,
+          .ben-card:hover .ben-icon-svg svg rect { stroke:#fff; }
+          .ben-divider { height:1px;background:rgba(19,168,212,.18);border-radius:1px;margin:12px 0;width:40px;transition:width .4s cubic-bezier(.22,1,.36,1); }
+          .ben-card:hover .ben-divider { width:100%; }
+          .ben-ghost { position:absolute;bottom:8px;right:14px;font-size:88px;font-weight:900;line-height:1;
+            color:rgba(19,168,212,.045);letter-spacing:-4px;pointer-events:none;user-select:none;
+            transition:transform .4s ease,color .4s ease; }
+          .ben-card:hover .ben-ghost { transform:translateY(-4px);color:rgba(19,168,212,.08); }
+        `}</style>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="text-center mb-10 sm:mb-12">
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Why ILO</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
               Why Choose{' '}
               <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 Live Online Training
               </span>{' '}with Koenig?
             </h2>
-            <p className="text-sm sm:text-base max-w-2xl mx-auto" style={{ color: '#7a8c96' }}>
-              Real instructors, real labs, real results — all from your desk. Here's what sets Koenig's ILO apart.
+            <p className="mt-3 max-w-2xl mx-auto text-base" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              Real instructors, real labs, real results — all from your desk. Here&apos;s what sets Koenig&apos;s ILO apart.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {BENEFITS.map(b => (
-              <div key={b.title} className="group flex gap-4 items-start p-5 rounded-2xl bg-white transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(6,148,209,0.12)]"
-                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)' }}>
-                <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.18)' }}>
-                  {b.icon}
+            {BENEFITS.map((b, i) => (
+              <div
+                key={b.title}
+                className="ben-card"
+                style={{ animationDelay: `${i * 0.1}s` }}
+                ref={(el) => {
+                  if (!el) return
+                  const obs = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) { el.classList.add('ben-visible'); obs.disconnect() }
+                  }, { threshold: 0.12 })
+                  obs.observe(el)
+                }}
+              >
+                <div className="ben-accent" />
+                <div className="ben-icon-box mb-4" style={{ animationDelay: `${i * 0.6}s` }}>
+                  <div className="ben-icon-svg" style={{ animationDelay: `${i * 0.4}s`, ['--fy' as string]: `${i % 2 === 0 ? '0px' : '-2px'}`, ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>
+                    {b.icon}
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-sm mb-1" style={{ color: '#0F172A' }}>{b.title}</h3>
-                  <p className="text-xs leading-relaxed" style={{ color: '#64748B' }}>{b.desc}</p>
-                </div>
+                <h3 className="text-base font-bold text-white">{b.title}</h3>
+                <div className="ben-divider" />
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{b.desc}</p>
+                <div className="ben-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</div>
               </div>
             ))}
           </div>
