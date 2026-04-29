@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
-import AuroraCanvas from '@/components/AuroraCanvas'
+
 
 /* ── Course data ─────────────────────────────────────────────── */
 const COURSES = [
@@ -926,7 +926,7 @@ export default function LiveOnlineClassroomPage() {
 
       {/* ── BENEFITS ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '50px', paddingBottom: '50px' }}>
-        <AuroraCanvas />
+
         <style>{`
           @keyframes indIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
           @keyframes indCardIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
