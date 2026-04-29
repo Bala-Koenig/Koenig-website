@@ -1776,7 +1776,7 @@ export default function LiveOnlineClassroomPage() {
               ? `Show ${filtered.length} ${filterVendors[0]} courses →`
               : filterVendors.length > 1
                 ? `Show ${filtered.length} courses (${filterVendors.length} vendors) →`
-                : `Show all ${filtered.length} courses →`
+                : `View all courses →`
             return (
               <div className="absolute inset-0 z-50 flex items-start justify-end rounded-2xl overflow-hidden">
                 {/* Backdrop */}
@@ -1830,7 +1830,6 @@ export default function LiveOnlineClassroomPage() {
                             style={active
                               ? { background: 'linear-gradient(135deg,#EFF9FF,#E6F6FD)', color: '#0694D1', border: '1.5px solid #0694D1' }
                               : { background: 'white', color: '#374151', border: '1.5px solid #E2E8F0' }}>
-                            <VendorLogo name={v} size={28} />
                             <span className="flex-1">{v}</span>
                             <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0"
                               style={active ? { background: '#0694D1', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>
