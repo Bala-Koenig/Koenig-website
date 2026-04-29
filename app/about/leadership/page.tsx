@@ -467,12 +467,12 @@ export default function LeadershipPage() {
             </div>
 
             {/* Body */}
-            <div className="flex items-start gap-6 p-6">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6">
 
               {/* Circular photo with teal ring glow */}
               <div className="flex-shrink-0">
                 <div
-                  className="w-28 h-28 rounded-full overflow-hidden"
+                  className="w-32 h-32 sm:w-28 sm:h-28 rounded-full overflow-hidden"
                   style={{ boxShadow: '0 0 0 3px #0694D1, 0 0 20px rgba(6,148,209,0.35)' }}>
                   {bioModal.image ? (
                     <img src={bioModal.image} alt={bioModal.name} className="w-full h-full object-cover object-left object-top" />
@@ -485,7 +485,7 @@ export default function LeadershipPage() {
               </div>
 
               {/* Bio */}
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 w-full">
                 <p className="text-[#38bdf8] text-sm font-semibold mb-3">{bioModal.title}</p>
                 <p className="text-white/70 text-sm leading-relaxed mb-5">{bioModal.bio}</p>
                 <a
