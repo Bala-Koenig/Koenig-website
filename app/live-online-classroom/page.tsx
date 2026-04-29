@@ -1369,6 +1369,9 @@ export default function LiveOnlineClassroomPage() {
             </p>
           </div>
 
+          {/* ── Grouped interactive panel ── */}
+          <div className="rounded-2xl p-4 sm:p-5" style={{ background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
+
           {/* Mobile technology pills — only show categories with matching courses */}
           <div className="flex lg:hidden overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
             {SIDEBAR_TECHNOLOGIES.filter(t => t.name === 'All' || t.count > 0).map(t => (
@@ -1546,6 +1549,8 @@ export default function LiveOnlineClassroomPage() {
               )}
             </div>
           </div>
+
+          </div>{/* end grouped interactive panel */}
         </div>
       </section>
 
