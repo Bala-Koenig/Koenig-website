@@ -62,16 +62,16 @@ export default function OurClientsPage() {
                 <p className="text-xl text-white/80 mb-4 leading-relaxed">
                   From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
                 </p>
-                <div className="grid grid-cols-3 gap-4 mt-8">
-                  <div className="text-center">
+                <div className="grid grid-cols-3 mt-8 rounded-xl overflow-hidden" style={{ border: '1px solid rgba(56,189,248,0.25)' }}>
+                  <div className="text-center py-4 px-2" style={{ borderRight: '1px solid rgba(56,189,248,0.25)' }}>
                     <div className="text-3xl font-bold text-[#38bdf8]">1M+</div>
                     <div className="text-white/60 text-sm">Professionals Certified</div>
                   </div>
-                  <div className="text-center">
+                  <div className="text-center py-4 px-2" style={{ borderRight: '1px solid rgba(56,189,248,0.25)' }}>
                     <div className="text-3xl font-bold text-[#38bdf8]">195+</div>
                     <div className="text-white/60 text-sm">Countries</div>
                   </div>
-                  <div className="text-center">
+                  <div className="text-center py-4 px-2">
                     <div className="text-3xl font-bold text-[#38bdf8]">30+</div>
                     <div className="text-white/60 text-sm">Fortune-500 Clients</div>
                   </div>
