@@ -1512,37 +1512,46 @@ export default function LiveOnlineClassroomPage() {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-1.5 mt-8">
+                <div className="flex items-center justify-center gap-2 mt-8">
+                  {/* Prev */}
                   <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30"
-                    style={{ border: '1px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
+                    style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
                     ‹
                   </button>
+                  {/* Page numbers */}
                   <button onClick={() => setPage(0)}
-                    className="w-9 h-9 rounded-full text-sm font-semibold transition-all"
-                    style={page === 0 ? { background: '#0694D1', color: 'white', border: 'none' } : { border: '1px solid #CAEFFF', color: '#475569', background: 'white' }}>
+                    className="w-9 h-9 rounded-full text-sm font-bold transition-all"
+                    style={page === 0
+                      ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' }
+                      : { border: '1.5px solid #E2E8F0', color: '#64748B', background: 'white' }}>
                     1
                   </button>
                   {totalPages >= 2 && (
                     <button onClick={() => setPage(1)}
-                      className="w-9 h-9 rounded-full text-sm font-semibold transition-all"
-                      style={page === 1 ? { background: '#0694D1', color: 'white', border: 'none' } : { border: '1px solid #CAEFFF', color: '#475569', background: 'white' }}>
+                      className="w-9 h-9 rounded-full text-sm font-bold transition-all"
+                      style={page === 1
+                        ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' }
+                        : { border: '1.5px solid #E2E8F0', color: '#64748B', background: 'white' }}>
                       2
                     </button>
                   )}
                   {totalPages > 3 && (
-                    <span className="text-sm font-semibold" style={{ color: '#94A3B8' }}>…</span>
+                    <span className="text-sm font-semibold px-1" style={{ color: '#94A3B8' }}>…</span>
                   )}
                   {totalPages > 2 && (
                     <button onClick={() => setPage(totalPages - 1)}
-                      className="w-9 h-9 rounded-full text-sm font-semibold transition-all"
-                      style={page === totalPages - 1 ? { background: '#0694D1', color: 'white', border: 'none' } : { border: '1px solid #CAEFFF', color: '#475569', background: 'white' }}>
+                      className="w-9 h-9 rounded-full text-sm font-bold transition-all"
+                      style={page === totalPages - 1
+                        ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' }
+                        : { border: '1.5px solid #E2E8F0', color: '#64748B', background: 'white' }}>
                       {totalPages}
                     </button>
                   )}
+                  {/* Next */}
                   <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1}
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30"
-                    style={{ border: '1px solid #CAEFFF', color: 'white', background: '#0694D1' }}>
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]"
+                    style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>
                     ›
                   </button>
                 </div>
