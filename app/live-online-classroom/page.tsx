@@ -384,11 +384,16 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
   const [selectedSlot, setSelectedSlot] = useState(0)
   const [showOtherDate, setShowOtherDate] = useState(false)
   const [otherDate, setOtherDate] = useState('')
-  const visible = expanded ? course.schedules : course.schedules.slice(0, 2)
+
+  // For 5+ dates: show first 2 as full cards, rest as compact chips when expanded
+  const FULL_VISIBLE = 2
+  const manyDates = course.schedules.length >= 5
+  const fullCards = course.schedules.slice(0, FULL_VISIBLE)
+  const extraSlots = course.schedules.slice(FULL_VISIBLE)
 
   return (
     <div className="flex flex-col rounded-2xl bg-white overflow-hidden"
-      style={{ border: '1px solid #E2E8F0', boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
+      style={{ border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
 
       {/* Card header */}
       <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F1F5F9' }}>
@@ -418,80 +423,146 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
       <div className="px-4 py-3 flex flex-col gap-2">
         <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>Select a Date</p>
 
-        {visible.map((s, i) => {
+        {/* Full-size date cards (first 2) */}
+        {fullCards.map((s, i) => {
           const active = selectedSlot === i && !showOtherDate
           return (
             <button key={i} onClick={() => { setSelectedSlot(i); setShowOtherDate(false) }}
-              className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
+              className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all overflow-hidden relative"
               style={active
-                ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: '1px solid #0694D1' }
-                : { background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
+                ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
+                : { background: 'white', border: '1px solid #E8EFF5', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
               <div className="flex items-start justify-between gap-2">
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-bold" style={{ color: active ? 'white' : '#0F172A' }}>{s.dates}</span>
-                  <span className="text-[11px]" style={{ color: active ? 'rgba(255,255,255,0.85)' : '#64748B' }}>
+                  <span className="font-bold" style={{ color: active ? '#0694D1' : '#0F172A' }}>{s.dates}</span>
+                  <span className="text-[11px]" style={{ color: active ? '#0694D1' : '#64748B', opacity: active ? 0.85 : 1 }}>
                     {s.time} &nbsp;·&nbsp; Online
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
                   {s.gtr && (
                     <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
-                      style={active
-                        ? { background: 'rgba(255,255,255,0.2)', color: 'white' }
-                        : { background: '#EBF8FE', color: '#0694D1' }}>
+                      style={{ background: active ? '#0694D1' : '#EBF8FE', color: active ? 'white' : '#0694D1' }}>
                       <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                       </svg>
                       GTR
                     </span>
                   )}
-                  {active && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  )}
+                  <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
+                    style={active
+                      ? { background: '#0694D1' }
+                      : { border: '1.5px solid #CBD5E1' }}>
+                    {active && (
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    )}
+                  </div>
                 </div>
               </div>
             </button>
           )
         })}
 
-        {/* Show more / less */}
-        {course.schedules.length > 2 && (
-          <button onClick={() => setExpanded(e => !e)}
-            className="self-start text-xs font-semibold transition-all hover:underline"
-            style={{ color: '#0694D1' }}>
-            {expanded ? '↑ Show Less' : `↓ ${course.schedules.length - 2} More Dates`}
-          </button>
+        {/* Extra dates: compact chips (5+ dates) or full cards (< 5 dates) */}
+        {extraSlots.length > 0 && (
+          <>
+            {expanded && (
+              manyDates
+                ? /* compact chip grid for many dates */
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {extraSlots.map((s, j) => {
+                      const idx = j + FULL_VISIBLE
+                      const active = selectedSlot === idx && !showOtherDate
+                      return (
+                        <button key={idx} onClick={() => { setSelectedSlot(idx); setShowOtherDate(false) }}
+                          className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-all"
+                          style={active
+                            ? { background: '#0694D1', color: 'white', border: '1px solid #0694D1', boxShadow: '0 2px 6px rgba(6,148,209,0.3)' }
+                            : { background: 'white', color: '#374151', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                          </svg>
+                          {s.dates}
+                          {s.gtr && <span style={{ fontSize: 9, opacity: 0.8 }}>· GTR</span>}
+                        </button>
+                      )
+                    })}
+                  </div>
+                : /* full cards for fewer dates */
+                  <div className="flex flex-col gap-2">
+                    {extraSlots.map((s, j) => {
+                      const idx = j + FULL_VISIBLE
+                      const active = selectedSlot === idx && !showOtherDate
+                      return (
+                        <button key={idx} onClick={() => { setSelectedSlot(idx); setShowOtherDate(false) }}
+                          className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
+                          style={active
+                            ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
+                            : { background: 'white', border: '1px solid #E8EFF5', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex flex-col gap-0.5">
+                              <span className="font-bold" style={{ color: active ? '#0694D1' : '#0F172A' }}>{s.dates}</span>
+                              <span className="text-[11px]" style={{ color: '#64748B' }}>{s.time} · Online</span>
+                            </div>
+                            {s.gtr && (
+                              <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
+                                style={{ background: '#EBF8FE', color: '#0694D1' }}>
+                                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                GTR
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                      )
+                    })}
+                  </div>
+            )}
+
+            <button onClick={() => setExpanded(e => !e)}
+              className="self-start flex items-center gap-1 text-xs font-semibold transition-all hover:underline"
+              style={{ color: '#0694D1' }}>
+              {expanded
+                ? <>↑ Show Less</>
+                : <>{manyDates
+                    ? <><span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold text-white mr-0.5" style={{ background: '#0694D1' }}>{extraSlots.length}</span> More Dates</>
+                    : <>↓ {extraSlots.length} More Dates</>
+                  }</>
+              }
+            </button>
+          </>
         )}
 
         {/* Other date option */}
         <button onClick={() => { setShowOtherDate(o => !o); if (!showOtherDate) setSelectedSlot(-1) }}
           className="self-start flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline"
-          style={{ color: showOtherDate ? '#0694D1' : '#64748B' }}>
+          style={{ color: showOtherDate ? '#0694D1' : '#94A3B8' }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
             <line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/>
           </svg>
-          {showOtherDate ? 'Cancel' : 'Select Other Date'}
+          {showOtherDate ? 'Cancel' : 'Request Another Date'}
         </button>
         {showOtherDate && (
           <input type="date" value={otherDate} onChange={e => setOtherDate(e.target.value)}
             className="rounded-xl px-3 py-2 text-xs outline-none w-full"
-            style={{ border: '1px solid #0694D1', background: '#F0F9FF', color: '#0F172A' }} />
+            style={{ border: '1.5px solid #0694D1', background: '#F0F9FF', color: '#0F172A' }} />
         )}
       </div>
 
-      {/* Action buttons — side by side */}
+      {/* Action buttons — Learn More left, Enroll Now right */}
       <div className="flex gap-2 px-4 pb-4">
+        <button className="flex-1 rounded-2xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F4F8]"
+          style={{ border: '1.5px solid #093148', color: '#093148' }}>
+          Learn More
+        </button>
         <button onClick={onEnroll}
           className="flex-1 rounded-2xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
-          style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
+          style={{ background: '#093148' }}>
           Enroll Now
-        </button>
-        <button className="flex-1 rounded-2xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0FAFF]"
-          style={{ border: '1px solid #CBD5E1', color: '#374151' }}>
-          More Details
         </button>
       </div>
     </div>
