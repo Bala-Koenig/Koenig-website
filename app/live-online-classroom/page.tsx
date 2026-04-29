@@ -651,20 +651,38 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── TRAINING MODE TABS ───────────────────────────────── */}
-      <section className="bg-white border-b" style={{ borderColor: '#E2E8F0' }}>
+      <style>{`
+        @keyframes tab-border-sweep {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .tab-border-glow {
+          background: linear-gradient(270deg, #0694D1, #38bdf8, #076D9D, #38bdf8, #0694D1);
+          background-size: 400% 400%;
+          animation: tab-border-sweep 3s ease infinite;
+          padding: 2px;
+          border-radius: 1rem;
+          display: inline-flex;
+        }
+      `}</style>
+      <section className="bg-white border-b py-4" style={{ borderColor: '#E2E8F0' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="flex gap-1 overflow-x-auto py-3 scrollbar-none">
-            {TRAINING_TABS.map(t => (
-              <button key={t.id} onClick={() => setActiveTab(t.id)}
-                className="whitespace-nowrap px-4 py-2 rounded-lg text-sm font-semibold transition-all shrink-0"
-                style={{
-                  background:   activeTab === t.id ? 'linear-gradient(135deg, #0694D1, #076D9D)' : 'transparent',
-                  color:        activeTab === t.id ? 'white' : '#475569',
-                  border:       activeTab === t.id ? 'none' : '1px solid #E2E8F0',
-                }}>
-                {t.label}
-              </button>
-            ))}
+          <div className="flex justify-center">
+            <div className="tab-border-glow">
+              <div className="inline-flex overflow-x-auto overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)] scrollbar-none">
+                {TRAINING_TABS.map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)}
+                    className={`relative whitespace-nowrap rounded-xl px-4 sm:px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] shrink-0 ${
+                      activeTab === t.id
+                        ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                        : 'text-[#7a8c96] hover:text-[#093148]'
+                    }`}>
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
