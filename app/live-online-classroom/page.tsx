@@ -492,7 +492,6 @@ function VendorLogo({ name, size = 24 }: { name: string; size?: number }) {
 function DatesModal({ course, onClose, onEnroll }: {
   course: typeof COURSES[0]; onClose: () => void; onEnroll: () => void
 }) {
-  const [filter, setFilter] = useState<'All'|'Online'|'Classroom'|'1-on-1'>('All')
   const [selectedIdx, setSelectedIdx] = useState(0)
   const days = Math.ceil(course.duration / 8)
 
@@ -505,8 +504,7 @@ function DatesModal({ course, onClose, onEnroll }: {
 
   const MONTH_RE = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/
   const MONTH_ORDER = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  const allRows = course.schedules.map((s, i) => ({ ...s, idx: i, type: 'Online' as const }))
-  const rows = filter === 'All' ? allRows : allRows.filter(r => r.type === filter)
+  const rows = course.schedules.map((s, i) => ({ ...s, idx: i, type: 'Online' as const }))
 
   const grouped: { month: string; items: typeof rows }[] = []
   rows.forEach(r => {
@@ -534,7 +532,7 @@ function DatesModal({ course, onClose, onEnroll }: {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
           <span className="inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full mb-2"
-            style={{ background: '#E6F6FD', color: '#009ED8' }}>{course.vendor}</span>
+            style={{ background: '#E6F6FD', color: '#0694D1' }}>{course.vendor}</span>
           <h2 className="text-sm font-bold leading-snug pr-10 mb-2" style={{ color: '#0C1929' }}>
             {course.code}: {course.name}
           </h2>
@@ -544,18 +542,9 @@ function DatesModal({ course, onClose, onEnroll }: {
           </span>
         </div>
 
-        {/* Filter strip */}
-        <div className="flex items-center gap-2 px-6 py-3 flex-wrap" style={{ borderBottom: '1px solid #DDE6EE', background: '#FAFCFE' }}>
-          {(['All','Online','Classroom','1-on-1'] as const).map(f => (
-            <button key={f} onClick={() => setFilter(f)}
-              className="rounded-full px-3.5 py-1 text-xs font-semibold transition-all"
-              style={filter === f
-                ? { background: '#009ED8', color: 'white', border: '1px solid #009ED8' }
-                : { background: 'white', color: '#5a7a90', border: '1px solid #DDE6EE' }}>
-              {f}
-            </button>
-          ))}
-          <span className="ml-auto text-xs font-medium whitespace-nowrap" style={{ color: '#5a7a90' }}>
+        {/* Date count */}
+        <div className="flex items-center px-6 py-2.5" style={{ borderBottom: '1px solid #DDE6EE', background: '#FAFCFE' }}>
+          <span className="text-xs font-medium" style={{ color: '#5a7a90' }}>
             {rows.length} date{rows.length !== 1 ? 's' : ''} available
           </span>
         </div>
@@ -574,13 +563,13 @@ function DatesModal({ course, onClose, onEnroll }: {
                   return (
                     <button key={idx} onClick={() => setSelectedIdx(idx)}
                       className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all"
-                      style={sel ? { background: '#E6F6FD', border: '1.5px solid #009ED8' } : { background: 'white', border: '1px solid #DDE6EE' }}>
+                      style={sel ? { background: '#E6F6FD', border: '1.5px solid #0694D1' } : { background: 'white', border: '1px solid #DDE6EE' }}>
                       <div className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center"
-                        style={sel ? { background: '#009ED8' } : { border: '1.5px solid #CBD5E1' }}>
+                        style={sel ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
                         {sel && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold" style={{ color: sel ? '#009ED8' : '#0C1929' }}>{dates} 2026</p>
+                        <p className="text-sm font-bold" style={{ color: sel ? '#0694D1' : '#0C1929' }}>{dates} 2026</p>
                         <p className="text-xs mt-0.5" style={{ color: '#5a7a90' }}>{time} · Online</p>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
@@ -590,7 +579,7 @@ function DatesModal({ course, onClose, onEnroll }: {
                             GTR
                           </span>
                         )}
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: '#E6F6FD', color: '#009ED8' }}>{type}</span>
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: '#E6F6FD', color: '#0694D1' }}>{type}</span>
                       </div>
                     </button>
                   )
@@ -618,7 +607,7 @@ function DatesModal({ course, onClose, onEnroll }: {
             </button>
             <button onClick={onEnroll}
               className="rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg,#009ED8,#0694D1)', boxShadow: '0 4px 12px rgba(0,158,216,0.3)' }}>
+              style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>
               Enroll Now
             </button>
           </div>
@@ -755,7 +744,13 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
 /* ── Filter data ─────────────────────────────────────────────── */
 const OEM_OPTIONS = ['Microsoft','AWS','PMI','EC-Council','CompTIA','Cisco','PECB','Oracle','Red Hat','VMware','SAP','Google Cloud','ISACA','ISC2']
 const TECH_OPTIONS = ['Cloud Computing','Cybersecurity','Project Management','Data & AI','Networking','DevOps & Cloud-Native','ITSM & Governance','SAP & ERP','Microsoft Office 365','Microsoft SQL Server','Linux & Open Source']
-const ALL_VENDORS = Array.from(new Set(COURSES.map(c => c.vendor)))
+const ALL_VENDORS = [
+  'Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'PECB',
+  'Oracle', 'Red Hat', 'VMware', 'SAP', 'Google Cloud', 'ISACA', 'ISC2',
+  'IBM', 'Juniper', 'Fortinet', 'Palo Alto Networks', 'CrowdStrike', 'Splunk',
+  'ServiceNow', 'Salesforce', 'Axelos (ITIL/PRINCE2)', 'Scrum Alliance', 'Scrum.org',
+  'PeopleCert', 'IAPP', 'DAMA', 'Linux Foundation', 'HashiCorp',
+]
 
 const TZ_OPTIONS   = [
   'IST — India (UTC+5:30)',
@@ -1773,7 +1768,7 @@ export default function LiveOnlineClassroomPage() {
                 <div className="absolute inset-0" style={{ background: 'rgba(6,17,30,0.4)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
                   onClick={() => { setShowVendorPanel(false); setVendorSearch('') }} />
                 {/* Drawer panel */}
-                <div className="relative z-10 flex flex-col bg-white" style={{ width: 320, maxHeight: 'calc(100vh - 40px)', boxShadow: '-8px 0 40px rgba(6,148,209,0.2)' }}>
+                <div className="relative z-10 flex flex-col bg-white" style={{ width: 320, maxHeight: 'calc(100vh - 16px)', boxShadow: '-8px 0 40px rgba(6,148,209,0.2)' }}>
                   {/* Header */}
                   <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #E2E8F0' }}>
                     <div>
