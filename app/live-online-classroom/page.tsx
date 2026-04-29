@@ -583,90 +583,107 @@ export default function LiveOnlineClassroomPage() {
       <Navbar />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #EBF8FE 0%, #ddf1fb 40%, #f0faff 100%)' }}>
+      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)' }}>
+        {/* Background glow blobs */}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-20 blur-[100px]" style={{ background: '#0694D1' }} />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-15 blur-[90px]" style={{ background: '#38bdf8' }} />
+          <div className="absolute -top-40 right-1/3 w-[600px] h-[600px] rounded-full opacity-15 blur-[120px]" style={{ background: '#0694D1' }} />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 blur-[100px]" style={{ background: '#38bdf8' }} />
+          <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full opacity-8 blur-[80px]" style={{ background: '#076D9D' }} />
         </div>
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-12 sm:py-16 lg:py-20">
+
+        <style>{`
+          @keyframes lolFloat1 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-10px) rotate(1deg)} }
+          @keyframes lolFloat2 { 0%,100%{transform:translateY(0) rotate(1deg)} 50%{transform:translateY(-8px) rotate(-1deg)} }
+          @keyframes lolFloat3 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(9px) translateX(3px)} }
+          @keyframes lolFloat4 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(8px) rotate(1.5deg)} }
+          @keyframes lolGlow   { 0%,100%{box-shadow:0 4px 18px rgba(6,109,157,0.30),inset 0 1px 0 rgba(255,255,255,0.18)} 50%{box-shadow:0 4px 28px rgba(6,148,209,0.55),0 0 16px rgba(58,182,235,0.30),inset 0 1px 0 rgba(255,255,255,0.28)} }
+        `}</style>
+
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[50px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+            {/* Left — text content */}
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
-                style={{ background: 'rgba(6,148,209,0.12)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0694D1] animate-pulse" />
+                style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
                 Live Instructor-Led Training — Guaranteed to Run
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4" style={{ color: '#06111E' }}>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 text-white">
                 Master In-Demand Skills.<br />
                 <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                   Live Online. Anywhere.
                 </span>
               </h1>
-              <p className="text-base sm:text-lg leading-relaxed mb-6" style={{ color: '#475569' }}>
+              <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.65)' }}>
                 Learn from expert instructors with our 5,000+ course catalogue. Upskill conveniently, from the comfort of your own space — with sessions Guaranteed to Run.
               </p>
-
-              {/* Stats row */}
-              <div className="flex flex-wrap gap-3 mb-8">
-                {[
-                  { val: '5,000+', label: 'Courses' },
-                  { val: '195+',   label: 'Countries' },
-                  { val: '5M+',    label: 'Learners' },
-                  { val: 'GTR',    label: 'Guaranteed' },
-                ].map(s => (
-                  <div key={s.label} className="flex flex-col items-center px-4 py-2 rounded-xl"
-                    style={{ background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.08)' }}>
-                    <span className="text-lg font-black leading-none" style={{ color: '#0694D1' }}>{s.val}</span>
-                    <span className="text-[10px] font-medium mt-0.5" style={{ color: '#7a8c96' }}>{s.label}</span>
-                  </div>
-                ))}
-              </div>
-
               <div className="flex flex-wrap gap-3">
                 <a href="#schedule" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
                   View Upcoming Batches
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <a href="#request" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-colors hover:bg-[#0694D1] hover:text-white"
-                  style={{ border: '1.5px solid #0694D1', color: '#0694D1', background: 'white' }}>
+                <a href="#request" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
+                  style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
                   Request Info
                 </a>
               </div>
             </div>
 
-            {/* Right — illustration + trust badges */}
-            <div className="hidden lg:flex flex-col items-center gap-6">
-              <div className="relative w-80 h-80 rounded-full flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, rgba(6,148,209,0.12), rgba(56,189,248,0.08))', border: '2px solid rgba(6,148,209,0.2)' }}>
-                <svg width="160" height="160" viewBox="0 0 200 200" fill="none">
-                  <rect x="20" y="40" width="160" height="100" rx="12" fill="#0694D1" fillOpacity="0.12" stroke="#0694D1" strokeWidth="2"/>
-                  <rect x="30" y="50" width="140" height="80" rx="8" fill="white"/>
-                  <rect x="40" y="60" width="120" height="60" rx="6" fill="#EBF8FE"/>
-                  <circle cx="100" cy="90" r="18" fill="#0694D1" fillOpacity="0.15" stroke="#0694D1" strokeWidth="1.5"/>
-                  <polygon points="94,82 94,98 110,90" fill="#0694D1"/>
-                  <rect x="35" y="148" width="130" height="4" rx="2" fill="#0694D1" fillOpacity="0.2"/>
-                  <rect x="60" y="152" width="80" height="16" rx="3" fill="#0694D1" fillOpacity="0.1"/>
-                  <circle cx="48" cy="170" r="10" fill="#0694D1" fillOpacity="0.15"/>
-                  <circle cx="152" cy="170" r="10" fill="#0694D1" fillOpacity="0.15"/>
-                  <rect x="25" y="165" width="28" height="18" rx="4" fill="#0694D1" fillOpacity="0.08" stroke="#0694D1" strokeWidth="1"/>
-                  <rect x="147" y="165" width="28" height="18" rx="4" fill="#0694D1" fillOpacity="0.08" stroke="#0694D1" strokeWidth="1"/>
-                  <circle cx="160" cy="50" r="14" fill="#38bdf8" fillOpacity="0.2" stroke="#38bdf8" strokeWidth="1.5"/>
-                  <polyline points="154,50 159,55 168,44" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                {/* Floating badge */}
-                <div className="absolute -top-4 -right-4 rounded-xl px-3 py-2 text-center shadow-lg"
-                  style={{ background: 'white', border: '1px solid #CAEFFF' }}>
-                  <p className="text-xs font-black" style={{ color: '#0694D1' }}>GTR</p>
-                  <p className="text-[9px] font-medium" style={{ color: '#7a8c96' }}>Guaranteed</p>
+            {/* Right — Live-Online-Classes image with floating stat cards */}
+            <div className="hidden lg:block">
+              <div className="relative mx-auto" style={{ width: '500px', padding: '44px' }}>
+
+                {/* Floating stat cards */}
+                {([
+                  { val: '5M+',    label: 'Learners',   pos: { top: 0,    left: 0   }, anim: 'lolFloat1 3.4s ease-in-out infinite' },
+                  { val: '195+',   label: 'Countries',  pos: { top: 0,    right: 0  }, anim: 'lolFloat2 3.8s ease-in-out infinite 0.5s' },
+                  { val: '5,000+', label: 'Courses',    pos: { bottom: 0, left: 0   }, anim: 'lolFloat3 4.0s ease-in-out infinite 1.0s' },
+                  { val: 'GTR',    label: 'Guaranteed', pos: { bottom: 0, right: 0  }, anim: 'lolFloat4 3.6s ease-in-out infinite 1.5s' },
+                ] as { val: string; label: string; pos: React.CSSProperties; anim: string }[]).map(({ val, label, pos, anim }) => (
+                  <div
+                    key={val}
+                    className="absolute flex flex-col items-center justify-center rounded-xl"
+                    style={{
+                      ...pos,
+                      width: 76,
+                      padding: '8px 10px',
+                      background: 'rgba(255,255,255,0.96)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                      border: '1px solid rgba(6,148,209,0.30)',
+                      textAlign: 'center',
+                      animation: `${anim}, lolGlow 3s ease-in-out infinite`,
+                      zIndex: 10,
+                    }}
+                  >
+                    <span className="text-base font-black leading-none" style={{ color: '#0694D1' }}>{val}</span>
+                    <span className="text-[10px] font-medium mt-0.5" style={{ color: '#475569' }}>{label}</span>
+                  </div>
+                ))}
+
+                {/* Main image card */}
+                <div
+                  className="relative overflow-hidden rounded-2xl"
+                  style={{
+                    background: 'rgba(6,25,45,0.52)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1.5px solid rgba(6,148,209,0.50)',
+                    boxShadow: '0 0 0 4px rgba(6,148,209,0.08), 0 0 30px 6px rgba(6,148,209,0.22), 0 0 60px 12px rgba(58,182,235,0.10), 0 8px 40px rgba(6,109,157,0.28), inset 0 1px 0 rgba(58,182,235,0.15)',
+                  }}
+                >
+                  <img
+                    src="/images/home-banner/Live-Online-Classes.png"
+                    alt="Live Online Classes"
+                    className="w-full h-auto object-contain"
+                  />
                 </div>
-                <div className="absolute -bottom-4 -left-4 rounded-xl px-3 py-2 text-center shadow-lg"
-                  style={{ background: 'white', border: '1px solid #CAEFFF' }}>
-                  <p className="text-xs font-black" style={{ color: '#0694D1' }}>195+</p>
-                  <p className="text-[9px] font-medium" style={{ color: '#7a8c96' }}>Countries</p>
-                </div>
+
               </div>
             </div>
+
           </div>
         </div>
       </section>
