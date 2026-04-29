@@ -1311,22 +1311,40 @@ export default function LiveOnlineClassroomPage() {
             <div className="flex-1 min-w-0">
 
               {/* Technology header */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5 p-5 rounded-2xl bg-white"
+              <div className="flex flex-col gap-3 mb-5 p-5 rounded-2xl bg-white"
                 style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)' }}>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-black shrink-0"
-                    style={{ background: activeTechData.bg, color: activeTechData.color }}>
-                    {activeTechData.initial}
+                {/* Top row: icon + title + button */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ background: activeTechData.bg, color: activeTechData.color }}>
+                      {activeTechData.initial}
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
+                      <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
-                    <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
-                  </div>
+                  <button onClick={() => setShowFormModal(true)} className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                    style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                    Enquire Now →
+                  </button>
                 </div>
-                <button onClick={() => setShowFormModal(true)} className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
-                  Enquire Now →
-                </button>
+                {/* Common highlights row */}
+                <div className="flex flex-wrap gap-2 pt-1" style={{ borderTop: '1px solid #F1F5F9' }}>
+                  {[
+                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, label: 'Guaranteed to Run' },
+                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>, label: 'Live Online' },
+                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, label: 'Expert Instructors' },
+                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label: 'Flexible Schedules' },
+                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, label: 'Globally Recognised' },
+                  ].map(({ icon, label }) => (
+                    <span key={label} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold"
+                      style={{ background: '#F0F9FF', color: '#0694D1', border: '1px solid #CAEFFF' }}>
+                      {icon}{label}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {/* Search + Timezone + Filters row */}
