@@ -1347,9 +1347,9 @@ export default function LiveOnlineClassroomPage() {
         .batch-reserve-btn { padding:8px 16px; background:linear-gradient(135deg,#0694D1,#076D9D); border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.2s,box-shadow 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(6,148,209,0.25); }
         .batch-reserve-btn:hover { box-shadow:0 6px 20px rgba(6,148,209,0.4); transform:translateY(-1px); }
       `}</style>
-      <section id="schedule" className="relative overflow-hidden py-12 sm:py-16" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
-        {/* background blobs */}
-        <div className="pointer-events-none absolute inset-0">
+      <section id="schedule" className="relative py-12 sm:py-16" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+        {/* background blobs — overflow-hidden scoped here so sticky sidebar still works */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
         </div>
