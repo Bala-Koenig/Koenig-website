@@ -741,9 +741,10 @@ export default function LiveOnlineClassroomPage() {
 
       {/* ── FORM MODAL ───────────────────────────────────────── */}
       {showFormModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={() => setShowFormModal(false)}>
-          <div className="absolute inset-0" style={{ background: 'rgba(4,10,20,0.82)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }} />
-          <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-2xl"
+        <div className="fixed inset-0 z-[9999] overflow-y-auto" onClick={() => setShowFormModal(false)}
+          style={{ background: 'rgba(4,10,20,0.82)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
+          <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
+          <div className="relative w-full max-w-2xl rounded-2xl"
             style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 32px 80px rgba(0,0,0,0.65)' }}
             onClick={e => e.stopPropagation()}>
 
@@ -774,6 +775,7 @@ export default function LiveOnlineClassroomPage() {
 
               <InquiryForm formType={formType} setFormType={setFormType} />
             </div>
+          </div>
           </div>
         </div>
       )}
@@ -1256,7 +1258,7 @@ export default function LiveOnlineClassroomPage() {
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
       <section id="request" className="py-14 sm:py-20" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
-        <div className="mx-auto max-w-lg px-4 md:px-8">
+        <div className="mx-auto max-w-2xl px-4 md:px-8">
           {/* LET'S TALK pill */}
           <div className="flex justify-center mb-4">
             <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest"
