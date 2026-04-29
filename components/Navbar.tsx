@@ -296,8 +296,12 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
   const techMenuRef = useRef<HTMLDivElement>(null)
   const [aboutMenuOpen, setAboutMenuOpen] = useState(false)
   const aboutMenuRef = useRef<HTMLDivElement>(null)
+  const aboutTriggerRef = useRef<HTMLButtonElement>(null)
+  const [aboutDropPos, setAboutDropPos] = useState({ top: 0, left: 0 })
   const [learningMenuOpen, setLearningMenuOpen] = useState(false)
   const learningMenuRef = useRef<HTMLDivElement>(null)
+  const learningTriggerRef = useRef<HTMLButtonElement>(null)
+  const [learningDropPos, setLearningDropPos] = useState({ top: 0, left: 0 })
 
   // Scroll
   const [scrolled, setScrolled] = useState(false)
@@ -324,8 +328,10 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
       if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
       if (techMenuRef.current && !techMenuRef.current.contains(e.target as Node)) setTechMenuOpen(false)
-      if (aboutMenuRef.current && !aboutMenuRef.current.contains(e.target as Node)) setAboutMenuOpen(false)
-      if (learningMenuRef.current && !learningMenuRef.current.contains(e.target as Node)) setLearningMenuOpen(false)
+      const insideAbout = aboutMenuRef.current?.contains(e.target as Node) || aboutTriggerRef.current?.contains(e.target as Node)
+      if (!insideAbout) setAboutMenuOpen(false)
+      const insideLearning = learningMenuRef.current?.contains(e.target as Node) || learningTriggerRef.current?.contains(e.target as Node)
+      if (!insideLearning) setLearningMenuOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -417,67 +423,45 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </a>
               {/* Learning Options */}
-              <div className="relative" ref={learningMenuRef}>
-                <a
-                  href="#"
-                  onClick={e => { e.preventDefault(); setLearningMenuOpen(v => !v); setAboutMenuOpen(false); setTechMenuOpen(false); setMegaMenuOpen(false) }}
-                  className="flex items-center gap-1 whitespace-nowrap px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
-                  style={{ color: learningMenuOpen ? '#38bdf8' : '#ffffff', background: learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
-                  onMouseLeave={e => { e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                >
-                  Learning Options
-                  <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                </a>
-                {learningMenuOpen && (
-                  <div className="absolute left-0 top-full mt-2 z-[300] rounded-xl shadow-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}>
-                    {LEARNING_LINKS.map(link => (
-                      <Link
-                        key={link.label}
-                        href={link.href}
-                        className="block px-5 py-2.5 text-sm transition-colors"
-                        style={{ color: '#374151' }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)' }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
-                        onClick={() => setLearningMenuOpen(false)}
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <button
+                type="button"
+                ref={learningTriggerRef}
+                onClick={() => {
+                  if (learningTriggerRef.current) {
+                    const r = learningTriggerRef.current.getBoundingClientRect()
+                    const h = learningTriggerRef.current.closest('header')?.getBoundingClientRect()
+                    if (h) setLearningDropPos({ top: r.bottom - h.top, left: r.left - h.left })
+                  }
+                  setLearningMenuOpen(v => !v); setAboutMenuOpen(false); setTechMenuOpen(false); setMegaMenuOpen(false)
+                }}
+                className="flex items-center gap-1 whitespace-nowrap px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                style={{ color: learningMenuOpen ? '#38bdf8' : '#ffffff', background: learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+              >
+                Learning Options
+                <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+              </button>
               {/* About */}
-              <div className="relative" ref={aboutMenuRef}>
-                <a
-                  href="#"
-                  onClick={e => { e.preventDefault(); setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); setLearningMenuOpen(false) }}
-                  className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
-                  style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
-                  onMouseLeave={e => { e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                >
-                  About
-                  <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                </a>
-                {aboutMenuOpen && (
-                  <div className="absolute left-0 top-full mt-2 z-[300] rounded-xl shadow-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}>
-                    {ABOUT_LINKS.map(link => (
-                      <Link
-                        key={link.label}
-                        href={link.href}
-                        className="block px-5 py-2.5 text-sm transition-colors"
-                        style={{ color: '#374151' }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)' }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
-                        onClick={() => setAboutMenuOpen(false)}
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <button
+                type="button"
+                ref={aboutTriggerRef}
+                onClick={() => {
+                  if (aboutTriggerRef.current) {
+                    const r = aboutTriggerRef.current.getBoundingClientRect()
+                    const h = aboutTriggerRef.current.closest('header')?.getBoundingClientRect()
+                    if (h) setAboutDropPos({ top: r.bottom - h.top, left: r.left - h.left })
+                  }
+                  setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); setLearningMenuOpen(false)
+                }}
+                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
+                style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                onMouseLeave={e => { e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+              >
+                About
+                <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+              </button>
               {/* Contact */}
               <a
                 href="#"
@@ -861,6 +845,52 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 </a>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Learning Options dropdown — rendered at header level to escape nav-pill stacking context */}
+        {learningMenuOpen && (
+          <div
+            ref={learningMenuRef}
+            className="absolute z-[500] rounded-xl shadow-2xl overflow-hidden"
+            style={{ top: `${learningDropPos.top + 8}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+          >
+            {LEARNING_LINKS.map(link => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="block px-5 py-2.5 text-sm transition-colors"
+                style={{ color: '#374151' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+                onClick={() => setLearningMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* About dropdown — rendered at header level to escape nav-pill stacking context */}
+        {aboutMenuOpen && (
+          <div
+            ref={aboutMenuRef}
+            className="absolute z-[500] rounded-xl shadow-2xl overflow-hidden"
+            style={{ top: `${aboutDropPos.top + 8}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+          >
+            {ABOUT_LINKS.map(link => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="block px-5 py-2.5 text-sm transition-colors"
+                style={{ color: '#374151' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0694D1'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.06)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+                onClick={() => setAboutMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         )}
 
