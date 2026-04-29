@@ -348,60 +348,142 @@ const TESTIMONIALS = [
   },
 ]
 
+/* ── Tech icon helper ────────────────────────────────────────── */
+function getTechIcon(name: string) {
+  const n = name.toLowerCase()
+  const p = { width: 13, height: 13, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
+  if (name === 'All') return <svg {...p}><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+  if (/\b(aws)\b|azure|gcp|google cloud|cloud native/.test(n) || n === 'cloud') return <svg {...p}><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+  if (/identity|iam|active directory/.test(n)) return <svg {...p}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+  if (/security|cyber|hacking|penetration|firewall|vapt|pci dss|information security|soc|incident|digital forensics/.test(n)) return <svg {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  if (/artificial intelligence|\bai\b|machine learning|nlp|natural language|mlops|generative|ai engineering|ai ethics|ai agent|enterprise ai|ai cloud|intelligent automation|ai governance|azure ai/.test(n)) return <svg {...p}><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/></svg>
+  if (/\bdata\b|analytics|fabric|warehouse|reporting|big data|data engineer|data science|data architect|data governance|data analysis|data management/.test(n)) return <svg {...p}><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+  if (/devops|kubernetes|docker|container|microservice/.test(n)) return <svg {...p}><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+  if (/network|cisco|ccna|ccnp|routing|switching|wireless|meraki/.test(n)) return <svg {...p}><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+  if (/project management|agile|scrum|pmp|prince2|program management|product management|delivery manager/.test(n)) return <svg {...p}><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+  if (/database|\bsql\b|oracle|postgresql|dba/.test(n)) return <svg {...p}><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+  if (/linux|red hat|rhel|openshift|jboss/.test(n)) return <svg {...p}><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+  if (/programming|python|web dev|angular|react|software dev|coding|\.net/.test(n)) return <svg {...p}><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+  if (/\bsap\b|\berp\b|supply chain|procurement|inventory|oracle ebs/.test(n)) return <svg {...p}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  if (/itsm|itil|service management|servicenow|service desk/.test(n)) return <svg {...p}><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+  if (/\biso\b|governance|compliance|audit|cobit|grc|risk|lead implementer|lead auditor|data privacy/.test(n)) return <svg {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+  if (/design|figma|adobe|user experience|\bux\b|graphic|cad|autodesk/.test(n)) return <svg {...p}><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><circle cx="11" cy="11" r="2"/></svg>
+  if (/soft skills|leadership|management|human capital|business analysis|health and safety|payroll|finance and accounts/.test(n)) return <svg {...p}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+  if (/test|quality|\bqa\b/.test(n)) return <svg {...p}><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
+  if (/iot|industrial iot|embedded|electric vehicle|industrial automation/.test(n)) return <svg {...p}><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/></svg>
+  if (/robotic|uipath|\brpa\b|power automate|intelligent automation/.test(n)) return <svg {...p}><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M12 11V8"/><circle cx="12" cy="5" r="3"/><path d="M7 16h2M15 16h2"/></svg>
+  if (/vmware|storage|server|middleware|windows server/.test(n)) return <svg {...p}><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+  if (/blockchain/.test(n)) return <svg {...p}><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+  if (/microsoft/.test(n)) return <svg {...p}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+  return <svg {...p}><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+}
+
 /* ── Course Card ─────────────────────────────────────────────── */
 function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll: () => void }) {
-  const daysFromHours = Math.ceil(course.duration / 8)
-  const nextBatch = course.schedules[0]
+  const [expanded, setExpanded] = useState(false)
+  const visible = expanded ? course.schedules : course.schedules.slice(0, 1)
 
   return (
-    <div className="batch-card" onClick={onEnroll}>
-      {/* Row 1 — badges + GTR indicator */}
-      <div className="batch-card-row1">
-        <div className="batch-badges">
-          <span className="batch-vendor-badge">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            {course.vendor}
-          </span>
-          <span className="batch-format-badge batch-format-online">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
-            Live Online
-          </span>
+    <div className="flex flex-col rounded-2xl bg-white overflow-hidden"
+      style={{ border: '1px solid #E2E8F0', boxShadow: '0 1px 6px rgba(0,0,0,0.06)' }}>
+
+      <div className="flex flex-col gap-3 p-4">
+        {/* Vendor */}
+        <p className="text-xs font-medium" style={{ color: '#94A3B8' }}>{course.vendor}</p>
+
+        {/* Code + Name */}
+        <h3 className="text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>
+          {course.code}: {course.name}
+        </h3>
+
+        {/* Course Contents button */}
+        <button className="self-start flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-semibold transition-all hover:bg-[#EBF8FE]"
+          style={{ border: '1px solid #0694D1', color: '#0694D1' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Course Contents
+        </button>
+
+        {/* Duration */}
+        <div className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: '#0F172A' }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Duration : {course.duration} hr
         </div>
-        <span className="batch-seats batch-seats-ok">GTR ✓</span>
+
+        {/* Schedule slots */}
+        <div className="flex flex-col gap-2">
+          {visible.map((s, i) => (
+            <div key={i} className="rounded-xl px-3 py-2.5 text-xs relative"
+              style={i === 0
+                ? { background: '#EBF8FE', border: '1px solid #0694D1' }
+                : { background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
+              {i === 0 && (
+                <span className="absolute top-2.5 left-[-1px] w-5 h-5 rounded-full flex items-center justify-center"
+                  style={{ background: '#0694D1', marginLeft: '-10px', display: 'none' }} />
+              )}
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? '#0694D1' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span className="font-semibold" style={{ color: i === 0 ? '#0694D1' : '#374151' }}>{s.dates}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? '#0694D1' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  <span style={{ color: i === 0 ? '#0694D1' : '#475569' }}>{s.time}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? '#0694D1' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <span style={{ color: i === 0 ? '#0694D1' : '#475569' }}>Online</span>
+                  </div>
+                  {s.gtr && (
+                    <span className="flex items-center gap-0.5 text-[10px] font-bold" style={{ color: i === 0 ? '#0694D1' : '#64748B' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                      </svg>
+                      GTR
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Show more / less */}
+        {course.schedules.length > 1 && (
+          <button onClick={() => setExpanded(e => !e)}
+            className="self-start flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-semibold transition-all hover:bg-[#F0FAFF]"
+            style={{ border: '1px solid #CBD5E1', color: '#475569' }}>
+            {expanded ? 'Show Less Dates ↑' : 'Show More Dates ↓'}
+          </button>
+        )}
       </div>
 
-      {/* Course name */}
-      <div className="batch-name">{course.name}</div>
-
-      {/* Meta row */}
-      <div className="batch-meta">
-        <span className="batch-meta-item">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          {nextBatch?.dates ?? '—'}
-        </span>
-        <span>·</span>
-        <span className="batch-meta-item">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          {course.duration} hrs ({daysFromHours} days)
-        </span>
-        <span>·</span>
-        <span className="batch-meta-item" style={{ overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:110 }}>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          {nextBatch?.time?.split(' ')[2] ?? 'IST'}
-        </span>
-      </div>
-
-      {/* Footer — price + reserve */}
-      <div className="batch-footer">
-        <div>
-          <div className="batch-location-label">Price per person</div>
-          <div className="batch-location-val" style={{ color: '#071e2e', fontWeight: 800, fontSize: 16 }}>{course.price} <span style={{ fontSize: 11, fontWeight: 500, color: '#8faabf' }}>USD</span></div>
-        </div>
-        <button className="batch-reserve-btn" onClick={e => { e.stopPropagation(); onEnroll() }}>Reserve My Seat →</button>
+      {/* Action buttons */}
+      <div className="flex flex-col gap-2 px-4 pb-4">
+        <button onClick={onEnroll}
+          className="w-full rounded-2xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+          style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
+          Request Price
+        </button>
+        <button className="w-full rounded-2xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0FAFF]"
+          style={{ border: '1px solid #CBD5E1', color: '#374151' }}>
+          More Details
+        </button>
       </div>
     </div>
   )
 }
+
 
 /* ── Filter data ─────────────────────────────────────────────── */
 const OEM_OPTIONS = ['Microsoft','AWS','PMI','EC-Council','CompTIA','Cisco','PECB','Oracle','Red Hat','VMware','SAP','Google Cloud','ISACA','ISC2']
@@ -779,8 +861,10 @@ function InquiryForm({
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab]     = useState('ilo')
   const [activeTech, setActiveTech]   = useState('All')
+  const [techSearch, setTechSearch]   = useState('')
   const [search, setSearch]           = useState('')
   const [filterTz, setFilterTz]       = useState('')
+  const [filterVendor, setFilterVendor] = useState('')
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [showFormModal, setShowFormModal] = useState(false)
@@ -799,7 +883,8 @@ export default function LiveOnlineClassroomPage() {
     const matchSearch  = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
     const matchTech    = activeTech === 'All' || (c.techs ?? []).includes(activeTech)
     const matchTz      = !filterTz || c.schedules.some(s => s.time.includes(filterTz))
-    return matchSearch && matchTech && matchTz
+    const matchVendor  = !filterVendor || c.vendor === filterVendor
+    return matchSearch && matchTech && matchTz && matchVendor
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
@@ -1162,11 +1247,24 @@ export default function LiveOnlineClassroomPage() {
             {/* ── Left sidebar ── */}
             <div className="hidden lg:flex flex-col w-[190px] shrink-0 rounded-2xl overflow-hidden bg-white"
               style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
-              <p className="px-4 py-3 text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8', borderBottom: '1px solid #EBF8FE' }}>
-                TECHNOLOGY
-              </p>
-              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 460 }}>
-                {SIDEBAR_TECHNOLOGIES.map(t => (
+              {/* Sidebar header + search */}
+              <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
+                <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>TECHNOLOGY</p>
+                <div className="relative">
+                  <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input type="text" placeholder="Search..." value={techSearch}
+                    onChange={e => setTechSearch(e.target.value)}
+                    className="w-full pl-7 pr-2 py-1.5 text-[11px] rounded-lg outline-none"
+                    style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A' }}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 420 }}>
+                {SIDEBAR_TECHNOLOGIES
+                  .filter(t => !techSearch || t.name.toLowerCase().includes(techSearch.toLowerCase()))
+                  .map(t => (
                   <button key={t.name}
                     onClick={() => { setActiveTech(t.name); setPage(0) }}
                     className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
@@ -1175,9 +1273,9 @@ export default function LiveOnlineClassroomPage() {
                       background:  activeTech === t.name ? '#EBF8FE' : 'white',
                     }}>
                     <div className="flex items-center gap-2 min-w-0">
-                      <div className="w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-black shrink-0"
+                      <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
                         style={{ background: t.bg, color: t.color }}>
-                        {t.initial}
+                        {getTechIcon(t.name)}
                       </div>
                       <span className="text-xs font-semibold leading-tight truncate"
                         style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}
@@ -1239,14 +1337,8 @@ export default function LiveOnlineClassroomPage() {
                     style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A' }}
                   />
                 </div>
-                <FilterDropdown label="Sort by" options={['Price: Low to High', 'Price: High to Low', 'Most Popular', 'Duration']} value="" onChange={() => {}} />
-                <button className="flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all hover:bg-[#F0FAFF] shrink-0"
-                  style={{ border: '1px solid #CAEFFF', background: 'white', color: '#475569' }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
-                  </svg>
-                  Filters
-                </button>
+                <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
+                <FilterDropdown label="Vendor" options={['All', ...Array.from(new Set(COURSES.map(c => c.vendor)))]} value={filterVendor || 'All'} onChange={v => { setFilterVendor(v === 'All' ? '' : v); setPage(0) }} />
               </div>
 
               {/* Course grid */}
