@@ -227,3 +227,34 @@ body {
   z-index: -1;
   pointer-events: none;
 }
+
+/* ── Mobile: 15px spacing between elements inside sections (all pages) ── */
+@media (max-width: 639px) {
+  section .gap-4,  section .gap-5,  section .gap-6,  section .gap-7,
+  section .gap-8,  section .gap-9,  section .gap-10, section .gap-12,
+  section .gap-14, section .gap-16 {
+    gap: 15px;
+  }
+
+  section .mb-4,  section .mb-5,  section .mb-6,  section .mb-7,
+  section .mb-8,  section .mb-9,  section .mb-10, section .mb-12 {
+    margin-bottom: 15px;
+  }
+
+  section .mt-4,  section .mt-5,  section .mt-6,  section .mt-8,
+  section .mt-10, section .mt-12, section .mt-20 {
+    margin-top: 15px;
+  }
+
+  section .my-4, section .my-6, section .my-8 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  section .space-y-4 > :not([hidden]) ~ :not([hidden]),
+  section .space-y-5 > :not([hidden]) ~ :not([hidden]),
+  section .space-y-6 > :not([hidden]) ~ :not([hidden]),
+  section .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 15px;
+  }
+}
