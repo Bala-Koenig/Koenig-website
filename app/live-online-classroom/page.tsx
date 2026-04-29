@@ -1472,21 +1472,34 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Search + Timezone + Filters row */}
-              <div className="flex items-center gap-2 mb-5 flex-wrap sm:flex-nowrap">
-                <div className="relative flex-1 min-w-0">
-                  <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              {/* Search + Timezone row */}
+              <div className="flex items-center gap-2 mb-3">
+                <div className="relative w-56 shrink-0">
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                   </svg>
                   <input
                     type="text" placeholder="Search courses..."
                     value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
-                    className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm outline-none"
+                    className="w-full rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none"
                     style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A' }}
                   />
                 </div>
                 <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
-                <FilterDropdown label="Vendor" options={['All', ...Array.from(new Set(COURSES.map(c => c.vendor)))]} value={filterVendor || 'All'} onChange={v => { setFilterVendor(v === 'All' ? '' : v); setPage(0) }} />
+              </div>
+
+              {/* Vendor pills */}
+              <div className="flex overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
+                {['All', ...Array.from(new Set(COURSES.map(c => c.vendor)))].map(v => (
+                  <button key={v}
+                    onClick={() => { setFilterVendor(v === 'All' ? '' : v); setPage(0) }}
+                    className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap"
+                    style={filterVendor === (v === 'All' ? '' : v)
+                      ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: '1px solid #0694D1' }
+                      : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
+                    {v}
+                  </button>
+                ))}
               </div>
 
               {/* Course grid */}
