@@ -378,30 +378,127 @@ function getTechIcon(name: string) {
   return <svg {...p}><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
 }
 
+/* ── Syllabus Modal ──────────────────────────────────────────── */
+function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: () => void }) {
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '' })
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => setForm(f => ({ ...f, [k]: e.target.value }))
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center px-4"
+      style={{ background: 'rgba(0,0,0,0.6)' }} onClick={onClose}>
+      <div className="relative w-full max-w-md rounded-2xl p-7"
+        style={{ background: 'linear-gradient(160deg,#06283d,#093148)', boxShadow: '0 25px 60px rgba(0,0,0,0.5)' }}
+        onClick={e => e.stopPropagation()}>
+        {/* Close */}
+        <button onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-white/10"
+          style={{ border: '1px solid rgba(255,255,255,0.25)', color: 'white' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+        {/* Header */}
+        <div className="flex items-center gap-1.5 mb-3">
+          <span className="w-2 h-2 rounded-full" style={{ background: '#0694D1' }} />
+          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Free Training Brochure</span>
+        </div>
+        <h2 className="text-2xl font-extrabold leading-tight mb-1 text-white">
+          Get Your Free<br />
+          <span style={{ color: '#0694D1' }}>Training Brochure</span>
+        </h2>
+        <p className="text-sm mb-5" style={{ color: 'rgba(255,255,255,0.6)' }}>Curriculum · Pricing · Exam prep — all in one PDF</p>
+        {courseName && <p className="text-xs font-semibold mb-4 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(6,148,209,0.15)', color: '#7DD3FC' }}>{courseName}</p>}
+        {/* Fields */}
+        <div className="flex gap-3 mb-3">
+          <div className="flex-1">
+            <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>First Name <span style={{ color: '#F87171' }}>*</span></label>
+            <input value={form.firstName} onChange={set('firstName')} placeholder="Rahul"
+              className="w-full rounded-xl px-3 py-2.5 text-sm outline-none"
+              style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
+          </div>
+          <div className="flex-1">
+            <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Last Name</label>
+            <input value={form.lastName} onChange={set('lastName')} placeholder="Sharma"
+              className="w-full rounded-xl px-3 py-2.5 text-sm outline-none"
+              style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
+          </div>
+        </div>
+        <div className="mb-3">
+          <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Work Email <span style={{ color: '#F87171' }}>*</span></label>
+          <input value={form.email} onChange={set('email')} placeholder="you@company.com" type="email"
+            className="w-full rounded-xl px-3 py-2.5 text-sm outline-none"
+            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
+        </div>
+        <div className="mb-5">
+          <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Phone / WhatsApp <span style={{ color: '#F87171' }}>*</span></label>
+          <input value={form.phone} onChange={set('phone')} placeholder="+91 98765 43210" type="tel"
+            className="w-full rounded-xl px-3 py-2.5 text-sm outline-none"
+            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
+        </div>
+        <button className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
+          style={{ background: 'linear-gradient(135deg,#0694D1,#0577b0)' }}>
+          Get My Brochure →
+        </button>
+        <p className="text-center text-xs mt-3" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          🔒 Your details are safe. No spam, ever.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 /* ── Course Card ─────────────────────────────────────────────── */
-function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll: () => void }) {
-  const [expanded, setExpanded] = useState(false)
+function CourseCard({ course, onEnroll, isExpanded, onToggleExpand, onSyllabus }: {
+  course: typeof COURSES[0]; onEnroll: () => void
+  isExpanded: boolean; onToggleExpand: () => void; onSyllabus: () => void
+}) {
   const [selectedSlot, setSelectedSlot] = useState(0)
 
-  // For 5+ dates: show first 2 as full cards, rest as compact chips when expanded
   const FULL_VISIBLE = 2
   const manyDates = course.schedules.length >= 5
   const fullCards = course.schedules.slice(0, FULL_VISIBLE)
   const extraSlots = course.schedules.slice(FULL_VISIBLE)
+  const isPopular = (course.tags ?? []).includes('POPULAR')
+  const days = Math.ceil(course.duration / 8)
+
+  const RadioDot = ({ active }: { active: boolean }) => (
+    <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
+      style={active ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
+      {active && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+    </div>
+  )
+
+  const GtrBadge = () => (
+    <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+      style={{ background: '#DCFCE7', color: '#15803D' }}>
+      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      GTR
+    </span>
+  )
 
   return (
-    <div className="flex flex-col rounded-2xl bg-white overflow-hidden"
+    <div className="flex flex-col rounded-2xl bg-white overflow-hidden relative"
       style={{ border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
+
+      {/* Popular badge */}
+      {isPopular && (
+        <div className="absolute top-0 right-0 z-10">
+          <span className="flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-bl-xl rounded-tr-2xl"
+            style={{ background: 'linear-gradient(135deg,#F97316,#EA580C)', color: 'white' }}>
+            🔥 Popular
+          </span>
+        </div>
+      )}
 
       {/* Card header */}
       <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F1F5F9' }}>
         <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full"
           style={{ background: '#EBF8FE', color: '#0694D1' }}>{course.vendor}</span>
-        <h3 className="mt-2 text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>
+        <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: '#0F172A' }}>
           {course.code}: {course.name}
         </h3>
         <div className="flex items-center gap-3 mt-2.5">
-          <button className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all hover:bg-[#EBF8FE]"
+          <button onClick={onSyllabus}
+            className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all hover:bg-[#EBF8FE]"
             style={{ border: '1px solid #0694D1', color: '#0694D1' }}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
@@ -412,7 +509,7 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
             </svg>
-            {course.duration} hr
+            {course.duration} hr · {days} {days === 1 ? 'Day' : 'Days'}
           </div>
         </div>
       </div>
@@ -425,8 +522,8 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
         {fullCards.map((s, i) => {
           const active = selectedSlot === i
           return (
-            <button key={i} onClick={() => { setSelectedSlot(i); }}
-              className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all overflow-hidden relative"
+            <button key={i} onClick={() => setSelectedSlot(i)}
+              className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
               style={active
                 ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
                 : { background: 'white', border: '1px solid #E8EFF5', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
@@ -438,50 +535,30 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
-                  {s.gtr && (
-                    <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
-                      style={{ background: '#DCFCE7', color: '#15803D' }}>
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      GTR
-                    </span>
-                  )}
-                  <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
-                    style={active
-                      ? { background: '#0694D1' }
-                      : { border: '1.5px solid #CBD5E1' }}>
-                    {active && (
-                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    )}
-                  </div>
+                  {s.gtr && <GtrBadge />}
+                  <RadioDot active={active} />
                 </div>
               </div>
             </button>
           )
         })}
 
-        {/* Extra dates: compact chips (5+ dates) or full cards (< 5 dates) */}
+        {/* Extra dates */}
         {extraSlots.length > 0 && (
           <>
-            {expanded && (
+            {isExpanded && (
               manyDates
-                ? /* compact chip grid for many dates */
-                  <div className="flex flex-wrap gap-1.5 pt-1">
+                ? <div className="flex flex-wrap gap-1.5 pt-1">
                     {extraSlots.map((s, j) => {
                       const idx = j + FULL_VISIBLE
                       const active = selectedSlot === idx
                       return (
-                        <button key={idx} onClick={() => { setSelectedSlot(idx); }}
+                        <button key={idx} onClick={() => setSelectedSlot(idx)}
                           className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-all"
                           style={active
-                            ? { background: '#0694D1', color: 'white', border: '1px solid #0694D1', boxShadow: '0 2px 6px rgba(6,148,209,0.3)' }
+                            ? { background: '#EFF9FF', border: '1.5px solid #0694D1', color: '#0694D1', boxShadow: '0 2px 6px rgba(6,148,209,0.2)' }
                             : { background: 'white', color: '#374151', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                          </svg>
+                          <RadioDot active={active} />
                           {s.dates}
                           {s.gtr && (
                             <span className="flex items-center gap-0.5 rounded-full px-1 font-bold"
@@ -494,13 +571,12 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
                       )
                     })}
                   </div>
-                : /* full cards for fewer dates */
-                  <div className="flex flex-col gap-2">
+                : <div className="flex flex-col gap-2">
                     {extraSlots.map((s, j) => {
                       const idx = j + FULL_VISIBLE
                       const active = selectedSlot === idx
                       return (
-                        <button key={idx} onClick={() => { setSelectedSlot(idx); }}
+                        <button key={idx} onClick={() => setSelectedSlot(idx)}
                           className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
                           style={active
                             ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
@@ -510,15 +586,10 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
                               <span className="font-bold" style={{ color: active ? '#0694D1' : '#0F172A' }}>{s.dates}</span>
                               <span className="text-[11px]" style={{ color: '#64748B' }}>{s.time} · Online</span>
                             </div>
-                            {s.gtr && (
-                              <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
-                                style={{ background: '#DCFCE7', color: '#15803D' }}>
-                                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                  <polyline points="20 6 9 17 4 12"/>
-                                </svg>
-                                GTR
-                              </span>
-                            )}
+                            <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
+                              {s.gtr && <GtrBadge />}
+                              <RadioDot active={active} />
+                            </div>
                           </div>
                         </button>
                       )
@@ -526,30 +597,28 @@ function CourseCard({ course, onEnroll }: { course: typeof COURSES[0]; onEnroll:
                   </div>
             )}
 
-            <button onClick={() => setExpanded(e => !e)}
+            <button onClick={onToggleExpand}
               className="self-start flex items-center gap-1 text-xs font-semibold transition-all hover:underline"
               style={{ color: '#0694D1' }}>
-              {expanded
+              {isExpanded
                 ? <>↑ Show Less</>
-                : <>{manyDates
-                    ? <><span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold text-white mr-0.5" style={{ background: '#0694D1' }}>{extraSlots.length}</span> More Dates</>
-                    : <>↓ {extraSlots.length} More Dates</>
-                  }</>
+                : manyDates
+                  ? <><span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold text-white mr-0.5" style={{ background: '#0694D1' }}>{extraSlots.length}</span> More Dates</>
+                  : <>↓ {extraSlots.length} More Dates</>
               }
             </button>
           </>
         )}
-
       </div>
 
-      {/* Action buttons — Learn More left, Enroll Now right */}
+      {/* Action buttons */}
       <div className="flex gap-2 px-4 pb-4">
-        <button className="flex-1 rounded-2xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F4F8]"
+        <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F4F8]"
           style={{ border: '1.5px solid #093148', color: '#093148' }}>
           Learn More
         </button>
         <button onClick={onEnroll}
-          className="flex-1 rounded-2xl py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+          className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
           style={{ background: '#093148' }}>
           Enroll Now
         </button>
@@ -942,6 +1011,9 @@ export default function LiveOnlineClassroomPage() {
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [showFormModal, setShowFormModal] = useState(false)
+  const [expandedCardId, setExpandedCardId] = useState<number | null>(null)
+  const [showSyllabusModal, setShowSyllabusModal] = useState(false)
+  const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
 
   useEffect(() => {
@@ -967,6 +1039,11 @@ export default function LiveOnlineClassroomPage() {
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
+
+      {/* ── SYLLABUS MODAL ───────────────────────────────────── */}
+      {showSyllabusModal && (
+        <SyllabusModal courseName={syllabusCourseName} onClose={() => setShowSyllabusModal(false)} />
+      )}
 
       {/* ── FORM MODAL ───────────────────────────────────────── */}
       {showFormModal && (
@@ -1390,21 +1467,6 @@ export default function LiveOnlineClassroomPage() {
                     Enquire Now →
                   </button>
                 </div>
-                {/* Common highlights row */}
-                <div className="flex flex-wrap gap-2 pt-1" style={{ borderTop: '1px solid #F1F5F9' }}>
-                  {[
-                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, label: 'Guaranteed to Run' },
-                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>, label: 'Live Online' },
-                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, label: 'Expert Instructors' },
-                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label: 'Flexible Schedules' },
-                    { icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, label: 'Globally Recognised' },
-                  ].map(({ icon, label }) => (
-                    <span key={label} className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold"
-                      style={{ background: '#F0F9FF', color: '#0694D1', border: '1px solid #CAEFFF' }}>
-                      {icon}{label}
-                    </span>
-                  ))}
-                </div>
               </div>
 
               {/* Search + Timezone + Filters row */}
@@ -1427,7 +1489,14 @@ export default function LiveOnlineClassroomPage() {
               {/* Course grid */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {paginated.length > 0
-                  ? paginated.map(c => <CourseCard key={c.id} course={c} onEnroll={() => setShowFormModal(true)} />)
+                  ? paginated.map(c => (
+                      <CourseCard key={c.id} course={c}
+                        onEnroll={() => setShowFormModal(true)}
+                        isExpanded={expandedCardId === c.id}
+                        onToggleExpand={() => setExpandedCardId(id => id === c.id ? null : c.id)}
+                        onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
+                      />
+                    ))
                   : (
                     <div className="col-span-full flex flex-col items-center py-16 rounded-2xl bg-white"
                       style={{ border: '1px solid #CAEFFF' }}>
