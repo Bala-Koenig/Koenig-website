@@ -2180,24 +2180,24 @@ export default function LiveOnlineClassroomPage() {
       {/* ── REVIEWS & FAQ (tabbed) ───────────────────────────── */}
       <section className="py-12 sm:py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          {/* Tab bar */}
+          {/* Tab bar — same style as training-mode tabs */}
           <div className="flex justify-center mb-10">
-            <div className="inline-flex rounded-2xl p-1.5 gap-1" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF' }}>
-              {([
-                { id: 'reviews' as const, label: 'What Our Students Say', sub: '18,400+ reviews' },
-                { id: 'faq'     as const, label: 'FAQs',                  sub: '10 answers'      },
-              ]).map(tab => (
-                <button key={tab.id} onClick={() => setActiveReviewFaq(tab.id)}
-                  className="flex flex-col items-center px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
-                  style={activeReviewFaq === tab.id
-                    ? { background: 'white', color: '#0694D1', boxShadow: '0 2px 12px rgba(6,148,209,0.15)', border: '1px solid #CAEFFF' }
-                    : { color: '#64748B', background: 'transparent', border: '1px solid transparent' }}>
-                  {tab.label}
-                  <span className="text-[10px] font-normal mt-0.5" style={{ color: activeReviewFaq === tab.id ? '#0694D1' : '#94A3B8' }}>
-                    {tab.sub}
-                  </span>
-                </button>
-              ))}
+            <div className="tab-border-glow">
+              <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
+                {([
+                  { id: 'reviews' as const, label: 'What Our Students Say' },
+                  { id: 'faq'     as const, label: 'FAQs'                  },
+                ]).map(tab => (
+                  <button key={tab.id} onClick={() => setActiveReviewFaq(tab.id)}
+                    className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${
+                      activeReviewFaq === tab.id
+                        ? 'px-6 sm:px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                        : 'px-4 sm:px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]'
+                    }`}>
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
