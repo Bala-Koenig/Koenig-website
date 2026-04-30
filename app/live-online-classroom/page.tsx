@@ -319,31 +319,31 @@ const FAQS = [
 const TESTIMONIALS = [
   { name: 'Adham Al Mayasi',          location: '🇴🇲 Oman',         course: 'Live Online Training',            date: '15th Jan 2026',
     quote: 'Your exceptional skills as a trainer, dedication, expertise, and unwavering commitment are truly inspiring. The live online sessions felt just as engaging as classroom training.',
-    initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#4DBFEF)' },
+    initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#4DBFEF)', avatar: '/images/headshots/headshot-1.webp' },
   { name: 'Emmanuel Masabo',           location: '🇷🇼 Rwanda',        course: 'Live Online Training',            date: '22nd Jan 2026',
     quote: 'The trainer is very organized and helped us understand difficult concepts simply. Content delivery was perfect — the live online format made it easy to follow from Kigali.',
-    initials: 'EM', avatarBg: 'linear-gradient(135deg,#093148,#076D9D)' },
+    initials: 'EM', avatarBg: 'linear-gradient(135deg,#093148,#076D9D)', avatar: '/images/headshots/headshot-4.png' },
   { name: 'Yoosuf Nizam',             location: '🇲🇻 Maldives',      course: 'GTR Live Online Course',          date: '8th Feb 2026',
     quote: "This trainer is undoubtedly one of the finest I have encountered. His profound knowledge makes complex concepts accessible. The GTR guarantee meant I could plan around the confirmed schedule.",
-    initials: 'YN', avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)' },
+    initials: 'YN', avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)', avatar: '/images/headshots/headshot-3.webp' },
   { name: 'Anacleto Francisco da Rosa',location: '🇦🇴 Angola',        course: 'Live Online Training',            date: '3rd Feb 2026',
     quote: 'The teacher is very friendly, knowledgeable, and passionate. Excellent hands-on training experience — the live labs worked flawlessly even on my connection from Luanda.',
-    initials: 'AF', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)' },
+    initials: 'AF', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)', avatar: '/images/headshots/headshot-2.webp' },
   { name: 'David Muriuki',             location: '🇰🇪 Kenya',         course: 'Live Online Training',            date: '19th Jan 2026',
     quote: 'His pedagogical skills were exceptional, blending professionalism with deep subject matter understanding throughout. Live online delivery from Nairobi was seamless.',
-    initials: 'DM', avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)' },
+    initials: 'DM', avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)', avatar: '/images/headshots/headshot-5.webp' },
   { name: 'Fredrick Fiifi Arthur',     location: '🇬🇭 Ghana',         course: 'Power BI Live Training',          date: '12th Feb 2026',
     quote: 'Your passion and expertise in teaching Power BI have been incredibly motivating and empowering. The interactive sessions made every module click into place immediately.',
-    initials: 'FA', avatarBg: 'linear-gradient(135deg,#F2C811,#0694d1)' },
+    initials: 'FA', avatarBg: 'linear-gradient(135deg,#F2C811,#0694d1)', avatar: '/images/headshots/headshot-1.webp' },
   { name: 'Amjaad Kushar',             location: '🇸🇦 Saudi Arabia',  course: 'Live Online Training',            date: '28th Jan 2026',
     quote: 'I would like to express my sincere appreciation for such an outstanding learning experience. The GST-time batch was perfectly scheduled for the Gulf region.',
-    initials: 'AK', avatarBg: 'linear-gradient(135deg,#093148,#F47920)' },
+    initials: 'AK', avatarBg: 'linear-gradient(135deg,#093148,#F47920)', avatar: '/images/headshots/headshot-4.png' },
   { name: 'Monica Kalamula',           location: '🇲🇼 Malawi',        course: 'Live Online Training',            date: '5th Feb 2026',
     quote: 'The instructor possessed deep understanding, translating complex ideas into easily digestible information effectively. Koenig live online truly bridges the gap across continents.',
-    initials: 'MK', avatarBg: 'linear-gradient(135deg,#476D8D,#0694D1)' },
+    initials: 'MK', avatarBg: 'linear-gradient(135deg,#476D8D,#0694D1)', avatar: '/images/headshots/headshot-2.webp' },
   { name: 'Emanuel Bento Mahina',      location: '🇦🇴 Angola',        course: 'Security Live Online Training',   date: '10th Feb 2026',
     quote: 'I received one of the best trainings with exceptional security expertise. Highly motivated and well-prepared instructor who kept the live online sessions energetic from start to finish.',
-    initials: 'EB', avatarBg: 'linear-gradient(135deg,#c8102e,#f47920)' },
+    initials: 'EB', avatarBg: 'linear-gradient(135deg,#c8102e,#f47920)', avatar: '/images/headshots/headshot-3.webp' },
 ]
 
 /* ── Tech icon helper ────────────────────────────────────────── */
@@ -1229,29 +1229,42 @@ function IloTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; 
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full"
       style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-      <div className="flex-1 p-5">
-        <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
-        <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>
+      {/* Photo banner */}
+      <div className="relative flex items-end px-5 pt-5 pb-3" style={{ background: 'linear-gradient(135deg,#EBF8FE 0%,#F0FAFF 100%)' }}>
+        <div className="relative shrink-0">
+          {t.avatar ? (
+            <img src={t.avatar} alt={t.name}
+              className="w-14 h-14 rounded-full object-cover object-top"
+              style={{ border: '3px solid white', boxShadow: '0 2px 10px rgba(6,148,209,0.2)' }} />
+          ) : (
+            <div className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold text-white"
+              style={{ background: t.avatarBg, border: '3px solid white', boxShadow: '0 2px 10px rgba(6,148,209,0.2)' }}>
+              {t.initials}
+            </div>
+          )}
+          <span className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[8px]"
+            style={{ background: '#0694D1', color: 'white', border: '1.5px solid white' }}>✓</span>
+        </div>
+        <div className="ml-3 min-w-0 pb-0.5">
+          <p className="text-sm font-bold leading-tight truncate" style={{ color: '#0d1b2a' }}>{t.name}</p>
+          <p className="text-xs font-semibold mt-0.5" style={{ color: '#0694D1' }}>{t.location}</p>
+        </div>
+        <div className="ml-auto shrink-0 text-xs text-yellow-400 leading-none pb-0.5">★★★★★</div>
+      </div>
+      {/* Body */}
+      <div className="flex-1 px-5 pt-3 pb-4">
+        <p className="text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>
           {isLong && !expanded ? `${t.quote.slice(0, 140)}…` : t.quote}
         </p>
         {isLong && (
           <button onClick={() => { const n = !expanded; setExpanded(n); onExpandChange?.(n) }}
-            className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
+            className="mt-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
             style={{ borderColor: '#0694D1' }}>
             {expanded ? 'Show Less ↑' : 'Show More ↓'}
           </button>
         )}
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-            style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}>
-            {t.initials}
-          </div>
-          <div className="min-w-0">
-            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
-            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.location}</p>
-          </div>
-        </div>
       </div>
+      {/* Footer */}
       <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
         <div>
           <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
