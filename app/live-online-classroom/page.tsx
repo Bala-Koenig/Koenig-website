@@ -2010,7 +2010,7 @@ export default function LiveOnlineClassroomPage() {
                 ))}
               </div>
               <div className="p-4 mt-auto" style={{ borderTop: '1px solid #EBF8FE' }}>
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
+                <button onClick={() => { setFormType('individual'); setShowFormModal(true) }} className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
                   style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                   Enquire Now
@@ -2036,7 +2036,7 @@ export default function LiveOnlineClassroomPage() {
                       <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
                     </div>
                   </div>
-                  <button onClick={() => setShowFormModal(true)} className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  <button onClick={() => { setFormType('individual'); setShowFormModal(true) }} className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
                     style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
                     Enquire Now →
                   </button>
