@@ -708,7 +708,7 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus, dark = false }:
   course: typeof COURSES[0]; onEnroll: () => void; onViewDates: () => void; onSyllabus: () => void; dark?: boolean
 }) {
   const [selectedSlot, setSelectedSlot] = useState(0)
-  const FULL_VISIBLE = 3
+  const FULL_VISIBLE = 2
   const fullCards = course.schedules.slice(0, FULL_VISIBLE)
   const extraCount = course.schedules.length - FULL_VISIBLE
   const hasMore = extraCount > 0
