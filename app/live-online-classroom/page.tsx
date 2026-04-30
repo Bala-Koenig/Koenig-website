@@ -1378,6 +1378,7 @@ export default function LiveOnlineClassroomPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [showFormModal, setShowFormModal] = useState(false)
   const [datesModalCourse, setDatesModalCourse] = useState<typeof COURSES[0] | null>(null)
+  const tabScrollRef = useRef<HTMLDivElement>(null)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
@@ -1606,15 +1607,31 @@ export default function LiveOnlineClassroomPage() {
       `}</style>
       <section className="bg-white border-b py-4" style={{ borderColor: '#E2E8F0' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="flex justify-center">
-            <div className="tab-border-glow">
-              <div className="inline-flex overflow-x-auto overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)] scrollbar-none">
+
+          {/* Mobile: full-width scrollable, active tab snaps to left */}
+          <div className="sm:hidden">
+            <div className="tab-border-glow" style={{ display: 'block', width: '100%' }}>
+              <div
+                ref={tabScrollRef}
+                className="flex overflow-x-auto rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'] }}
+              >
                 {TRAINING_TABS.map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)}
+                  <button
+                    key={t.id}
+                    data-tab={t.id}
+                    onClick={() => {
+                      setActiveTab(t.id)
+                      const container = tabScrollRef.current
+                      const btn = container?.querySelector(`[data-tab="${t.id}"]`) as HTMLElement
+                      if (container && btn) {
+                        container.scrollTo({ left: btn.offsetLeft - container.offsetLeft - 6, behavior: 'smooth' })
+                      }
+                    }}
                     className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${
                       activeTab === t.id
-                        ? 'px-6 sm:px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
-                        : 'px-4 sm:px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]'
+                        ? 'px-6 py-3 text-sm bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                        : 'px-4 py-2.5 text-sm text-[#7a8c96]'
                     }`}>
                     {t.label}
                   </button>
@@ -1622,6 +1639,25 @@ export default function LiveOnlineClassroomPage() {
               </div>
             </div>
           </div>
+
+          {/* Desktop: centered, unchanged */}
+          <div className="hidden sm:flex justify-center">
+            <div className="tab-border-glow">
+              <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
+                {TRAINING_TABS.map(t => (
+                  <button key={t.id} onClick={() => setActiveTab(t.id)}
+                    className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${
+                      activeTab === t.id
+                        ? 'px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                        : 'px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]'
+                    }`}>
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
