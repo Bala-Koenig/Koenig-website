@@ -2201,7 +2201,7 @@ export default function LiveOnlineClassroomPage() {
               <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
                 {([
                   { id: 'reviews' as const, label: 'Student Reviews' },
-                  { id: 'faq'     as const, label: 'FAQ'              },
+                  { id: 'faq'     as const, label: 'Common Questions'  },
                 ]).map(tab => (
                   <button key={tab.id} onClick={() => setActiveReviewFaq(tab.id)}
                     className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${
