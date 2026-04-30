@@ -2026,8 +2026,8 @@ export default function LiveOnlineClassroomPage() {
                 }}
                 onMouseEnter={e => {
                   const el = e.currentTarget
-                  el.style.borderColor = `${c.color}55`
-                  el.style.boxShadow = `0 12px 36px rgba(0,0,0,0.35), 0 0 0 1px ${c.color}33, 0 0 28px ${c.color}18`
+                  el.style.borderColor = 'rgba(6,148,209,0.55)'
+                  el.style.boxShadow = '0 12px 36px rgba(0,0,0,0.35), 0 0 0 1px rgba(6,148,209,0.3), 0 0 28px rgba(6,148,209,0.15)'
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget
@@ -2036,18 +2036,18 @@ export default function LiveOnlineClassroomPage() {
                 }}>
                 {/* Top accent */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-0 rounded-full pointer-events-none transition-all duration-500 group-hover:w-full"
-                  style={{ background: `linear-gradient(90deg, transparent, ${c.color}, transparent)` }} />
+                  style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
                 {/* Icon box */}
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
-                  style={{ background: `${c.color}14`, border: `1px solid ${c.color}30` }}>
+                  style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.28)' }}>
                   <svg width="22" height="22" fill="none" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"
-                    style={{ stroke: c.color, transition: 'stroke 0.3s' }}>
+                    style={{ stroke: '#0694D1', transition: 'stroke 0.3s' }}>
                     {c.icon}
                   </svg>
                 </div>
                 <h3 className="font-bold text-sm leading-snug text-white">{c.name}</h3>
                 <p className="text-[11px] leading-snug" style={{ color: 'rgba(255,255,255,0.42)' }}>{c.desc}</p>
-                <span className="text-xs font-bold mt-auto" style={{ color: c.color }}>{c.count} Courses →</span>
+                <span className="text-xs font-bold mt-auto" style={{ color: '#0694D1' }}>{c.count} Courses →</span>
               </div>
             ))}
           </div>
