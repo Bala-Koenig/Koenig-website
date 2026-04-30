@@ -317,51 +317,33 @@ const FAQS = [
 ]
 
 const TESTIMONIALS = [
-  {
-    name: 'Adham Al Mayasi', location: '🇴🇲 Oman',
+  { name: 'Adham Al Mayasi',          location: '🇴🇲 Oman',         course: 'Live Online Training',            date: '15th Jan 2026',
     quote: 'Your exceptional skills as a trainer, dedication, expertise, and unwavering commitment are truly inspiring. The live online sessions felt just as engaging as classroom training.',
-    initials: 'AA', bg: 'linear-gradient(135deg,#076D9D,#4DBFEF)',
-  },
-  {
-    name: 'Emmanuel Masabo', location: '🇷🇼 Rwanda',
+    initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#4DBFEF)' },
+  { name: 'Emmanuel Masabo',           location: '🇷🇼 Rwanda',        course: 'Live Online Training',            date: '22nd Jan 2026',
     quote: 'The trainer is very organized and helped us understand difficult concepts simply. Content delivery was perfect — the live online format made it easy to follow from Kigali.',
-    initials: 'EM', bg: 'linear-gradient(135deg,#093148,#076D9D)',
-  },
-  {
-    name: 'Yoosuf Nizam', location: '🇲🇻 Maldives',
+    initials: 'EM', avatarBg: 'linear-gradient(135deg,#093148,#076D9D)' },
+  { name: 'Yoosuf Nizam',             location: '🇲🇻 Maldives',      course: 'GTR Live Online Course',          date: '8th Feb 2026',
     quote: "This trainer is undoubtedly one of the finest I have encountered. His profound knowledge makes complex concepts accessible. The GTR guarantee meant I could plan around the confirmed schedule.",
-    initials: 'YN', bg: 'linear-gradient(135deg,#F47920,#f6a05c)',
-  },
-  {
-    name: 'Anacleto Francisco da Rosa', location: '🇦🇴 Angola',
+    initials: 'YN', avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)' },
+  { name: 'Anacleto Francisco da Rosa',location: '🇦🇴 Angola',        course: 'Live Online Training',            date: '3rd Feb 2026',
     quote: 'The teacher is very friendly, knowledgeable, and passionate. Excellent hands-on training experience — the live labs worked flawlessly even on my connection from Luanda.',
-    initials: 'AF', bg: 'linear-gradient(135deg,#076D9D,#093148)',
-  },
-  {
-    name: 'David Muriuki', location: '🇰🇪 Kenya',
+    initials: 'AF', avatarBg: 'linear-gradient(135deg,#076D9D,#093148)' },
+  { name: 'David Muriuki',             location: '🇰🇪 Kenya',         course: 'Live Online Training',            date: '19th Jan 2026',
     quote: 'His pedagogical skills were exceptional, blending professionalism with deep subject matter understanding throughout. Live online delivery from Nairobi was seamless.',
-    initials: 'DM', bg: 'linear-gradient(135deg,#34A853,#076D9D)',
-  },
-  {
-    name: 'Fredrick Fiifi Arthur', location: '🇬🇭 Ghana',
+    initials: 'DM', avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)' },
+  { name: 'Fredrick Fiifi Arthur',     location: '🇬🇭 Ghana',         course: 'Power BI Live Training',          date: '12th Feb 2026',
     quote: 'Your passion and expertise in teaching Power BI have been incredibly motivating and empowering. The interactive sessions made every module click into place immediately.',
-    initials: 'FA', bg: 'linear-gradient(135deg,#F2C811,#0694d1)',
-  },
-  {
-    name: 'Amjaad Kushar', location: '🇸🇦 Saudi Arabia',
+    initials: 'FA', avatarBg: 'linear-gradient(135deg,#F2C811,#0694d1)' },
+  { name: 'Amjaad Kushar',             location: '🇸🇦 Saudi Arabia',  course: 'Live Online Training',            date: '28th Jan 2026',
     quote: 'I would like to express my sincere appreciation for such an outstanding learning experience. The GST-time batch was perfectly scheduled for the Gulf region.',
-    initials: 'AK', bg: 'linear-gradient(135deg,#093148,#F47920)',
-  },
-  {
-    name: 'Monica Kalamula', location: '🇲🇼 Malawi',
+    initials: 'AK', avatarBg: 'linear-gradient(135deg,#093148,#F47920)' },
+  { name: 'Monica Kalamula',           location: '🇲🇼 Malawi',        course: 'Live Online Training',            date: '5th Feb 2026',
     quote: 'The instructor possessed deep understanding, translating complex ideas into easily digestible information effectively. Koenig live online truly bridges the gap across continents.',
-    initials: 'MK', bg: 'linear-gradient(135deg,#476D8D,#0694D1)',
-  },
-  {
-    name: 'Emanuel Bento Mahina', location: '🇦🇴 Angola',
+    initials: 'MK', avatarBg: 'linear-gradient(135deg,#476D8D,#0694D1)' },
+  { name: 'Emanuel Bento Mahina',      location: '🇦🇴 Angola',        course: 'Security Live Online Training',   date: '10th Feb 2026',
     quote: 'I received one of the best trainings with exceptional security expertise. Highly motivated and well-prepared instructor who kept the live online sessions energetic from start to finish.',
-    initials: 'EB', bg: 'linear-gradient(135deg,#c8102e,#f47920)',
-  },
+    initials: 'EB', avatarBg: 'linear-gradient(135deg,#c8102e,#f47920)' },
 ]
 
 /* ── Tech icon helper ────────────────────────────────────────── */
@@ -1240,6 +1222,138 @@ function InquiryForm({
   )
 }
 
+/* ── ILO Testimonial Card ────────────────────────────────────── */
+function IloTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; onExpandChange?: (exp: boolean) => void }) {
+  const [expanded, setExpanded] = useState(false)
+  const isLong = t.quote.length > 140
+  return (
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full"
+      style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+      <div className="flex-1 p-5">
+        <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
+        <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>
+          {isLong && !expanded ? `${t.quote.slice(0, 140)}…` : t.quote}
+        </p>
+        {isLong && (
+          <button onClick={() => { const n = !expanded; setExpanded(n); onExpandChange?.(n) }}
+            className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
+            style={{ borderColor: '#0694D1' }}>
+            {expanded ? 'Show Less ↑' : 'Show More ↓'}
+          </button>
+        )}
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+            style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}>
+            {t.initials}
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
+            <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.location}</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
+        <div>
+          <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
+          <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
+        </div>
+        <span className="rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
+      </div>
+    </div>
+  )
+}
+
+/* ── ILO Mobile Horizontal Marquee ──────────────────────────── */
+function IloMobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+  const expandedCount = useRef(0)
+  const dragStartX = useRef(0)
+  const dragStartPos = useRef(0)
+
+  useEffect(() => {
+    const inner = trackRef.current
+    if (!inner) return
+    let prev = performance.now(); let raf: number
+    function tick(now: number) {
+      const dt = now - prev; prev = now
+      if (!paused.current && inner) {
+        pos.current += 0.04 * dt
+        const half = inner.scrollWidth / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  return (
+    <div className="sm:hidden overflow-hidden"
+      style={{ maskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)' }}
+      onTouchStart={e => { paused.current = true; dragStartX.current = e.touches[0].clientX; dragStartPos.current = pos.current }}
+      onTouchMove={e => {
+        const delta = dragStartX.current - e.touches[0].clientX
+        const inner = trackRef.current; if (!inner) return
+        const half = inner.scrollWidth / 2
+        let newPos = dragStartPos.current + delta
+        if (newPos < 0) newPos = 0
+        if (half > 0 && newPos >= half) newPos = half - 1
+        pos.current = newPos; inner.style.transform = `translateX(-${pos.current}px)`
+      }}
+      onTouchEnd={() => { if (expandedCount.current === 0) paused.current = false }}>
+      <div ref={trackRef} className="flex items-stretch gap-4 py-2" style={{ width: 'max-content' }}>
+        {[...items, ...items].map((t, i) => (
+          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
+            <IloTestimonialCard t={t} onExpandChange={exp => {
+              expandedCount.current += exp ? 1 : -1
+              if (expandedCount.current < 0) expandedCount.current = 0
+              paused.current = expandedCount.current > 0
+            }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ── ILO Desktop Scroll Column ───────────────────────────────── */
+function IloScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
+  const innerRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+
+  useEffect(() => {
+    const inner = innerRef.current
+    if (!inner) return
+    let prev = performance.now(); let raf: number
+    function tick(now: number) {
+      const dt = now - prev; prev = now
+      if (!paused.current && inner) {
+        pos.current += speed * dt
+        const half = inner.scrollHeight / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateY(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [speed])
+
+  return (
+    <div style={{ height: '520px', overflow: 'hidden' }}
+      onMouseEnter={() => { paused.current = true }}
+      onMouseLeave={() => { paused.current = false }}>
+      <div ref={innerRef} className="flex flex-col gap-4 pb-4">
+        {[...items, ...items].map((t, i) => <IloTestimonialCard key={i} t={t} />)}
+      </div>
+    </div>
+  )
+}
+
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab]     = useState('ilo')
@@ -2068,30 +2182,20 @@ export default function LiveOnlineClassroomPage() {
               18,400+ verified reviews — 4.9/5 average rating
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {TESTIMONIALS.map(t => (
-              <div key={t.name} className="flex flex-col bg-white rounded-2xl overflow-hidden"
-                style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                <div className="flex-1 p-5">
-                  <div className="text-yellow-400 text-xs mb-3">★★★★★</div>
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: '#2d4a6a' }}>"{t.quote}"</p>
-                  <div className="flex items-center gap-3 mt-auto">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                      style={{ background: t.bg }}>
-                      {t.initials}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold leading-tight" style={{ color: '#093148' }}>{t.name}</p>
-                      <p className="text-xs font-semibold" style={{ color: '#0694D1' }}>{t.location}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
-                  <p className="text-xs font-bold truncate pr-2" style={{ color: '#093148' }}>Live Online Training</p>
-                  <span className="shrink-0 rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#E8F4FA', color: '#0569a8' }}>✓ Verified</span>
-                </div>
-              </div>
-            ))}
+          {/* Mobile: horizontal auto-scroll marquee */}
+          <IloMobileMarquee items={TESTIMONIALS} />
+          {/* Desktop: 3-column vertical auto-scroll */}
+          <div className="hidden sm:block relative overflow-hidden"
+            style={{
+              height: '520px',
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+            }}>
+            <div className="grid grid-cols-3 gap-4 h-full">
+              <IloScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} />
+              <IloScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} />
+              <IloScrollColumn items={TESTIMONIALS.slice(6, 9)} speed={0.038} />
+            </div>
           </div>
         </div>
       </section>
