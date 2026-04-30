@@ -1375,6 +1375,7 @@ export default function LiveOnlineClassroomPage() {
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [activeReviewFaq, setActiveReviewFaq] = useState<'reviews' | 'faq'>('reviews')
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [showFormModal, setShowFormModal] = useState(false)
   const [datesModalCourse, setDatesModalCourse] = useState<typeof COURSES[0] | null>(null)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
@@ -2178,25 +2179,17 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── REVIEWS & FAQ (tabbed) ───────────────────────────── */}
-      <section className="py-12 sm:py-16 bg-white">
+      <section className={`relative overflow-hidden py-12 sm:py-16 ${activeReviewFaq === 'faq' ? 'bg-koenig-light' : 'bg-white'}`}>
+        {/* radial decorations — shown only in FAQ tab */}
+        {activeReviewFaq === 'faq' && (<>
+          <div className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
+        </>)}
+
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          {/* Section title */}
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
-              {activeReviewFaq === 'reviews' ? (
-                <>What Our <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Students Say</span></>
-              ) : (
-                <>Frequently Asked <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Questions</span></>
-              )}
-            </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
-              {activeReviewFaq === 'reviews'
-                ? '18,400+ verified reviews — 4.9/5 average rating'
-                : 'Everything you need to know about Live Online Classroom training with Koenig'}
-            </p>
-          </div>
-          {/* Tab bar */}
-          <div className="flex justify-center mb-10">
+          {/* Tab bar — top */}
+          <div className="flex justify-center mb-8">
             <div className="tab-border-glow">
               <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
                 {([
@@ -2214,6 +2207,22 @@ export default function LiveOnlineClassroomPage() {
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Section title — below tabs */}
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
+              {activeReviewFaq === 'reviews' ? (
+                <>What Our <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Students Say</span></>
+              ) : (
+                <>Frequently <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Asked Questions</span></>
+              )}
+            </h2>
+            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
+              {activeReviewFaq === 'reviews'
+                ? '18,400+ verified reviews — 4.9/5 average rating'
+                : 'Everything you need to know about Live Online Classroom training with Koenig'}
+            </p>
           </div>
 
           {/* Reviews panel */}
@@ -2235,11 +2244,59 @@ export default function LiveOnlineClassroomPage() {
             </>
           )}
 
-          {/* FAQ panel */}
+          {/* FAQ panel — homepage pattern */}
           {activeReviewFaq === 'faq' && (
-            <div className="mx-auto max-w-3xl flex flex-col gap-3">
-              {FAQS.map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
-            </div>
+            <>
+              <div className="flex flex-col gap-3 md:flex-row">
+                <div className="flex flex-1 flex-col gap-3">
+                  {FAQS.filter((_, i) => i % 2 === 0).map((f, j) => {
+                    const i = j * 2; const isOpen = openFaq === i
+                    return (
+                      <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                        <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left sm:px-6 sm:py-4">
+                          <span className="text-sm font-semibold leading-snug sm:text-base" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                          </span>
+                        </button>
+                        <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                          <div style={{ overflow: 'hidden' }}>
+                            <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed sm:px-6 sm:py-4 sm:text-base" style={{ color: '#7a8c96' }}>{f.a}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+                <div className="flex flex-1 flex-col gap-3">
+                  {FAQS.filter((_, i) => i % 2 !== 0).map((f, j) => {
+                    const i = j * 2 + 1; const isOpen = openFaq === i
+                    return (
+                      <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                        <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left sm:px-6 sm:py-4">
+                          <span className="text-sm font-semibold leading-snug sm:text-base" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                          </span>
+                        </button>
+                        <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                          <div style={{ overflow: 'hidden' }}>
+                            <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed sm:px-6 sm:py-4 sm:text-base" style={{ color: '#7a8c96' }}>{f.a}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+              <div className="mt-8 text-center">
+                <p className="mb-3 text-sm sm:text-base" style={{ color: '#7a8c96' }}>Still have questions?</p>
+                <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
+                  Chat with a Training Advisor
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
+                </button>
+              </div>
+            </>
           )}
         </div>
       </section>
