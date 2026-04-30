@@ -1151,7 +1151,7 @@ function InquiryForm({
       </div>
 
       {/* Name + Email */}
-      <div className="grid grid-cols-2 gap-3 mb-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <div>
           <label className="block text-xs font-semibold mb-1.5 text-white">Full Name <span className="text-red-400">*</span></label>
           <input className={inputCls} style={inputSty} placeholder="John Smith" />
@@ -1166,7 +1166,7 @@ function InquiryForm({
       </div>
 
       {/* Phone + Course / Trainees */}
-      <div className="grid grid-cols-2 gap-3 mb-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <div>
           <label className="block text-xs font-semibold mb-1.5 text-white">Phone</label>
           <input className={inputCls} style={inputSty} type="tel" placeholder="+1 (555) 000-0000" />
