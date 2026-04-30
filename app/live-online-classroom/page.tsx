@@ -585,13 +585,20 @@ function DatesModal({ course, onClose, onEnroll }: {
   const selected = course.schedules[selectedIdx]
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center px-4"
+    <div className="fixed inset-0 z-[300] flex items-end sm:items-center sm:px-4 justify-center"
       style={{ background: 'rgba(12,25,41,0.72)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
       onClick={onClose}>
-      <style>{`@keyframes dmIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}`}</style>
-      <div className="relative w-full max-w-lg rounded-2xl overflow-hidden flex flex-col bg-white"
-        style={{ maxHeight: '88vh', boxShadow: '0 24px 80px rgba(12,25,41,0.4)', animation: 'dmIn 0.25s cubic-bezier(0.22,1,0.36,1)' }}
+      <style>{`
+        @keyframes dmIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        @keyframes dmUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+      `}</style>
+      <div className="relative w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl overflow-hidden flex flex-col bg-white"
+        style={{ maxHeight: '92vh', boxShadow: '0 -8px 40px rgba(12,25,41,0.25)', animation: 'dmUp 0.3s cubic-bezier(0.22,1,0.36,1)' } as React.CSSProperties}
         onClick={e => e.stopPropagation()}>
+        {/* Mobile drag handle */}
+        <div className="sm:hidden flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1 rounded-full" style={{ background: '#CBD5E1' }} />
+        </div>
 
         {/* Header */}
         <div className="relative px-6 pt-5 pb-4" style={{ borderBottom: '1px solid #DDE6EE' }}>
@@ -701,7 +708,7 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus, dark = false }:
   course: typeof COURSES[0]; onEnroll: () => void; onViewDates: () => void; onSyllabus: () => void; dark?: boolean
 }) {
   const [selectedSlot, setSelectedSlot] = useState(0)
-  const FULL_VISIBLE = 2
+  const FULL_VISIBLE = 3
   const fullCards = course.schedules.slice(0, FULL_VISIBLE)
   const extraCount = course.schedules.length - FULL_VISIBLE
   const hasMore = extraCount > 0
