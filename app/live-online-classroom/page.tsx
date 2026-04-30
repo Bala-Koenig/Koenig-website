@@ -1513,6 +1513,22 @@ export default function LiveOnlineClassroomPage() {
                   Request Info
                 </button>
               </div>
+
+              {/* Mobile-only stat tiles — mirrors desktop floating cards */}
+              <div className="lg:hidden grid grid-cols-4 gap-2 mt-6">
+                {([
+                  { val: '5M+',    label: 'Learners'   },
+                  { val: '195+',   label: 'Countries'  },
+                  { val: '5,000+', label: 'Courses'    },
+                  { val: 'GTR',    label: 'Guaranteed' },
+                ]).map(({ val, label }) => (
+                  <div key={val} className="flex flex-col items-center justify-center rounded-xl py-3 px-1"
+                    style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(6,148,209,0.30)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+                    <span className="text-sm font-black leading-none" style={{ color: '#38bdf8' }}>{val}</span>
+                    <span className="text-[10px] font-medium mt-0.5 text-center leading-tight" style={{ color: 'rgba(255,255,255,0.55)' }}>{label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Right — Live-Online-Classes image with floating stat cards */}
