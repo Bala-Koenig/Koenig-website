@@ -1385,6 +1385,7 @@ export default function LiveOnlineClassroomPage() {
   const benTouchStartX = useRef(0)
   const [howSlideIdx, setHowSlideIdx] = useState(0)
   const howTouchStartX = useRef(0)
+  const [showMobileTechPicker, setShowMobileTechPicker] = useState(false)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
@@ -1861,16 +1862,9 @@ export default function LiveOnlineClassroomPage() {
         .batch-reserve-btn { padding:8px 16px; background:linear-gradient(135deg,#0694D1,#076D9D); border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.2s,box-shadow 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(6,148,209,0.25); }
         .batch-reserve-btn:hover { box-shadow:0 6px 20px rgba(6,148,209,0.4); transform:translateY(-1px); }
       `}</style>
-      <section id="schedule" className="relative py-12 sm:py-16 sm:bg-[#EBF8FE]"
-        style={{ background: 'linear-gradient(160deg,#071929 0%,#082a42 60%,#071929 100%)', borderTop: '1px solid #CAEFFF' }}>
-        {/* Mobile dark glow orbs */}
-        <div className="sm:hidden pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -left-16 w-80 h-80 rounded-full opacity-40" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(70px)' }} />
-          <div className="absolute top-1/2 right-0 w-64 h-64 rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#38bdf8,transparent 70%)', filter: 'blur(60px)' }} />
-          <div className="absolute bottom-0 left-1/3 w-56 h-56 rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#076d9d,transparent 70%)', filter: 'blur(55px)' }} />
-        </div>
-        {/* Desktop blobs */}
-        <div className="hidden sm:block pointer-events-none absolute inset-0 overflow-hidden">
+      <section id="schedule" className="relative py-12 sm:py-16" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+        {/* background blobs */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
         </div>
@@ -1879,34 +1873,68 @@ export default function LiveOnlineClassroomPage() {
           {/* Section header */}
           <div className="flex flex-col items-center text-center mb-10">
             <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2"
-              style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.3)' }}>
+              style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
               Guaranteed Schedules
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1 text-white sm:text-[#071e2e]" style={{ lineHeight: 1.2 }}>
+            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e', lineHeight: 1.2 }}>
               Find Your <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Guaranteed to Run</em> Course
             </h2>
-            <p className="text-sm sm:text-[#5a7a90]" style={{ color: 'rgba(255,255,255,0.55)', marginTop: 4 }}>
+            <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>
               Browse {COURSES.length} live online GTR classes — filter by technology to find your next certification.
             </p>
           </div>
 
           {/* ── Grouped interactive panel ── */}
-          <div className="relative rounded-2xl p-4 sm:p-5 sm:bg-[#F0F9FF] sm:border sm:border-[#CAEFFF]"
-            style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.35)' }}>
+          <div className="relative rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
 
-          {/* Mobile technology pills — home page tab-switcher style */}
-          <div className="flex lg:hidden overflow-x-auto gap-1 mb-4 pb-1 rounded-2xl p-1.5 sm:rounded-none sm:p-0 sm:gap-2 sm:bg-transparent"
-            style={{ scrollbarWidth: 'none', background: 'rgba(8,24,42,0.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.2)' }}>
-            {SIDEBAR_TECHNOLOGIES.filter(t => t.name === 'All' || t.count > 0).map(t => (
-              <button key={t.name}
-                onClick={() => { setActiveTech(t.name); setPage(0) }}
-                className="shrink-0 rounded-xl px-4 py-2 text-xs font-semibold transition-all duration-200 whitespace-nowrap"
-                style={activeTech === t.name
-                  ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' }
-                  : { color: 'rgba(255,255,255,0.6)', background: 'transparent' }}>
-                {t.label} ({t.count})
-              </button>
-            ))}
+          {/* Mobile: compact tech-selector header (Pranay vendor page pattern) */}
+          <div className="lg:hidden mb-4">
+            {/* Tech header row */}
+            <button
+              onClick={() => setShowMobileTechPicker(p => !p)}
+              className="w-full flex items-center justify-between gap-3 rounded-xl px-4 py-3 bg-white transition-all"
+              style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                  style={{ background: activeTechData.bg, color: activeTechData.color }}>
+                  {activeTechData.initial}
+                </div>
+                <span className="text-sm font-bold truncate" style={{ color: '#071e2e' }}>{activeTechData.label}</span>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="rounded-full px-3 py-0.5 text-xs font-bold" style={{ background: '#EBF8FE', color: '#0694D1' }}>
+                  {filtered.length}
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ transform: showMobileTechPicker ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s' }}>
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </button>
+            {/* Collapsible tech list */}
+            {showMobileTechPicker && (
+              <div className="mt-2 rounded-xl bg-white overflow-hidden" style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(6,148,209,0.1)' }}>
+                <div className="max-h-52 overflow-y-auto">
+                  {SIDEBAR_TECHNOLOGIES.filter(t => t.name === 'All' || t.count > 0).map(t => (
+                    <button key={t.name}
+                      onClick={() => { setActiveTech(t.name); setPage(0); setShowMobileTechPicker(false) }}
+                      className="flex items-center justify-between w-full px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF]"
+                      style={{ borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`, background: activeTech === t.name ? '#EBF8FE' : 'white' }}>
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>
+                          {getTechIcon(t.name)}
+                        </div>
+                        <span className="font-medium" style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>{t.label}</span>
+                      </div>
+                      <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
+                        style={{ background: activeTech === t.name ? '#0694D1' : '#E2E8F0', color: activeTech === t.name ? 'white' : '#6B7280' }}>
+                        {t.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Two-panel layout */}
@@ -1981,8 +2009,8 @@ export default function LiveOnlineClassroomPage() {
             <div className="flex-1 min-w-0">
 
               {/* Technology header */}
-              <div className="flex flex-col gap-3 mb-5 p-5 rounded-2xl sm:bg-white sm:border sm:border-[#CAEFFF]"
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.2)', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
+              <div className="flex flex-col gap-3 mb-5 p-5 rounded-2xl bg-white"
+                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
                 {/* Top row: icon + title + button */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="flex items-center gap-4">
@@ -1991,8 +2019,8 @@ export default function LiveOnlineClassroomPage() {
                       {activeTechData.initial}
                     </div>
                     <div>
-                      <h3 className="text-base font-bold mb-0.5 text-white sm:text-[#06111E]">{activeTechData.label}</h3>
-                      <p className="text-xs sm:text-sm leading-snug sm:text-[#64748B]" style={{ color: 'rgba(255,255,255,0.5)' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
+                      <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
+                      <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
                     </div>
                   </div>
                   <button onClick={() => setShowFormModal(true)} className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
@@ -2002,33 +2030,30 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Search + Timezone + Vendor row */}
-              <div className="flex items-center gap-2 mb-2">
-                {/* Search — grows to fill */}
+              {/* Desktop: Search + Timezone + Vendor in one row */}
+              <div className="hidden lg:flex items-center gap-2 mb-2">
                 <div className="relative flex-1 min-w-0">
                   <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                   </svg>
                   <input type="text" placeholder="Search courses..."
                     value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
-                    className="w-full rounded-xl pl-9 py-2.5 text-sm outline-none sm:bg-white sm:border-[#CAEFFF] sm:text-[#0F172A]"
-                    style={{ border: '1px solid rgba(6,148,209,0.3)', background: 'rgba(255,255,255,0.07)', color: 'white', paddingRight: search ? '32px' : '12px' }} />
+                    className="w-full rounded-xl pl-9 py-2.5 text-sm outline-none bg-white"
+                    style={{ border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: search ? '32px' : '12px' }} />
                   {search && (
                     <button onClick={() => { setSearch(''); setPage(0) }}
                       className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-6 h-6 transition-all"
-                      style={{ color: 'rgba(255,255,255,0.6)' }}>
+                      style={{ color: '#64748B' }}>
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
                     </button>
                   )}
                 </div>
-                {/* Timezone */}
                 <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
-                {/* Vendor button */}
                 <button onClick={() => setShowVendorPanel(p => !p)}
                   className="shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all"
                   style={filterVendors.length > 0
                     ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
-                    : { background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(6,148,209,0.3)' }}>
+                    : { background: 'white', color: '#374151', border: '1px solid #CAEFFF' }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
                   </svg>
@@ -2042,12 +2067,58 @@ export default function LiveOnlineClassroomPage() {
                 </button>
               </div>
 
-              {/* Active vendor chips + count */}
+              {/* Mobile: full-width search */}
+              <div className="lg:hidden mb-2">
+                <div className="relative">
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input type="text" placeholder="Search courses..."
+                    value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
+                    className="w-full rounded-xl pl-9 py-2.5 text-sm outline-none bg-white"
+                    style={{ border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: search ? '32px' : '12px' }} />
+                  {search && (
+                    <button onClick={() => { setSearch(''); setPage(0) }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-6 h-6 transition-all"
+                      style={{ color: '#64748B' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Mobile: Sort by + Filters row + showing count */}
+              <div className="lg:hidden flex items-center gap-2 mb-2">
+                <span className="text-xs font-semibold shrink-0" style={{ color: '#374151' }}>Sort by</span>
+                <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
+                <div className="flex-1" />
+                <button onClick={() => setShowVendorPanel(p => !p)}
+                  className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
+                  style={filterVendors.length > 0
+                    ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
+                    : { background: 'white', color: '#374151', border: '1px solid #CAEFFF' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                  </svg>
+                  Filters
+                  {filterVendors.length > 0 && (
+                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold"
+                      style={{ background: filterVendors.length > 0 ? 'rgba(255,255,255,0.3)' : '#EBF8FE', color: filterVendors.length > 0 ? 'white' : '#0694D1' }}>
+                      {filterVendors.length}
+                    </span>
+                  )}
+                </button>
+              </div>
+              <div className="lg:hidden mb-3">
+                <span className="text-xs font-medium" style={{ color: '#64748B' }}>Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}</span>
+              </div>
+
+              {/* Active vendor chips + count — Desktop */}
               {filterVendors.length > 0 && (
                 <div className="flex items-center gap-2 flex-wrap mb-3">
                   {filterVendors.map(v => (
                     <span key={v} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                      style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1.5px solid rgba(6,148,209,0.4)' }}>
+                      style={{ background: '#EBF8FE', color: '#0694D1', border: '1.5px solid #CAEFFF' }}>
                       {v}
                       <button onClick={() => toggleVendor(v)} className="hover:opacity-70">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -2056,10 +2127,10 @@ export default function LiveOnlineClassroomPage() {
                   ))}
                   <button onClick={() => { setFilterVendors([]); setPage(0) }}
                     className="text-xs font-semibold transition-all hover:underline"
-                    style={{ color: '#38bdf8' }}>
+                    style={{ color: '#0694D1' }}>
                     Clear all
                   </button>
-                  <span className="ml-auto text-xs font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  <span className="ml-auto text-xs font-medium" style={{ color: '#64748B' }}>
                     Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}
                   </span>
                 </div>
@@ -2069,7 +2140,7 @@ export default function LiveOnlineClassroomPage() {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {paginated.length > 0
                   ? paginated.map(c => (
-                      <CourseCard key={c.id} course={c} dark
+                      <CourseCard key={c.id} course={c}
                         onEnroll={() => setShowFormModal(true)}
                         onViewDates={() => setDatesModalCourse(c)}
                         onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
@@ -2077,9 +2148,9 @@ export default function LiveOnlineClassroomPage() {
                     ))
                   : (
                     <div className="col-span-full flex flex-col items-center py-16 rounded-2xl"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.18)' }}>
-                      <svg className="mb-3 opacity-30" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                      <p className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.4)' }}>No courses found</p>
+                      style={{ background: '#F8FBFE', border: '1px solid #CAEFFF' }}>
+                      <svg className="mb-3 opacity-40" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      <p className="text-sm font-semibold" style={{ color: '#64748B' }}>No courses found</p>
                     </div>
                   )
                 }
