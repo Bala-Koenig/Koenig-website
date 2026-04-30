@@ -1896,11 +1896,15 @@ export default function LiveOnlineClassroomPage() {
           <div className="relative rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
 
           {/* Mobile: compact tech-selector header (Pranay vendor page pattern) */}
-          <div className="lg:hidden mb-4">
+          <div className="lg:hidden mb-4 relative">
+            {/* Backdrop — closes dropdown on tap outside */}
+            {showMobileTechPicker && (
+              <div className="fixed inset-0 z-[10]" onClick={() => setShowMobileTechPicker(false)} />
+            )}
             {/* Tech header row */}
             <button
               onClick={() => setShowMobileTechPicker(p => !p)}
-              className="w-full flex items-center justify-between gap-3 rounded-xl px-4 py-3 bg-white transition-all"
+              className="relative z-[11] w-full flex items-center justify-between gap-3 rounded-xl px-4 py-3 bg-white transition-all"
               style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
@@ -1919,10 +1923,11 @@ export default function LiveOnlineClassroomPage() {
                 </svg>
               </div>
             </button>
-            {/* Collapsible tech list */}
+            {/* Dropdown — absolute, overlays content below */}
             {showMobileTechPicker && (
-              <div className="mt-2 rounded-xl bg-white overflow-hidden" style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(6,148,209,0.1)' }}>
-                <div className="max-h-52 overflow-y-auto">
+              <div className="absolute left-0 right-0 top-full mt-1 z-[12] rounded-xl bg-white overflow-hidden"
+                style={{ border: '1px solid #CAEFFF', boxShadow: '0 8px 24px rgba(6,148,209,0.15)' }}>
+                <div className="max-h-60 overflow-y-auto">
                   {SIDEBAR_TECHNOLOGIES.filter(t => t.name === 'All' || t.count > 0).map(t => (
                     <button key={t.name}
                       onClick={() => { setActiveTech(t.name); setPage(0); setShowMobileTechPicker(false) }}
