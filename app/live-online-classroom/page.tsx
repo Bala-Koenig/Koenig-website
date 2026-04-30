@@ -248,21 +248,37 @@ const BENEFITS = [
 ]
 
 const HOW_IT_WORKS = [
-  { step: '01', title: 'Choose Your Course & Batch', desc: 'Browse 5,000+ live online courses. Filter by vendor, OEM, or technology. Pick a GTR batch that fits your timezone and schedule.' },
-  { step: '02', title: 'Confirm Enrollment & Get Access', desc: 'Receive instant confirmation with virtual classroom credentials, pre-reading materials, and lab access details before day one.' },
-  { step: '03', title: 'Attend Live, Interactive Training', desc: 'Join your certified instructor in a real-time virtual classroom. Ask questions, complete hands-on labs, and collaborate with peers globally.' },
-  { step: '04', title: 'Certify & Advance Your Career', desc: 'Receive your official course completion certificate. Sit your vendor exam with confidence and claim your new certification.' },
+  { step: '01', title: 'Choose Your Course & Batch', desc: 'Browse 5,000+ live online courses. Filter by vendor, OEM, or technology. Pick a GTR batch that fits your timezone and schedule.',
+    tags: ['5,000+ Courses', 'GTR Batches', 'Vendor Filter'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/> },
+  { step: '02', title: 'Confirm Enrollment & Get Access', desc: 'Receive instant confirmation with virtual classroom credentials, pre-reading materials, and lab access details before day one.',
+    tags: ['Instant Access', 'Lab Credentials', 'Pre-Reading'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/> },
+  { step: '03', title: 'Attend Live, Interactive Training', desc: 'Join your certified instructor in a real-time virtual classroom. Ask questions, complete hands-on labs, and collaborate with peers globally.',
+    tags: ['Live Instructor', 'Hands-on Labs', 'Global Peers'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/> },
+  { step: '04', title: 'Certify & Advance Your Career', desc: 'Receive your official course completion certificate. Sit your vendor exam with confidence and claim your new certification.',
+    tags: ['Completion Cert', 'Vendor Exam', 'Career Growth'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/> },
 ]
 
 const CATEGORIES = [
-  { name: 'Cloud Computing',      icon: '☁️', count: '480+', desc: 'Azure, AWS, Google Cloud, Oracle Cloud' },
-  { name: 'Cybersecurity',        icon: '🔒', count: '320+', desc: 'CEH, CISSP, CompTIA Security+, CISM' },
-  { name: 'Project Management',   icon: '📋', count: '140+', desc: 'PMP, PRINCE2, Agile, Scrum Master' },
-  { name: 'Data & AI',            icon: '🤖', count: '260+', desc: 'AI-900, DP-900, Machine Learning, Power BI' },
-  { name: 'Networking',           icon: '🌐', count: '210+', desc: 'CCNA, CCNP, CompTIA Network+, Juniper' },
-  { name: 'DevOps & Cloud-Native',icon: '⚙️', count: '180+', desc: 'Kubernetes, Docker, Terraform, Jenkins' },
-  { name: 'ITSM & Governance',    icon: '📊', count: '120+', desc: 'ITIL 4, COBIT, ISO 27001, ISO 20000' },
-  { name: 'SAP & ERP',            icon: '🏢', count: '140+', desc: 'SAP S/4HANA, Basis, FICO, MM, SD' },
+  { name: 'Cloud Computing',       count: '480+', desc: 'Azure, AWS, Google Cloud, Oracle Cloud',    color: '#0694D1',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
+  { name: 'Cybersecurity',         count: '320+', desc: 'CEH, CISSP, CompTIA Security+, CISM',       color: '#e53e3e',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
+  { name: 'Project Management',    count: '140+', desc: 'PMP, PRINCE2, Agile, Scrum Master',         color: '#7c3aed',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/> },
+  { name: 'Data & AI',             count: '260+', desc: 'AI-900, DP-900, Machine Learning, Power BI', color: '#0d9488',
+    icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></> },
+  { name: 'Networking',            count: '210+', desc: 'CCNA, CCNP, CompTIA Network+, Juniper',     color: '#16a34a',
+    icon: <><circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></> },
+  { name: 'DevOps & Cloud-Native', count: '180+', desc: 'Kubernetes, Docker, Terraform, Jenkins',    color: '#ea580c',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z"/> },
+  { name: 'ITSM & Governance',     count: '120+', desc: 'ITIL 4, COBIT, ISO 27001, ISO 20000',      color: '#4f46e5',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/> },
+  { name: 'SAP & ERP',             count: '140+', desc: 'SAP S/4HANA, Basis, FICO, MM, SD',         color: '#d97706',
+    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/> },
 ]
 
 const FAQS = [
@@ -929,27 +945,15 @@ function FilterDropdown({
           </div>
           {/* Options */}
           <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
-            {/* Clear option */}
-            <button onClick={() => { onChange(''); setQuery(''); setOpen(false) }}
-              className="flex w-full items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-colors"
-              style={{ color: '#0694D1', background: !hasValue ? 'rgba(6,148,209,0.06)' : 'transparent' }}>
-              <span className="w-3.5 h-3.5 flex items-center justify-center">
-                {!hasValue && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
-              </span>
-              {label}
-            </button>
             {filtered.map(o => (
               <button key={o} onClick={() => { onChange(o); setQuery(''); setOpen(false) }}
-                className="flex w-full items-center gap-2 px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF]"
+                className="flex w-full items-center px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF] text-left"
                 style={{ color: value === o ? '#0694D1' : '#374151', background: value === o ? 'rgba(6,148,209,0.06)' : 'transparent', fontWeight: value === o ? 600 : 400, whiteSpace: 'nowrap' }}>
-                <span className="w-3.5 h-3.5 flex items-center justify-center shrink-0">
-                  {value === o && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                </span>
                 {o}
               </button>
             ))}
             {filtered.length === 0 && (
-              <p className="px-4 py-3 text-xs text-center" style={{ color: '#94A3B8' }}>No results</p>
+              <p className="px-4 py-3 text-xs" style={{ color: '#94A3B8' }}>No results</p>
             )}
           </div>
         </div>
@@ -1529,6 +1533,10 @@ export default function LiveOnlineClassroomPage() {
             color:rgba(19,168,212,.045);letter-spacing:-4px;pointer-events:none;user-select:none;
             transition:transform .4s ease,color .4s ease; }
           .ben-card:hover .ben-ghost { transform:translateY(-4px);color:rgba(19,168,212,.08); }
+          .ben-tag { border-radius:100px;padding:3px 10px;font-size:11px;font-weight:600;
+            background:rgba(19,168,212,.10);color:rgba(19,168,212,.7);border:1px solid rgba(19,168,212,.2);
+            transition:background .3s,color .3s,border-color .3s; }
+          .ben-card:hover .ben-tag { background:rgba(19,168,212,.22);color:#7de8ff;border-color:rgba(19,168,212,.45); }
         `}</style>
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="text-center mb-10 sm:mb-12">
@@ -1963,18 +1971,28 @@ export default function LiveOnlineClassroomPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {HOW_IT_WORKS.map((s, i) => (
-              <div key={s.step} className="relative flex flex-col gap-3 rounded-2xl p-5"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: 'white' }}>
-                  {s.step}
+              <div key={s.step} className="ben-card"
+                style={{ animationDelay: `${i * 0.1}s` }}
+                ref={(el) => {
+                  if (!el) return
+                  const obs = new IntersectionObserver(([entry]) => {
+                    if (entry.isIntersecting) { el.classList.add('ben-visible'); obs.disconnect() }
+                  }, { threshold: 0.12 })
+                  obs.observe(el)
+                }}>
+                <div className="ben-accent" />
+                <div className="ben-icon-box mb-4" style={{ animationDelay: `${i * 0.6}s` }}>
+                  <div className="ben-icon-svg" style={{ animationDelay: `${i * 0.4}s`, ['--fy' as string]: `${i % 2 === 0 ? '0px' : '-2px'}`, ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" style={{ overflow: 'visible' }}>{s.icon}</svg>
+                  </div>
                 </div>
-                {i < HOW_IT_WORKS.length - 1 && (
-                  <div className="hidden lg:block absolute top-9 left-full w-full h-px -translate-x-5 pointer-events-none"
-                    style={{ background: 'linear-gradient(90deg, rgba(6,148,209,0.4), transparent)' }} />
-                )}
-                <h3 className="font-bold text-sm text-white">{s.title}</h3>
-                <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{s.desc}</p>
+                <h3 className="text-base font-bold text-white">{s.title}</h3>
+                <div className="ben-divider" />
+                <p className="mb-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{s.desc}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {s.tags.map(tag => <span key={tag} className="ben-tag">{tag}</span>)}
+                </div>
+                <div className="ben-ghost" aria-hidden>{s.step}</div>
               </div>
             ))}
           </div>
@@ -1982,27 +2000,54 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── TRAINING CATEGORIES ──────────────────────────────── */}
-      <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(135deg, #f0faff 0%, #fff 100%)' }}>
+      <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white">
               Popular{' '}
               <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 Training Categories
               </span>
             </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
+            <p className="text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>
               5,000+ live online courses across the technologies that matter most in 2026
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {CATEGORIES.map(c => (
-              <div key={c.name} className="group flex flex-col gap-2 p-4 rounded-2xl bg-white cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(6,148,209,0.14)]"
-                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)' }}>
-                <div className="text-2xl">{c.icon}</div>
-                <h3 className="font-bold text-sm leading-snug" style={{ color: '#0F172A' }}>{c.name}</h3>
-                <p className="text-[11px] leading-snug" style={{ color: '#64748B' }}>{c.desc}</p>
-                <span className="text-xs font-bold mt-auto" style={{ color: '#0694D1' }}>{c.count} Courses →</span>
+              <div key={c.name}
+                className="group relative flex flex-col gap-3 p-5 rounded-2xl cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget
+                  el.style.borderColor = `${c.color}55`
+                  el.style.boxShadow = `0 12px 36px rgba(0,0,0,0.35), 0 0 0 1px ${c.color}33, 0 0 28px ${c.color}18`
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget
+                  el.style.borderColor = 'rgba(255,255,255,0.08)'
+                  el.style.boxShadow = '0 4px 24px rgba(0,0,0,0.2)'
+                }}>
+                {/* Top accent */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-0 rounded-full pointer-events-none transition-all duration-500 group-hover:w-full"
+                  style={{ background: `linear-gradient(90deg, transparent, ${c.color}, transparent)` }} />
+                {/* Icon box */}
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                  style={{ background: `${c.color}14`, border: `1px solid ${c.color}30` }}>
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"
+                    style={{ stroke: c.color, transition: 'stroke 0.3s' }}>
+                    {c.icon}
+                  </svg>
+                </div>
+                <h3 className="font-bold text-sm leading-snug text-white">{c.name}</h3>
+                <p className="text-[11px] leading-snug" style={{ color: 'rgba(255,255,255,0.42)' }}>{c.desc}</p>
+                <span className="text-xs font-bold mt-auto" style={{ color: c.color }}>{c.count} Courses →</span>
               </div>
             ))}
           </div>
