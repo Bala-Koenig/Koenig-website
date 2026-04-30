@@ -2180,13 +2180,28 @@ export default function LiveOnlineClassroomPage() {
       {/* ── REVIEWS & FAQ (tabbed) ───────────────────────────── */}
       <section className="py-12 sm:py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          {/* Tab bar — same style as training-mode tabs */}
+          {/* Section title */}
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
+              {activeReviewFaq === 'reviews' ? (
+                <>What Our <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Students Say</span></>
+              ) : (
+                <>Frequently Asked <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Questions</span></>
+              )}
+            </h2>
+            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
+              {activeReviewFaq === 'reviews'
+                ? '18,400+ verified reviews — 4.9/5 average rating'
+                : 'Everything you need to know about Live Online Classroom training with Koenig'}
+            </p>
+          </div>
+          {/* Tab bar */}
           <div className="flex justify-center mb-10">
             <div className="tab-border-glow">
               <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
                 {([
-                  { id: 'reviews' as const, label: 'What Our Students Say' },
-                  { id: 'faq'     as const, label: 'FAQs'                  },
+                  { id: 'reviews' as const, label: 'Student Reviews' },
+                  { id: 'faq'     as const, label: 'FAQ'              },
                 ]).map(tab => (
                   <button key={tab.id} onClick={() => setActiveReviewFaq(tab.id)}
                     className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${
