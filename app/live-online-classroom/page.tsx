@@ -1386,6 +1386,7 @@ export default function LiveOnlineClassroomPage() {
   const [howSlideIdx, setHowSlideIdx] = useState(0)
   const howTouchStartX = useRef(0)
   const [showMobileTechPicker, setShowMobileTechPicker] = useState(false)
+  const [showMobileTzModal, setShowMobileTzModal] = useState(false)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
@@ -1924,7 +1925,7 @@ export default function LiveOnlineClassroomPage() {
                         <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>
                           {getTechIcon(t.name)}
                         </div>
-                        <span className="font-medium" style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>{t.label}</span>
+                        <span className="font-medium text-left" style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>{t.label}</span>
                       </div>
                       <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
                         style={{ background: activeTech === t.name ? '#0694D1' : '#E2E8F0', color: activeTech === t.name ? 'white' : '#6B7280' }}>
@@ -2023,7 +2024,7 @@ export default function LiveOnlineClassroomPage() {
                       <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
                     </div>
                   </div>
-                  <button onClick={() => setShowFormModal(true)} className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  <button onClick={() => setShowFormModal(true)} className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
                     style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
                     Enquire Now →
                   </button>
@@ -2087,10 +2088,16 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Mobile: Sort by + Filters row + showing count */}
+              {/* Mobile: Timezone + Filters row + showing count */}
               <div className="lg:hidden flex items-center gap-2 mb-2">
-                <span className="text-xs font-semibold shrink-0" style={{ color: '#374151' }}>Sort by</span>
-                <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
+                <button onClick={() => setShowMobileTzModal(true)}
+                  className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
+                  style={filterTz !== 'IST — India (UTC+5:30)'
+                    ? { border: '1px solid #0694D1', background: 'rgba(6,148,209,0.08)', color: '#0694D1' }
+                    : { border: '1px solid #CAEFFF', background: 'white', color: '#374151' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {filterTz.split('—')[0]?.trim() ?? 'Timezone'}
+                </button>
                 <div className="flex-1" />
                 <button onClick={() => setShowVendorPanel(p => !p)}
                   className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
@@ -2201,12 +2208,13 @@ export default function LiveOnlineClassroomPage() {
                 ? `Show ${filtered.length} courses (${filterVendors.length} vendors) →`
                 : `View all courses →`
             return (
-              <div className="absolute inset-0 z-50 flex items-start justify-end rounded-2xl overflow-hidden">
-                {/* Backdrop */}
-                <div className="absolute inset-0" style={{ background: 'rgba(6,17,30,0.4)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
-                  onClick={() => { setShowVendorPanel(false); setVendorSearch('') }} />
-                {/* Drawer panel */}
-                <div className="relative z-10 flex flex-col bg-white" style={{ width: 320, maxHeight: 'calc(100vh - 16px)', boxShadow: '-8px 0 40px rgba(6,148,209,0.2)' }}>
+              <div className="fixed inset-0 z-[200] lg:absolute lg:inset-0 lg:z-50 flex items-center justify-center lg:items-start lg:justify-end px-4 lg:px-0 lg:rounded-2xl lg:overflow-hidden"
+                style={{ background: 'rgba(6,17,30,0.45)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
+                onClick={() => { setShowVendorPanel(false); setVendorSearch('') }}>
+                {/* Panel */}
+                <div className="relative z-10 flex flex-col bg-white w-full max-w-sm lg:max-w-none lg:w-[320px] rounded-2xl lg:rounded-none overflow-hidden"
+                  style={{ maxHeight: '85vh', boxShadow: '0 20px 60px rgba(0,0,0,0.18), -8px 0 40px rgba(6,148,209,0.15)' }}
+                  onClick={e => e.stopPropagation()}>
                   {/* Header */}
                   <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #E2E8F0' }}>
                     <div>
@@ -2290,6 +2298,39 @@ export default function LiveOnlineClassroomPage() {
           </div>{/* end grouped interactive panel */}
         </div>
       </section>
+
+      {/* Mobile Timezone Modal */}
+      {showMobileTzModal && (
+        <div className="lg:hidden fixed inset-0 z-[300] flex items-center justify-center px-4"
+          style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+          onClick={() => setShowMobileTzModal(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden"
+            style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.2)', border: '1px solid #CAEFFF' }}
+            onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #CAEFFF' }}>
+              <h3 className="font-bold text-base" style={{ color: '#06111E' }}>Select Timezone</h3>
+              <button onClick={() => setShowMobileTzModal(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-[#F0F9FF]"
+                style={{ border: '1px solid #E2E8F0', color: '#475569' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+            <div className="overflow-y-auto" style={{ maxHeight: '60vh' }}>
+              {TZ_OPTIONS.map(tz => (
+                <button key={tz}
+                  onClick={() => { setFilterTz(tz); setPage(0); setShowMobileTzModal(false) }}
+                  className="flex items-center justify-between w-full px-5 py-3 text-sm transition-colors hover:bg-[#F0FAFF]"
+                  style={{ background: filterTz === tz ? '#EBF8FE' : 'white', borderLeft: `3px solid ${filterTz === tz ? '#0694D1' : 'transparent'}` }}>
+                  <span style={{ color: filterTz === tz ? '#0694D1' : '#374151', fontWeight: filterTz === tz ? 600 : 400 }}>{tz}</span>
+                  {filterTz === tz && (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
       <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
