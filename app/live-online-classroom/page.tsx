@@ -1374,6 +1374,7 @@ export default function LiveOnlineClassroomPage() {
   const [vendorSearch, setVendorSearch] = useState('')
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
+  const [activeReviewFaq, setActiveReviewFaq] = useState<'reviews' | 'faq'>('reviews')
   const [showFormModal, setShowFormModal] = useState(false)
   const [datesModalCourse, setDatesModalCourse] = useState<typeof COURSES[0] | null>(null)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
@@ -2176,55 +2177,55 @@ export default function LiveOnlineClassroomPage() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ─────────────────────────────────────── */}
+      {/* ── REVIEWS & FAQ (tabbed) ───────────────────────────── */}
       <section className="py-12 sm:py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
-              What Our{' '}
-              <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Students Say
-              </span>
-            </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
-              18,400+ verified reviews — 4.9/5 average rating
-            </p>
-          </div>
-          {/* Mobile: horizontal auto-scroll marquee */}
-          <IloMobileMarquee items={TESTIMONIALS} />
-          {/* Desktop: 3-column vertical auto-scroll */}
-          <div className="hidden sm:block relative overflow-hidden"
-            style={{
-              height: '520px',
-              maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
-            }}>
-            <div className="grid grid-cols-3 gap-4 h-full">
-              <IloScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} />
-              <IloScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} />
-              <IloScrollColumn items={TESTIMONIALS.slice(6, 9)} speed={0.038} />
+          {/* Tab bar */}
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex rounded-2xl p-1.5 gap-1" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF' }}>
+              {([
+                { id: 'reviews' as const, label: 'What Our Students Say', sub: '18,400+ reviews' },
+                { id: 'faq'     as const, label: 'FAQs',                  sub: '10 answers'      },
+              ]).map(tab => (
+                <button key={tab.id} onClick={() => setActiveReviewFaq(tab.id)}
+                  className="flex flex-col items-center px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200"
+                  style={activeReviewFaq === tab.id
+                    ? { background: 'white', color: '#0694D1', boxShadow: '0 2px 12px rgba(6,148,209,0.15)', border: '1px solid #CAEFFF' }
+                    : { color: '#64748B', background: 'transparent', border: '1px solid transparent' }}>
+                  {tab.label}
+                  <span className="text-[10px] font-normal mt-0.5" style={{ color: activeReviewFaq === tab.id ? '#0694D1' : '#94A3B8' }}>
+                    {tab.sub}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ── FAQ ──────────────────────────────────────────────── */}
-      <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(180deg, #f0faff 0%, #fff 100%)' }}>
-        <div className="mx-auto max-w-4xl px-4 md:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
-              Frequently Asked{' '}
-              <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Questions
-              </span>
-            </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
-              Everything you need to know about Live Online Classroom training with Koenig
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            {FAQS.map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
-          </div>
+          {/* Reviews panel */}
+          {activeReviewFaq === 'reviews' && (
+            <>
+              <IloMobileMarquee items={TESTIMONIALS} />
+              <div className="hidden sm:block relative overflow-hidden"
+                style={{
+                  height: '520px',
+                  maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+                  WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)',
+                }}>
+                <div className="grid grid-cols-3 gap-4 h-full">
+                  <IloScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} />
+                  <IloScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} />
+                  <IloScrollColumn items={TESTIMONIALS.slice(6, 9)} speed={0.038} />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* FAQ panel */}
+          {activeReviewFaq === 'faq' && (
+            <div className="mx-auto max-w-3xl flex flex-col gap-3">
+              {FAQS.map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
+            </div>
+          )}
         </div>
       </section>
 
