@@ -2096,7 +2096,7 @@ export default function LiveOnlineClassroomPage() {
                     ? { border: '1px solid #0694D1', background: 'rgba(6,148,209,0.08)', color: '#0694D1' }
                     : { border: '1px solid #CAEFFF', background: 'white', color: '#374151' }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  {filterTz.split('—')[0]?.trim() ?? 'Timezone'}
+                  {filterTz !== 'IST — India (UTC+5:30)' ? filterTz.split('—')[0]?.trim() : 'Timezone'}
                 </button>
                 <div className="flex-1" />
                 <button onClick={() => setShowVendorPanel(p => !p)}
@@ -2107,7 +2107,7 @@ export default function LiveOnlineClassroomPage() {
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
                   </svg>
-                  Filters
+                  Vendor
                   {filterVendors.length > 0 && (
                     <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold"
                       style={{ background: filterVendors.length > 0 ? 'rgba(255,255,255,0.3)' : '#EBF8FE', color: filterVendors.length > 0 ? 'white' : '#0694D1' }}>
