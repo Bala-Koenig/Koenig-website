@@ -1393,6 +1393,7 @@ export default function LiveOnlineClassroomPage() {
   const [howSlideIdx, setHowSlideIdx] = useState(0)
   const howTouchStartX = useRef(0)
   const [showMobileTechPicker, setShowMobileTechPicker] = useState(false)
+  const [mobileTechSearch, setMobileTechSearch] = useState('')
   const [showMobileTzModal, setShowMobileTzModal] = useState(false)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
@@ -1899,11 +1900,11 @@ export default function LiveOnlineClassroomPage() {
           <div className="lg:hidden mb-4 relative">
             {/* Backdrop — closes dropdown on tap outside */}
             {showMobileTechPicker && (
-              <div className="fixed inset-0 z-[10]" onClick={() => setShowMobileTechPicker(false)} />
+              <div className="fixed inset-0 z-[10]" onClick={() => { setShowMobileTechPicker(false); setMobileTechSearch('') }} />
             )}
             {/* Tech header row */}
             <button
-              onClick={() => setShowMobileTechPicker(p => !p)}
+              onClick={() => { setShowMobileTechPicker(p => !p); setMobileTechSearch('') }}
               className="relative z-[11] w-full flex items-center justify-between gap-3 rounded-xl px-4 py-3 bg-white transition-all"
               style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
               <div className="flex items-center gap-3 min-w-0">
@@ -1927,24 +1928,54 @@ export default function LiveOnlineClassroomPage() {
             {showMobileTechPicker && (
               <div className="absolute left-0 right-0 top-full mt-1 z-[12] rounded-xl bg-white overflow-hidden"
                 style={{ border: '1px solid #CAEFFF', boxShadow: '0 8px 24px rgba(6,148,209,0.15)' }}>
-                <div className="max-h-60 overflow-y-auto">
-                  {SIDEBAR_TECHNOLOGIES.filter(t => t.name === 'All' || t.count > 0).map(t => (
-                    <button key={t.name}
-                      onClick={() => { setActiveTech(t.name); setPage(0); setShowMobileTechPicker(false) }}
-                      className="flex items-center justify-between w-full px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF]"
-                      style={{ borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`, background: activeTech === t.name ? '#EBF8FE' : 'white' }}>
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>
-                          {getTechIcon(t.name)}
+                {/* Search box */}
+                <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
+                  <div className="relative">
+                    <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input
+                      type="text"
+                      placeholder="Search technologies..."
+                      value={mobileTechSearch}
+                      onChange={e => setMobileTechSearch(e.target.value)}
+                      onClick={e => e.stopPropagation()}
+                      className="w-full pl-7 pr-7 py-2 text-sm rounded-lg outline-none"
+                      style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A' }}
+                    />
+                    {mobileTechSearch && (
+                      <button onClick={e => { e.stopPropagation(); setMobileTechSearch('') }}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-4 h-4 rounded-full"
+                        style={{ color: '#94A3B8' }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className="max-h-52 overflow-y-auto">
+                  {SIDEBAR_TECHNOLOGIES
+                    .filter(t => (t.name === 'All' || t.count > 0) && (!mobileTechSearch || t.label.toLowerCase().includes(mobileTechSearch.toLowerCase())))
+                    .map(t => (
+                      <button key={t.name}
+                        onClick={() => { setActiveTech(t.name); setPage(0); setShowMobileTechPicker(false); setMobileTechSearch('') }}
+                        className="flex items-center justify-between w-full px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF]"
+                        style={{ borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`, background: activeTech === t.name ? '#EBF8FE' : 'white' }}>
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>
+                            {getTechIcon(t.name)}
+                          </div>
+                          <span className="font-medium text-left" style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>{t.label}</span>
                         </div>
-                        <span className="font-medium text-left" style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>{t.label}</span>
-                      </div>
-                      <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
-                        style={{ background: activeTech === t.name ? '#0694D1' : '#E2E8F0', color: activeTech === t.name ? 'white' : '#6B7280' }}>
-                        {t.count}
-                      </span>
-                    </button>
-                  ))}
+                        <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
+                          style={{ background: activeTech === t.name ? '#0694D1' : '#E2E8F0', color: activeTech === t.name ? 'white' : '#6B7280' }}>
+                          {t.count}
+                        </span>
+                      </button>
+                    ))
+                  }
+                  {SIDEBAR_TECHNOLOGIES.filter(t => (t.name === 'All' || t.count > 0) && mobileTechSearch && t.label.toLowerCase().includes(mobileTechSearch.toLowerCase())).length === 0 && mobileTechSearch && (
+                    <p className="text-sm text-center py-4" style={{ color: '#94A3B8' }}>No technologies found</p>
+                  )}
                 </div>
               </div>
             )}
