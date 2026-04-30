@@ -1370,7 +1370,7 @@ export default function LiveOnlineClassroomPage() {
   const [activeTech, setActiveTech]   = useState('All')
   const [techSearch, setTechSearch]   = useState('')
   const [search, setSearch]           = useState('')
-  const [filterTz, setFilterTz]       = useState('IST — India (UTC+5:30)')
+  const [filterTz, setFilterTz]       = useState('')
   const [filterVendors, setFilterVendors] = useState<string[]>([])
   const [showVendorPanel, setShowVendorPanel] = useState(false)
   const [vendorSearch, setVendorSearch] = useState('')
@@ -2049,7 +2049,7 @@ export default function LiveOnlineClassroomPage() {
                     </button>
                   )}
                 </div>
-                <FilterDropdown label="Timezone" options={TZ_OPTIONS} value={filterTz} onChange={v => { setFilterTz(v); setPage(0) }} />
+                <FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} />
                 <button onClick={() => setShowVendorPanel(p => !p)}
                   className="shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all"
                   style={filterVendors.length > 0
@@ -2092,11 +2092,11 @@ export default function LiveOnlineClassroomPage() {
               <div className="lg:hidden flex items-center gap-2 mb-2">
                 <button onClick={() => setShowMobileTzModal(true)}
                   className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
-                  style={filterTz !== 'IST — India (UTC+5:30)'
+                  style={filterTz
                     ? { border: '1px solid #0694D1', background: 'rgba(6,148,209,0.08)', color: '#0694D1' }
                     : { border: '1px solid #CAEFFF', background: 'white', color: '#374151' }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  {filterTz !== 'IST — India (UTC+5:30)' ? filterTz.split('—')[0]?.trim() : 'Timezone'}
+                  {filterTz ? filterTz.split('—')[0]?.trim() : 'Timezone'}
                 </button>
                 <div className="flex-1" />
                 <button onClick={() => setShowVendorPanel(p => !p)}
@@ -2316,6 +2316,16 @@ export default function LiveOnlineClassroomPage() {
               </button>
             </div>
             <div className="overflow-y-auto" style={{ maxHeight: '60vh' }}>
+              {/* All Timezones option */}
+              <button
+                onClick={() => { setFilterTz(''); setPage(0); setShowMobileTzModal(false) }}
+                className="flex items-center justify-between w-full px-5 py-3 text-sm transition-colors hover:bg-[#F0FAFF]"
+                style={{ background: !filterTz ? '#EBF8FE' : 'white', borderLeft: `3px solid ${!filterTz ? '#0694D1' : 'transparent'}` }}>
+                <span style={{ color: !filterTz ? '#0694D1' : '#374151', fontWeight: !filterTz ? 600 : 400 }}>All Timezones</span>
+                {!filterTz && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                )}
+              </button>
               {TZ_OPTIONS.map(tz => (
                 <button key={tz}
                   onClick={() => { setFilterTz(tz); setPage(0); setShowMobileTzModal(false) }}
