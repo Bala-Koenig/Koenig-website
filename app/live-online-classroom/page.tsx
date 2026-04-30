@@ -2088,19 +2088,18 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Mobile: Timezone + Filters row + showing count */}
+              {/* Mobile: Timezone + Vendor row — equal width */}
               <div className="lg:hidden flex items-center gap-2 mb-2">
                 <button onClick={() => setShowMobileTzModal(true)}
-                  className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
                   style={filterTz
                     ? { border: '1px solid #0694D1', background: 'rgba(6,148,209,0.08)', color: '#0694D1' }
                     : { border: '1px solid #CAEFFF', background: 'white', color: '#374151' }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                   {filterTz ? filterTz.split('—')[0]?.trim() : 'Timezone'}
                 </button>
-                <div className="flex-1" />
                 <button onClick={() => setShowVendorPanel(p => !p)}
-                  className="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
                   style={filterVendors.length > 0
                     ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
                     : { background: 'white', color: '#374151', border: '1px solid #CAEFFF' }}>
@@ -2110,7 +2109,7 @@ export default function LiveOnlineClassroomPage() {
                   Vendor
                   {filterVendors.length > 0 && (
                     <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold"
-                      style={{ background: filterVendors.length > 0 ? 'rgba(255,255,255,0.3)' : '#EBF8FE', color: filterVendors.length > 0 ? 'white' : '#0694D1' }}>
+                      style={{ background: 'rgba(255,255,255,0.3)', color: 'white' }}>
                       {filterVendors.length}
                     </span>
                   )}
