@@ -1483,23 +1483,23 @@ export default function LiveOnlineClassroomPage() {
           @keyframes lolGlow   { 0%,100%{box-shadow:0 4px 18px rgba(6,109,157,0.30),inset 0 1px 0 rgba(255,255,255,0.18)} 50%{box-shadow:0 4px 28px rgba(6,148,209,0.55),0 0 16px rgba(58,182,235,0.30),inset 0 1px 0 rgba(255,255,255,0.28)} }
         `}</style>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[50px]">
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left — text content */}
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
+              <div className="mb-[15px] lg:mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
                 style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
                 Live Instructor-Led Training — Guaranteed to Run
               </div>
-              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-4 text-white">
+              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-[15px] lg:mb-4 text-white">
                 <span className="block whitespace-nowrap">Master In-Demand Skills.</span>
                 <span className="block whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                   Live Online. Anywhere.
                 </span>
               </h1>
-              <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.65)' }}>
+              <p className="text-base sm:text-lg leading-relaxed mb-[15px] lg:mb-8" style={{ color: 'rgba(255,255,255,0.65)' }}>
                 Learn from expert instructors with our 5,000+ course catalogue. Upskill conveniently, from the comfort of your own space — with sessions Guaranteed to Run.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -1515,7 +1515,7 @@ export default function LiveOnlineClassroomPage() {
               </div>
 
               {/* Mobile-only stat tiles — mirrors desktop floating cards */}
-              <div className="lg:hidden grid grid-cols-4 gap-2 mt-6">
+              <div className="lg:hidden grid grid-cols-4 gap-2 mt-[15px]">
                 {([
                   { val: '5M+',    label: 'Learners'   },
                   { val: '195+',   label: 'Countries'  },
