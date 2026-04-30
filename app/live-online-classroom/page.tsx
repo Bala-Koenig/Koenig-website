@@ -1379,6 +1379,8 @@ export default function LiveOnlineClassroomPage() {
   const [showFormModal, setShowFormModal] = useState(false)
   const [datesModalCourse, setDatesModalCourse] = useState<typeof COURSES[0] | null>(null)
   const tabScrollRef = useRef<HTMLDivElement>(null)
+  const [benSlideIdx, setBenSlideIdx] = useState(0)
+  const benTouchStartX = useRef(0)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
@@ -1727,7 +1729,79 @@ export default function LiveOnlineClassroomPage() {
               Real instructors, real labs, real results — all from your desk. Here&apos;s what sets Koenig&apos;s ILO apart.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Mobile: slider with swipe, arrows, dots */}
+          <div className="sm:hidden">
+            <div
+              className="overflow-hidden"
+              onTouchStart={e => { benTouchStartX.current = e.touches[0].clientX }}
+              onTouchEnd={e => {
+                const dx = benTouchStartX.current - e.changedTouches[0].clientX
+                if (dx > 50)  setBenSlideIdx(p => Math.min(p + 1, BENEFITS.length - 1))
+                if (dx < -50) setBenSlideIdx(p => Math.max(p - 1, 0))
+              }}
+            >
+              <div
+                className="flex"
+                style={{ transform: `translateX(-${benSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}
+              >
+                {BENEFITS.map((b, i) => (
+                  <div key={b.title} className="ben-card ben-visible shrink-0 w-full" style={{ ['--draw-delay' as string]: '0s' } as React.CSSProperties}>
+                    <div className="ben-accent" />
+                    <div className="flex gap-4 items-start">
+                      <div className="ben-icon-box shrink-0">
+                        <div className="ben-icon-svg">{b.icon}</div>
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-base font-bold text-white">{b.title}</h3>
+                        <div className="ben-divider" />
+                        <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{b.desc}</p>
+                      </div>
+                    </div>
+                    <div className="ben-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Dots + Arrows */}
+            <div className="flex items-center justify-center gap-4 mt-5">
+              <button
+                onClick={() => setBenSlideIdx(p => Math.max(p - 1, 0))}
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-all"
+                style={{ background: benSlideIdx === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: benSlideIdx === 0 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}
+                disabled={benSlideIdx === 0}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+
+              <div className="flex gap-2">
+                {BENEFITS.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setBenSlideIdx(i)}
+                    className="rounded-full transition-all duration-300"
+                    style={{
+                      width: benSlideIdx === i ? 20 : 7,
+                      height: 7,
+                      background: benSlideIdx === i ? '#0694D1' : 'rgba(255,255,255,0.22)',
+                    }}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={() => setBenSlideIdx(p => Math.min(p + 1, BENEFITS.length - 1))}
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-all"
+                style={{ background: benSlideIdx === BENEFITS.length - 1 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: benSlideIdx === BENEFITS.length - 1 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}
+                disabled={benSlideIdx === BENEFITS.length - 1}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop: grid unchanged */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {BENEFITS.map((b, i) => (
               <div
                 key={b.title}
