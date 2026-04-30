@@ -697,8 +697,8 @@ function DatesModal({ course, onClose, onEnroll }: {
 }
 
 /* ── Course Card ─────────────────────────────────────────────── */
-function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
-  course: typeof COURSES[0]; onEnroll: () => void; onViewDates: () => void; onSyllabus: () => void
+function CourseCard({ course, onEnroll, onViewDates, onSyllabus, dark = false }: {
+  course: typeof COURSES[0]; onEnroll: () => void; onViewDates: () => void; onSyllabus: () => void; dark?: boolean
 }) {
   const [selectedSlot, setSelectedSlot] = useState(0)
   const FULL_VISIBLE = 2
@@ -710,24 +710,26 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
 
   const RadioDot = ({ active }: { active: boolean }) => (
     <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
-      style={active ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
+      style={active ? { background: '#0694D1' } : { border: `1.5px solid ${dark ? 'rgba(255,255,255,0.25)' : '#CBD5E1'}` }}>
       {active && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
     </div>
   )
 
   const GtrBadge = () => (
     <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
-      style={{ background: '#DCFCE7', color: '#15803D' }}>
+      style={{ background: dark ? 'rgba(21,128,61,0.25)' : '#DCFCE7', color: dark ? '#4ade80' : '#15803D' }}>
       <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       GTR
     </span>
   )
 
   return (
-    <div className="flex flex-col rounded-2xl bg-white overflow-hidden relative group/card transition-all duration-300 hover:-translate-y-1"
-      style={{ border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
-      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#CAEFFF' }}
-      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#E2E8F0' }}>
+    <div className="flex flex-col rounded-2xl overflow-hidden relative group/card transition-all duration-300 hover:-translate-y-1"
+      style={dark
+        ? { background: 'rgba(8,24,42,0.75)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }
+        : { background: 'white', border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = dark ? '0 12px 32px rgba(6,148,209,0.25)' : '0 12px 32px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLDivElement).style.borderColor = dark ? 'rgba(6,148,209,0.55)' : '#CAEFFF' }}
+      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = dark ? '0 4px 20px rgba(0,0,0,0.4)' : '0 4px 16px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLDivElement).style.borderColor = dark ? 'rgba(6,148,209,0.25)' : '#E2E8F0' }}>
 
       {/* Popular badge */}
       {isPopular && (
@@ -740,22 +742,22 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
       )}
 
       {/* Card header */}
-      <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F1F5F9' }}>
+      <div className="px-4 pt-4 pb-3" style={{ borderBottom: `1px solid ${dark ? 'rgba(6,148,209,0.15)' : '#F1F5F9'}` }}>
         <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full"
-          style={{ background: '#EBF8FE', color: '#0694D1' }}>{course.vendor}</span>
-        <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: '#0F172A' }}>
+          style={{ background: dark ? 'rgba(6,148,209,0.18)' : '#EBF8FE', color: dark ? '#38bdf8' : '#0694D1' }}>{course.vendor}</span>
+        <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: dark ? '#fff' : '#0F172A' }}>
           {course.code}: {course.name}
         </h3>
         <div className="flex items-center gap-3 mt-2.5">
           <button onClick={onSyllabus}
-            className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition-all hover:bg-[#EBF8FE]"
-            style={{ border: '1px solid #0694D1', color: '#0694D1' }}>
+            className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition-all"
+            style={{ border: `1px solid ${dark ? 'rgba(6,148,209,0.45)' : '#0694D1'}`, color: dark ? '#38bdf8' : '#0694D1', background: dark ? 'rgba(6,148,209,0.1)' : 'transparent' }}>
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
             Download Syllabus
           </button>
-          <div className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: '#475569' }}>
+          <div className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.5)' : '#475569' }}>
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
             </svg>
@@ -766,7 +768,7 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
 
       {/* Date selection */}
       <div className="px-4 py-3 flex flex-col gap-2">
-        <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: '#94A3B8' }}>Select a Date</p>
+        <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>Select a Date</p>
 
         {fullCards.map((s, i) => {
           const active = selectedSlot === i
@@ -774,23 +776,23 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
             <button key={i} onClick={() => setSelectedSlot(i)}
               className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
               style={active
-                ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
-                : { background: 'white', border: '1px solid #E8EFF5', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                ? { background: dark ? 'rgba(6,148,209,0.15)' : '#EFF9FF', border: `1.5px solid #0694D1`, borderLeft: '4px solid #0694D1', boxShadow: dark ? '0 2px 8px rgba(6,148,209,0.2)' : '0 2px 8px rgba(6,148,209,0.15)' }
+                : { background: dark ? 'rgba(255,255,255,0.04)' : 'white', border: `1px solid ${dark ? 'rgba(255,255,255,0.10)' : '#E8EFF5'}`, boxShadow: dark ? 'none' : '0 1px 4px rgba(0,0,0,0.06)' }}>
               <div className="flex items-start justify-between gap-2">
                 <div className="flex flex-col gap-1">
-                  <span className="flex items-center gap-1.5 font-bold" style={{ color: active ? '#0694D1' : '#0F172A' }}>
+                  <span className="flex items-center gap-1.5 font-bold" style={{ color: active ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.85)' : '#0F172A') }}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                       <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                     </svg>
                     {s.dates}
                   </span>
-                  <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? '#0694D1' : '#64748B', opacity: active ? 0.85 : 1 }}>
+                  <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.45)' : '#64748B'), opacity: active ? 0.85 : 1 }}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                       <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                     </svg>
                     {s.time}
                   </span>
-                  <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? '#0694D1' : '#94A3B8' }}>
+                  <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.3)' : '#94A3B8') }}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                       <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                     </svg>
@@ -809,7 +811,7 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
         {hasMore && (
           <button onClick={onViewDates}
             className="self-start flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline mt-0.5"
-            style={{ color: '#0694D1' }}>
+            style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
@@ -820,8 +822,8 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
 
       {/* Action buttons */}
       <div className="flex gap-2 px-4 pb-4 mt-auto">
-        <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F4F8]"
-          style={{ border: '1.5px solid #093148', color: '#093148' }}>
+        <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all"
+          style={{ border: `1.5px solid ${dark ? 'rgba(255,255,255,0.2)' : '#093148'}`, color: dark ? 'rgba(255,255,255,0.75)' : '#093148', background: dark ? 'rgba(255,255,255,0.05)' : 'transparent' }}>
           Learn More
         </button>
         <button onClick={hasMore ? onViewDates : onEnroll}
@@ -1381,6 +1383,8 @@ export default function LiveOnlineClassroomPage() {
   const tabScrollRef = useRef<HTMLDivElement>(null)
   const [benSlideIdx, setBenSlideIdx] = useState(0)
   const benTouchStartX = useRef(0)
+  const [howSlideIdx, setHowSlideIdx] = useState(0)
+  const howTouchStartX = useRef(0)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
@@ -1857,9 +1861,16 @@ export default function LiveOnlineClassroomPage() {
         .batch-reserve-btn { padding:8px 16px; background:linear-gradient(135deg,#0694D1,#076D9D); border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.2s,box-shadow 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(6,148,209,0.25); }
         .batch-reserve-btn:hover { box-shadow:0 6px 20px rgba(6,148,209,0.4); transform:translateY(-1px); }
       `}</style>
-      <section id="schedule" className="relative py-12 sm:py-16" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
-        {/* background blobs — overflow-hidden scoped here so sticky sidebar still works */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <section id="schedule" className="relative py-12 sm:py-16 sm:bg-[#EBF8FE]"
+        style={{ background: 'linear-gradient(160deg,#071929 0%,#082a42 60%,#071929 100%)', borderTop: '1px solid #CAEFFF' }}>
+        {/* Mobile dark glow orbs */}
+        <div className="sm:hidden pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-20 -left-16 w-80 h-80 rounded-full opacity-40" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(70px)' }} />
+          <div className="absolute top-1/2 right-0 w-64 h-64 rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#38bdf8,transparent 70%)', filter: 'blur(60px)' }} />
+          <div className="absolute bottom-0 left-1/3 w-56 h-56 rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#076d9d,transparent 70%)', filter: 'blur(55px)' }} />
+        </div>
+        {/* Desktop blobs */}
+        <div className="hidden sm:block pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
         </div>
@@ -1868,29 +1879,31 @@ export default function LiveOnlineClassroomPage() {
           {/* Section header */}
           <div className="flex flex-col items-center text-center mb-10">
             <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2"
-              style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
+              style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.3)' }}>
               Guaranteed Schedules
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e', lineHeight: 1.2 }}>
+            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1 text-white sm:text-[#071e2e]" style={{ lineHeight: 1.2 }}>
               Find Your <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Guaranteed to Run</em> Course
             </h2>
-            <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>
+            <p className="text-sm sm:text-[#5a7a90]" style={{ color: 'rgba(255,255,255,0.55)', marginTop: 4 }}>
               Browse {COURSES.length} live online GTR classes — filter by technology to find your next certification.
             </p>
           </div>
 
           {/* ── Grouped interactive panel ── */}
-          <div className="relative rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
+          <div className="relative rounded-2xl p-4 sm:p-5 sm:bg-[#F0F9FF] sm:border sm:border-[#CAEFFF]"
+            style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 4px 24px rgba(0,0,0,0.35)' }}>
 
-          {/* Mobile technology pills — only show categories with matching courses */}
-          <div className="flex lg:hidden overflow-x-auto gap-2 mb-4 pb-1" style={{ scrollbarWidth: 'none' }}>
+          {/* Mobile technology pills — home page tab-switcher style */}
+          <div className="flex lg:hidden overflow-x-auto gap-1 mb-4 pb-1 rounded-2xl p-1.5 sm:rounded-none sm:p-0 sm:gap-2 sm:bg-transparent"
+            style={{ scrollbarWidth: 'none', background: 'rgba(8,24,42,0.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.2)' }}>
             {SIDEBAR_TECHNOLOGIES.filter(t => t.name === 'All' || t.count > 0).map(t => (
               <button key={t.name}
                 onClick={() => { setActiveTech(t.name); setPage(0) }}
-                className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold transition-all whitespace-nowrap"
+                className="shrink-0 rounded-xl px-4 py-2 text-xs font-semibold transition-all duration-200 whitespace-nowrap"
                 style={activeTech === t.name
-                  ? { background: '#0694D1', color: 'white', border: '1px solid #0694D1' }
-                  : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
+                  ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' }
+                  : { color: 'rgba(255,255,255,0.6)', background: 'transparent' }}>
                 {t.label} ({t.count})
               </button>
             ))}
@@ -1968,8 +1981,8 @@ export default function LiveOnlineClassroomPage() {
             <div className="flex-1 min-w-0">
 
               {/* Technology header */}
-              <div className="flex flex-col gap-3 mb-5 p-5 rounded-2xl bg-white"
-                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)' }}>
+              <div className="flex flex-col gap-3 mb-5 p-5 rounded-2xl sm:bg-white sm:border sm:border-[#CAEFFF]"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.2)', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
                 {/* Top row: icon + title + button */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="flex items-center gap-4">
@@ -1978,8 +1991,8 @@ export default function LiveOnlineClassroomPage() {
                       {activeTechData.initial}
                     </div>
                     <div>
-                      <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
-                      <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
+                      <h3 className="text-base font-bold mb-0.5 text-white sm:text-[#06111E]">{activeTechData.label}</h3>
+                      <p className="text-xs sm:text-sm leading-snug sm:text-[#64748B]" style={{ color: 'rgba(255,255,255,0.5)' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
                     </div>
                   </div>
                   <button onClick={() => setShowFormModal(true)} className="shrink-0 self-start sm:self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
@@ -1998,12 +2011,12 @@ export default function LiveOnlineClassroomPage() {
                   </svg>
                   <input type="text" placeholder="Search courses..."
                     value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
-                    className="w-full rounded-xl pl-9 py-2.5 text-sm outline-none"
-                    style={{ border: '1px solid #CAEFFF', background: 'white', color: '#0F172A', paddingRight: search ? '32px' : '12px' }} />
+                    className="w-full rounded-xl pl-9 py-2.5 text-sm outline-none sm:bg-white sm:border-[#CAEFFF] sm:text-[#0F172A]"
+                    style={{ border: '1px solid rgba(6,148,209,0.3)', background: 'rgba(255,255,255,0.07)', color: 'white', paddingRight: search ? '32px' : '12px' }} />
                   {search && (
                     <button onClick={() => { setSearch(''); setPage(0) }}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-6 h-6 hover:bg-[#EBF8FE] transition-all"
-                      style={{ color: '#64748B' }}>
+                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-6 h-6 transition-all"
+                      style={{ color: 'rgba(255,255,255,0.6)' }}>
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
                     </button>
                   )}
@@ -2015,7 +2028,7 @@ export default function LiveOnlineClassroomPage() {
                   className="shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all"
                   style={filterVendors.length > 0
                     ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
-                    : { background: 'white', color: '#475569', border: '1px solid #CAEFFF' }}>
+                    : { background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.75)', border: '1px solid rgba(6,148,209,0.3)' }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
                   </svg>
@@ -2034,7 +2047,7 @@ export default function LiveOnlineClassroomPage() {
                 <div className="flex items-center gap-2 flex-wrap mb-3">
                   {filterVendors.map(v => (
                     <span key={v} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                      style={{ background: 'white', color: '#0694D1', border: '1.5px solid #0694D1', boxShadow: '0 1px 4px rgba(6,148,209,0.15)' }}>
+                      style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1.5px solid rgba(6,148,209,0.4)' }}>
                       {v}
                       <button onClick={() => toggleVendor(v)} className="hover:opacity-70">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -2043,30 +2056,30 @@ export default function LiveOnlineClassroomPage() {
                   ))}
                   <button onClick={() => { setFilterVendors([]); setPage(0) }}
                     className="text-xs font-semibold transition-all hover:underline"
-                    style={{ color: '#0694D1' }}>
+                    style={{ color: '#38bdf8' }}>
                     Clear all
                   </button>
-                  <span className="ml-auto text-xs font-medium" style={{ color: '#64748B' }}>
+                  <span className="ml-auto text-xs font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>
                     Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}
                   </span>
                 </div>
               )}
 
-              {/* Course grid */}
+              {/* Course grid — dark cards on mobile, light on desktop */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {paginated.length > 0
                   ? paginated.map(c => (
-                      <CourseCard key={c.id} course={c}
+                      <CourseCard key={c.id} course={c} dark
                         onEnroll={() => setShowFormModal(true)}
                         onViewDates={() => setDatesModalCourse(c)}
                         onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
                       />
                     ))
                   : (
-                    <div className="col-span-full flex flex-col items-center py-16 rounded-2xl bg-white"
-                      style={{ border: '1px solid #CAEFFF' }}>
-                      <svg className="mb-3 opacity-30" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                      <p className="text-sm font-semibold" style={{ color: '#94A3B8' }}>No courses found</p>
+                    <div className="col-span-full flex flex-col items-center py-16 rounded-2xl"
+                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.18)' }}>
+                      <svg className="mb-3 opacity-30" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      <p className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.4)' }}>No courses found</p>
                     </div>
                   )
                 }
@@ -2219,7 +2232,61 @@ export default function LiveOnlineClassroomPage() {
             </h2>
             <p className="text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>From enrolment to certification in four simple steps</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* Mobile: slider */}
+          <div className="sm:hidden">
+            <div className="overflow-hidden"
+              onTouchStart={e => { howTouchStartX.current = e.touches[0].clientX }}
+              onTouchEnd={e => {
+                const dx = howTouchStartX.current - e.changedTouches[0].clientX
+                if (dx > 50)  setHowSlideIdx(p => Math.min(p + 1, HOW_IT_WORKS.length - 1))
+                if (dx < -50) setHowSlideIdx(p => Math.max(p - 1, 0))
+              }}>
+              <div className="flex" style={{ transform: `translateX(-${howSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
+                {HOW_IT_WORKS.map((s, i) => (
+                  <div key={s.step} className="ben-card ben-visible shrink-0 w-full" style={{ ['--draw-delay' as string]: '0s' } as React.CSSProperties}>
+                    <div className="ben-accent" />
+                    <div className="ben-icon-box mb-4">
+                      <div className="ben-icon-svg">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" style={{ overflow: 'visible' }}>{s.icon}</svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base font-bold text-white">{s.title}</h3>
+                    <div className="ben-divider" />
+                    <p className="mb-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{s.desc}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {s.tags.map(tag => <span key={tag} className="ben-tag">{tag}</span>)}
+                    </div>
+                    <div className="ben-ghost" aria-hidden>{s.step}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Dots + Arrows */}
+            <div className="flex items-center justify-center gap-4 mt-5">
+              <button onClick={() => setHowSlideIdx(p => Math.max(p - 1, 0))}
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-all"
+                style={{ background: howSlideIdx === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === 0 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}
+                disabled={howSlideIdx === 0}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="flex gap-2">
+                {HOW_IT_WORKS.map((_, i) => (
+                  <button key={i} onClick={() => setHowSlideIdx(i)}
+                    className="rounded-full transition-all duration-300"
+                    style={{ width: howSlideIdx === i ? 20 : 7, height: 7, background: howSlideIdx === i ? '#0694D1' : 'rgba(255,255,255,0.22)' }} />
+                ))}
+              </div>
+              <button onClick={() => setHowSlideIdx(p => Math.min(p + 1, HOW_IT_WORKS.length - 1))}
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-all"
+                style={{ background: howSlideIdx === HOW_IT_WORKS.length - 1 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === HOW_IT_WORKS.length - 1 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}
+                disabled={howSlideIdx === HOW_IT_WORKS.length - 1}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop: grid unchanged */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {HOW_IT_WORKS.map((s, i) => (
               <div key={s.step} className="ben-card"
                 style={{ animationDelay: `${i * 0.1}s` }}
