@@ -621,19 +621,16 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
       )}
 
       <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F1F5F9' }}>
-        <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full" style={{ background: '#EBF8FE', color: '#0694D1' }}>{course.vendor}</span>
-        <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: '#0F172A' }}>{course.code}: {course.name}</h3>
-        {/* City chips */}
-        <div className="flex flex-wrap gap-1 mt-2">
-          {[...new Set(course.schedules.map(s => s.city))].map(city => (
-            <span key={city} className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
-              style={{ background: '#EBF8FE', color: '#0694D1', border: '1px solid #CAEFFF' }}>
-              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              {city}
-            </span>
-          ))}
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full" style={{ background: '#EBF8FE', color: '#0694D1' }}>{course.vendor}</span>
+          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold${isPopular ? ' mr-14' : ''}`}
+            style={{ background: '#EBF8FE', color: '#0694D1', border: '1px solid #CAEFFF' }}>
+            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            {course.schedules[selectedSlot].city}
+          </span>
         </div>
-        <div className="flex items-center gap-3 mt-2">
+        <h3 className="mt-2 text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>{course.code}: {course.name}</h3>
+        <div className="flex items-center gap-3 mt-2.5">
           <button onClick={onSyllabus} className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition-all" style={{ border: '1px solid #0694D1', color: '#0694D1', background: 'transparent' }}>
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download Syllabus
