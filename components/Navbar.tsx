@@ -482,9 +482,13 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
           <div className="ml-auto flex items-center gap-1">
             {/* Individual / Enterprise toggle */}
             <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
-              <span className="rounded-lg px-3 py-1.5 text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>
+              <Link
+                href="/"
+                className="rounded-lg px-3 py-1.5 text-sm font-normal text-white"
+                style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}
+              >
                 Individual
-              </span>
+              </Link>
               <Link
                 href="/enterprise"
                 className="rounded-lg px-3 py-1.5 text-sm font-normal transition-all"
@@ -667,7 +671,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
             <div className="px-4 py-3 space-y-1">
               {/* Individual / Enterprise toggle */}
               <div className="mb-2 flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
-                <span className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Individual</span>
+                <Link href="/" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Individual</Link>
                 <Link href="/enterprise" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal transition-all" style={{ color: 'rgba(255,255,255,0.55)' }}>Enterprise</Link>
               </div>
               {/* Technologies accordion */}
@@ -949,16 +953,17 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
         <div
           ref={learningMenuRef}
           className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
-          style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+          style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', minWidth: '220px', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}
         >
+          <div className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)', borderBottom: '1px solid rgba(6,148,209,0.15)' }}>Learning Options</div>
           {LEARNING_LINKS.map(link => (
             <button
               key={link.label}
               type="button"
               className="block w-full text-left px-5 py-2.5 text-sm transition-colors"
-              style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer' }}
-              onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)' }}
-              onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent' }}
+              style={{ color: 'rgba(255,255,255,0.75)', background: 'transparent', border: 'none', cursor: 'pointer' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.12)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.75)'; e.currentTarget.style.background = 'transparent' }}
               onClick={() => { setLearningMenuOpen(false); if (link.href !== '#') router.push(link.href) }}
             >
               {link.label}
@@ -972,16 +977,17 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
         <div
           ref={aboutMenuRef}
           className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
-          style={{ top: `${aboutDropPos.top}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+          style={{ top: `${aboutDropPos.top}px`, left: `${aboutDropPos.left}px`, background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', minWidth: '220px', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}
         >
+          <div className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)', borderBottom: '1px solid rgba(6,148,209,0.15)' }}>About</div>
           {ABOUT_LINKS.map(link => (
             <button
               key={link.label}
               type="button"
               className="block w-full text-left px-5 py-2.5 text-sm transition-colors"
-              style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer' }}
-              onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)' }}
-              onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent' }}
+              style={{ color: 'rgba(255,255,255,0.75)', background: 'transparent', border: 'none', cursor: 'pointer' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.12)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.75)'; e.currentTarget.style.background = 'transparent' }}
               onClick={() => { setAboutMenuOpen(false); if (link.href !== '#') router.push(link.href) }}
             >
               {link.label}
