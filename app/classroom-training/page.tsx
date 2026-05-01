@@ -1435,7 +1435,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── UPCOMING SCHEDULE ────────────────────────────────── */}
-      <section id="schedule" className="relative py-12 sm:py-16" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+      <section id="schedule" className="relative py-[50px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
@@ -1799,7 +1799,7 @@ export default function ClassroomTrainingPage() {
       )}
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
-      <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
+      <section className="py-[50px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
@@ -1872,7 +1872,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── TRAINING CATEGORIES ──────────────────────────────── */}
-      <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
+      <section className="py-[50px]" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white">Popular <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Training Categories</span></h2>
@@ -1898,7 +1898,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── REVIEWS & FAQ ────────────────────────────────────── */}
-      <section className={`relative overflow-hidden py-12 sm:py-16 sm:bg-white ${activeReviewFaq === 'faq' ? 'bg-koenig-light' : 'bg-white'}`}>
+      <section className={`relative overflow-hidden py-[50px] sm:bg-white ${activeReviewFaq === 'faq' ? 'bg-koenig-light' : 'bg-white'}`}>
         {activeReviewFaq === 'faq' && (<>
           <div className="sm:hidden pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
           <div className="sm:hidden pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
@@ -2027,7 +2027,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <section id="request" className="py-10 sm:py-14" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
+      <section id="request" className="py-[50px]" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
         <div className="mx-auto max-w-3xl px-4 md:px-8">
           <div className="rounded-2xl px-8 sm:px-12 py-7 sm:py-9"
             style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 0 1px rgba(6,148,209,0.08), 0 24px 60px rgba(0,0,0,0.5)' }}>
