@@ -1203,7 +1203,7 @@ export default function ClassroomTrainingPage() {
                 <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.72)' }}>
                   We pledge carbon neutrality by planting a tree for every flight taken
                 </span>
-                <a href="#" className="whitespace-nowrap text-xs font-semibold hover:underline" style={{ color: '#4ade80' }}>
+                <a href="https://www.koenig-solutions.com/koenig-environmental-policy" target="_blank" rel="noopener noreferrer" className="whitespace-nowrap text-xs font-semibold hover:underline" style={{ color: '#4ade80' }}>
                   Learn More &rsaquo;&rsaquo;
                 </a>
               </div>
