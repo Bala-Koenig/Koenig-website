@@ -1197,10 +1197,16 @@ export default function ClassroomTrainingPage() {
               </div>
 
               {/* Carbon pledge */}
-              <p className="text-xs mb-[15px] lg:mb-8 flex items-center gap-1.5" style={{ color: 'rgba(255,255,255,0.38)' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>Koenig is committed to carbon-neutral training operations by 2030</span>
-              </p>
+              <div className="mb-[15px] lg:mb-8 inline-flex items-center gap-2.5 rounded-xl px-4 py-2.5"
+                style={{ background: 'rgba(220,252,231,0.07)', border: '1px solid rgba(74,222,128,0.25)' }}>
+                <span className="text-base leading-none" role="img" aria-label="tree">🌱</span>
+                <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.72)' }}>
+                  We pledge carbon neutrality by planting a tree for every flight taken
+                </span>
+                <a href="#" className="whitespace-nowrap text-xs font-semibold hover:underline" style={{ color: '#4ade80' }}>
+                  Learn More &rsaquo;&rsaquo;
+                </a>
+              </div>
 
               <div className="flex flex-wrap gap-3">
                 <a href="#schedule" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
