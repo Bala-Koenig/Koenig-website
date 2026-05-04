@@ -204,8 +204,92 @@ const WHO_FOR = [
   },
 ]
 
+/* ── Testimonials ────────────────────────────────────────────── */
+const TESTIMONIALS = [
+  {
+    name: 'Adham Al Maqasi',
+    country: 'Oman',
+    flag: '🇴🇲',
+    course: 'Microsoft Azure Administrator',
+    rating: 5,
+    text: 'I wanted to take a moment to express my deep appreciation for your exceptional skills as a trainer. Your dedication, expertise, and unwavering commitment to your craft are truly inspiring. You have a unique ability to connect with your trainees, instilling in them a sense of belief and motivation.',
+  },
+  {
+    name: 'Emmanuel MASABO',
+    country: 'Rwanda',
+    flag: '🇷🇼',
+    course: 'CompTIA Security+',
+    rating: 5,
+    text: 'The trainer is very organised. She helped us understand the difficult course concepts in simple ways. She managed the time in a professional way as the content was huge but all was delivered us perfectly. Our trainer is kind, always happy, understanding and puts the class in the great learning mood.',
+  },
+  {
+    name: 'Yoosuf Nizam',
+    country: 'Maldives',
+    flag: '🇲🇻',
+    course: 'ISO 22301 Lead Implementer',
+    rating: 5,
+    text: 'This trainer is undoubtedly one of the finest trainers I have encountered during my training journeys. His profound knowledge and articulate teaching style make complex concepts remarkably accessible. His consistent preparation for each session greatly enhanced my learning experience.',
+  },
+  {
+    name: 'Amjad Kushar',
+    country: 'Saudi Arabia',
+    flag: '🇸🇦',
+    course: 'AWS Solutions Architect',
+    rating: 5,
+    text: 'I would like to express my sincere appreciation to the trainer for providing such an outstanding learning experience. I look forward to taking another course in the future.',
+  },
+  {
+    name: 'David Muriuki',
+    country: 'Kenya',
+    flag: '🇰🇪',
+    course: 'ISO 22301 Lead Implementer',
+    rating: 5,
+    text: 'I recently had the privilege of attending this course and I must commend the exceptional pedagogical skills demonstrated by our trainer. His approach to teaching was nothing short of excellent, blending professionalism with a deep understanding of the subject matter.',
+  },
+  {
+    name: 'Monica Kalamula',
+    country: 'Malawi',
+    flag: '🇲🇼',
+    course: 'Project Management Professional',
+    rating: 5,
+    text: 'From the outset, it was evident that the instructor possessed a deep understanding of the subject matter. His expertise shone through not only his grasp of theoretical concepts but also his ability to translate complex ideas into easily digestible information.',
+  },
+]
+
+/* ── FAQs ────────────────────────────────────────────────────── */
+const FAQS = [
+  {
+    q: 'How can I schedule a 1-on-1 batch?',
+    a: 'Simply visit your desired course page and choose your preferred start date and time. If you\'d like personalised guidance, fill out our enquiry form to schedule a free tech call with a Koenig Solutions expert. They\'ll help you find the ideal training match.',
+  },
+  {
+    q: 'Can I take training over the weekend?',
+    a: 'Absolutely. 1-on-1 training sessions can be scheduled on any day of the week, including Saturdays and Sundays, as well as public holidays. Just let us know your preferred time when you enquire.',
+  },
+  {
+    q: 'Can I change the schedule after booking a training?',
+    a: 'Yes, you can reschedule your session at any time before it begins, subject to trainer availability. Simply contact your account manager or reach us on WhatsApp and we\'ll coordinate the change for you.',
+  },
+  {
+    q: 'My colleague and I would like to be trained together. Can we set up a 1-on-2 training?',
+    a: 'Yes! Koenig supports small-group private sessions (1-on-2 or 1-on-3). Both participants still benefit from a dedicated instructor and fully customised content, with the added bonus of a shared learning experience.',
+  },
+  {
+    q: 'Can I opt for a longer duration than prescribed for the standard course?',
+    a: 'Yes. Because sessions are fully private, you can request additional hours, extra lab time, or extended deep-dives on specific topics. Your instructor will adapt the schedule and content to suit the extended duration.',
+  },
+  {
+    q: 'Is 1-on-1 training available for all 5,000+ courses?',
+    a: 'Yes. Every course in the Koenig catalogue — across Microsoft, AWS, Cisco, CompTIA, PMI, and hundreds more vendors — is available in 1-on-1 format. If you don\'t see a specific course, contact us and we\'ll arrange it.',
+  },
+]
+
 export default function OneOnOneTrainingPage() {
   const [activeTab, setActiveTab] = useState('1on1')
+  const [openFaq, setOpenFaq] = useState<number | null>(0)
+  const [formType, setFormType] = useState<'individual' | 'enterprise'>('individual')
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', course: '', message: '' })
+  const [submitted, setSubmitted] = useState(false)
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif", background: '#f8fafc' }}>
@@ -711,6 +795,455 @@ export default function OneOnOneTrainingPage() {
           </div>
         </div>
       </section>
+
+      {/* ════════════════════════════════════════════════════════
+           STUDENT TESTIMONIALS
+      ════════════════════════════════════════════════════════ */}
+      <section aria-labelledby="testimonials-heading" className="py-16 lg:py-24" style={{ background: '#f8fafc' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="mb-12 text-center">
+            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
+              Student Feedback
+            </span>
+            <h2 id="testimonials-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
+              What Our Students{' '}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are Saying</span>
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
+              Real reviews from professionals who trained 1-on-1 with Koenig. We use pseudonyms to protect privacy.
+            </p>
+            {/* Aggregate rating */}
+            <div className="mt-5 inline-flex items-center gap-3 rounded-full px-5 py-2" style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+              <div className="flex items-center gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="h-4 w-4" style={{ color: '#f59e0b' }} viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                ))}
+              </div>
+              <span className="text-sm font-bold text-[#0F172A]">4.9 / 5</span>
+              <span className="text-sm" style={{ color: '#94a3b8' }}>from 12,000+ reviews</span>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t, i) => (
+              <article
+                key={i}
+                className="flex flex-col rounded-2xl p-7 transition-all duration-300"
+                style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 30px rgba(6,148,209,0.10)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.3)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)'; (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0' }}
+              >
+                {/* Stars */}
+                <div className="mb-4 flex items-center gap-0.5">
+                  {[...Array(t.rating)].map((_, j) => (
+                    <svg key={j} className="h-4 w-4" style={{ color: '#f59e0b' }} viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                  ))}
+                </div>
+
+                {/* Quote */}
+                <blockquote className="flex-1 mb-5 text-sm leading-relaxed" style={{ color: '#475569' }}>
+                  &ldquo;{t.text}&rdquo;
+                </blockquote>
+
+                {/* Course tag */}
+                <div className="mb-4">
+                  <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1' }}>
+                    {t.course}
+                  </span>
+                </div>
+
+                {/* Author */}
+                <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid #f1f5f9' }}>
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#ffffff' }}>
+                    {t.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-[#0F172A]">{t.name}</p>
+                    <p className="text-xs" style={{ color: '#94a3b8' }}>{t.flag} {t.country}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           FAQ  (+ FAQPage JSON-LD schema)
+      ════════════════════════════════════════════════════════ */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQS.map(f => ({
+              '@type': 'Question',
+              name: f.q,
+              acceptedAnswer: { '@type': 'Answer', text: f.a },
+            })),
+          }),
+        }}
+      />
+
+      <section aria-labelledby="faq-heading" className="py-16 lg:py-24" style={{ background: '#ffffff' }}>
+        <div className="mx-auto max-w-3xl px-4 md:px-8 lg:px-[50px]">
+          <div className="mb-12 text-center">
+            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
+              FAQ
+            </span>
+            <h2 id="faq-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
+              Frequently Asked{' '}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Questions</span>
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {FAQS.map((faq, i) => (
+              <div
+                key={i}
+                className="rounded-2xl overflow-hidden transition-all duration-200"
+                style={{ border: openFaq === i ? '1.5px solid rgba(6,148,209,0.4)' : '1.5px solid #e2e8f0', boxShadow: openFaq === i ? '0 4px 20px rgba(6,148,209,0.08)' : 'none' }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  aria-expanded={openFaq === i}
+                  className="flex w-full items-center justify-between px-6 py-5 text-left gap-4 transition-colors"
+                  style={{ background: openFaq === i ? 'rgba(6,148,209,0.04)' : '#ffffff' }}
+                >
+                  <span className="text-base font-semibold text-[#0F172A]">{faq.q}</span>
+                  <span
+                    className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full transition-all duration-200"
+                    style={{ background: openFaq === i ? '#0694D1' : '#f1f5f9', color: openFaq === i ? '#ffffff' : '#64748b', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </span>
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-5" style={{ background: 'rgba(6,148,209,0.02)' }}>
+                    <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>{faq.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-8 text-center text-sm" style={{ color: '#94a3b8' }}>
+            Still have questions?{' '}
+            <a href="mailto:info@koenig-solutions.com" className="font-semibold hover:underline" style={{ color: '#0694D1' }}>
+              Email us at info@koenig-solutions.com
+            </a>
+          </p>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           ENQUIRY FORM
+      ════════════════════════════════════════════════════════ */}
+      <section
+        id="enquiry-form"
+        aria-labelledby="form-heading"
+        className="py-16 lg:py-24"
+        style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 60%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
+      >
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(6,148,209,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,209,0.04) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+        <div aria-hidden="true" className="pointer-events-none absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full opacity-[0.06]" style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
+
+        <div className="relative mx-auto max-w-2xl px-4 md:px-8 lg:px-0">
+          <div className="mb-10 text-center">
+            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8' }}>
+              Get Started
+            </span>
+            <h2 id="form-heading" className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+              Request More Information
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.55)' }} className="text-base">
+              Tell us about your training goals and we&apos;ll get back to you within 2 hours.
+            </p>
+          </div>
+
+          {submitted ? (
+            <div className="rounded-2xl p-12 text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(6,148,209,0.3)' }}>
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: 'rgba(34,197,94,0.15)' }}>
+                <svg className="h-8 w-8" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Thank you!</h3>
+              <p style={{ color: 'rgba(255,255,255,0.55)' }}>A Koenig advisor will contact you within 2 hours.</p>
+              <button
+                onClick={() => { setSubmitted(false); setForm({ firstName: '', lastName: '', email: '', phone: '', course: '', message: '' }) }}
+                className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-80"
+                style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}
+              >
+                Submit Another
+              </button>
+            </div>
+          ) : (
+            <div className="rounded-2xl p-8 sm:p-10" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.2)', backdropFilter: 'blur(16px)' }}>
+              {/* Contact quick-links */}
+              <div className="flex gap-3 mb-7">
+                <a href="mailto:info@koenig-solutions.com" className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-white/10" style={{ border: '1px solid rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.05)' }}>
+                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                  Email Us
+                </a>
+                <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer" className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-white/10" style={{ border: '1px solid rgba(37,211,102,0.35)', color: '#25D366', background: 'rgba(37,211,102,0.05)' }}>
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+                  WhatsApp
+                </a>
+              </div>
+
+              {/* Individual / Enterprise toggle */}
+              <div className="flex rounded-xl p-1 mb-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                {(['individual', 'enterprise'] as const).map(t => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setFormType(t)}
+                    className="flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all capitalize"
+                    style={formType === t ? { background: '#0694D1', color: '#ffffff', boxShadow: '0 2px 8px rgba(6,148,209,0.4)' } : { color: 'rgba(255,255,255,0.45)', background: 'transparent' }}
+                  >
+                    {t === 'individual' ? (
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    ) : (
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    )}
+                    {t}
+                  </button>
+                ))}
+              </div>
+
+              {/* Form fields */}
+              <form
+                onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
+                className="space-y-4"
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>First Name <span style={{ color: '#0694D1' }}>*</span></label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="John"
+                      value={form.firstName}
+                      onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
+                      className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+                      onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
+                      onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>Last Name <span style={{ color: '#0694D1' }}>*</span></label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Smith"
+                      value={form.lastName}
+                      onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
+                      className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+                      onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
+                      onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>{formType === 'enterprise' ? 'Business ' : ''}Email <span style={{ color: '#0694D1' }}>*</span></label>
+                  <input
+                    required
+                    type="email"
+                    placeholder={formType === 'enterprise' ? 'you@company.com' : 'you@email.com'}
+                    value={form.email}
+                    onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                    className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
+                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>Phone / WhatsApp <span style={{ color: '#0694D1' }}>*</span></label>
+                  <input
+                    required
+                    type="tel"
+                    placeholder="+1 (555) 000-0000"
+                    value={form.phone}
+                    onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                    className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
+                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>Course Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. AZ-104, CISSP, PMP…"
+                    value={form.course}
+                    onChange={e => setForm(f => ({ ...f, course: e.target.value }))}
+                    className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
+                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>Tell us about your Training Goals</label>
+                  <textarea
+                    rows={4}
+                    placeholder="e.g. I want to pass AZ-104 within 3 weeks, currently a network engineer…"
+                    value={form.message}
+                    onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                    className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25 resize-none"
+                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full rounded-xl py-4 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}
+                >
+                  Submit Request
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           FINAL CTA STRIP
+      ════════════════════════════════════════════════════════ */}
+      <section
+        aria-label="Final call to action"
+        className="py-14"
+        style={{ background: '#0694D1' }}
+      >
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-1">
+                Ready to Train 1-on-1?
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.75)' }} className="text-base">
+                Sessions start in as little as 24 hours. No group, no compromise.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <a
+                href="#enquiry-form"
+                className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-bold transition-all whitespace-nowrap"
+                style={{ background: '#ffffff', color: '#0694D1', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}
+              >
+                Book Free Consultation
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </a>
+              <a
+                href="https://wa.me/919840722417"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-bold text-white transition-all hover:bg-white/10 whitespace-nowrap"
+                style={{ border: '2px solid rgba(255,255,255,0.6)' }}
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+                Chat on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           FOOTER
+      ════════════════════════════════════════════════════════ */}
+      <footer style={{ background: '#06111E', borderTop: '1px solid rgba(6,148,209,0.15)' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-14">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
+            {/* Brand */}
+            <div className="col-span-2 sm:col-span-3 lg:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <div style={{ background: '#ffffff', borderRadius: '6px', padding: '6px 10px' }}>
+                  <span className="text-sm font-black" style={{ color: '#06111E' }}>KOENIG</span>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,0.45)', maxWidth: '280px' }}>
+                Global IT training leader since 1993. 5,000+ courses, 300+ expert instructors, 13+ global locations.
+              </p>
+              <div className="flex items-center gap-1.5 text-sm mb-2" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                <svg className="h-4 w-4 shrink-0" style={{ color: '#25D366' }} viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+                <a href="https://wa.me/919840722417" className="hover:text-white transition-colors">+91-984-072-2417</a>
+              </div>
+              <div className="flex items-center gap-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                <svg className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                <a href="mailto:info@koenig-solutions.com" className="hover:text-white transition-colors">info@koenig-solutions.com</a>
+              </div>
+            </div>
+
+            {/* Learning Options */}
+            <div>
+              <h4 className="mb-4 text-sm font-bold text-white">Learning Options</h4>
+              <ul className="space-y-2.5">
+                {['Live Online Training', '1-on-1 Training', 'Classroom Training', 'Fly-Me-a-Trainer', 'Flexi Training', 'Customized Training'].map(l => (
+                  <li key={l}>
+                    <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.45)' }}>{l}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h4 className="mb-4 text-sm font-bold text-white">Company</h4>
+              <ul className="space-y-2.5">
+                {['About Koenig', 'Our Story', 'Leadership', 'Our Clients', 'Our Awards', 'Careers'].map(l => (
+                  <li key={l}>
+                    <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.45)' }}>{l}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h4 className="mb-4 text-sm font-bold text-white">Support</h4>
+              <ul className="space-y-2.5">
+                {['Student Feedback', 'Happiness Guarantee', 'Refund Policy', 'Privacy Policy', 'Terms of Service', 'Contact Us'].map(l => (
+                  <li key={l}>
+                    <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.45)' }}>{l}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.30)' }}>
+              © 1997–2026 Koenig Solutions Pvt. Ltd. All rights reserved.
+            </p>
+            <p className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.25)' }}>
+              We believe in &ldquo;Err is Human, to Admit Divine!&rdquo; — feel free to{' '}
+              <a href="mailto:webmaster@koenig-solutions.com" className="hover:text-white transition-colors" style={{ color: 'rgba(6,148,209,0.7)' }}>
+                write to us
+              </a>{' '}
+              if you spot any issues.
+            </p>
+          </div>
+        </div>
+      </footer>
 
     </div>
   )
