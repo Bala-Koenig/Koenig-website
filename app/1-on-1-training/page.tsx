@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 
@@ -286,6 +286,7 @@ const FAQS = [
 
 export default function OneOnOneTrainingPage() {
   const [activeTab, setActiveTab] = useState('1on1')
+  const tabScrollRef = useRef<HTMLDivElement>(null)
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [formType, setFormType] = useState<'individual' | 'enterprise'>('individual')
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', course: '', message: '' })
@@ -359,7 +360,7 @@ export default function OneOnOneTrainingPage() {
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-wrap gap-4 mb-10">
+              <div className="flex flex-wrap gap-4 mb-8">
                 <a
                   href="#enquiry-form"
                   className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-bold text-white transition-all hover:opacity-90 active:scale-95"
@@ -368,24 +369,19 @@ export default function OneOnOneTrainingPage() {
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                   Request Free Consultation
                 </a>
-                <a
-                  href="https://wa.me/919840722417"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-bold transition-all hover:bg-white/10 active:scale-95"
-                  style={{ border: '1.5px solid rgba(37,211,102,0.5)', color: '#25D366' }}
-                >
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
-                  Chat on WhatsApp
-                </a>
               </div>
 
               {/* Trust badges */}
-              <div className="flex flex-wrap items-center gap-5 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                {['No group sessions', 'Sessions start in 24h', 'Happiness Guarantee'].map(t => (
-                  <span key={t} className="flex items-center gap-1.5">
-                    <svg className="h-4 w-4 shrink-0" style={{ color: '#25D366' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    {t}
+              <div className="flex flex-wrap items-center gap-2.5">
+                {[
+                  { text: 'No group sessions',   color: '#38bdf8', bg: 'rgba(6,148,209,0.13)',  border: 'rgba(6,148,209,0.32)'  },
+                  { text: 'Sessions start in 24h', color: '#34d399', bg: 'rgba(16,185,129,0.12)', border: 'rgba(16,185,129,0.32)' },
+                  { text: 'Happiness Guarantee', color: '#fbbf24', bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.32)' },
+                ].map(({ text, color, bg, border }) => (
+                  <span key={text} className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold"
+                    style={{ background: bg, border: `1px solid ${border}`, color }}>
+                    <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    {text}
                   </span>
                 ))}
               </div>
@@ -428,44 +424,54 @@ export default function OneOnOneTrainingPage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
-           LEARNING OPTIONS TAB BAR
+           TRAINING MODE TABS
       ════════════════════════════════════════════════════════ */}
-      <section aria-label="Learning Options" style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+      <style>{`
+        @keyframes tab-border-sweep { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        .tab-border-glow { background:linear-gradient(270deg,#0694D1,#38bdf8,#076D9D,#38bdf8,#0694D1); background-size:400% 400%; animation:tab-border-sweep 3s ease infinite; padding:2px; border-radius:1rem; display:inline-flex; }
+      `}</style>
+      <section className="bg-white border-b py-4" style={{ borderColor: '#E2E8F0' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <p className="pt-6 pb-3 text-center text-sm font-semibold uppercase tracking-widest" style={{ color: '#94a3b8' }}>
-            Explore All Learning Options
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 pb-5" role="tablist" aria-label="Training formats">
-            {LEARNING_TABS.map(tab => {
-              const active = tab.id === activeTab
-              return tab.id === '1on1' ? (
-                <button
-                  key={tab.id}
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setActiveTab(tab.id)}
-                  className="rounded-full px-5 py-2 text-sm font-semibold transition-all"
-                  style={{
-                    background: active ? '#0694D1' : 'transparent',
-                    color: active ? '#ffffff' : '#64748b',
-                    border: active ? '1.5px solid #0694D1' : '1.5px solid #e2e8f0',
-                  }}
-                >
-                  {tab.label}
-                </button>
-              ) : (
-                <Link
-                  key={tab.id}
-                  href={tab.href}
-                  role="tab"
-                  aria-selected={false}
-                  className="rounded-full px-5 py-2 text-sm font-semibold transition-all hover:border-[#0694D1] hover:text-[#0694D1]"
-                  style={{ background: 'transparent', color: '#64748b', border: '1.5px solid #e2e8f0' }}
-                >
-                  {tab.label}
-                </Link>
-              )
-            })}
+          {/* Mobile: scrollable */}
+          <div className="sm:hidden">
+            <div className="tab-border-glow" style={{ display: 'block', width: '100%' }}>
+              <div ref={tabScrollRef} className="flex overflow-x-auto rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {LEARNING_TABS.map(t =>
+                  t.id === '1on1' ? (
+                    <button key={t.id}
+                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-3 text-sm bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">
+                      {t.label}
+                    </button>
+                  ) : (
+                    <Link key={t.id} href={t.href}
+                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-4 py-2.5 text-sm text-[#7a8c96]">
+                      {t.label}
+                    </Link>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+          {/* Desktop: centered */}
+          <div className="hidden sm:flex justify-center">
+            <div className="tab-border-glow">
+              <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
+                {LEARNING_TABS.map(t =>
+                  t.id === '1on1' ? (
+                    <button key={t.id}
+                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">
+                      {t.label}
+                    </button>
+                  ) : (
+                    <Link key={t.id} href={t.href}
+                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]">
+                      {t.label}
+                    </Link>
+                  )
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
