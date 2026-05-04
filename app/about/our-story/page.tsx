@@ -250,7 +250,7 @@ export default function OurStoryPage() {
           <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Want to Be Part of Our Next <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Chapter?</span></h2>
           <p className="text-[#475569] mb-8 text-lg">Train with Koenig and write your own success story.</p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a href="mailto:sales@koenig-solutions.com"
+            <a href="mailto:info@koenig-solutions.com"
               className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">
               Contact Us
             </a>

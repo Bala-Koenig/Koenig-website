@@ -185,7 +185,7 @@ export default function OurPartnersPage() {
           <div className="mt-10 text-center">
             <p className="text-[#64748B] text-sm">
               Showing all <span className="font-semibold text-[#0694D1]">{PARTNERS.length}</span> authorized vendor partners ·{' '}
-              <a href="mailto:sales@koenig-solutions.com" className="text-[#0694D1] font-semibold hover:underline">
+              <a href="mailto:info@koenig-solutions.com" className="text-[#0694D1] font-semibold hover:underline">
                 Don't see your vendor? Contact us →
               </a>
             </p>
@@ -256,7 +256,7 @@ export default function OurPartnersPage() {
             ))}
           </div>
           <div className="text-center mt-12">
-            <a href="mailto:sales@koenig-solutions.com"
+            <a href="mailto:info@koenig-solutions.com"
               className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">
               Enquire About a Course
             </a>

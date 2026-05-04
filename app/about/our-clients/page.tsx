@@ -237,7 +237,7 @@ export default function OurClientsPage() {
               Our enterprise clients benefit from dedicated account managers, custom courseware, volume pricing, and a guaranteed satisfaction policy. Whether you're upskilling 10 or 10,000 employees, Koenig scales with you.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <a href="mailto:sales@koenig-solutions.com"
+              <a href="mailto:info@koenig-solutions.com"
                 className="inline-block w-full sm:w-auto text-center bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">
                 Talk to Enterprise Sales
               </a>

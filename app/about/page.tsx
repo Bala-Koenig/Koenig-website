@@ -454,7 +454,7 @@ export default function AboutPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Upskill?</span></h2>
           <p className="text-white/70 mb-8 text-lg">Join 30,000+ students training with Koenig every month.</p>
-          <a href="mailto:sales@koenig-solutions.com"
+          <a href="mailto:info@koenig-solutions.com"
             className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">
             Get in Touch
           </a>
