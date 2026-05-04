@@ -206,11 +206,11 @@ const TAG_STYLES: Record<string, { bg: string; color: string; dot?: boolean }> =
 }
 
 const TRAINING_TABS = [
-  { id: 'ilo',       label: 'Live Online Classroom (ILO)' },
-  { id: 'fmat',      label: 'Fly-Me-a-Trainer (FMAT)'    },
-  { id: 'classroom', label: 'Classroom Training'          },
-  { id: '1on1',      label: '1-on-1 Training'             },
-  { id: 'flexi',     label: 'Flexi Training'              },
+  { id: 'ilo',       label: 'Live Online Classroom (ILO)', href: '/live-online-classroom' },
+  { id: 'fmat',      label: 'Fly-Me-a-Trainer (FMAT)',    href: '#'                      },
+  { id: 'classroom', label: 'Classroom Training',          href: '/classroom-training'    },
+  { id: '1on1',      label: '1-on-1 Training',             href: '/1-on-1-training'       },
+  { id: 'flexi',     label: 'Flexi Training',              href: '#'                      },
 ]
 
 const BENEFITS = [
@@ -1281,30 +1281,38 @@ export default function ClassroomTrainingPage() {
             <div className="tab-border-glow" style={{ display: 'block', width: '100%' }}>
               <div ref={tabScrollRef} className="flex overflow-x-auto rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'] }}>
-                {TRAINING_TABS.map(t => (
-                  <button key={t.id} data-tab={t.id}
-                    onClick={() => {
-                      setActiveTab(t.id)
-                      const container = tabScrollRef.current
-                      const btn = container?.querySelector(`[data-tab="${t.id}"]`) as HTMLElement
-                      if (container && btn) container.scrollTo({ left: btn.offsetLeft - container.offsetLeft - 6, behavior: 'smooth' })
-                    }}
-                    className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${activeTab === t.id ? 'px-6 py-3 text-sm bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'px-4 py-2.5 text-sm text-[#7a8c96]'}`}>
-                    {t.label}
-                  </button>
-                ))}
+                {TRAINING_TABS.map(t =>
+                  t.id === 'classroom' ? (
+                    <button key={t.id} data-tab={t.id}
+                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-3 text-sm bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">
+                      {t.label}
+                    </button>
+                  ) : (
+                    <Link key={t.id} href={t.href}
+                      className="inline-flex items-center relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-4 py-3 text-sm text-[#7a8c96]">
+                      {t.label}
+                    </Link>
+                  )
+                )}
               </div>
             </div>
           </div>
           <div className="hidden sm:flex justify-center">
             <div className="tab-border-glow">
               <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
-                {TRAINING_TABS.map(t => (
-                  <button key={t.id} onClick={() => setActiveTab(t.id)}
-                    className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${activeTab === t.id ? 'px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]'}`}>
-                    {t.label}
-                  </button>
-                ))}
+                {TRAINING_TABS.map(t =>
+                  t.id === 'classroom' ? (
+                    <button key={t.id}
+                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">
+                      {t.label}
+                    </button>
+                  ) : (
+                    <Link key={t.id} href={t.href}
+                      className="inline-flex items-center relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-3 text-sm text-[#7a8c96] hover:text-[#093148]">
+                      {t.label}
+                    </Link>
+                  )
+                )}
               </div>
             </div>
           </div>
