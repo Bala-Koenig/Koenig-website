@@ -955,7 +955,6 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
           className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
           style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', minWidth: '220px', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}
         >
-          <div className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)', borderBottom: '1px solid rgba(6,148,209,0.15)' }}>Learning Options</div>
           {LEARNING_LINKS.map(link => (
             <button
               key={link.label}
