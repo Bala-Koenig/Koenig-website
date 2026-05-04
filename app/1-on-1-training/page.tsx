@@ -327,18 +327,7 @@ export default function OneOnOneTrainingPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-16 lg:py-24">
-          {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-8">
-            <ol className="flex flex-wrap items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-              <li aria-hidden="true"><svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Learning Options</Link></li>
-              <li aria-hidden="true"><svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg></li>
-              <li style={{ color: '#38bdf8' }}>1-on-1 Training</li>
-            </ol>
-          </nav>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+<div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left copy */}
             <div>
               {/* Badge */}
