@@ -122,6 +122,88 @@ const STATS = [
   { value: '99.1%',  label: 'Satisfaction Rate' },
 ]
 
+/* ── Popular courses ─────────────────────────────────────────── */
+const POPULAR_COURSES = [
+  { vendor: 'Microsoft', code: 'AZ-104',    name: 'Microsoft Azure Administrator',              days: 5, level: 'Intermediate', hot: true  },
+  { vendor: 'AWS',       code: 'SAA-C03',   name: 'AWS Solutions Architect – Associate',         days: 4, level: 'Intermediate', hot: true  },
+  { vendor: 'CompTIA',   code: 'SY0-701',   name: 'CompTIA Security+',                           days: 5, level: 'Intermediate', hot: true  },
+  { vendor: 'Cisco',     code: 'CCNA',      name: 'CCNA – Cisco Certified Network Associate',    days: 5, level: 'Beginner',     hot: false },
+  { vendor: 'ISC2',      code: 'CISSP',     name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced', hot: true },
+  { vendor: 'PMI',       code: 'PMP',       name: 'Project Management Professional (PMP)',       days: 4, level: 'Advanced',     hot: true  },
+  { vendor: 'Microsoft', code: 'AZ-305',    name: 'Azure Solutions Architect Expert',            days: 4, level: 'Advanced',     hot: false },
+  { vendor: 'CompTIA',   code: 'N10-009',   name: 'CompTIA Network+',                            days: 5, level: 'Beginner',     hot: false },
+]
+
+/* ── Comparison rows ─────────────────────────────────────────── */
+const COMPARISON = [
+  { feature: 'Class Size',        one: 'Just you',                  group: '8–20 students' },
+  { feature: 'Schedule',          one: 'Any day, any time',         group: 'Fixed batch dates' },
+  { feature: 'Pace',              one: 'Entirely your pace',        group: "Trainer's set pace" },
+  { feature: 'Curriculum',        one: 'Tailored to your goals',    group: 'Standard syllabus' },
+  { feature: 'Instructor Focus',  one: '100% on you',               group: 'Split across students' },
+  { feature: 'Start Date',        one: 'As early as tomorrow',      group: 'Next scheduled batch' },
+  { feature: 'Session Recording', one: 'Available on request',      group: 'Shared recording' },
+  { feature: 'Exam Readiness',    one: 'Personalised prep plan',    group: 'General exam tips' },
+]
+
+/* ── Who is it for ───────────────────────────────────────────── */
+const WHO_FOR = [
+  {
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+    ),
+    title: 'Busy Professionals',
+    desc: 'Juggling work and upskilling? Train before or after office hours, on weekends, or during breaks — no fixed schedule required.',
+  },
+  {
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+      </svg>
+    ),
+    title: 'Exam Re-takers',
+    desc: 'Struggled with a certification? Focus exactly on the topics where you need improvement, with targeted practice and guidance.',
+  },
+  {
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+      </svg>
+    ),
+    title: 'Career Changers',
+    desc: 'Transitioning into IT? Get a curriculum built around your background, covering foundations and advanced topics at the right speed.',
+  },
+  {
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+    ),
+    title: 'Corporate Teams',
+    desc: 'Need to upskill 2–3 team members fast? 1-on-1 or small-group private sessions deliver maximum ROI with minimal downtime.',
+  },
+  {
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
+      </svg>
+    ),
+    title: 'Remote Learners Worldwide',
+    desc: 'Live anywhere in the world? Attend sessions from your home or office — no travel, no relocation, no compromise on quality.',
+  },
+  {
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      </svg>
+    ),
+    title: 'Fast-Track Learners',
+    desc: 'Have a certification deadline coming up? Compress a 5-day course into an intensive sprint tailored to your existing knowledge.',
+  },
+]
+
 export default function OneOnOneTrainingPage() {
   const [activeTab, setActiveTab] = useState('1on1')
 
@@ -397,6 +479,235 @@ export default function OneOnOneTrainingPage() {
               Book a Free Tech Call
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           POPULAR COURSES FOR 1-ON-1
+      ════════════════════════════════════════════════════════ */}
+      <section aria-labelledby="courses-heading" className="py-16 lg:py-24" style={{ background: '#f8fafc' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="mb-12 text-center">
+            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
+              Most Booked
+            </span>
+            <h2 id="courses-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
+              Popular Courses for{' '}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>1-on-1 Training</span>
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
+              From cloud to cybersecurity — every course is available as a private 1-on-1 session with a certified expert.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {POPULAR_COURSES.map((c, i) => (
+              <article
+                key={i}
+                className="relative flex flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 30px rgba(6,148,209,0.12)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
+              >
+                {c.hot && (
+                  <span className="absolute top-4 right-4 rounded-full px-2.5 py-0.5 text-xs font-bold" style={{ background: 'rgba(239,68,68,0.10)', color: '#ef4444' }}>
+                    🔥 Hot
+                  </span>
+                )}
+
+                {/* Vendor + code */}
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="rounded-lg px-2.5 py-1 text-xs font-bold" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
+                    {c.vendor}
+                  </span>
+                  <span className="text-xs font-mono" style={{ color: '#94a3b8' }}>{c.code}</span>
+                </div>
+
+                {/* Name */}
+                <h3 className="flex-1 mb-4 text-sm font-bold leading-snug text-[#0F172A]">{c.name}</h3>
+
+                {/* Meta row */}
+                <div className="flex items-center gap-3 mb-5 text-xs" style={{ color: '#64748b' }}>
+                  <span className="flex items-center gap-1">
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {c.days} days
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    <span
+                      className="rounded-full px-2 py-0.5 font-semibold"
+                      style={{
+                        background: c.level === 'Beginner' ? 'rgba(34,197,94,0.10)' : c.level === 'Intermediate' ? 'rgba(6,148,209,0.10)' : 'rgba(139,92,246,0.10)',
+                        color:      c.level === 'Beginner' ? '#16a34a'            : c.level === 'Intermediate' ? '#0694D1'            : '#7c3aed',
+                      }}
+                    >
+                      {c.level}
+                    </span>
+                  </span>
+                </div>
+
+                <a
+                  href="#enquiry-form"
+                  className="block w-full rounded-xl py-2.5 text-center text-sm font-semibold transition-all hover:opacity-90"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', color: '#ffffff' }}
+                >
+                  Book 1-on-1 Session
+                </a>
+              </article>
+            ))}
+          </div>
+
+          <p className="mt-8 text-center text-sm" style={{ color: '#94a3b8' }}>
+            Can&apos;t find your course?{' '}
+            <a href="#enquiry-form" className="font-semibold hover:underline" style={{ color: '#0694D1' }}>
+              Request any course as a 1-on-1 →
+            </a>
+          </p>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           1-ON-1 vs GROUP COMPARISON
+      ════════════════════════════════════════════════════════ */}
+      <section
+        aria-labelledby="comparison-heading"
+        className="py-16 lg:py-24"
+        style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 60%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
+      >
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(6,148,209,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,209,0.03) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+
+        <div className="relative mx-auto max-w-5xl px-4 md:px-8 lg:px-[50px]">
+          <div className="mb-12 text-center">
+            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8' }}>
+              Compare
+            </span>
+            <h2 id="comparison-heading" className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+              1-on-1 Training vs{' '}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Group Classes</span>
+            </h2>
+            <p className="mx-auto max-w-xl text-lg" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              See why thousands of professionals choose private training over batch classes.
+            </p>
+          </div>
+
+          {/* Table */}
+          <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(6,148,209,0.2)' }}>
+            {/* Header */}
+            <div className="grid grid-cols-3 text-sm font-bold" style={{ background: 'rgba(6,148,209,0.15)' }}>
+              <div className="px-6 py-4" style={{ color: 'rgba(255,255,255,0.5)' }}>Feature</div>
+              <div className="px-6 py-4 text-center" style={{ color: '#38bdf8' }}>
+                <span className="inline-flex items-center gap-1.5">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  1-on-1 Training
+                </span>
+              </div>
+              <div className="px-6 py-4 text-center" style={{ color: 'rgba(255,255,255,0.45)' }}>Group Class</div>
+            </div>
+
+            {COMPARISON.map((row, i) => (
+              <div
+                key={i}
+                className="grid grid-cols-3 text-sm transition-colors"
+                style={{ background: i % 2 === 0 ? 'rgba(255,255,255,0.025)' : 'transparent', borderTop: '1px solid rgba(6,148,209,0.10)' }}
+              >
+                <div className="px-6 py-4 font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{row.feature}</div>
+                <div className="px-6 py-4 text-center">
+                  <span className="inline-flex items-center gap-1.5 font-semibold" style={{ color: '#38bdf8' }}>
+                    <svg className="h-4 w-4 shrink-0" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    {row.one}
+                  </span>
+                </div>
+                <div className="px-6 py-4 text-center">
+                  <span className="inline-flex items-center gap-1.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                    <svg className="h-4 w-4 shrink-0" style={{ color: 'rgba(239,68,68,0.6)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    {row.group}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <a
+              href="#enquiry-form"
+              className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold text-white transition-all hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}
+            >
+              Start My 1-on-1 Journey
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+           WHO IS 1-ON-1 FOR?
+      ════════════════════════════════════════════════════════ */}
+      <section aria-labelledby="who-for-heading" className="py-16 lg:py-24" style={{ background: '#ffffff' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="mb-12 text-center">
+            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
+              Is It Right for You?
+            </span>
+            <h2 id="who-for-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
+              Who Is 1-on-1 Training{' '}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Perfect For?</span>
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
+              Whether you&apos;re a first-timer or a seasoned professional, 1-on-1 training adapts to every learner profile.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {WHO_FOR.map((w, i) => (
+              <article
+                key={i}
+                className="flex gap-5 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-0.5"
+                style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; (e.currentTarget as HTMLElement).style.background = '#ffffff'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 24px rgba(6,148,209,0.10)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.background = '#f8fafc'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}
+              >
+                <div className="shrink-0 mt-0.5 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
+                  {w.icon}
+                </div>
+                <div>
+                  <h3 className="mb-1.5 text-base font-bold text-[#0F172A]">{w.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{w.desc}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* Bottom banner */}
+          <div className="mt-14 rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6" style={{ background: 'linear-gradient(135deg, #06111E, #071828)', border: '1px solid rgba(6,148,209,0.25)' }}>
+            <div>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-2">
+                Not sure if 1-on-1 is right for you?
+              </h3>
+              <p style={{ color: 'rgba(255,255,255,0.55)' }} className="text-sm max-w-lg">
+                Talk to a Koenig advisor for free — they&apos;ll assess your goals and recommend the best learning format, no commitment required.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <a
+                href="#enquiry-form"
+                className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90 whitespace-nowrap"
+                style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}
+              >
+                Talk to an Advisor
+              </a>
+              <a
+                href="https://wa.me/919840722417"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10 whitespace-nowrap"
+                style={{ border: '1.5px solid rgba(37,211,102,0.45)', color: '#25D366' }}
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+                WhatsApp Us
+              </a>
+            </div>
           </div>
         </div>
       </section>
