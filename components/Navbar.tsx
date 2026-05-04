@@ -304,6 +304,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
   const learningTriggerRef = useRef<HTMLButtonElement>(null)
   const [learningDropPos, setLearningDropPos] = useState({ top: 0, left: 0 })
 
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   // Portal mount guard (createPortal needs document.body)
   const [mounted, setMounted] = useState(false)
 
@@ -314,6 +316,31 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
   function goSearch(q: string) {
     if (q.trim()) router.push(`/search?q=${encodeURIComponent(q.trim())}`)
     else router.push('/search')
+  }
+
+  function clearHoverTimer() {
+    if (hoverTimerRef.current) { clearTimeout(hoverTimerRef.current); hoverTimerRef.current = null }
+  }
+  function startCloseTimer() {
+    clearHoverTimer()
+    hoverTimerRef.current = setTimeout(() => {
+      setMegaMenuOpen(false); setTechMenuOpen(false); setLearningMenuOpen(false); setAboutMenuOpen(false)
+    }, 150)
+  }
+  function openMenu(which: 'mega' | 'tech' | 'learning' | 'about') {
+    clearHoverTimer()
+    setMegaMenuOpen(which === 'mega')
+    setTechMenuOpen(which === 'tech')
+    setLearningMenuOpen(which === 'learning')
+    setAboutMenuOpen(which === 'about')
+    if (which === 'learning' && learningTriggerRef.current) {
+      const r = learningTriggerRef.current.getBoundingClientRect()
+      setLearningDropPos({ top: r.bottom + 8, left: r.left })
+    }
+    if (which === 'about' && aboutTriggerRef.current) {
+      const r = aboutTriggerRef.current.getBoundingClientRect()
+      setAboutDropPos({ top: r.bottom + 8, left: r.left })
+    }
   }
 
   useEffect(() => {
@@ -407,7 +434,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
             <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
               {/* All Courses */}
               <button
-                onClick={() => { setMegaMenuOpen(v => !v); setTechMenuOpen(false) }}
+                onMouseEnter={() => openMenu('mega')}
+                onMouseLeave={startCloseTimer}
                 className="flex items-center whitespace-nowrap px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
                 style={{ background: megaMenuOpen ? '#076D9D' : '#0694D1', gap: '8px' }}
               >
@@ -418,11 +446,10 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
               {/* Technologies */}
               <a
                 href="#"
-                onClick={e => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); setAboutMenuOpen(false); setLearningMenuOpen(false) }}
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: techMenuOpen ? '#38bdf8' : '#ffffff', background: techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
-                onMouseLeave={e => { e.currentTarget.style.color = techMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+                onMouseEnter={e => { openMenu('tech'); e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                onMouseLeave={e => { startCloseTimer(); e.currentTarget.style.color = techMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
               >
                 Technologies
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
@@ -431,17 +458,10 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
               <button
                 type="button"
                 ref={learningTriggerRef}
-                onClick={() => {
-                  if (learningTriggerRef.current) {
-                    const r = learningTriggerRef.current.getBoundingClientRect()
-                    setLearningDropPos({ top: r.bottom + 8, left: r.left })
-                  }
-                  setLearningMenuOpen(v => !v); setAboutMenuOpen(false); setTechMenuOpen(false); setMegaMenuOpen(false)
-                }}
                 className="flex items-center gap-1 whitespace-nowrap px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: learningMenuOpen ? '#38bdf8' : '#ffffff', background: learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
-                onMouseLeave={e => { e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+                onMouseEnter={e => { openMenu('learning'); e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                onMouseLeave={e => { startCloseTimer(); e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
               >
                 Learning Options
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
@@ -450,17 +470,10 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
               <button
                 type="button"
                 ref={aboutTriggerRef}
-                onClick={() => {
-                  if (aboutTriggerRef.current) {
-                    const r = aboutTriggerRef.current.getBoundingClientRect()
-                    setAboutDropPos({ top: r.bottom + 8, left: r.left })
-                  }
-                  setAboutMenuOpen(v => !v); setTechMenuOpen(false); setMegaMenuOpen(false); setLearningMenuOpen(false)
-                }}
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
-                onMouseLeave={e => { e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
+                onMouseEnter={e => { openMenu('about'); e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                onMouseLeave={e => { startCloseTimer(); e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
               >
                 About
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
@@ -770,6 +783,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
         {megaMenuOpen && (
           <div
             ref={megaMenuRef}
+            onMouseEnter={clearHoverTimer}
+            onMouseLeave={startCloseTimer}
             className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
             style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
           >
@@ -862,6 +877,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
         {techMenuOpen && (
           <div
             ref={techMenuRef}
+            onMouseEnter={clearHoverTimer}
+            onMouseLeave={startCloseTimer}
             className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
             style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
           >
@@ -952,6 +969,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
       {mounted && learningMenuOpen && createPortal(
         <div
           ref={learningMenuRef}
+          onMouseEnter={clearHoverTimer}
+          onMouseLeave={startCloseTimer}
           className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
           style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', minWidth: '220px', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}
         >
@@ -975,6 +994,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
       {mounted && aboutMenuOpen && createPortal(
         <div
           ref={aboutMenuRef}
+          onMouseEnter={clearHoverTimer}
+          onMouseLeave={startCloseTimer}
           className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
           style={{ top: `${aboutDropPos.top}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
         >
