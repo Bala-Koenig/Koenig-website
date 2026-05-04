@@ -445,7 +445,7 @@ export default function OneOnOneTrainingPage() {
                     </button>
                   ) : (
                     <Link key={t.id} href={t.href}
-                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-4 py-2.5 text-sm text-[#7a8c96]">
+                      className="inline-flex items-center relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-4 py-3 text-sm text-[#7a8c96]">
                       {t.label}
                     </Link>
                   )
@@ -465,7 +465,7 @@ export default function OneOnOneTrainingPage() {
                     </button>
                   ) : (
                     <Link key={t.id} href={t.href}
-                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]">
+                      className="inline-flex items-center relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-3 text-sm text-[#7a8c96] hover:text-[#093148]">
                       {t.label}
                     </Link>
                   )
