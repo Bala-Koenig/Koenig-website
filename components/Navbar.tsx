@@ -21,7 +21,7 @@ const ABOUT_LINKS: { label: string; href: string }[] = [
 const LEARNING_LINKS: { label: string; href: string }[] = [
   { label: 'Live Online Training',  href: '/live-online-classroom' },
   { label: 'Classroom Training',    href: '/classroom-training' },
-  { label: '1-on-1 Training',       href: '#' },
+  { label: '1-on-1 Training',       href: '/1-on-1-training' },
   { label: 'Fly-Me-a-Trainer',      href: '#' },
   { label: 'Flexi',                 href: '#' },
   { label: 'Customized Training',   href: '#' },
