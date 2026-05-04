@@ -326,8 +326,16 @@ export default function OneOnOneTrainingPage() {
           <div className="absolute bottom-0 left-1/3 h-[300px] w-[300px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-16 lg:py-24">
-<div className="grid lg:grid-cols-2 gap-12 items-center">
+        <style>{`
+          @keyframes lolFloat1 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-10px) rotate(1deg)} }
+          @keyframes lolFloat2 { 0%,100%{transform:translateY(0) rotate(1deg)} 50%{transform:translateY(-8px) rotate(-1deg)} }
+          @keyframes lolFloat3 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(9px) translateX(3px)} }
+          @keyframes lolFloat4 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(8px) rotate(1.5deg)} }
+          @keyframes lolGlow   { 0%,100%{box-shadow:0 4px 18px rgba(6,109,157,0.30),inset 0 1px 0 rgba(255,255,255,0.18)} 50%{box-shadow:0 4px 28px rgba(6,148,209,0.55),0 0 16px rgba(58,182,235,0.30),inset 0 1px 0 rgba(255,255,255,0.28)} }
+        `}</style>
+
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left copy */}
             <div>
               {/* Badge */}
@@ -383,18 +391,35 @@ export default function OneOnOneTrainingPage() {
               </div>
             </div>
 
-            {/* Right — stats cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {STATS.map(s => (
-                <div
-                  key={s.label}
-                  className="rounded-2xl p-6 text-center"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.2)', backdropFilter: 'blur(12px)' }}
-                >
-                  <div className="text-3xl lg:text-4xl font-extrabold mb-1 bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>
-                    {s.value}
+            {/* Right — image with floating stat cards */}
+            <div className="hidden lg:block">
+              <div className="relative mx-auto" style={{ width: '500px', padding: '44px' }}>
+                {([
+                  { val: '300+',   label: 'Instructors',  pos: { top: 0,    left: 0  }, anim: 'lolFloat1 3.4s ease-in-out infinite' },
+                  { val: '5,000+', label: 'Courses',      pos: { top: 0,    right: 0 }, anim: 'lolFloat2 3.8s ease-in-out infinite 0.5s' },
+                  { val: '99.1%',  label: 'Satisfaction', pos: { bottom: 0, left: 0  }, anim: 'lolFloat3 4.0s ease-in-out infinite 1.0s' },
+                  { val: '24h',    label: 'Start Time',   pos: { bottom: 0, right: 0 }, anim: 'lolFloat4 3.6s ease-in-out infinite 1.5s' },
+                ] as { val: string; label: string; pos: React.CSSProperties; anim: string }[]).map(({ val, label, pos, anim }) => (
+                  <div key={val} className="absolute flex flex-col items-center justify-center rounded-xl"
+                    style={{ ...pos, width: 76, padding: '8px 10px', background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(6,148,209,0.30)', textAlign: 'center', animation: `${anim}, lolGlow 3s ease-in-out infinite`, zIndex: 10 }}>
+                    <span className="text-base font-black leading-none" style={{ color: '#0694D1' }}>{val}</span>
+                    <span className="text-[10px] font-medium mt-0.5" style={{ color: '#475569' }}>{label}</span>
                   </div>
-                  <div className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.6)' }}>{s.label}</div>
+                ))}
+                <div className="relative overflow-hidden rounded-2xl"
+                  style={{ background: 'rgba(6,25,45,0.52)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1.5px solid rgba(6,148,209,0.50)', boxShadow: '0 0 0 4px rgba(6,148,209,0.08), 0 0 30px 6px rgba(6,148,209,0.22), 0 8px 40px rgba(6,109,157,0.28)' }}>
+                  <img src="/images/home-banner/1on1.png" alt="1-on-1 Training with Expert Instructor" className="w-full h-auto object-contain" />
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile — stat tiles */}
+            <div className="lg:hidden grid grid-cols-4 gap-2 mt-4">
+              {STATS.map(s => (
+                <div key={s.label} className="flex flex-col items-center justify-center rounded-xl py-3 px-1"
+                  style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(6,148,209,0.30)', backdropFilter: 'blur(12px)' }}>
+                  <span className="text-sm font-black leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
+                  <span className="text-[10px] font-medium mt-0.5 text-center leading-tight" style={{ color: 'rgba(255,255,255,0.55)' }}>{s.label}</span>
                 </div>
               ))}
             </div>
@@ -448,7 +473,7 @@ export default function OneOnOneTrainingPage() {
       {/* ════════════════════════════════════════════════════════
            WHY 1-ON-1 TRAINING — BENEFITS GRID
       ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="benefits-heading" className="py-16 lg:py-24" style={{ background: '#f8fafc' }}>
+      <section aria-labelledby="benefits-heading" className="py-10" style={{ background: '#f8fafc' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="mb-12 text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
@@ -491,7 +516,7 @@ export default function OneOnOneTrainingPage() {
       ════════════════════════════════════════════════════════ */}
       <section
         aria-labelledby="how-it-works-heading"
-        className="py-16 lg:py-24"
+        className="py-10"
         style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 60%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
       >
         {/* Subtle grid overlay */}
@@ -559,7 +584,7 @@ export default function OneOnOneTrainingPage() {
       {/* ════════════════════════════════════════════════════════
            POPULAR COURSES FOR 1-ON-1
       ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="courses-heading" className="py-16 lg:py-24" style={{ background: '#f8fafc' }}>
+      <section aria-labelledby="courses-heading" className="py-10" style={{ background: '#f8fafc' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="mb-12 text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
@@ -645,7 +670,7 @@ export default function OneOnOneTrainingPage() {
       ════════════════════════════════════════════════════════ */}
       <section
         aria-labelledby="comparison-heading"
-        className="py-16 lg:py-24"
+        className="py-10"
         style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 60%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
       >
         <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(6,148,209,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,209,0.03) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
@@ -717,7 +742,7 @@ export default function OneOnOneTrainingPage() {
       {/* ════════════════════════════════════════════════════════
            WHO IS 1-ON-1 FOR?
       ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="who-for-heading" className="py-16 lg:py-24" style={{ background: '#ffffff' }}>
+      <section aria-labelledby="who-for-heading" className="py-10" style={{ background: '#ffffff' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="mb-12 text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
@@ -788,7 +813,7 @@ export default function OneOnOneTrainingPage() {
       {/* ════════════════════════════════════════════════════════
            STUDENT TESTIMONIALS
       ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="testimonials-heading" className="py-16 lg:py-24" style={{ background: '#f8fafc' }}>
+      <section aria-labelledby="testimonials-heading" className="py-10" style={{ background: '#f8fafc' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="mb-12 text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
@@ -879,7 +904,7 @@ export default function OneOnOneTrainingPage() {
         }}
       />
 
-      <section aria-labelledby="faq-heading" className="py-16 lg:py-24" style={{ background: '#ffffff' }}>
+      <section aria-labelledby="faq-heading" className="py-10" style={{ background: '#ffffff' }}>
         <div className="mx-auto max-w-3xl px-4 md:px-8 lg:px-[50px]">
           <div className="mb-12 text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
@@ -939,7 +964,7 @@ export default function OneOnOneTrainingPage() {
       <section
         id="enquiry-form"
         aria-labelledby="form-heading"
-        className="py-16 lg:py-24"
+        className="py-10"
         style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 60%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
       >
         <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(6,148,209,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,209,0.04) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
