@@ -347,7 +347,7 @@ export default function OneOnOneTrainingPage() {
                 Fully Personalized · Expert-Led · Any Schedule
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold leading-tight text-white mb-5">
+              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight text-white mb-5">
                 Your Training,{' '}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>
                   Your Way
