@@ -288,6 +288,7 @@ export default function OneOnOneTrainingPage() {
   const [activeTab, setActiveTab] = useState('1on1')
   const tabScrollRef = useRef<HTMLDivElement>(null)
   const [openFaq, setOpenFaq] = useState<number | null>(0)
+  const [reviewTab, setReviewTab] = useState<'reviews' | 'faqs'>('reviews')
   const [formType, setFormType] = useState<'individual' | 'enterprise'>('individual')
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', course: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -817,83 +818,7 @@ export default function OneOnOneTrainingPage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
-           STUDENT TESTIMONIALS
-      ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="testimonials-heading" className="py-10" style={{ background: '#f8fafc' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="mb-12 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-              Student Feedback
-            </span>
-            <h2 id="testimonials-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
-              What Our Students{' '}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are Saying</span>
-            </h2>
-            <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
-              Real reviews from professionals who trained 1-on-1 with Koenig. We use pseudonyms to protect privacy.
-            </p>
-            {/* Aggregate rating */}
-            <div className="mt-5 inline-flex items-center gap-3 rounded-full px-5 py-2" style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-              <div className="flex items-center gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="h-4 w-4" style={{ color: '#f59e0b' }} viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                  </svg>
-                ))}
-              </div>
-              <span className="text-sm font-bold text-[#0F172A]">4.9 / 5</span>
-              <span className="text-sm" style={{ color: '#94a3b8' }}>from 12,000+ reviews</span>
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((t, i) => (
-              <article
-                key={i}
-                className="flex flex-col rounded-2xl p-7 transition-all duration-300"
-                style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 30px rgba(6,148,209,0.10)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.3)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)'; (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0' }}
-              >
-                {/* Stars */}
-                <div className="mb-4 flex items-center gap-0.5">
-                  {[...Array(t.rating)].map((_, j) => (
-                    <svg key={j} className="h-4 w-4" style={{ color: '#f59e0b' }} viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                  ))}
-                </div>
-
-                {/* Quote */}
-                <blockquote className="flex-1 mb-5 text-sm leading-relaxed" style={{ color: '#475569' }}>
-                  &ldquo;{t.text}&rdquo;
-                </blockquote>
-
-                {/* Course tag */}
-                <div className="mb-4">
-                  <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1' }}>
-                    {t.course}
-                  </span>
-                </div>
-
-                {/* Author */}
-                <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid #f1f5f9' }}>
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#ffffff' }}>
-                    {t.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-[#0F172A]">{t.name}</p>
-                    <p className="text-xs" style={{ color: '#94a3b8' }}>{t.flag} {t.country}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-           FAQ  (+ FAQPage JSON-LD schema)
+           REVIEWS & FAQ  (tabbed)
       ════════════════════════════════════════════════════════ */}
       <script
         type="application/ld+json"
@@ -910,57 +835,150 @@ export default function OneOnOneTrainingPage() {
         }}
       />
 
-      <section aria-labelledby="faq-heading" className="py-10" style={{ background: '#ffffff' }}>
-        <div className="mx-auto max-w-3xl px-4 md:px-8 lg:px-[50px]">
-          <div className="mb-12 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-              FAQ
-            </span>
-            <h2 id="faq-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
-              Frequently Asked{' '}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Questions</span>
-            </h2>
-          </div>
+      <section className="py-10" style={{ background: '#f8fafc' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
-          <div className="space-y-3">
-            {FAQS.map((faq, i) => (
-              <div
-                key={i}
-                className="rounded-2xl overflow-hidden transition-all duration-200"
-                style={{ border: openFaq === i ? '1.5px solid rgba(6,148,209,0.4)' : '1.5px solid #e2e8f0', boxShadow: openFaq === i ? '0 4px 20px rgba(6,148,209,0.08)' : 'none' }}
+          {/* Tab toggle */}
+          <div className="mb-10 flex justify-center">
+            <div className="inline-flex rounded-full p-1" style={{ border: '1.5px solid #0694D1', background: '#ffffff' }}>
+              <button
+                type="button"
+                onClick={() => setReviewTab('reviews')}
+                className="rounded-full px-6 py-2.5 text-sm font-bold transition-all duration-200"
+                style={reviewTab === 'reviews'
+                  ? { background: '#0694D1', color: '#ffffff' }
+                  : { background: 'transparent', color: '#64748b' }}
               >
-                <button
-                  type="button"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  aria-expanded={openFaq === i}
-                  className="flex w-full items-center justify-between px-6 py-5 text-left gap-4 transition-colors"
-                  style={{ background: openFaq === i ? 'rgba(6,148,209,0.04)' : '#ffffff' }}
-                >
-                  <span className="text-base font-semibold text-[#0F172A]">{faq.q}</span>
-                  <span
-                    className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full transition-all duration-200"
-                    style={{ background: openFaq === i ? '#0694D1' : '#f1f5f9', color: openFaq === i ? '#ffffff' : '#64748b', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                  >
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                  </span>
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-5" style={{ background: 'rgba(6,148,209,0.02)' }}>
-                    <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            ))}
+                Student Reviews
+              </button>
+              <button
+                type="button"
+                onClick={() => setReviewTab('faqs')}
+                className="rounded-full px-6 py-2.5 text-sm font-bold transition-all duration-200"
+                style={reviewTab === 'faqs'
+                  ? { background: '#0694D1', color: '#ffffff' }
+                  : { background: 'transparent', color: '#64748b' }}
+              >
+                Common Questions
+              </button>
+            </div>
           </div>
 
-          <p className="mt-8 text-center text-sm" style={{ color: '#94a3b8' }}>
-            Still have questions?{' '}
-            <a href="mailto:info@koenig-solutions.com" className="font-semibold hover:underline" style={{ color: '#0694D1' }}>
-              Email us at info@koenig-solutions.com
-            </a>
-          </p>
+          {/* ── Student Reviews panel ── */}
+          {reviewTab === 'reviews' && (
+            <>
+              <div className="mb-10 text-center">
+                <h2 id="testimonials-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
+                  What Our Students{' '}
+                  <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are Saying</span>
+                </h2>
+                <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
+                  Real reviews from professionals who trained 1-on-1 with Koenig. We use pseudonyms to protect privacy.
+                </p>
+                <div className="mt-5 inline-flex items-center gap-3 rounded-full px-5 py-2" style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+                  <div className="flex items-center gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className="h-4 w-4" style={{ color: '#f59e0b' }} viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-sm font-bold text-[#0F172A]">4.9 / 5</span>
+                  <span className="text-sm" style={{ color: '#94a3b8' }}>from 12,000+ reviews</span>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {TESTIMONIALS.map((t, i) => (
+                  <article
+                    key={i}
+                    className="flex flex-col rounded-2xl p-7 transition-all duration-300"
+                    style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 30px rgba(6,148,209,0.10)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.3)' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)'; (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0' }}
+                  >
+                    <div className="mb-4 flex items-center gap-0.5">
+                      {[...Array(t.rating)].map((_, j) => (
+                        <svg key={j} className="h-4 w-4" style={{ color: '#f59e0b' }} viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                      ))}
+                    </div>
+                    <blockquote className="flex-1 mb-5 text-sm leading-relaxed" style={{ color: '#475569' }}>
+                      &ldquo;{t.text}&rdquo;
+                    </blockquote>
+                    <div className="mb-4">
+                      <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1' }}>
+                        {t.course}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid #f1f5f9' }}>
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#ffffff' }}>
+                        {t.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-[#0F172A]">{t.name}</p>
+                        <p className="text-xs" style={{ color: '#94a3b8' }}>{t.flag} {t.country}</p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* ── Common Questions panel ── */}
+          {reviewTab === 'faqs' && (
+            <div className="mx-auto max-w-3xl">
+              <div className="mb-10 text-center">
+                <h2 id="faq-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
+                  Frequently Asked{' '}
+                  <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Questions</span>
+                </h2>
+              </div>
+
+              <div className="space-y-3">
+                {FAQS.map((faq, i) => (
+                  <div
+                    key={i}
+                    className="rounded-2xl overflow-hidden transition-all duration-200"
+                    style={{ border: openFaq === i ? '1.5px solid rgba(6,148,209,0.4)' : '1.5px solid #e2e8f0', boxShadow: openFaq === i ? '0 4px 20px rgba(6,148,209,0.08)' : 'none' }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      aria-expanded={openFaq === i}
+                      className="flex w-full items-center justify-between px-6 py-5 text-left gap-4 transition-colors"
+                      style={{ background: openFaq === i ? 'rgba(6,148,209,0.04)' : '#ffffff' }}
+                    >
+                      <span className="text-base font-semibold text-[#0F172A]">{faq.q}</span>
+                      <span
+                        className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full transition-all duration-200"
+                        style={{ background: openFaq === i ? '#0694D1' : '#f1f5f9', color: openFaq === i ? '#ffffff' : '#64748b', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                      >
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                      </span>
+                    </button>
+                    {openFaq === i && (
+                      <div className="px-6 pb-5" style={{ background: 'rgba(6,148,209,0.02)' }}>
+                        <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>{faq.a}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <p className="mt-8 text-center text-sm" style={{ color: '#94a3b8' }}>
+                Still have questions?{' '}
+                <a href="mailto:info@koenig-solutions.com" className="font-semibold hover:underline" style={{ color: '#0694D1' }}>
+                  Email us at info@koenig-solutions.com
+                </a>
+              </p>
+            </div>
+          )}
+
         </div>
       </section>
 
