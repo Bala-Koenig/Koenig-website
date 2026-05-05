@@ -124,15 +124,17 @@ const STATS = [
 
 /* ── Popular courses ─────────────────────────────────────────── */
 const POPULAR_COURSES = [
-  { vendor: 'Microsoft', code: 'AZ-104',    name: 'Microsoft Azure Administrator',              days: 5, level: 'Intermediate', hot: true  },
-  { vendor: 'AWS',       code: 'SAA-C03',   name: 'AWS Solutions Architect – Associate',         days: 4, level: 'Intermediate', hot: true  },
-  { vendor: 'CompTIA',   code: 'SY0-701',   name: 'CompTIA Security+',                           days: 5, level: 'Intermediate', hot: true  },
-  { vendor: 'Cisco',     code: 'CCNA',      name: 'CCNA – Cisco Certified Network Associate',    days: 5, level: 'Beginner',     hot: false },
-  { vendor: 'ISC2',      code: 'CISSP',     name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced', hot: true },
-  { vendor: 'PMI',       code: 'PMP',       name: 'Project Management Professional (PMP)',       days: 4, level: 'Advanced',     hot: true  },
-  { vendor: 'Microsoft', code: 'AZ-305',    name: 'Azure Solutions Architect Expert',            days: 4, level: 'Advanced',     hot: false },
-  { vendor: 'CompTIA',   code: 'N10-009',   name: 'CompTIA Network+',                            days: 5, level: 'Beginner',     hot: false },
+  { vendor: 'Microsoft', code: 'AZ-104',  name: 'Microsoft Azure Administrator',                        days: 5, level: 'Intermediate', hot: true,  tz: 'IST / GST / GMT' },
+  { vendor: 'AWS',       code: 'SAA-C03', name: 'AWS Solutions Architect – Associate',                   days: 4, level: 'Intermediate', hot: true,  tz: 'EST / GMT / IST' },
+  { vendor: 'CompTIA',   code: 'SY0-701', name: 'CompTIA Security+',                                     days: 5, level: 'Intermediate', hot: true,  tz: 'All timezones'   },
+  { vendor: 'Cisco',     code: 'CCNA',    name: 'CCNA – Cisco Certified Network Associate',               days: 5, level: 'Beginner',     hot: false, tz: 'IST / GST'       },
+  { vendor: 'ISC2',      code: 'CISSP',   name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced', hot: true, tz: 'EST / GMT / IST' },
+  { vendor: 'PMI',       code: 'PMP',     name: 'Project Management Professional (PMP)',                 days: 4, level: 'Advanced',     hot: true,  tz: 'All timezones'   },
+  { vendor: 'Microsoft', code: 'AZ-305',  name: 'Azure Solutions Architect Expert',                      days: 4, level: 'Advanced',     hot: false, tz: 'IST / GST / GMT' },
+  { vendor: 'CompTIA',   code: 'N10-009', name: 'CompTIA Network+',                                      days: 5, level: 'Beginner',     hot: false, tz: 'All timezones'   },
 ]
+
+const VENDOR_BADGE = 'bg-[#076D9D]/30 text-[#3AB6EB] ring-1 ring-[#0694D1]/40'
 
 /* ── Comparison rows ─────────────────────────────────────────── */
 const COMPARISON = [
@@ -591,82 +593,98 @@ export default function OneOnOneTrainingPage() {
       {/* ════════════════════════════════════════════════════════
            POPULAR COURSES FOR 1-ON-1
       ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="courses-heading" className="py-10" style={{ background: '#f8fafc' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="mb-12 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-              Most Booked
-            </span>
-            <h2 id="courses-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
-              Popular Courses for{' '}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>1-on-1 Training</span>
-            </h2>
-            <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
-              From cloud to cybersecurity — every course is available as a private 1-on-1 session with a certified expert.
-            </p>
+      <section aria-labelledby="courses-heading" className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-10">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -bottom-16 left-1/4 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+              <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Most Booked</span>
+              <h2 id="courses-heading" className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">
+                Popular Courses for{' '}
+                <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">1-on-1 Training</span>
+              </h2>
+              <p className="text-sm text-koenig-muted">Every course available as a private session — start any day, any timezone.</p>
+            </div>
+            <a
+              href="#enquiry-form"
+              className="group inline-flex shrink-0 items-center gap-3 rounded-2xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+              style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}
+            >
+              Browse All Courses
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
+            </a>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {POPULAR_COURSES.map((c, i) => (
-              <article
+              <a
                 key={i}
-                className="relative flex flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-                style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 30px rgba(6,148,209,0.12)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
+                href="#enquiry-form"
+                role="button"
+                tabIndex={0}
+                className="group relative cursor-pointer rounded-xl bg-white p-5 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue block"
+                style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.10)' }}
               >
-                {c.hot && (
-                  <span className="absolute top-4 right-4 rounded-full px-2.5 py-0.5 text-xs font-bold" style={{ background: 'rgba(239,68,68,0.10)', color: '#ef4444' }}>
-                    🔥 Hot
-                  </span>
-                )}
-
-                {/* Vendor + code */}
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="rounded-lg px-2.5 py-1 text-xs font-bold" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-                    {c.vendor}
-                  </span>
-                  <span className="text-xs font-mono" style={{ color: '#94a3b8' }}>{c.code}</span>
-                </div>
-
-                {/* Name */}
-                <h3 className="flex-1 mb-4 text-sm font-bold leading-snug text-[#0F172A]">{c.name}</h3>
-
-                {/* Meta row */}
-                <div className="flex items-center gap-3 mb-5 text-xs" style={{ color: '#64748b' }}>
-                  <span className="flex items-center gap-1">
-                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    {c.days} days
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                    <span
-                      className="rounded-full px-2 py-0.5 font-semibold"
-                      style={{
-                        background: c.level === 'Beginner' ? 'rgba(34,197,94,0.10)' : c.level === 'Intermediate' ? 'rgba(6,148,209,0.10)' : 'rgba(139,92,246,0.10)',
-                        color:      c.level === 'Beginner' ? '#16a34a'            : c.level === 'Intermediate' ? '#0694D1'            : '#7c3aed',
-                      }}
-                    >
-                      {c.level}
+                {/* Row 1 — vendor badge + hot badge / level */}
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap ${VENDOR_BADGE}`}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                      {c.vendor}
                     </span>
+                    <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold whitespace-nowrap bg-[#EBF8FE] text-[#0694d1]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
+                      1-on-1 Online
+                    </span>
+                  </div>
+                  {c.hot && (
+                    <span className="rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap bg-red-50 text-red-600">🔥 Hot</span>
+                  )}
+                </div>
+
+                {/* Row 2 — course name */}
+                <h3 className="mb-1.5 text-sm font-semibold text-koenig-navy transition-colors group-hover:text-koenig-blue leading-snug">{c.name}</h3>
+
+                {/* Row 3 — meta */}
+                <div className="mb-3 flex items-center gap-2 text-xs text-koenig-gray flex-wrap">
+                  <span className="flex items-center gap-1">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Start Anytime
+                  </span>
+                  <span>·</span>
+                  <span className="flex items-center gap-1">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    {c.days * 8} Hrs ({c.days}d)
+                  </span>
+                  <span>·</span>
+                  <span className="flex items-center gap-1 truncate">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    {c.tz}
                   </span>
                 </div>
 
-                <a
-                  href="#enquiry-form"
-                  className="block w-full rounded-xl py-2.5 text-center text-sm font-semibold transition-all hover:opacity-90"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', color: '#ffffff' }}
-                >
-                  Book 1-on-1 Session
-                </a>
-              </article>
+                {/* Row 4 — footer */}
+                <div className="flex items-center justify-between border-t border-koenig-border pt-3">
+                  <div>
+                    <p className="text-xs text-koenig-muted">Level</p>
+                    <p className="text-sm font-bold text-koenig-dark"
+                      style={{ color: c.level === 'Beginner' ? '#16a34a' : c.level === 'Intermediate' ? '#0694D1' : '#7c3aed' }}>
+                      {c.level}
+                    </p>
+                  </div>
+                  <span className="rounded-lg px-3 py-2 text-xs font-semibold text-white shadow-sm transition-all whitespace-nowrap group-hover:shadow-lg" style={{ background: '#093148' }}>
+                    Book 1-on-1 →
+                  </span>
+                </div>
+              </a>
             ))}
           </div>
 
-          <p className="mt-8 text-center text-sm" style={{ color: '#94a3b8' }}>
+          <p className="mt-6 text-center text-sm text-koenig-muted">
             Can&apos;t find your course?{' '}
-            <a href="#enquiry-form" className="font-semibold hover:underline" style={{ color: '#0694D1' }}>
-              Request any course as a 1-on-1 →
+            <a href="#enquiry-form" className="font-semibold hover:underline text-koenig-blue">
+              Request any of 5,000+ courses as a 1-on-1 →
             </a>
           </p>
         </div>
@@ -840,27 +858,26 @@ export default function OneOnOneTrainingPage() {
 
           {/* Tab toggle */}
           <div className="mb-10 flex justify-center">
-            <div className="inline-flex rounded-full p-1" style={{ border: '1.5px solid #0694D1', background: '#ffffff' }}>
-              <button
-                type="button"
-                onClick={() => setReviewTab('reviews')}
-                className="rounded-full px-6 py-2.5 text-sm font-bold transition-all duration-200"
-                style={reviewTab === 'reviews'
-                  ? { background: '#0694D1', color: '#ffffff' }
-                  : { background: 'transparent', color: '#64748b' }}
-              >
-                Student Reviews
-              </button>
-              <button
-                type="button"
-                onClick={() => setReviewTab('faqs')}
-                className="rounded-full px-6 py-2.5 text-sm font-bold transition-all duration-200"
-                style={reviewTab === 'faqs'
-                  ? { background: '#0694D1', color: '#ffffff' }
-                  : { background: 'transparent', color: '#64748b' }}
-              >
-                Common Questions
-              </button>
+            <div className="tab-border-glow">
+              <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
+                {([
+                  { id: 'reviews' as const, label: 'Student Reviews' },
+                  { id: 'faqs'    as const, label: 'Common Questions' },
+                ]).map(tab => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setReviewTab(tab.id)}
+                    className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${
+                      reviewTab === tab.id
+                        ? 'px-6 sm:px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
+                        : 'px-4 sm:px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
