@@ -208,54 +208,24 @@ const WHO_FOR = [
 
 /* ── Testimonials ────────────────────────────────────────────── */
 const TESTIMONIALS = [
-  {
-    name: 'Adham Al Maqasi',
-    country: 'Oman',
-    flag: '🇴🇲',
-    course: 'Microsoft Azure Administrator',
-    rating: 5,
-    text: 'I wanted to take a moment to express my deep appreciation for your exceptional skills as a trainer. Your dedication, expertise, and unwavering commitment to your craft are truly inspiring. You have a unique ability to connect with your trainees, instilling in them a sense of belief and motivation.',
-  },
-  {
-    name: 'Emmanuel MASABO',
-    country: 'Rwanda',
-    flag: '🇷🇼',
-    course: 'CompTIA Security+',
-    rating: 5,
-    text: 'The trainer is very organised. She helped us understand the difficult course concepts in simple ways. She managed the time in a professional way as the content was huge but all was delivered us perfectly. Our trainer is kind, always happy, understanding and puts the class in the great learning mood.',
-  },
-  {
-    name: 'Yoosuf Nizam',
-    country: 'Maldives',
-    flag: '🇲🇻',
-    course: 'ISO 22301 Lead Implementer',
-    rating: 5,
-    text: 'This trainer is undoubtedly one of the finest trainers I have encountered during my training journeys. His profound knowledge and articulate teaching style make complex concepts remarkably accessible. His consistent preparation for each session greatly enhanced my learning experience.',
-  },
-  {
-    name: 'Amjad Kushar',
-    country: 'Saudi Arabia',
-    flag: '🇸🇦',
-    course: 'AWS Solutions Architect',
-    rating: 5,
-    text: 'I would like to express my sincere appreciation to the trainer for providing such an outstanding learning experience. I look forward to taking another course in the future.',
-  },
-  {
-    name: 'David Muriuki',
-    country: 'Kenya',
-    flag: '🇰🇪',
-    course: 'ISO 22301 Lead Implementer',
-    rating: 5,
-    text: 'I recently had the privilege of attending this course and I must commend the exceptional pedagogical skills demonstrated by our trainer. His approach to teaching was nothing short of excellent, blending professionalism with a deep understanding of the subject matter.',
-  },
-  {
-    name: 'Monica Kalamula',
-    country: 'Malawi',
-    flag: '🇲🇼',
-    course: 'Project Management Professional',
-    rating: 5,
-    text: 'From the outset, it was evident that the instructor possessed a deep understanding of the subject matter. His expertise shone through not only his grasp of theoretical concepts but also his ability to translate complex ideas into easily digestible information.',
-  },
+  { name: 'Adham Al Maqasi',   role: 'IT Professional, 🇴🇲 Oman',      course: '1-on-1 Certified',
+    quote: 'I wanted to take a moment to express my deep appreciation for your exceptional skills as a trainer. Your dedication, expertise, and unwavering commitment are truly inspiring. You have a unique ability to connect with trainees, instilling a sense of belief and motivation.',
+    initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#4DBFEF)', avatar: '/images/headshots/headshot-1.webp' },
+  { name: 'Emmanuel Masabo',   role: 'Network Engineer, 🇷🇼 Rwanda',    course: '1-on-1 Certified',
+    quote: 'The trainer is very organised. She helped us understand difficult concepts in simple ways. She managed the time professionally — the content was huge but all was delivered perfectly. Kind, always happy, and puts the learner in a great mood.',
+    initials: 'EM', avatarBg: 'linear-gradient(135deg,#093148,#076D9D)', avatar: '/images/headshots/headshot-4.png' },
+  { name: 'Yoosuf Nizam',      role: 'Cloud Architect, 🇲🇻 Maldives',   course: '1-on-1 Certified',
+    quote: 'This trainer is undoubtedly one of the finest I have encountered. His profound knowledge and articulate teaching style make complex concepts remarkably accessible. His consistent preparation for each session greatly enhanced my learning.',
+    initials: 'YN', avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)', avatar: '/images/headshots/headshot-3.webp' },
+  { name: 'Amjad Kushar',      role: 'IT Manager, 🇸🇦 Saudi Arabia',    course: '1-on-1 Certified',
+    quote: 'I would like to express my sincere appreciation to the trainer for providing such an outstanding learning experience. The 1-on-1 format meant every session was tailored precisely to my knowledge gaps. I look forward to booking another course.',
+    initials: 'AK', avatarBg: 'linear-gradient(135deg,#093148,#F47920)', avatar: '/images/headshots/headshot-4.png' },
+  { name: 'David Muriuki',     role: 'Security Engineer, 🇰🇪 Kenya',    course: '1-on-1 Certified',
+    quote: 'I recently attended this course and must commend the exceptional pedagogical skills demonstrated by our trainer. His approach was nothing short of excellent — blending professionalism with a deep understanding of real-world scenarios.',
+    initials: 'DM', avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)', avatar: '/images/headshots/headshot-5.webp' },
+  { name: 'Monica Kalamula',   role: 'Systems Admin, 🇲🇼 Malawi',       course: '1-on-1 Certified',
+    quote: 'From the outset it was evident the instructor possessed a deep understanding of the subject matter. His expertise shone through not only in theory but in his ability to translate complex ideas into easily digestible information.',
+    initials: 'MK', avatarBg: 'linear-gradient(135deg,#476D8D,#0694D1)', avatar: '/images/headshots/headshot-2.webp' },
 ]
 
 /* ── FAQs ────────────────────────────────────────────────────── */
@@ -285,6 +255,133 @@ const FAQS = [
     a: 'Yes. Every course in the Koenig catalogue — across Microsoft, AWS, Cisco, CompTIA, PMI, and hundreds more vendors — is available in 1-on-1 format. If you don\'t see a specific course, contact us and we\'ll arrange it.',
   },
 ]
+
+/* ── Testimonial Card ────────────────────────────────────────── */
+function OneOnOneTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; onExpandChange?: (exp: boolean) => void }) {
+  const [expanded, setExpanded] = useState(false)
+  const isLong = t.quote.length > 140
+  return (
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+      <div className="flex-1 flex flex-col p-5">
+        <div className="mb-3 text-base leading-none" style={{ color: '#F59E0B', letterSpacing: '1px' }}>★★★★★</div>
+        <p className="mb-4 text-sm leading-relaxed flex-1" style={{ color: '#2d4a6a' }}>&ldquo;{isLong && !expanded ? `${t.quote.slice(0, 140)}…` : t.quote}&rdquo;</p>
+        {isLong && (
+          <button onClick={() => { const n = !expanded; setExpanded(n); onExpandChange?.(n) }}
+            className="mb-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
+            style={{ borderColor: '#0694D1' }}>
+            {expanded ? 'Show Less ↑' : 'Show More ↓'}
+          </button>
+        )}
+        <div className="flex items-center gap-3">
+          {t.avatar ? (
+            <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover object-top shrink-0" style={{ border: '2px solid #DCEEFB', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }} />
+          ) : (
+            <div className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0" style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}>{t.initials}</div>
+          )}
+          <div className="min-w-0">
+            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
+            <p className="text-xs font-semibold mt-0.5" style={{ color: '#0694D1' }}>{t.role}</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
+        <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
+        <span className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: '#EBF8FE', color: '#0569a8', border: '1px solid #CAEFFF' }}>✓ Verified</span>
+      </div>
+    </div>
+  )
+}
+
+/* ── Mobile Horizontal Marquee ───────────────────────────────── */
+function OneOnOneMobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+  const expandedCount = useRef(0)
+  const dragStartX = useRef(0)
+  const dragStartPos = useRef(0)
+
+  useEffect(() => {
+    const inner = trackRef.current
+    if (!inner) return
+    let prev = performance.now(); let raf: number
+    function tick(now: number) {
+      const dt = now - prev; prev = now
+      if (!paused.current && inner) {
+        pos.current += 0.04 * dt
+        const half = inner.scrollWidth / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateX(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  return (
+    <div className="sm:hidden overflow-hidden"
+      style={{ maskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)' }}
+      onTouchStart={e => { paused.current = true; dragStartX.current = e.touches[0].clientX; dragStartPos.current = pos.current }}
+      onTouchMove={e => {
+        const delta = dragStartX.current - e.touches[0].clientX
+        const inner = trackRef.current; if (!inner) return
+        const half = inner.scrollWidth / 2
+        let newPos = dragStartPos.current + delta
+        if (newPos < 0) newPos = 0
+        if (half > 0 && newPos >= half) newPos = half - 1
+        pos.current = newPos; inner.style.transform = `translateX(-${pos.current}px)`
+      }}
+      onTouchEnd={() => { if (expandedCount.current === 0) paused.current = false }}>
+      <div ref={trackRef} className="flex items-stretch gap-4 py-2" style={{ width: 'max-content' }}>
+        {[...items, ...items].map((t, i) => (
+          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
+            <OneOnOneTestimonialCard t={t} onExpandChange={exp => {
+              expandedCount.current += exp ? 1 : -1
+              if (expandedCount.current < 0) expandedCount.current = 0
+              paused.current = expandedCount.current > 0
+            }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ── Desktop Scroll Column ───────────────────────────────────── */
+function OneOnOneScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
+  const innerRef = useRef<HTMLDivElement>(null)
+  const pos = useRef(0)
+  const paused = useRef(false)
+
+  useEffect(() => {
+    const inner = innerRef.current
+    if (!inner) return
+    let prev = performance.now(); let raf: number
+    function tick(now: number) {
+      const dt = now - prev; prev = now
+      if (!paused.current && inner) {
+        pos.current += speed * dt
+        const half = inner.scrollHeight / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        inner.style.transform = `translateY(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [speed])
+
+  return (
+    <div style={{ height: '520px', overflow: 'hidden' }}
+      onMouseEnter={() => { paused.current = true }}
+      onMouseLeave={() => { paused.current = false }}>
+      <div ref={innerRef} className="flex flex-col gap-4 pb-4">
+        {[...items, ...items].map((t, i) => <OneOnOneTestimonialCard key={i} t={t} />)}
+      </div>
+    </div>
+  )
+}
 
 export default function OneOnOneTrainingPage() {
   const [activeTab, setActiveTab] = useState('1on1')
@@ -880,62 +977,27 @@ export default function OneOnOneTrainingPage() {
           {/* ── Student Reviews panel ── */}
           {reviewTab === 'reviews' && (
             <>
-              <div className="mb-10 text-center">
-                <h2 id="testimonials-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
-                  What Our Students{' '}
-                  <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are Saying</span>
+              <div className="hidden sm:block text-center mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
+                  What Our Students <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Are Saying</span>
                 </h2>
-                <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
-                  Real reviews from professionals who trained 1-on-1 with Koenig. We use pseudonyms to protect privacy.
-                </p>
-                <div className="mt-5 inline-flex items-center gap-3 rounded-full px-5 py-2" style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-                  <div className="flex items-center gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <svg key={i} className="h-4 w-4" style={{ color: '#f59e0b' }} viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-sm font-bold text-[#0F172A]">4.9 / 5</span>
-                  <span className="text-sm" style={{ color: '#94a3b8' }}>from 12,000+ reviews</span>
-                </div>
+                <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>12,000+ verified reviews — 4.9/5 average rating</p>
+              </div>
+              <div className="sm:hidden text-center mb-8">
+                <h2 className="text-2xl font-bold mb-2" style={{ color: '#06111E' }}>
+                  What Our Students <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Are Saying</span>
+                </h2>
+                <p className="text-sm" style={{ color: '#7a8c96' }}>12,000+ verified reviews — 4.9/5 average rating</p>
               </div>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {TESTIMONIALS.map((t, i) => (
-                  <article
-                    key={i}
-                    className="flex flex-col rounded-2xl p-7 transition-all duration-300"
-                    style={{ background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 30px rgba(6,148,209,0.10)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.3)' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)'; (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0' }}
-                  >
-                    <div className="mb-4 flex items-center gap-0.5">
-                      {[...Array(t.rating)].map((_, j) => (
-                        <svg key={j} className="h-4 w-4" style={{ color: '#f59e0b' }} viewBox="0 0 20 20" fill="currentColor">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
-                      ))}
-                    </div>
-                    <blockquote className="flex-1 mb-5 text-sm leading-relaxed" style={{ color: '#475569' }}>
-                      &ldquo;{t.text}&rdquo;
-                    </blockquote>
-                    <div className="mb-4">
-                      <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1' }}>
-                        {t.course}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid #f1f5f9' }}>
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#ffffff' }}>
-                        {t.name.charAt(0)}
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-[#0F172A]">{t.name}</p>
-                        <p className="text-xs" style={{ color: '#94a3b8' }}>{t.flag} {t.country}</p>
-                      </div>
-                    </div>
-                  </article>
-                ))}
+              <OneOnOneMobileMarquee items={TESTIMONIALS} />
+              <div className="hidden sm:block relative overflow-hidden"
+                style={{ height: '520px', maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)' }}>
+                <div className="grid grid-cols-3 gap-4 h-full">
+                  <OneOnOneScrollColumn items={TESTIMONIALS.slice(0, 2)} speed={0.030} />
+                  <OneOnOneScrollColumn items={TESTIMONIALS.slice(2, 4)} speed={0.025} />
+                  <OneOnOneScrollColumn items={TESTIMONIALS.slice(4, 6)} speed={0.038} />
+                </div>
               </div>
             </>
           )}
