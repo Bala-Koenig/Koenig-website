@@ -376,13 +376,9 @@ export default function OneOnOneTrainingPage() {
 
               {/* Trust badges */}
               <div className="flex flex-wrap items-center gap-2.5">
-                {[
-                  { text: 'No group sessions',   color: '#38bdf8', bg: 'rgba(6,148,209,0.13)',  border: 'rgba(6,148,209,0.32)'  },
-                  { text: 'Sessions start in 24h', color: '#34d399', bg: 'rgba(16,185,129,0.12)', border: 'rgba(16,185,129,0.32)' },
-                  { text: 'Happiness Guarantee', color: '#fbbf24', bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.32)' },
-                ].map(({ text, color, bg, border }) => (
+                {['No group sessions', 'Sessions start in 24h', 'Happiness Guarantee'].map(text => (
                   <span key={text} className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold"
-                    style={{ background: bg, border: `1px solid ${border}`, color }}>
+                    style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.32)', color: '#38bdf8' }}>
                     <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                     {text}
                   </span>
