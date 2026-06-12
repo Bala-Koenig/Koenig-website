@@ -615,7 +615,7 @@ export default function UpcomingWebinarsPage() {
                               <Image src={w.photo} alt={w.speaker}
                                 width={64} height={64}
                                 quality={90}
-                                className="w-16 h-16 rounded-full object-cover shadow-md"
+                                className="w-16 h-16 rounded-full object-cover object-top shadow-md"
                                 style={{ border: '2px solid rgba(6,148,209,0.20)' }}
                                 onError={(e) => { (e.target as HTMLImageElement).style.display='none'; (e.target as HTMLImageElement).nextElementSibling?.removeAttribute('style') }}
                               />
@@ -791,7 +791,7 @@ export default function UpcomingWebinarsPage() {
                 <Image src={modalWebinar.photo} alt={modalWebinar.speaker}
                   width={96} height={96}
                   quality={90}
-                  className="h-24 w-24 rounded-xl object-cover shadow-md"
+                  className="h-24 w-24 rounded-xl object-cover object-top shadow-md"
                   style={{ border: '3px solid rgba(6,148,209,0.20)' }} />
               ) : (
                 <div className="flex h-24 w-24 items-center justify-center rounded-xl text-2xl font-bold text-white shadow-md"
@@ -860,7 +860,7 @@ export default function UpcomingWebinarsPage() {
               <div className="flex items-center gap-3 mb-4">
                 {regWebinar.photo ? (
                   <Image src={regWebinar.photo} alt={regWebinar.speaker} width={44} height={44} quality={90}
-                    className="rounded-full object-cover shrink-0" style={{ border: '2px solid rgba(255,255,255,0.30)' }} />
+                    className="rounded-full object-cover object-top shrink-0" style={{ border: '2px solid rgba(255,255,255,0.30)' }} />
                 ) : (
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
                     style={{ background: regWebinar.avatarBg, border: '2px solid rgba(255,255,255,0.30)' }}>
