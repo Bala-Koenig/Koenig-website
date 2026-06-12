@@ -376,11 +376,18 @@ export default function UpcomingWebinarsPage() {
               </p>
 
               {/* Stats */}
-              <div className="flex flex-wrap items-center gap-6 mb-6">
+              <div className="flex flex-wrap gap-4 mb-6">
                 {HERO_STATS.map(s => (
-                  <div key={s.label} className="flex items-center gap-2">
-                    <span className="text-xl font-black" style={{ color: '#38bdf8' }}>{s.value}</span>
-                    <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.55)' }}>{s.label}</span>
+                  <div key={s.label} className="flex flex-col items-center justify-center rounded-2xl px-6 py-4 min-w-[130px]"
+                    style={{
+                      background: 'rgba(255,255,255,0.07)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                      border: '1px solid rgba(6,148,209,0.35)',
+                      boxShadow: '0 4px 24px rgba(6,148,209,0.15), inset 0 1px 0 rgba(255,255,255,0.10)',
+                    }}>
+                    <span className="text-2xl font-black leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
+                    <span className="text-xs font-medium mt-1 text-center leading-snug" style={{ color: 'rgba(255,255,255,0.65)' }}>{s.label}</span>
                   </div>
                 ))}
               </div>
