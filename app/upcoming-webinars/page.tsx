@@ -230,17 +230,13 @@ const WEBINARS = [
   },
 ]
 
-/* ── Partner badge colors ────────────────────────────────────── */
-const PARTNER_COLORS: Record<string, { bg: string; text: string }> = {
-  'Microsoft': { bg: 'rgba(6,148,209,0.12)',   text: '#0694D1' },
-  'SAP':       { bg: 'rgba(247,148,29,0.12)',   text: '#F7941D' },
-  'PECB':      { bg: 'rgba(30,116,201,0.12)',   text: '#1E74C9' },
-  'Docker':    { bg: 'rgba(13,183,237,0.12)',   text: '#0DB7ED' },
-  'Java':      { bg: 'rgba(237,126,44,0.12)',   text: '#ED7E2C' },
-  'PostgreSQL':{ bg: 'rgba(51,103,145,0.12)',   text: '#336791' },
-  'Autodesk':  { bg: 'rgba(0,97,184,0.12)',     text: '#0061B8' },
+/* ── Partner logos ───────────────────────────────────────────── */
+const PARTNER_LOGOS: Record<string, string> = {
+  'Microsoft': '/images/partners/microsoft-cloud-t.png',
+  'SAP':       '/images/partners/SAP.jpg',
+  'PECB':      '/images/partners/Authorized PECB Certification Courses Training badge.png',
+  'Autodesk':  '/images/partners/AutodeskCertification.png',
 }
-const getPC = (p: string) => PARTNER_COLORS[p] ?? { bg: 'rgba(6,148,209,0.12)', text: '#0694D1' }
 
 /* ── FAQs ────────────────────────────────────────────────────── */
 const FAQS = [
@@ -565,35 +561,41 @@ export default function UpcomingWebinarsPage() {
             <div className="py-16 text-center text-sm" style={{ color: '#64748b' }}>No webinars match your filters.</div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {displayed.map(w => {
-                const pc = getPC(w.partner)
-                return (
+              {displayed.map(w => (
                   <article key={w.id}
                     className="flex flex-col overflow-hidden rounded-xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                     style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.08)' }}>
 
                     <div className="flex-1 flex flex-col p-5">
                       {/* Speaker row */}
-                      <div className="flex items-start gap-3 mb-4">
-                        <div className="relative shrink-0">
-                          <div className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md"
-                            style={{ background: w.avatarBg, border: '2px solid rgba(6,148,209,0.20)' }}>
-                            {w.initials}
+                      <div className="flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-start gap-3 min-w-0">
+                          <div className="relative shrink-0">
+                            <div className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md"
+                              style={{ background: w.avatarBg, border: '2px solid rgba(6,148,209,0.20)' }}>
+                              {w.initials}
+                            </div>
+                            {w.live && (
+                              <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500" />
+                              </span>
+                            )}
                           </div>
-                          {w.live && (
-                            <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-                              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500" />
-                            </span>
-                          )}
+                          <div className="min-w-0 pt-0.5">
+                            <p className="text-sm font-bold leading-snug truncate" style={{ color: '#0d1b2a' }}>{w.speaker}</p>
+                          </div>
                         </div>
-                        <div className="min-w-0 pt-0.5">
-                          <p className="text-sm font-bold leading-snug truncate" style={{ color: '#0d1b2a' }}>{w.speaker}</p>
-                          <span className="mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold"
-                            style={{ background: pc.bg, color: pc.text }}>
+                        {/* Vendor logo */}
+                        {PARTNER_LOGOS[w.partner] ? (
+                          <img src={PARTNER_LOGOS[w.partner]} alt={w.partner}
+                            className="h-8 w-auto max-w-[80px] object-contain shrink-0 mt-0.5" />
+                        ) : (
+                          <span className="shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold mt-1"
+                            style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
                             {w.partner}
                           </span>
-                        </div>
+                        )}
                       </div>
 
                       {/* Title */}
@@ -638,8 +640,7 @@ export default function UpcomingWebinarsPage() {
                       </button>
                     </div>
                   </article>
-                )
-              })}
+              ))}
             </div>
           )}
 
