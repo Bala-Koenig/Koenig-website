@@ -589,9 +589,9 @@ export default function UpcomingWebinarsPage() {
                         {/* Vendor logo */}
                         {PARTNER_LOGOS[w.partner] ? (
                           <img src={PARTNER_LOGOS[w.partner]} alt={w.partner}
-                            className="h-8 w-auto max-w-[80px] object-contain shrink-0 mt-0.5" />
+                            className="h-12 w-auto max-w-[100px] object-contain shrink-0 mt-0.5" />
                         ) : (
-                          <span className="shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold mt-1"
+                          <span className="shrink-0 rounded-full px-2.5 py-1 text-sm font-semibold mt-1"
                             style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
                             {w.partner}
                           </span>
@@ -605,7 +605,7 @@ export default function UpcomingWebinarsPage() {
 
                       {/* Meta */}
                       <div className="space-y-2">
-                        <div className="flex items-center justify-between text-xs" style={{ color: '#465058' }}>
+                        <div className="flex items-center justify-between text-sm" style={{ color: '#465058' }}>
                           <span className="flex items-center gap-1.5">
                             <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -619,7 +619,7 @@ export default function UpcomingWebinarsPage() {
                             {w.duration}
                           </span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-xs" style={{ color: '#64748b' }}>
+                        <div className="flex items-center gap-1.5 text-sm" style={{ color: '#64748b' }}>
                           <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                           </svg>
@@ -631,10 +631,10 @@ export default function UpcomingWebinarsPage() {
                     {/* Footer */}
                     <div className="flex items-center justify-between border-t px-5 py-3"
                       style={{ borderColor: '#EBF8FE', background: '#F8FCFF' }}>
-                      <button className="text-xs font-semibold transition-colors hover:text-[#0694D1]" style={{ color: '#465058' }}>
+                      <button className="text-sm font-semibold transition-colors hover:text-[#0694D1]" style={{ color: '#465058' }}>
                         Show More &rsaquo;
                       </button>
-                      <button className="rounded-lg px-4 py-1.5 text-xs font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                      <button className="rounded-lg px-4 py-1.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
                         style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 2px 8px rgba(6,148,209,0.30)' }}>
                         Register
                       </button>
