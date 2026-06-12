@@ -566,6 +566,18 @@ export default function UpcomingWebinarsPage() {
                     className="flex flex-col overflow-hidden rounded-xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                     style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.08)' }}>
 
+                    {/* Live badge centered at top */}
+                    {w.live && (
+                      <div className="flex justify-center py-2.5"
+                        style={{ background: 'rgba(34,197,94,0.08)', borderBottom: '1px solid rgba(34,197,94,0.20)' }}>
+                        <span className="inline-flex items-center gap-2 rounded-full px-4 py-1 text-sm font-bold"
+                          style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.45)', color: '#16a34a' }}>
+                          <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                          Live Now
+                        </span>
+                      </div>
+                    )}
+
                     <div className="flex-1 flex flex-col p-5">
                       {/* Speaker row */}
                       <div className="flex items-start justify-between gap-3 mb-4">
