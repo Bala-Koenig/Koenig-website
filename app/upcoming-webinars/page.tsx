@@ -289,6 +289,7 @@ export default function UpcomingWebinarsPage() {
   const [filterTech, setFilterTech]     = useState('All')
   const [filterPartner, setFilterPartner] = useState('All')
   const [showAll, setShowAll]           = useState(false)
+  const [modalWebinar, setModalWebinar] = useState<typeof WEBINARS[0] | null>(null)
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
@@ -631,11 +632,11 @@ export default function UpcomingWebinarsPage() {
                     {/* Footer */}
                     <div className="flex items-center justify-between border-t px-5 py-3"
                       style={{ borderColor: '#EBF8FE', background: '#F8FCFF' }}>
-                      <button className="text-sm font-semibold transition-colors hover:text-[#0694D1]" style={{ color: '#465058' }}>
+                      <button onClick={() => setModalWebinar(w)} className="text-sm font-semibold transition-colors hover:text-[#0694D1]" style={{ color: '#465058' }}>
                         Show More &rsaquo;
                       </button>
-                      <button className="rounded-lg px-6 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                        style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 2px 8px rgba(6,148,209,0.30)' }}>
+                      <button className="rounded-lg px-8 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                        style={{ background: '#0F2D5E', boxShadow: '0 2px 8px rgba(15,45,94,0.35)' }}>
                         {w.live ? 'Join Now' : 'Register'}
                       </button>
                     </div>
@@ -719,6 +720,101 @@ export default function UpcomingWebinarsPage() {
 
         </div>
       </section>
+
+      {/* ════════ WEBINAR DETAIL MODAL ════════ */}
+      {modalWebinar && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
+          style={{ background: 'rgba(6,17,30,0.75)', backdropFilter: 'blur(6px)' }}
+          onClick={() => setModalWebinar(null)}
+        >
+          {/* Close button */}
+          <button
+            onClick={() => setModalWebinar(null)}
+            className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full text-white transition-opacity hover:opacity-80"
+            style={{ background: '#111827', border: '2px solid rgba(255,255,255,0.15)' }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+
+          {/* Card */}
+          <div
+            className="relative flex w-full max-w-2xl overflow-hidden rounded-2xl shadow-2xl"
+            style={{ background: '#fff' }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Left — speaker */}
+            <div className="flex w-[200px] shrink-0 flex-col items-center justify-center gap-3 px-6 py-8" style={{ background: '#f1f5f9', borderRight: '1px solid #e2e8f0' }}>
+              {/* Avatar */}
+              <div
+                className="flex h-20 w-20 items-center justify-center rounded-xl text-xl font-bold text-white shadow-md"
+                style={{ background: modalWebinar.avatarBg, border: '3px solid rgba(6,148,209,0.25)' }}
+              >
+                {modalWebinar.initials}
+              </div>
+              <p className="text-center text-sm font-bold leading-snug" style={{ color: '#0d1b2a' }}>{modalWebinar.speaker}</p>
+              <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
+                {modalWebinar.partner}
+              </span>
+              {modalWebinar.live && (
+                <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold" style={{ background: '#16a34a', color: '#fff' }}>
+                  <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                  Live Now
+                </span>
+              )}
+            </div>
+
+            {/* Right — details */}
+            <div className="flex flex-1 flex-col justify-between p-7">
+              {/* Quote decoration */}
+              <svg className="absolute right-6 top-5 opacity-10" width="36" height="36" viewBox="0 0 24 24" fill="#0694D1"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+
+              <div>
+                <h3 className="mb-4 text-base font-bold leading-snug pr-8" style={{ color: '#0F172A' }}>{modalWebinar.title}</h3>
+
+                <div className="space-y-2.5 text-sm" style={{ color: '#465058' }}>
+                  {/* Date/Time */}
+                  <div className="flex items-center gap-2">
+                    <svg className="h-4 w-4 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span>{modalWebinar.date} &nbsp;|&nbsp; {modalWebinar.time}</span>
+                  </div>
+                  {/* Duration */}
+                  <div className="flex items-center gap-2">
+                    <svg className="h-4 w-4 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <circle cx="12" cy="12" r="10"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2"/>
+                    </svg>
+                    <span>Duration: {modalWebinar.duration}</span>
+                  </div>
+                  {/* Technology */}
+                  <div className="flex items-center gap-2">
+                    <svg className="h-4 w-4 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    <span>Technology: {modalWebinar.technology}</span>
+                  </div>
+                  {/* Registered */}
+                  <div className="flex items-center gap-2">
+                    <svg className="h-4 w-4 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>{modalWebinar.registered} Registered</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA */}
+              <div className="mt-6 flex justify-end">
+                <button className="rounded-lg px-8 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                  style={{ background: '#0F2D5E', boxShadow: '0 2px 8px rgba(15,45,94,0.35)' }}>
+                  {modalWebinar.live ? 'Join Now' : 'Register'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
