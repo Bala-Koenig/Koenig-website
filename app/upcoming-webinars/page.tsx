@@ -509,11 +509,12 @@ export default function UpcomingWebinarsPage() {
             <span className="text-center" style={{ color: '#093148', fontSize: '18px', fontWeight: 900 }}>
               Information Security Governance – From Strategy To Execution
             </span>
-            <a href="#webinar-listings"
+            <button
+              onClick={() => { setRegWebinar(WEBINARS[0]); setRegEmail(''); setRegName(''); setRegSubmitted(false) }}
               className="shrink-0 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-base font-bold text-white transition-all hover:opacity-90 active:scale-95 justify-self-center sm:justify-self-end"
               style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 16px rgba(6,148,209,0.40)' }}>
               Join Now →
-            </a>
+            </button>
           </div>
         </div>
       </div>
