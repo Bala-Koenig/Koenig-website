@@ -460,6 +460,7 @@ export default function UpcomingWebinarsPage() {
   const [filterTech, setFilterTech]     = useState('All')
   const [filterPartner, setFilterPartner] = useState('All')
   const [showAll, setShowAll]           = useState(false)
+  const [showMoreMobile, setShowMoreMobile] = useState(false)
   const [modalWebinar, setModalWebinar]   = useState<typeof WEBINARS[0] | null>(null)
   const [regWebinar, setRegWebinar]       = useState<typeof WEBINARS[0] | null>(null)
   const [regEmail, setRegEmail]           = useState('')
@@ -888,9 +889,9 @@ export default function UpcomingWebinarsPage() {
             <div className="py-16 text-center text-sm" style={{ color: '#64748b' }}>No webinars match your filters.</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {displayed.map(w => (
+              {displayed.map((w, i) => (
                   <article key={w.id}
-                    className="relative flex flex-col rounded-xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl mt-3"
+                    className={`relative flex flex-col rounded-xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl mt-3${i >= 8 && !showMoreMobile ? ' hidden sm:flex' : ''}`}
                     style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.08)' }}>
 
                     {w.live && (
@@ -981,9 +982,20 @@ export default function UpcomingWebinarsPage() {
             </div>
           )}
 
-          {/* Show All / Show Less */}
+          {/* Mobile: View More Webinars */}
+          {!showMoreMobile && displayed.length > 8 && (
+            <div className="mt-6 text-center sm:hidden">
+              <button onClick={() => setShowMoreMobile(true)}
+                className="inline-flex items-center gap-2 rounded-xl border-2 px-8 py-3 text-sm font-bold transition-all text-[#0694D1] border-[#0694D1] hover:bg-[#0694D1] hover:text-white">
+                View More Webinars
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+            </div>
+          )}
+
+          {/* Show All / Show Less — desktop only */}
           {sorted.length > 15 && (
-            <div className="mt-10 text-center">
+            <div className="hidden sm:block mt-10 text-center">
               <button onClick={() => setShowAll(v => !v)}
                 className="inline-flex items-center gap-2 rounded-xl border-2 px-8 py-3 text-sm font-bold transition-all text-[#0694D1] border-[#0694D1] hover:bg-[#0694D1] hover:text-white">
                 {showAll ? (
