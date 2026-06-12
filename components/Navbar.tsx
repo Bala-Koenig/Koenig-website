@@ -27,7 +27,7 @@ const LEARNING_LINKS: { label: string; href: string }[] = [
   { label: 'Customized Training',   href: '#' },
   { label: 'Webinar as a Service',  href: '#' },
   { label: 'Qubits',                href: '#' },
-  { label: 'Upcoming Webinars',     href: '#' },
+  { label: 'Upcoming Webinars',     href: '/upcoming-webinars' },
   { label: 'Learnova',              href: '#' },
 ]
 
