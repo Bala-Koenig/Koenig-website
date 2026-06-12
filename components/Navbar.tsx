@@ -267,6 +267,16 @@ const NAV_COURSES = [
   { vendor: 'Cisco',       name: 'CCNA – Cisco Certified Network Associate',                        days: 5, hot: true,  level: 'Intermediate', category: 'ASSOCIATE'    },
 ]
 
+/* ─── Vendor & Course page URLs ─────────────────────────────── */
+
+const VENDOR_HREFS: Record<string, string> = {
+  'Microsoft': '/microsoft',
+}
+
+const COURSE_HREFS: Record<string, string> = {
+  'AZ-104: Microsoft Azure Administrator': '/courses/az-104',
+}
+
 /* ─── Navbar Component ───────────────────────────────────────── */
 
 export default function Navbar({ initialQuery = '' }: { initialQuery?: string }) {
@@ -664,12 +674,12 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                     {MEGA_MENU_VENDORS.find(v => v.name === mobileMegaVendor)?.courses} courses available
                   </p>
                   {(MEGA_MENU_COURSES[mobileMegaVendor] ?? []).map((c, i) => (
-                    <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                    <a key={i} href={COURSE_HREFS[c.name] ?? '#'} className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
                       <span>{c.name}</span>
                       <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{c.days}d</span>
                     </a>
                   ))}
-                  <a href="#" className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                  <a href={VENDOR_HREFS[mobileMegaVendor] ?? '#'} className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
                     Browse All {mobileMegaVendor} Courses →
                   </a>
                 </div>
@@ -812,7 +822,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                     </div>
                   </button>
                   <a
-                    href="#"
+                    href={VENDOR_HREFS[v.name] ?? '#'}
                     title={`View all ${v.name} courses`}
                     className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-md opacity-0 transition-all group-hover/vendor:opacity-100 hover:!opacity-100"
                     style={{ color: '#38bdf8', background: 'rgba(6,148,209,0.18)' }}
@@ -831,7 +841,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                     {MEGA_MENU_VENDORS.find(v => v.name === megaMenuVendor)?.courses} courses available
                   </p>
                 </div>
-                <a href="#" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                <a href={VENDOR_HREFS[megaMenuVendor] ?? '#'} className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
                   View All {megaMenuVendor} Courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
@@ -840,7 +850,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 {(MEGA_MENU_COURSES[megaMenuVendor] ?? []).map((course, i) => (
                   <a
                     key={i}
-                    href="#"
+                    href={COURSE_HREFS[course.name] ?? '#'}
                     className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)' }}
@@ -862,7 +872,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7"/></svg>
                   Browse All Vendors
                 </a>
-                <a href="#" className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+                <a href={VENDOR_HREFS[megaMenuVendor] ?? '#'} className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
                   Browse All {megaMenuVendor} Courses →
                 </a>
               </div>

@@ -66,33 +66,24 @@
 
 @font-face {
   font-family: 'GT Walsheim Pro';
-  src: url('/fonts/GTWalsheimPro-Thin.ttf') format('truetype');
-  font-weight: 100;
-}
-@font-face {
-  font-family: 'GT Walsheim Pro';
-  src: url('/fonts/GTWalsheimPro-UltraLight.ttf') format('truetype');
-  font-weight: 200;
-}
-@font-face {
-  font-family: 'GT Walsheim Pro';
-  src: url('/fonts/GTWalsheimPro-Light.ttf') format('truetype');
-  font-weight: 300;
-}
-@font-face {
-  font-family: 'GT Walsheim Pro';
-  src: url('/fonts/GTWalsheimPro-Regular.ttf') format('truetype');
+  src: url('/fonts/GTWalsheimPro-Regular.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Regular.woff') format('woff');
   font-weight: 400;
+  font-display: swap;
 }
 @font-face {
   font-family: 'GT Walsheim Pro';
-  src: url('/fonts/GTWalsheimPro-Medium.ttf') format('truetype');
+  src: url('/fonts/GTWalsheimPro-Medium.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Medium.woff') format('woff');
   font-weight: 500;
+  font-display: swap;
 }
 @font-face {
   font-family: 'GT Walsheim Pro';
-  src: url('/fonts/GTWalsheimPro-UltraBold.ttf') format('truetype');
-  font-weight: 800;
+  src: url('/fonts/GTWalsheimPro-Bold.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Bold.woff') format('woff');
+  font-weight: 700;
+  font-display: swap;
 }
 
 :root {
@@ -245,6 +236,298 @@ body {
 }
 
 /* ── About pages: mobile 15px spacing between elements inside sections ── */
+/* ── GTWalsheimPro font (used by microsoft + course pages) ── */
+@font-face {
+  font-family: 'GTWalsheimPro';
+  src: url('/fonts/GTWalsheimPro-Regular.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GTWalsheimPro';
+  src: url('/fonts/GTWalsheimPro-Medium.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GTWalsheimPro';
+  src: url('/fonts/GTWalsheimPro-Bold.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Alias for GT Walsheim Pro (used by existing pages) */
+@font-face {
+  font-family: 'GT Walsheim Pro';
+  src: url('/fonts/GTWalsheimPro-Regular.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT Walsheim Pro';
+  src: url('/fonts/GTWalsheimPro-Medium.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GT Walsheim Pro';
+  src: url('/fonts/GTWalsheimPro-Bold.woff2') format('woff2'),
+       url('/fonts/GTWalsheimPro-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── CSS variables used by microsoft page ── */
+:root {
+  --font-body-sans: 'GTWalsheimPro', 'GT Walsheim Pro', sans-serif;
+  /* Dark scale */
+  --deep-950: #020F18;
+  --deep-900: #041825;
+  --deep-800: #051E2D;
+  --deep-700: #071F30;
+  --deep-600: #093148;
+  --deep-500: #0B3D57;
+  --deep-400: #0E4F72;
+  /* Accent scale */
+  --sky-600: #0694D1;
+  --sky-500: #08A8EC;
+  --sky-400: #2BB8F0;
+  --sky-300: #60CEFA;
+  /* Light scale */
+  --ice-100: #E4F7FF;
+  --ice-200: #C8EFFF;
+  --ice-300: #A0DEFF;
+  /* Brand tokens */
+  --brand-dark: #093148;
+  --brand-accent: #0694D1;
+  --brand-light: #E4F7FF;
+}
+
+/* ── Utilities for microsoft page ── */
+.blueprint-bg {
+  background-image:
+    linear-gradient(rgba(6,148,209,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6,148,209,0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.dot-pattern {
+  background-image: radial-gradient(circle, rgba(6,148,209,0.18) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.glass-card {
+  background: rgba(9,49,72,0.5);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(6,148,209,0.12);
+  box-shadow: 0 4px 24px rgba(2,15,24,0.5), inset 0 1px 0 rgba(228,247,255,0.04);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+  background: rgba(9,49,72,0.65);
+  border-color: rgba(6,148,209,0.30);
+  box-shadow: 0 8px 40px rgba(6,148,209,0.18), inset 0 1px 0 rgba(228,247,255,0.07);
+}
+.glass-card-light {
+  background: rgba(228,247,255,0.04);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(228,247,255,0.08);
+  box-shadow: 0 4px 20px rgba(2,15,24,0.4);
+}
+.glass-card-light:hover {
+  background: rgba(228,247,255,0.07);
+  border-color: rgba(6,148,209,0.28);
+}
+.gradient-text {
+  background: linear-gradient(135deg, #0694D1 0%, #60CEFA 50%, #E4F7FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-alt {
+  background: linear-gradient(135deg, #E4F7FF 0%, #0694D1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-warm {
+  background: linear-gradient(135deg, #60CEFA 0%, #0694D1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-shimmer {
+  background: linear-gradient(90deg, #0694D1 0%, #60CEFA 25%, #E4F7FF 50%, #60CEFA 75%, #0694D1 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textShimmer 4s ease-in-out infinite;
+}
+.text-shimmer-dark {
+  background: linear-gradient(90deg, #0694D1 0%, #08A8EC 20%, #60CEFA 50%, #08A8EC 80%, #0694D1 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textShimmer 4s ease-in-out infinite;
+}
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: rgba(6,148,209,0.12);
+  border: 1px solid rgba(6,148,209,0.30);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #60CEFA;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #0694D1 0%, #08A8EC 100%);
+  color: #E4F7FF;
+  font-family: 'GTWalsheimPro', 'GT Walsheim Pro', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 12px;
+  box-shadow: 0 0 24px rgba(6,148,209,0.35);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 0 50px rgba(6,148,209,0.5);
+}
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: rgba(9,49,72,0.4);
+  border: 1px solid rgba(6,148,209,0.30);
+  color: #E4F7FF;
+  font-family: 'GTWalsheimPro', 'GT Walsheim Pro', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.btn-outline:hover {
+  background: rgba(6,148,209,0.12);
+  border-color: rgba(6,148,209,0.55);
+  box-shadow: 0 0 20px rgba(6,148,209,0.15);
+}
+.cosmos-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(6,148,209,0.35), rgba(228,247,255,0.15), rgba(6,148,209,0.35), transparent);
+}
+.animated-border-top {
+  position: relative;
+}
+.animated-border-top::before {
+  content: "";
+  position: absolute;
+  inset-x: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #093148, #0694D1, #E4F7FF, #0694D1, #093148);
+  background-size: 300% 100%;
+  animation: borderSlide 4s ease infinite;
+}
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Microsoft page animation helpers */
+.animate-float      { animation: float 6s ease-in-out infinite; }
+.animate-spin-slow  { animation: spinSlow 20s linear infinite; }
+.animate-pulse-ring { animation: pulseRing 2s ease-out infinite; }
+.animate-scroll-x   { animation: scrollX 25s linear infinite; }
+.animate-scroll-x:hover { animation-play-state: paused; }
+.section-dark   { background-color: #041825; }
+.section-base   { background-color: #093148; }
+.section-mid    { background-color: #071F30; }
+
+/* ── Additional microsoft keyframes ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseRing {
+  0%   { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(1.6);  opacity: 0; }
+}
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes borderSlide {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes scrollX {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes textShimmer {
+  0%   { background-position: 100% 50%; }
+  50%  { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ── vardaan-course styles ── */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 639px) {
+  .vc-page section + section,
+  .vc-page section + div,
+  .vc-page div + section {
+    margin-top: 20px;
+  }
+  .vc-page section h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+}
+
 @media (max-width: 639px) {
   .about-page section .gap-4,  .about-page section .gap-5,  .about-page section .gap-6,  .about-page section .gap-7,
   .about-page section .gap-8,  .about-page section .gap-9,  .about-page section .gap-10, .about-page section .gap-12,
