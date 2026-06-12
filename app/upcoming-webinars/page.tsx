@@ -48,184 +48,210 @@ const TRUST_BADGES = [
 const WEBINARS = [
   {
     id: 1,
-    speaker: 'Aayushi Maheshwari',
-    initials: 'AM',
-    avatarBg: 'linear-gradient(135deg,#0694D1,#38bdf8)',
-    title: 'Information Security Governance – From Strategy To Execution',
-    partner: 'PECB',
-    technology: 'Security',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
+    speaker: 'Nidhi Karthik Nayak',
+    initials: 'NK',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/08_Jun_2026_14_29_22_704Nidhi.jpg',
+    avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)',
+    title: 'Work Smarter With Microsoft 365 Copilot',
+    description: 'Discover how AI can simplify daily tasks, boost productivity, and unlock creativity across Word, Excel, PowerPoint, Outlook, and Teams—with practical Copilot use cases for everyday work.',
+    partner: 'Microsoft',
+    technology: 'Microsoft',
+    date: '15 Jun 2026',
+    time: '01:00 PM IST',
     duration: '1 Hour',
-    registered: 2,
+    registered: 45,
     live: true,
   },
   {
     id: 2,
-    speaker: 'Piyushi Mundhir',
-    initials: 'PM',
-    avatarBg: 'linear-gradient(135deg,#093148,#076D9D)',
-    title: 'Mastering Payroll Schema 8 PCE to SAP HCM – From Basics to Real Time',
-    partner: 'SAP',
-    technology: 'ERP',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
-    duration: '1 Hour',
-    registered: 1,
-    live: false,
-  },
-  {
-    id: 3,
-    speaker: 'Balajishekara Badri',
-    initials: 'BB',
-    avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)',
-    title: 'Why Your App Works On Your Laptop But Fails In Production (Containers Explained)',
-    partner: 'Docker',
-    technology: 'DevOps',
-    date: '11 Jun 2026',
-    time: '03:30 PM IST',
-    duration: '1 Hour',
-    registered: 1,
-    live: false,
-  },
-  {
-    id: 4,
-    speaker: 'Bhuvam Bhatia',
-    initials: 'BB',
-    avatarBg: 'linear-gradient(135deg,#7c3aed,#a78bfa)',
-    title: 'Introduction to ISO 27035',
-    partner: 'PECB',
-    technology: 'Security',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
-    duration: '1 Hour',
-    registered: 1,
-    live: false,
-  },
-  {
-    id: 5,
-    speaker: 'Sonia McAnaya',
-    initials: 'SM',
-    avatarBg: 'linear-gradient(135deg,#0694D1,#076D9D)',
-    title: 'Microsoft Power Platform Fundamentals For Non Developers',
-    partner: 'Microsoft',
-    technology: 'Microsoft',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
-    duration: '1 Hour',
-    registered: 1,
-    live: false,
-  },
-  {
-    id: 6,
-    speaker: 'Nidhi Karthik Nagale',
-    initials: 'NK',
-    avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)',
-    title: 'Work Smarter With Microsoft 365 Copilot',
-    partner: 'Microsoft',
-    technology: 'Microsoft',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
-    duration: '1 Hour',
-    registered: 1,
-    live: false,
-  },
-  {
-    id: 7,
-    speaker: 'Lydia Chaveau',
-    initials: 'LC',
+    speaker: 'Lipika Sharma',
+    initials: 'LS',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/Files/EmpPhoto/2024123594-Pic2.jpg',
     avatarBg: 'linear-gradient(135deg,#EC4899,#8B5CF6)',
     title: 'Microsoft AI Certification Fundamentals Series: AI 900 To AI Engineer Roadmap',
+    description: 'Explore the complete Microsoft AI certification path from AI-900 fundamentals to the full AI Engineer roadmap, with exam preparation strategies and real-world AI application scenarios.',
     partner: 'Microsoft',
     technology: 'AI',
-    date: '11 Jun 2026',
+    date: '15 Jun 2026',
     time: '03:00 PM IST',
     duration: '1 Hour',
     registered: 79,
     live: false,
   },
   {
-    id: 8,
-    speaker: 'Sachin Kumar',
-    initials: 'SK',
-    avatarBg: 'linear-gradient(135deg,#0694D1,#0F172A)',
-    title: 'DP-600: Implement Real Time Analytics With Microsoft Fabric',
+    id: 3,
+    speaker: 'Rashmi Sharma',
+    initials: 'RS',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Rashmi%20Sharma.png',
+    avatarBg: 'linear-gradient(135deg,#0694D1,#38bdf8)',
+    title: 'DP-603: Implement Real Time Analytics With Microsoft Fabric',
+    description: 'Learn to implement real-time analytics using Microsoft Fabric. Covers DP-603 exam topics including data streaming, pipelines, and building intelligent analytics solutions at scale.',
     partner: 'Microsoft',
     technology: 'Data',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
+    date: '15 Jun 2026',
+    time: '04:00 PM IST',
     duration: '1 Hour',
-    registered: 1,
+    registered: 38,
+    live: false,
+  },
+  {
+    id: 4,
+    speaker: 'Bharat Singh Thakur',
+    initials: 'BT',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/19_Jan_2026_11_6_28_38WhatsApp%20Image%202026-01-14%20at%209.44.47%20AM.jpeg',
+    avatarBg: 'linear-gradient(135deg,#F59E0B,#B45309)',
+    title: 'Mastering SAP LAM & The S/4HANA 9 Phase Maintenance Model',
+    description: 'Deep dive into SAP Linear Asset Management and the structured 9-phase maintenance model in S/4HANA for enterprise-grade asset lifecycle management and operational efficiency.',
+    partner: 'SAP',
+    technology: 'ERP',
+    date: '15 Jun 2026',
+    time: '05:00 PM IST',
+    duration: '1 Hour',
+    registered: 12,
+    live: false,
+  },
+  {
+    id: 5,
+    speaker: 'K M Bilvika',
+    initials: 'KB',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/11_Nov_2022_9_59_15_824BV%20Photo.jpg',
+    avatarBg: 'linear-gradient(135deg,#065F46,#10B981)',
+    title: 'PostgreSQL Database Administration',
+    description: 'Master PostgreSQL DBA essentials—installation, configuration, backup & recovery, performance tuning, high availability, and security best practices for production environments.',
+    partner: 'PostgreSQL',
+    technology: 'Database',
+    date: '15 Jun 2026',
+    time: '06:00 PM IST',
+    duration: '1 Hour',
+    registered: 8,
+    live: false,
+  },
+  {
+    id: 6,
+    speaker: 'Vinod Kumar',
+    initials: 'VK',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/31_Oct_2019_9_51_10_591vinodkumar.jpg',
+    avatarBg: 'linear-gradient(135deg,#1D4ED8,#3B82F6)',
+    title: 'Workflow Management Using Java And Spring Boot',
+    description: 'Learn to design and implement enterprise-grade workflow management systems using Java and Spring Boot, covering state machines, process automation, and RESTful API patterns.',
+    partner: 'Java',
+    technology: 'Development',
+    date: '15 Jun 2026',
+    time: '06:00 PM IST',
+    duration: '1 Hour',
+    registered: 22,
+    live: false,
+  },
+  {
+    id: 7,
+    speaker: 'Akash Rai',
+    initials: 'AR',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/12_Mar_2026_8_45_44_158my%20pic.jpg',
+    avatarBg: 'linear-gradient(135deg,#DC2626,#F97316)',
+    title: 'AI Driven Generative Design And Smart Manufacturing With Fusion 360',
+    description: 'Explore how AI and generative design in Autodesk Fusion 360 are revolutionizing smart manufacturing—from concept generation to production-ready designs and simulation.',
+    partner: 'Autodesk',
+    technology: 'AI',
+    date: '15 Jun 2026',
+    time: '07:00 PM IST',
+    duration: '1 Hour',
+    registered: 5,
+    live: false,
+  },
+  {
+    id: 8,
+    speaker: 'Sachin Chauhan',
+    initials: 'SC',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Sachin%20Chauhan.png',
+    avatarBg: 'linear-gradient(135deg,#0694D1,#7c3aed)',
+    title: 'Designing Microsoft AI Agents With Copilot Studio – From Idea To Impact',
+    description: 'Build intelligent AI agents with Microsoft Copilot Studio—from initial concept to enterprise deployment—covering agent design, actions, connectors, and real-world integration patterns.',
+    partner: 'Microsoft',
+    technology: 'AI',
+    date: '15 Jun 2026',
+    time: '08:00 PM IST',
+    duration: '1 Hour',
+    registered: 31,
     live: false,
   },
   {
     id: 9,
-    speaker: 'Bhavani Singh Thakur',
-    initials: 'BS',
-    avatarBg: 'linear-gradient(135deg,#F59E0B,#B45309)',
-    title: 'Mastering SAP LAN & The 9 HANA 9 Phase Maintenance Model',
-    partner: 'SAP',
-    technology: 'ERP',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
+    speaker: 'Anshu Jayant Batra',
+    initials: 'AB',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Anshu%20Jayant%20Batra.png',
+    avatarBg: 'linear-gradient(135deg,#0694D1,#076D9D)',
+    title: 'Automating Legacy Systems And Desktop Applications Using Microsoft Power Automate',
+    description: 'Discover how Microsoft Power Automate desktop flows can modernize and automate legacy systems without costly rewrites, enabling seamless integration and end-to-end process automation.',
+    partner: 'Microsoft',
+    technology: 'Microsoft',
+    date: '16 Jun 2026',
+    time: '01:00 PM IST',
     duration: '1 Hour',
-    registered: 1,
+    registered: 19,
     live: false,
   },
   {
     id: 10,
-    speaker: 'K M Shukla',
-    initials: 'KS',
-    avatarBg: 'linear-gradient(135deg,#065F46,#10B981)',
-    title: 'PostgreSQL Database Administration',
-    partner: 'PostgreSQL',
-    technology: 'Database',
-    date: '11 Jun 2026',
+    speaker: 'Jasleen Kaur',
+    initials: 'JK',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/19_Dec_2025_7_25_2_926pp2025.jpg',
+    avatarBg: 'linear-gradient(135deg,#7c3aed,#a78bfa)',
+    title: 'DP-700 Exam Prep In 1 Hour',
+    description: 'Fast-track your DP-700 Microsoft Fabric Analytics Engineer certification with a focused 1-hour review of exam objectives, key concepts, practice patterns, and time-saving strategies.',
+    partner: 'Microsoft',
+    technology: 'Data',
+    date: '16 Jun 2026',
     time: '03:00 PM IST',
     duration: '1 Hour',
-    registered: 1,
+    registered: 14,
     live: false,
   },
   {
     id: 11,
-    speaker: 'Waqed Kumar',
-    initials: 'WK',
-    avatarBg: 'linear-gradient(135deg,#1D4ED8,#3B82F6)',
-    title: 'Workflow Management Using Java And Spring Boot',
-    partner: 'Java',
-    technology: 'Development',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
+    speaker: 'Bharat Singh Thakur',
+    initials: 'BT',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/19_Jan_2026_11_6_28_38WhatsApp%20Image%202026-01-14%20at%209.44.47%20AM.jpeg',
+    avatarBg: 'linear-gradient(135deg,#F59E0B,#B45309)',
+    title: 'Transitioning From SAP GUI To SAP Fiori Applications',
+    description: 'Navigate the shift from SAP GUI to the modern SAP Fiori UX—covering migration strategies, Fiori app design principles, Launchpad configuration, and deployment best practices.',
+    partner: 'SAP',
+    technology: 'ERP',
+    date: '16 Jun 2026',
+    time: '04:00 PM IST',
     duration: '1 Hour',
-    registered: 2,
+    registered: 7,
     live: false,
   },
   {
     id: 12,
-    speaker: 'Akash Rao',
-    initials: 'AR',
-    avatarBg: 'linear-gradient(135deg,#DC2626,#F97316)',
-    title: 'AI Driven Generative Design And Smart Manufacturing With Fusion 360',
-    partner: 'Autodesk',
-    technology: 'AI',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
+    speaker: 'Sajiyabanu Salat',
+    initials: 'SS',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/10_Nov_2025_20_24_26_537WhatsApp%20Image%202025-09-18%20at%2010.02.25%20PM.jpeg',
+    avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)',
+    title: 'GitHub Is More Than Push And Pull: Features Every Developer Should Know',
+    description: 'Unlock the full potential of GitHub beyond basic version control—explore Actions, Codespaces, Copilot, Projects, and security scanning features every modern developer should leverage.',
+    partner: 'GitHub',
+    technology: 'DevOps',
+    date: '16 Jun 2026',
+    time: '05:00 PM IST',
     duration: '1 Hour',
-    registered: 4,
+    registered: 16,
     live: false,
   },
   {
     id: 13,
-    speaker: 'Sadhika Choubhan',
-    initials: 'SC',
-    avatarBg: 'linear-gradient(135deg,#0694D1,#7c3aed)',
-    title: 'Designing Microsoft AI Agents With Copilot Studio – From Idea To Impact',
-    partner: 'Microsoft',
-    technology: 'AI',
-    date: '11 Jun 2026',
-    time: '03:00 PM IST',
+    speaker: 'Vinod Kumar',
+    initials: 'VK',
+    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/31_Oct_2019_9_51_10_591vinodkumar.jpg',
+    avatarBg: 'linear-gradient(135deg,#1D4ED8,#3B82F6)',
+    title: 'Oracle WebLogic Administration Basics',
+    description: 'Get started with Oracle WebLogic Server administration—covering domain configuration, application deployment, clustering, monitoring, security configuration, and troubleshooting fundamentals.',
+    partner: 'Oracle',
+    technology: 'Database',
+    date: '16 Jun 2026',
+    time: '06:00 PM IST',
     duration: '1 Hour',
-    registered: 20,
+    registered: 3,
     live: false,
   },
 ]
@@ -580,8 +606,15 @@ export default function UpcomingWebinarsPage() {
                       <div className="flex items-start justify-between gap-3 mb-4">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="relative shrink-0">
+                            {w.photo ? (
+                              <img src={w.photo} alt={w.speaker}
+                                className="w-14 h-14 rounded-full object-cover shadow-md"
+                                style={{ border: '2px solid rgba(6,148,209,0.20)' }}
+                                onError={(e) => { (e.target as HTMLImageElement).style.display='none'; (e.target as HTMLImageElement).nextElementSibling?.removeAttribute('style') }}
+                              />
+                            ) : null}
                             <div className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md"
-                              style={{ background: w.avatarBg, border: '2px solid rgba(6,148,209,0.20)' }}>
+                              style={{ background: w.avatarBg, border: '2px solid rgba(6,148,209,0.20)', display: w.photo ? 'none' : 'flex' }}>
                               {w.initials}
                             </div>
                           </div>
@@ -636,7 +669,7 @@ export default function UpcomingWebinarsPage() {
                         Show More &rsaquo;
                       </button>
                       <button className="rounded-lg px-8 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                        style={{ background: '#0F2D5E', boxShadow: '0 2px 8px rgba(15,45,94,0.35)' }}>
+                        style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)', boxShadow: '0 2px 8px rgba(9,49,72,0.35)' }}>
                         {w.live ? 'Join Now' : 'Register'}
                       </button>
                     </div>
@@ -728,34 +761,40 @@ export default function UpcomingWebinarsPage() {
           style={{ background: 'rgba(6,17,30,0.75)', backdropFilter: 'blur(6px)' }}
           onClick={() => setModalWebinar(null)}
         >
-          {/* Close button */}
-          <button
-            onClick={() => setModalWebinar(null)}
-            className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full text-white transition-opacity hover:opacity-80"
-            style={{ background: '#111827', border: '2px solid rgba(255,255,255,0.15)' }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-          </button>
-
           {/* Card */}
           <div
             className="relative flex w-full max-w-2xl overflow-hidden rounded-2xl shadow-2xl"
             style={{ background: '#fff' }}
             onClick={e => e.stopPropagation()}
           >
+            {/* Close — inside card, top-right */}
+            <button
+              onClick={() => setModalWebinar(null)}
+              className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full transition-opacity hover:opacity-70"
+              style={{ background: '#1e293b', color: '#fff' }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+
             {/* Left — speaker */}
-            <div className="flex w-[200px] shrink-0 flex-col items-center justify-center gap-3 px-6 py-8" style={{ background: '#f1f5f9', borderRight: '1px solid #e2e8f0' }}>
-              {/* Avatar */}
-              <div
-                className="flex h-20 w-20 items-center justify-center rounded-xl text-xl font-bold text-white shadow-md"
-                style={{ background: modalWebinar.avatarBg, border: '3px solid rgba(6,148,209,0.25)' }}
-              >
-                {modalWebinar.initials}
-              </div>
+            <div className="flex w-[190px] shrink-0 flex-col items-center justify-center gap-3 px-6 py-8" style={{ background: '#f1f5f9', borderRight: '1px solid #e2e8f0' }}>
+              {/* Photo or initials */}
+              {modalWebinar.photo ? (
+                <img src={modalWebinar.photo} alt={modalWebinar.speaker}
+                  className="h-24 w-24 rounded-xl object-cover shadow-md"
+                  style={{ border: '3px solid rgba(6,148,209,0.20)' }} />
+              ) : (
+                <div className="flex h-24 w-24 items-center justify-center rounded-xl text-2xl font-bold text-white shadow-md"
+                  style={{ background: modalWebinar.avatarBg, border: '3px solid rgba(6,148,209,0.20)' }}>
+                  {modalWebinar.initials}
+                </div>
+              )}
               <p className="text-center text-sm font-bold leading-snug" style={{ color: '#0d1b2a' }}>{modalWebinar.speaker}</p>
-              <span className="rounded-full px-3 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
-                {modalWebinar.partner}
-              </span>
+              {/* Vendor logo */}
+              {PARTNER_LOGOS[modalWebinar.partner] ? (
+                <img src={PARTNER_LOGOS[modalWebinar.partner]} alt={modalWebinar.partner}
+                  className="h-8 w-auto max-w-[100px] object-contain opacity-80" />
+              ) : null}
               {modalWebinar.live && (
                 <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold" style={{ background: '#16a34a', color: '#fff' }}>
                   <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
@@ -764,53 +803,15 @@ export default function UpcomingWebinarsPage() {
               )}
             </div>
 
-            {/* Right — details */}
-            <div className="flex flex-1 flex-col justify-between p-7">
+            {/* Right — title + description */}
+            <div className="relative flex flex-1 flex-col justify-center p-7 pr-12">
               {/* Quote decoration */}
-              <svg className="absolute right-6 top-5 opacity-10" width="36" height="36" viewBox="0 0 24 24" fill="#0694D1"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+              <svg className="absolute right-5 top-5 opacity-10" width="36" height="36" viewBox="0 0 24 24" fill="#0694D1"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
 
-              <div>
-                <h3 className="mb-4 text-base font-bold leading-snug pr-8" style={{ color: '#0F172A' }}>{modalWebinar.title}</h3>
-
-                <div className="space-y-2.5 text-sm" style={{ color: '#465058' }}>
-                  {/* Date/Time */}
-                  <div className="flex items-center gap-2">
-                    <svg className="h-4 w-4 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    <span>{modalWebinar.date} &nbsp;|&nbsp; {modalWebinar.time}</span>
-                  </div>
-                  {/* Duration */}
-                  <div className="flex items-center gap-2">
-                    <svg className="h-4 w-4 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <circle cx="12" cy="12" r="10"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2"/>
-                    </svg>
-                    <span>Duration: {modalWebinar.duration}</span>
-                  </div>
-                  {/* Technology */}
-                  <div className="flex items-center gap-2">
-                    <svg className="h-4 w-4 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    <span>Technology: {modalWebinar.technology}</span>
-                  </div>
-                  {/* Registered */}
-                  <div className="flex items-center gap-2">
-                    <svg className="h-4 w-4 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    <span>{modalWebinar.registered} Registered</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTA */}
-              <div className="mt-6 flex justify-end">
-                <button className="rounded-lg px-8 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                  style={{ background: '#0F2D5E', boxShadow: '0 2px 8px rgba(15,45,94,0.35)' }}>
-                  {modalWebinar.live ? 'Join Now' : 'Register'}
-                </button>
-              </div>
+              <h3 className="mb-3 text-base font-bold leading-snug" style={{ color: '#0F172A' }}>{modalWebinar.title}</h3>
+              {modalWebinar.description && (
+                <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{modalWebinar.description}</p>
+              )}
             </div>
           </div>
         </div>
