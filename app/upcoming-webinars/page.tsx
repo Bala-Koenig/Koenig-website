@@ -5,8 +5,8 @@ import Navbar from '@/components/Navbar'
 
 /* ── Hero stats ─────────────────────────────────────────────── */
 const HERO_STATS = [
-  { value: '3,000+',   label: 'Webinars Conducted' },
-  { value: '150,000+', label: 'Learners Served' },
+  { value: '3,000+',   label: 'Webinars Conducted', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z"/> },
+  { value: '150,000+', label: 'Learners Served',    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></> },
 ]
 
 /* ── Trust badges ───────────────────────────────────────────── */
@@ -567,7 +567,10 @@ export default function UpcomingWebinarsPage() {
                 {HERO_STATS.map((s, i) => (
                   <div key={s.label} className="flex items-center">
                     <div className="flex flex-col items-center justify-center px-6 py-4">
-                      <span className="text-2xl font-bold leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
+                      <div className="flex items-center gap-2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
+                        <span className="text-2xl font-bold leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
+                      </div>
                       <span className="text-xs font-medium mt-1 text-center leading-snug" style={{ color: 'rgba(255,255,255,0.65)' }}>{s.label}</span>
                     </div>
                     {i < HERO_STATS.length - 1 && (
@@ -624,7 +627,10 @@ export default function UpcomingWebinarsPage() {
               {HERO_STATS.map(s => (
                 <div key={s.label} className="flex flex-col items-center justify-center rounded-xl py-3 px-2"
                   style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(6,148,209,0.30)' }}>
-                  <span className="text-lg font-black leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
+                  <div className="flex items-center gap-1.5">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
+                    <span className="text-lg font-black leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
+                  </div>
                   <span className="text-xs font-medium mt-0.5 text-center leading-tight" style={{ color: 'rgba(255,255,255,0.55)' }}>{s.label}</span>
                 </div>
               ))}
