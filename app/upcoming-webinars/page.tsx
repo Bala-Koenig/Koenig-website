@@ -583,7 +583,7 @@ export default function UpcomingWebinarsPage() {
                   background-clip: text;
                 }
               `}</style>
-              <h1 className="hero-title-sweep text-[26px] sm:text-[32px] lg:text-[40px] font-bold leading-tight mb-5">
+              <h1 className="hero-title-sweep text-[26px] sm:text-[32px] lg:text-[36px] font-bold leading-tight mb-5">
                 Join Our Free Expert Webinars<br />
                 Learn, Grow &amp; Get Certified
               </h1>
