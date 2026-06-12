@@ -321,6 +321,8 @@ export default function UpcomingWebinarsPage() {
   const [regEmail, setRegEmail]           = useState('')
   const [regName, setRegName]             = useState('')
   const [regSubmitted, setRegSubmitted]   = useState(false)
+  const [subEmail, setSubEmail]           = useState('')
+  const [subError, setSubError]           = useState(false)
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
@@ -527,17 +529,26 @@ export default function UpcomingWebinarsPage() {
             <p className="text-sm font-bold whitespace-nowrap" style={{ color: '#0d1b2a' }}>
               Subscribe for updates on our Upcoming Webinars
             </p>
-            <div className="flex items-center gap-2">
-              <input
-                type="email"
-                placeholder="Enter Email"
-                className="w-56 rounded-lg border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
-                style={{ borderColor: '#CAEFFF', background: 'white', color: '#0d1b2a' }}
-              />
-              <button className="shrink-0 rounded-lg px-5 py-2 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                style={{ background: '#0694D1' }}>
-                Subscribe
-              </button>
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <input
+                  type="email"
+                  placeholder="Enter Email"
+                  value={subEmail}
+                  onChange={e => { setSubEmail(e.target.value); if (e.target.value) setSubError(false) }}
+                  className="w-56 rounded-lg border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
+                  style={{ borderColor: subError ? '#ef4444' : '#CAEFFF', background: 'white', color: '#0d1b2a' }}
+                />
+                <button
+                  onClick={() => { if (!subEmail.trim()) { setSubError(true) } }}
+                  className="shrink-0 rounded-lg px-5 py-2 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                  style={{ background: '#0694D1' }}>
+                  Subscribe
+                </button>
+              </div>
+              {subError && (
+                <p className="text-xs" style={{ color: '#ef4444' }}>Please enter your email address.</p>
+              )}
             </div>
           </div>
         </div>
