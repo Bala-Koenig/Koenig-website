@@ -371,10 +371,6 @@ export default function UpcomingWebinarsPage() {
                 Learn, Grow &amp; Get Certified
               </h1>
 
-              <p className="text-base sm:text-lg leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.70)' }}>
-                Attend live sessions led by industry-certified experts. Ask questions in real-time, earn a certificate of attendance, and stay ahead in your tech career — all at zero cost.
-              </p>
-
               {/* Stats */}
               <div className="inline-flex items-center rounded-2xl mb-6"
                 style={{
