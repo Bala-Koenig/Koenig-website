@@ -634,9 +634,9 @@ export default function UpcomingWebinarsPage() {
                       <button className="text-sm font-semibold transition-colors hover:text-[#0694D1]" style={{ color: '#465058' }}>
                         Show More &rsaquo;
                       </button>
-                      <button className="rounded-lg px-4 py-1.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                      <button className="rounded-lg px-6 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
                         style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 2px 8px rgba(6,148,209,0.30)' }}>
-                        Register
+                        {w.live ? 'Join Now' : 'Register'}
                       </button>
                     </div>
                   </article>
