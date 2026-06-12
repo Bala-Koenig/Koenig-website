@@ -88,6 +88,7 @@ const TOP_TECHNOLOGIES = [
   { name: 'DevOps',              count: '210+', partners: ['Kubernetes', 'HashiCorp', 'AWS'] },
   { name: 'ERP Systems',         count: '180+', partners: ['SAP', 'Oracle', 'Microsoft'] },
   { name: 'Linux & Open Source', count: '110+', partners: ['Red Hat', 'Linux Foundation', 'CompTIA'] },
+  { name: 'Power Platform',      count: '60+',  partners: ['Microsoft'] },
 ]
 
 const NEW_TRENDING = [
@@ -1076,6 +1077,16 @@ const LEARNING_LINKS = [
   { label: 'Learnova',             href: '#' },
 ]
 
+const VENDOR_HREFS: Record<string, string> = {
+  'Microsoft': '/microsoft',
+}
+const COURSE_HREFS: Record<string, string> = {
+  'AZ-104: Microsoft Azure Administrator': '/courses/az-104',
+}
+const TECH_HREFS: Record<string, string> = {
+  'Power Platform': '/technologies/power-platform',
+}
+
 const MEGA_MENU_VENDORS = [
   { name: 'Microsoft',        img: 'microsoft-cloud-t.png',                                    courses: '380+' },
   { name: 'AWS',              img: 'amazon-authorized.png',                                     courses: '290+' },
@@ -1283,6 +1294,14 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'Linux Foundation Certified Sysadmin', vendor: 'Linux Foundation', days: 5, level: 'Intermediate' },
     { name: 'OpenShift Administration', vendor: 'Red Hat', days: 4, level: 'Advanced' },
     { name: 'Certified Kubernetes Administrator', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
+  ],
+  'Power Platform': [
+    { name: 'PL-900: Microsoft Power Platform Fundamentals', vendor: 'Microsoft', days: 1, level: 'Beginner' },
+    { name: 'PL-100: Microsoft Power Platform App Maker', vendor: 'Microsoft', days: 5, level: 'Intermediate' },
+    { name: 'PL-200: Power Platform Functional Consultant', vendor: 'Microsoft', days: 5, level: 'Intermediate' },
+    { name: 'PL-300: Microsoft Power BI Data Analyst', vendor: 'Microsoft', days: 3, level: 'Intermediate' },
+    { name: 'PL-400: Microsoft Power Platform Developer', vendor: 'Microsoft', days: 5, level: 'Advanced' },
+    { name: 'PL-600: Power Platform Solution Architect', vendor: 'Microsoft', days: 5, level: 'Advanced' },
   ],
 }
 
@@ -2331,12 +2350,12 @@ export default function Design4Page() {
                     {MEGA_MENU_VENDORS.find(v => v.name === mobileMegaVendor)?.courses} courses available
                   </p>
                   {(MEGA_MENU_COURSES[mobileMegaVendor] ?? []).map((c, i) => (
-                    <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                    <a key={i} href={COURSE_HREFS[c.name] ?? '#'} className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
                       <span>{c.name}</span>
                       <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{c.days}d</span>
                     </a>
                   ))}
-                  <a href="#" className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                  <a href={VENDOR_HREFS[mobileMegaVendor] ?? '#'} className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
                     Browse All {mobileMegaVendor} Courses →
                   </a>
                 </div>
@@ -2373,7 +2392,7 @@ export default function Design4Page() {
                       {TOP_TECHNOLOGIES.map(t => (
                         <button
                           key={t.name}
-                          onClick={() => setMobileTechCategory(t.name)}
+                          onClick={() => { if (TECH_HREFS[t.name]) { router.push(TECH_HREFS[t.name]); setMobileTechOpen(false); setMobileOpen(false) } else { setMobileTechCategory(t.name) } }}
                           className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
                           style={{
                             background: mobileTechCategory === t.name ? '#0694D1' : 'rgba(255,255,255,0.06)',
@@ -2390,13 +2409,13 @@ export default function Design4Page() {
                         {TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)?.partners.join(', ')}
                       </p>
                       {(TECH_MENU_COURSES[mobileTechCategory] ?? []).map((course, i) => (
-                        <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                        <a key={i} href={COURSE_HREFS[course.name] ?? '#'} className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
                           <span>{course.name}</span>
                           <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.days}d</span>
                         </a>
                       ))}
                       <a
-                        href="#"
+                        href={TECH_HREFS[mobileTechCategory] ?? '#'}
                         onClick={() => setMobileAllCoursesOpen(false)}
                         className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all"
                         style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff' }}
@@ -2448,7 +2467,7 @@ export default function Design4Page() {
               </div>
 
               {/* Contact */}
-              <a href="#" className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/5">Contact</a>
+              <a href="/contact" className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/5">Contact</a>
 
               {/* Bottom actions */}
               <div className="flex gap-2 pt-2 pb-1">
@@ -2489,7 +2508,7 @@ export default function Design4Page() {
                     </div>
                   </button>
                   <a
-                    href="#"
+                    href={VENDOR_HREFS[v.name] ?? '#'}
                     title={`View all ${v.name} courses`}
                     className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-md opacity-0 transition-all group-hover/vendor:opacity-100 hover:!opacity-100"
                     style={{ color: '#38bdf8', background: 'rgba(6,148,209,0.18)' }}
@@ -2510,7 +2529,7 @@ export default function Design4Page() {
                     {MEGA_MENU_VENDORS.find(v => v.name === megaMenuVendor)?.courses} courses available
                   </p>
                 </div>
-                <a href="#" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                <a href={VENDOR_HREFS[megaMenuVendor] ?? '#'} className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
                   View All {megaMenuVendor} Courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
@@ -2520,7 +2539,7 @@ export default function Design4Page() {
                 {(MEGA_MENU_COURSES[megaMenuVendor] ?? []).map((course, i) => (
                   <a
                     key={i}
-                    href="#"
+                    href={COURSE_HREFS[course.name] ?? '#'}
                     className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
@@ -2547,7 +2566,7 @@ export default function Design4Page() {
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7"/></svg>
                   Browse All Vendors
                 </a>
-                <a href="#" className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+                <a href={VENDOR_HREFS[megaMenuVendor] ?? '#'} className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
                   Browse All {megaMenuVendor} Courses →
                 </a>
               </div>
@@ -2574,13 +2593,14 @@ export default function Design4Page() {
                 { name: 'DevOps',             icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/> },
                 { name: 'ERP Systems',        icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/> },
                 { name: 'Linux & Open Source',icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/> },
+                { name: 'Power Platform',     icon: <><rect x="3" y="3" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="13" y="3" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="3" y="13" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="13" y="13" width="8" height="8" rx="1.5" strokeWidth={1.8}/></> },
               ] as { name: string; icon: React.ReactNode }[]).map(({ name, icon }) => {
                 const t = TOP_TECHNOLOGIES.find(x => x.name === name)!
                 return (
                   <button
                     key={name}
                     onMouseEnter={() => setTechMenuCategory(name)}
-                    onClick={() => setTechMenuCategory(name)}
+                    onClick={() => { if (TECH_HREFS[name]) { router.push(TECH_HREFS[name]); setTechMenuOpen(false) } else { setTechMenuCategory(name) } }}
                     className="flex items-center gap-3 px-4 py-2.5 text-left transition-all"
                     style={{
                       background: techMenuCategory === name ? 'rgba(6,148,209,0.12)' : 'transparent',
@@ -2610,7 +2630,7 @@ export default function Design4Page() {
                     {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.partners.join(', ')}
                   </p>
                 </div>
-                <a href="#" className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
+                <a href={TECH_HREFS[techMenuCategory] ?? '#'} className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
                   View all {techMenuCategory} courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
@@ -2619,7 +2639,7 @@ export default function Design4Page() {
                 {(TECH_MENU_COURSES[techMenuCategory] ?? []).map((course, i) => (
                   <a
                     key={i}
-                    href="#"
+                    href={COURSE_HREFS[course.name] ?? '#'}
                     className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
@@ -2640,7 +2660,7 @@ export default function Design4Page() {
               </div>
               <div className="mt-5 flex items-center justify-between border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
                 <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {techMenuCategory}</span>
-                <a href="#" className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
+                <a href={TECH_HREFS[techMenuCategory] ?? '#'} className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
                   Browse All {techMenuCategory} Courses →
                 </a>
               </div>
