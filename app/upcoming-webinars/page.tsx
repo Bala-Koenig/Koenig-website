@@ -982,13 +982,16 @@ export default function UpcomingWebinarsPage() {
             </div>
           )}
 
-          {/* Mobile: View More Webinars */}
-          {!showMoreMobile && displayed.length > 8 && (
+          {/* Mobile: View More / View Less */}
+          {displayed.length > 8 && (
             <div className="mt-6 text-center sm:hidden">
-              <button onClick={() => setShowMoreMobile(true)}
+              <button onClick={() => setShowMoreMobile(v => !v)}
                 className="inline-flex items-center gap-2 rounded-xl border-2 px-8 py-3 text-sm font-bold transition-all text-[#0694D1] border-[#0694D1] hover:bg-[#0694D1] hover:text-white">
-                View More Webinars
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                {showMoreMobile ? (
+                  <>View Less <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7"/></svg></>
+                ) : (
+                  <>View More Webinars <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg></>
+                )}
               </button>
             </div>
           )}
