@@ -468,10 +468,10 @@ export default function UpcomingWebinarsPage() {
 
       {/* ════════════════ STREAMING LIVE BANNER ════════════════ */}
       <div style={{ background: 'linear-gradient(90deg, #dbeafe 0%, #e0f2fe 40%, #bfdbfe 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)', borderTop: '1px solid rgba(6,148,209,0.15)' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-3">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold shrink-0"
+              <span className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-bold shrink-0"
                 style={{ background: 'rgba(34,197,94,0.18)', border: '1px solid rgba(34,197,94,0.50)', color: '#16a34a' }}>
                 <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="#FF0000">
                   <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -484,8 +484,8 @@ export default function UpcomingWebinarsPage() {
               </span>
             </div>
             <a href="#webinar-listings"
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-bold text-white transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 2px 12px rgba(6,148,209,0.35)' }}>
+              className="shrink-0 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-base font-bold text-white transition-all hover:opacity-90 active:scale-95"
+              style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 16px rgba(6,148,209,0.40)' }}>
               Join Now →
             </a>
           </div>
@@ -494,7 +494,7 @@ export default function UpcomingWebinarsPage() {
 
       {/* ════════════════ SUBSCRIBE BAR ════════════════ */}
       <div style={{ background: '#EBF8FE', borderBottom: '1px solid #CAEFFF' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-3">
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5">
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <p className="text-sm font-semibold text-center sm:text-left shrink-0" style={{ color: '#0d1b2a' }}>
               Subscribe for updates on our Upcoming Webinars
@@ -503,11 +503,11 @@ export default function UpcomingWebinarsPage() {
               <input
                 type="email"
                 placeholder="Enter Email"
-                className="w-full sm:w-64 rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
+                className="w-full sm:w-64 rounded-lg border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#0d1b2a' }}
               />
-              <button className="shrink-0 rounded-lg px-4 py-2 text-sm font-bold text-white"
-                style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
+              <button className="shrink-0 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 16px rgba(6,148,209,0.35)' }}>
                 Subscribe
               </button>
             </div>
