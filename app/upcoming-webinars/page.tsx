@@ -517,68 +517,41 @@ export default function UpcomingWebinarsPage() {
         style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 55%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
       >
         <style>{`
-          @keyframes ribbonDrift {
-            0%   { transform: translateY(0px) translateX(0px); }
-            33%  { transform: translateY(-12px) translateX(8px); }
-            66%  { transform: translateY(6px) translateX(-6px); }
-            100% { transform: translateY(0px) translateX(0px); }
-          }
-          @keyframes ribbonDrift2 {
-            0%   { transform: translateY(0px) translateX(0px); }
-            33%  { transform: translateY(10px) translateX(-10px); }
-            66%  { transform: translateY(-8px) translateX(5px); }
-            100% { transform: translateY(0px) translateX(0px); }
-          }
+          @keyframes waveScroll1 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+          @keyframes waveScroll2 { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+          @keyframes waveScroll3 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         `}</style>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          {/* Ribbon wave — outer band */}
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid slice"
-            style={{ animation: 'ribbonDrift 12s ease-in-out infinite' }}>
-            {[
-              'M-200,550 C200,450 700,300 1600,200',
-              'M-200,527 C206,426 706,281 1600,183',
-              'M-200,503 C212,403 712,262 1600,167',
-              'M-200,480 C218,379 718,244 1600,151',
-              'M-200,456 C224,356 724,225 1600,134',
-              'M-200,432 C229,332 729,206 1600,118',
-              'M-200,409 C235,308 735,187 1600,102',
-              'M-200,385 C241,285 741,169 1600,85',
-              'M-200,362 C247,261 747,150 1600,68',
-              'M-200,338 C253,238 753,131 1600,52',
-              'M-200,315 C259,214 759,112 1600,35',
-              'M-200,291 C265,191 765,94 1600,19',
-              'M-200,268 C271,167 771,75 1600,2',
-              'M-200,244 C276,144 776,56 1600,-14',
-              'M-200,221 C282,120 782,37 1600,-31',
-              'M-200,197 C288,97 788,19 1600,-47',
-              'M-200,174 C294,73 794,0 1600,-64',
-              'M-200,150 C300,50 800,-20 1600,-80',
-            ].map((d, i) => (
-              <path key={i} d={d} fill="none" stroke="#38bdf8"
-                strokeWidth="0.8"
-                opacity={0.12 + i * 0.018} />
-            ))}
-          </svg>
-          {/* Ribbon wave — second band, offset */}
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid slice"
-            style={{ animation: 'ribbonDrift2 16s ease-in-out infinite' }}>
-            {[
-              'M-200,480 C300,380 750,420 1600,300',
-              'M-200,460 C300,358 750,398 1600,278',
-              'M-200,440 C300,336 750,376 1600,256',
-              'M-200,420 C300,314 750,354 1600,234',
-              'M-200,400 C300,292 750,332 1600,212',
-              'M-200,380 C300,270 750,310 1600,190',
-              'M-200,360 C300,248 750,288 1600,168',
-              'M-200,340 C300,226 750,266 1600,146',
-              'M-200,320 C300,204 750,244 1600,124',
-              'M-200,300 C300,182 750,222 1600,102',
-            ].map((d, i) => (
-              <path key={i} d={d} fill="none" stroke="#0694D1"
-                strokeWidth="0.7"
-                opacity={0.08 + i * 0.015} />
-            ))}
-          </svg>
+          {/* Wave band 1 — slow, large amplitude */}
+          <div className="absolute inset-0" style={{ animation: 'waveScroll1 20s linear infinite' }}>
+            <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+              {[0,14,28,42,56,70,84].map((offset, i) => (
+                <path key={i} fill="none" stroke="#38bdf8" strokeWidth="1" opacity={0.06 + i * 0.025}
+                  d={`M0,${300+offset} C200,${220+offset} 400,${380+offset} 600,${300+offset} C800,${220+offset} 1000,${380+offset} 1200,${300+offset} C1400,${220+offset} 1600,${380+offset} 1800,${300+offset} C2000,${220+offset} 2200,${380+offset} 2400,${300+offset} C2600,${220+offset} 2800,${380+offset} 3200,${300+offset}`}
+                />
+              ))}
+            </svg>
+          </div>
+          {/* Wave band 2 — medium speed, mid section */}
+          <div className="absolute inset-0" style={{ animation: 'waveScroll2 14s linear infinite' }}>
+            <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+              {[0,12,24,36,48,60].map((offset, i) => (
+                <path key={i} fill="none" stroke="#0694D1" strokeWidth="1" opacity={0.05 + i * 0.022}
+                  d={`M0,${180+offset} C267,${100+offset} 533,${260+offset} 800,${180+offset} C1067,${100+offset} 1333,${260+offset} 1600,${180+offset} C1867,${100+offset} 2133,${260+offset} 2400,${180+offset} C2667,${100+offset} 2933,${260+offset} 3200,${180+offset}`}
+                />
+              ))}
+            </svg>
+          </div>
+          {/* Wave band 3 — fast, small ripples */}
+          <div className="absolute inset-0" style={{ animation: 'waveScroll3 9s linear infinite' }}>
+            <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+              {[0,10,20,30,40].map((offset, i) => (
+                <path key={i} fill="none" stroke="#38bdf8" strokeWidth="0.7" opacity={0.04 + i * 0.018}
+                  d={`M0,${420+offset} C160,${380+offset} 320,${460+offset} 480,${420+offset} C640,${380+offset} 800,${460+offset} 960,${420+offset} C1120,${380+offset} 1280,${460+offset} 1440,${420+offset} C1600,${380+offset} 1760,${460+offset} 1920,${420+offset} C2080,${380+offset} 2240,${460+offset} 2400,${420+offset} C2560,${380+offset} 2720,${460+offset} 2880,${420+offset} C3040,${380+offset} 3200,${460+offset} 3200,${420+offset}`}
+                />
+              ))}
+            </svg>
+          </div>
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
