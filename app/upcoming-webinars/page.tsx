@@ -323,6 +323,11 @@ export default function UpcomingWebinarsPage() {
   const [regSubmitted, setRegSubmitted]   = useState(false)
   const [sortBy, setSortBy]               = useState('All Webinar')
   const [sortOpen, setSortOpen]           = useState(false)
+  const [techOpen, setTechOpen]           = useState(false)
+  const [techSearch, setTechSearch]       = useState('')
+  const [partnerOpen, setPartnerOpen]     = useState(false)
+  const [partnerSearch, setPartnerSearch] = useState('')
+  const [subConfirm, setSubConfirm]       = useState(false)
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
@@ -533,7 +538,7 @@ export default function UpcomingWebinarsPage() {
             <p className="text-sm font-bold whitespace-nowrap" style={{ color: '#0d1b2a' }}>
               Subscribe for updates on our Upcoming Webinars
             </p>
-            <form className="flex items-center gap-2" onSubmit={e => e.preventDefault()}>
+            <form className="flex items-center gap-2" onSubmit={e => { e.preventDefault(); setSubConfirm(true); (e.target as HTMLFormElement).reset(); setTimeout(() => setSubConfirm(false), 4000) }}>
               <input
                 type="email"
                 placeholder="Enter Email"
@@ -583,21 +588,85 @@ export default function UpcomingWebinarsPage() {
               />
             </div>
             {/* Filter by Technology */}
-            <select value={filterTech} onChange={e => setFilterTech(e.target.value)}
-              className="rounded-xl border px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
-              style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
-              {allTechs.map(t => (
-                <option key={t} value={t}>{t === 'All' ? 'Filter by Technology' : t}</option>
-              ))}
-            </select>
+            <div className="relative">
+              <button onClick={() => { setTechOpen(o => !o); setPartnerOpen(false); setSortOpen(false) }}
+                className="flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition-all"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '170px' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                </svg>
+                <span className="flex-1 text-left truncate">{filterTech === 'All' ? 'Filter by Technology' : filterTech}</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ transform: techOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              {techOpen && (
+                <div className="absolute left-0 top-full mt-1 z-50 w-52 rounded-xl shadow-lg overflow-hidden"
+                  style={{ background: 'white', border: '1px solid #CAEFFF' }}>
+                  <div className="p-2 border-b" style={{ borderColor: '#CAEFFF' }}>
+                    <div className="relative">
+                      <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                      </svg>
+                      <input autoFocus type="text" placeholder="Search..." value={techSearch}
+                        onChange={e => setTechSearch(e.target.value)}
+                        className="w-full rounded-lg border pl-8 pr-3 py-1.5 text-xs outline-none"
+                        style={{ borderColor: '#CAEFFF', color: '#0d1b2a' }} />
+                    </div>
+                  </div>
+                  <div className="max-h-48 overflow-y-auto">
+                    {allTechs.filter(t => t === 'All' || t.toLowerCase().includes(techSearch.toLowerCase())).map(t => (
+                      <button key={t} onClick={() => { setFilterTech(t); setTechOpen(false); setTechSearch('') }}
+                        className="w-full px-4 py-2 text-left text-sm transition-colors hover:bg-[#EBF8FE]"
+                        style={{ color: filterTech === t ? '#0694D1' : '#0d1b2a', fontWeight: filterTech === t ? 600 : 400 }}>
+                        {t === 'All' ? 'All Technologies' : t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             {/* Filter by Partner */}
-            <select value={filterPartner} onChange={e => setFilterPartner(e.target.value)}
-              className="rounded-xl border px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
-              style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
-              {allPartners.map(p => (
-                <option key={p} value={p}>{p === 'All' ? 'Filter by Partner' : p}</option>
-              ))}
-            </select>
+            <div className="relative">
+              <button onClick={() => { setPartnerOpen(o => !o); setTechOpen(false); setSortOpen(false) }}
+                className="flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition-all"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '160px' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span className="flex-1 text-left truncate">{filterPartner === 'All' ? 'Filter by Partner' : filterPartner}</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ transform: partnerOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              {partnerOpen && (
+                <div className="absolute left-0 top-full mt-1 z-50 w-52 rounded-xl shadow-lg overflow-hidden"
+                  style={{ background: 'white', border: '1px solid #CAEFFF' }}>
+                  <div className="p-2 border-b" style={{ borderColor: '#CAEFFF' }}>
+                    <div className="relative">
+                      <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                      </svg>
+                      <input autoFocus type="text" placeholder="Search..." value={partnerSearch}
+                        onChange={e => setPartnerSearch(e.target.value)}
+                        className="w-full rounded-lg border pl-8 pr-3 py-1.5 text-xs outline-none"
+                        style={{ borderColor: '#CAEFFF', color: '#0d1b2a' }} />
+                    </div>
+                  </div>
+                  <div className="max-h-48 overflow-y-auto">
+                    {allPartners.filter(p => p === 'All' || p.toLowerCase().includes(partnerSearch.toLowerCase())).map(p => (
+                      <button key={p} onClick={() => { setFilterPartner(p); setPartnerOpen(false); setPartnerSearch('') }}
+                        className="w-full px-4 py-2 text-left text-sm transition-colors hover:bg-[#EBF8FE]"
+                        style={{ color: filterPartner === p ? '#0694D1' : '#0d1b2a', fontWeight: filterPartner === p ? 600 : 400 }}>
+                        {p === 'All' ? 'All Partners' : p}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             {/* Sort by */}
             <div className="relative">
               <button
@@ -958,6 +1027,23 @@ export default function UpcomingWebinarsPage() {
               )}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* ════════ SUBSCRIBE CONFIRMATION TOAST ════════ */}
+      {subConfirm && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 rounded-2xl px-5 py-3.5 shadow-2xl"
+          style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.18)' }}>
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(22,163,74,0.12)' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <p className="text-sm font-bold" style={{ color: '#0F172A' }}>Subscribed successfully!</p>
+            <p className="text-xs" style={{ color: '#64748b' }}>You&apos;ll receive updates on upcoming webinars.</p>
+          </div>
+          <button onClick={() => setSubConfirm(false)} className="ml-2 opacity-50 hover:opacity-100">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
         </div>
       )}
     </>
