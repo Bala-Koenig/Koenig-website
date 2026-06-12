@@ -346,7 +346,7 @@ export default function UpcomingWebinarsPage() {
     if (sortBy === 'Most Popular')    return b.registered - a.registered
     return 0
   })
-  const displayed = showAll ? sorted : sorted.slice(0, 9)
+  const displayed = showAll ? sorted : sorted.slice(0, 5)
 
   return (
     <>
@@ -795,16 +795,23 @@ export default function UpcomingWebinarsPage() {
             </div>
           )}
 
-          {/* Show All */}
-          {!showAll && filtered.length > 9 && (
+          {/* Show All / Show Less */}
+          {sorted.length > 5 && (
             <div className="mt-10 text-center">
-              <button onClick={() => setShowAll(true)}
+              <button onClick={() => setShowAll(v => !v)}
                 className="inline-flex items-center gap-2 rounded-xl border-2 px-8 py-3 text-sm font-bold transition-all hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1]"
                 style={{ borderColor: '#0694D1', color: '#0694D1' }}>
-                Show All
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
-                </svg>
+                {showAll ? (
+                  <>
+                    Show Less
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7"/></svg>
+                  </>
+                ) : (
+                  <>
+                    Show All ({sorted.length})
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                  </>
+                )}
               </button>
             </div>
           )}
