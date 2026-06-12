@@ -764,20 +764,22 @@ export default function UpcomingWebinarsPage() {
 
       {/* ════════ SUBSCRIBE STRIP ════════ */}
       <section className="px-4 md:px-8 lg:px-[50px] py-3.5" style={{ background: '#dbeafe', borderTop: '1px solid #bfdbfe' }}>
-        <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm font-bold" style={{ color: '#0F172A' }}>Subscribe for updates on our Upcoming Webinars</p>
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <input
-              type="email"
-              placeholder="Enter Email"
-              className="rounded-lg border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30 w-full sm:w-64"
-              style={{ borderColor: '#bfdbfe', background: '#fff', color: '#0F172A' }}
-            />
-            <button
-              className="shrink-0 rounded-lg px-5 py-2 text-sm font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: '#0694D1' }}>
-              Subscribe
-            </button>
+        <div className="mx-auto max-w-7xl flex justify-center">
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <p className="text-sm font-bold whitespace-nowrap" style={{ color: '#0F172A' }}>Subscribe for updates on our Upcoming Webinars</p>
+            <div className="flex items-center gap-2">
+              <input
+                type="email"
+                placeholder="Enter Email"
+                className="rounded-lg border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30 w-56"
+                style={{ borderColor: '#bfdbfe', background: '#fff', color: '#0F172A' }}
+              />
+              <button
+                className="shrink-0 rounded-lg px-5 py-2 text-sm font-semibold text-white transition-all hover:opacity-90"
+                style={{ background: '#0694D1' }}>
+                Subscribe
+              </button>
+            </div>
           </div>
         </div>
       </section>
