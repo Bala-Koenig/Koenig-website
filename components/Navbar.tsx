@@ -503,7 +503,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
               </button>
               {/* Contact */}
               <a
-                href="#"
+                href="/contact"
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: '#ffffff', background: 'transparent' }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
@@ -793,7 +793,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 )}
               </div>
               {/* Contact */}
-              <a href="#" className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/5">Contact</a>
+              <a href="/contact" className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/5">Contact</a>
               {/* Bottom actions */}
               <div className="flex gap-2 pt-2 pb-1">
                 <a href="https://mykoenig.com" target="_blank" rel="noopener noreferrer" className="flex-1 rounded-lg border border-white/30 px-4 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-white/10">Login</a>
