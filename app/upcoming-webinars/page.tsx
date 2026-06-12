@@ -517,36 +517,68 @@ export default function UpcomingWebinarsPage() {
         style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 55%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
       >
         <style>{`
-          @keyframes waveMove1 { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-          @keyframes waveMove2 { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-          @keyframes waveMove3 { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+          @keyframes ribbonDrift {
+            0%   { transform: translateY(0px) translateX(0px); }
+            33%  { transform: translateY(-12px) translateX(8px); }
+            66%  { transform: translateY(6px) translateX(-6px); }
+            100% { transform: translateY(0px) translateX(0px); }
+          }
+          @keyframes ribbonDrift2 {
+            0%   { transform: translateY(0px) translateX(0px); }
+            33%  { transform: translateY(10px) translateX(-10px); }
+            66%  { transform: translateY(-8px) translateX(5px); }
+            100% { transform: translateY(0px) translateX(0px); }
+          }
         `}</style>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          {/* Radial glows */}
-          <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full opacity-[0.07]"  style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
-          <div className="absolute top-1/2 right-0 h-[400px] w-[400px] rounded-full opacity-[0.05]"   style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 70%)' }} />
-          <div className="absolute bottom-0 left-1/3 h-[300px] w-[300px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
-          {/* Wave 1 — slowest, bottom */}
-          <div className="absolute bottom-0 left-0 w-[200%]" style={{ animation: 'waveMove1 18s linear infinite' }}>
-            <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className="w-full" style={{ height: '90px', opacity: 0.08 }}>
-              <path d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z" fill="#0694D1"/>
-              <path d="M1440,60 C1200,100 960,20 720,60 C480,100 240,20 0,60 L0,120 L1440,120 Z" fill="#0694D1"/>
-            </svg>
-          </div>
-          {/* Wave 2 — medium, middle */}
-          <div className="absolute bottom-0 left-0 w-[200%]" style={{ animation: 'waveMove2 12s linear infinite reverse' }}>
-            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" className="w-full" style={{ height: '70px', opacity: 0.06 }}>
-              <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,30 1440,40 L1440,100 L0,100 Z" fill="#38bdf8"/>
-              <path d="M1440,40 C1080,80 720,0 360,40 C180,60 60,30 0,40 L0,100 L1440,100 Z" fill="#38bdf8"/>
-            </svg>
-          </div>
-          {/* Wave 3 — fastest, top layer */}
-          <div className="absolute bottom-0 left-0 w-[200%]" style={{ animation: 'waveMove3 8s linear infinite' }}>
-            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full" style={{ height: '50px', opacity: 0.05 }}>
-              <path d="M0,30 C180,60 360,0 540,30 C720,60 900,0 1080,30 C1260,60 1380,20 1440,30 L1440,80 L0,80 Z" fill="#0694D1"/>
-              <path d="M1440,30 C1260,60 1080,0 900,30 C720,60 540,0 360,30 C180,60 60,20 0,30 L0,80 L1440,80 Z" fill="#0694D1"/>
-            </svg>
-          </div>
+          {/* Ribbon wave — outer band */}
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid slice"
+            style={{ animation: 'ribbonDrift 12s ease-in-out infinite' }}>
+            {[
+              'M-200,550 C200,450 700,300 1600,200',
+              'M-200,527 C206,426 706,281 1600,183',
+              'M-200,503 C212,403 712,262 1600,167',
+              'M-200,480 C218,379 718,244 1600,151',
+              'M-200,456 C224,356 724,225 1600,134',
+              'M-200,432 C229,332 729,206 1600,118',
+              'M-200,409 C235,308 735,187 1600,102',
+              'M-200,385 C241,285 741,169 1600,85',
+              'M-200,362 C247,261 747,150 1600,68',
+              'M-200,338 C253,238 753,131 1600,52',
+              'M-200,315 C259,214 759,112 1600,35',
+              'M-200,291 C265,191 765,94 1600,19',
+              'M-200,268 C271,167 771,75 1600,2',
+              'M-200,244 C276,144 776,56 1600,-14',
+              'M-200,221 C282,120 782,37 1600,-31',
+              'M-200,197 C288,97 788,19 1600,-47',
+              'M-200,174 C294,73 794,0 1600,-64',
+              'M-200,150 C300,50 800,-20 1600,-80',
+            ].map((d, i) => (
+              <path key={i} d={d} fill="none" stroke="#38bdf8"
+                strokeWidth="0.8"
+                opacity={0.12 + i * 0.018} />
+            ))}
+          </svg>
+          {/* Ribbon wave — second band, offset */}
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid slice"
+            style={{ animation: 'ribbonDrift2 16s ease-in-out infinite' }}>
+            {[
+              'M-200,480 C300,380 750,420 1600,300',
+              'M-200,460 C300,358 750,398 1600,278',
+              'M-200,440 C300,336 750,376 1600,256',
+              'M-200,420 C300,314 750,354 1600,234',
+              'M-200,400 C300,292 750,332 1600,212',
+              'M-200,380 C300,270 750,310 1600,190',
+              'M-200,360 C300,248 750,288 1600,168',
+              'M-200,340 C300,226 750,266 1600,146',
+              'M-200,320 C300,204 750,244 1600,124',
+              'M-200,300 C300,182 750,222 1600,102',
+            ].map((d, i) => (
+              <path key={i} d={d} fill="none" stroke="#0694D1"
+                strokeWidth="0.7"
+                opacity={0.08 + i * 0.015} />
+            ))}
+          </svg>
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
