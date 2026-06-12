@@ -886,37 +886,22 @@ export default function UpcomingWebinarsPage() {
                 <>
                   <p className="mb-5 text-sm" style={{ color: '#64748b' }}>Fill in your details to secure your spot for this free webinar.</p>
 
-                  <div className="space-y-4">
-                    <div>
-                      <label className="mb-1.5 block text-xs font-semibold" style={{ color: '#374151' }}>
-                        Full Name <span style={{ color: '#ef4444' }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={regName}
-                        onChange={e => setRegName(e.target.value)}
-                        placeholder="Your full name"
-                        className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition focus:ring-2"
-                        style={{ borderColor: '#e2e8f0', color: '#0F172A', focusRingColor: 'rgba(6,148,209,0.25)' }}
-                      />
-                    </div>
-                    <div>
-                      <label className="mb-1.5 block text-xs font-semibold" style={{ color: '#374151' }}>
-                        Email Address <span style={{ color: '#ef4444' }}>*</span>
-                      </label>
-                      <input
-                        type="email"
-                        value={regEmail}
-                        onChange={e => setRegEmail(e.target.value)}
-                        placeholder="you@example.com"
-                        className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition focus:ring-2"
-                        style={{ borderColor: '#e2e8f0', color: '#0F172A' }}
-                      />
-                    </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold" style={{ color: '#374151' }}>
+                      Email Address <span style={{ color: '#ef4444' }}>*</span>
+                    </label>
+                    <input
+                      type="email"
+                      value={regEmail}
+                      onChange={e => setRegEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition focus:ring-2"
+                      style={{ borderColor: '#e2e8f0', color: '#0F172A' }}
+                    />
                   </div>
 
                   <button
-                    onClick={() => { if (regName && regEmail) setRegSubmitted(true) }}
+                    onClick={() => { if (regEmail) setRegSubmitted(true) }}
                     className="mt-6 w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
                     style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)', boxShadow: '0 4px 14px rgba(9,49,72,0.35)' }}>
                     {regWebinar.live ? 'Join Now →' : 'Register for Free →'}
