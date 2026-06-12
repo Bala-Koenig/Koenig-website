@@ -524,6 +524,10 @@ export default function UpcomingWebinarsPage() {
           @keyframes ripple    { 0%{transform:scale(1);opacity:0.18} 100%{transform:scale(2.2);opacity:0} }
         `}</style>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Sky blue glow orbs */}
+          <div className="absolute" style={{ top: '-10%', left: '-5%', width: '55%', height: '80%', background: 'radial-gradient(ellipse at center, rgba(56,189,248,0.13) 0%, rgba(6,148,209,0.06) 45%, transparent 70%)', filter: 'blur(40px)' }} />
+          <div className="absolute" style={{ top: '20%', right: '-8%', width: '45%', height: '70%', background: 'radial-gradient(ellipse at center, rgba(6,148,209,0.12) 0%, rgba(56,189,248,0.05) 50%, transparent 70%)', filter: 'blur(50px)' }} />
+          <div className="absolute" style={{ bottom: '-5%', left: '35%', width: '40%', height: '50%', background: 'radial-gradient(ellipse at center, rgba(56,189,248,0.09) 0%, transparent 65%)', filter: 'blur(35px)' }} />
           {/* Floating webinar icons */}
           {[
             /* video camera */ { x:'8%',  y:'18%', delay:'0s',   dur:'6s',  anim:'floatUp',   size:38, paths:[<path key="a" strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>] },
