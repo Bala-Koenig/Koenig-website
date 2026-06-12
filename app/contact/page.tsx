@@ -218,6 +218,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white text-[#0d1b2a]" style={{ fontFamily: "'GTWalsheimPro', sans-serif" }}>
+      <Navbar />
       <style>{`
         @keyframes blob-a { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-28px) scale(1.06)} 66%{transform:translate(-24px,18px) scale(0.95)} }
         @keyframes blob-b { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(-45px,28px) scale(1.08)} 70%{transform:translate(28px,-18px) scale(0.94)} }
@@ -878,6 +879,7 @@ export default function ContactPage() {
         </div>
       </section>
 
+      <Footer />
     </div>
   );
 }
