@@ -387,7 +387,7 @@ export default function UpcomingWebinarsPage() {
                 {HERO_STATS.map((s, i) => (
                   <div key={s.label} className="flex items-center">
                     <div className="flex flex-col items-center justify-center px-6 py-4">
-                      <span className="text-2xl font-black leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
+                      <span className="text-2xl font-bold leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
                       <span className="text-xs font-medium mt-1 text-center leading-snug" style={{ color: 'rgba(255,255,255,0.65)' }}>{s.label}</span>
                     </div>
                     {i < HERO_STATS.length - 1 && (
