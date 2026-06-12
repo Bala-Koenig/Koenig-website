@@ -321,6 +321,8 @@ export default function UpcomingWebinarsPage() {
   const [regEmail, setRegEmail]           = useState('')
   const [regName, setRegName]             = useState('')
   const [regSubmitted, setRegSubmitted]   = useState(false)
+  const [sortBy, setSortBy]               = useState('All Webinar')
+  const [sortOpen, setSortOpen]           = useState(false)
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
@@ -334,7 +336,12 @@ export default function UpcomingWebinarsPage() {
     )
   })
 
-  const displayed = showAll ? filtered : filtered.slice(0, 9)
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === 'Latest Webinars') return new Date(a.date).getTime() - new Date(b.date).getTime()
+    if (sortBy === 'Most Popular')    return b.registered - a.registered
+    return 0
+  })
+  const displayed = showAll ? sorted : sorted.slice(0, 9)
 
   return (
     <>
@@ -560,10 +567,11 @@ export default function UpcomingWebinarsPage() {
           </div>
 
           {/* Search & Filters */}
-          <div className="mb-8 flex flex-col sm:flex-row gap-3 flex-wrap">
+          <div className="mb-8 flex flex-col sm:flex-row gap-3 flex-wrap items-center">
+            {/* Search */}
             <div className="relative flex-1 min-w-[160px]">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
               <input
                 type="text"
@@ -574,6 +582,7 @@ export default function UpcomingWebinarsPage() {
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#0d1b2a' }}
               />
             </div>
+            {/* Filter by Technology */}
             <select value={filterTech} onChange={e => setFilterTech(e.target.value)}
               className="rounded-xl border px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
               style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
@@ -581,6 +590,7 @@ export default function UpcomingWebinarsPage() {
                 <option key={t} value={t}>{t === 'All' ? 'Filter by Technology' : t}</option>
               ))}
             </select>
+            {/* Filter by Partner */}
             <select value={filterPartner} onChange={e => setFilterPartner(e.target.value)}
               className="rounded-xl border px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
               style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
@@ -588,6 +598,34 @@ export default function UpcomingWebinarsPage() {
                 <option key={p} value={p}>{p === 'All' ? 'Filter by Partner' : p}</option>
               ))}
             </select>
+            {/* Sort by */}
+            <div className="relative">
+              <button
+                onClick={() => setSortOpen(o => !o)}
+                className="flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition-all"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                </svg>
+                Sort by
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ transform: sortOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+              {sortOpen && (
+                <div className="absolute right-0 top-full mt-1 z-50 w-44 overflow-hidden rounded-xl shadow-lg"
+                  style={{ background: 'white', border: '1px solid #CAEFFF' }}>
+                  {['All Webinar', 'Latest Webinars', 'Most Popular'].map(opt => (
+                    <button key={opt} onClick={() => { setSortBy(opt); setSortOpen(false) }}
+                      className="w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#EBF8FE]"
+                      style={{ color: sortBy === opt ? '#0694D1' : '#0d1b2a', fontWeight: sortBy === opt ? 600 : 400 }}>
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Cards */}
