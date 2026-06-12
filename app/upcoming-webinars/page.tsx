@@ -346,7 +346,7 @@ export default function UpcomingWebinarsPage() {
     if (sortBy === 'Most Popular')    return b.registered - a.registered
     return 0
   })
-  const displayed = showAll ? sorted : sorted.slice(0, 5)
+  const displayed = showAll ? sorted : sorted.slice(0, 15)
 
   return (
     <>
@@ -796,7 +796,7 @@ export default function UpcomingWebinarsPage() {
           )}
 
           {/* Show All / Show Less */}
-          {sorted.length > 5 && (
+          {sorted.length > 15 && (
             <div className="mt-10 text-center">
               <button onClick={() => setShowAll(v => !v)}
                 className="inline-flex items-center gap-2 rounded-xl border-2 px-8 py-3 text-sm font-bold transition-all hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1]"
