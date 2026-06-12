@@ -674,13 +674,6 @@ export default function UpcomingWebinarsPage() {
             </div>
           </div>
 
-          <div className="mt-8 text-center">
-            <p className="mb-3 text-sm sm:text-base text-koenig-muted">Still have questions?</p>
-            <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
-              Chat with a Training Advisor
-              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
-            </button>
-          </div>
         </div>
       </section>
     </>
