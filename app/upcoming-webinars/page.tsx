@@ -839,7 +839,7 @@ export default function UpcomingWebinarsPage() {
             onClick={e => e.stopPropagation()}
           >
             {/* Header band */}
-            <div className="relative px-7 pt-7 pb-5" style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)' }}>
+            <div className="relative px-7" style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)', paddingTop: '15px', paddingBottom: '15px' }}>
               <button onClick={() => setRegWebinar(null)}
                 className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full transition-opacity hover:opacity-70"
                 style={{ background: 'rgba(255,255,255,0.15)' }}>
