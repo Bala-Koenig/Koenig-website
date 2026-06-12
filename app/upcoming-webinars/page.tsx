@@ -577,22 +577,14 @@ export default function UpcomingWebinarsPage() {
                     <div className="flex-1 flex flex-col p-5 relative">
                       {/* Speaker row */}
                       <div className="flex items-start justify-between gap-3 mb-4">
-                        <div className="flex items-start gap-3 min-w-0">
+                        <div className="flex flex-col items-center gap-1.5 min-w-0">
                           <div className="relative shrink-0">
                             <div className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md"
                               style={{ background: w.avatarBg, border: '2px solid rgba(6,148,209,0.20)' }}>
                               {w.initials}
                             </div>
-                            {w.live && (
-                              <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500" />
-                              </span>
-                            )}
                           </div>
-                          <div className="min-w-0 pt-0.5">
-                            <p className="text-sm font-bold leading-snug truncate" style={{ color: '#0d1b2a' }}>{w.speaker}</p>
-                          </div>
+                          <p className="text-sm font-bold leading-snug text-center" style={{ color: '#0d1b2a' }}>{w.speaker}</p>
                         </div>
                         {/* Vendor logo */}
                         {PARTNER_LOGOS[w.partner] ? (
