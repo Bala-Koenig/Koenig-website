@@ -319,11 +319,7 @@ export default function UpcomingWebinarsPage() {
               </div>
 
               <h1 className="text-[36px] font-bold leading-tight text-white mb-5">
-                Join Our{' '}
-                <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>
-                  Free Expert Webinars
-                </span>
-                {' '}—<br className="hidden sm:block" />
+                Join Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Free Expert Webinars</span><br />
                 Learn, Grow &amp; Get Certified
               </h1>
 
