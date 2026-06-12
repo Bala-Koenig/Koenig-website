@@ -737,7 +737,7 @@ export default function UpcomingWebinarsPage() {
       </div>
 
       {/* ════════════════ WEBINAR LISTINGS ════════════════ */}
-      <section id="webinar-listings" aria-labelledby="webinars-heading" className="py-10" style={{ background: '#f8fafc', borderTop: '1px solid #CAEFFF' }}>
+      <section id="webinar-listings" aria-labelledby="webinars-heading" className="py-10" style={{ background: '#f8fafc', borderTop: '2px solid #93d4f5' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Heading */}
@@ -1057,7 +1057,7 @@ export default function UpcomingWebinarsPage() {
       </section>
 
       {/* ════════════════ STATS ════════════════ */}
-      <div className="bg-white px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: '25px', paddingBottom: '25px' }}>
+      <div className="bg-white px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: '35px', paddingBottom: '35px' }}>
         <div className="mx-auto max-w-7xl px-6 py-6" style={{ background: '#EBF8FE', borderRadius: '0 1.5rem 0 1.5rem' }}>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5 lg:gap-8">
             {[
