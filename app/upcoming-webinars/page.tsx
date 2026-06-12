@@ -318,8 +318,23 @@ export default function UpcomingWebinarsPage() {
                 Free · Expert-Led · Live Q&A Included
               </div>
 
-              <h1 className="text-[36px] font-bold leading-tight text-white mb-5">
-                Join Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Free Expert Webinars</span><br />
+              <style>{`
+                @keyframes heroTitleSweep {
+                  0%   { background-position: 0% 50% }
+                  50%  { background-position: 100% 50% }
+                  100% { background-position: 0% 50% }
+                }
+                .hero-title-sweep {
+                  background: linear-gradient(270deg, #ffffff, #38bdf8, #0694D1, #38bdf8, #ffffff);
+                  background-size: 300% 300%;
+                  animation: heroTitleSweep 5s ease infinite;
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                }
+              `}</style>
+              <h1 className="hero-title-sweep text-[36px] font-bold leading-tight mb-5">
+                Join Our Free Expert Webinars<br />
                 Learn, Grow &amp; Get Certified
               </h1>
 
