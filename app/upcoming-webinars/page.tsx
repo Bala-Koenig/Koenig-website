@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 
 /* ── Hero stats ─────────────────────────────────────────────── */
@@ -315,7 +316,11 @@ export default function UpcomingWebinarsPage() {
   const [filterTech, setFilterTech]     = useState('All')
   const [filterPartner, setFilterPartner] = useState('All')
   const [showAll, setShowAll]           = useState(false)
-  const [modalWebinar, setModalWebinar] = useState<typeof WEBINARS[0] | null>(null)
+  const [modalWebinar, setModalWebinar]   = useState<typeof WEBINARS[0] | null>(null)
+  const [regWebinar, setRegWebinar]       = useState<typeof WEBINARS[0] | null>(null)
+  const [regEmail, setRegEmail]           = useState('')
+  const [regName, setRegName]             = useState('')
+  const [regSubmitted, setRegSubmitted]   = useState(false)
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
@@ -607,9 +612,11 @@ export default function UpcomingWebinarsPage() {
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="relative shrink-0">
                             {w.photo ? (
-                              <img src={w.photo} alt={w.speaker}
+                              <Image src={w.photo} alt={w.speaker}
+                                width={64} height={64}
+                                quality={90}
                                 className="w-16 h-16 rounded-full object-cover shadow-md"
-                                style={{ border: '2px solid rgba(6,148,209,0.20)', transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)', imageRendering: 'auto' }}
+                                style={{ border: '2px solid rgba(6,148,209,0.20)' }}
                                 onError={(e) => { (e.target as HTMLImageElement).style.display='none'; (e.target as HTMLImageElement).nextElementSibling?.removeAttribute('style') }}
                               />
                             ) : null}
@@ -668,7 +675,8 @@ export default function UpcomingWebinarsPage() {
                       <button onClick={() => setModalWebinar(w)} className="text-sm font-semibold transition-colors hover:text-[#0694D1]" style={{ color: '#465058' }}>
                         Show More &rsaquo;
                       </button>
-                      <button className="rounded-lg px-8 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                      <button onClick={() => { setRegWebinar(w); setRegEmail(''); setRegName(''); setRegSubmitted(false) }}
+                        className="rounded-lg px-8 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
                         style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)', boxShadow: '0 2px 8px rgba(9,49,72,0.35)' }}>
                         {w.live ? 'Join Now' : 'Register'}
                       </button>
@@ -780,9 +788,11 @@ export default function UpcomingWebinarsPage() {
             <div className="flex w-[190px] shrink-0 flex-col items-center justify-center gap-3 px-6 py-8" style={{ background: '#f1f5f9', borderRight: '1px solid #e2e8f0' }}>
               {/* Photo or initials */}
               {modalWebinar.photo ? (
-                <img src={modalWebinar.photo} alt={modalWebinar.speaker}
+                <Image src={modalWebinar.photo} alt={modalWebinar.speaker}
+                  width={96} height={96}
+                  quality={90}
                   className="h-24 w-24 rounded-xl object-cover shadow-md"
-                  style={{ border: '3px solid rgba(6,148,209,0.20)', transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)', imageRendering: 'auto' }} />
+                  style={{ border: '3px solid rgba(6,148,209,0.20)' }} />
               ) : (
                 <div className="flex h-24 w-24 items-center justify-center rounded-xl text-2xl font-bold text-white shadow-md"
                   style={{ background: modalWebinar.avatarBg, border: '3px solid rgba(6,148,209,0.20)' }}>
@@ -811,6 +821,111 @@ export default function UpcomingWebinarsPage() {
               <h3 className="mb-3 text-base font-bold leading-snug" style={{ color: '#0F172A' }}>{modalWebinar.title}</h3>
               {modalWebinar.description && (
                 <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{modalWebinar.description}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ════════ REGISTRATION MODAL ════════ */}
+      {regWebinar && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
+          style={{ background: 'rgba(6,17,30,0.80)', backdropFilter: 'blur(8px)' }}
+          onClick={() => setRegWebinar(null)}
+        >
+          <div
+            className="relative w-full max-w-md overflow-hidden rounded-2xl shadow-2xl"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header band */}
+            <div className="relative px-7 pt-7 pb-5" style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)' }}>
+              <button onClick={() => setRegWebinar(null)}
+                className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full transition-opacity hover:opacity-70"
+                style={{ background: 'rgba(255,255,255,0.15)' }}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+              </button>
+
+              {/* Speaker row */}
+              <div className="flex items-center gap-3 mb-4">
+                {regWebinar.photo ? (
+                  <Image src={regWebinar.photo} alt={regWebinar.speaker} width={44} height={44} quality={90}
+                    className="rounded-full object-cover shrink-0" style={{ border: '2px solid rgba(255,255,255,0.30)' }} />
+                ) : (
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+                    style={{ background: regWebinar.avatarBg, border: '2px solid rgba(255,255,255,0.30)' }}>
+                    {regWebinar.initials}
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-white/70 mb-0.5">Speaker</p>
+                  <p className="text-sm font-bold text-white leading-tight truncate">{regWebinar.speaker}</p>
+                </div>
+                {regWebinar.live && (
+                  <span className="ml-auto shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#16a34a', color: '#fff' }}>
+                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                    Live
+                  </span>
+                )}
+              </div>
+
+              <h3 className="text-sm font-bold text-white leading-snug">{regWebinar.title}</h3>
+            </div>
+
+            {/* Body */}
+            <div className="px-7 py-6" style={{ background: '#fff' }}>
+              {regSubmitted ? (
+                <div className="flex flex-col items-center gap-3 py-4 text-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full" style={{ background: 'rgba(22,163,74,0.12)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <p className="text-base font-bold" style={{ color: '#0F172A' }}>You&apos;re registered!</p>
+                  <p className="text-sm" style={{ color: '#64748b' }}>Check your inbox for confirmation details.</p>
+                </div>
+              ) : (
+                <>
+                  <p className="mb-5 text-sm" style={{ color: '#64748b' }}>Fill in your details to secure your spot for this free webinar.</p>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold" style={{ color: '#374151' }}>
+                        Full Name <span style={{ color: '#ef4444' }}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={regName}
+                        onChange={e => setRegName(e.target.value)}
+                        placeholder="Your full name"
+                        className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition focus:ring-2"
+                        style={{ borderColor: '#e2e8f0', color: '#0F172A', focusRingColor: 'rgba(6,148,209,0.25)' }}
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1.5 block text-xs font-semibold" style={{ color: '#374151' }}>
+                        Email Address <span style={{ color: '#ef4444' }}>*</span>
+                      </label>
+                      <input
+                        type="email"
+                        value={regEmail}
+                        onChange={e => setRegEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        className="w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition focus:ring-2"
+                        style={{ borderColor: '#e2e8f0', color: '#0F172A' }}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => { if (regName && regEmail) setRegSubmitted(true) }}
+                    className="mt-6 w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
+                    style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)', boxShadow: '0 4px 14px rgba(9,49,72,0.35)' }}>
+                    {regWebinar.live ? 'Join Now →' : 'Register for Free →'}
+                  </button>
+
+                  <p className="mt-3 text-center text-xs" style={{ color: '#94a3b8' }}>
+                    Free event · No credit card required
+                  </p>
+                </>
               )}
             </div>
           </div>
