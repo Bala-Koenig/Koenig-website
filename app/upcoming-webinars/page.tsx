@@ -535,24 +535,35 @@ export default function UpcomingWebinarsPage() {
       <div style={{ background: '#EBF8FE', borderBottom: '1px solid #CAEFFF' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-3.5">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <p className="text-sm font-bold whitespace-nowrap" style={{ color: '#0d1b2a' }}>
-              Subscribe for updates on our Upcoming Webinars
-            </p>
-            <form className="flex items-center gap-2" onSubmit={e => { e.preventDefault(); setSubConfirm(true); (e.target as HTMLFormElement).reset(); setTimeout(() => setSubConfirm(false), 4000) }}>
-              <input
-                type="email"
-                placeholder="Enter Email"
-                required
-                className="w-56 rounded-lg border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
-                style={{ borderColor: '#CAEFFF', background: 'white', color: '#0d1b2a' }}
-              />
-              <button
-                type="submit"
-                className="shrink-0 rounded-lg px-5 py-2 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                style={{ background: '#0694D1' }}>
-                Subscribe
-              </button>
-            </form>
+            {subConfirm ? (
+              <div className="flex items-center gap-2">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(22,163,74,0.15)' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <p className="text-sm font-bold" style={{ color: '#16a34a' }}>Subscribed successfully! You&apos;ll receive updates on upcoming webinars.</p>
+              </div>
+            ) : (
+              <>
+                <p className="text-sm font-bold whitespace-nowrap" style={{ color: '#0d1b2a' }}>
+                  Subscribe for updates on our Upcoming Webinars
+                </p>
+                <form className="flex items-center gap-2" onSubmit={e => { e.preventDefault(); setSubConfirm(true) }}>
+                  <input
+                    type="email"
+                    placeholder="Enter Email"
+                    required
+                    className="w-56 rounded-lg border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
+                    style={{ borderColor: '#CAEFFF', background: 'white', color: '#0d1b2a' }}
+                  />
+                  <button
+                    type="submit"
+                    className="shrink-0 rounded-lg px-5 py-2 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                    style={{ background: '#0694D1' }}>
+                    Subscribe
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -1030,22 +1041,6 @@ export default function UpcomingWebinarsPage() {
         </div>
       )}
 
-      {/* ════════ SUBSCRIBE CONFIRMATION TOAST ════════ */}
-      {subConfirm && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 rounded-2xl px-5 py-3.5 shadow-2xl"
-          style={{ background: '#fff', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.18)' }}>
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(22,163,74,0.12)' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div>
-            <p className="text-sm font-bold" style={{ color: '#0F172A' }}>Subscribed successfully!</p>
-            <p className="text-xs" style={{ color: '#64748b' }}>You&apos;ll receive updates on upcoming webinars.</p>
-          </div>
-          <button onClick={() => setSubConfirm(false)} className="ml-2 opacity-50 hover:opacity-100">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-          </button>
-        </div>
-      )}
     </>
   )
 }
