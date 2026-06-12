@@ -517,41 +517,38 @@ export default function UpcomingWebinarsPage() {
         style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 55%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
       >
         <style>{`
-          @keyframes waveScroll1 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-          @keyframes waveScroll2 { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-          @keyframes waveScroll3 { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+          @keyframes floatUp   { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-18px) rotate(4deg)} }
+          @keyframes floatDown { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(14px) rotate(-3deg)} }
+          @keyframes pulseFade { 0%,100%{opacity:0.10} 50%{opacity:0.22} }
+          @keyframes spinSlow  { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+          @keyframes ripple    { 0%{transform:scale(1);opacity:0.18} 100%{transform:scale(2.2);opacity:0} }
         `}</style>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          {/* Wave band 1 — slow, large amplitude */}
-          <div className="absolute inset-0" style={{ animation: 'waveScroll1 20s linear infinite' }}>
-            <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-              {[0,14,28,42,56,70,84].map((offset, i) => (
-                <path key={i} fill="none" stroke="#38bdf8" strokeWidth="1" opacity={0.03 + i * 0.012}
-                  d={`M0,${300+offset} C200,${220+offset} 400,${380+offset} 600,${300+offset} C800,${220+offset} 1000,${380+offset} 1200,${300+offset} C1400,${220+offset} 1600,${380+offset} 1800,${300+offset} C2000,${220+offset} 2200,${380+offset} 2400,${300+offset} C2600,${220+offset} 2800,${380+offset} 3200,${300+offset}`}
-                />
-              ))}
-            </svg>
-          </div>
-          {/* Wave band 2 — medium speed, mid section */}
-          <div className="absolute inset-0" style={{ animation: 'waveScroll2 14s linear infinite' }}>
-            <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-              {[0,12,24,36,48,60].map((offset, i) => (
-                <path key={i} fill="none" stroke="#0694D1" strokeWidth="1" opacity={0.025 + i * 0.011}
-                  d={`M0,${180+offset} C267,${100+offset} 533,${260+offset} 800,${180+offset} C1067,${100+offset} 1333,${260+offset} 1600,${180+offset} C1867,${100+offset} 2133,${260+offset} 2400,${180+offset} C2667,${100+offset} 2933,${260+offset} 3200,${180+offset}`}
-                />
-              ))}
-            </svg>
-          </div>
-          {/* Wave band 3 — fast, small ripples */}
-          <div className="absolute inset-0" style={{ animation: 'waveScroll3 9s linear infinite' }}>
-            <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-              {[0,10,20,30,40].map((offset, i) => (
-                <path key={i} fill="none" stroke="#38bdf8" strokeWidth="0.7" opacity={0.02 + i * 0.009}
-                  d={`M0,${420+offset} C160,${380+offset} 320,${460+offset} 480,${420+offset} C640,${380+offset} 800,${460+offset} 960,${420+offset} C1120,${380+offset} 1280,${460+offset} 1440,${420+offset} C1600,${380+offset} 1760,${460+offset} 1920,${420+offset} C2080,${380+offset} 2240,${460+offset} 2400,${420+offset} C2560,${380+offset} 2720,${460+offset} 2880,${420+offset} C3040,${380+offset} 3200,${460+offset} 3200,${420+offset}`}
-                />
-              ))}
-            </svg>
-          </div>
+          {/* Floating webinar icons */}
+          {[
+            /* video camera */ { x:'8%',  y:'18%', delay:'0s',   dur:'6s',  anim:'floatUp',   size:38, paths:[<path key="a" strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>] },
+            /* mic */          { x:'85%', y:'12%', delay:'1s',   dur:'7s',  anim:'floatDown', size:34, paths:[<path key="b" strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4M12 3a4 4 0 014 4v4a4 4 0 01-8 0V7a4 4 0 014-4z"/>] },
+            /* chat bubble */  { x:'72%', y:'55%', delay:'2s',   dur:'8s',  anim:'floatUp',   size:32, paths:[<path key="c" strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>] },
+            /* screen share */ { x:'20%', y:'70%', delay:'0.5s', dur:'9s',  anim:'floatDown', size:36, paths:[<path key="d" strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>] },
+            /* play circle */  { x:'50%', y:'20%', delay:'1.5s', dur:'5s',  anim:'floatUp',   size:40, paths:[<path key="e" strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>, <path key="f" strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>] },
+            /* users */        { x:'90%', y:'72%', delay:'3s',   dur:'7s',  anim:'floatDown', size:33, paths:[<path key="g" strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>] },
+            /* wifi */         { x:'38%', y:'80%', delay:'2.5s', dur:'6s',  anim:'floatUp',   size:30, paths:[<path key="h" strokeLinecap="round" strokeLinejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>] },
+            /* certificate */  { x:'60%', y:'78%', delay:'4s',   dur:'8s',  anim:'floatDown', size:34, paths:[<path key="i" strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>] },
+            /* globe */        { x:'4%',  y:'60%', delay:'3.5s', dur:'10s', anim:'floatUp',   size:32, paths:[<path key="j" strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/>] },
+          ].map((item, i) => (
+            <div key={i} className="absolute" style={{ left: item.x, top: item.y, animation: `${item.anim} ${item.dur} ease-in-out ${item.delay} infinite` }}>
+              <div className="relative flex items-center justify-center rounded-2xl"
+                style={{ width: item.size+16, height: item.size+16, background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(56,189,248,0.12)', animation: `pulseFade 4s ease-in-out ${item.delay} infinite` }}>
+                <svg width={item.size} height={item.size} viewBox="0 0 24 24" fill="none" stroke="rgba(56,189,248,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  {item.paths}
+                </svg>
+              </div>
+            </div>
+          ))}
+          {/* Ripple rings on two icons */}
+          {[{ x:'50%', y:'20%' }, { x:'8%', y:'18%' }].map((pos, i) => (
+            <div key={i} className="absolute rounded-full" style={{ left: pos.x, top: pos.y, width: 56, height: 56, marginLeft: -28, marginTop: -28, border: '1px solid rgba(56,189,248,0.25)', animation: `ripple 3s ease-out ${i * 1.5}s infinite` }} />
+          ))}
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
