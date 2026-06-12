@@ -943,8 +943,7 @@ export default function UpcomingWebinarsPage() {
           {sorted.length > 15 && (
             <div className="mt-10 text-center">
               <button onClick={() => setShowAll(v => !v)}
-                className="inline-flex items-center gap-2 rounded-xl border-2 px-8 py-3 text-sm font-bold transition-all hover:bg-[#0694D1] hover:text-white hover:border-[#0694D1]"
-                style={{ borderColor: '#0694D1', color: '#0694D1' }}>
+                className="inline-flex items-center gap-2 rounded-xl border-2 px-8 py-3 text-sm font-bold transition-all text-[#0694D1] border-[#0694D1] hover:bg-[#0694D1] hover:text-white">
                 {showAll ? (
                   <>
                     Show Less
