@@ -506,7 +506,7 @@ export default function UpcomingWebinarsPage() {
               <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
               Streaming Live
             </span>
-            <span className="text-center font-black" style={{ color: '#093148', fontSize: '18px' }}>
+            <span className="text-center" style={{ color: '#093148', fontSize: '18px', fontWeight: 900 }}>
               Information Security Governance – From Strategy To Execution
             </span>
             <a href="#webinar-listings"
