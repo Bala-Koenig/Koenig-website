@@ -759,7 +759,7 @@ export default function UpcomingWebinarsPage() {
               </svg>
               <input
                 type="text"
-                placeholder="Search Course"
+                placeholder="Search Webinar Topic"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="w-full rounded-xl border pl-9 pr-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
