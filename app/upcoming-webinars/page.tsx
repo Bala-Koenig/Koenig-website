@@ -516,10 +516,37 @@ export default function UpcomingWebinarsPage() {
         aria-label="Upcoming Webinars Hero"
         style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 55%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
       >
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <style>{`
+          @keyframes waveMove1 { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+          @keyframes waveMove2 { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+          @keyframes waveMove3 { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        `}</style>
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Radial glows */}
           <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full opacity-[0.07]"  style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
           <div className="absolute top-1/2 right-0 h-[400px] w-[400px] rounded-full opacity-[0.05]"   style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 70%)' }} />
           <div className="absolute bottom-0 left-1/3 h-[300px] w-[300px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
+          {/* Wave 1 — slowest, bottom */}
+          <div className="absolute bottom-0 left-0 w-[200%]" style={{ animation: 'waveMove1 18s linear infinite' }}>
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className="w-full" style={{ height: '90px', opacity: 0.08 }}>
+              <path d="M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z" fill="#0694D1"/>
+              <path d="M1440,60 C1200,100 960,20 720,60 C480,100 240,20 0,60 L0,120 L1440,120 Z" fill="#0694D1"/>
+            </svg>
+          </div>
+          {/* Wave 2 — medium, middle */}
+          <div className="absolute bottom-0 left-0 w-[200%]" style={{ animation: 'waveMove2 12s linear infinite reverse' }}>
+            <svg viewBox="0 0 1440 100" preserveAspectRatio="none" className="w-full" style={{ height: '70px', opacity: 0.06 }}>
+              <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,30 1440,40 L1440,100 L0,100 Z" fill="#38bdf8"/>
+              <path d="M1440,40 C1080,80 720,0 360,40 C180,60 60,30 0,40 L0,100 L1440,100 Z" fill="#38bdf8"/>
+            </svg>
+          </div>
+          {/* Wave 3 — fastest, top layer */}
+          <div className="absolute bottom-0 left-0 w-[200%]" style={{ animation: 'waveMove3 8s linear infinite' }}>
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full" style={{ height: '50px', opacity: 0.05 }}>
+              <path d="M0,30 C180,60 360,0 540,30 C720,60 900,0 1080,30 C1260,60 1380,20 1440,30 L1440,80 L0,80 Z" fill="#0694D1"/>
+              <path d="M1440,30 C1260,60 1080,0 900,30 C720,60 540,0 360,30 C180,60 60,20 0,30 L0,80 L1440,80 Z" fill="#0694D1"/>
+            </svg>
+          </div>
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
