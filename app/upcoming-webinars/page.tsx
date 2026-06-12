@@ -846,6 +846,16 @@ export default function UpcomingWebinarsPage() {
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
               </button>
 
+              {/* Live badge — centered at top */}
+              {regWebinar.live && (
+                <div className="flex justify-center mb-4">
+                  <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold" style={{ background: '#16a34a', color: '#fff' }}>
+                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                    Live
+                  </span>
+                </div>
+              )}
+
               {/* Speaker row */}
               <div className="flex items-center gap-3 mb-4">
                 {regWebinar.photo ? (
@@ -861,12 +871,6 @@ export default function UpcomingWebinarsPage() {
                   <p className="text-xs font-semibold text-white/70 mb-0.5">Speaker</p>
                   <p className="text-sm font-bold text-white leading-tight truncate">{regWebinar.speaker}</p>
                 </div>
-                {regWebinar.live && (
-                  <span className="ml-auto shrink-0 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold" style={{ background: '#16a34a', color: '#fff' }}>
-                    <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
-                    Live
-                  </span>
-                )}
               </div>
 
               <h3 className="text-sm font-bold text-white leading-snug">{regWebinar.title}</h3>
