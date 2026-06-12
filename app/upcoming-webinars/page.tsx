@@ -758,9 +758,9 @@ export default function UpcomingWebinarsPage() {
           </div>
 
           {/* Search & Filters */}
-          <div className="mb-8 flex flex-col sm:flex-row gap-3 flex-wrap items-center">
+          <div className="mb-8 flex flex-col sm:flex-row gap-3 flex-wrap items-center sm:items-center justify-center sm:justify-start">
             {/* Search */}
-            <div className="relative flex-1 min-w-[160px]">
+            <div className="relative w-full sm:flex-1 sm:min-w-[160px]">
               <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
@@ -776,8 +776,8 @@ export default function UpcomingWebinarsPage() {
             {/* Filter by Technology */}
             <div className="relative">
               <button onClick={() => { setTechOpen(o => !o); setPartnerOpen(false); setSortOpen(false) }}
-                className="flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition-all w-full sm:w-auto"
-                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '0' }}>
+                className="flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '160px' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
                 </svg>
@@ -816,8 +816,8 @@ export default function UpcomingWebinarsPage() {
             {/* Filter by Partner */}
             <div className="relative">
               <button onClick={() => { setPartnerOpen(o => !o); setTechOpen(false); setSortOpen(false) }}
-                className="flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition-all w-full sm:w-auto"
-                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '0' }}>
+                className="flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '160px' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
