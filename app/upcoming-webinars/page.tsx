@@ -476,7 +476,7 @@ export default function UpcomingWebinarsPage() {
                 <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
                 Streaming Live
               </span>
-              <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.85)', fontSize: '22px' }}>
+              <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.85)', fontSize: '18px' }}>
                 Information Security Governance – From Strategy To Execution
               </span>
             </div>
