@@ -96,7 +96,12 @@
   --color-foreground: var(--foreground);
   --font-sans: 'GT Walsheim Pro', sans-serif;
   --font-mono: 'GT Walsheim Pro', monospace;
-  /* Koenig brand colors — matched exactly from live CSS */
+  /* Font families for Tech Muninder page */
+  --font-heading: 'GTWalsheimPro', 'GT Walsheim Pro', sans-serif;
+  --font-body:    'GTWalsheimPro', 'GT Walsheim Pro', sans-serif;
+  --font-syne:    'GTWalsheimPro', 'GT Walsheim Pro', sans-serif;
+  --font-dm:      'GTWalsheimPro', 'GT Walsheim Pro', sans-serif;
+  /* Koenig brand colors */
   --color-koenig-blue:   #0694d1;
   --color-koenig-accent: #076d9d;
   --color-koenig-gray:   #465058;
@@ -105,6 +110,44 @@
   --color-koenig-navy:   #093148;
   --color-koenig-border: #dedede;
   --color-koenig-muted:  #7a8c96;
+  /* Brand tokens (Tech Muninder page) */
+  --color-brand-dark:   #093148;
+  --color-brand-accent: #0694D1;
+  --color-brand-light:  #E4F7FF;
+  /* Deep scale */
+  --color-deep-950: #020F18;
+  --color-deep-900: #041825;
+  --color-deep-800: #051E2D;
+  --color-deep-700: #071F30;
+  --color-deep-600: #093148;
+  --color-deep-500: #0B3D57;
+  --color-deep-400: #0E4F72;
+  /* Sky scale (custom accent) */
+  --color-sky-600: #0694D1;
+  --color-sky-500: #08A8EC;
+  --color-sky-400: #2BB8F0;
+  --color-sky-300: #60CEFA;
+  --color-sky-200: #A8E5FF;
+  /* Ice / light scale */
+  --color-ice-100: #E4F7FF;
+  --color-ice-200: #C8EFFF;
+  --color-ice-300: #A0DEFF;
+  --color-ice-400: #71C7F5;
+  /* Shadows */
+  --shadow-glow:       0 0 40px rgba(6,148,209,0.35);
+  --shadow-glow-sm:    0 0 20px rgba(6,148,209,0.25);
+  --shadow-glow-lg:    0 0 60px rgba(6,148,209,0.4);
+  --shadow-glow-light: 0 0 30px rgba(228,247,255,0.15);
+  --shadow-card:       0 4px 24px rgba(2,15,24,0.5), inset 0 1px 0 rgba(228,247,255,0.05);
+  --shadow-card-hover: 0 8px 48px rgba(6,148,209,0.2), inset 0 1px 0 rgba(228,247,255,0.08);
+  --shadow-card-glow:  0 0 0 1px rgba(6,148,209,0.3), 0 8px 40px rgba(6,148,209,0.15);
+  /* Animations */
+  --animate-float:       float 6s ease-in-out infinite;
+  --animate-shimmer:     shimmer 2.5s linear infinite;
+  --animate-fade-up:     fadeUp 0.6s ease-out forwards;
+  --animate-pulse-ring:  pulseRing 2s ease-out infinite;
+  --animate-spin-slow:   spinSlow 20s linear infinite;
+  --animate-scroll:      scroll 25s linear infinite;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -506,6 +549,21 @@ body {
   0%   { background-position: 100% 50%; }
   50%  { background-position: 0% 50%; }
   100% { background-position: 100% 50%; }
+}
+
+/* ── Tech Muninder page: background-image utilities ── */
+@layer utilities {
+  .bg-brand-gradient   { background-image: linear-gradient(135deg, #093148 0%, #0694D1 100%); }
+  .bg-brand-gradient-r { background-image: linear-gradient(135deg, #0694D1 0%, #093148 100%); }
+  .bg-accent-gradient  { background-image: linear-gradient(135deg, #0694D1 0%, #2BB8F0 100%); }
+  .bg-light-gradient   { background-image: linear-gradient(135deg, #0694D1 0%, #E4F7FF 100%); }
+  .bg-dark-gradient    { background-image: linear-gradient(180deg, #020F18 0%, #093148 100%); }
+  .bg-section-fade     { background-image: linear-gradient(180deg, transparent 0%, rgba(4,24,37,0.8) 100%); }
+  .bg-hero-fade        { background-image: linear-gradient(180deg, #020F18 0%, #041825 60%, #093148 100%); }
+  .bg-card-shine       { background-image: linear-gradient(135deg, rgba(228,247,255,0.05) 0%, rgba(228,247,255,0) 60%); }
+  .bg-blueprint-lines  { background-image: linear-gradient(rgba(6,148,209,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,209,0.06) 1px, transparent 1px); background-size: 48px 48px; }
+  .bg-shimmer          { background-image: linear-gradient(90deg, rgba(228,247,255,0) 0%, rgba(228,247,255,0.08) 50%, rgba(228,247,255,0) 100%); }
+  .bg-grid             { background-size: 48px 48px; }
 }
 
 /* ── vardaan-course styles ── */
