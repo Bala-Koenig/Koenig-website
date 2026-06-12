@@ -555,7 +555,7 @@ export default function UpcomingWebinarsPage() {
           ))}
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-8 lg:py-[50px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* ── Left copy ── */}
@@ -583,13 +583,13 @@ export default function UpcomingWebinarsPage() {
                   background-clip: text;
                 }
               `}</style>
-              <h1 className="hero-title-sweep text-[36px] font-bold leading-tight mb-5">
+              <h1 className="hero-title-sweep text-[26px] sm:text-[32px] lg:text-[40px] font-bold leading-tight mb-5">
                 Join Our Free Expert Webinars<br />
                 Learn, Grow &amp; Get Certified
               </h1>
 
               {/* Stats */}
-              <div className="inline-flex items-center rounded-2xl mb-6"
+              <div className="hidden sm:inline-flex items-center rounded-2xl mb-6"
                 style={{
                   background: 'rgba(255,255,255,0.07)',
                   backdropFilter: 'blur(16px)',
@@ -701,7 +701,7 @@ export default function UpcomingWebinarsPage() {
               <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
               Streaming Live
             </span>
-            <span className="text-center" style={{ color: '#093148', fontSize: '18px', fontWeight: 900 }}>
+            <span className="text-center text-sm sm:text-base lg:text-lg" style={{ color: '#093148', fontWeight: 900 }}>
               Information Security Governance – From Strategy To Execution
             </span>
             <button
@@ -726,7 +726,7 @@ export default function UpcomingWebinarsPage() {
                 type="email"
                 placeholder="Enter Email"
                 required
-                className="w-56 rounded-lg border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
+                className="w-full sm:w-56 rounded-lg border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#0d1b2a' }}
               />
               <button
@@ -776,8 +776,8 @@ export default function UpcomingWebinarsPage() {
             {/* Filter by Technology */}
             <div className="relative">
               <button onClick={() => { setTechOpen(o => !o); setPartnerOpen(false); setSortOpen(false) }}
-                className="flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition-all"
-                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '170px' }}>
+                className="flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition-all w-full sm:w-auto"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '0' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
                 </svg>
@@ -816,8 +816,8 @@ export default function UpcomingWebinarsPage() {
             {/* Filter by Partner */}
             <div className="relative">
               <button onClick={() => { setPartnerOpen(o => !o); setTechOpen(false); setSortOpen(false) }}
-                className="flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition-all"
-                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '160px' }}>
+                className="flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm transition-all w-full sm:w-auto"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '0' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
@@ -887,7 +887,7 @@ export default function UpcomingWebinarsPage() {
           {displayed.length === 0 ? (
             <div className="py-16 text-center text-sm" style={{ color: '#64748b' }}>No webinars match your filters.</div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {displayed.map(w => (
                   <article key={w.id}
                     className="relative flex flex-col rounded-xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl mt-3"
@@ -1096,7 +1096,7 @@ export default function UpcomingWebinarsPage() {
         >
           {/* Card */}
           <div
-            className="relative flex w-full max-w-2xl overflow-hidden rounded-2xl shadow-2xl"
+            className="relative flex flex-col sm:flex-row w-full max-w-2xl overflow-hidden rounded-2xl shadow-2xl"
             style={{ background: '#fff' }}
             onClick={e => e.stopPropagation()}
           >
@@ -1110,7 +1110,7 @@ export default function UpcomingWebinarsPage() {
             </button>
 
             {/* Left — speaker */}
-            <div className="flex w-[190px] shrink-0 flex-col items-center justify-center gap-3 px-6 py-8" style={{ background: '#f1f5f9', borderRight: '1px solid #e2e8f0' }}>
+            <div className="flex w-full sm:w-[190px] shrink-0 flex-col items-center justify-center gap-3 py-5 sm:py-8 px-6" style={{ background: '#f1f5f9', borderRight: '1px solid #e2e8f0' }}>
               {/* Photo or initials */}
               {modalWebinar.photo ? (
                 <Image src={modalWebinar.photo} alt={modalWebinar.speaker}
@@ -1139,7 +1139,7 @@ export default function UpcomingWebinarsPage() {
             </div>
 
             {/* Right — title + description */}
-            <div className="relative flex flex-1 flex-col justify-center p-7 pr-12">
+            <div className="relative flex flex-1 flex-col justify-center p-5 sm:p-7 sm:pr-12">
               {/* Quote decoration */}
               <svg className="absolute right-5 top-5 opacity-10" width="36" height="36" viewBox="0 0 24 24" fill="#0694D1"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
 
@@ -1160,7 +1160,7 @@ export default function UpcomingWebinarsPage() {
           onClick={() => setRegWebinar(null)}
         >
           <div
-            className="relative w-full max-w-md overflow-hidden rounded-2xl shadow-2xl"
+            className="relative w-full max-w-md mx-2 overflow-hidden rounded-2xl shadow-2xl"
             onClick={e => e.stopPropagation()}
           >
             {/* Header band */}
