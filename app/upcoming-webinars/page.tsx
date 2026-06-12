@@ -467,12 +467,12 @@ export default function UpcomingWebinarsPage() {
       </section>
 
       {/* ════════════════ STREAMING LIVE BANNER ════════════════ */}
-      <div style={{ background: 'linear-gradient(90deg,#053148 0%,#071828 50%,#053148 100%)', borderBottom: '1px solid rgba(6,148,209,0.25)' }}>
+      <div style={{ background: 'linear-gradient(90deg, #dbeafe 0%, #e0f2fe 40%, #bfdbfe 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)', borderTop: '1px solid rgba(6,148,209,0.15)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-3">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-wrap">
               <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold shrink-0"
-                style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.40)', color: '#22c55e' }}>
+                style={{ background: 'rgba(34,197,94,0.18)', border: '1px solid rgba(34,197,94,0.50)', color: '#16a34a' }}>
                 <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="#FF0000">
                   <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                 </svg>
