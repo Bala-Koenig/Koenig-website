@@ -609,37 +609,52 @@ export default function UpcomingWebinarsPage() {
       {/* ════════════════ FAQ ════════════════ */}
       <section aria-labelledby="faq-heading" className="py-12 bg-white">
         <div className="mx-auto max-w-3xl px-4 md:px-8">
-          <div className="mb-8 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest"
-              style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-              FAQ
-            </span>
-            <h2 id="faq-heading" className="text-2xl sm:text-3xl font-extrabold text-[#0F172A]">
-              Common Questions
+          <div className="mb-10 text-center">
+            <h2 id="faq-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
+              Frequently Asked{' '}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Questions</span>
             </h2>
           </div>
 
-          <div className="overflow-hidden rounded-2xl" style={{ border: '1px solid #E2E8F0' }}>
+          <div className="space-y-3">
             {FAQS.map((faq, i) => (
-              <div key={i} style={{ borderBottom: i < FAQS.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
+              <div
+                key={i}
+                className="rounded-2xl overflow-hidden transition-all duration-200"
+                style={{ border: openFaq === i ? '1.5px solid rgba(6,148,209,0.4)' : '1.5px solid #e2e8f0', boxShadow: openFaq === i ? '0 4px 20px rgba(6,148,209,0.08)' : 'none' }}
+              >
                 <button
+                  type="button"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-all hover:bg-[#F8FCFF]">
-                  <span className="text-sm font-bold" style={{ color: '#0F172A' }}>{faq.q}</span>
-                  <svg
-                    className={`h-4 w-4 shrink-0 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`}
-                    style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
-                  </svg>
+                  aria-expanded={openFaq === i}
+                  className="flex w-full items-center justify-between px-6 py-5 text-left gap-4 transition-colors"
+                  style={{ background: openFaq === i ? 'rgba(6,148,209,0.04)' : '#ffffff' }}
+                >
+                  <span className="text-base font-semibold text-[#0F172A]">{faq.q}</span>
+                  <span
+                    className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full transition-all duration-200"
+                    style={{ background: openFaq === i ? '#0694D1' : '#f1f5f9', color: openFaq === i ? '#ffffff' : '#64748b', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </span>
                 </button>
                 {openFaq === i && (
-                  <div className="px-6 pb-5">
-                    <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{faq.a}</p>
+                  <div className="px-6 pb-5" style={{ background: 'rgba(6,148,209,0.02)' }}>
+                    <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>{faq.a}</p>
                   </div>
                 )}
               </div>
             ))}
           </div>
+
+          <p className="mt-8 text-center text-sm" style={{ color: '#94a3b8' }}>
+            Still have questions?{' '}
+            <a href="mailto:info@koenig-solutions.com" className="font-semibold hover:underline" style={{ color: '#0694D1' }}>
+              Email us at info@koenig-solutions.com
+            </a>
+          </p>
         </div>
       </section>
     </>
