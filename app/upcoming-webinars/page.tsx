@@ -1022,7 +1022,7 @@ export default function UpcomingWebinarsPage() {
       </section>
 
       {/* ════════════════ STATS ════════════════ */}
-      <section className="px-4 md:px-8 lg:px-[50px] py-10" style={{ background: '#f8fafc' }}>
+      <section className="px-4 md:px-8 lg:px-[50px] py-5" style={{ background: '#f8fafc' }}>
         <div className="mx-auto max-w-7xl">
           <div className="rounded-2xl px-6 py-6" style={{ background: '#EBF8FE' }}>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-y sm:divide-y-0 divide-x-0 sm:divide-x divide-[#CAEFFF]">
@@ -1038,7 +1038,7 @@ export default function UpcomingWebinarsPage() {
                 { value: '300+',  label: 'Certified Trainers',
                   icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/> },
               ].map((s, i) => (
-                <div key={i} className="flex flex-col items-center gap-3 px-6 py-5 text-center">
+                <div key={i} className="flex flex-col items-center gap-2 px-6 py-3 text-center">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
                   </div>
