@@ -608,12 +608,12 @@ export default function UpcomingWebinarsPage() {
                           <div className="relative shrink-0">
                             {w.photo ? (
                               <img src={w.photo} alt={w.speaker}
-                                className="w-14 h-14 rounded-full object-cover shadow-md"
+                                className="w-16 h-16 rounded-full object-cover shadow-md"
                                 style={{ border: '2px solid rgba(6,148,209,0.20)' }}
                                 onError={(e) => { (e.target as HTMLImageElement).style.display='none'; (e.target as HTMLImageElement).nextElementSibling?.removeAttribute('style') }}
                               />
                             ) : null}
-                            <div className="w-14 h-14 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md"
+                            <div className="w-16 h-16 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md"
                               style={{ background: w.avatarBg, border: '2px solid rgba(6,148,209,0.20)', display: w.photo ? 'none' : 'flex' }}>
                               {w.initials}
                             </div>
@@ -633,7 +633,7 @@ export default function UpcomingWebinarsPage() {
                       </div>
 
                       {/* Title */}
-                      <h3 className="mb-4 text-sm font-bold leading-snug flex-1" style={{ color: '#0F172A' }}>
+                      <h3 className="mb-4 text-base font-bold leading-snug flex-1" style={{ color: '#0F172A', fontSize: '16px' }}>
                         {w.title}
                       </h3>
 
