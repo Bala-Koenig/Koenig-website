@@ -241,20 +241,20 @@ const PARTNER_LOGOS: Record<string, string> = {
 /* ── FAQs ────────────────────────────────────────────────────── */
 const FAQS = [
   {
-    q: 'How can I register for a webinar?',
-    a: 'You can visit our webinar listing page to browse upcoming sessions, click on "Register" for the session you\'re interested in, and submit the form available on the webinar registration page.',
+    q: 'How do I register for a webinar?',
+    a: <>You can visit our <a href="/upcoming-webinars" target="_blank" className="text-koenig-blue underline hover:opacity-80">webinar landing page</a> to browse upcoming sessions, click on &ldquo;Register&rdquo; for the session you&apos;re interested in, and submit the form available on the webinar registration page.</>,
   },
   {
     q: 'Who conducts the webinars?',
-    a: 'Our webinars are conducted by industry-certified experts and experienced trainers from Koenig Solutions with real-world experience in their respective domains.',
+    a: 'Our webinars are conducted by industry and subject-matter experts, often in collaboration with trainers and professionals from leading organizations. This ensures you gain insights from top practitioners in the field.',
   },
   {
     q: 'What topics are covered in the webinars?',
-    a: 'We cover a wide range of topics including Cloud Computing (AWS, Azure), Cybersecurity, SAP, Microsoft 365, AI & Machine Learning, DevOps, Project Management, and much more.',
+    a: <>We cover a variety of topics, including emerging technologies, software development, data analytics, cybersecurity, project management, and more. Visit our <a href="/upcoming-webinars" target="_blank" className="text-koenig-blue underline hover:opacity-80">webinar page</a> to explore the full range of topics.</>,
   },
   {
     q: 'Are the webinars live or recorded?',
-    a: 'All webinars are conducted live, allowing you to interact with the speaker in real-time. Recordings may be available after the session depending on the webinar type.',
+    a: 'Our webinars are always conducted live with our expert trainer to ensure interactive learning and real-time engagement.',
   },
   {
     q: 'Will I receive a certificate for attending?',
@@ -262,23 +262,23 @@ const FAQS = [
   },
   {
     q: 'What should I do if I don\'t receive the LET credentials email even after filling out the feedback form?',
-    a: 'If you haven\'t received your credentials within 24 hours of filling out the feedback form, please contact our support team at support@koenig-solutions.com or reach out via live chat.',
+    a: <>If you haven&apos;t received the email, please reach out to us at <a href="mailto:webinars@koenig-solutions.com" className="text-koenig-blue underline hover:opacity-80">webinars@koenig-solutions.com</a>, and our team will assist you.</>,
   },
   {
     q: 'Can I ask questions during the webinar?',
-    a: 'Absolutely! Each webinar includes a dedicated Live Q&A session where you can interact directly with the speaker and get your questions answered.',
+    a: 'Absolutely! Each webinar includes a dedicated Q&A session where you can ask questions and get answers directly from the experts.',
   },
   {
     q: 'How do I get access to the recording of the session?',
-    a: 'Registered attendees may receive access to the recording after the session. Check your registered email for the recording link, usually sent within 24–48 hours after the webinar.',
+    a: 'Learners can receive the video recording of the session for a small amount. A participation certificate & a digital Credly badge is also provided as part of the bundle. Learners can make the payment by logging into LET and clicking on the "Access Badge & Certificate" button.',
   },
   {
     q: 'Are these webinars suitable for beginners?',
-    a: 'Yes, many of our webinars are designed for all experience levels. Each webinar listing specifies the target audience, so you can choose sessions that match your current skill level.',
+    a: <>Yes, we offer webinars for all skill levels. Check the session details on our <a href="/upcoming-webinars" target="_blank" className="text-koenig-blue underline hover:opacity-80"> landing page</a> to find the most suitable topics for you.</>,
   },
   {
     q: 'How do I contact Koenig Solutions for further queries?',
-    a: 'You can reach our team at +91-9811-72-9494 (Chat Only), email us at info@koenig-solutions.com, or use the live chat option on our website.',
+    a: <>For any questions, you can email us at <a href="mailto:webinars@koenig-solutions.com" className="text-koenig-blue underline hover:opacity-80">webinars@koenig-solutions.com</a>.</>,
   },
 ]
 
@@ -688,7 +688,7 @@ export default function UpcomingWebinarsPage() {
                     </button>
                     <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
                       <div style={{ overflow: 'hidden' }}>
-                        <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{f.a}</p>
+                        <div className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{f.a}</div>
                       </div>
                     </div>
                   </div>
@@ -708,7 +708,7 @@ export default function UpcomingWebinarsPage() {
                     </button>
                     <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
                       <div style={{ overflow: 'hidden' }}>
-                        <p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{f.a}</p>
+                        <div className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted sm:px-6 sm:py-4 sm:text-base">{f.a}</div>
                       </div>
                     </div>
                   </div>
