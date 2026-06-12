@@ -466,7 +466,7 @@ export default function UpcomingWebinarsPage() {
       <div style={{ background: 'linear-gradient(90deg, #dbeafe 0%, #e0f2fe 40%, #bfdbfe 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)', borderTop: '1px solid rgba(6,148,209,0.15)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 flex-wrap">
               <span className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-base font-medium shrink-0"
                 style={{ background: 'rgba(34,197,94,0.18)', border: '1px solid rgba(34,197,94,0.50)', color: '#16a34a' }}>
                 <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="#FF0000">
@@ -475,7 +475,7 @@ export default function UpcomingWebinarsPage() {
                 <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
                 Streaming Live
               </span>
-              <span className="font-extrabold" style={{ color: '#093148', fontSize: '18px' }}>
+              <span className="font-extrabold text-center sm:text-left w-full sm:w-auto" style={{ color: '#093148', fontSize: '18px' }}>
                 Information Security Governance – From Strategy To Execution
               </span>
             </div>
