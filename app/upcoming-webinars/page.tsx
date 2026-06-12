@@ -748,6 +748,9 @@ export default function UpcomingWebinarsPage() {
                 Upcoming Webinars
               </span>
             </h2>
+            <p className="mt-2 text-sm sm:text-base" style={{ color: '#64748b' }}>
+              Join our free live sessions led by certified experts — learn, ask questions, and grow your skills.
+            </p>
           </div>
 
           {/* Search & Filters */}
