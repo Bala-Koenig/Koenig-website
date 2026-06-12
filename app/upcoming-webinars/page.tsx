@@ -318,7 +318,7 @@ export default function UpcomingWebinarsPage() {
                 Free · Expert-Led · Live Q&A Included
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight text-white mb-5">
+              <h1 className="text-[36px] font-bold leading-tight text-white mb-5">
                 Join Our{' '}
                 <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>
                   Free Expert Webinars
