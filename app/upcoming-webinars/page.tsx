@@ -472,8 +472,8 @@ export default function UpcomingWebinarsPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-wrap">
               <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold shrink-0"
-                style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.40)', color: '#ef4444' }}>
-                <span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse" />
+                style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.40)', color: '#22c55e' }}>
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
                 Streaming Live
               </span>
               <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.85)' }}>
