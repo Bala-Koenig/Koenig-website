@@ -526,7 +526,7 @@ export default function UpcomingWebinarsPage() {
           <div className="absolute inset-0" style={{ animation: 'waveScroll1 20s linear infinite' }}>
             <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
               {[0,14,28,42,56,70,84].map((offset, i) => (
-                <path key={i} fill="none" stroke="#38bdf8" strokeWidth="1" opacity={0.06 + i * 0.025}
+                <path key={i} fill="none" stroke="#38bdf8" strokeWidth="1" opacity={0.03 + i * 0.012}
                   d={`M0,${300+offset} C200,${220+offset} 400,${380+offset} 600,${300+offset} C800,${220+offset} 1000,${380+offset} 1200,${300+offset} C1400,${220+offset} 1600,${380+offset} 1800,${300+offset} C2000,${220+offset} 2200,${380+offset} 2400,${300+offset} C2600,${220+offset} 2800,${380+offset} 3200,${300+offset}`}
                 />
               ))}
@@ -536,7 +536,7 @@ export default function UpcomingWebinarsPage() {
           <div className="absolute inset-0" style={{ animation: 'waveScroll2 14s linear infinite' }}>
             <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
               {[0,12,24,36,48,60].map((offset, i) => (
-                <path key={i} fill="none" stroke="#0694D1" strokeWidth="1" opacity={0.05 + i * 0.022}
+                <path key={i} fill="none" stroke="#0694D1" strokeWidth="1" opacity={0.025 + i * 0.011}
                   d={`M0,${180+offset} C267,${100+offset} 533,${260+offset} 800,${180+offset} C1067,${100+offset} 1333,${260+offset} 1600,${180+offset} C1867,${100+offset} 2133,${260+offset} 2400,${180+offset} C2667,${100+offset} 2933,${260+offset} 3200,${180+offset}`}
                 />
               ))}
@@ -546,7 +546,7 @@ export default function UpcomingWebinarsPage() {
           <div className="absolute inset-0" style={{ animation: 'waveScroll3 9s linear infinite' }}>
             <svg viewBox="0 0 3200 500" preserveAspectRatio="none" style={{ width: '200%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
               {[0,10,20,30,40].map((offset, i) => (
-                <path key={i} fill="none" stroke="#38bdf8" strokeWidth="0.7" opacity={0.04 + i * 0.018}
+                <path key={i} fill="none" stroke="#38bdf8" strokeWidth="0.7" opacity={0.02 + i * 0.009}
                   d={`M0,${420+offset} C160,${380+offset} 320,${460+offset} 480,${420+offset} C640,${380+offset} 800,${460+offset} 960,${420+offset} C1120,${380+offset} 1280,${460+offset} 1440,${420+offset} C1600,${380+offset} 1760,${460+offset} 1920,${420+offset} C2080,${380+offset} 2240,${460+offset} 2400,${420+offset} C2560,${380+offset} 2720,${460+offset} 2880,${420+offset} C3040,${380+offset} 3200,${460+offset} 3200,${420+offset}`}
                 />
               ))}
