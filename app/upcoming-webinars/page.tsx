@@ -609,7 +609,7 @@ export default function UpcomingWebinarsPage() {
                             {w.photo ? (
                               <img src={w.photo} alt={w.speaker}
                                 className="w-16 h-16 rounded-full object-cover shadow-md"
-                                style={{ border: '2px solid rgba(6,148,209,0.20)' }}
+                                style={{ border: '2px solid rgba(6,148,209,0.20)', transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)', imageRendering: 'auto' }}
                                 onError={(e) => { (e.target as HTMLImageElement).style.display='none'; (e.target as HTMLImageElement).nextElementSibling?.removeAttribute('style') }}
                               />
                             ) : null}
@@ -782,7 +782,7 @@ export default function UpcomingWebinarsPage() {
               {modalWebinar.photo ? (
                 <img src={modalWebinar.photo} alt={modalWebinar.speaker}
                   className="h-24 w-24 rounded-xl object-cover shadow-md"
-                  style={{ border: '3px solid rgba(6,148,209,0.20)' }} />
+                  style={{ border: '3px solid rgba(6,148,209,0.20)', transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)', imageRendering: 'auto' }} />
               ) : (
                 <div className="flex h-24 w-24 items-center justify-center rounded-xl text-2xl font-bold text-white shadow-md"
                   style={{ background: modalWebinar.avatarBg, border: '3px solid rgba(6,148,209,0.20)' }}>
