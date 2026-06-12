@@ -563,19 +563,18 @@ export default function UpcomingWebinarsPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {displayed.map(w => (
                   <article key={w.id}
-                    className="relative flex flex-col rounded-xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                    className="relative flex flex-col rounded-xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl mt-3"
                     style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.08)' }}>
 
+                    {w.live && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-bold z-10 whitespace-nowrap"
+                        style={{ background: '#16a34a', color: '#fff', boxShadow: '0 2px 10px rgba(22,163,74,0.45)', border: '2px solid #fff' }}>
+                        <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                        Live Now
+                      </span>
+                    )}
+
                     <div className="flex-1 flex flex-col p-5 relative">
-                      {w.live && (
-                        <div className="flex justify-center mb-3">
-                          <span className="inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-bold"
-                            style={{ background: '#16a34a', color: '#fff', boxShadow: '0 2px 8px rgba(22,163,74,0.40)' }}>
-                            <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
-                            Live Now
-                          </span>
-                        </div>
-                      )}
                       {/* Speaker row */}
                       <div className="flex items-start justify-between gap-3 mb-4">
                         <div className="flex items-start gap-3 min-w-0">
