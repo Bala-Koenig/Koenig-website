@@ -2167,7 +2167,7 @@ export default function Design4Page() {
               </button>
 
               <a
-                href="#"
+                href="/contact"
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: '#ffffff', background: 'transparent' }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
