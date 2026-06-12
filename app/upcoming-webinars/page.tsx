@@ -1,16 +1,6 @@
 'use client'
-import { useState, useRef } from 'react'
-import Link from 'next/link'
+import { useState } from 'react'
 import Navbar from '@/components/Navbar'
-
-/* ── Learning-options tabs ─────────────────────────────────── */
-const LEARNING_TABS = [
-  { id: 'ilo',     label: 'Live Online Classroom',   href: '/live-online-classroom' },
-  { id: 'fmat',    label: 'Fly-Me-a-Trainer (FMAT)', href: '#' },
-  { id: 'class',   label: 'Classroom Training',      href: '/classroom-training' },
-  { id: '1on1',    label: '1-on-1 Training',          href: '/1-on-1-training' },
-  { id: 'webinar', label: 'Upcoming Webinars',        href: '/upcoming-webinars' },
-]
 
 /* ── Hero stats ─────────────────────────────────────────────── */
 const HERO_STATS = [
@@ -270,7 +260,6 @@ export default function UpcomingWebinarsPage() {
   const [filterTech, setFilterTech]     = useState('All')
   const [filterPartner, setFilterPartner] = useState('All')
   const [showAll, setShowAll]           = useState(false)
-  const tabScrollRef = useRef<HTMLDivElement>(null)
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
@@ -423,57 +412,6 @@ export default function UpcomingWebinarsPage() {
               </div>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════ LEARNING MODE TABS ════════════════ */}
-      <style>{`
-        @keyframes tab-border-sweep { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-        .tab-border-glow{background:linear-gradient(270deg,#0694D1,#38bdf8,#076D9D,#38bdf8,#0694D1);background-size:400% 400%;animation:tab-border-sweep 3s ease infinite;padding:2px;border-radius:1rem;display:inline-flex;}
-      `}</style>
-      <section className="bg-white border-b py-4" style={{ borderColor: '#E2E8F0' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          {/* Mobile */}
-          <div className="sm:hidden">
-            <div className="tab-border-glow" style={{ display: 'block', width: '100%' }}>
-              <div ref={tabScrollRef} className="flex overflow-x-auto rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {LEARNING_TABS.map(t =>
-                  t.id === 'webinar' ? (
-                    <button key={t.id}
-                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-3 text-sm bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">
-                      {t.label}
-                    </button>
-                  ) : (
-                    <Link key={t.id} href={t.href}
-                      className="inline-flex items-center relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-4 py-3 text-sm text-[#7a8c96]">
-                      {t.label}
-                    </Link>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-          {/* Desktop */}
-          <div className="hidden sm:flex justify-center">
-            <div className="tab-border-glow">
-              <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
-                {LEARNING_TABS.map(t =>
-                  t.id === 'webinar' ? (
-                    <button key={t.id}
-                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">
-                      {t.label}
-                    </button>
-                  ) : (
-                    <Link key={t.id} href={t.href}
-                      className="inline-flex items-center relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-3 text-sm text-[#7a8c96] hover:text-[#093148]">
-                      {t.label}
-                    </Link>
-                  )
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </section>
