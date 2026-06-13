@@ -1439,7 +1439,7 @@ export default function LiveOnlineClassroomPage() {
       )}
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px]" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)' }}>
         {/* Background glow blobs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-40 right-1/3 w-[600px] h-[600px] rounded-full opacity-15 blur-[120px]" style={{ background: '#0694D1' }} />
@@ -1455,7 +1455,7 @@ export default function LiveOnlineClassroomPage() {
           @keyframes lolGlow   { 0%,100%{box-shadow:0 4px 18px rgba(6,109,157,0.30),inset 0 1px 0 rgba(255,255,255,0.18)} 50%{box-shadow:0 4px 28px rgba(6,148,209,0.55),0 0 16px rgba(58,182,235,0.30),inset 0 1px 0 rgba(255,255,255,0.28)} }
         `}</style>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
+        <div className="relative mx-auto max-w-7xl py-5 lg:py-[50px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left — text content */}
@@ -1602,8 +1602,8 @@ export default function LiveOnlineClassroomPage() {
           display: inline-flex;
         }
       `}</style>
-      <section className="bg-white border-b py-4" style={{ borderColor: '#E2E8F0' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="bg-white border-b py-4 px-4 lg:px-[50px]" style={{ borderColor: '#E2E8F0' }}>
+        <div className="mx-auto max-w-7xl">
 
           {/* Mobile: full-width scrollable, active tab snaps to left */}
           <div className="sm:hidden">
@@ -1655,7 +1655,7 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── BENEFITS ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ background: '#07121e', paddingTop: '50px', paddingBottom: '50px' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '50px', paddingBottom: '50px' }}>
 
         <style>{`
           @keyframes indIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
@@ -1707,7 +1707,7 @@ export default function LiveOnlineClassroomPage() {
             transition:background .3s,color .3s,border-color .3s; }
           .ben-card:hover .ben-tag { background:rgba(19,168,212,.22);color:#7de8ff;border-color:rgba(19,168,212,.45); }
         `}</style>
-        <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+        <div className="relative z-10 mx-auto max-w-7xl">
           <div className="text-center mb-10 sm:mb-12">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Why ILO</p>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
@@ -1848,13 +1848,13 @@ export default function LiveOnlineClassroomPage() {
         .batch-reserve-btn { padding:8px 16px; background:linear-gradient(135deg,#0694D1,#076D9D); border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.2s,box-shadow 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(6,148,209,0.25); }
         .batch-reserve-btn:hover { box-shadow:0 6px 20px rgba(6,148,209,0.4); transform:translateY(-1px); }
       `}</style>
-      <section id="schedule" className="relative py-12 sm:py-16" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+      <section id="schedule" className="relative py-12 sm:py-16 px-4 lg:px-[50px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
         {/* background blobs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
         </div>
-        <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+        <div className="relative z-10 mx-auto max-w-7xl">
 
           {/* Section header */}
           <div className="flex flex-col items-center text-center mb-10">
@@ -2129,8 +2129,8 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
-      <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="py-12 sm:py-16 px-4 lg:px-[50px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
+        <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               How Live Online Training{' '}
@@ -2225,8 +2225,8 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── TRAINING CATEGORIES ──────────────────────────────── */}
-      <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="py-12 sm:py-16 px-4 lg:px-[50px]" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
+        <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white">
               Popular{' '}
@@ -2280,7 +2280,7 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── REVIEWS & FAQ (tabbed) ───────────────────────────── */}
-      <section className={`relative overflow-hidden py-12 sm:py-16 sm:bg-white ${activeReviewFaq === 'faq' ? 'bg-koenig-light' : 'bg-white'}`}>
+      <section className={`relative overflow-hidden py-12 sm:py-16 px-4 lg:px-[50px] sm:bg-white ${activeReviewFaq === 'faq' ? 'bg-koenig-light' : 'bg-white'}`}>
         {/* radial decorations — mobile only, FAQ tab only */}
         {activeReviewFaq === 'faq' && (<>
           <div className="sm:hidden pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
@@ -2288,7 +2288,7 @@ export default function LiveOnlineClassroomPage() {
           <div className="sm:hidden pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
         </>)}
 
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+        <div className="mx-auto max-w-7xl">
 
           {/* Desktop: title ABOVE tabs */}
           <div className="hidden sm:block text-center mb-8">
@@ -2452,8 +2452,8 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <section id="request" className="py-10 sm:py-14" style={{ background: '#EEF7FD' }}>
-        <div className="mx-auto max-w-3xl px-4 md:px-8">
+      <section id="request" className="py-10 sm:py-14 px-4 lg:px-[50px]" style={{ background: '#EEF7FD' }}>
+        <div className="mx-auto max-w-3xl">
           <div className="rounded-3xl px-8 sm:px-12 py-7 sm:py-9"
             style={{
               background: '#E4F7FF',
