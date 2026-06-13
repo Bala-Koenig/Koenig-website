@@ -1901,7 +1901,7 @@ export default function LiveOnlineClassroomPage() {
                   )}
                 </div>
               </div>
-              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 420 }}>
+              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 260 }}>
                 {SIDEBAR_TECHNOLOGIES
                   .filter(t => !techSearch || t.name.toLowerCase().includes(techSearch.toLowerCase()))
                   .map(t => (
@@ -1933,6 +1933,42 @@ export default function LiveOnlineClassroomPage() {
                   </button>
                 ))}
               </div>
+
+              {/* ── Vendor section (always open) ── */}
+              <div className="px-3 pt-2.5 pb-2" style={{ borderTop: '1px solid #EBF8FE', borderBottom: '1px solid #EBF8FE' }}>
+                <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>VENDOR</p>
+              </div>
+              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 200 }}>
+                {/* All Vendors */}
+                <button
+                  onClick={() => { setFilterVendor(''); setPage(0) }}
+                  className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
+                  style={{ borderLeft: `3px solid ${!filterVendor ? '#0694D1' : 'transparent'}`, background: !filterVendor ? '#EBF8FE' : 'white' }}>
+                  <span className="text-[13px] font-medium truncate" style={{ color: !filterVendor ? '#0694D1' : '#374151' }}>All Vendors</span>
+                  <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                    style={{ background: !filterVendor ? '#0694D1' : '#E2E8F0', color: !filterVendor ? 'white' : '#6B7280' }}>
+                    {COURSES.length}
+                  </span>
+                </button>
+                {ALL_VENDORS.map(v => {
+                  const count = COURSES.filter(c => c.vendor === v).length
+                  if (count === 0) return null
+                  const active = filterVendor === v
+                  return (
+                    <button key={v}
+                      onClick={() => { setFilterVendor(v); setPage(0) }}
+                      className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
+                      style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, background: active ? '#EBF8FE' : 'white' }}>
+                      <span className="text-[13px] font-medium truncate" style={{ color: active ? '#0694D1' : '#374151' }} title={v}>{v}</span>
+                      <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                        style={{ background: active ? '#0694D1' : '#E2E8F0', color: active ? 'white' : '#6B7280' }}>
+                        {count}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+
               <div className="p-4 mt-auto" style={{ borderTop: '1px solid #EBF8FE' }}>
                 <button onClick={() => { setFormType('individual'); setShowFormModal(true) }} className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
                   style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
@@ -1967,7 +2003,7 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Desktop: Search + Vendor + Tech + Timezone */}
+              {/* Desktop: Search + Timezone */}
               <div className="hidden lg:flex items-center gap-2 mb-2">
                 <div className="relative flex-1 min-w-0">
                   <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1985,8 +2021,6 @@ export default function LiveOnlineClassroomPage() {
                     </button>
                   )}
                 </div>
-                <FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} />
-                <FilterDropdown label="Technology" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTech === 'All' ? 'All Technologies' : activeTech} onChange={v => { setActiveTech(v === 'All Technologies' ? 'All' : v); setPage(0) }} />
                 <FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} />
               </div>
 
