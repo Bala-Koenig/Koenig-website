@@ -1244,8 +1244,8 @@ export default function UpcomingWebinarsPage() {
             {/* Close — inside card, top-right */}
             <button
               onClick={() => setModalWebinar(null)}
-              className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full transition-opacity hover:opacity-70"
-              style={{ background: '#1e293b', color: '#fff' }}
+              className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center transition-opacity hover:opacity-70"
+              style={{ color: '#1e293b' }}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
