@@ -1496,6 +1496,34 @@ export default function LiveOnlineClassroomPage() {
                 </a>
               </div>
 
+              {/* Social proof pill */}
+              <div className="mt-4 flex justify-center lg:justify-start">
+                <div className="flex flex-wrap items-center gap-3 rounded-2xl px-4 py-2.5 sm:gap-6 sm:rounded-full sm:px-6 sm:py-3" style={{ background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(8px)' }}>
+                  <div className="flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                      {[
+                        '/images/headshots/headshot-1.webp',
+                        '/images/headshots/headshot-2.webp',
+                        '/images/headshots/headshot-3.webp',
+                        '/images/headshots/headshot-4.png',
+                        '/images/headshots/headshot-5.webp',
+                      ].map((src, i) => (
+                        <img key={i} src={src} alt={`Student ${i + 1}`}
+                          className="h-9 w-9 shrink-0 rounded-full object-cover object-top"
+                          style={{ border: '1px solid rgba(255,255,255,0.7)', zIndex: 5 - i }} />
+                      ))}
+                    </div>
+                    <span className="text-sm text-white"><span className="font-bold">3,200+</span> enrolled this month</span>
+                  </div>
+                  <span className="hidden h-4 w-px bg-white/25 sm:block" />
+                  <div className="flex items-center gap-2">
+                    <span className="text-yellow-400 text-base leading-none">★★★★★</span>
+                    <span className="text-sm text-white font-bold">4.9/5</span>
+                    <span className="text-sm text-white/80">(18,400+ reviews)</span>
+                  </div>
+                </div>
+              </div>
+
               {/* Mobile-only stat tiles — mirrors desktop floating cards */}
               <div className="lg:hidden grid grid-cols-4 gap-2 mt-[15px]">
                 {([
