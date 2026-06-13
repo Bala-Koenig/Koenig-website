@@ -473,6 +473,10 @@ export default function UpcomingWebinarsPage() {
   const [partnerOpen, setPartnerOpen]     = useState(false)
   const [partnerSearch, setPartnerSearch] = useState('')
   const [subConfirm, setSubConfirm]       = useState(false)
+  const [wbFilterOpen, setWbFilterOpen]   = useState(false)
+  const [wbFilterCat, setWbFilterCat]     = useState<'tech'|'partner'>('tech')
+  const [pendingTech, setPendingTech]     = useState('All')
+  const [pendingPartner, setPendingPartner] = useState('All')
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
@@ -776,8 +780,19 @@ export default function UpcomingWebinarsPage() {
             </div>
             {/* Filter by Technology */}
             <div className="relative">
+              {/* Mobile: opens modal */}
+              <button onClick={() => { setPendingTech(filterTech); setPendingPartner(filterPartner); setWbFilterCat('tech'); setWbFilterOpen(true) }}
+                className="sm:hidden flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '160px' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                </svg>
+                <span className="flex-1 text-left truncate">{filterTech === 'All' ? 'Filter by Technology' : filterTech}</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              {/* Desktop: dropdown */}
               <button onClick={() => { setTechOpen(o => !o); setPartnerOpen(false); setSortOpen(false) }}
-                className="flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
+                className="hidden sm:flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '160px' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
@@ -816,8 +831,19 @@ export default function UpcomingWebinarsPage() {
             </div>
             {/* Filter by Partner */}
             <div className="relative">
+              {/* Mobile: opens modal */}
+              <button onClick={() => { setPendingTech(filterTech); setPendingPartner(filterPartner); setWbFilterCat('partner'); setWbFilterOpen(true) }}
+                className="sm:hidden flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
+                style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '160px' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span className="flex-1 text-left truncate">{filterPartner === 'All' ? 'Filter by Partner' : filterPartner}</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              {/* Desktop: dropdown */}
               <button onClick={() => { setPartnerOpen(o => !o); setTechOpen(false); setSortOpen(false) }}
-                className="flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
+                className="hidden sm:flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058', minWidth: '160px' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
@@ -1016,6 +1042,54 @@ export default function UpcomingWebinarsPage() {
             </div>
           )}
         </div>
+
+      {/* ── Mobile filter modal (sm:hidden) ── */}
+      {wbFilterOpen && (
+        <>
+          <div onClick={() => setWbFilterOpen(false)}
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 1000 }} />
+          <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 'calc(100% - 32px)', maxWidth: 360, background: '#fff', borderRadius: 16, zIndex: 1001, display: 'flex', flexDirection: 'column', maxHeight: '80vh', boxShadow: '0 8px 40px rgba(0,0,0,0.18)' }}>
+            {/* Header */}
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #e8f1fb', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 16, fontWeight: 800, color: '#0a1f33' }}>Filter</span>
+              <button type="button" onClick={() => setWbFilterOpen(false)} style={{ width: 28, height: 28, borderRadius: '50%', background: '#f0f6fb', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b8299' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+            {/* Body */}
+            <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+              {/* Left tabs */}
+              <div style={{ width: 120, flexShrink: 0, borderRight: '1px solid #e8f1fb', overflowY: 'auto', background: '#fafcff' }}>
+                {([{ key: 'tech', label: 'Technology' }, { key: 'partner', label: 'Partner' }] as const).map(cat => (
+                  <button key={cat.key} onClick={() => setWbFilterCat(cat.key)} style={{ width: '100%', textAlign: 'left', padding: '14px 16px', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: wbFilterCat === cat.key ? 700 : 500, color: wbFilterCat === cat.key ? '#0694D1' : '#374151', background: wbFilterCat === cat.key ? '#EBF8FE' : 'transparent', borderLeft: wbFilterCat === cat.key ? '3px solid #0694D1' : '3px solid transparent' }}>
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+              {/* Right list */}
+              <div style={{ flex: 1, overflowY: 'auto', padding: '6px 0' }}>
+                {wbFilterCat === 'tech' && allTechs.map(t => (
+                  <label key={t} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f0f7fc' }}>
+                    <span style={{ fontSize: 13, color: '#374151' }}>{t === 'All' ? 'All Technologies' : t}</span>
+                    <input type="checkbox" checked={pendingTech === t} onChange={() => setPendingTech(t)} style={{ width: 16, height: 16, accentColor: '#0694D1', cursor: 'pointer' }} />
+                  </label>
+                ))}
+                {wbFilterCat === 'partner' && allPartners.map(p => (
+                  <label key={p} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f0f7fc' }}>
+                    <span style={{ fontSize: 13, color: '#374151' }}>{p === 'All' ? 'All Partners' : p}</span>
+                    <input type="checkbox" checked={pendingPartner === p} onChange={() => setPendingPartner(p)} style={{ width: 16, height: 16, accentColor: '#0694D1', cursor: 'pointer' }} />
+                  </label>
+                ))}
+              </div>
+            </div>
+            {/* Footer */}
+            <div style={{ padding: '14px 20px', borderTop: '1px solid #e8f1fb', display: 'flex', gap: 10, flexShrink: 0 }}>
+              <button type="button" onClick={() => { setFilterTech('All'); setFilterPartner('All'); setPendingTech('All'); setPendingPartner('All'); }} style={{ flex: 1, background: '#fff', border: '1.5px solid #B5D4F4', color: '#374151', borderRadius: 8, padding: '10px 0', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 600 }}>Clear All</button>
+              <button type="button" onClick={() => { setFilterTech(pendingTech); setFilterPartner(pendingPartner); setWbFilterOpen(false); }} style={{ flex: 1, background: '#0694D1', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 0', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 700 }}>Apply</button>
+            </div>
+          </div>
+        </>
+      )}
       </section>
 
       {/* ════════════════ FAQ ════════════════ */}
