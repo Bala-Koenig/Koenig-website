@@ -767,7 +767,7 @@ export default function UpcomingWebinarsPage() {
           <div className="mb-[15px] sm:mb-8 flex flex-col sm:flex-row gap-3 flex-wrap items-center sm:items-center justify-center sm:justify-start">
             {/* Search */}
             <div className="relative w-full sm:flex-1 sm:min-w-[160px]">
-              <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2}>
+              <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
               <input
@@ -775,9 +775,19 @@ export default function UpcomingWebinarsPage() {
                 placeholder="Search Webinar Topic"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border pl-9 pr-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
+                className="w-full rounded-xl border pl-9 pr-9 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0694D1]/30"
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#0d1b2a' }}
               />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center h-4 w-4 rounded-full transition-opacity hover:opacity-70"
+                  style={{ background: '#94a3b8', color: '#fff' }}
+                  aria-label="Clear search">
+                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
+                    <path d="M18 6 6 18M6 6l12 12"/>
+                  </svg>
+                </button>
+              )}
             </div>
             {/* Mobile: Filter by + Sort by side by side */}
             <div className="flex gap-2 w-full sm:contents">
