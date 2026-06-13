@@ -473,6 +473,7 @@ export default function UpcomingWebinarsPage() {
   const [partnerOpen, setPartnerOpen]     = useState(false)
   const [partnerSearch, setPartnerSearch] = useState('')
   const [subConfirm, setSubConfirm]       = useState(false)
+  const [showAllFaqs, setShowAllFaqs]     = useState(false)
   const [wbFilterOpen, setWbFilterOpen]   = useState(false)
   const [wbFilterCat, setWbFilterCat]     = useState<'tech'|'partner'>('tech')
   const [pendingTech, setPendingTech]     = useState('All')
@@ -1104,7 +1105,8 @@ export default function UpcomingWebinarsPage() {
             <p className="text-sm sm:text-base text-koenig-muted">Everything you need to know before joining a webinar</p>
           </div>
 
-          <div className="flex flex-col gap-3 md:flex-row">
+          {/* Desktop: two-column layout */}
+          <div className="hidden sm:flex flex-col gap-3 md:flex-row">
             <div className="flex flex-1 flex-col gap-3">
               {FAQS.filter((_, i) => i % 2 === 0).map((f, j) => {
                 const i = j * 2; const isOpen = openFaq === i
@@ -1145,6 +1147,42 @@ export default function UpcomingWebinarsPage() {
                 )
               })}
             </div>
+          </div>
+
+          {/* Mobile: single-column, show 6 then toggle */}
+          <div className="sm:hidden flex flex-col gap-3">
+            {FAQS.slice(0, showAllFaqs ? FAQS.length : 6).map((f, i) => {
+              const isOpen = openFaq === i
+              return (
+                <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                  <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left">
+                    <span className={`text-sm font-semibold leading-snug ${isOpen ? 'text-koenig-blue' : 'text-koenig-dark'}`} style={{ transition: 'color 0.3s' }}>{f.q}</span>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </span>
+                  </button>
+                  <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                    <div style={{ overflow: 'hidden' }}>
+                      <div className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed text-koenig-muted">{f.a}</div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+            {FAQS.length > 6 && (
+              <div className="mt-2 text-center">
+                <button onClick={() => setShowAllFaqs(v => !v)}
+                  className="inline-flex items-center gap-1.5 text-sm font-bold underline underline-offset-4 transition-opacity hover:opacity-70"
+                  style={{ color: '#0694D1' }}>
+                  {showAllFaqs ? 'View Less FAQs' : 'View More FAQs'}
+                  {!showAllFaqs && (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
+            )}
           </div>
 
         </div>
