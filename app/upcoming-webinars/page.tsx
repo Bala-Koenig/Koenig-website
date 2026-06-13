@@ -1244,8 +1244,8 @@ export default function UpcomingWebinarsPage() {
             {/* Close — inside card, top-right */}
             <button
               onClick={() => setModalWebinar(null)}
-              className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center transition-opacity hover:opacity-70"
-              style={{ color: '#1e293b' }}
+              className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full transition-opacity hover:opacity-70"
+              style={{ background: '#1e293b', color: '#fff' }}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
@@ -1281,9 +1281,6 @@ export default function UpcomingWebinarsPage() {
 
             {/* Right — title + description */}
             <div className="relative flex flex-1 flex-col justify-center p-5 sm:p-7 sm:pr-12">
-              {/* Quote decoration */}
-              <svg className="absolute right-5 top-5 opacity-10" width="36" height="36" viewBox="0 0 24 24" fill="#0694D1"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-
               <h3 className="mb-3 text-base font-bold leading-snug" style={{ color: '#0F172A' }}>{modalWebinar.title}</h3>
               {modalWebinar.description && (
                 <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{modalWebinar.description}</p>
