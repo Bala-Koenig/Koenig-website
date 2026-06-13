@@ -16,8 +16,15 @@ const COURSES = [
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '05 – 08 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
-      { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
-      { dates: '11 – 14 May', time: '09:30 PM – 05:30 AM IST', gtr: true },
+      { dates: '12 – 15 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '19 – 22 May', time: '09:30 PM – 05:30 AM IST', gtr: true },
+      { dates: '26 – 29 May', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '02 – 05 Jun', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '16 – 19 Jun', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '30 Jun – 03 Jul', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '14 – 17 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '28 – 31 Jul', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '11 – 14 Aug', time: '09:30 PM – 05:30 AM IST', gtr: true },
     ],
   },
   {
@@ -27,9 +34,14 @@ const COURSES = [
     tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: 'INR 31000',
     techs: ['Artificial Intelligence (AI)', 'Microsoft Azure'],
     schedules: [
-      { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
-      { dates: '19 – 25 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
-      { dates: '02 – 08 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '06 – 10 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '19 – 23 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '02 – 06 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '16 – 20 Jun', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '30 Jun – 04 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '14 – 18 Jul', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '28 Jul – 01 Aug', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '11 – 15 Aug', time: '09:30 PM – 05:30 AM IST', gtr: false },
     ],
   },
   {
@@ -42,6 +54,11 @@ const COURSES = [
       { dates: '04 – 07 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
       { dates: '18 – 21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '01 – 04 Jun', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '15 – 18 Jun', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '29 Jun – 02 Jul', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '13 – 16 Jul', time: '12:30 PM – 08:30 PM IST', gtr: false },
+      { dates: '27 – 30 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '10 – 13 Aug', time: '09:00 AM – 05:00 PM IST', gtr: false },
     ],
   },
   {
@@ -54,6 +71,11 @@ const COURSES = [
       { dates: '04 – 07 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '11 – 14 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '25 – 28 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '08 – 11 Jun', time: '04:30 AM – 12:30 PM IST', gtr: false },
+      { dates: '22 – 25 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '06 – 09 Jul', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '20 – 23 Jul', time: '04:30 AM – 12:30 PM IST', gtr: true },
+      { dates: '03 – 06 Aug', time: '09:00 AM – 05:00 PM IST', gtr: false },
     ],
   },
   {
@@ -66,6 +88,11 @@ const COURSES = [
       { dates: '04 – 07 May', time: '03:30 AM – 11:30 AM IST', gtr: true },
       { dates: '18 – 21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '01 – 04 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '15 – 18 Jun', time: '03:30 AM – 11:30 AM IST', gtr: false },
+      { dates: '29 Jun – 02 Jul', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '13 – 16 Jul', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '27 – 30 Jul', time: '03:30 AM – 11:30 AM IST', gtr: true },
+      { dates: '10 – 13 Aug', time: '09:00 AM – 05:00 PM IST', gtr: false },
     ],
   },
   {
@@ -75,7 +102,15 @@ const COURSES = [
     tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: 'INR 31000',
     techs: ['Microsoft Fabric'],
     schedules: [
-      { dates: '24 – 27 Aug', time: '12:30 PM – 08:30 PM IST', gtr: true },
+      { dates: '05 – 08 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
+      { dates: '19 – 22 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '02 – 05 Jun', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '16 – 19 Jun', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '30 Jun – 03 Jul', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '14 – 17 Jul', time: '12:30 PM – 08:30 PM IST', gtr: false },
+      { dates: '28 – 31 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '11 – 14 Aug', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '25 – 28 Aug', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '08 – 11 Sep', time: '09:00 AM – 05:00 PM IST', gtr: true },
     ],
   },
@@ -86,9 +121,14 @@ const COURSES = [
     tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 39000',
     techs: ['Microsoft Azure'],
     schedules: [
-      { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
-      { dates: '19 – 25 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
-      { dates: '02 – 08 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '06 – 10 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '19 – 23 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '02 – 06 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '16 – 20 Jun', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '30 Jun – 04 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '14 – 18 Jul', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '28 Jul – 01 Aug', time: '09:30 PM – 05:30 AM IST', gtr: true },
+      { dates: '11 – 15 Aug', time: '06:30 AM – 02:30 PM IST', gtr: false },
     ],
   },
   {
@@ -98,9 +138,14 @@ const COURSES = [
     tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: 'INR 39000',
     techs: ['Microsoft Azure'],
     schedules: [
-      { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
-      { dates: '19 – 23 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
-      { dates: '02 – 06 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '06 – 09 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '19 – 22 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '02 – 05 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '16 – 19 Jun', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '30 Jun – 03 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '14 – 17 Jul', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '28 – 31 Jul', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '11 – 14 Aug', time: '09:30 PM – 05:30 AM IST', gtr: false },
     ],
   },
   {
@@ -113,6 +158,13 @@ const COURSES = [
       { dates: '04 – 08 May', time: '11:30 AM – 07:30 PM IST', gtr: true },
       { dates: '18 – 22 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '01 – 05 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '15 – 19 Jun', time: '11:30 AM – 07:30 PM IST', gtr: false },
+      { dates: '29 Jun – 03 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '13 – 17 Jul', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '27 – 31 Jul', time: '11:30 AM – 07:30 PM IST', gtr: true },
+      { dates: '10 – 14 Aug', time: '06:30 AM – 02:30 PM IST', gtr: false },
+      { dates: '24 – 28 Aug', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '07 – 11 Sep', time: '11:30 AM – 07:30 PM IST', gtr: true },
     ],
   },
   {
@@ -123,8 +175,15 @@ const COURSES = [
     techs: ['Data Management & Analytics'],
     schedules: [
       { dates: '14 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
-      { dates: '28 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
-      { dates: '11 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '21 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '28 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '04 Jun', time: '04:30 AM – 12:30 PM IST', gtr: false },
+      { dates: '11 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '18 Jun', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '25 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '02 Jul', time: '04:30 AM – 12:30 PM IST', gtr: false },
+      { dates: '09 Jul', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '16 Jul', time: '02:30 PM – 10:30 PM IST', gtr: false },
     ],
   },
   {
@@ -134,9 +193,16 @@ const COURSES = [
     tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: 'INR 44000', certFee: 14400,
     techs: ['AWS Cloud'],
     schedules: [
-      { dates: '04 – 08 May', time: '01:30 PM – 09:30 PM IST', gtr: true },
-      { dates: '18 – 22 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
-      { dates: '01 – 05 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '04 – 06 May', time: '01:30 PM – 09:30 PM IST', gtr: true },
+      { dates: '18 – 20 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '01 – 03 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '15 – 17 Jun', time: '01:30 PM – 09:30 PM IST', gtr: false },
+      { dates: '29 Jun – 01 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '13 – 15 Jul', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '27 – 29 Jul', time: '01:30 PM – 09:30 PM IST', gtr: true },
+      { dates: '10 – 12 Aug', time: '06:30 AM – 02:30 PM IST', gtr: false },
+      { dates: '24 – 26 Aug', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '07 – 09 Sep', time: '01:30 PM – 09:30 PM IST', gtr: true },
     ],
   },
   {
@@ -149,6 +215,11 @@ const COURSES = [
       { dates: '11 – 13 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
       { dates: '25 – 27 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '08 – 10 Jun', time: '01:30 PM – 09:30 PM IST', gtr: true },
+      { dates: '22 – 24 Jun', time: '04:30 AM – 12:30 PM IST', gtr: false },
+      { dates: '06 – 08 Jul', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '20 – 22 Jul', time: '01:30 PM – 09:30 PM IST', gtr: false },
+      { dates: '03 – 05 Aug', time: '04:30 AM – 12:30 PM IST', gtr: true },
+      { dates: '17 – 19 Aug', time: '09:00 AM – 05:00 PM IST', gtr: false },
     ],
   },
   {
@@ -161,6 +232,13 @@ const COURSES = [
       { dates: '05 – 09 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '02 – 06 Jun', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '16 – 20 Jun', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '30 Jun – 04 Jul', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '14 – 18 Jul', time: '06:30 AM – 02:30 PM IST', gtr: false },
+      { dates: '28 Jul – 01 Aug', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '11 – 15 Aug', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '25 – 29 Aug', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '08 – 12 Sep', time: '09:00 AM – 05:00 PM IST', gtr: true },
     ],
   },
   {
@@ -173,6 +251,13 @@ const COURSES = [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '26 – 30 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
       { dates: '09 – 13 Jun', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '23 – 27 Jun', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '07 – 11 Jul', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '21 – 25 Jul', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '04 – 08 Aug', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '18 – 22 Aug', time: '06:30 AM – 02:30 PM IST', gtr: false },
+      { dates: '01 – 05 Sep', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '15 – 19 Sep', time: '09:00 AM – 05:00 PM IST', gtr: true },
     ],
   },
   {
@@ -185,6 +270,13 @@ const COURSES = [
       { dates: '05 – 09 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '19 – 23 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '02 – 06 Jun', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '16 – 20 Jun', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '30 Jun – 04 Jul', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '14 – 18 Jul', time: '06:30 AM – 02:30 PM IST', gtr: false },
+      { dates: '28 Jul – 01 Aug', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '11 – 15 Aug', time: '09:00 AM – 05:00 PM IST', gtr: false },
+      { dates: '25 – 29 Aug', time: '06:30 AM – 02:30 PM IST', gtr: true },
+      { dates: '08 – 12 Sep', time: '02:30 PM – 10:30 PM IST', gtr: true },
     ],
   },
   {
@@ -197,6 +289,11 @@ const COURSES = [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
       { dates: '26 – 30 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
       { dates: '09 – 13 Jun', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '23 – 27 Jun', time: '02:30 PM – 10:30 PM IST', gtr: false },
+      { dates: '07 – 11 Jul', time: '09:00 AM – 05:00 PM IST', gtr: true },
+      { dates: '21 – 25 Jul', time: '06:30 AM – 02:30 PM IST', gtr: false },
+      { dates: '04 – 08 Aug', time: '02:30 PM – 10:30 PM IST', gtr: true },
+      { dates: '18 – 22 Aug', time: '09:00 AM – 05:00 PM IST', gtr: false },
     ],
   },
 ]
@@ -560,23 +657,29 @@ function VendorLogo({ name, size = 24 }: { name: string; size?: number }) {
 }
 
 /* ── Dates Modal ─────────────────────────────────────────────── */
-function DatesModal({ course, onClose, onEnroll }: {
-  course: typeof COURSES[0]; onClose: () => void; onEnroll: () => void
+function DatesModal({ course, onClose }: {
+  course: typeof COURSES[0]; onClose: () => void
 }) {
   const [selectedIdx, setSelectedIdx] = useState(0)
+  const [step, setStep] = useState<'dates' | 'enroll'>('dates')
+  const [certAdded, setCertAdded] = useState(false)
+  const [robotChecked, setRobotChecked] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [form, setForm] = useState({ name: '', email: '', phone: '', country: '' })
   const days = Math.ceil(course.duration / 8)
 
   useEffect(() => {
-    const fn = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    const fn = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { step === 'enroll' ? setStep('dates') : onClose() }
+    }
     document.addEventListener('keydown', fn)
     document.body.style.overflow = 'hidden'
     return () => { document.removeEventListener('keydown', fn); document.body.style.overflow = '' }
-  }, [onClose])
+  }, [onClose, step])
 
   const MONTH_RE = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/
   const MONTH_ORDER = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  const rows = course.schedules.map((s, i) => ({ ...s, idx: i, type: 'Online' as const }))
-
+  const rows = course.schedules.map((s, i) => ({ ...s, idx: i }))
   const grouped: { month: string; items: typeof rows }[] = []
   rows.forEach(r => {
     const m = r.dates.match(MONTH_RE)?.[1] ?? 'Other'
@@ -584,122 +687,267 @@ function DatesModal({ course, onClose, onEnroll }: {
     if (g) g.items.push(r); else grouped.push({ month: m, items: [r] })
   })
   grouped.sort((a, b) => MONTH_ORDER.indexOf(a.month) - MONTH_ORDER.indexOf(b.month))
+
   const selected = course.schedules[selectedIdx]
+  const courseNum = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
+  const certNum   = certAdded && course.certFee ? course.certFee : 0
+  const total     = courseNum + certNum
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '10px 14px', borderRadius: 8, fontSize: 13,
+    border: '1px solid #DDE6EE', outline: 'none', background: 'white', color: '#0C1929',
+    fontFamily: 'inherit', transition: 'border-color 0.15s',
+  }
+
+  if (submitted) {
+    return (
+      <div className="fixed inset-0 z-[300] flex items-center justify-center px-4"
+        style={{ background: 'rgba(12,25,41,0.72)', backdropFilter: 'blur(8px)' }}>
+        <div className="bg-white rounded-2xl p-10 flex flex-col items-center text-center max-w-sm w-full"
+          style={{ boxShadow: '0 8px 40px rgba(12,25,41,0.2)' }}>
+          <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
+            style={{ background: '#DCFCE7' }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 className="text-lg font-bold mb-2" style={{ color: '#0C1929' }}>Enrollment Confirmed!</h3>
+          <p className="text-sm mb-1" style={{ color: '#5a7a90' }}>
+            {course.code}: {course.name}
+          </p>
+          <p className="text-sm font-semibold mb-5" style={{ color: '#0694D1' }}>
+            {selected.dates} 2026 · {selected.time}
+          </p>
+          <p className="text-xs mb-6" style={{ color: '#94A3B8' }}>
+            Our team will contact you shortly with next steps and payment details.
+          </p>
+          <button onClick={onClose}
+            className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>
+            Done
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="fixed inset-0 z-[300] flex items-end sm:items-center sm:px-4 justify-center"
       style={{ background: 'rgba(12,25,41,0.72)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
       onClick={onClose}>
-      <style>{`
-        @keyframes dmIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-        @keyframes dmUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
-      `}</style>
+      <style>{`@keyframes dmUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}`}</style>
       <div className="relative w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl overflow-hidden flex flex-col bg-white"
         style={{ maxHeight: '92vh', boxShadow: '0 -8px 40px rgba(12,25,41,0.25)', animation: 'dmUp 0.3s cubic-bezier(0.22,1,0.36,1)' } as React.CSSProperties}
         onClick={e => e.stopPropagation()}>
+
         {/* Mobile drag handle */}
         <div className="sm:hidden flex justify-center pt-3 pb-1">
           <div className="w-10 h-1 rounded-full" style={{ background: '#CBD5E1' }} />
         </div>
 
         {/* Header */}
-        <div className="relative px-6 pt-5 pb-4" style={{ borderBottom: '1px solid #DDE6EE' }}>
+        <div className="relative px-5 pt-4 pb-3.5" style={{ borderBottom: '1px solid #DDE6EE', flexShrink: 0 }}>
+          {step === 'enroll' && (
+            <button onClick={() => setStep('dates')}
+              className="flex items-center gap-1.5 text-xs font-semibold mb-3 transition-all hover:opacity-70"
+              style={{ color: '#0694D1' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              Back to Dates
+            </button>
+          )}
           <button onClick={onClose}
-            className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all hover:bg-[#E6F6FD]"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-[#E6F6FD]"
             style={{ border: '1.5px solid #DDE6EE', color: '#5a7a90' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
-          <span className="inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full mb-2"
-            style={{ background: '#E6F6FD', color: '#0694D1' }}>{course.vendor}</span>
-          <h2 className="text-sm font-bold leading-snug pr-10 mb-2" style={{ color: '#0C1929' }}>
+          <div className="flex items-center gap-2 pr-10">
+            <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0"
+              style={{ background: '#E6F6FD', color: '#0694D1' }}>{course.vendor}</span>
+            {step === 'enroll' && selected?.gtr && (
+              <span className="flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0" style={{ background: '#DCFCE7', color: '#16A34A' }}>
+                <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                GTR
+              </span>
+            )}
+          </div>
+          <h2 className="text-sm font-bold leading-snug mt-1.5 pr-10" style={{ color: '#0C1929' }}>
             {course.code}: {course.name}
           </h2>
-          <span className="flex items-center gap-1.5 text-xs" style={{ color: '#5a7a90' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            {course.duration} hrs ({days} {days === 1 ? 'Day' : 'Days'})
-          </span>
-        </div>
-
-        {/* Date count */}
-        <div className="flex items-center px-6 py-2.5" style={{ borderBottom: '1px solid #DDE6EE', background: '#FAFCFE' }}>
-          <span className="text-xs font-medium" style={{ color: '#5a7a90' }}>
-            {rows.length} date{rows.length !== 1 ? 's' : ''} available
-          </span>
-        </div>
-
-        {/* Dates list */}
-        <div className="flex-1 overflow-y-auto px-6 py-4" style={{ minHeight: 0 }}>
-          {grouped.length > 0 ? grouped.map(({ month, items }) => (
-            <div key={month} className="mb-4">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-[11px] font-black uppercase tracking-widest shrink-0" style={{ color: '#94A3B8' }}>{month} 2026</span>
-                <div className="flex-1 h-px" style={{ background: '#E2E8F0' }} />
-              </div>
-              <div className="flex flex-col gap-2">
-                {items.map(({ idx, dates, time, gtr, type }) => {
-                  const sel = selectedIdx === idx
-                  return (
-                    <button key={idx} onClick={() => setSelectedIdx(idx)}
-                      className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all"
-                      style={sel ? { background: '#E6F6FD', border: '1.5px solid #0694D1' } : { background: 'white', border: '1px solid #DDE6EE' }}>
-                      <div className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center"
-                        style={sel ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
-                        {sel && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
-                      </div>
-                      <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                        <span className="flex items-center gap-1.5 text-sm font-bold" style={{ color: sel ? '#0694D1' : '#0C1929' }}>
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                          {dates} 2026
-                        </span>
-                        <span className="flex items-center gap-1.5 text-xs" style={{ color: sel ? '#0694D1' : '#5a7a90' }}>
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                          {time}
-                        </span>
-                        <span className="flex items-center gap-1.5 text-xs" style={{ color: sel ? '#0694D1' : '#94A3B8' }}>
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                          Online
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        {gtr && (
-                          <span className="flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: '#DCFCE7', color: '#16A34A' }}>
-                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            GTR
-                          </span>
-                        )}
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: '#E6F6FD', color: '#0694D1' }}>{type}</span>
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )) : (
-            <div className="flex flex-col items-center justify-center py-12">
-              <p className="text-sm font-semibold" style={{ color: '#94A3B8' }}>No dates for this filter</p>
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4" style={{ background: '#F5F8FB', borderTop: '1px solid #DDE6EE' }}>
-          <div className="min-w-0 mr-4">
-            <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#94A3B8' }}>Selected</p>
-            <p className="text-sm font-bold" style={{ color: '#0C1929' }}>{selected ? `${selected.dates} 2026` : '—'}</p>
-          </div>
-          <div className="flex items-center gap-2.5 shrink-0">
-            <button onClick={onClose}
-              className="rounded-xl px-5 py-2.5 text-sm font-semibold transition-all hover:bg-[#E6F6FD]"
-              style={{ border: '1px solid #DDE6EE', color: '#5a7a90', background: 'white' }}>
-              Cancel
-            </button>
-            <button onClick={onEnroll}
-              className="rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>
-              Enroll Now
-            </button>
+          <div className="flex items-center gap-3 mt-1.5">
+            <span className="flex items-center gap-1 text-xs" style={{ color: '#5a7a90' }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              {course.duration} hrs · {days} {days === 1 ? 'Day' : 'Days'}
+            </span>
+            {step === 'enroll' && selected && (
+              <span className="flex items-center gap-1 text-xs font-semibold" style={{ color: '#0694D1' }}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                {selected.dates} 2026
+              </span>
+            )}
           </div>
         </div>
+
+        {step === 'dates' ? (
+          <>
+            {/* Date count bar */}
+            <div className="flex items-center gap-2 px-5 py-2" style={{ borderBottom: '1px solid #DDE6EE', background: '#FAFCFE', flexShrink: 0 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span className="text-xs font-medium" style={{ color: '#5a7a90' }}>
+                {rows.length} date{rows.length !== 1 ? 's' : ''} available — pick one to enroll
+              </span>
+            </div>
+
+            {/* Dates list (scrollable) */}
+            <div className="flex-1 overflow-y-auto px-5 py-4" style={{ minHeight: 0 }}>
+              {grouped.map(({ month, items }) => (
+                <div key={month} className="mb-4 last:mb-0">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-[11px] font-black uppercase tracking-widest shrink-0" style={{ color: '#94A3B8' }}>{month} 2026</span>
+                    <div className="flex-1 h-px" style={{ background: '#E2E8F0' }} />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    {items.map(({ idx, dates, time, gtr }) => {
+                      const sel = selectedIdx === idx
+                      return (
+                        <button key={idx} onClick={() => setSelectedIdx(idx)}
+                          className="w-full flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-left transition-all"
+                          style={sel ? { background: '#E6F6FD', border: '1.5px solid #0694D1' } : { background: 'white', border: '1px solid #DDE6EE' }}>
+                          <div className="w-3.5 h-3.5 rounded-full shrink-0 flex items-center justify-center"
+                            style={sel ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
+                            {sel && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[13px] font-bold" style={{ color: sel ? '#0694D1' : '#0C1929' }}>{dates} 2026</span>
+                            </div>
+                            <span className="text-[11px]" style={{ color: sel ? '#0694D1' : '#5a7a90' }}>{time}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            {gtr && (
+                              <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: '#DCFCE7', color: '#16A34A' }}>
+                                <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                GTR
+                              </span>
+                            )}
+                            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: '#E6F6FD', color: '#0694D1' }}>Online</span>
+                          </div>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between px-5 py-3.5" style={{ background: '#F5F8FB', borderTop: '1px solid #DDE6EE', flexShrink: 0 }}>
+              <div className="min-w-0 mr-4">
+                <p className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: '#94A3B8' }}>Selected</p>
+                <p className="text-sm font-bold" style={{ color: '#0C1929' }}>{selected ? `${selected.dates} 2026` : '—'}</p>
+                <p className="text-[11px]" style={{ color: '#5a7a90' }}>{selected?.time}</p>
+              </div>
+              <button onClick={() => setStep('enroll')}
+                className="rounded-xl px-6 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 shrink-0"
+                style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>
+                Enroll Now →
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Enrollment form (scrollable) */}
+            <div className="flex-1 overflow-y-auto px-5 py-4" style={{ minHeight: 0 }}>
+
+              {/* Selected date summary */}
+              <div className="rounded-xl px-4 py-3 mb-4 flex items-start gap-3"
+                style={{ background: '#EFF9FF', border: '1px solid #BAE3F7' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <div>
+                  <p className="text-sm font-bold" style={{ color: '#0C1929' }}>{selected?.dates} 2026</p>
+                  <p className="text-xs" style={{ color: '#5a7a90' }}>{selected?.time} · Online</p>
+                </div>
+              </div>
+
+              {/* Price breakdown */}
+              <div className="rounded-xl p-4 mb-4" style={{ background: '#F8FBFE', border: '1px solid #DDE6EE' }}>
+                <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Price Breakdown</p>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm" style={{ color: '#374151' }}>Course Training</span>
+                  <span className="text-sm font-semibold" style={{ color: '#0C1929' }}>{course.price}</span>
+                </div>
+                {course.certFee && (
+                  <label className="flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 mb-2 transition-all"
+                    style={certAdded
+                      ? { border: '1.5px solid #0694D1', background: 'rgba(6,148,209,0.06)' }
+                      : { border: '1px solid #E2E8F0', background: 'white' }}>
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded border-2 transition-colors"
+                        style={certAdded ? { borderColor: '#0694D1', background: '#0694D1' } : { borderColor: '#CBD5E1', background: 'white' }}>
+                        {certAdded && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                      </div>
+                      <span className="text-sm" style={{ color: certAdded ? '#0694D1' : '#374151' }}>Add Certification Exam</span>
+                    </div>
+                    <span className="text-sm font-semibold" style={{ color: '#0C1929' }}>+INR {course.certFee.toLocaleString('en-IN')}</span>
+                    <input type="checkbox" className="sr-only" checked={certAdded} onChange={() => setCertAdded(!certAdded)} />
+                  </label>
+                )}
+                <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid #E2E8F0' }}>
+                  <span className="text-sm font-bold" style={{ color: '#0C1929' }}>Total</span>
+                  <span className="text-base font-bold" style={{ color: '#0694D1' }}>INR {total.toLocaleString('en-IN')}</span>
+                </div>
+              </div>
+
+              {/* Form fields */}
+              <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Your Details</p>
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <input placeholder="Full Name *" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
+                  style={inputStyle}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                  onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+                <input placeholder="Email *" type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
+                  style={inputStyle}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                  onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+                <input placeholder="Phone" type="tel" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
+                  style={inputStyle}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                  onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+                <input placeholder="Country" value={form.country} onChange={e => setForm({ ...form, country: e.target.value })}
+                  style={inputStyle}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                  onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+              </div>
+
+              {/* reCAPTCHA */}
+              <div className="flex items-center gap-3 rounded-lg px-4 py-2.5 mb-1" style={{ border: '1px solid #DDE6EE', background: '#FAFCFE' }}>
+                <div onClick={() => setRobotChecked(!robotChecked)}
+                  className="w-5 h-5 rounded flex-shrink-0 flex items-center justify-center cursor-pointer transition-all"
+                  style={robotChecked ? { background: '#0694D1', border: '2px solid #0694D1' } : { border: '2px solid #CBD5E1', background: 'white' }}>
+                  {robotChecked && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={3} strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                </div>
+                <span className="text-sm flex-1" style={{ color: '#374151' }}>I&apos;m not a robot</span>
+                <div className="text-right">
+                  <p className="text-[10px]" style={{ color: '#9CA3AF' }}>reCAPTCHA</p>
+                  <p className="text-[10px]" style={{ color: '#9CA3AF' }}>Privacy · Terms</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Submit footer */}
+            <div className="px-5 py-3.5" style={{ background: '#F5F8FB', borderTop: '1px solid #DDE6EE', flexShrink: 0 }}>
+              <button
+                onClick={() => robotChecked && form.name && form.email && setSubmitted(true)}
+                className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all"
+                style={{
+                  background: robotChecked && form.name && form.email
+                    ? 'linear-gradient(135deg,#0694D1,#076D9D)'
+                    : '#CBD5E1',
+                  boxShadow: robotChecked && form.name && form.email ? '0 4px 12px rgba(6,148,209,0.3)' : 'none',
+                  cursor: robotChecked && form.name && form.email ? 'pointer' : 'not-allowed',
+                }}>
+                Confirm Enrollment →
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
@@ -1329,7 +1577,6 @@ export default function LiveOnlineClassroomPage() {
         <DatesModal
           course={datesModalCourse}
           onClose={() => setDatesModalCourse(null)}
-          onEnroll={() => { setDatesModalCourse(null); window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'individual' } })) }}
         />
       )}
 
@@ -1992,7 +2239,7 @@ export default function LiveOnlineClassroomPage() {
                 {paginated.length > 0
                   ? paginated.map(c => (
                       <CourseCard key={c.id} course={c}
-                        onEnroll={() => setShowFormModal(true)}
+                        onEnroll={() => setDatesModalCourse(c)}
                         onViewDates={() => setDatesModalCourse(c)}
                         onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
                       />
