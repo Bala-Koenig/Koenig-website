@@ -676,7 +676,7 @@ export default function UpcomingWebinarsPage() {
                 style={{ border: '1px solid rgba(6,148,209,0.40)', boxShadow: '0 4px 24px rgba(6,148,209,0.20)' }}>
                 <div className="relative" style={{ paddingBottom: '56.25%', height: 0 }}>
                   <iframe
-                    src="https://www.youtube.com/embed/B2ezhvq1ito?rel=0&enablejsapi=1&playsinline=1"
+                    src="https://www.youtube.com/embed/B2ezhvq1ito?rel=0&autoplay=1&mute=1&enablejsapi=1&playsinline=1"
                     title="Welcome to Koenig Webinars"
                     className="absolute inset-0 w-full h-full"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
