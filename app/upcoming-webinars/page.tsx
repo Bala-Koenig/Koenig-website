@@ -782,7 +782,7 @@ export default function UpcomingWebinarsPage() {
             <div className="flex gap-2 sm:contents">
 
             {/* Filter by Technology */}
-            <div className="relative">
+            <div className="hidden sm:block relative">
               {/* Desktop: dropdown */}
               <button onClick={() => { setTechOpen(o => !o); setPartnerOpen(false); setSortOpen(false) }}
                 className="hidden sm:flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
@@ -823,7 +823,7 @@ export default function UpcomingWebinarsPage() {
               )}
             </div>
             {/* Filter by Partner */}
-            <div className="relative">
+            <div className="hidden sm:block relative">
               {/* Desktop: dropdown */}
               <button onClick={() => { setPartnerOpen(o => !o); setTechOpen(false); setSortOpen(false) }}
                 className="hidden sm:flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
@@ -865,7 +865,7 @@ export default function UpcomingWebinarsPage() {
             </div>
               {/* Filter by — mobile only */}
               <button onClick={() => { setPendingTech(filterTech); setPendingPartner(filterPartner); setWbFilterCat('tech'); setWbFilterOpen(true) }}
-                className="sm:hidden flex-1 flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
+                className="sm:hidden flex-1 flex items-center justify-center gap-2 rounded-xl border px-4 py-[10px] text-sm transition-all whitespace-nowrap"
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
@@ -881,7 +881,7 @@ export default function UpcomingWebinarsPage() {
               <div className="relative flex-1 sm:flex-none">
                 <button
                   onClick={() => setSortOpen(o => !o)}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition-all"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl border px-4 py-[10px] text-sm font-medium transition-all whitespace-nowrap"
                   style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
