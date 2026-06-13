@@ -560,7 +560,7 @@ export default function UpcomingWebinarsPage() {
           ))}
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[15px] sm:py-8 lg:py-[50px]">
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[20px] sm:py-8 lg:py-[50px]">
           <div className="grid lg:grid-cols-2 gap-[15px] lg:gap-16 items-center">
 
             {/* ── Left copy ── */}
@@ -696,7 +696,7 @@ export default function UpcomingWebinarsPage() {
 
       {/* ════════════════ STREAMING LIVE BANNER ════════════════ */}
       <div style={{ background: 'linear-gradient(90deg, #dbeafe 0%, #e0f2fe 40%, #bfdbfe 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)', borderTop: '1px solid rgba(6,148,209,0.15)' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5">
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[20px] sm:py-5">
           <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr_auto] items-center gap-4">
             <span className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-base font-medium shrink-0 justify-self-center sm:justify-self-start"
               style={{ background: 'rgba(34,197,94,0.18)', border: '1px solid rgba(34,197,94,0.50)', color: '#16a34a' }}>
@@ -721,7 +721,7 @@ export default function UpcomingWebinarsPage() {
 
       {/* ════════════════ SUBSCRIBE BAR ════════════════ */}
       <div style={{ background: '#EBF8FE', borderBottom: '1px solid #CAEFFF' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-3.5">
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[20px] sm:py-3.5">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <p className="text-sm font-bold whitespace-nowrap" style={{ color: '#0d1b2a' }}>
               Subscribe for updates on our Upcoming Webinars
@@ -746,7 +746,7 @@ export default function UpcomingWebinarsPage() {
       </div>
 
       {/* ════════════════ WEBINAR LISTINGS ════════════════ */}
-      <section id="webinar-listings" aria-labelledby="webinars-heading" className="py-10" style={{ background: '#f8fafc', borderTop: '2px solid #93d4f5' }}>
+      <section id="webinar-listings" aria-labelledby="webinars-heading" className="py-[20px] sm:py-10" style={{ background: '#f8fafc', borderTop: '2px solid #93d4f5' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Heading */}
@@ -1091,7 +1091,7 @@ export default function UpcomingWebinarsPage() {
       </section>
 
       {/* ════════════════ FAQ ════════════════ */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: '35px', paddingBottom: '35px' }}>
+      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-[20px] sm:py-[35px]">
         <div className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
@@ -1151,7 +1151,7 @@ export default function UpcomingWebinarsPage() {
       </section>
 
       {/* ════════════════ STATS ════════════════ */}
-      <div className="bg-white px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: '35px', paddingBottom: '35px' }}>
+      <div className="bg-white px-4 md:px-8 lg:px-[50px] py-[20px] sm:py-[35px]">
         <div className="mx-auto max-w-7xl px-6 py-6" style={{ background: '#EBF8FE', borderRadius: '0 1.5rem 0 1.5rem' }}>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5 lg:gap-8">
             {[
