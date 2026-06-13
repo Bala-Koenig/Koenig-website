@@ -1900,6 +1900,7 @@ export default function LiveOnlineClassroomPage() {
                     </button>
                   )}
                 </div>
+                <div className="mt-2" style={{ borderBottom: '1px solid #EBF8FE', marginLeft: '-12px', marginRight: '-12px' }} />
               </div>
               <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 200 }}>
                 {ALL_VENDORS.filter(v => !vendorSearch || v.toLowerCase().includes(vendorSearch.toLowerCase())).map(v => {
