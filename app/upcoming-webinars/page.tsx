@@ -632,7 +632,7 @@ export default function UpcomingWebinarsPage() {
                 </svg>
                 Join our LinkedIn Group for daily updates –{' '}
                 <a href="https://www.linkedin.com/company/koenig-solutions/" target="_blank" rel="noopener noreferrer"
-                  className="font-semibold underline underline-offset-2 hover:text-white transition-colors"
+                  className="font-semibold underline underline-offset-2 hover:text-white transition-colors text-[14px] sm:text-sm"
                   style={{ color: '#38bdf8' }}>
                   Join Here
                 </a>
