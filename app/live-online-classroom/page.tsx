@@ -660,12 +660,16 @@ function VendorLogo({ name, size = 24 }: { name: string; size?: number }) {
 function DatesModal({ course, onClose }: {
   course: typeof COURSES[0]; onClose: () => void
 }) {
-  const [selectedIdx, setSelectedIdx] = useState(0)
+  const CARD_VISIBLE = 2
+  const [selectedIdx, setSelectedIdx] = useState(CARD_VISIBLE)
   const [step, setStep] = useState<'dates' | 'enroll'>('dates')
   const [certAdded, setCertAdded] = useState(false)
   const [robotChecked, setRobotChecked] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', phone: '', country: '' })
+  const [payMethod, setPayMethod] = useState<'card' | 'bank' | 'upi'>('card')
+  const [card, setCard] = useState({ number: '', expiry: '', cvv: '', holder: '' })
+  const [upiId, setUpiId] = useState('')
   const days = Math.ceil(course.duration / 8)
 
   useEffect(() => {
@@ -679,7 +683,7 @@ function DatesModal({ course, onClose }: {
 
   const MONTH_RE = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/
   const MONTH_ORDER = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  const rows = course.schedules.map((s, i) => ({ ...s, idx: i }))
+  const rows = course.schedules.slice(CARD_VISIBLE).map((s, i) => ({ ...s, idx: i + CARD_VISIBLE }))
   const grouped: { month: string; items: typeof rows }[] = []
   rows.forEach(r => {
     const m = r.dates.match(MONTH_RE)?.[1] ?? 'Other'
@@ -791,7 +795,7 @@ function DatesModal({ course, onClose }: {
             <div className="flex items-center gap-2 px-5 py-2" style={{ borderBottom: '1px solid #DDE6EE', background: '#FAFCFE', flexShrink: 0 }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               <span className="text-xs font-medium" style={{ color: '#5a7a90' }}>
-                {rows.length} date{rows.length !== 1 ? 's' : ''} available — pick one to enroll
+                {rows.length} more date{rows.length !== 1 ? 's' : ''} available — pick one to enroll
               </span>
             </div>
 
@@ -897,7 +901,7 @@ function DatesModal({ course, onClose }: {
 
               {/* Form fields */}
               <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Your Details</p>
-              <div className="grid grid-cols-2 gap-3 mb-3">
+              <div className="grid grid-cols-2 gap-3 mb-4">
                 <input placeholder="Full Name *" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
                   style={inputStyle}
                   onFocus={e => (e.target.style.borderColor = '#0694D1')}
@@ -916,6 +920,99 @@ function DatesModal({ course, onClose }: {
                   onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
               </div>
 
+              {/* Payment method */}
+              <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Payment Method</p>
+              <div className="flex gap-2 mb-3">
+                {([
+                  { key: 'card', label: 'Credit / Debit Card', icon: (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                  )},
+                  { key: 'upi',  label: 'UPI', icon: (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  )},
+                  { key: 'bank', label: 'Bank Transfer', icon: (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  )},
+                ] as { key: 'card'|'upi'|'bank'; label: string; icon: React.ReactNode }[]).map(m => (
+                  <button key={m.key} onClick={() => setPayMethod(m.key)}
+                    className="flex-1 flex flex-col items-center gap-1 rounded-xl py-2.5 text-xs font-semibold transition-all"
+                    style={payMethod === m.key
+                      ? { border: '1.5px solid #0694D1', background: 'rgba(6,148,209,0.07)', color: '#0694D1' }
+                      : { border: '1px solid #DDE6EE', background: 'white', color: '#5a7a90' }}>
+                    {m.icon}
+                    {m.label}
+                  </button>
+                ))}
+              </div>
+
+              {payMethod === 'card' && (
+                <div className="flex flex-col gap-3 mb-4">
+                  <div className="relative">
+                    <input placeholder="Card Number *" maxLength={19}
+                      value={card.number}
+                      onChange={e => {
+                        const v = e.target.value.replace(/\D/g,'').slice(0,16)
+                        setCard({ ...card, number: v.replace(/(.{4})/g,'$1 ').trim() })
+                      }}
+                      style={inputStyle}
+                      onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                      onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+                      <svg width="28" height="18" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#1A1F71"/><ellipse cx="19" cy="15" rx="9" ry="9" fill="#EB001B" fillOpacity=".9"/><ellipse cx="29" cy="15" rx="9" ry="9" fill="#F79E1B" fillOpacity=".9"/><ellipse cx="24" cy="15" rx="4.5" ry="9" fill="#FF5F00" fillOpacity=".8"/></svg>
+                      <svg width="28" height="18" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#252525"/><ellipse cx="19" cy="15" rx="9" ry="9" fill="#EB001B" fillOpacity=".9"/><ellipse cx="29" cy="15" rx="9" ry="9" fill="#F79E1B" fillOpacity=".9"/><ellipse cx="24" cy="15" rx="4.5" ry="9" fill="#FF5F00" fillOpacity=".8"/></svg>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <input placeholder="MM / YY *" maxLength={5}
+                      value={card.expiry}
+                      onChange={e => {
+                        const v = e.target.value.replace(/\D/g,'').slice(0,4)
+                        setCard({ ...card, expiry: v.length > 2 ? v.slice(0,2)+' / '+v.slice(2) : v })
+                      }}
+                      style={inputStyle}
+                      onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                      onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+                    <input placeholder="CVV *" maxLength={3} type="password"
+                      value={card.cvv}
+                      onChange={e => setCard({ ...card, cvv: e.target.value.replace(/\D/g,'').slice(0,3) })}
+                      style={inputStyle}
+                      onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                      onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+                  </div>
+                  <input placeholder="Name on Card *"
+                    value={card.holder}
+                    onChange={e => setCard({ ...card, holder: e.target.value })}
+                    style={inputStyle}
+                    onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                    onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+                </div>
+              )}
+
+              {payMethod === 'upi' && (
+                <div className="mb-4">
+                  <input placeholder="UPI ID * (e.g. name@upi)"
+                    value={upiId}
+                    onChange={e => setUpiId(e.target.value)}
+                    style={inputStyle}
+                    onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                    onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
+                </div>
+              )}
+
+              {payMethod === 'bank' && (
+                <div className="rounded-xl p-4 mb-4" style={{ background: '#F8FBFE', border: '1px solid #DDE6EE' }}>
+                  <p className="text-xs font-semibold mb-2" style={{ color: '#374151' }}>Transfer to the following account:</p>
+                  <div className="flex flex-col gap-1.5 text-xs" style={{ color: '#5a7a90' }}>
+                    <div className="flex justify-between"><span>Bank</span><span className="font-semibold" style={{ color: '#0C1929' }}>HDFC Bank</span></div>
+                    <div className="flex justify-between"><span>Account Name</span><span className="font-semibold" style={{ color: '#0C1929' }}>Koenig Solutions Pvt Ltd</span></div>
+                    <div className="flex justify-between"><span>Account No.</span><span className="font-semibold" style={{ color: '#0C1929' }}>50200012345678</span></div>
+                    <div className="flex justify-between"><span>IFSC</span><span className="font-semibold" style={{ color: '#0C1929' }}>HDFC0001234</span></div>
+                    <div className="flex justify-between"><span>SWIFT</span><span className="font-semibold" style={{ color: '#0C1929' }}>HDFCINBB</span></div>
+                  </div>
+                  <p className="text-[11px] mt-3" style={{ color: '#94A3B8' }}>After transfer, share UTR/reference number with our team at training@koenig-solutions.com</p>
+                </div>
+              )}
+
               {/* reCAPTCHA */}
               <div className="flex items-center gap-3 rounded-lg px-4 py-2.5 mb-1" style={{ border: '1px solid #DDE6EE', background: '#FAFCFE' }}>
                 <div onClick={() => setRobotChecked(!robotChecked)}
@@ -933,18 +1030,24 @@ function DatesModal({ course, onClose }: {
 
             {/* Submit footer */}
             <div className="px-5 py-3.5" style={{ background: '#F5F8FB', borderTop: '1px solid #DDE6EE', flexShrink: 0 }}>
-              <button
-                onClick={() => robotChecked && form.name && form.email && setSubmitted(true)}
-                className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all"
-                style={{
-                  background: robotChecked && form.name && form.email
-                    ? 'linear-gradient(135deg,#0694D1,#076D9D)'
-                    : '#CBD5E1',
-                  boxShadow: robotChecked && form.name && form.email ? '0 4px 12px rgba(6,148,209,0.3)' : 'none',
-                  cursor: robotChecked && form.name && form.email ? 'pointer' : 'not-allowed',
-                }}>
-                Confirm Enrollment →
-              </button>
+              {(() => {
+                const payOk = payMethod === 'card'
+                  ? !!(card.number && card.expiry && card.cvv && card.holder)
+                  : payMethod === 'upi' ? !!upiId : true
+                const canSubmit = !!(robotChecked && form.name && form.email && payOk)
+                return (
+                  <button
+                    onClick={() => canSubmit && setSubmitted(true)}
+                    className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all"
+                    style={{
+                      background: canSubmit ? 'linear-gradient(135deg,#0694D1,#076D9D)' : '#CBD5E1',
+                      boxShadow: canSubmit ? '0 4px 12px rgba(6,148,209,0.3)' : 'none',
+                      cursor: canSubmit ? 'pointer' : 'not-allowed',
+                    }}>
+                    Pay INR {total.toLocaleString('en-IN')} & Confirm →
+                  </button>
+                )
+              })()}
             </div>
           </>
         )}
