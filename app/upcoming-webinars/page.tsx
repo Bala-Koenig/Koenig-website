@@ -750,7 +750,7 @@ export default function UpcomingWebinarsPage() {
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Heading */}
-          <div className="mb-8 text-center">
+          <div className="mb-[15px] sm:mb-8 text-center">
             <h2 id="webinars-heading" className="text-2xl sm:text-3xl font-extrabold text-[#0F172A]">
               Register Now for our{' '}
               <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg,#0694D1,#38bdf8)' }}>
