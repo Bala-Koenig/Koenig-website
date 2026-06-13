@@ -457,8 +457,8 @@ const FAQS = [
 export default function UpcomingWebinarsPage() {
   const [openFaq, setOpenFaq]           = useState<number | null>(null)
   const [searchQuery, setSearchQuery]   = useState('')
-  const [filterTech, setFilterTech]     = useState('All')
-  const [filterPartner, setFilterPartner] = useState('All')
+  const [filterTechs, setFilterTechs]       = useState<Set<string>>(new Set())
+  const [filterPartners, setFilterPartners] = useState<Set<string>>(new Set())
   const [showAll, setShowAll]           = useState(false)
   const [showMoreMobile, setShowMoreMobile] = useState(false)
   const [modalWebinar, setModalWebinar]   = useState<typeof WEBINARS[0] | null>(null)
@@ -476,8 +476,8 @@ export default function UpcomingWebinarsPage() {
   const [showAllFaqs, setShowAllFaqs]     = useState(false)
   const [wbFilterOpen, setWbFilterOpen]   = useState(false)
   const [wbFilterCat, setWbFilterCat]     = useState<'tech'|'partner'>('tech')
-  const [pendingTech, setPendingTech]     = useState('All')
-  const [pendingPartner, setPendingPartner] = useState('All')
+  const [pendingTechs, setPendingTechs]       = useState<Set<string>>(new Set())
+  const [pendingPartners, setPendingPartners] = useState<Set<string>>(new Set())
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
@@ -486,8 +486,8 @@ export default function UpcomingWebinarsPage() {
     const q = searchQuery.toLowerCase()
     return (
       (w.title.toLowerCase().includes(q) || w.speaker.toLowerCase().includes(q)) &&
-      (filterTech    === 'All' || w.technology === filterTech) &&
-      (filterPartner === 'All' || w.partner    === filterPartner)
+      (filterTechs.size === 0    || filterTechs.has(w.technology)) &&
+      (filterPartners.size === 0 || filterPartners.has(w.partner))
     )
   })
 
@@ -791,7 +791,7 @@ export default function UpcomingWebinarsPage() {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
                 </svg>
-                <span className="flex-1 text-left truncate">{filterTech === 'All' ? 'Filter by Technology' : filterTech}</span>
+                <span className="flex-1 text-left truncate">{filterTechs.size === 0 ? 'Filter by Technology' : filterTechs.size === 1 ? [...filterTechs][0] : `${filterTechs.size} selected`}</span>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                   style={{ transform: techOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
                   <polyline points="6 9 12 15 18 9"/>
@@ -813,9 +813,9 @@ export default function UpcomingWebinarsPage() {
                   </div>
                   <div className="max-h-48 overflow-y-auto">
                     {allTechs.filter(t => t === 'All' || t.toLowerCase().includes(techSearch.toLowerCase())).map(t => (
-                      <button key={t} onClick={() => { setFilterTech(t); setTechOpen(false); setTechSearch('') }}
+                      <button key={t} onClick={() => { setFilterTechs(t === 'All' ? new Set() : new Set([t])); setTechOpen(false); setTechSearch('') }}
                         className="w-full px-4 py-2 text-left text-sm transition-colors hover:bg-[#EBF8FE]"
-                        style={{ color: filterTech === t ? '#0694D1' : '#0d1b2a', fontWeight: filterTech === t ? 600 : 400 }}>
+                        style={{ color: (t === 'All' ? filterTechs.size === 0 : filterTechs.has(t)) ? '#0694D1' : '#0d1b2a', fontWeight: (t === 'All' ? filterTechs.size === 0 : filterTechs.has(t)) ? 600 : 400 }}>
                         {t === 'All' ? 'All Technologies' : t}
                       </button>
                     ))}
@@ -832,7 +832,7 @@ export default function UpcomingWebinarsPage() {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
-                <span className="flex-1 text-left truncate">{filterPartner === 'All' ? 'Filter by Partner' : filterPartner}</span>
+                <span className="flex-1 text-left truncate">{filterPartners.size === 0 ? 'Filter by Partner' : filterPartners.size === 1 ? [...filterPartners][0] : `${filterPartners.size} selected`}</span>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                   style={{ transform: partnerOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
                   <polyline points="6 9 12 15 18 9"/>
@@ -854,9 +854,9 @@ export default function UpcomingWebinarsPage() {
                   </div>
                   <div className="max-h-48 overflow-y-auto">
                     {allPartners.filter(p => p === 'All' || p.toLowerCase().includes(partnerSearch.toLowerCase())).map(p => (
-                      <button key={p} onClick={() => { setFilterPartner(p); setPartnerOpen(false); setPartnerSearch('') }}
+                      <button key={p} onClick={() => { setFilterPartners(p === 'All' ? new Set() : new Set([p])); setPartnerOpen(false); setPartnerSearch('') }}
                         className="w-full px-4 py-2 text-left text-sm transition-colors hover:bg-[#EBF8FE]"
-                        style={{ color: filterPartner === p ? '#0694D1' : '#0d1b2a', fontWeight: filterPartner === p ? 600 : 400 }}>
+                        style={{ color: (p === 'All' ? filterPartners.size === 0 : filterPartners.has(p)) ? '#0694D1' : '#0d1b2a', fontWeight: (p === 'All' ? filterPartners.size === 0 : filterPartners.has(p)) ? 600 : 400 }}>
                         {p === 'All' ? 'All Partners' : p}
                       </button>
                     ))}
@@ -865,16 +865,16 @@ export default function UpcomingWebinarsPage() {
               )}
             </div>
               {/* Filter by — mobile only */}
-              <button onClick={() => { setPendingTech(filterTech); setPendingPartner(filterPartner); setWbFilterCat('tech'); setWbFilterOpen(true) }}
+              <button onClick={() => { setPendingTechs(new Set(filterTechs)); setPendingPartners(new Set(filterPartners)); setWbFilterCat('tech'); setWbFilterOpen(true) }}
                 className="sm:hidden flex-1 flex items-center justify-center gap-2 rounded-xl border px-4 py-[10px] text-sm transition-all whitespace-nowrap"
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
                 </svg>
                 <span>Filter by</span>
-                {(filterTech !== 'All' || filterPartner !== 'All') && (
+                {(filterTechs.size + filterPartners.size) > 0 && (
                   <span style={{ background: '#0694D1', color: '#fff', borderRadius: '50%', width: 18, height: 18, fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {(filterTech !== 'All' ? 1 : 0) + (filterPartner !== 'All' ? 1 : 0)}
+                    {filterTechs.size + filterPartners.size}
                   </span>
                 )}
               </button>
@@ -1067,24 +1067,30 @@ export default function UpcomingWebinarsPage() {
               </div>
               {/* Right list */}
               <div style={{ flex: 1, overflowY: 'auto', padding: '6px 0' }}>
-                {wbFilterCat === 'tech' && allTechs.map(t => (
-                  <label key={t} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f0f7fc' }}>
-                    <span style={{ fontSize: 13, color: '#374151' }}>{t === 'All' ? 'All Technologies' : t}</span>
-                    <input type="checkbox" checked={pendingTech === t} onChange={() => setPendingTech(t)} style={{ width: 16, height: 16, accentColor: '#0694D1', cursor: 'pointer' }} />
-                  </label>
-                ))}
-                {wbFilterCat === 'partner' && allPartners.map(p => (
-                  <label key={p} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f0f7fc' }}>
-                    <span style={{ fontSize: 13, color: '#374151' }}>{p === 'All' ? 'All Partners' : p}</span>
-                    <input type="checkbox" checked={pendingPartner === p} onChange={() => setPendingPartner(p)} style={{ width: 16, height: 16, accentColor: '#0694D1', cursor: 'pointer' }} />
-                  </label>
-                ))}
+                {wbFilterCat === 'tech' && allTechs.filter(t => t !== 'All').map(t => {
+                  const checked = pendingTechs.has(t)
+                  return (
+                    <label key={t} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f0f7fc' }}>
+                      <span style={{ fontSize: 13, color: checked ? '#0694D1' : '#374151', fontWeight: checked ? 600 : 400 }}>{t}</span>
+                      <input type="checkbox" checked={checked} onChange={() => { const s = new Set(pendingTechs); s.has(t) ? s.delete(t) : s.add(t); setPendingTechs(s) }} style={{ width: 16, height: 16, accentColor: '#0694D1', cursor: 'pointer' }} />
+                    </label>
+                  )
+                })}
+                {wbFilterCat === 'partner' && allPartners.filter(p => p !== 'All').map(p => {
+                  const checked = pendingPartners.has(p)
+                  return (
+                    <label key={p} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', cursor: 'pointer', borderBottom: '1px solid #f0f7fc' }}>
+                      <span style={{ fontSize: 13, color: checked ? '#0694D1' : '#374151', fontWeight: checked ? 600 : 400 }}>{p}</span>
+                      <input type="checkbox" checked={checked} onChange={() => { const s = new Set(pendingPartners); s.has(p) ? s.delete(p) : s.add(p); setPendingPartners(s) }} style={{ width: 16, height: 16, accentColor: '#0694D1', cursor: 'pointer' }} />
+                    </label>
+                  )
+                })}
               </div>
             </div>
             {/* Footer */}
             <div style={{ padding: '14px 20px', borderTop: '1px solid #e8f1fb', display: 'flex', gap: 10, flexShrink: 0 }}>
-              <button type="button" onClick={() => { setFilterTech('All'); setFilterPartner('All'); setPendingTech('All'); setPendingPartner('All'); }} style={{ flex: 1, background: '#fff', border: '1.5px solid #B5D4F4', color: '#374151', borderRadius: 8, padding: '10px 0', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 600 }}>Clear All</button>
-              <button type="button" onClick={() => { setFilterTech(pendingTech); setFilterPartner(pendingPartner); setWbFilterOpen(false); }} style={{ flex: 1, background: '#0694D1', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 0', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 700 }}>Apply</button>
+              <button type="button" onClick={() => { setFilterTechs(new Set()); setFilterPartners(new Set()); setPendingTechs(new Set()); setPendingPartners(new Set()); }} style={{ flex: 1, background: '#fff', border: '1.5px solid #B5D4F4', color: '#374151', borderRadius: 8, padding: '10px 0', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 600 }}>Clear All</button>
+              <button type="button" onClick={() => { setFilterTechs(new Set(pendingTechs)); setFilterPartners(new Set(pendingPartners)); setWbFilterOpen(false); }} style={{ flex: 1, background: '#0694D1', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 0', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 700 }}>Apply</button>
             </div>
           </div>
         </>
