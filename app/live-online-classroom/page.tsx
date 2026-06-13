@@ -1351,7 +1351,8 @@ function IloScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: 
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab]     = useState('ilo')
   const [activeTech, setActiveTech]   = useState('')
-  const [techSearch, setTechSearch]   = useState('')
+  const [techSearch, setTechSearch]       = useState('')
+  const [vendorSearch, setVendorSearch]   = useState('')
   const [search, setSearch]           = useState('')
   const [filterTz, setFilterTz]       = useState('')
   const [filterVendor, setFilterVendor] = useState('Microsoft')
@@ -1881,21 +1882,27 @@ export default function LiveOnlineClassroomPage() {
               style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
               {/* ── Vendor section (always open, at top) ── */}
               <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
-                <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>VENDOR</p>
+                <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>VENDOR</p>
+                <div className="relative">
+                  <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input type="text" placeholder="Search..." value={vendorSearch}
+                    onChange={e => setVendorSearch(e.target.value)}
+                    className="w-full pl-7 py-1.5 text-[11px] rounded-lg outline-none"
+                    style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: vendorSearch ? '24px' : '8px' }}
+                  />
+                  {vendorSearch && (
+                    <button onClick={() => setVendorSearch('')}
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5 hover:bg-[#CAEFFF] transition-all"
+                      style={{ color: '#64748B' }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 200 }}>
-                {/* All Vendors */}
-                <button
-                  onClick={() => { setFilterVendor(''); setPage(0) }}
-                  className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
-                  style={{ borderLeft: `3px solid ${!filterVendor ? '#0694D1' : 'transparent'}`, background: !filterVendor ? '#EBF8FE' : 'white' }}>
-                  <span className="text-[13px] font-medium truncate" style={{ color: !filterVendor ? '#0694D1' : '#374151' }}>All Vendors</span>
-                  <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
-                    style={{ background: !filterVendor ? '#0694D1' : '#E2E8F0', color: !filterVendor ? 'white' : '#6B7280' }}>
-                    {COURSES.length}
-                  </span>
-                </button>
-                {ALL_VENDORS.map(v => {
+                {ALL_VENDORS.filter(v => !vendorSearch || v.toLowerCase().includes(vendorSearch.toLowerCase())).map(v => {
                   const count = COURSES.filter(c => c.vendor === v).length
                   if (count === 0) return null
                   const active = filterVendor === v
