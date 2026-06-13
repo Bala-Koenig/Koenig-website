@@ -780,7 +780,7 @@ export default function UpcomingWebinarsPage() {
               />
             </div>
             {/* Mobile: Filter by + Sort by side by side */}
-            <div className="flex gap-2 sm:contents">
+            <div className="flex gap-2 w-full sm:contents">
 
             {/* Filter by Technology */}
             <div className="hidden sm:block relative">
