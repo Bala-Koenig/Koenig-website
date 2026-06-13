@@ -926,9 +926,9 @@ export default function UpcomingWebinarsPage() {
                       </span>
                     )}
 
-                    <div className="flex-1 flex flex-col p-5 relative">
+                    <div className="flex-1 flex flex-col p-[15px] sm:p-5 relative">
                       {/* Speaker row */}
-                      <div className="flex items-start justify-between gap-3 mb-4">
+                      <div className="flex items-start justify-between gap-3 mb-[15px] sm:mb-4">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="relative shrink-0">
                             {w.photo ? (
@@ -960,7 +960,7 @@ export default function UpcomingWebinarsPage() {
                       </div>
 
                       {/* Title */}
-                      <h3 className="mb-4 text-base font-bold leading-snug flex-1" style={{ color: '#0F172A', fontSize: '16px' }}>
+                      <h3 className="mb-[15px] sm:mb-4 text-base font-bold leading-snug flex-1" style={{ color: '#0F172A', fontSize: '16px' }}>
                         {w.title}
                       </h3>
 
@@ -990,7 +990,7 @@ export default function UpcomingWebinarsPage() {
                     </div>
 
                     {/* Footer */}
-                    <div className="flex items-center justify-between border-t px-5 py-3"
+                    <div className="flex items-center justify-between border-t px-[15px] sm:px-5 py-[15px] sm:py-3"
                       style={{ borderColor: '#EBF8FE', background: '#F8FCFF' }}>
                       <button onClick={() => setModalWebinar(w)} className="text-sm font-semibold transition-colors hover:text-[#0694D1]" style={{ color: '#465058' }}>
                         Show More &rsaquo;
