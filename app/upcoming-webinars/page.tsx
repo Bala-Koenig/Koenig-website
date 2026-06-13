@@ -912,7 +912,7 @@ export default function UpcomingWebinarsPage() {
           {displayed.length === 0 ? (
             <div className="py-16 text-center text-sm" style={{ color: '#64748b' }}>No webinars match your filters.</div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[10px] sm:gap-4">
               {displayed.map((w, i) => (
                   <article key={w.id}
                     className={`relative flex flex-col rounded-xl bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl mt-3${i >= 8 && !showMoreMobile ? ' hidden sm:flex' : ''}`}
