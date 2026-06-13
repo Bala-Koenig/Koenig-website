@@ -107,7 +107,7 @@ const COURSES = [
     id: 9, vendor: 'PMI', code: 'PMP',
     name: 'Project Management Professional (PMP®) Certification Training',
     duration: 40,
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: 'INR 34000', certFee: 14400,
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: 'INR 34000',
     techs: ['Project Management'],
     schedules: [
       { dates: '04 – 08 May', time: '11:30 AM – 07:30 PM IST', gtr: true },
@@ -818,27 +818,8 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus, dark = false }:
           )
         })}
 
-        <div className="flex items-center justify-between mt-0.5">
-          {hasMore ? (
-            <button onClick={onViewDates}
-              className="flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline"
-              style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              View All {course.schedules.length} Dates
-            </button>
-          ) : <span />}
-          <div className="text-right">
-            <p className="text-sm font-bold leading-tight" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>{course.price}</p>
-            <p className="text-[10px] leading-tight mt-0.5" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>excl. VAT/GST</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Add Certification Exam checkbox */}
-      {course.certFee && (
-        <div className="px-4 pb-3">
+        {/* Add Certification Exam checkbox */}
+        {course.certFee && (
           <label
             className="flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 transition-colors"
             style={certAdded
@@ -869,8 +850,25 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus, dark = false }:
             </span>
             <input type="checkbox" className="sr-only" checked={certAdded} onChange={() => setCertAdded(!certAdded)} />
           </label>
+        )}
+
+        <div className="flex items-center justify-between mt-0.5">
+          {hasMore ? (
+            <button onClick={onViewDates}
+              className="flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline"
+              style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              View All {course.schedules.length} Dates
+            </button>
+          ) : <span />}
+          <div className="text-right">
+            <p className="text-sm font-bold leading-tight" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>{course.price}</p>
+            <p className="text-[10px] leading-tight mt-0.5" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>excl. VAT/GST</p>
+          </div>
         </div>
-      )}
+      </div>
 
       {/* Action buttons */}
       <div className="flex gap-2 px-4 pb-4 mt-auto">
@@ -1844,6 +1842,32 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
               <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 260 }}>
+                {/* All Technologies — always visible, selected by default */}
+                {!techSearch && (
+                  <button
+                    onClick={() => { setActiveTech(''); setPage(0) }}
+                    className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
+                    style={{
+                      borderLeft: `3px solid ${activeTech === '' ? '#0694D1' : 'transparent'}`,
+                      background:  activeTech === '' ? '#EBF8FE' : 'white',
+                    }}>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+                        style={{ background: '#EBF8FE', color: '#0694D1', fontSize: 13, fontWeight: 700 }}>★</div>
+                      <span className="text-[14px] font-medium leading-tight truncate"
+                        style={{ color: activeTech === '' ? '#0694D1' : '#374151' }}>
+                        All Technologies
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                      style={{
+                        background: activeTech === '' ? '#0694D1' : '#E2E8F0',
+                        color:      activeTech === '' ? 'white' : '#6B7280',
+                      }}>
+                      {COURSES.length}
+                    </span>
+                  </button>
+                )}
                 {SIDEBAR_TECHNOLOGIES
                   .filter(t => !techSearch || t.name.toLowerCase().includes(techSearch.toLowerCase()))
                   .map(t => (
@@ -1947,7 +1971,7 @@ export default function LiveOnlineClassroomPage() {
               {/* Mobile: Vendor + Tech + Timezone row */}
               <div className="lg:hidden flex items-center gap-2 mb-2">
                 <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} /></div>
-                <div className="flex-1 min-w-0"><FilterDropdown label="Technology" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTech} onChange={v => { setActiveTech(v); setPage(0) }} /></div>
+                <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTech} onChange={v => { setActiveTech(v); setPage(0) }} /></div>
                 <div className="flex-1 min-w-0"><FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} /></div>
               </div>
               <div className="lg:hidden mb-3">
