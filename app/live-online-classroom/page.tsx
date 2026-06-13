@@ -817,16 +817,22 @@ function CourseCard({ course, onEnroll, onViewDates, onSyllabus, dark = false }:
           )
         })}
 
-        {hasMore && (
-          <button onClick={onViewDates}
-            className="self-start flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline mt-0.5"
-            style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-            View All {course.schedules.length} Dates
-          </button>
-        )}
+        <div className="flex items-center justify-between mt-0.5">
+          {hasMore ? (
+            <button onClick={onViewDates}
+              className="flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline"
+              style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              View All {course.schedules.length} Dates
+            </button>
+          ) : <span />}
+          <div className="text-right">
+            <p className="text-sm font-bold leading-tight" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>{course.price}</p>
+            <p className="text-[10px] leading-tight mt-0.5" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>excl. VAT/GST</p>
+          </div>
+        </div>
       </div>
 
       {/* Action buttons */}
