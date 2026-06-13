@@ -24,7 +24,7 @@ const COURSES = [
     id: 2, vendor: 'Microsoft', code: 'AI-102T00',
     name: 'Designing and Implementing a Microsoft Azure AI Solution',
     duration: 40,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: 'INR 31000', certFee: 4800,
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: 'INR 31000',
     techs: ['Artificial Intelligence (AI)', 'Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -36,7 +36,7 @@ const COURSES = [
     id: 3, vendor: 'Microsoft', code: 'DP-700T00',
     name: 'Microsoft Fabric Data Engineer',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '720+', price: 'INR 31000', certFee: 4800,
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '720+', price: 'INR 31000',
     techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '04 – 07 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
@@ -48,7 +48,7 @@ const COURSES = [
     id: 4, vendor: 'Microsoft', code: 'SC-300T00',
     name: 'Microsoft Identity and Access Administrator',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '840+', price: 'INR 31000', certFee: 4800,
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '840+', price: 'INR 31000',
     techs: ['Identity and Access Management (IAM)'],
     schedules: [
       { dates: '04 – 07 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
@@ -60,7 +60,7 @@ const COURSES = [
     id: 5, vendor: 'Microsoft', code: 'SC-200T00',
     name: 'Microsoft Security Operations Analyst',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '780+', price: 'INR 31000', certFee: 4800,
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '780+', price: 'INR 31000',
     techs: ['Cyber Security'],
     schedules: [
       { dates: '04 – 07 May', time: '03:30 AM – 11:30 AM IST', gtr: true },
@@ -72,7 +72,7 @@ const COURSES = [
     id: 6, vendor: 'Microsoft', code: 'DP-600T00',
     name: 'Microsoft Fabric Analytics Engineer',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: 'INR 31000', certFee: 4800,
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: 'INR 31000',
     techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '24 – 27 Aug', time: '12:30 PM – 08:30 PM IST', gtr: true },
@@ -83,7 +83,7 @@ const COURSES = [
     id: 7, vendor: 'Microsoft', code: 'AZ-204T00',
     name: 'Developing Solutions for Microsoft Azure',
     duration: 40,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 39000', certFee: 4800,
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 39000',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -95,7 +95,7 @@ const COURSES = [
     id: 8, vendor: 'Microsoft', code: 'AZ-305T00',
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: 'INR 39000', certFee: 4800,
+    tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: 'INR 39000',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -119,7 +119,7 @@ const COURSES = [
     id: 10, vendor: 'Microsoft', code: 'PL-300T00',
     name: 'Microsoft Power BI Data Analyst',
     duration: 8,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: 'INR 12500', certFee: 4800,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: 'INR 12500',
     techs: ['Data Management & Analytics'],
     schedules: [
       { dates: '14 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
@@ -143,7 +143,7 @@ const COURSES = [
     id: 12, vendor: 'AWS', code: 'AWS-COA-C02',
     name: 'AWS Certified CloudOps Engineer – Associate (Cloud Operations on AWS)',
     duration: 24,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: 'INR 37000', certFee: 14400,
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: 'INR 37000',
     techs: ['AWS Cloud'],
     schedules: [
       { dates: '11 – 13 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
@@ -191,7 +191,7 @@ const COURSES = [
     id: 16, vendor: 'PECB', code: 'ISO-27001-LI',
     name: 'ISO/IEC 27001 Lead Implementer',
     duration: 40,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: 'INR 41000', certFee: 14400,
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: 'INR 41000',
     techs: ['ISO', 'Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -1800,7 +1800,7 @@ export default function LiveOnlineClassroomPage() {
                 </div>
                 <div className="mt-2" style={{ borderBottom: '1px solid #EBF8FE', marginLeft: '-12px', marginRight: '-12px' }} />
               </div>
-              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 200 }}>
+              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 296 }}>
                 {ALL_VENDORS.filter(v => !vendorSearch || v.toLowerCase().includes(vendorSearch.toLowerCase())).map(v => {
                   const count = COURSES.filter(c => c.vendor === v).length
                   if (count === 0) return null
@@ -1841,7 +1841,7 @@ export default function LiveOnlineClassroomPage() {
                   )}
                 </div>
               </div>
-              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 260 }}>
+              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 352 }}>
                 {/* All Technologies — always visible, selected by default */}
                 {!techSearch && (
                   <button
