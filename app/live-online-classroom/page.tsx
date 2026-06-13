@@ -1355,9 +1355,7 @@ export default function LiveOnlineClassroomPage() {
   const [techSearch, setTechSearch]   = useState('')
   const [search, setSearch]           = useState('')
   const [filterTz, setFilterTz]       = useState('')
-  const [filterVendors, setFilterVendors] = useState<string[]>([])
-  const [showVendorPanel, setShowVendorPanel] = useState(false)
-  const [vendorSearch, setVendorSearch] = useState('')
+  const [filterVendor, setFilterVendor] = useState('')
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [activeReviewFaq, setActiveReviewFaq] = useState<'reviews' | 'faq'>('reviews')
@@ -1369,17 +1367,9 @@ export default function LiveOnlineClassroomPage() {
   const benTouchStartX = useRef(0)
   const [howSlideIdx, setHowSlideIdx] = useState(0)
   const howTouchStartX = useRef(0)
-  const [showMobileTechPicker, setShowMobileTechPicker] = useState(false)
-  const [mobileTechSearch, setMobileTechSearch] = useState('')
-  const [showMobileTzModal, setShowMobileTzModal] = useState(false)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
-
-  const toggleVendor = (v: string) => {
-    setFilterVendors(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])
-    setPage(0)
-  }
 
   useEffect(() => {
     if (!showFormModal) return
@@ -1394,7 +1384,7 @@ export default function LiveOnlineClassroomPage() {
     const matchSearch  = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
     const matchTech    = activeTech === 'All' || (c.techs ?? []).includes(activeTech)
     const matchTz      = !filterTz || c.schedules.some(s => s.time.includes(filterTz))
-    const matchVendor  = filterVendors.length === 0 || filterVendors.includes(c.vendor)
+    const matchVendor  = !filterVendor || c.vendor === filterVendor
     return matchSearch && matchTech && matchTz && matchVendor
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
@@ -1883,90 +1873,6 @@ export default function LiveOnlineClassroomPage() {
           {/* ── Grouped interactive panel ── */}
           <div className="relative rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
 
-          {/* Mobile: compact tech-selector header (Pranay vendor page pattern) */}
-          <div className="lg:hidden mb-4 relative">
-            {/* Backdrop — closes dropdown on tap outside */}
-            {showMobileTechPicker && (
-              <div className="fixed inset-0 z-[10]" onClick={() => { setShowMobileTechPicker(false); setMobileTechSearch('') }} />
-            )}
-            {/* Tech header row */}
-            <button
-              onClick={() => { setShowMobileTechPicker(p => !p); setMobileTechSearch('') }}
-              className="relative z-[11] w-full flex items-center justify-between gap-3 rounded-xl px-4 py-3 bg-white transition-all"
-              style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ background: activeTechData.bg, color: activeTechData.color }}>
-                  {activeTechData.initial}
-                </div>
-                <span className="text-sm font-bold truncate" style={{ color: '#071e2e' }}>{activeTechData.label}</span>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="rounded-full px-3 py-0.5 text-xs font-bold" style={{ background: '#EBF8FE', color: '#0694D1' }}>
-                  {filtered.length}
-                </span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                  style={{ transform: showMobileTechPicker ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s' }}>
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </div>
-            </button>
-            {/* Dropdown — absolute, overlays content below */}
-            {showMobileTechPicker && (
-              <div className="absolute left-0 right-0 top-full mt-1 z-[12] rounded-xl bg-white overflow-hidden"
-                style={{ border: '1px solid #CAEFFF', boxShadow: '0 8px 24px rgba(6,148,209,0.15)' }}>
-                {/* Search box */}
-                <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
-                  <div className="relative">
-                    <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    <input
-                      type="text"
-                      placeholder="Search technologies..."
-                      value={mobileTechSearch}
-                      onChange={e => setMobileTechSearch(e.target.value)}
-                      onClick={e => e.stopPropagation()}
-                      className="w-full pl-7 pr-7 py-2 text-sm rounded-lg outline-none"
-                      style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A' }}
-                    />
-                    {mobileTechSearch && (
-                      <button onClick={e => { e.stopPropagation(); setMobileTechSearch('') }}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-4 h-4 rounded-full"
-                        style={{ color: '#94A3B8' }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <div className="max-h-52 overflow-y-auto">
-                  {SIDEBAR_TECHNOLOGIES
-                    .filter(t => (t.name === 'All' || t.count > 0) && (!mobileTechSearch || t.label.toLowerCase().includes(mobileTechSearch.toLowerCase())))
-                    .map(t => (
-                      <button key={t.name}
-                        onClick={() => { setActiveTech(t.name); setPage(0); setShowMobileTechPicker(false); setMobileTechSearch('') }}
-                        className="flex items-center justify-between w-full px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF]"
-                        style={{ borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`, background: activeTech === t.name ? '#EBF8FE' : 'white' }}>
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>
-                            {getTechIcon(t.name)}
-                          </div>
-                          <span className="font-medium text-left" style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>{t.label}</span>
-                        </div>
-                        <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
-                          style={{ background: activeTech === t.name ? '#0694D1' : '#E2E8F0', color: activeTech === t.name ? 'white' : '#6B7280' }}>
-                          {t.count}
-                        </span>
-                      </button>
-                    ))
-                  }
-                  {SIDEBAR_TECHNOLOGIES.filter(t => (t.name === 'All' || t.count > 0) && mobileTechSearch && t.label.toLowerCase().includes(mobileTechSearch.toLowerCase())).length === 0 && mobileTechSearch && (
-                    <p className="text-sm text-center py-4" style={{ color: '#94A3B8' }}>No technologies found</p>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
 
           {/* Two-panel layout */}
           <div className="flex gap-5 items-start">
@@ -2061,7 +1967,7 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Desktop: Search + Timezone + Vendor in one row */}
+              {/* Desktop: Search + Vendor + Tech + Timezone */}
               <div className="hidden lg:flex items-center gap-2 mb-2">
                 <div className="relative flex-1 min-w-0">
                   <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -2079,23 +1985,9 @@ export default function LiveOnlineClassroomPage() {
                     </button>
                   )}
                 </div>
+                <FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} />
+                <FilterDropdown label="Technology" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTech === 'All' ? 'All Technologies' : activeTech} onChange={v => { setActiveTech(v === 'All Technologies' ? 'All' : v); setPage(0) }} />
                 <FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} />
-                <button onClick={() => setShowVendorPanel(p => !p)}
-                  className="shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all"
-                  style={filterVendors.length > 0
-                    ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
-                    : { background: 'white', color: '#374151', border: '1px solid #CAEFFF' }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
-                  </svg>
-                  Vendor
-                  {filterVendors.length > 0 && (
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold"
-                      style={{ background: 'rgba(255,255,255,0.25)', color: 'white' }}>
-                      {filterVendors.length}
-                    </span>
-                  )}
-                </button>
               </div>
 
               {/* Mobile: full-width search */}
@@ -2118,54 +2010,19 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Mobile: Timezone + Vendor row — equal width */}
+              {/* Mobile: Vendor + Tech + Timezone row */}
               <div className="lg:hidden flex items-center gap-2 mb-2">
-                <button onClick={() => setShowMobileTzModal(true)}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
-                  style={filterTz
-                    ? { border: '1px solid #0694D1', background: 'rgba(6,148,209,0.08)', color: '#0694D1' }
-                    : { border: '1px solid #CAEFFF', background: 'white', color: '#374151' }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  {filterTz ? filterTz.split('—')[0]?.trim() : 'Timezone'}
-                </button>
-                <button onClick={() => setShowVendorPanel(p => !p)}
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
-                  style={filterVendors.length > 0
-                    ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }
-                    : { background: 'white', color: '#374151', border: '1px solid #CAEFFF' }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
-                  </svg>
-                  Vendor
-                  {filterVendors.length > 0 && (
-                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold"
-                      style={{ background: 'rgba(255,255,255,0.3)', color: 'white' }}>
-                      {filterVendors.length}
-                    </span>
-                  )}
-                </button>
+                <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} /></div>
+                <div className="flex-1 min-w-0"><FilterDropdown label="Technology" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTech === 'All' ? 'All Technologies' : activeTech} onChange={v => { setActiveTech(v === 'All Technologies' ? 'All' : v); setPage(0) }} /></div>
+                <div className="flex-1 min-w-0"><FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} /></div>
               </div>
               <div className="lg:hidden mb-3">
                 <span className="text-xs font-medium" style={{ color: '#64748B' }}>Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}</span>
               </div>
 
-              {/* Active vendor chips + count — Desktop */}
-              {filterVendors.length > 0 && (
+              {/* Active filter chips */}
+              {(filterVendor || filterTz) && (
                 <div className="flex items-center gap-2 flex-wrap mb-3">
-                  {filterVendors.map(v => (
-                    <span key={v} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                      style={{ background: '#EBF8FE', color: '#0694D1', border: '1.5px solid #CAEFFF' }}>
-                      {v}
-                      <button onClick={() => toggleVendor(v)} className="hover:opacity-70">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                      </button>
-                    </span>
-                  ))}
-                  <button onClick={() => { setFilterVendors([]); setPage(0) }}
-                    className="text-xs font-semibold transition-all hover:underline"
-                    style={{ color: '#0694D1' }}>
-                    Clear all
-                  </button>
                   <span className="ml-auto text-xs font-medium" style={{ color: '#64748B' }}>
                     Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}
                   </span>
@@ -2226,150 +2083,9 @@ export default function LiveOnlineClassroomPage() {
             </div>
           </div>
 
-          {/* ── Vendor filter drawer — inside grouped panel ── */}
-          {showVendorPanel && (() => {
-            const visibleVendors = vendorSearch
-              ? ALL_VENDORS.filter(v => v.toLowerCase().includes(vendorSearch.toLowerCase()))
-              : ALL_VENDORS
-            const btnLabel = filterVendors.length === 1
-              ? `Show ${filtered.length} ${filterVendors[0]} courses →`
-              : filterVendors.length > 1
-                ? `Show ${filtered.length} courses (${filterVendors.length} vendors) →`
-                : `View all courses →`
-            return (
-              <div className="fixed inset-0 z-[200] lg:absolute lg:inset-0 lg:z-50 flex items-center justify-center lg:items-start lg:justify-end px-4 lg:px-0 lg:rounded-2xl lg:overflow-hidden"
-                style={{ background: 'rgba(6,17,30,0.45)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
-                onClick={() => { setShowVendorPanel(false); setVendorSearch('') }}>
-                {/* Panel */}
-                <div className="relative z-10 flex flex-col bg-white w-full max-w-sm lg:max-w-none lg:w-[320px] rounded-2xl lg:rounded-none overflow-hidden"
-                  style={{ maxHeight: '85vh', boxShadow: '0 20px 60px rgba(0,0,0,0.18), -8px 0 40px rgba(6,148,209,0.15)' }}
-                  onClick={e => e.stopPropagation()}>
-                  {/* Header */}
-                  <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #E2E8F0' }}>
-                    <div>
-                      <h3 className="text-base font-bold" style={{ color: '#06111E' }}>Filters</h3>
-                      {filterVendors.length > 0 && (
-                        <p className="text-[11px] mt-0.5" style={{ color: '#0694D1' }}>{filterVendors.length} selected</p>
-                      )}
-                    </div>
-                    <button onClick={() => { setShowVendorPanel(false); setVendorSearch('') }}
-                      className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:bg-[#F0F9FF]"
-                      style={{ border: '1.5px solid #E2E8F0', color: '#475569' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                    </button>
-                  </div>
-                  {/* Content */}
-                  <div className="flex-1 overflow-y-auto px-5 py-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <p className="text-[11px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>Vendor</p>
-                      <span className="text-[10px] font-medium" style={{ color: '#94A3B8' }}>{ALL_VENDORS.length} vendors</span>
-                    </div>
-                    {/* Vendor search */}
-                    <div className="relative mb-3">
-                      <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                      <input value={vendorSearch} onChange={e => setVendorSearch(e.target.value)}
-                        placeholder="Search vendors…"
-                        className="w-full rounded-xl pl-8 py-2 text-sm outline-none"
-                        style={{ background: '#F8FBFF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: vendorSearch ? '28px' : '12px' }} />
-                      {vendorSearch && (
-                        <button onClick={() => setVendorSearch('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center rounded-full hover:bg-[#CAEFFF]"
-                          style={{ color: '#94A3B8' }}>
-                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                        </button>
-                      )}
-                    </div>
-                    {/* Vendor pills */}
-                    <div className="flex flex-col gap-1.5 overflow-y-auto" style={{ maxHeight: 320 }}>
-                      {visibleVendors.map(v => {
-                        const active = filterVendors.includes(v)
-                        const count = COURSES.filter(c => c.vendor === v).length
-                        return (
-                          <button key={v} onClick={() => toggleVendor(v)}
-                            className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-semibold transition-all w-full text-left"
-                            style={active
-                              ? { background: 'linear-gradient(135deg,#EFF9FF,#E6F6FD)', color: '#0694D1', border: '1.5px solid #0694D1' }
-                              : { background: 'white', color: '#374151', border: '1.5px solid #E2E8F0' }}>
-                            <VendorLogo name={v} size={28} />
-                            <span className="flex-1">{v}</span>
-                            <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0"
-                              style={active ? { background: '#0694D1', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>
-                              {count}
-                            </span>
-                            {active && (
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                            )}
-                          </button>
-                        )
-                      })}
-                      {visibleVendors.length === 0 && (
-                        <p className="text-sm py-4 w-full text-center" style={{ color: '#94A3B8' }}>No vendors found</p>
-                      )}
-                    </div>
-                  </div>
-                  {/* Footer */}
-                  <div className="flex gap-3 px-5 py-4" style={{ borderTop: '1px solid #E2E8F0' }}>
-                    <button onClick={() => { setFilterVendors([]); setPage(0) }}
-                      className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F9FF]"
-                      style={{ border: '1.5px solid #0694D1', color: '#0694D1' }}>
-                      Clear all
-                    </button>
-                    <button onClick={() => { setShowVendorPanel(false); setVendorSearch('') }}
-                      className="flex-1 rounded-xl py-2.5 text-xs font-bold text-white transition-all hover:opacity-90"
-                      style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>
-                      {btnLabel}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )
-          })()}
           </div>{/* end grouped interactive panel */}
         </div>
       </section>
-
-      {/* Mobile Timezone Modal */}
-      {showMobileTzModal && (
-        <div className="lg:hidden fixed inset-0 z-[300] flex items-center justify-center px-4"
-          style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
-          onClick={() => setShowMobileTzModal(false)}>
-          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden"
-            style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.2)', border: '1px solid #CAEFFF' }}
-            onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #CAEFFF' }}>
-              <h3 className="font-bold text-base" style={{ color: '#06111E' }}>Select Timezone</h3>
-              <button onClick={() => setShowMobileTzModal(false)}
-                className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-[#F0F9FF]"
-                style={{ border: '1px solid #E2E8F0', color: '#475569' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-            </div>
-            <div className="overflow-y-auto" style={{ maxHeight: '60vh' }}>
-              {/* All Timezones option */}
-              <button
-                onClick={() => { setFilterTz(''); setPage(0); setShowMobileTzModal(false) }}
-                className="flex items-center justify-between w-full px-5 py-3 text-sm transition-colors hover:bg-[#F0FAFF]"
-                style={{ background: !filterTz ? '#EBF8FE' : 'white', borderLeft: `3px solid ${!filterTz ? '#0694D1' : 'transparent'}` }}>
-                <span style={{ color: !filterTz ? '#0694D1' : '#374151', fontWeight: !filterTz ? 600 : 400 }}>All Timezones</span>
-                {!filterTz && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                )}
-              </button>
-              {TZ_OPTIONS.map(tz => (
-                <button key={tz}
-                  onClick={() => { setFilterTz(tz); setPage(0); setShowMobileTzModal(false) }}
-                  className="flex items-center justify-between w-full px-5 py-3 text-sm transition-colors hover:bg-[#F0FAFF]"
-                  style={{ background: filterTz === tz ? '#EBF8FE' : 'white', borderLeft: `3px solid ${filterTz === tz ? '#0694D1' : 'transparent'}` }}>
-                  <span style={{ color: filterTz === tz ? '#0694D1' : '#374151', fontWeight: filterTz === tz ? 600 : 400 }}>{tz}</span>
-                  {filterTz === tz && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
       <section className="py-12 sm:py-16" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
