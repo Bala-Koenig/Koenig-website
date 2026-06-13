@@ -778,20 +778,8 @@ export default function UpcomingWebinarsPage() {
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#0d1b2a' }}
               />
             </div>
-            {/* Mobile: single combined Filter by button */}
-            <button onClick={() => { setPendingTech(filterTech); setPendingPartner(filterPartner); setWbFilterCat('tech'); setWbFilterOpen(true) }}
-              className="sm:hidden flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
-              style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-              </svg>
-              <span>Filter by</span>
-              {(filterTech !== 'All' || filterPartner !== 'All') && (
-                <span style={{ background: '#0694D1', color: '#fff', borderRadius: '50%', width: 18, height: 18, fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {(filterTech !== 'All' ? 1 : 0) + (filterPartner !== 'All' ? 1 : 0)}
-                </span>
-              )}
-            </button>
+            {/* Mobile: Filter by + Sort by side by side */}
+            <div className="flex gap-2 sm:contents">
 
             {/* Filter by Technology */}
             <div className="relative">
@@ -875,34 +863,49 @@ export default function UpcomingWebinarsPage() {
                 </div>
               )}
             </div>
-            {/* Sort by */}
-            <div className="relative">
-              <button
-                onClick={() => setSortOpen(o => !o)}
-                className="flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition-all"
+              {/* Filter by — mobile only */}
+              <button onClick={() => { setPendingTech(filterTech); setPendingPartner(filterPartner); setWbFilterCat('tech'); setWbFilterOpen(true) }}
+                className="sm:hidden flex-1 flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-all"
                 style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
                 </svg>
-                Sort by
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                  style={{ transform: sortOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
+                <span>Filter by</span>
+                {(filterTech !== 'All' || filterPartner !== 'All') && (
+                  <span style={{ background: '#0694D1', color: '#fff', borderRadius: '50%', width: 18, height: 18, fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {(filterTech !== 'All' ? 1 : 0) + (filterPartner !== 'All' ? 1 : 0)}
+                  </span>
+                )}
               </button>
-              {sortOpen && (
-                <div className="absolute right-0 top-full mt-1 z-50 w-44 overflow-hidden rounded-xl shadow-lg"
-                  style={{ background: 'white', border: '1px solid #CAEFFF' }}>
-                  {['All Webinar', 'Latest Webinars', 'Most Popular'].map(opt => (
-                    <button key={opt} onClick={() => { setSortBy(opt); setSortOpen(false) }}
-                      className="w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#EBF8FE]"
-                      style={{ color: sortBy === opt ? '#0694D1' : '#0d1b2a', fontWeight: sortBy === opt ? 600 : 400 }}>
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+              {/* Sort by */}
+              <div className="relative flex-1 sm:flex-none">
+                <button
+                  onClick={() => setSortOpen(o => !o)}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition-all"
+                  style={{ borderColor: '#CAEFFF', background: 'white', color: '#465058' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                  </svg>
+                  Sort by
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                    style={{ transform: sortOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                {sortOpen && (
+                  <div className="absolute right-0 top-full mt-1 z-50 w-44 overflow-hidden rounded-xl shadow-lg"
+                    style={{ background: 'white', border: '1px solid #CAEFFF' }}>
+                    {['All Webinar', 'Latest Webinars', 'Most Popular'].map(opt => (
+                      <button key={opt} onClick={() => { setSortBy(opt); setSortOpen(false) }}
+                        className="w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#EBF8FE]"
+                        style={{ color: sortBy === opt ? '#0694D1' : '#0d1b2a', fontWeight: sortBy === opt ? 600 : 400 }}>
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>{/* end mobile row wrapper */}
           </div>
 
           {/* Cards */}
