@@ -557,7 +557,7 @@ export default function UpcomingWebinarsPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[15px] sm:py-8 lg:py-[50px]">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-[15px] lg:gap-16 items-center">
 
             {/* ── Left copy ── */}
             <div>
@@ -584,7 +584,7 @@ export default function UpcomingWebinarsPage() {
                   background-clip: text;
                 }
               `}</style>
-              <h1 className="hero-title-sweep text-[21px] sm:text-[32px] lg:text-[36px] font-bold leading-tight mb-5">
+              <h1 className="hero-title-sweep text-[21px] sm:text-[32px] lg:text-[36px] font-bold leading-tight mb-[15px] sm:mb-5">
                 Join Our Free Expert Webinars<br />
                 Learn, Grow &amp; Get Certified
               </h1>
@@ -615,7 +615,7 @@ export default function UpcomingWebinarsPage() {
               </div>
 
               {/* Trust badges */}
-              <div className="flex flex-wrap items-center gap-2.5 mb-6">
+              <div className="flex flex-wrap items-center gap-2.5 mb-[15px] sm:mb-6">
                 {TRUST_BADGES.map(badge => (
                   <span key={badge.label} className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold"
                     style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.32)', color: '#38bdf8' }}>
@@ -657,7 +657,7 @@ export default function UpcomingWebinarsPage() {
             </div>
 
             {/* ── Mobile stats row ── */}
-            <div className="lg:hidden grid grid-cols-2 gap-2 mt-2">
+            <div className="lg:hidden grid grid-cols-2 gap-2">
               {HERO_STATS.map(s => (
                 <div key={s.label} className="flex flex-col items-center justify-center rounded-xl py-3 px-2"
                   style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(6,148,209,0.30)' }}>
