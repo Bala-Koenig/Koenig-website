@@ -1655,7 +1655,7 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── BENEFITS ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '50px', paddingBottom: '50px' }}>
+      <section className="relative overflow-hidden" style={{ background: '#07121e', paddingTop: '50px', paddingBottom: '50px' }}>
 
         <style>{`
           @keyframes indIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
@@ -1707,7 +1707,7 @@ export default function LiveOnlineClassroomPage() {
             transition:background .3s,color .3s,border-color .3s; }
           .ben-card:hover .ben-tag { background:rgba(19,168,212,.22);color:#7de8ff;border-color:rgba(19,168,212,.45); }
         `}</style>
-        <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10 sm:mb-12">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Why ILO</p>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
