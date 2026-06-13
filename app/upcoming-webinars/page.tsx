@@ -763,7 +763,7 @@ export default function UpcomingWebinarsPage() {
           </div>
 
           {/* Search & Filters */}
-          <div className="mb-8 flex flex-col sm:flex-row gap-3 flex-wrap items-center sm:items-center justify-center sm:justify-start">
+          <div className="mb-[15px] sm:mb-8 flex flex-col sm:flex-row gap-3 flex-wrap items-center sm:items-center justify-center sm:justify-start">
             {/* Search */}
             <div className="relative w-full sm:flex-1 sm:min-w-[160px]">
               <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2}>
