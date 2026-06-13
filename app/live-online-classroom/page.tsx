@@ -663,12 +663,6 @@ function DatesModal({ course, onClose }: {
   const CARD_VISIBLE = 2
   const [selectedIdx, setSelectedIdx] = useState(CARD_VISIBLE)
   const [certAdded, setCertAdded] = useState(false)
-  const [robotChecked, setRobotChecked] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '', phone: '', country: '' })
-  const [payMethod, setPayMethod] = useState<'card' | 'bank' | 'upi'>('card')
-  const [card, setCard] = useState({ number: '', expiry: '', cvv: '', holder: '' })
-  const [upiId, setUpiId] = useState('')
   const days = Math.ceil(course.duration / 8)
 
   useEffect(() => {
@@ -689,41 +683,9 @@ function DatesModal({ course, onClose }: {
   })
   grouped.sort((a, b) => MONTH_ORDER.indexOf(a.month) - MONTH_ORDER.indexOf(b.month))
 
-  const selected = course.schedules[selectedIdx]
   const courseNum = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
   const certNum   = certAdded && course.certFee ? course.certFee : 0
   const total     = courseNum + certNum
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%', padding: '10px 14px', borderRadius: 8, fontSize: 13,
-    border: '1px solid #DDE6EE', outline: 'none', background: 'white', color: '#0C1929',
-    fontFamily: 'inherit', transition: 'border-color 0.15s',
-  }
-
-  const payOk = payMethod === 'card'
-    ? !!(card.number && card.expiry && card.cvv && card.holder)
-    : payMethod === 'upi' ? !!upiId : true
-  const canSubmit = !!(robotChecked && form.name && form.email && payOk)
-
-  if (submitted) {
-    return (
-      <div className="fixed inset-0 z-[300] flex items-center justify-center px-4"
-        style={{ background: 'rgba(12,25,41,0.72)', backdropFilter: 'blur(8px)' }}>
-        <div className="bg-white rounded-2xl p-10 flex flex-col items-center text-center max-w-sm w-full"
-          style={{ boxShadow: '0 8px 40px rgba(12,25,41,0.2)' }}>
-          <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: '#DCFCE7' }}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <h3 className="text-lg font-bold mb-2" style={{ color: '#0C1929' }}>Enrollment Confirmed!</h3>
-          <p className="text-sm mb-1" style={{ color: '#5a7a90' }}>{course.code}: {course.name}</p>
-          <p className="text-sm font-semibold mb-5" style={{ color: '#0694D1' }}>{selected.dates} 2026 · {selected.time}</p>
-          <p className="text-xs mb-6" style={{ color: '#94A3B8' }}>Our team will contact you shortly with confirmation and access details.</p>
-          <button onClick={onClose} className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
-            style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)' }}>Done</button>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="fixed inset-0 z-[300] flex items-end sm:items-center sm:px-4 justify-center"
@@ -757,11 +719,43 @@ function DatesModal({ course, onClose }: {
           </span>
         </div>
 
-        {/* Single scrollable body */}
+        {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto" style={{ minHeight: 0 }}>
 
-          {/* ── Section 1: Date selection ── */}
+          {/* ── Price & Certification ── */}
           <div className="px-5 pt-4 pb-3">
+            <div className="rounded-xl p-3.5" style={{ background: '#F8FBFE', border: '1px solid #E8EFF5' }}>
+              {course.certFee && (
+                <label className="flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 mb-3 transition-all"
+                  style={certAdded
+                    ? { border: '1.5px solid #0694D1', background: 'rgba(6,148,209,0.06)' }
+                    : { border: '1px solid #E2E8F0', background: 'white' }}>
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded border-2 transition-colors"
+                      style={certAdded ? { borderColor: '#0694D1', background: '#0694D1' } : { borderColor: '#CBD5E1', background: 'white' }}>
+                      {certAdded && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                    </div>
+                    <span className="text-sm" style={{ color: certAdded ? '#0694D1' : '#374151' }}>Add Certification Exam</span>
+                  </div>
+                  <span className="text-sm font-semibold" style={{ color: '#0C1929' }}>+INR {course.certFee.toLocaleString('en-IN')}</span>
+                  <input type="checkbox" className="sr-only" checked={certAdded} onChange={() => setCertAdded(!certAdded)} />
+                </label>
+              )}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm" style={{ color: '#374151' }}>Course Training</span>
+                <span className="text-sm font-semibold" style={{ color: '#0C1929' }}>{course.price}</span>
+              </div>
+              <div className="flex items-center justify-between pt-2.5" style={{ borderTop: '1px solid #E2E8F0' }}>
+                <span className="text-sm font-bold" style={{ color: '#0C1929' }}>Total</span>
+                <span className="text-base font-bold" style={{ color: '#0694D1' }}>INR {total.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ height: 1, background: '#E8EFF5', margin: '0 20px' }} />
+
+          {/* ── Date selection ── */}
+          <div className="px-5 pt-4 pb-5">
             <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>
               Select a Date · {rows.length} available
             </p>
@@ -802,143 +796,14 @@ function DatesModal({ course, onClose }: {
               </div>
             ))}
           </div>
-
-          <div style={{ height: 1, background: '#E8EFF5', margin: '0 20px' }} />
-
-          {/* ── Section 2: Price & Certification ── */}
-          <div className="px-5 pt-4 pb-3">
-            <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Price Summary</p>
-            <div className="rounded-xl p-3.5" style={{ background: '#F8FBFE', border: '1px solid #E8EFF5' }}>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm" style={{ color: '#374151' }}>Course Training</span>
-                <span className="text-sm font-semibold" style={{ color: '#0C1929' }}>{course.price}</span>
-              </div>
-              {course.certFee && (
-                <label className="flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 mb-2 transition-all"
-                  style={certAdded
-                    ? { border: '1.5px solid #0694D1', background: 'rgba(6,148,209,0.06)' }
-                    : { border: '1px solid #E2E8F0', background: 'white' }}>
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-4 w-4 shrink-0 items-center justify-center rounded border-2 transition-colors"
-                      style={certAdded ? { borderColor: '#0694D1', background: '#0694D1' } : { borderColor: '#CBD5E1', background: 'white' }}>
-                      {certAdded && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
-                    </div>
-                    <span className="text-sm" style={{ color: certAdded ? '#0694D1' : '#374151' }}>Add Certification Exam</span>
-                  </div>
-                  <span className="text-sm font-semibold" style={{ color: '#0C1929' }}>+INR {course.certFee.toLocaleString('en-IN')}</span>
-                  <input type="checkbox" className="sr-only" checked={certAdded} onChange={() => setCertAdded(!certAdded)} />
-                </label>
-              )}
-              <div className="flex items-center justify-between pt-2.5" style={{ borderTop: '1px solid #E2E8F0' }}>
-                <span className="text-sm font-bold" style={{ color: '#0C1929' }}>Total</span>
-                <span className="text-base font-bold" style={{ color: '#0694D1' }}>INR {total.toLocaleString('en-IN')}</span>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ height: 1, background: '#E8EFF5', margin: '0 20px' }} />
-
-          {/* ── Section 3: Your Details ── */}
-          <div className="px-5 pt-4 pb-3">
-            <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Your Details</p>
-            <div className="grid grid-cols-2 gap-3">
-              <input placeholder="Full Name *" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-              <input placeholder="Email *" type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-                style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-              <input placeholder="Phone" type="tel" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
-                style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-              <input placeholder="Country" value={form.country} onChange={e => setForm({ ...form, country: e.target.value })}
-                style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-            </div>
-          </div>
-
-          <div style={{ height: 1, background: '#E8EFF5', margin: '0 20px' }} />
-
-          {/* ── Section 4: Payment ── */}
-          <div className="px-5 pt-4 pb-4">
-            <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Payment Method</p>
-            <div className="flex gap-2 mb-3">
-              {([
-                { key: 'card', label: 'Card', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> },
-                { key: 'upi',  label: 'UPI',  icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> },
-                { key: 'bank', label: 'Bank Transfer', icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> },
-              ] as { key: 'card'|'upi'|'bank'; label: string; icon: React.ReactNode }[]).map(m => (
-                <button key={m.key} onClick={() => setPayMethod(m.key)}
-                  className="flex-1 flex flex-col items-center gap-1 rounded-xl py-2.5 text-xs font-semibold transition-all"
-                  style={payMethod === m.key
-                    ? { border: '1.5px solid #0694D1', background: 'rgba(6,148,209,0.07)', color: '#0694D1' }
-                    : { border: '1px solid #E8EFF5', background: 'white', color: '#5a7a90' }}>
-                  {m.icon}{m.label}
-                </button>
-              ))}
-            </div>
-
-            {payMethod === 'card' && (
-              <div className="flex flex-col gap-2.5">
-                <div className="relative">
-                  <input placeholder="Card Number *" maxLength={19} value={card.number}
-                    onChange={e => { const v = e.target.value.replace(/\D/g,'').slice(0,16); setCard({ ...card, number: v.replace(/(.{4})/g,'$1 ').trim() }) }}
-                    style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                    <svg width="26" height="17" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#1A1F71"/><ellipse cx="19" cy="15" rx="9" ry="9" fill="#EB001B" fillOpacity=".9"/><ellipse cx="29" cy="15" rx="9" ry="9" fill="#F79E1B" fillOpacity=".9"/><ellipse cx="24" cy="15" rx="4.5" ry="9" fill="#FF5F00" fillOpacity=".8"/></svg>
-                    <svg width="26" height="17" viewBox="0 0 48 30" fill="none"><rect width="48" height="30" rx="4" fill="#252525"/><ellipse cx="19" cy="15" rx="9" ry="9" fill="#EB001B" fillOpacity=".9"/><ellipse cx="29" cy="15" rx="9" ry="9" fill="#F79E1B" fillOpacity=".9"/><ellipse cx="24" cy="15" rx="4.5" ry="9" fill="#FF5F00" fillOpacity=".8"/></svg>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2.5">
-                  <input placeholder="MM / YY *" maxLength={7} value={card.expiry}
-                    onChange={e => { const v = e.target.value.replace(/\D/g,'').slice(0,4); setCard({ ...card, expiry: v.length > 2 ? v.slice(0,2)+' / '+v.slice(2) : v }) }}
-                    style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-                  <input placeholder="CVV *" maxLength={3} type="password" value={card.cvv}
-                    onChange={e => setCard({ ...card, cvv: e.target.value.replace(/\D/g,'').slice(0,3) })}
-                    style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-                </div>
-                <input placeholder="Name on Card *" value={card.holder} onChange={e => setCard({ ...card, holder: e.target.value })}
-                  style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-              </div>
-            )}
-            {payMethod === 'upi' && (
-              <input placeholder="UPI ID * (e.g. name@upi)" value={upiId} onChange={e => setUpiId(e.target.value)}
-                style={inputStyle} onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = '#DDE6EE')} />
-            )}
-            {payMethod === 'bank' && (
-              <div className="rounded-xl p-3.5" style={{ background: '#F8FBFE', border: '1px solid #E8EFF5' }}>
-                <p className="text-xs font-semibold mb-2" style={{ color: '#374151' }}>Transfer to:</p>
-                <div className="flex flex-col gap-1.5 text-xs" style={{ color: '#5a7a90' }}>
-                  {[['Bank','HDFC Bank'],['Account Name','Koenig Solutions Pvt Ltd'],['Account No.','50200012345678'],['IFSC','HDFC0001234'],['SWIFT','HDFCINBB']].map(([k,v]) => (
-                    <div key={k} className="flex justify-between"><span>{k}</span><span className="font-semibold" style={{ color: '#0C1929' }}>{v}</span></div>
-                  ))}
-                </div>
-                <p className="text-[11px] mt-2.5" style={{ color: '#94A3B8' }}>Share UTR/reference to training@koenig-solutions.com after transfer.</p>
-              </div>
-            )}
-
-            {/* reCAPTCHA */}
-            <div className="flex items-center gap-3 rounded-lg px-4 py-2.5 mt-3" style={{ border: '1px solid #E8EFF5', background: '#FAFCFE' }}>
-              <div onClick={() => setRobotChecked(!robotChecked)}
-                className="w-5 h-5 rounded flex-shrink-0 flex items-center justify-center cursor-pointer transition-all"
-                style={robotChecked ? { background: '#0694D1', border: '2px solid #0694D1' } : { border: '2px solid #CBD5E1', background: 'white' }}>
-                {robotChecked && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={3} strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
-              </div>
-              <span className="text-sm flex-1" style={{ color: '#374151' }}>I&apos;m not a robot</span>
-              <div className="text-right">
-                <p className="text-[10px]" style={{ color: '#9CA3AF' }}>reCAPTCHA</p>
-                <p className="text-[10px]" style={{ color: '#9CA3AF' }}>Privacy · Terms</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Sticky footer */}
         <div className="px-5 py-3.5 shrink-0" style={{ background: '#F5F8FB', borderTop: '1px solid #DDE6EE' }}>
-          <button onClick={() => canSubmit && setSubmitted(true)}
-            className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all"
-            style={{
-              background: canSubmit ? 'linear-gradient(135deg,#0694D1,#076D9D)' : '#CBD5E1',
-              boxShadow: canSubmit ? '0 4px 12px rgba(6,148,209,0.3)' : 'none',
-              cursor: canSubmit ? 'pointer' : 'not-allowed',
-            }}>
-            Pay INR {total.toLocaleString('en-IN')} & Enroll Now →
+          <button onClick={onClose}
+            className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>
+            Enroll Now →
           </button>
         </div>
       </div>
