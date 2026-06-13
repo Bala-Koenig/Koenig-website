@@ -479,7 +479,7 @@ export default function UpcomingWebinarsPage() {
   const [pendingTechs, setPendingTechs]       = useState<Set<string>>(new Set())
   const [pendingPartners, setPendingPartners] = useState<Set<string>>(new Set())
 
-  const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology)))]
+  const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology))).filter(t => t !== 'Microsoft')]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner)))]
 
   const filtered = WEBINARS.filter(w => {
