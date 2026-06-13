@@ -556,7 +556,7 @@ export default function UpcomingWebinarsPage() {
           ))}
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-8 lg:py-[50px]">
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[15px] sm:py-8 lg:py-[50px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* ── Left copy ── */}
@@ -584,7 +584,7 @@ export default function UpcomingWebinarsPage() {
                   background-clip: text;
                 }
               `}</style>
-              <h1 className="hero-title-sweep text-[26px] sm:text-[32px] lg:text-[36px] font-bold leading-tight mb-5">
+              <h1 className="hero-title-sweep text-[21px] sm:text-[32px] lg:text-[36px] font-bold leading-tight mb-5">
                 Join Our Free Expert Webinars<br />
                 Learn, Grow &amp; Get Certified
               </h1>
