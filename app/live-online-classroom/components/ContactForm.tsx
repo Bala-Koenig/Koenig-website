@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 const C = { dark: "#093148", accent: "#0694D1", light: "#E4F7FF" };
 
@@ -34,15 +34,6 @@ export default function ContactForm({ initialType = "individual" }: { initialTyp
   const [form,    setForm]    = useState({ name: "", email: "", phone: "", course: "", trainees: "", hear: "", message: "" });
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
-      { threshold: 0.1 }
-    );
-    sectionRef.current?.querySelectorAll(".animate-on-scroll").forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
-
   const inputStyle = {
     backgroundColor: "#fff",
     border: "1px solid #CBD5E1",
@@ -72,7 +63,7 @@ export default function ContactForm({ initialType = "individual" }: { initialTyp
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div
-          className="animate-on-scroll rounded-3xl p-8 sm:p-10 border"
+          className="rounded-3xl p-8 sm:p-10 border"
           style={{
             backgroundColor: C.light,
             borderColor: "rgba(6,148,209,0.2)",
