@@ -1107,126 +1107,103 @@ function InquiryForm({
   formType: 'individual' | 'enterprise'
   setFormType: (t: 'individual' | 'enterprise') => void
 }) {
-  const inputCls = 'w-full rounded-xl px-4 py-2.5 text-sm outline-none placeholder:text-white/35 transition-colors'
-  const inputSty = { background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.14)', color: 'white' }
-  const selectSty = { background: '#0b1c2e', border: '1px solid rgba(255,255,255,0.14)', color: 'rgba(255,255,255,0.55)' }
-  const optSty = { background: '#0b1c2e' }
+  const inputSty = { backgroundColor: '#fff', border: '1px solid #CBD5E1', color: '#1E293B', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', width: '100%', outline: 'none' }
+  const selectSty = { ...inputSty, color: '#94A3B8' }
+  const optSty = { background: '#fff', color: '#1E293B' }
 
   return (
     <>
-      {/* WhatsApp / Email buttons */}
-      <div className="flex gap-3 mb-5">
-        <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition hover:bg-white/10"
-          style={{ border: '1px solid rgba(255,255,255,0.18)', color: 'white', background: 'rgba(255,255,255,0.06)' }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#25D366' }}>
+      {/* WhatsApp / Email tabs */}
+      <div className="flex justify-center gap-3 mb-5">
+        <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full border text-sm font-semibold transition-all"
+          style={{ backgroundColor: '#0694D1', borderColor: '#0694D1', color: '#fff' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
           </svg>
-          WhatsApp us
+          WhatsApp:
         </a>
-        <a href="mailto:info@koenig-solutions.com" className="flex-1 flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition hover:bg-white/10"
-          style={{ border: '1px solid rgba(255,255,255,0.18)', color: 'white', background: 'rgba(255,255,255,0.06)' }}>
+        <a href="mailto:info@koenig-solutions.com"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full border text-sm font-semibold transition-all"
+          style={{ backgroundColor: 'transparent', borderColor: '#0694D1', color: '#0694D1' }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
           </svg>
-          Email us
+          Email:
         </a>
       </div>
 
-      {/* Individual / Enterprise toggle */}
-      <div className="flex rounded-xl p-1 mb-5" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+      {/* Individual / Enterprise radio */}
+      <div className="flex justify-center gap-8 mb-6">
         {(['individual', 'enterprise'] as const).map(t => (
-          <button key={t} type="button" onClick={() => setFormType(t)}
-            className="flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all"
-            style={formType === t
-              ? { background: 'linear-gradient(135deg, #0694D1, #00B4D8)', color: 'white', boxShadow: '0 2px 12px rgba(6,148,209,0.40)' }
-              : { color: 'rgba(255,255,255,0.45)', background: 'transparent' }
-            }>
-            {t === 'individual'
-              ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-            }
-            {t === 'individual' ? 'Individual' : 'Enterprise'}
-          </button>
+          <label key={t} className="flex items-center gap-2 cursor-pointer text-sm" style={{ color: '#374151' }}>
+            <input type="radio" name="formType" checked={formType === t} onChange={() => setFormType(t)}
+              className="w-4 h-4 cursor-pointer" style={{ accentColor: '#0694D1' }} />
+            <strong style={{ color: formType === t ? '#093148' : '#374151', fontWeight: formType === t ? 700 : 400 }}>
+              {t === 'individual' ? 'Individual' : 'Enterprise'}
+            </strong>
+          </label>
         ))}
       </div>
 
       {/* Name + Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-        <div>
-          <label className="block text-xs font-semibold mb-1.5 text-white">Full Name <span className="text-red-400">*</span></label>
-          <input className={inputCls} style={inputSty} placeholder="John Smith" />
-        </div>
-        <div>
-          <label className="block text-xs font-semibold mb-1.5 text-white">
-            {formType === 'enterprise' ? 'Business Email' : 'Email'} <span className="text-red-400">*</span>
-          </label>
-          <input className={inputCls} style={inputSty} type="email"
-            placeholder={formType === 'enterprise' ? 'john@company.com' : 'john@example.com'} />
-        </div>
+        <input style={inputSty} placeholder="Full Name *" />
+        <input style={inputSty} type="email"
+          placeholder={formType === 'enterprise' ? 'Business Email *' : 'Email *'} />
       </div>
 
       {/* Phone + Course / Trainees */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-        <div>
-          <label className="block text-xs font-semibold mb-1.5 text-white">Phone</label>
-          <input className={inputCls} style={inputSty} type="tel" placeholder="+1 (555) 000-0000" />
-        </div>
-        <div>
-          {formType === 'enterprise' ? (
-            <>
-              <label className="block text-xs font-semibold mb-1.5 text-white">Number of Trainees</label>
-              <input className={inputCls} style={inputSty} placeholder="e.g. 25" />
-            </>
-          ) : (
-            <>
-              <label className="block text-xs font-semibold mb-1.5 text-white">Select Course Name</label>
-              <select className="w-full rounded-xl px-4 py-2.5 text-sm outline-none" style={selectSty}>
-                <option value="" style={optSty}>Select Course Name</option>
-                {COURSES.map(c => <option key={c.id} value={c.id} style={optSty}>{c.code}: {c.name}</option>)}
-              </select>
-            </>
-          )}
-        </div>
+        <input style={inputSty} type="tel" placeholder="Phone" />
+        {formType === 'enterprise'
+          ? <input style={inputSty} type="number" placeholder="Number of Trainees" />
+          : <select style={selectSty}>
+              <option value="">Select Course Name</option>
+              {COURSES.map(c => <option key={c.id} value={c.id} style={optSty}>{c.code}: {c.name}</option>)}
+            </select>
+        }
       </div>
 
-      {/* Source */}
-      <div className="mb-3">
-        <label className="block text-xs font-semibold mb-1.5 text-white">How did you hear about us?</label>
-        <select className="w-full rounded-xl px-4 py-2.5 text-sm outline-none" style={selectSty}>
-          <option value="" style={optSty}>Select Option</option>
+      {/* How did you hear */}
+      <div className="relative mb-3">
+        <label className="absolute -top-2 left-3 px-1 text-xs" style={{ color: '#0694D1', backgroundColor: '#E4F7FF' }}>
+          How did you hear about us?
+        </label>
+        <select style={selectSty}>
+          <option value="">Select Option</option>
           {HEAR_OPTIONS.map(o => <option key={o} style={optSty}>{o}</option>)}
         </select>
       </div>
 
       {/* Message */}
-      <div className="mb-5">
-        <label className="block text-xs font-semibold mb-1.5 text-white">Tell us more about your Training Request</label>
-        <textarea className={`${inputCls} resize-none`} style={inputSty} rows={4}
-          placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..." />
+      <div className="relative mb-5">
+        <label className="absolute -top-2 left-3 px-1 text-xs" style={{ color: '#0694D1', backgroundColor: '#E4F7FF' }}>
+          Tell us more about your Training Request
+        </label>
+        <textarea rows={4} style={{ ...inputSty, resize: 'vertical', minHeight: '90px' }}
+          placeholder="" />
       </div>
 
       {/* reCAPTCHA */}
       <div className="flex justify-center mb-5">
-        <div className="inline-flex items-center gap-3 rounded-xl px-5 py-3"
-          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}>
-          <input type="checkbox" className="w-4 h-4" style={{ accentColor: '#0694D1' }} />
-          <span className="text-sm text-white">I&apos;m not a robot</span>
-          <div className="ml-4 text-right">
-            <p className="text-[9px] font-bold" style={{ color: '#4A90D9' }}>reCAPTCHA</p>
-            <p className="text-[8px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Privacy · Terms</p>
+        <div className="flex items-center gap-4 px-5 py-3 rounded border" style={{ borderColor: '#CBD5E1', backgroundColor: '#F8FAFC', width: '280px' }}>
+          <div className="w-6 h-6 rounded border-2 flex-shrink-0" style={{ borderColor: '#CBD5E1' }} />
+          <span className="text-sm" style={{ color: '#374151' }}>I&apos;m not a robot</span>
+          <div className="ml-auto text-right">
+            <p className="text-xs" style={{ color: '#9CA3AF' }}>reCAPTCHA</p>
+            <p className="text-xs" style={{ color: '#9CA3AF' }}>Privacy · Terms</p>
           </div>
         </div>
       </div>
 
       {/* Submit */}
-      <button type="button" className="w-full rounded-xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5"
-        style={{ background: 'linear-gradient(135deg, #0694D1, #00B4D8)', boxShadow: '0 4px 20px rgba(6,148,209,0.40)' }}>
-        Submit — Get a Free Consultation
-      </button>
-
-      <p className="text-center text-xs mt-3" style={{ color: 'rgba(255,255,255,0.35)' }}>
-        We&apos;ll respond within 1 business day · No spam, ever.
-      </p>
+      <div className="flex justify-center">
+        <button type="button" className="px-16 py-3.5 rounded-full text-white font-semibold text-base transition-all hover:opacity-90 hover:shadow-lg"
+          style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.3)' }}>
+          Submit
+        </button>
+      </div>
     </>
   )
 }
@@ -1447,34 +1424,22 @@ export default function LiveOnlineClassroomPage() {
         <div className="fixed inset-0 z-[9999] overflow-y-auto" onClick={() => setShowFormModal(false)}
           style={{ background: 'rgba(4,10,20,0.82)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
           <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
-          <div className="relative w-full max-w-2xl rounded-2xl"
-            style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 32px 80px rgba(0,0,0,0.65)' }}
+          <div className="relative w-full max-w-2xl rounded-3xl"
+            style={{ background: '#E4F7FF', border: '1px solid rgba(6,148,209,0.2)', boxShadow: '0 8px 40px rgba(6,148,209,0.08)' }}
             onClick={e => e.stopPropagation()}>
 
             {/* X close */}
             <button onClick={() => setShowFormModal(false)}
-              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-white/10"
-              style={{ color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.15)' }}>
+              className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full transition hover:opacity-70"
+              style={{ background: '#1e293b', color: '#fff' }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
 
-            <div className="px-6 sm:px-8 pt-8 pb-7">
-              {/* LET'S TALK pill */}
-              <div className="flex justify-center mb-4">
-                <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest"
-                  style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>
-                  LET&apos;S TALK
-                </span>
-              </div>
-
+            <div className="px-6 sm:px-10 pt-8 pb-7">
               {/* Title */}
-              <h2 className="text-center text-xl sm:text-2xl font-bold text-white mb-1">
-                Request for more{' '}
-                <span style={{ color: '#38bdf8' }}>information</span>
+              <h2 className="text-center text-xl sm:text-2xl font-bold mb-6" style={{ color: '#093148' }}>
+                Request more information
               </h2>
-              <p className="text-center text-sm mb-6" style={{ color: 'rgba(255,255,255,0.42)' }}>
-                Microsoft Certification Training with Koenig Solutions
-              </p>
 
               <InquiryForm formType={formType} setFormType={setFormType} />
             </div>
@@ -1520,15 +1485,15 @@ export default function LiveOnlineClassroomPage() {
                 Learn from expert instructors with our 5,000+ course catalogue. Upskill conveniently, from the comfort of your own space — with sessions Guaranteed to Run.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a href="#schedule" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                <button onClick={() => setShowFormModal(true)} className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
                   style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
+                  Request More Info
+                </button>
+                <a href="#schedule" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
+                  style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
                   View Upcoming Batches
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <button onClick={() => setShowFormModal(true)} className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
-                  style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
-                  Request Info
-                </button>
               </div>
 
               {/* Mobile-only stat tiles — mirrors desktop floating cards */}
@@ -2704,30 +2669,18 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <section id="request" className="py-10 sm:py-14" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
+      <section id="request" className="py-10 sm:py-14" style={{ background: '#EEF7FD' }}>
         <div className="mx-auto max-w-3xl px-4 md:px-8">
-          <div className="rounded-2xl px-8 sm:px-12 py-7 sm:py-9"
+          <div className="rounded-3xl px-8 sm:px-12 py-7 sm:py-9"
             style={{
-              background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)',
-              border: '1px solid rgba(6,148,209,0.25)',
-              boxShadow: '0 0 0 1px rgba(6,148,209,0.08), 0 24px 60px rgba(0,0,0,0.5)',
+              background: '#E4F7FF',
+              border: '1px solid rgba(6,148,209,0.2)',
+              boxShadow: '0 8px 40px rgba(6,148,209,0.08)',
             }}>
-
-            {/* LET'S TALK pill */}
-            <div className="flex justify-center mb-4">
-              <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest"
-                style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>
-                LET&apos;S TALK
-              </span>
-            </div>
             {/* Title */}
-            <h2 className="text-center text-2xl sm:text-3xl font-bold text-white mb-1">
-              Request for more{' '}
-              <span style={{ color: '#38bdf8' }}>information</span>
+            <h2 className="text-center text-2xl sm:text-3xl font-bold mb-6" style={{ color: '#093148' }}>
+              Request more information
             </h2>
-            <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.42)' }}>
-              Microsoft Certification Training with Koenig Solutions
-            </p>
 
             <InquiryForm formType={formType} setFormType={setFormType} />
           </div>
