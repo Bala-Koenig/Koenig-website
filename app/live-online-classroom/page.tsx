@@ -1062,7 +1062,6 @@ const _TECH_COUNTS = Object.fromEntries(
   ALL_TECH_NAMES.map(t => [t, COURSES.filter(c => (c.techs ?? []).includes(t)).length])
 )
 const SIDEBAR_TECHNOLOGIES = [
-  { name: 'All', label: 'All Technologies', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
   ...[...ALL_TECH_NAMES]
     .sort((a,b) => (_TECH_COUNTS[b]??0) - (_TECH_COUNTS[a]??0) || a.localeCompare(b))
     .map(name => { const s = _tStyle(name); return { name, label: name, count: _TECH_COUNTS[name]??0, bg: s.bg, color: s.color, initial: _tInitial(name) } }),
@@ -1351,11 +1350,11 @@ function IloScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: 
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab]     = useState('ilo')
-  const [activeTech, setActiveTech]   = useState('All')
+  const [activeTech, setActiveTech]   = useState('')
   const [techSearch, setTechSearch]   = useState('')
   const [search, setSearch]           = useState('')
   const [filterTz, setFilterTz]       = useState('')
-  const [filterVendor, setFilterVendor] = useState('')
+  const [filterVendor, setFilterVendor] = useState('Microsoft')
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [activeReviewFaq, setActiveReviewFaq] = useState<'reviews' | 'faq'>('reviews')
@@ -1382,14 +1381,14 @@ export default function LiveOnlineClassroomPage() {
   const filtered = COURSES.filter(c => {
     const q = search.toLowerCase()
     const matchSearch  = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
-    const matchTech    = activeTech === 'All' || (c.techs ?? []).includes(activeTech)
+    const matchTech    = !activeTech || (c.techs ?? []).includes(activeTech)
     const matchTz      = !filterTz || c.schedules.some(s => s.time.includes(filterTz))
     const matchVendor  = !filterVendor || c.vendor === filterVendor
     return matchSearch && matchTech && matchTz && matchVendor
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
-  const activeTechData = SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTech) ?? SIDEBAR_TECHNOLOGIES[0]
+  const activeTechData = SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTech) ?? { name: '', label: 'All Courses', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -1880,8 +1879,43 @@ export default function LiveOnlineClassroomPage() {
             {/* ── Left sidebar ── */}
             <div className="hidden lg:flex flex-col w-[220px] shrink-0 rounded-2xl overflow-hidden bg-white self-start sticky top-4"
               style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
-              {/* Sidebar header + search */}
+              {/* ── Vendor section (always open, at top) ── */}
               <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
+                <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>VENDOR</p>
+              </div>
+              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 200 }}>
+                {/* All Vendors */}
+                <button
+                  onClick={() => { setFilterVendor(''); setPage(0) }}
+                  className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
+                  style={{ borderLeft: `3px solid ${!filterVendor ? '#0694D1' : 'transparent'}`, background: !filterVendor ? '#EBF8FE' : 'white' }}>
+                  <span className="text-[13px] font-medium truncate" style={{ color: !filterVendor ? '#0694D1' : '#374151' }}>All Vendors</span>
+                  <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                    style={{ background: !filterVendor ? '#0694D1' : '#E2E8F0', color: !filterVendor ? 'white' : '#6B7280' }}>
+                    {COURSES.length}
+                  </span>
+                </button>
+                {ALL_VENDORS.map(v => {
+                  const count = COURSES.filter(c => c.vendor === v).length
+                  if (count === 0) return null
+                  const active = filterVendor === v
+                  return (
+                    <button key={v}
+                      onClick={() => { setFilterVendor(v); setPage(0) }}
+                      className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
+                      style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, background: active ? '#EBF8FE' : 'white' }}>
+                      <span className="text-[13px] font-medium truncate" style={{ color: active ? '#0694D1' : '#374151' }} title={v}>{v}</span>
+                      <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                        style={{ background: active ? '#0694D1' : '#E2E8F0', color: active ? 'white' : '#6B7280' }}>
+                        {count}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* ── Technology section ── */}
+              <div className="px-3 pt-2.5 pb-2" style={{ borderTop: '1px solid #EBF8FE', borderBottom: '1px solid #EBF8FE' }}>
                 <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>TECHNOLOGY</p>
                 <div className="relative">
                   <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -1932,41 +1966,6 @@ export default function LiveOnlineClassroomPage() {
                     </span>
                   </button>
                 ))}
-              </div>
-
-              {/* ── Vendor section (always open) ── */}
-              <div className="px-3 pt-2.5 pb-2" style={{ borderTop: '1px solid #EBF8FE', borderBottom: '1px solid #EBF8FE' }}>
-                <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>VENDOR</p>
-              </div>
-              <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 200 }}>
-                {/* All Vendors */}
-                <button
-                  onClick={() => { setFilterVendor(''); setPage(0) }}
-                  className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
-                  style={{ borderLeft: `3px solid ${!filterVendor ? '#0694D1' : 'transparent'}`, background: !filterVendor ? '#EBF8FE' : 'white' }}>
-                  <span className="text-[13px] font-medium truncate" style={{ color: !filterVendor ? '#0694D1' : '#374151' }}>All Vendors</span>
-                  <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
-                    style={{ background: !filterVendor ? '#0694D1' : '#E2E8F0', color: !filterVendor ? 'white' : '#6B7280' }}>
-                    {COURSES.length}
-                  </span>
-                </button>
-                {ALL_VENDORS.map(v => {
-                  const count = COURSES.filter(c => c.vendor === v).length
-                  if (count === 0) return null
-                  const active = filterVendor === v
-                  return (
-                    <button key={v}
-                      onClick={() => { setFilterVendor(v); setPage(0) }}
-                      className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
-                      style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, background: active ? '#EBF8FE' : 'white' }}>
-                      <span className="text-[13px] font-medium truncate" style={{ color: active ? '#0694D1' : '#374151' }} title={v}>{v}</span>
-                      <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
-                        style={{ background: active ? '#0694D1' : '#E2E8F0', color: active ? 'white' : '#6B7280' }}>
-                        {count}
-                      </span>
-                    </button>
-                  )
-                })}
               </div>
 
               <div className="p-4 mt-auto" style={{ borderTop: '1px solid #EBF8FE' }}>
@@ -2047,7 +2046,7 @@ export default function LiveOnlineClassroomPage() {
               {/* Mobile: Vendor + Tech + Timezone row */}
               <div className="lg:hidden flex items-center gap-2 mb-2">
                 <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} /></div>
-                <div className="flex-1 min-w-0"><FilterDropdown label="Technology" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTech === 'All' ? 'All Technologies' : activeTech} onChange={v => { setActiveTech(v === 'All Technologies' ? 'All' : v); setPage(0) }} /></div>
+                <div className="flex-1 min-w-0"><FilterDropdown label="Technology" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTech} onChange={v => { setActiveTech(v); setPage(0) }} /></div>
                 <div className="flex-1 min-w-0"><FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} /></div>
               </div>
               <div className="lg:hidden mb-3">
