@@ -12,7 +12,7 @@ const COURSES = [
     id: 1, vendor: 'Microsoft', code: 'AZ-104T00-A',
     name: 'Microsoft Azure Administrator',
     duration: 32,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: '$1,245',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: 'INR39000',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '05 – 08 May', time: '06:30 AM – 02:30 PM IST', gtr: true },
@@ -24,7 +24,7 @@ const COURSES = [
     id: 2, vendor: 'Microsoft', code: 'AI-102T00',
     name: 'Designing and Implementing a Microsoft Azure AI Solution',
     duration: 40,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: '$995',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: 'INR31000',
     techs: ['Artificial Intelligence (AI)', 'Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -36,7 +36,7 @@ const COURSES = [
     id: 3, vendor: 'Microsoft', code: 'DP-700T00',
     name: 'Microsoft Fabric Data Engineer',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '720+', price: '$995',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '720+', price: 'INR31000',
     techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '04 – 07 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
@@ -48,7 +48,7 @@ const COURSES = [
     id: 4, vendor: 'Microsoft', code: 'SC-300T00',
     name: 'Microsoft Identity and Access Administrator',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '840+', price: '$996',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '840+', price: 'INR31000',
     techs: ['Identity and Access Management (IAM)'],
     schedules: [
       { dates: '04 – 07 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
@@ -60,7 +60,7 @@ const COURSES = [
     id: 5, vendor: 'Microsoft', code: 'SC-200T00',
     name: 'Microsoft Security Operations Analyst',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '780+', price: '$996',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '780+', price: 'INR31000',
     techs: ['Cyber Security'],
     schedules: [
       { dates: '04 – 07 May', time: '03:30 AM – 11:30 AM IST', gtr: true },
@@ -72,7 +72,7 @@ const COURSES = [
     id: 6, vendor: 'Microsoft', code: 'DP-600T00',
     name: 'Microsoft Fabric Analytics Engineer',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: '$995',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: 'INR31000',
     techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '24 – 27 Aug', time: '12:30 PM – 08:30 PM IST', gtr: true },
@@ -83,7 +83,7 @@ const COURSES = [
     id: 7, vendor: 'Microsoft', code: 'AZ-204T00',
     name: 'Developing Solutions for Microsoft Azure',
     duration: 40,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: '$1,245',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR39000',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -95,7 +95,7 @@ const COURSES = [
     id: 8, vendor: 'Microsoft', code: 'AZ-305T00',
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: '$1,245',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: 'INR39000',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 11 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -107,7 +107,7 @@ const COURSES = [
     id: 9, vendor: 'PMI', code: 'PMP',
     name: 'Project Management Professional (PMP®) Certification Training',
     duration: 40,
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: '$1,095',
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: 'INR34000',
     techs: ['Project Management'],
     schedules: [
       { dates: '04 – 08 May', time: '11:30 AM – 07:30 PM IST', gtr: true },
@@ -119,7 +119,7 @@ const COURSES = [
     id: 10, vendor: 'Microsoft', code: 'PL-300T00',
     name: 'Microsoft Power BI Data Analyst',
     duration: 8,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: '$398',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: 'INR12500',
     techs: ['Data Management & Analytics'],
     schedules: [
       { dates: '14 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
@@ -131,7 +131,7 @@ const COURSES = [
     id: 11, vendor: 'AWS', code: 'AWS-SAA-C03',
     name: 'AWS Certified Solutions Architect – Associate (Architecting on AWS)',
     duration: 24,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: '$1,395',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: 'INR44000',
     techs: ['AWS Cloud'],
     schedules: [
       { dates: '04 – 08 May', time: '01:30 PM – 09:30 PM IST', gtr: true },
@@ -143,7 +143,7 @@ const COURSES = [
     id: 12, vendor: 'AWS', code: 'AWS-COA-C02',
     name: 'AWS Certified CloudOps Engineer – Associate (Cloud Operations on AWS)',
     duration: 24,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: '$1,195',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: 'INR37000',
     techs: ['AWS Cloud'],
     schedules: [
       { dates: '11 – 13 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
@@ -155,7 +155,7 @@ const COURSES = [
     id: 13, vendor: 'EC-Council', code: 'CEH-v13',
     name: 'Certified Ethical Hacker (CEH v13)',
     duration: 40,
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: '$1,350',
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: 'INR42000',
     techs: ['Ethical Hacking and Penetration Testing', 'Cyber Security'],
     schedules: [
       { dates: '05 – 09 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -167,7 +167,7 @@ const COURSES = [
     id: 14, vendor: 'CompTIA', code: 'SY0-701',
     name: 'CompTIA Security+ SY0-701',
     duration: 40,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: '$945',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: 'INR30000',
     techs: ['Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -179,7 +179,7 @@ const COURSES = [
     id: 15, vendor: 'Cisco', code: 'CCNA-200-301',
     name: 'Implementing and Administering Cisco Solutions (CCNA)',
     duration: 40,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: '$995',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: 'INR31000',
     techs: ['CCNA'],
     schedules: [
       { dates: '05 – 09 May', time: '02:30 PM – 10:30 PM IST', gtr: true },
@@ -191,7 +191,7 @@ const COURSES = [
     id: 16, vendor: 'PECB', code: 'ISO-27001-LI',
     name: 'ISO/IEC 27001 Lead Implementer',
     duration: 40,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: '$1,295',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: 'INR41000',
     techs: ['ISO', 'Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
