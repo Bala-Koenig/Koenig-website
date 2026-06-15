@@ -997,17 +997,30 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
           </label>
         )}
 
-        <div className="flex items-center justify-between mt-0.5">
-          {hasMore ? (
-            <button onClick={() => setModalOpen(true)}
-              className="flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline"
-              style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        <div className="flex items-end justify-between mt-0.5">
+          {/* Left — social proof + view all dates */}
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-1.5">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: dark ? 'rgba(255,255,255,0.45)' : '#64748B', flexShrink: 0 }}>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
-              {modalSched ? 'Change date →' : `View All ${course.schedules.length} Dates`}
-            </button>
-          ) : <span />}
+              <span className="text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.55)' : '#64748B' }}>{course.enrolled}</span>
+              <span style={{ color: dark ? 'rgba(255,255,255,0.2)' : '#CBD5E1', fontSize: 10 }}>·</span>
+              <span style={{ color: '#F59E0B', fontSize: 11 }}>★</span>
+              <span className="text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.55)' : '#64748B' }}>{course.rating}</span>
+            </div>
+            {hasMore && (
+              <button onClick={() => setModalOpen(true)}
+                className="flex items-center gap-1 text-[11px] font-semibold transition-all hover:underline cursor-pointer"
+                style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                {modalSched ? 'Change date' : `View All ${course.schedules.length} Dates`}
+              </button>
+            )}
+          </div>
+          {/* Right — price */}
           <div className="text-right">
             <p className="text-sm font-bold leading-tight" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>{course.price}</p>
             <p className="text-[10px] leading-tight mt-0.5" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>excl. VAT/GST</p>
