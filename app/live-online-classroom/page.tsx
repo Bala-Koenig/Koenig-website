@@ -1834,24 +1834,27 @@ export default function LiveOnlineClassroomPage() {
               {/* Stats card */}
               <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)', position: 'relative' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr 1px 1fr' }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                   {([
-                    { val: '5M+',    label: 'Learners Worldwide' },
-                    null,
-                    { val: '195+',   label: 'Countries Served' },
-                    null,
-                    { val: '5,000+', label: 'Total Courses' },
-                  ] as ({ val: string; label: string } | null)[]).map((item, i) =>
-                    item === null ? (
-                      <div key={`d1-${i}`} style={{ background: 'rgba(6,148,209,0.12)' }} />
-                    ) : (
-                      <div key={item.val} className="lol-stat-item" style={{ padding: '18px 14px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
-                        <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                        <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
-                        <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{item.label}</div>
+                    [{ val: '5M+', label: 'Learners Worldwide' }, { val: '195+', label: 'Countries Served' }],
+                    [{ val: '5,000+', label: 'Total Courses' }, { val: '33+', label: 'Years in Training' }],
+                  ] as { val: string; label: string }[][]).map((row, ri) => (
+                    <>
+                      {ri > 0 && <div key={`hr-${ri}`} style={{ height: 1, background: 'rgba(6,148,209,0.12)' }} />}
+                      <div key={`row-${ri}`} style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
+                        {row.map((item, ci) => (
+                          <>
+                            {ci > 0 && <div key={`vd-${ri}-${ci}`} style={{ background: 'rgba(6,148,209,0.12)' }} />}
+                            <div key={item.val} className="lol-stat-item" style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
+                              <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
+                              <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
+                              <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginTop: 3 }}>{item.label}</div>
+                            </div>
+                          </>
+                        ))}
                       </div>
-                    )
-                  )}
+                    </>
+                  ))}
                 </div>
               </div>
 
