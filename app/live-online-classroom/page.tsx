@@ -475,97 +475,133 @@ function getTechIcon(name: string) {
   return <svg {...p}><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
 }
 
+const SYL_COUNTRIES = [
+  'Afghanistan','Albania','Algeria','Argentina','Australia','Austria','Bahrain','Bangladesh',
+  'Belgium','Brazil','Canada','Chile','China','Colombia','Croatia','Czech Republic','Denmark',
+  'Egypt','Ethiopia','Finland','France','Germany','Ghana','Greece','Hong Kong','Hungary',
+  'India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Japan','Jordan','Kazakhstan',
+  'Kenya','Kuwait','Lebanon','Malaysia','Mexico','Morocco','Netherlands','New Zealand',
+  'Nigeria','Norway','Oman','Pakistan','Peru','Philippines','Poland','Portugal','Qatar',
+  'Romania','Russia','Saudi Arabia','Singapore','South Africa','South Korea','Spain','Sri Lanka',
+  'Sweden','Switzerland','Taiwan','Thailand','Turkey','Ukraine','United Arab Emirates',
+  'United Kingdom','United States','Venezuela','Vietnam','Zimbabwe',
+]
+
 /* ── Syllabus Modal ──────────────────────────────────────────── */
 function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: () => void }) {
-  const [fullName, setFullName] = useState('')
-  const [email, setEmail]       = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [sylName, setSylName]           = useState('')
+  const [sylEmail, setSylEmail]         = useState('')
+  const [sylCountry, setSylCountry]     = useState('')
+  const [sylCountryOpen, setSylCountryOpen] = useState(false)
+  const [submitted, setSubmitted]       = useState(false)
+  const countryRef = useRef<HTMLDivElement>(null)
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%', boxSizing: 'border-box',
-    background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)',
-    borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff',
-    outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s',
-  }
-  const labelStyle: React.CSSProperties = {
-    fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)',
-    textTransform: 'uppercase', marginBottom: 5, display: 'block',
-  }
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (countryRef.current && !countryRef.current.contains(e.target as Node)) setSylCountryOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const close = () => { onClose(); setSylName(''); setSylEmail(''); setSylCountry(''); setSylCountryOpen(false); setSubmitted(false) }
+
+  const inp: React.CSSProperties = { width: '100%', boxSizing: 'border-box', background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)', borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s' }
+  const lbl: React.CSSProperties = { fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px 20px', animation: 'fadeIn 0.2s ease' }}
-      onClick={e => { if (e.target === e.currentTarget) onClose() }}>
-      <div style={{ background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius: 20, padding: '32px 28px 28px', width: '100%', maxWidth: 440, position: 'relative', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit' }}>
+    <>
+      <style>{`@keyframes iloSylSlideIn{from{opacity:0;transform:translate(-50%,-54%)}to{opacity:1;transform:translate(-50%,-50%)}}`}</style>
+      <div style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(5px)' }}
+        onClick={e => { if (e.target === e.currentTarget) close() }} />
+      <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 2001, width: '100%', maxWidth: 'min(90vw,440px)', background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius: 20, padding: '32px 28px 28px', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit', animation: 'iloSylSlideIn 0.3s cubic-bezier(0.25,1,0.5,1)' }}>
         {/* Close */}
-        <button onClick={onClose} style={{ position: 'absolute', top: 14, right: 14, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+        <button onClick={close} style={{ position: 'absolute', top: 14, right: 14, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
 
-        {/* Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', display: 'inline-block', flexShrink: 0 }} />
-          <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: '#0694D1', textTransform: 'uppercase' }}>Download Syllabus</span>
-        </div>
-
-        {/* Course name */}
-        {courseName && (
-          <div style={{ marginBottom: 16, padding: '10px 14px', background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', borderRadius: 10 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.8, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 3 }}>Course</div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', lineHeight: 1.35 }}>{courseName}</div>
-          </div>
-        )}
-
-        {/* Title */}
-        <div style={{ marginBottom: 6 }}>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Get the Course Content</div>
-        </div>
-        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 22 }}>Fill in your details and we'll send it straight to your inbox.</div>
-
-        {/* Form / Success */}
         {submitted ? (
           <div style={{ textAlign: 'center', padding: '12px 0 4px' }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', border: '1.5px solid rgba(6,148,209,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.25 }}>You're all set, {fullName.split(' ')[0]}!</div>
+            <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.25 }}>You&apos;re all set, {sylName.split(' ')[0]}!</div>
             <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20 }}>
-              The course content for <strong style={{ color: '#0694D1' }}>{courseName || 'this course'}</strong> will be sent to <strong style={{ color: '#fff' }}>{email}</strong> shortly.
+              The course content for <strong style={{ color: '#0694D1' }}>{courseName || 'this course'}</strong> will be sent to <strong style={{ color: '#fff' }}>{sylEmail}</strong> shortly.
             </div>
             <div style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.2)', borderRadius: 10, padding: '10px 14px', fontSize: 12, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center', marginBottom: 16 }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
               Check your inbox — usually arrives within 2 minutes
             </div>
-            <button onClick={onClose} style={{ width: '100%', padding: '11px', borderRadius: 10, border: '1px solid rgba(6,148,209,0.35)', background: 'transparent', color: '#0694D1', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
-              Close
-            </button>
+            <button onClick={close} style={{ width: '100%', padding: 11, borderRadius: 10, border: '1px solid rgba(6,148,209,0.35)', background: 'transparent', color: '#0694D1', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Close</button>
           </div>
         ) : (
-          <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div>
-              <label style={labelStyle}>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
-              <input required style={inputStyle} placeholder="Rahul Sharma" value={fullName} onChange={e => setFullName(e.target.value)}
-                onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+          <>
+            {/* Badge */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: '#0694D1', textTransform: 'uppercase' }}>Download Syllabus</span>
             </div>
-            <div>
-              <label style={labelStyle}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
-              <input required type="email" style={inputStyle} placeholder="you@company.com" value={email} onChange={e => setEmail(e.target.value)}
-                onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Course content will be sent to your email ID</span>
-            </div>
-            <button type="submit" style={{ width: '100%', padding: '13px', borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: 0.2, boxShadow: '0 4px 18px rgba(6,148,209,0.4)', marginTop: 2, transition: 'filter 0.18s' }}
-              onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')}
-              onMouseLeave={e => (e.currentTarget.style.filter = 'none')}>
-              Send Course Content →
-            </button>
-            <div style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              No spam, ever. Unsubscribe anytime.
-            </div>
-          </form>
+            {/* Course name box */}
+            {courseName && (
+              <div style={{ border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 14px', marginBottom: 18, background: 'rgba(255,255,255,0.05)' }}>
+                <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', marginBottom: 5 }}>Course</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0694D1', lineHeight: 1.4 }}>{courseName}</div>
+              </div>
+            )}
+            <div style={{ marginBottom: 6 }}><div style={{ fontSize: 22, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Get the Course Content</div></div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 22 }}>Fill in your details and we&apos;ll send it straight to your inbox.</div>
+
+            <form onSubmit={e => { e.preventDefault(); if (!sylCountry) return; setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <label style={lbl}>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required placeholder="John" value={sylName} onChange={e => setSylName(e.target.value)} style={inp}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={lbl}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required type="email" placeholder="you@example.com" value={sylEmail} onChange={e => setSylEmail(e.target.value)} style={inp}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={lbl}>Country <span style={{ color: '#ef4444' }}>*</span></label>
+                <div ref={countryRef} style={{ position: 'relative' }}>
+                  <button type="button" onClick={() => setSylCountryOpen(o => !o)}
+                    style={{ width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(6,148,209,0.08)', border: `1.5px solid ${sylCountryOpen ? '#0694D1' : 'rgba(6,148,209,0.3)'}`, borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: sylCountry ? '#fff' : 'rgba(255,255,255,0.4)', cursor: 'pointer', fontFamily: 'inherit', outline: 'none' }}>
+                    {sylCountry || 'Select your country'}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: sylCountryOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  {sylCountryOpen && (
+                    <div style={{ position: 'absolute', bottom: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 10000, background: '#0d2535', border: '1.5px solid rgba(6,148,209,0.35)', borderRadius: 10, maxHeight: 420, overflowY: 'auto', overscrollBehavior: 'contain', boxShadow: '0 -8px 32px rgba(0,0,0,0.6)' }}>
+                      <div style={{ padding: '9px 14px', fontSize: 13.5, color: 'rgba(255,255,255,0.35)', cursor: 'default', borderBottom: '1px solid rgba(6,148,209,0.15)' }}>Select your country</div>
+                      {SYL_COUNTRIES.map(c => (
+                        <div key={c} onClick={() => { setSylCountry(c); setSylCountryOpen(false) }}
+                          style={{ padding: '9px 14px', fontSize: 13.5, cursor: 'pointer', color: sylCountry === c ? '#fff' : '#c8dce9', background: sylCountry === c ? '#1a5fa8' : 'transparent', transition: 'background 0.12s' }}
+                          onMouseEnter={e => { if (sylCountry !== c) e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                          onMouseLeave={e => { if (sylCountry !== c) e.currentTarget.style.background = 'transparent' }}>
+                          {c}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Course content will be sent to your email ID</span>
+              </div>
+              <button type="submit" onClick={e => { if (!sylCountry) { e.preventDefault(); setSylCountryOpen(true) } }}
+                style={{ width: '100%', padding: 13, borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: 0.2, boxShadow: '0 4px 18px rgba(6,148,209,0.4)', marginTop: 2, transition: 'filter 0.18s' }}
+                onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')} onMouseLeave={e => (e.currentTarget.style.filter = 'none')}>
+                Send Course Content →
+              </button>
+              <div style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                No spam, ever. Unsubscribe anytime.
+              </div>
+            </form>
+          </>
         )}
       </div>
-    </div>
+    </>
   )
 }
 
@@ -881,12 +917,10 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
 
       {/* Popular badge */}
       {isPopular && (
-        <div className="absolute top-0 right-0 z-10">
-          <span className="flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-bl-xl rounded-tr-2xl tracking-wide uppercase"
-            style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', letterSpacing: '0.04em' }}>
-            ★ Popular
-          </span>
-        </div>
+        <span className="absolute" style={{ top: 0, right: 0, display: 'inline-flex', alignItems: 'center', gap: 4, height: 20, fontSize: 9, fontWeight: 800, letterSpacing: 0.5, textTransform: 'uppercase', padding: '0 10px 0 8px', borderRadius: '0 14px 0 10px', background: 'linear-gradient(135deg,#0694D1,#22d3ee)', color: '#fff', boxShadow: '-2px 2px 8px rgba(6,148,209,0.28)', zIndex: 2 }}>
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2z"/></svg>
+          Popular
+        </span>
       )}
 
       {/* Card header */}
