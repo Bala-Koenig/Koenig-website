@@ -1509,7 +1509,7 @@ function FilterDropdown({
   const isChecked = (o: string) => inputType === 'checkbox' ? (values ?? []).includes(o) : value === o
   const activeCount = inputType === 'checkbox' ? (values ?? []).length : (value && value !== label ? 1 : 0)
   const displayed = inputType === 'checkbox'
-    ? (activeCount > 0 ? `${label} (${activeCount})` : label)
+    ? label
     : (value && value !== label ? value : label)
   const filtered  = options.filter(o => o.toLowerCase().includes(query.toLowerCase()))
   const hasValue  = activeCount > 0
@@ -1543,6 +1543,11 @@ function FilterDropdown({
         boxShadow:  hasValue ? '0 0 0 3px rgba(6,148,209,0.12)' : '0 1px 4px rgba(6,148,209,0.06)',
       }}>
       <span className="max-w-[120px] truncate">{displayed}</span>
+      {inputType === 'checkbox' && activeCount > 0 && (
+        <span style={{ minWidth: 18, height: 18, borderRadius: 999, background: '#0694D1', color: '#fff', fontSize: 10, fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0 5px', flexShrink: 0 }}>
+          {activeCount}
+        </span>
+      )}
       {hasValue && (
         <span onClick={e => { e.stopPropagation(); handleClear() }}
           className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#0694D1] text-white hover:bg-[#076D9D]">
