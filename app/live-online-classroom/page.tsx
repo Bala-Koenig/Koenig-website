@@ -1548,12 +1548,6 @@ function FilterDropdown({
           {activeCount}
         </span>
       )}
-      {hasValue && (
-        <span onClick={e => { e.stopPropagation(); handleClear() }}
-          className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#0694D1] text-white hover:bg-[#076D9D]">
-          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-        </span>
-      )}
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
         className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} style={{ color: '#94A3B8' }}>
         <path d="M19 9l-7 7-7-7"/>
