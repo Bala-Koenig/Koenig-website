@@ -1755,102 +1755,125 @@ export default function LiveOnlineClassroomPage() {
         `}</style>
 
         <div className="relative mx-auto max-w-7xl py-8 lg:py-[50px]">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-          {/* Text content */}
-          <div className="max-w-3xl">
-            <div className="mb-[15px] lg:mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
-              style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-              Live Instructor-Led Training — Guaranteed to Run
-            </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-[15px] lg:mb-4 text-white">
-              <span className="block">Master In-Demand Skills.</span>
-              <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Live Online. Anywhere.
-              </span>
-            </h1>
-            <p className="text-base sm:text-lg leading-relaxed mb-[15px] lg:mb-8" style={{ color: 'rgba(255,255,255,0.65)' }}>
-              Learn from expert instructors with our 5,000+ course catalogue. Upskill conveniently, from the comfort of your own space — with sessions Guaranteed to Run.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <button onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'individual' } }))} className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
-                Request More Info
-              </button>
-              <a href="#schedule" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
-                style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
-                View Upcoming Batches
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
-            </div>
-
-            {/* Social proof */}
-            <div className="mt-4 flex items-center gap-3">
-              <div style={{ display: 'flex' }}>
-                {[
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face',
-                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&h=60&fit=crop&crop=face',
-                  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&crop=face',
-                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face',
-                ].map((src, i) => (
-                  <img key={i} src={src} alt="certified professional" width={34} height={34}
-                    style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid #0a1628', objectFit: 'cover', marginLeft: i === 0 ? 0 : -10, position: 'relative', zIndex: 5 - i }} />
-                ))}
+            {/* Left — text content */}
+            <div>
+              <div className="mb-[15px] lg:mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
+                style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
+                Live Instructor-Led Training — Guaranteed to Run
               </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 2, marginBottom: 3 }}>
-                  {'★★★★★'.split('').map((s, i) => (
-                    <span key={i} style={{ color: '#F59E0B', fontSize: 15, lineHeight: 1 }}>{s}</span>
+              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-[15px] lg:mb-4 text-white">
+                <span className="block">Master In-Demand Skills.</span>
+                <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                  Live Online. Anywhere.
+                </span>
+              </h1>
+              <p className="text-base sm:text-lg leading-relaxed mb-[15px] lg:mb-8" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                Learn from expert instructors with our 5,000+ course catalogue. Upskill conveniently, from the comfort of your own space — with sessions Guaranteed to Run.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <button onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'individual' } }))} className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
+                  Request More Info
+                </button>
+                <a href="#schedule" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
+                  style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
+                  View Upcoming Batches
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+
+              {/* Social proof */}
+              <div className="mt-4 flex items-center gap-3 justify-center lg:justify-start">
+                <div style={{ display: 'flex' }}>
+                  {[
+                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face',
+                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face',
+                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&h=60&fit=crop&crop=face',
+                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&crop=face',
+                    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face',
+                  ].map((src, i) => (
+                    <img key={i} src={src} alt="certified professional" width={34} height={34}
+                      style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid #0a1628', objectFit: 'cover', marginLeft: i === 0 ? 0 : -10, position: 'relative', zIndex: 5 - i }} />
                   ))}
                 </div>
-                <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1AABDD' }}>
-                  500K+ <span style={{ color: 'rgba(228,247,255,0.7)', fontWeight: 400 }}>certified professionals</span>
-                </p>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 2, marginBottom: 3 }}>
+                    {'★★★★★'.split('').map((s, i) => (
+                      <span key={i} style={{ color: '#F59E0B', fontSize: 15, lineHeight: 1 }}>{s}</span>
+                    ))}
+                  </div>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1AABDD' }}>
+                    500K+ <span style={{ color: 'rgba(228,247,255,0.7)', fontWeight: 400 }}>certified professionals</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Mobile stat tiles */}
+              <div className="lg:hidden mt-8 grid grid-cols-2" style={{ borderRadius: 16, border: '1px solid rgba(6,148,209,0.18)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
+                {([
+                  { val: '5M+',    label: 'Learners worldwide' },
+                  { val: '195+',   label: 'Countries served'   },
+                  { val: '5,000+', label: 'Courses available'  },
+                  { val: 'GTR',    label: 'Guaranteed to Run'  },
+                ] as { val: string; label: string }[]).map(({ val, label }, i) => (
+                  <div key={val} style={{ padding: '20px 18px', display: 'flex', flexDirection: 'column', gap: 4, borderRight: i % 2 === 0 ? '1px solid rgba(6,148,209,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(6,148,209,0.12)' : 'none' }}>
+                    <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{val}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* ── Stats banner — mobile 2×2 ── */}
-          <div className="sm:hidden mt-8 grid grid-cols-2" style={{ borderRadius: 16, border: '1px solid rgba(6,148,209,0.18)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
-            {([
-              { val: '5M+',    label: 'Learners worldwide' },
-              { val: '195+',   label: 'Countries served'   },
-              { val: '5,000+', label: 'Courses available'  },
-              { val: 'GTR',    label: 'Guaranteed to Run'  },
-            ] as { val: string; label: string }[]).map(({ val, label }, i) => (
-              <div key={val} style={{ padding: '20px 18px', display: 'flex', flexDirection: 'column', gap: 4, borderRight: i % 2 === 0 ? '1px solid rgba(6,148,209,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(6,148,209,0.12)' : 'none' }}>
-                <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{val}</div>
-                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* ── Stats banner — desktop vendor-style ── */}
-          <div className="hidden sm:grid mt-10" style={{ gridTemplateColumns: '1fr 1px 1fr 1px 1fr 1px 1fr', borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)', position: 'relative' }}>
-            <div style={{ position: 'absolute', inset: 0, borderRadius: 20, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
-            {([
-              { val: '5M+',    label: 'Learners worldwide',  sub: 'IT professionals trained'    },
-              null,
-              { val: '195+',   label: 'Countries served',    sub: 'Global delivery reach'       },
-              null,
-              { val: '5,000+', label: 'Courses available',   sub: 'Across all technologies'     },
-              null,
-              { val: 'GTR',    label: 'Guaranteed to Run',   sub: 'Every batch confirmed'       },
-            ] as ({ val: string; label: string; sub: string } | null)[]).map((item, i) =>
-              item === null ? (
-                <div key={`d-${i}`} style={{ background: 'rgba(6,148,209,0.12)' }} />
-              ) : (
-                <div key={item.val} className="lol-stat-item" style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
-                  <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                  <div style={{ fontSize: 'clamp(32px, 3.5vw, 48px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginTop: 6 }}>{item.label}</div>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontWeight: 400 }}>{item.sub}</div>
+            {/* Right — vendor-style stat numbers */}
+            <div className="hidden lg:flex flex-col gap-4">
+              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)', position: 'relative' }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
+                  {([
+                    { val: '5M+',    label: 'Learners worldwide',  sub: 'IT professionals trained' },
+                    null,
+                    { val: '195+',   label: 'Countries served',    sub: 'Global delivery reach'    },
+                  ] as ({ val: string; label: string; sub: string } | null)[]).map((item, i) =>
+                    item === null ? (
+                      <div key={`d-${i}`} style={{ background: 'rgba(6,148,209,0.12)' }} />
+                    ) : (
+                      <div key={item.val} className="lol-stat-item" style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
+                        <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
+                        <div style={{ fontSize: 'clamp(36px, 3.5vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginTop: 6 }}>{item.label}</div>
+                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>{item.sub}</div>
+                      </div>
+                    )
+                  )}
                 </div>
-              )
-            )}
-          </div>
+              </div>
+              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)', position: 'relative' }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
+                  {([
+                    { val: '5,000+', label: 'Courses available',  sub: 'Across all technologies' },
+                    null,
+                    { val: 'GTR',    label: 'Guaranteed to Run',  sub: 'Every batch confirmed'   },
+                  ] as ({ val: string; label: string; sub: string } | null)[]).map((item, i) =>
+                    item === null ? (
+                      <div key={`d2-${i}`} style={{ background: 'rgba(6,148,209,0.12)' }} />
+                    ) : (
+                      <div key={item.val} className="lol-stat-item" style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
+                        <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
+                        <div style={{ fontSize: 'clamp(36px, 3.5vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginTop: 6 }}>{item.label}</div>
+                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>{item.sub}</div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
 
+          </div>
         </div>
       </section>
 
