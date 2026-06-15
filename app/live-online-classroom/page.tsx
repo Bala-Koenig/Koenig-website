@@ -32,7 +32,7 @@ const COURSES = [
     id: 2, vendor: 'Microsoft', code: 'AI-102T00',
     name: 'Designing and Implementing a Microsoft Azure AI Solution',
     duration: 40,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,000+', price: 'INR 31000',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,350+', price: 'INR 31000',
     techs: ['Artificial Intelligence (AI)', 'Microsoft Azure'],
     schedules: [
       { dates: '06 – 10 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
@@ -49,7 +49,7 @@ const COURSES = [
     id: 3, vendor: 'Microsoft', code: 'DP-700T00',
     name: 'Microsoft Fabric Data Engineer',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,000+', price: 'INR 31000',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,080+', price: 'INR 31000',
     techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '04 – 07 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
@@ -66,7 +66,7 @@ const COURSES = [
     id: 4, vendor: 'Microsoft', code: 'SC-300T00',
     name: 'Microsoft Identity and Access Administrator',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,000+', price: 'INR 31000',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,240+', price: 'INR 31000',
     techs: ['Identity and Access Management (IAM)'],
     schedules: [
       { dates: '04 – 07 May', time: '04:30 AM – 12:30 PM IST', gtr: true },
@@ -83,7 +83,7 @@ const COURSES = [
     id: 5, vendor: 'Microsoft', code: 'SC-200T00',
     name: 'Microsoft Security Operations Analyst',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,000+', price: 'INR 31000',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,620+', price: 'INR 31000',
     techs: ['Cyber Security'],
     schedules: [
       { dates: '04 – 07 May', time: '03:30 AM – 11:30 AM IST', gtr: true },
@@ -100,7 +100,7 @@ const COURSES = [
     id: 6, vendor: 'Microsoft', code: 'DP-600T00',
     name: 'Microsoft Fabric Analytics Engineer',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,000+', price: 'INR 31000',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,470+', price: 'INR 31000',
     techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '05 – 08 May', time: '12:30 PM – 08:30 PM IST', gtr: true },
@@ -136,7 +136,7 @@ const COURSES = [
     id: 8, vendor: 'Microsoft', code: 'AZ-305T00',
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,000+', price: 'INR 39000',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,150+', price: 'INR 39000',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 09 May', time: '09:00 AM – 05:00 PM IST', gtr: true },
