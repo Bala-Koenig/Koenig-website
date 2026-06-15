@@ -2162,7 +2162,14 @@ export default function LiveOnlineClassroomPage() {
     ? (SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0]) ?? { name: '', label: 'All Courses', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' })
     : activeTechs.length > 1
     ? { name: '', label: `${activeTechs.length} Technologies`, count: filtered.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
+    : filterVendor
+    ? { name: '', label: `${filterVendor} Courses`, count: filtered.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
     : { name: '', label: 'All Courses', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
+  const bannerDesc = activeTechs.length === 1
+    ? (TECH_DESCS[activeTechs[0]] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`)
+    : filterVendor
+    ? `Browse all Guaranteed-to-Run ${filterVendor} courses — confirmed to run regardless of enrolment numbers.`
+    : `Browse all Guaranteed-to-Run All Courses courses — confirmed to run regardless of enrolment numbers.`
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -2797,7 +2804,7 @@ export default function LiveOnlineClassroomPage() {
                     </div>
                     <div>
                       <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
-                      <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{(activeTechs.length === 1 ? TECH_DESCS[activeTechs[0]] : undefined) ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
+                      <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
                     </div>
                   </div>
                   <button onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'individual' } }))} className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
