@@ -2075,7 +2075,7 @@ export default function LiveOnlineClassroomPage() {
       <ContactModal />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="ilo-sec relative overflow-hidden px-4 lg:px-[50px]" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', paddingTop: 25, paddingBottom: 25 }}>
+      <section className="ilo-sec relative overflow-hidden px-4 lg:px-[50px] lg:py-[25px]" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)' }}>
         {/* Background glow blobs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-40 right-1/3 w-[600px] h-[600px] rounded-full opacity-15 blur-[120px]" style={{ background: '#0694D1' }} />
