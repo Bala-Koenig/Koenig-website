@@ -1840,11 +1840,10 @@ export default function LiveOnlineClassroomPage() {
                     item === null ? (
                       <div key={`d-${i}`} style={{ background: 'rgba(6,148,209,0.12)' }} />
                     ) : (
-                      <div key={item.val} className="lol-stat-item" style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
+                      <div key={item.val} className="lol-stat-item" style={{ padding: '18px 22px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
                         <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                        <div style={{ fontSize: 'clamp(36px, 3.5vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
-                        <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginTop: 6 }}>{item.label}</div>
-                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>{item.sub}</div>
+                        <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{item.label}</div>
                       </div>
                     )
                   )}
@@ -1861,11 +1860,10 @@ export default function LiveOnlineClassroomPage() {
                     item === null ? (
                       <div key={`d2-${i}`} style={{ background: 'rgba(6,148,209,0.12)' }} />
                     ) : (
-                      <div key={item.val} className="lol-stat-item" style={{ padding: '28px 32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
+                      <div key={item.val} className="lol-stat-item" style={{ padding: '18px 22px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
                         <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                        <div style={{ fontSize: 'clamp(36px, 3.5vw, 52px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
-                        <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginTop: 6 }}>{item.label}</div>
-                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>{item.sub}</div>
+                        <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{item.label}</div>
                       </div>
                     )
                   )}
