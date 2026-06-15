@@ -1569,7 +1569,7 @@ function FilterDropdown({
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               {hasValue && (
                 <button onClick={handleClear}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, fontWeight: 600, color: '#0694D1', padding: '2px 8px', borderRadius: 6, background: 'rgba(6,148,209,0.08)' }}>
+                  style={{ background: 'rgba(6,148,209,0.08)', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#0694D1', padding: '2px 8px', borderRadius: 6 }}>
                   Clear
                 </button>
               )}
@@ -1637,8 +1637,8 @@ function FilterDropdown({
           <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
             {filtered.map(o => (
               <button key={o} onClick={() => { onChange(o); setOpen(false); setQuery('') }}
-                className="w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#F0FAFF]"
-                style={{ color: value === o ? '#0694D1' : '#374151', fontWeight: value === o ? 700 : 400 }}>
+                className="w-full px-4 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
+                style={{ fontSize: 12, color: value === o ? '#0694D1' : '#374151', fontWeight: value === o ? 700 : 400 }}>
                 {o}
               </button>
             ))}
@@ -2848,13 +2848,13 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Mobile: Vendor + Tech + Timezone — 2-row layout */}
+              {/* Mobile: Vendor | Tech (row 1), Timezone (row 2) */}
               <div className="lg:hidden flex flex-col gap-2 mb-2">
                 <div className="flex gap-2">
-                  <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" /></div>
-                  <div className="flex-1 min-w-0"><FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} /></div>
+                  <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth /></div>
+                  <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTechs[0] ?? ''} onChange={v => { setActiveTechs(v ? [v] : []); setPage(0) }} fullWidth inputType="checkbox" values={activeTechs} onMultiChange={vals => { setActiveTechs(vals); setPage(0) }} /></div>
                 </div>
-                <FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTechs[0] ?? ''} onChange={v => { setActiveTechs(v ? [v] : []); setPage(0) }} fullWidth inputType="checkbox" values={activeTechs} onMultiChange={vals => { setActiveTechs(vals); setPage(0) }} />
+                <FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} inputType="radio" fullWidth />
               </div>
               <div className="lg:hidden mb-3">
                 <span className="text-xs font-medium" style={{ color: '#64748B' }}>Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}</span>
