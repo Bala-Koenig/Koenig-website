@@ -2399,6 +2399,11 @@ export default function LiveOnlineClassroomPage() {
         </div>
       </section>
 
+      {/* ── REQUEST INFO FORM ────────────────────────────────── */}
+      <div id="request">
+        <IloLeadFormSection />
+      </div>
+
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
       <section className="py-12 sm:py-16 px-4 lg:px-[50px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl">
@@ -2716,9 +2721,6 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <div id="request">
-        <IloLeadFormSection />
-      </div>
     </div>
   )
 }
