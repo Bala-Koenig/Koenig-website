@@ -729,8 +729,10 @@ function DatesModal({ course, onClose, onSelectDate }: {
                 <div className="flex flex-col gap-1.5">
                   {items.map(({ idx, dates, time, gtr }) => (
                     <button key={idx} onClick={() => { onSelectDate(idx); onClose() }}
-                      className="w-full flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-left transition-all active:opacity-70"
-                      style={{ background: 'white', border: '1px solid #E8EFF5' }}>
+                      className="w-full flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-left transition-all active:opacity-70 cursor-pointer"
+                      style={{ background: 'white', border: '1px solid #E8EFF5' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#F0FAFF'; (e.currentTarget as HTMLButtonElement).style.border = '1px solid #CAEFFF' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'white'; (e.currentTarget as HTMLButtonElement).style.border = '1px solid #E8EFF5' }}>
                       <div className="w-3.5 h-3.5 rounded-full shrink-0 border-[1.5px]" style={{ borderColor: '#CBD5E1' }} />
                       <div className="flex-1 min-w-0">
                         <span className="text-[13px] font-bold block" style={{ color: '#0C1929' }}>{dates} 2026</span>
@@ -878,7 +880,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
             const active = selectedIdx === i
             return (
               <button key={i} onClick={() => setSelectedIdx(i)}
-                className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
+                className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all cursor-pointer"
                 style={active
                   ? { background: dark ? 'rgba(6,148,209,0.15)' : '#EFF9FF', border: `1.5px solid #0694D1`, borderLeft: '4px solid #0694D1', boxShadow: dark ? '0 2px 8px rgba(6,148,209,0.2)' : '0 2px 8px rgba(6,148,209,0.15)' }
                   : { background: dark ? 'rgba(255,255,255,0.04)' : 'white', border: `1px solid ${dark ? 'rgba(255,255,255,0.10)' : '#E8EFF5'}`, boxShadow: dark ? 'none' : '0 1px 4px rgba(0,0,0,0.06)' }}>
@@ -961,15 +963,19 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
           <div className="text-right">
             <p className="text-sm font-bold leading-tight" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>{course.price}</p>
             <p className="text-[10px] leading-tight mt-0.5" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>excl. VAT/GST</p>
+            <button className="text-[10px] font-semibold mt-0.5 hover:underline cursor-pointer"
+              style={{ color: dark ? 'rgba(56,189,248,0.7)' : '#0694D1' }}>
+              View Fees Breakdown
+            </button>
           </div>
         </div>
       </div>
 
       {/* Action buttons */}
       <div className="flex gap-2 px-4 pb-4 mt-auto">
-        <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all"
+        <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all cursor-pointer"
           style={{ border: `1.5px solid ${dark ? 'rgba(255,255,255,0.2)' : '#093148'}`, color: dark ? 'rgba(255,255,255,0.75)' : '#093148', background: dark ? 'rgba(255,255,255,0.05)' : 'transparent' }}>
-          Learn More
+          View Course
         </button>
         <button onClick={onEnroll}
           className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
