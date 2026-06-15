@@ -998,17 +998,8 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
         )}
 
         <div className="flex items-start justify-between mt-0.5">
-          {/* Left — social proof + view all dates */}
+          {/* Left — view all dates + social proof */}
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-1.5">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: dark ? 'rgba(255,255,255,0.45)' : '#64748B', flexShrink: 0 }}>
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-              <span className="text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.55)' : '#64748B' }}>{course.enrolled}</span>
-              <span style={{ color: dark ? 'rgba(255,255,255,0.2)' : '#CBD5E1', fontSize: 10 }}>·</span>
-              <span style={{ color: '#F59E0B', fontSize: 11 }}>★</span>
-              <span className="text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.55)' : '#64748B' }}>{course.rating}</span>
-            </div>
             {hasMore && (
               <button onClick={() => setModalOpen(true)}
                 className="flex items-center gap-1 text-[11px] font-semibold transition-all hover:underline cursor-pointer"
@@ -1019,6 +1010,15 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
                 {modalSched ? 'Change date' : `View All ${course.schedules.length} Dates`}
               </button>
             )}
+            <div className="flex items-center gap-1.5">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: dark ? 'rgba(255,255,255,0.45)' : '#64748B', flexShrink: 0 }}>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <span className="text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.55)' : '#64748B' }}>{course.enrolled}</span>
+              <span style={{ color: dark ? 'rgba(255,255,255,0.2)' : '#CBD5E1', fontSize: 10 }}>·</span>
+              <span style={{ color: '#F59E0B', fontSize: 11 }}>★</span>
+              <span className="text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.55)' : '#64748B' }}>{course.rating}</span>
+            </div>
           </div>
           {/* Right — price */}
           <div className="text-right">
