@@ -1752,6 +1752,7 @@ export default function LiveOnlineClassroomPage() {
 
         <style>{`
           .lol-stat-item:hover .lol-stat-glow { opacity: 1 !important; }
+          @keyframes lolOnlinePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
         `}</style>
 
         <div className="relative mx-auto max-w-7xl py-8 lg:py-[50px]">
@@ -1827,48 +1828,62 @@ export default function LiveOnlineClassroomPage() {
               </div>
             </div>
 
-            {/* Right — vendor-style stat numbers */}
+            {/* Right — learner details + authorized partners */}
             <div className="hidden lg:flex flex-col gap-4">
-              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)', position: 'relative' }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
+
+              {/* Live learners card */}
+              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', background: 'rgba(255,255,255,0.02)', position: 'relative', padding: '20px 22px' }}>
+                <div style={{ position: 'absolute', inset: 0, borderRadius: 20, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'relative' }}>
+                  {/* Card header */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Live Learners</span>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: 999, padding: '3px 10px', fontSize: 10, fontWeight: 700, color: '#4ade80' }}>
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', display: 'inline-block', animation: 'lolOnlinePulse 1.5s ease-in-out infinite' }} />
+                      Online Now
+                    </span>
+                  </div>
+                  {/* Learner rows */}
                   {([
-                    { val: '5M+',    label: 'Learners worldwide',  sub: 'IT professionals trained' },
-                    null,
-                    { val: '195+',   label: 'Countries served',    sub: 'Global delivery reach'    },
-                  ] as ({ val: string; label: string; sub: string } | null)[]).map((item, i) =>
-                    item === null ? (
-                      <div key={`d-${i}`} style={{ background: 'rgba(6,148,209,0.12)' }} />
-                    ) : (
-                      <div key={item.val} className="lol-stat-item" style={{ padding: '18px 22px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
-                        <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                        <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
-                        <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{item.label}</div>
+                    { name: 'Rahul Sharma',    course: 'AZ-104: Azure Administrator',       country: 'India', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face' },
+                    { name: 'Sarah Johnson',   course: 'AWS-SAA: Solutions Architect',      country: 'USA',   avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face' },
+                    { name: 'Ahmed Al-Farsi',  course: 'CEH v13: Ethical Hacking',          country: 'UAE',   avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&crop=face' },
+                  ]).map((l, i) => (
+                    <div key={l.name} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', borderTop: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.06)' }}>
+                      <img src={l.avatar} alt={l.name} width={36} height={36}
+                        style={{ width: 36, height: 36, borderRadius: '50%', border: '2px solid rgba(6,148,209,0.4)', objectFit: 'cover', flexShrink: 0 }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', lineHeight: 1.2 }}>{l.name}</div>
+                        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{l.course}</div>
                       </div>
-                    )
-                  )}
+                      <span style={{ fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.3)', flexShrink: 0 }}>{l.country}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)', position: 'relative' }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
-                  {([
-                    { val: '5,000+', label: 'Courses available',  sub: 'Across all technologies' },
-                    null,
-                    { val: 'GTR',    label: 'Guaranteed to Run',  sub: 'Every batch confirmed'   },
-                  ] as ({ val: string; label: string; sub: string } | null)[]).map((item, i) =>
-                    item === null ? (
-                      <div key={`d2-${i}`} style={{ background: 'rgba(6,148,209,0.12)' }} />
-                    ) : (
-                      <div key={item.val} className="lol-stat-item" style={{ padding: '18px 22px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
-                        <div className="lol-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                        <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{item.val}</div>
-                        <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{item.label}</div>
-                      </div>
-                    )
-                  )}
+
+              {/* Authorized partners card */}
+              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', background: 'rgba(255,255,255,0.02)', position: 'relative', padding: '20px 22px' }}>
+                <div style={{ position: 'absolute', inset: 0, borderRadius: 20, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'relative' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+                    <div>
+                      <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>50+</div>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.55)', marginTop: 4 }}>Authorised Training Partners</div>
+                    </div>
+                    <div style={{ marginLeft: 'auto', width: 36, height: 36, borderRadius: 10, background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'Oracle', 'Red Hat'].map(p => (
+                      <span key={p} style={{ fontSize: 10, fontWeight: 600, padding: '3px 9px', borderRadius: 999, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.5)' }}>{p}</span>
+                    ))}
+                    <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 999, background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>+42 more</span>
+                  </div>
                 </div>
               </div>
+
             </div>
 
           </div>
