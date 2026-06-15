@@ -4,7 +4,6 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import ContactModal from './components/ContactModal'
-import ContactForm from './components/ContactForm'
 
 
 /* ── Course data ─────────────────────────────────────────────── */
@@ -1456,6 +1455,181 @@ function IloMobileTestimonialRow({ items }: { items: typeof TESTIMONIALS }) {
   )
 }
 
+/* ── Lead Form Section ───────────────────────────────────────── */
+const ILF_HEAR_OPTIONS = [
+  'Organic Search (Google/Bing/Yahoo)',
+  'Paid Search Ads (Google Ads, Bing Ads)',
+  'Webinars',
+  'Email Outreach',
+  'LinkedIn',
+  'Social Media (Facebook, Instagram, X)',
+  'YouTube',
+  'Trustpilot',
+  'Word of Mouth',
+  'Existing customer referral',
+  'Press release',
+  'Other',
+]
+
+function IloLeadFormSection() {
+  const [tab, setTab] = useState<'individual' | 'enterprise'>('individual')
+  const [submitted, setSubmitted] = useState(false)
+  const [robotChecked, setRobotChecked] = useState(false)
+  const [form, setForm] = useState({ fullName: '', email: '', phone: '', courseName: 'Live Online Classroom Training', trainees: '', hearAbout: '', message: '' })
+
+  const set = (key: string, val: string) => setForm(p => ({ ...p, [key]: val }))
+
+  const inp: React.CSSProperties = { width: '100%', boxSizing: 'border-box', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 12, color: '#fff', padding: '10px 14px', fontSize: 13.5, fontFamily: 'inherit', outline: 'none' }
+  const lbl: React.CSSProperties = { display: 'block', fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.65)', marginBottom: 6 }
+
+  if (submitted) {
+    return (
+      <section style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '60px 24px' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto', background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.3)', borderRadius: 20, padding: '48px 32px', textAlign: 'center' }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
+          <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 20, margin: '0 0 8px' }}>Thank you!</h3>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14 }}>Our team will reach out within 1 business day.</p>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '52px 24px' }}>
+      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+        <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
+          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.20)', borderRadius: 20, padding: '32px 28px' }}>
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <span style={{ display: 'inline-block', border: '1px solid rgba(6,148,209,0.55)', background: 'rgba(6,148,209,0.12)', color: '#38bdf8', borderRadius: 999, padding: '4px 16px', fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
+              Let&apos;s Talk
+            </span>
+            <h2 style={{ color: '#fff', fontWeight: 800, fontSize: 'clamp(20px,3vw,28px)', margin: '0 0 6px', lineHeight: 1.25 }}>
+              Request for more <span style={{ color: '#38bdf8' }}>information</span>
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px' }}>Live Online Classroom Training with Koenig Solutions</p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <a href="https://wa.me/918800971792" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 7, border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '8px 16px', color: 'rgba(255,255,255,0.75)', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp us
+              </a>
+              <a href="mailto:training@koenig-solutions.com"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 7, border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '8px 16px', color: 'rgba(255,255,255,0.75)', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+                Email us
+              </a>
+            </div>
+          </div>
+
+          {/* Individual / Enterprise toggle */}
+          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 12, padding: 4, marginBottom: 20 }}>
+            {(['individual', 'enterprise'] as const).map(t => (
+              <button key={t} type="button" onClick={() => setTab(t)}
+                style={{ flex: 1, borderRadius: 9, padding: '10px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s',
+                  ...(tab === t ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', boxShadow: '0 2px 12px rgba(6,148,209,0.35)' } : { background: 'transparent', color: 'rgba(255,255,255,0.45)' })
+                }}>
+                {t === 'individual'
+                  ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/><path d="M2 12h20"/></svg>
+                }
+                {t.charAt(0).toUpperCase() + t.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          {/* Row 1 */}
+          <div className="ilo-ilf-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+            <div>
+              <label style={lbl}>Full Name <span style={{ color: '#f87171' }}>*</span></label>
+              <input type="text" required placeholder="John Smith" value={form.fullName} onChange={e => set('fullName', e.target.value)} style={inp} />
+            </div>
+            <div>
+              <label style={lbl}>Personal Email <span style={{ color: '#f87171' }}>*</span></label>
+              <input type="email" required placeholder="you@company.com" value={form.email} onChange={e => set('email', e.target.value)} style={inp} />
+            </div>
+          </div>
+
+          {/* Row 2 */}
+          <div className="ilo-ilf-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+            <div>
+              <label style={lbl}>Phone</label>
+              <input type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={e => set('phone', e.target.value)} style={inp} />
+            </div>
+            <div>
+              {tab === 'individual' ? (
+                <>
+                  <label style={lbl}>Select Course Name</label>
+                  <input type="text" placeholder="Course Name" value={form.courseName} onChange={e => set('courseName', e.target.value)} style={inp} />
+                </>
+              ) : (
+                <>
+                  <label style={lbl}>Number of Trainees</label>
+                  <input type="number" placeholder="e.g. 25" value={form.trainees} onChange={e => set('trainees', e.target.value)} style={inp} />
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* How did you hear */}
+          <div style={{ marginBottom: 12, position: 'relative' }}>
+            <label style={lbl}>How did you hear about us?</label>
+            <select value={form.hearAbout} onChange={e => set('hearAbout', e.target.value)}
+              style={{ ...inp, appearance: 'none', WebkitAppearance: 'none', color: form.hearAbout ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+              <option value="" style={{ background: '#0a1929' }}>Select Option</option>
+              {ILF_HEAR_OPTIONS.map(o => <option key={o} value={o} style={{ background: '#0a1929', color: '#fff' }}>{o}</option>)}
+            </select>
+            <svg style={{ position: 'absolute', right: 14, top: 'calc(50% + 10px)', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'rgba(255,255,255,0.4)' }}
+              width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
+
+          {/* Training needs */}
+          <div style={{ marginBottom: 12 }}>
+            <label style={lbl}>Tell us about your Training Needs</label>
+            <textarea rows={4} placeholder="Share your training goals, preferred schedule, team size, or any specific topics you'd like us to cover…"
+              value={form.message} onChange={e => set('message', e.target.value)}
+              style={{ ...inp, resize: 'none', lineHeight: 1.6 }} />
+          </div>
+
+          {/* reCAPTCHA mock */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 4, padding: '8px 14px' }}>
+              <input type="checkbox" checked={robotChecked} onChange={e => setRobotChecked(e.target.checked)} style={{ width: 16, height: 16, cursor: 'pointer' }} />
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)' }}>I&apos;m not a robot</span>
+              <div style={{ marginLeft: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+                  <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#4A90D9"/>
+                  <path d="M32 14c-9.941 0-18 8.059-18 18s8.059 18 18 18 18-8.059 18-18-8.059-18-18-18z" fill="white"/>
+                  <path d="M32 20c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" fill="#4A90D9"/>
+                  <path d="M32 26a6 6 0 100 12 6 6 0 000-12z" fill="white"/>
+                </svg>
+                <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.35)', lineHeight: 1.2 }}>reCAPTCHA</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Submit */}
+          <button type="submit"
+            style={{ width: '100%', padding: '14px 0', borderRadius: 12, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694D1 0%,#076D9D 100%)', boxShadow: '0 0 28px rgba(6,148,209,0.40)' }}>
+            Submit — Get a Free Consultation
+          </button>
+          <p style={{ textAlign: 'center', fontSize: 11.5, color: 'rgba(255,255,255,0.30)', marginTop: 10 }}>
+            We&apos;ll respond within 1 business day · No spam, ever.
+          </p>
+        </form>
+
+        <style>{`
+          @media(max-width:600px){
+            .ilo-ilf-grid { grid-template-columns: 1fr !important; }
+          }
+        `}</style>
+      </div>
+    </section>
+  )
+}
+
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab]     = useState('ilo')
@@ -2543,7 +2717,7 @@ export default function LiveOnlineClassroomPage() {
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
       <div id="request">
-        <ContactForm />
+        <IloLeadFormSection />
       </div>
     </div>
   )
