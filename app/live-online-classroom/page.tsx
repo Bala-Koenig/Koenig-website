@@ -2095,7 +2095,7 @@ export default function LiveOnlineClassroomPage() {
           }
         `}</style>
 
-        <div className="relative mx-auto max-w-7xl py-8 lg:py-[50px]">
+        <div className="relative mx-auto max-w-7xl lg:py-[50px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left — text content */}
