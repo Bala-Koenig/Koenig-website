@@ -477,67 +477,93 @@ function getTechIcon(name: string) {
 
 /* ── Syllabus Modal ──────────────────────────────────────────── */
 function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: () => void }) {
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '' })
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => setForm(f => ({ ...f, [k]: e.target.value }))
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail]       = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%', boxSizing: 'border-box',
+    background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)',
+    borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff',
+    outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s',
+  }
+  const labelStyle: React.CSSProperties = {
+    fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)',
+    textTransform: 'uppercase', marginBottom: 5, display: 'block',
+  }
+
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center px-4"
-      style={{ background: 'rgba(0,0,0,0.6)' }} onClick={onClose}>
-      <div className="relative w-full max-w-md rounded-2xl p-7"
-        style={{ background: 'linear-gradient(160deg,#06283d,#093148)', boxShadow: '0 25px 60px rgba(0,0,0,0.5)' }}
-        onClick={e => e.stopPropagation()}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px 20px', animation: 'fadeIn 0.2s ease' }}
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+      <div style={{ background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius: 20, padding: '32px 28px 28px', width: '100%', maxWidth: 440, position: 'relative', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit' }}>
         {/* Close */}
-        <button onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-white/10"
-          style={{ border: '1px solid rgba(255,255,255,0.25)', color: 'white' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-        {/* Header */}
-        <div className="flex items-center gap-1.5 mb-3">
-          <span className="w-2 h-2 rounded-full" style={{ background: '#0694D1' }} />
-          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Free Training Brochure</span>
+        <button onClick={onClose} style={{ position: 'absolute', top: 14, right: 14, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+
+        {/* Badge */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', display: 'inline-block', flexShrink: 0 }} />
+          <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: '#0694D1', textTransform: 'uppercase' }}>Download Syllabus</span>
         </div>
-        <h2 className="text-2xl font-extrabold leading-tight mb-1 text-white">
-          Get Your Free<br />
-          <span style={{ color: '#0694D1' }}>Training Brochure</span>
-        </h2>
-        <p className="text-sm mb-5" style={{ color: 'rgba(255,255,255,0.6)' }}>Curriculum · Pricing · Exam prep — all in one PDF</p>
-        {courseName && <p className="text-xs font-semibold mb-4 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(6,148,209,0.15)', color: '#7DD3FC' }}>{courseName}</p>}
-        {/* Fields */}
-        <div className="flex gap-3 mb-3">
-          <div className="flex-1">
-            <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>First Name <span style={{ color: '#F87171' }}>*</span></label>
-            <input value={form.firstName} onChange={set('firstName')} placeholder="Rahul"
-              className="w-full rounded-xl px-3 py-2.5 text-sm outline-none"
-              style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
+
+        {/* Course name */}
+        {courseName && (
+          <div style={{ marginBottom: 16, padding: '10px 14px', background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', borderRadius: 10 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.8, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 3 }}>Course</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', lineHeight: 1.35 }}>{courseName}</div>
           </div>
-          <div className="flex-1">
-            <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Last Name</label>
-            <input value={form.lastName} onChange={set('lastName')} placeholder="Sharma"
-              className="w-full rounded-xl px-3 py-2.5 text-sm outline-none"
-              style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
+        )}
+
+        {/* Title */}
+        <div style={{ marginBottom: 6 }}>
+          <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Get the Course Content</div>
+        </div>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 22 }}>Fill in your details and we'll send it straight to your inbox.</div>
+
+        {/* Form / Success */}
+        {submitted ? (
+          <div style={{ textAlign: 'center', padding: '12px 0 4px' }}>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', border: '1.5px solid rgba(6,148,209,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.25 }}>You're all set, {fullName.split(' ')[0]}!</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20 }}>
+              The course content for <strong style={{ color: '#0694D1' }}>{courseName || 'this course'}</strong> will be sent to <strong style={{ color: '#fff' }}>{email}</strong> shortly.
+            </div>
+            <div style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.2)', borderRadius: 10, padding: '10px 14px', fontSize: 12, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center', marginBottom: 16 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Check your inbox — usually arrives within 2 minutes
+            </div>
+            <button onClick={onClose} style={{ width: '100%', padding: '11px', borderRadius: 10, border: '1px solid rgba(6,148,209,0.35)', background: 'transparent', color: '#0694D1', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+              Close
+            </button>
           </div>
-        </div>
-        <div className="mb-3">
-          <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Work Email <span style={{ color: '#F87171' }}>*</span></label>
-          <input value={form.email} onChange={set('email')} placeholder="you@company.com" type="email"
-            className="w-full rounded-xl px-3 py-2.5 text-sm outline-none"
-            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
-        </div>
-        <div className="mb-5">
-          <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Phone / WhatsApp <span style={{ color: '#F87171' }}>*</span></label>
-          <input value={form.phone} onChange={set('phone')} placeholder="+91 98765 43210" type="tel"
-            className="w-full rounded-xl px-3 py-2.5 text-sm outline-none"
-            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
-        </div>
-        <button className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
-          style={{ background: 'linear-gradient(135deg,#0694D1,#0577b0)' }}>
-          Get My Brochure →
-        </button>
-        <p className="text-center text-xs mt-3" style={{ color: 'rgba(255,255,255,0.4)' }}>
-          🔒 Your details are safe. No spam, ever.
-        </p>
+        ) : (
+          <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div>
+              <label style={labelStyle}>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
+              <input required style={inputStyle} placeholder="Rahul Sharma" value={fullName} onChange={e => setFullName(e.target.value)}
+                onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+            </div>
+            <div>
+              <label style={labelStyle}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
+              <input required type="email" style={inputStyle} placeholder="you@company.com" value={email} onChange={e => setEmail(e.target.value)}
+                onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Course content will be sent to your email ID</span>
+            </div>
+            <button type="submit" style={{ width: '100%', padding: '13px', borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: 0.2, boxShadow: '0 4px 18px rgba(6,148,209,0.4)', marginTop: 2, transition: 'filter 0.18s' }}
+              onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')}
+              onMouseLeave={e => (e.currentTarget.style.filter = 'none')}>
+              Send Course Content →
+            </button>
+            <div style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              No spam, ever. Unsubscribe anytime.
+            </div>
+          </form>
+        )}
       </div>
     </div>
   )
