@@ -1478,50 +1478,106 @@ const TZ_OPTIONS   = [
 function FilterDropdown({
   label, options, value, onChange, fullWidth,
 }: { label: string; options: string[]; value: string; onChange: (v: string) => void; fullWidth?: boolean }) {
-  const [open, setOpen]       = useState(false)
-  const [query, setQuery]     = useState('')
-  const ref                   = useRef<HTMLDivElement>(null)
-  const inputRef              = useRef<HTMLInputElement>(null)
+  const [open, setOpen]   = useState(false)
+  const [query, setQuery] = useState('')
+  const [isMobile, setIsMobile] = useState(false)
+  const ref      = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    function handle(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener('mousedown', handle)
-    return () => document.removeEventListener('mousedown', handle)
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
   }, [])
 
-  useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 50) }, [open])
+  useEffect(() => {
+    if (!isMobile) {
+      function handle(e: MouseEvent) {
+        if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+      }
+      document.addEventListener('mousedown', handle)
+      return () => document.removeEventListener('mousedown', handle)
+    }
+  }, [isMobile])
+
+  useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 80) }, [open])
 
   const displayed = value && value !== label ? value : label
   const filtered  = options.filter(o => o.toLowerCase().includes(query.toLowerCase()))
   const hasValue  = value && value !== label
 
+  const triggerBtn = (
+    <button
+      onClick={() => setOpen(p => !p)}
+      className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all ${fullWidth ? 'w-full justify-between' : ''}`}
+      style={{
+        border:     `1px solid ${hasValue ? '#0694D1' : '#CAEFFF'}`,
+        background: hasValue ? 'rgba(6,148,209,0.08)' : 'white',
+        color:      hasValue ? '#0694D1' : '#475569',
+        boxShadow:  hasValue ? '0 0 0 3px rgba(6,148,209,0.12)' : '0 1px 4px rgba(6,148,209,0.06)',
+      }}>
+      <span className="max-w-[120px] truncate">{displayed}</span>
+      {hasValue && (
+        <span onClick={e => { e.stopPropagation(); onChange(''); setQuery('') }}
+          className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#0694D1] text-white hover:bg-[#076D9D]">
+          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </span>
+      )}
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+        className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} style={{ color: '#94A3B8' }}>
+        <path d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+  )
+
+  /* Mobile bottom-sheet popup */
+  const mobileSheet = open && isMobile && typeof document !== 'undefined' && createPortal(
+    <div style={{ position: 'fixed', inset: 0, zIndex: 9000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+      {/* Overlay */}
+      <div onClick={() => { setOpen(false); setQuery('') }}
+        style={{ position: 'absolute', inset: 0, background: 'rgba(6,18,30,0.55)', backdropFilter: 'blur(2px)' }} />
+      {/* Sheet */}
+      <div style={{ position: 'relative', background: '#fff', borderRadius: '20px 20px 0 0', padding: '0 0 32px', maxHeight: '75vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 40px rgba(6,148,209,0.18)' }}>
+        {/* Handle + header */}
+        <div style={{ padding: '12px 20px 0', textAlign: 'center' }}>
+          <div style={{ width: 36, height: 4, borderRadius: 999, background: '#CBD5E1', margin: '0 auto 14px' }} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: '#0F172A' }}>{label}</span>
+            <button onClick={() => { setOpen(false); setQuery('') }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#64748B' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+          {/* Search */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#F8FBFF', border: '1px solid #CAEFFF', borderRadius: 10, padding: '8px 12px', marginBottom: 8 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)}
+              placeholder="Search…" style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 14, color: '#0F172A' }} />
+          </div>
+        </div>
+        {/* Options list */}
+        <div style={{ overflowY: 'auto', flex: 1, padding: '4px 8px' }}>
+          {filtered.map(o => (
+            <button key={o} onClick={() => { onChange(o); setOpen(false); setQuery('') }}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '12px 14px', border: 'none', borderRadius: 10, cursor: 'pointer', fontSize: 14, fontWeight: value === o ? 700 : 400, color: value === o ? '#0694D1' : '#374151', background: value === o ? 'rgba(6,148,209,0.08)' : 'transparent', marginBottom: 2 }}>
+              {o}
+            </button>
+          ))}
+          {filtered.length === 0 && (
+            <p style={{ padding: '12px 14px', fontSize: 13, color: '#94A3B8' }}>No results</p>
+          )}
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
+
   return (
     <div ref={ref} className={`relative ${fullWidth ? 'w-full' : 'shrink-0'}`}>
-      <button
-        onClick={() => setOpen(p => !p)}
-        className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all ${fullWidth ? 'w-full justify-between' : ''}`}
-        style={{
-          border:     `1px solid ${hasValue ? '#0694D1' : '#CAEFFF'}`,
-          background: hasValue ? 'rgba(6,148,209,0.08)' : 'white',
-          color:      hasValue ? '#0694D1' : '#475569',
-          boxShadow:  hasValue ? '0 0 0 3px rgba(6,148,209,0.12)' : '0 1px 4px rgba(6,148,209,0.06)',
-        }}>
-        <span className="max-w-[120px] truncate">{displayed}</span>
-        {hasValue && (
-          <span onClick={e => { e.stopPropagation(); onChange(''); setQuery('') }}
-            className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#0694D1] text-white hover:bg-[#076D9D]">
-            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          </span>
-        )}
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-          className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} style={{ color: '#94A3B8' }}>
-          <path d="M19 9l-7 7-7-7"/>
-        </svg>
-      </button>
-
-      {open && (
+      {triggerBtn}
+      {/* Desktop dropdown */}
+      {open && !isMobile && (
         <div className="absolute left-0 top-full mt-1.5 z-50 rounded-2xl overflow-hidden"
           style={{ width: fullWidth ? '100%' : undefined, minWidth: fullWidth ? undefined : '290px', maxWidth: 'min(290px, calc(100vw - 2rem))', background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.16)' }}>
           <div className="p-2 border-b" style={{ borderColor: '#EBF8FE' }}>
@@ -1545,6 +1601,7 @@ function FilterDropdown({
           </div>
         </div>
       )}
+      {mobileSheet}
     </div>
   )
 }
