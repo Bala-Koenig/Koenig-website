@@ -766,6 +766,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
   const [selectedIdx, setSelectedIdx] = useState(0)
   const [certAdded, setCertAdded] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
+  const [feesOpen, setFeesOpen] = useState(false)
   const FULL_VISIBLE = 2
   const fullCards = course.schedules.slice(0, FULL_VISIBLE)
   const extraCount = course.schedules.length - FULL_VISIBLE
@@ -773,6 +774,12 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
   const isPopular = (course.tags ?? []).includes('POPULAR')
   const days = Math.ceil(course.duration / 8)
   const modalSched = selectedIdx >= FULL_VISIBLE ? course.schedules[selectedIdx] : null
+
+  const courseNum = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
+  const certNum   = certAdded && course.certFee ? course.certFee : 0
+  const subtotal  = courseNum + certNum
+  const gstNum    = Math.round(subtotal * 0.18)
+  const grandTotal = subtotal + gstNum
 
   const RadioDot = ({ active }: { active: boolean }) => (
     <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
@@ -797,6 +804,47 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
           onClose={() => setModalOpen(false)}
           onSelectDate={(idx) => setSelectedIdx(idx)}
         />,
+        document.body
+      )}
+      {feesOpen && typeof document !== 'undefined' && createPortal(
+        <>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 9998, background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(2px)' }} onClick={() => setFeesOpen(false)} />
+          <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 9999, width: 'calc(100vw - 32px)', maxWidth: 340, background: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 25px 60px rgba(0,0,0,0.22)' }}>
+            <div style={{ background: '#071e2e', padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#fff' }}>Fees Breakdown</span>
+              <button onClick={() => setFeesOpen(false)} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%', width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: 13, fontWeight: 700 }}>✕</button>
+            </div>
+            <div style={{ padding: '4px 0' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #f0f4f8' }}>
+                <div>
+                  <div style={{ color: '#4a6a8a' }}>Course Training</div>
+                  <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>{course.duration} hrs · {days} {days === 1 ? 'Day' : 'Days'} · Live Online</div>
+                </div>
+                <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {courseNum.toLocaleString('en-IN')}</span>
+              </div>
+              {certAdded && course.certFee && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #f0f4f8' }}>
+                  <div>
+                    <div style={{ color: '#4a6a8a' }}>Certification Exam</div>
+                    <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>Official {course.vendor} exam voucher</div>
+                  </div>
+                  <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {certNum.toLocaleString('en-IN')}</span>
+                </div>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #e8f4fa' }}>
+                <span style={{ color: '#4a6a8a' }}>+ GST 18%</span>
+                <span style={{ fontWeight: 600, color: '#071e2e' }}>INR {gstNum.toLocaleString('en-IN')}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', fontSize: 14, background: '#f8fcff' }}>
+                <span style={{ fontWeight: 700, color: '#071e2e' }}>Total (INR)</span>
+                <span style={{ fontWeight: 700, color: '#071e2e' }}>INR {grandTotal.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+            <div style={{ textAlign: 'center', padding: '10px 16px 14px', borderTop: '1px solid #e8f4fa' }}>
+              <button onClick={() => setFeesOpen(false)} style={{ background: 'none', border: 'none', fontSize: 13, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer' }}>Hide Breakdown</button>
+            </div>
+          </div>
+        </>,
         document.body
       )}
       <div className="flex flex-col rounded-2xl overflow-hidden relative group/card transition-all duration-300 hover:-translate-y-1"
@@ -963,7 +1011,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
           <div className="text-right">
             <p className="text-sm font-bold leading-tight" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>{course.price}</p>
             <p className="text-[10px] leading-tight mt-0.5" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>excl. VAT/GST</p>
-            <button className="text-[10px] font-semibold mt-0.5 hover:underline cursor-pointer"
+            <button onClick={() => setFeesOpen(true)} className="text-[10px] font-semibold mt-0.5 hover:underline cursor-pointer"
               style={{ color: dark ? 'rgba(56,189,248,0.7)' : '#0694D1' }}>
               View Fees Breakdown
             </button>
