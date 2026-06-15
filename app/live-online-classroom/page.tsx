@@ -1390,7 +1390,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
         )}
 
         {/* Row 1 — dates link + price */}
-        <div className="flex items-center justify-between mt-0.5">
+        <div className="flex items-center justify-between" style={{ marginTop: -8 }}>
           {hasMore ? (
             <button onClick={() => setModalOpen(true)}
               className="flex items-center gap-1 text-[11px] font-semibold transition-all hover:underline cursor-pointer"
