@@ -1538,9 +1538,9 @@ function FilterDropdown({
       className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all ${fullWidth ? 'w-full justify-between' : ''}`}
       style={{
         border:     `1px solid ${hasValue ? '#0694D1' : '#CAEFFF'}`,
-        background: hasValue ? 'rgba(6,148,209,0.08)' : 'white',
+        background: 'white',
         color:      hasValue ? '#0694D1' : '#475569',
-        boxShadow:  hasValue ? '0 0 0 3px rgba(6,148,209,0.12)' : '0 1px 4px rgba(6,148,209,0.06)',
+        boxShadow:  '0 1px 4px rgba(6,148,209,0.06)',
       }}>
       <span className="max-w-[120px] truncate">{displayed}</span>
       {inputType === 'checkbox' && activeCount > 0 && (
