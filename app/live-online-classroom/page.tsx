@@ -1576,7 +1576,7 @@ function FilterDropdown({
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#F8FBFF', border: '1px solid #CAEFFF', borderRadius: 10, padding: '8px 12px', marginBottom: 8 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)}
-              placeholder="Search…" style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 12, color: '#0F172A' }} />
+              placeholder="Search…" style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 12, color: '#0F172A', WebkitAppearance: 'none' }} />
           </div>
         </div>
         {/* Options list */}
@@ -2194,6 +2194,8 @@ export default function LiveOnlineClassroomPage() {
             .ilo-sec > * > * + * { margin-top: 15px !important; }
             .ilo-sec-gap > * + * { margin-top: 15px !important; }
             .ilo-sec-gap { gap: 15px !important; }
+            input[type="search"]::-webkit-search-cancel-button,
+            input::-webkit-search-cancel-button { display: none !important; }
           }
         `}</style>
 
