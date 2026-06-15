@@ -1570,7 +1570,7 @@ function FilterDropdown({
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#F8FBFF', border: '1px solid #CAEFFF', borderRadius: 10, padding: '8px 12px', marginBottom: 8 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)}
-              placeholder="Search…" style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 12, color: '#0F172A', WebkitAppearance: 'none' }} />
+              placeholder="Search…" style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 14, fontWeight: 400, color: '#0F172A', WebkitAppearance: 'none' }} />
           </div>
         </div>
         {/* Options list */}
@@ -1579,7 +1579,7 @@ function FilterDropdown({
             const checked = isChecked(o)
             return (
               <button key={o} onClick={() => handleSelect(o)}
-                style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', padding: '10px 8px', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: checked ? 600 : 400, color: checked ? '#0694D1' : '#374151', background: checked ? 'rgba(6,148,209,0.06)' : 'transparent', marginBottom: 1 }}>
+                style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', padding: '10px 8px', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 400, color: checked ? '#0694D1' : '#374151', background: checked ? 'rgba(6,148,209,0.06)' : 'transparent', marginBottom: 1 }}>
                 {inputType === 'radio' ? (
                   <span style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${checked ? '#0694D1' : '#CBD5E1'}`, background: checked ? '#0694D1' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     {checked && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', display: 'block' }} />}
