@@ -1563,7 +1563,13 @@ function FilterDropdown({
       <div style={{ position: 'relative', background: '#fff', borderRadius: '20px 20px 0 0', padding: '0 0 0', maxHeight: '75vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 40px rgba(6,148,209,0.18)' }}>
         {/* Header */}
         <div style={{ padding: '12px 20px 0', flexShrink: 0 }}>
-          <div style={{ width: 36, height: 4, borderRadius: 999, background: '#CBD5E1', margin: '0 auto 14px' }} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div style={{ width: 36, height: 4, borderRadius: 999, background: '#CBD5E1', margin: '5px auto 0' }} />
+            <button onClick={() => { setOpen(false); setQuery('') }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#94A3B8', lineHeight: 0 }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
           <div style={{ marginBottom: 12 }}>
             <span style={{ fontSize: 14, fontWeight: 700, color: '#0694D1' }}>{label}</span>
           </div>
