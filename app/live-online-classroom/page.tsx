@@ -661,7 +661,7 @@ function VendorLogo({ name, size = 24 }: { name: string; size?: number }) {
 function DatesModal({ course, onClose, onSelectDate }: {
   course: typeof COURSES[0]; onClose: () => void; onSelectDate: (idx: number) => void
 }) {
-  const CARD_VISIBLE = 2
+  const CARD_VISIBLE = 1
   const days = Math.ceil(course.duration / 8)
 
   useEffect(() => {
@@ -767,7 +767,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
   const [certAdded, setCertAdded] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [feesOpen, setFeesOpen] = useState(false)
-  const FULL_VISIBLE = 2
+  const FULL_VISIBLE = 1
   const fullCards = course.schedules.slice(0, FULL_VISIBLE)
   const extraCount = course.schedules.length - FULL_VISIBLE
   const hasMore = extraCount > 0
