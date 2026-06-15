@@ -1561,23 +1561,16 @@ function FilterDropdown({
     <div style={{ position: 'fixed', inset: 0, zIndex: 9000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
       <div onClick={() => { setOpen(false); setQuery('') }}
         style={{ position: 'absolute', inset: 0, background: 'rgba(6,18,30,0.55)', backdropFilter: 'blur(2px)' }} />
-      <div style={{ position: 'relative', background: '#fff', borderRadius: '20px 20px 0 0', padding: '0 0 32px', maxHeight: '75vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 40px rgba(6,148,209,0.18)' }}>
-        <div style={{ padding: '12px 20px 0' }}>
+      <div style={{ position: 'relative', background: '#fff', borderRadius: '20px 20px 0 0', padding: '0 0 0', maxHeight: '75vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 40px rgba(6,148,209,0.18)' }}>
+        {/* Header */}
+        <div style={{ padding: '12px 20px 0', flexShrink: 0 }}>
           <div style={{ width: 36, height: 4, borderRadius: 999, background: '#CBD5E1', margin: '0 auto 14px' }} />
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
             <span style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>{label}</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {hasValue && (
-                <button onClick={handleClear}
-                  style={{ background: 'rgba(6,148,209,0.08)', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#0694D1', padding: '2px 8px', borderRadius: 6 }}>
-                  Clear
-                </button>
-              )}
-              <button onClick={() => { setOpen(false); setQuery('') }}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#64748B' }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-            </div>
+            <button onClick={() => { setOpen(false); setQuery('') }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#64748B' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#F8FBFF', border: '1px solid #CAEFFF', borderRadius: 10, padding: '8px 12px', marginBottom: 8 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -1585,6 +1578,7 @@ function FilterDropdown({
               placeholder="Search…" style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 12, color: '#0F172A' }} />
           </div>
         </div>
+        {/* Options list */}
         <div style={{ overflowY: 'auto', flex: 1, padding: '4px 12px' }}>
           {filtered.map(o => {
             const checked = isChecked(o)
@@ -1608,14 +1602,17 @@ function FilterDropdown({
             <p style={{ padding: '12px 8px', fontSize: 12, color: '#94A3B8' }}>No results</p>
           )}
         </div>
-        {inputType === 'checkbox' && (
-          <div style={{ padding: '10px 20px 0' }}>
-            <button onClick={() => { setOpen(false); setQuery('') }}
-              style={{ width: '100%', padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              Apply {activeCount > 0 ? `(${activeCount} selected)` : ''}
-            </button>
-          </div>
-        )}
+        {/* Bottom actions — always visible */}
+        <div style={{ flexShrink: 0, padding: '12px 16px 32px', borderTop: '1px solid #EBF8FE', display: 'flex', gap: 10 }}>
+          <button onClick={handleClear}
+            style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+            Clear
+          </button>
+          <button onClick={() => { setOpen(false); setQuery('') }}
+            style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+            Apply{activeCount > 0 ? ` (${activeCount})` : ''}
+          </button>
+        </div>
       </div>
     </div>,
     document.body
