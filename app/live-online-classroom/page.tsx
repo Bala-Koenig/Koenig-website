@@ -2075,7 +2075,7 @@ export default function LiveOnlineClassroomPage() {
       <ContactModal />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px]" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', paddingTop: 25, paddingBottom: 25 }}>
+      <section className="ilo-sec relative overflow-hidden px-4 lg:px-[50px]" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', paddingTop: 25, paddingBottom: 25 }}>
         {/* Background glow blobs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-40 right-1/3 w-[600px] h-[600px] rounded-full opacity-15 blur-[120px]" style={{ background: '#0694D1' }} />
@@ -2086,6 +2086,13 @@ export default function LiveOnlineClassroomPage() {
         <style>{`
           .lol-stat-item:hover .lol-stat-glow { opacity: 1 !important; }
           @keyframes lolOnlinePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+          @media (max-width: 1023px) {
+            .ilo-sec { padding-top: 20px !important; padding-bottom: 20px !important; }
+            .ilo-sec > * > * + * { margin-top: 15px !important; }
+            .ilo-sec-gap > * + * { margin-top: 15px !important; }
+            .ilo-sec-gap { gap: 15px !important; }
+          }
         `}</style>
 
         <div className="relative mx-auto max-w-7xl py-8 lg:py-[50px]">
@@ -2313,7 +2320,7 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── BENEFITS ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '35px', paddingBottom: '35px' }}>
+      <section className="ilo-sec relative overflow-hidden px-4 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '35px', paddingBottom: '35px' }}>
 
         <style>{`
           @keyframes indIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
@@ -2506,7 +2513,7 @@ export default function LiveOnlineClassroomPage() {
         .batch-reserve-btn { padding:8px 16px; background:linear-gradient(135deg,#0694D1,#076D9D); border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.2s,box-shadow 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(6,148,209,0.25); }
         .batch-reserve-btn:hover { box-shadow:0 6px 20px rgba(6,148,209,0.4); transform:translateY(-1px); }
       `}</style>
-      <section id="schedule" className="relative px-4 lg:px-[50px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF', paddingTop: '35px', paddingBottom: '35px' }}>
+      <section id="schedule" className="ilo-sec relative px-4 lg:px-[50px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF', paddingTop: '35px', paddingBottom: '35px' }}>
         {/* background blobs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
@@ -2821,7 +2828,7 @@ export default function LiveOnlineClassroomPage() {
       </div>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
-      <section className="px-4 lg:px-[50px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)', paddingTop: '35px', paddingBottom: '35px' }}>
+      <section className="ilo-sec px-4 lg:px-[50px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)', paddingTop: '35px', paddingBottom: '35px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
@@ -2917,7 +2924,7 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── TRAINING CATEGORIES ──────────────────────────────── */}
-      <section className="px-4 lg:px-[50px]" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', paddingTop: '35px', paddingBottom: '35px' }}>
+      <section className="ilo-sec px-4 lg:px-[50px]" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', paddingTop: '35px', paddingBottom: '35px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white">
@@ -2972,7 +2979,7 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── TESTIMONIALS ──────────────────────────────────────── */}
-      <section className="ilo-test-section" style={{ background: '#E8F4FA', padding: '35px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
+      <section className="ilo-sec ilo-test-section" style={{ background: '#E8F4FA', padding: '35px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
         <style>{`
           @keyframes iloScrollCol { from { transform: translateY(0); } to { transform: translateY(-50%); } }
           .ilo-test-col-track { display: flex; flex-direction: column; gap: 20px; animation: iloScrollCol linear infinite; }
@@ -3045,7 +3052,7 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── FREQUENTLY ASKED QUESTIONS ─────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '35px', paddingBottom: '35px' }}>
+      <section className="ilo-sec relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '35px', paddingBottom: '35px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
