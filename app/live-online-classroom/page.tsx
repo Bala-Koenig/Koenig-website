@@ -930,7 +930,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
         <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: dark ? '#fff' : '#0F172A' }}>
           {course.code}: {course.name}
         </h3>
-        <div className="flex items-center gap-3 mt-2.5">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-2.5">
           <button onClick={onSyllabus}
             className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition-all"
             style={{ border: `1px solid ${dark ? 'rgba(6,148,209,0.45)' : '#0694D1'}`, color: dark ? '#38bdf8' : '#0694D1', background: dark ? 'rgba(6,148,209,0.1)' : 'transparent' }}>
@@ -1143,8 +1143,8 @@ const TZ_OPTIONS   = [
 
 /* ── FilterDropdown ──────────────────────────────────────────── */
 function FilterDropdown({
-  label, options, value, onChange,
-}: { label: string; options: string[]; value: string; onChange: (v: string) => void }) {
+  label, options, value, onChange, fullWidth,
+}: { label: string; options: string[]; value: string; onChange: (v: string) => void; fullWidth?: boolean }) {
   const [open, setOpen]       = useState(false)
   const [query, setQuery]     = useState('')
   const ref                   = useRef<HTMLDivElement>(null)
@@ -1165,10 +1165,10 @@ function FilterDropdown({
   const hasValue  = value && value !== label
 
   return (
-    <div ref={ref} className="relative shrink-0">
+    <div ref={ref} className={`relative ${fullWidth ? 'w-full' : 'shrink-0'}`}>
       <button
         onClick={() => setOpen(p => !p)}
-        className="inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all"
+        className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all ${fullWidth ? 'w-full justify-between' : ''}`}
         style={{
           border:     `1px solid ${hasValue ? '#0694D1' : '#CAEFFF'}`,
           background: hasValue ? 'rgba(6,148,209,0.08)' : 'white',
@@ -1190,8 +1190,7 @@ function FilterDropdown({
 
       {open && (
         <div className="absolute left-0 top-full mt-1.5 z-50 rounded-2xl overflow-hidden"
-          style={{ minWidth: '290px', background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.16)' }}>
-          {/* Search */}
+          style={{ width: fullWidth ? '100%' : undefined, minWidth: fullWidth ? undefined : '290px', maxWidth: 'min(290px, calc(100vw - 2rem))', background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.16)' }}>
           <div className="p-2 border-b" style={{ borderColor: '#EBF8FE' }}>
             <div className="flex items-center gap-2 rounded-lg px-3 py-1.5" style={{ background: '#F8FBFF', border: '1px solid #CAEFFF' }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -1199,12 +1198,11 @@ function FilterDropdown({
                 placeholder="Search…" className="flex-1 bg-transparent text-xs outline-none" style={{ color: '#0F172A' }} />
             </div>
           </div>
-          {/* Options */}
           <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
             {filtered.map(o => (
-              <button key={o} onClick={() => { onChange(o); setQuery(''); setOpen(false) }}
-                className="flex w-full items-center px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF] text-left"
-                style={{ color: value === o ? '#0694D1' : '#374151', background: value === o ? 'rgba(6,148,209,0.06)' : 'transparent', fontWeight: value === o ? 600 : 400, whiteSpace: 'nowrap' }}>
+              <button key={o} onClick={() => { onChange(o); setOpen(false); setQuery('') }}
+                className="w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-[#F0FAFF]"
+                style={{ color: value === o ? '#0694D1' : '#374151', fontWeight: value === o ? 700 : 400 }}>
                 {o}
               </button>
             ))}
@@ -1558,7 +1556,7 @@ function IloLeadFormSection() {
     <section style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '52px 24px' }}>
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
         <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
-          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.20)', borderRadius: 20, padding: '32px 28px' }}>
+          className="ilo-ilf-form" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.20)', borderRadius: 20, padding: '32px 28px' }}>
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: 24 }}>
             <span style={{ display: 'inline-block', border: '1px solid rgba(6,148,209,0.55)', background: 'rgba(6,148,209,0.12)', color: '#38bdf8', borderRadius: 999, padding: '4px 16px', fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
@@ -1683,6 +1681,7 @@ function IloLeadFormSection() {
         <style>{`
           @media(max-width:600px){
             .ilo-ilf-grid { grid-template-columns: 1fr !important; }
+            .ilo-ilf-form { padding: 20px 16px !important; }
           }
         `}</style>
       </div>
@@ -1770,8 +1769,8 @@ export default function LiveOnlineClassroomPage() {
                 Live Instructor-Led Training — Guaranteed to Run
               </div>
               <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-[15px] lg:mb-4 text-white">
-                <span className="block whitespace-nowrap">Master In-Demand Skills.</span>
-                <span className="block whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                <span className="block">Master In-Demand Skills.</span>
+                <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                   Live Online. Anywhere.
                 </span>
               </h1>
@@ -1817,7 +1816,7 @@ export default function LiveOnlineClassroomPage() {
               </div>
 
               {/* Mobile-only stat tiles — mirrors desktop floating cards */}
-              <div className="lg:hidden grid grid-cols-4 gap-2 mt-[15px]">
+              <div className="lg:hidden grid grid-cols-2 sm:grid-cols-4 gap-2 mt-[15px]">
                 {([
                   { val: '5M+',    label: 'Learners'   },
                   { val: '195+',   label: 'Countries'  },
@@ -2383,11 +2382,13 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
 
-              {/* Mobile: Vendor + Tech + Timezone row */}
-              <div className="lg:hidden flex items-center gap-2 mb-2">
-                <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} /></div>
-                <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTechs[0] ?? ''} onChange={v => { setActiveTechs(v ? [v] : []); setPage(0) }} /></div>
-                <div className="flex-1 min-w-0"><FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} /></div>
+              {/* Mobile: Vendor + Tech + Timezone — 2-row layout */}
+              <div className="lg:hidden flex flex-col gap-2 mb-2">
+                <div className="flex gap-2">
+                  <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} /></div>
+                  <div className="flex-1 min-w-0"><FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} /></div>
+                </div>
+                <FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTechs[0] ?? ''} onChange={v => { setActiveTechs(v ? [v] : []); setPage(0) }} fullWidth />
               </div>
               <div className="lg:hidden mb-3">
                 <span className="text-xs font-medium" style={{ color: '#64748B' }}>Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}</span>
@@ -2616,7 +2617,7 @@ export default function LiveOnlineClassroomPage() {
       </section>
 
       {/* ── TESTIMONIALS ──────────────────────────────────────── */}
-      <section style={{ background: '#E8F4FA', padding: '40px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
+      <section className="ilo-test-section" style={{ background: '#E8F4FA', padding: '40px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
         <style>{`
           @keyframes iloScrollCol { from { transform: translateY(0); } to { transform: translateY(-50%); } }
           .ilo-test-col-track { display: flex; flex-direction: column; gap: 20px; animation: iloScrollCol linear infinite; }
