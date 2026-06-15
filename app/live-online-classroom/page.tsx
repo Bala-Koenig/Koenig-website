@@ -306,7 +306,7 @@ const TAG_STYLES: Record<string, { bg: string; color: string; dot?: boolean }> =
 }
 
 const TRAINING_TABS = [
-  { id: 'ilo',       label: 'Live Online Classroom (ILO)', href: '/live-online-classroom' },
+  { id: 'ilo',       label: 'Live Online Training (ILO)', href: '/live-online-classroom' },
   { id: 'fmat',      label: 'Fly-Me-a-Trainer (FMAT)',    href: '#'                      },
   { id: 'classroom', label: 'Classroom Training',          href: '/classroom-training'    },
   { id: '1on1',      label: '1-on-1 Training',             href: '/1-on-1-training'       },
@@ -1331,7 +1331,7 @@ const SIDEBAR_TECHNOLOGIES = [
 ]
 
 const TECH_DESCS: Record<string, string> = {
-  'All':                                     'Koenig\'s Live Online Classroom delivers expert-led, Guaranteed-to-Run courses — book with confidence and advance your career from anywhere in the world.',
+  'All':                                     'Koenig\'s Live Online Training delivers expert-led, Guaranteed-to-Run courses — book with confidence and advance your career from anywhere in the world.',
   'Microsoft Azure':                         'Master Azure administration, AI, developer solutions and infrastructure design with Microsoft certified training.',
   'Cyber Security':                          'Protect organisations with CEH, CompTIA Security+ and SC-200 Microsoft Security Operations analyst training.',
   'AWS Cloud':                               "Build, deploy and scale on the world's most comprehensive cloud platform with AWS certified instructor-led training.",
@@ -1533,7 +1533,7 @@ function IloLeadFormSection() {
   const [tab, setTab] = useState<'individual' | 'enterprise'>('individual')
   const [submitted, setSubmitted] = useState(false)
   const [robotChecked, setRobotChecked] = useState(false)
-  const [form, setForm] = useState({ fullName: '', email: '', phone: '', courseName: 'Live Online Classroom Training', trainees: '', hearAbout: '', message: '' })
+  const [form, setForm] = useState({ fullName: '', email: '', phone: '', courseName: 'Live Online Training', trainees: '', hearAbout: '', message: '' })
 
   const set = (key: string, val: string) => setForm(p => ({ ...p, [key]: val }))
 
@@ -1565,7 +1565,7 @@ function IloLeadFormSection() {
             <h2 style={{ color: '#fff', fontWeight: 800, fontSize: 'clamp(20px,3vw,28px)', margin: '0 0 6px', lineHeight: 1.25 }}>
               Request for more <span style={{ color: '#38bdf8' }}>information</span>
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px' }}>Live Online Classroom Training with Koenig Solutions</p>
+            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px' }}>Live Online Training with Koenig Solutions</p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
               <a href="https://wa.me/918800971792" target="_blank" rel="noopener noreferrer"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 7, border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '8px 16px', color: 'rgba(255,255,255,0.75)', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
@@ -2647,7 +2647,7 @@ export default function LiveOnlineClassroomPage() {
               Real Transformations
             </span>
             <h2 style={{ fontSize: 'clamp(22px,3.5vw,34px)', fontWeight: 800, color: '#071e2e', margin: '0 0 12px', lineHeight: 1.3, letterSpacing: '-0.015em' }}>
-              Live Online Classroom{' '}
+              Live Online Training{' '}
               <span style={{ background: 'linear-gradient(90deg,#0694D1,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 Student Reviews
               </span>
@@ -2696,7 +2696,7 @@ export default function LiveOnlineClassroomPage() {
             <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
               Frequently <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Asked Questions</span>
             </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>Everything you need to know about Live Online Classroom training with Koenig</p>
+            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>Everything you need to know about Live Online Training with Koenig</p>
           </div>
           {/* Desktop: two-column */}
           <div className="hidden sm:flex gap-3">
