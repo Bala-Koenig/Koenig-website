@@ -1434,7 +1434,11 @@ function IloScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: 
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function LiveOnlineClassroomPage() {
   const [activeTab, setActiveTab]     = useState('ilo')
-  const [activeTech, setActiveTech]   = useState('')
+  const [activeTechs, setActiveTechs] = useState<string[]>([])
+  const toggleTech = (name: string) => {
+    setActiveTechs(prev => prev.includes(name) ? prev.filter(t => t !== name) : [...prev, name])
+    setPage(0)
+  }
   const [techSearch, setTechSearch]       = useState('')
   const [vendorSearch, setVendorSearch]   = useState('')
   const [search, setSearch]           = useState('')
@@ -1455,14 +1459,18 @@ export default function LiveOnlineClassroomPage() {
   const filtered = COURSES.filter(c => {
     const q = search.toLowerCase()
     const matchSearch  = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
-    const matchTech    = !activeTech || (c.techs ?? []).includes(activeTech)
+    const matchTech    = !activeTechs.length || activeTechs.some(t => (c.techs ?? []).includes(t))
     const matchTz      = !filterTz || c.schedules.some(s => s.time.includes(filterTz))
     const matchVendor  = !filterVendor || c.vendor === filterVendor
     return matchSearch && matchTech && matchTz && matchVendor
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
-  const activeTechData = SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTech) ?? { name: '', label: 'All Courses', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
+  const activeTechData = activeTechs.length === 1
+    ? (SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0]) ?? { name: '', label: 'All Courses', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' })
+    : activeTechs.length > 1
+    ? { name: '', label: `${activeTechs.length} Technologies`, count: filtered.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
+    : { name: '', label: 'All Courses', count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -1982,27 +1990,27 @@ export default function LiveOnlineClassroomPage() {
                 </div>
               </div>
               <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 352 }}>
-                {/* All Technologies — always visible, selected by default */}
+                {/* All Technologies — clears all selections */}
                 {!techSearch && (
                   <button
-                    onClick={() => { setActiveTech(''); setPage(0) }}
+                    onClick={() => { setActiveTechs([]); setPage(0) }}
                     className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
                     style={{
-                      borderLeft: `3px solid ${activeTech === '' ? '#0694D1' : 'transparent'}`,
-                      background:  activeTech === '' ? '#EBF8FE' : 'white',
+                      borderLeft: `3px solid ${activeTechs.length === 0 ? '#0694D1' : 'transparent'}`,
+                      background:  activeTechs.length === 0 ? '#EBF8FE' : 'white',
                     }}>
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
                         style={{ background: '#EBF8FE', color: '#0694D1', fontSize: 13, fontWeight: 700 }}>★</div>
                       <span className="text-[14px] font-medium leading-tight truncate"
-                        style={{ color: activeTech === '' ? '#0694D1' : '#374151' }}>
+                        style={{ color: activeTechs.length === 0 ? '#0694D1' : '#374151' }}>
                         All Technologies
                       </span>
                     </div>
                     <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
                       style={{
-                        background: activeTech === '' ? '#0694D1' : '#E2E8F0',
-                        color:      activeTech === '' ? 'white' : '#6B7280',
+                        background: activeTechs.length === 0 ? '#0694D1' : '#E2E8F0',
+                        color:      activeTechs.length === 0 ? 'white' : '#6B7280',
                       }}>
                       {COURSES.length}
                     </span>
@@ -2010,34 +2018,43 @@ export default function LiveOnlineClassroomPage() {
                 )}
                 {SIDEBAR_TECHNOLOGIES
                   .filter(t => !techSearch || t.name.toLowerCase().includes(techSearch.toLowerCase()))
-                  .map(t => (
-                  <button key={t.name}
-                    onClick={() => { setActiveTech(t.name); setPage(0) }}
-                    className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
-                    style={{
-                      borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`,
-                      background:  activeTech === t.name ? '#EBF8FE' : 'white',
-                    }}>
-                    <div className="flex items-center gap-2 min-w-0">
-                      <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
-                        style={{ background: t.bg, color: t.color }}>
-                        {getTechIcon(t.name)}
-                      </div>
-                      <span className="text-[14px] font-medium leading-tight truncate"
-                        style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}
-                        title={t.label}>
-                        {t.label}
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
-                      style={{
-                        background: activeTech === t.name ? '#0694D1' : '#E2E8F0',
-                        color:      activeTech === t.name ? 'white' : '#6B7280',
-                      }}>
-                      {t.count}
-                    </span>
-                  </button>
-                ))}
+                  .map(t => {
+                    const active = activeTechs.includes(t.name)
+                    return (
+                      <button key={t.name}
+                        onClick={() => toggleTech(t.name)}
+                        className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
+                        style={{
+                          borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`,
+                          background:  active ? '#EBF8FE' : 'white',
+                        }}>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+                            style={{ background: t.bg, color: t.color }}>
+                            {getTechIcon(t.name)}
+                          </div>
+                          <span className="text-[14px] font-medium leading-tight truncate"
+                            style={{ color: active ? '#0694D1' : '#374151' }}
+                            title={t.label}>
+                            {t.label}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5 shrink-0 ml-1">
+                          <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
+                            style={{
+                              background: active ? '#0694D1' : '#E2E8F0',
+                              color:      active ? 'white' : '#6B7280',
+                            }}>
+                            {t.count}
+                          </span>
+                          <div className="w-3.5 h-3.5 rounded border-[1.5px] flex items-center justify-center shrink-0"
+                            style={active ? { borderColor: '#0694D1', background: '#0694D1' } : { borderColor: '#CBD5E1', background: 'white' }}>
+                            {active && <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </div>
+                        </div>
+                      </button>
+                    )
+                  })}
               </div>
 
             </div>
@@ -2057,7 +2074,7 @@ export default function LiveOnlineClassroomPage() {
                     </div>
                     <div>
                       <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
-                      <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
+                      <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{(activeTechs.length === 1 ? TECH_DESCS[activeTechs[0]] : undefined) ?? `Browse all Guaranteed-to-Run ${activeTechData.label} courses — confirmed to run regardless of enrolment numbers.`}</p>
                     </div>
                   </div>
                   <button onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'individual' } }))} className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
@@ -2111,7 +2128,7 @@ export default function LiveOnlineClassroomPage() {
               {/* Mobile: Vendor + Tech + Timezone row */}
               <div className="lg:hidden flex items-center gap-2 mb-2">
                 <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} /></div>
-                <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTech} onChange={v => { setActiveTech(v); setPage(0) }} /></div>
+                <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.map(t => t.label)} value={activeTechs[0] ?? ''} onChange={v => { setActiveTechs(v ? [v] : []); setPage(0) }} /></div>
                 <div className="flex-1 min-w-0"><FilterDropdown label="Timezone" options={['All Timezones', ...TZ_OPTIONS]} value={filterTz} onChange={v => { setFilterTz(v === 'All Timezones' ? '' : v); setPage(0) }} /></div>
               </div>
               <div className="lg:hidden mb-3">
