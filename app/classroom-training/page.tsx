@@ -548,7 +548,7 @@ function DatesModal({ course, onClose, onSelectDate }: {
                         <span className="text-[13px] font-bold block" style={{ color: '#0C1929' }}>{dates} 2026</span>
                         <span className="text-[11px] flex items-center gap-1" style={{ color: '#5a7a90' }}>
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                          {city}
+                          {city}{CITY_COUNTRY[city] ? `, ${CITY_COUNTRY[city]}` : ''}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
@@ -558,7 +558,6 @@ function DatesModal({ course, onClose, onSelectDate }: {
                             GTR
                           </span>
                         )}
-                        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: '#E6F6FD', color: '#0694D1' }}>Classroom</span>
                       </div>
                     </button>
                   ))}
@@ -702,13 +701,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                   </svg>
-                  {modalSched.city}
-                </span>
-                <span className="flex items-center gap-1.5 text-[11px]" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                  Classroom
+                  {modalSched.city}{CITY_COUNTRY[modalSched.city] ? `, ${CITY_COUNTRY[modalSched.city]}` : ''}
                 </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
@@ -738,13 +731,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                       </svg>
-                      {s.city}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.3)' : '#94A3B8') }}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-                      </svg>
-                      Classroom
+                      {s.city}{CITY_COUNTRY[s.city] ? `, ${CITY_COUNTRY[s.city]}` : ''}
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
@@ -810,10 +797,17 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
 }
 
 /* ── Filter data ─────────────────────────────────────────────── */
+const CITY_COUNTRY: Record<string, string> = {
+  'Dubai': 'UAE', 'London': 'UK', 'New Delhi': 'India', 'Johannesburg': 'South Africa',
+  'Singapore': 'Singapore', 'Kuala Lumpur': 'Malaysia', 'Riyadh': 'Saudi Arabia',
+  'Cairo': 'Egypt', 'Amsterdam': 'Netherlands', 'Frankfurt': 'Germany',
+  'New York': 'USA', 'Toronto': 'Canada', 'Sydney': 'Australia', 'Melbourne': 'Australia',
+  'Bangkok': 'Thailand',
+}
 const CITY_OPTIONS = [
-  'Dubai', 'London', 'New Delhi', 'Johannesburg', 'Singapore',
-  'Kuala Lumpur', 'Riyadh', 'Cairo', 'Amsterdam', 'Frankfurt',
-  'New York', 'Toronto', 'Sydney', 'Melbourne', 'Bangkok',
+  'Dubai, UAE', 'London, UK', 'New Delhi, India', 'Johannesburg, South Africa', 'Singapore, Singapore',
+  'Kuala Lumpur, Malaysia', 'Riyadh, Saudi Arabia', 'Cairo, Egypt', 'Amsterdam, Netherlands', 'Frankfurt, Germany',
+  'New York, USA', 'Toronto, Canada', 'Sydney, Australia', 'Melbourne, Australia', 'Bangkok, Thailand',
 ]
 
 const ALL_VENDORS = [
@@ -1337,7 +1331,7 @@ export default function ClassroomTrainingPage() {
     const matchTech    = activeTechs.length > 0
       ? (c.techs ?? []).some(t => activeTechs.includes(t))
       : activeTech === 'All' || (c.techs ?? []).includes(activeTech)
-    const matchCity    = !filterCity || c.schedules.some(s => s.city === filterCity)
+    const matchCity    = !filterCity || c.schedules.some(s => s.city === filterCity.split(', ')[0])
     const matchVendor  = !filterVendor || c.vendor === filterVendor
     return matchSearch && matchTech && matchCity && matchVendor
   })
