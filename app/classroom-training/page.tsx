@@ -626,6 +626,10 @@ function DatesModal({ course, onClose, onSelectDate }: {
                       <div className="w-3.5 h-3.5 rounded-full shrink-0 border-[1.5px]" style={{ borderColor: '#CBD5E1' }} />
                       <div className="flex-1 min-w-0">
                         <span className="text-[13px] font-bold block" style={{ color: '#0C1929' }}>{dates} 2026</span>
+                        <span className="text-[11px] flex items-center gap-1 mt-0.5" style={{ color: '#5a7a90' }}>
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          {CITY_TIME[city] ?? '09:00 AM – 05:00 PM'}
+                        </span>
                         <span className="text-[11px] flex items-center gap-1" style={{ color: '#5a7a90' }}>
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                           <strong>{city}</strong>{CITY_COUNTRY[city] ? ` (${CITY_COUNTRY[city]})` : ''}
