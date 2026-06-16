@@ -1211,16 +1211,16 @@ export default function ClassroomTrainingPage() {
                 </a>
               </div>
 
-              <div className="flex flex-wrap gap-3">
-                <a href="#schedule" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+              <div className="flex flex-col lg:flex-row flex-wrap gap-3">
+                <button onClick={() => setShowFormModal(true)} className="w-full lg:w-auto inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
                   style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
+                  Request More Info
+                </button>
+                <a href="#schedule" className="w-full lg:w-auto inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
+                  style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
                   View Upcoming Batches
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <button onClick={() => setShowFormModal(true)} className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
-                  style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
-                  Request Info
-                </button>
               </div>
 
               {/* Mobile stat tiles */}
