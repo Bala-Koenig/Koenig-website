@@ -2237,31 +2237,6 @@ export default function LiveOnlineClassroomPage() {
                 </a>
               </div>
 
-              {/* Social proof */}
-              <div className="mt-4 flex items-center gap-3 justify-center lg:justify-start">
-                <div style={{ display: 'flex' }}>
-                  {[
-                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face',
-                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face',
-                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&h=60&fit=crop&crop=face',
-                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&crop=face',
-                    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face',
-                  ].map((src, i) => (
-                    <img key={i} src={src} alt="certified professional" width={34} height={34}
-                      style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid #0a1628', objectFit: 'cover', marginLeft: i === 0 ? 0 : -10, position: 'relative', zIndex: 5 - i }} />
-                  ))}
-                </div>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 2, marginBottom: 3 }}>
-                    {'★★★★★'.split('').map((s, i) => (
-                      <span key={i} style={{ color: '#F59E0B', fontSize: 15, lineHeight: 1 }}>{s}</span>
-                    ))}
-                  </div>
-                  <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1AABDD' }}>
-                    500K+ <span style={{ color: 'rgba(228,247,255,0.7)', fontWeight: 400 }}>certified professionals</span>
-                  </p>
-                </div>
-              </div>
 
               {/* Mobile stat tiles */}
               <div className="lg:hidden mt-8 grid grid-cols-2" style={{ borderRadius: 16, border: '1px solid rgba(6,148,209,0.18)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
