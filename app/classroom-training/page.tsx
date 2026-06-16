@@ -1296,11 +1296,11 @@ function IloScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: 
 export default function ClassroomTrainingPage() {
   const [activeTab, setActiveTab]     = useState('classroom')
   const [activeTech, setActiveTech]   = useState('All')
+  const [activeTechs, setActiveTechs] = useState<string[]>([])
   const [techSearch, setTechSearch]   = useState('')
   const [search, setSearch]           = useState('')
   const [filterCity, setFilterCity]   = useState('')
-  const [filterVendors, setFilterVendors] = useState<string[]>([])
-  const [showVendorPanel, setShowVendorPanel] = useState(false)
+  const [filterVendor, setFilterVendor] = useState('')
   const [vendorSearch, setVendorSearch] = useState('')
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
@@ -1318,8 +1318,8 @@ export default function ClassroomTrainingPage() {
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
 
-  const toggleVendor = (v: string) => {
-    setFilterVendors(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])
+  const toggleTech = (t: string) => {
+    setActiveTechs(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
     setPage(0)
   }
 
@@ -1334,9 +1334,11 @@ export default function ClassroomTrainingPage() {
   const filtered = COURSES.filter(c => {
     const q = search.toLowerCase()
     const matchSearch  = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
-    const matchTech    = activeTech === 'All' || (c.techs ?? []).includes(activeTech)
+    const matchTech    = activeTechs.length > 0
+      ? (c.techs ?? []).some(t => activeTechs.includes(t))
+      : activeTech === 'All' || (c.techs ?? []).includes(activeTech)
     const matchCity    = !filterCity || c.schedules.some(s => s.city === filterCity)
-    const matchVendor  = filterVendors.length === 0 || filterVendors.includes(c.vendor)
+    const matchVendor  = !filterVendor || c.vendor === filterVendor
     return matchSearch && matchTech && matchCity && matchVendor
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
@@ -1804,13 +1806,60 @@ export default function ClassroomTrainingPage() {
               {/* Left sidebar */}
               <div className="hidden lg:flex flex-col w-[220px] shrink-0 rounded-2xl overflow-hidden bg-white self-start sticky top-4"
                 style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
+                {/* ── Vendor section ── */}
                 <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
+                  <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>VENDOR</p>
+                  <div className="relative">
+                    <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" placeholder="Search..." value={vendorSearch}
+                      onChange={e => setVendorSearch(e.target.value)}
+                      className="w-full pl-7 py-1.5 text-[11px] rounded-lg outline-none"
+                      style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: vendorSearch ? '24px' : '8px' }}
+                    />
+                    {vendorSearch && (
+                      <button onClick={() => setVendorSearch('')}
+                        className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5 hover:bg-[#CAEFFF] transition-all"
+                        style={{ color: '#64748B' }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </button>
+                    )}
+                  </div>
+                  <div className="mt-2" style={{ borderBottom: '1px solid #EBF8FE', marginLeft: '-12px', marginRight: '-12px' }} />
+                </div>
+                <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 296 }}>
+                  {ALL_VENDORS.filter(v => !vendorSearch || v.toLowerCase().includes(vendorSearch.toLowerCase())).map(v => {
+                    const count = COURSES.filter(c => c.vendor === v).length
+                    if (count === 0) return null
+                    const active = filterVendor === v
+                    return (
+                      <button key={v}
+                        onClick={() => { setFilterVendor(active ? '' : v); setPage(0) }}
+                        className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
+                        style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, background: active ? '#EBF8FE' : 'white' }}>
+                        <span className="text-[13px] font-medium truncate" style={{ color: active ? '#0694D1' : '#374151' }} title={v}>{v}</span>
+                        <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                          style={{ background: active ? '#0694D1' : '#E2E8F0', color: active ? 'white' : '#6B7280' }}>
+                          {count}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {/* ── Technology section ── */}
+                <div className="px-3 pt-2.5 pb-2" style={{ borderTop: '1px solid #EBF8FE', borderBottom: '1px solid #EBF8FE' }}>
                   <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>TECHNOLOGY</p>
                   <div className="relative">
-                    <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input type="text" placeholder="Search..." value={techSearch} onChange={e => setTechSearch(e.target.value)}
+                    <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" placeholder="Search..." value={techSearch}
+                      onChange={e => setTechSearch(e.target.value)}
                       className="w-full pl-7 py-1.5 text-[11px] rounded-lg outline-none"
-                      style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: techSearch ? '24px' : '8px' }} />
+                      style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: techSearch ? '24px' : '8px' }}
+                    />
                     {techSearch && (
                       <button onClick={() => setTechSearch('')} className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5 hover:bg-[#CAEFFF] transition-all" style={{ color: '#64748B' }}>
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -1818,26 +1867,73 @@ export default function ClassroomTrainingPage() {
                     )}
                   </div>
                 </div>
-                <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 420 }}>
-                  {SIDEBAR_TECHNOLOGIES.filter(t => !techSearch || t.name.toLowerCase().includes(techSearch.toLowerCase())).map(t => (
-                    <button key={t.name} onClick={() => { setActiveTech(t.name); setPage(0) }}
+                <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 352 }}>
+                  {!techSearch && (
+                    <button
+                      onClick={() => { setActiveTechs([]); setPage(0) }}
                       className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
-                      style={{ borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`, background: activeTech === t.name ? '#EBF8FE' : 'white' }}>
+                      style={{
+                        borderLeft: `3px solid ${activeTechs.length === 0 ? '#0694D1' : 'transparent'}`,
+                        background:  activeTechs.length === 0 ? '#EBF8FE' : 'white',
+                      }}>
                       <div className="flex items-center gap-2 min-w-0">
-                        <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>{getTechIcon(t.name)}</div>
-                        <span className="text-[14px] font-medium leading-tight truncate" style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }} title={t.label}>{t.label}</span>
+                        <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+                          style={{ background: '#EBF8FE', color: '#0694D1', fontSize: 13, fontWeight: 700 }}>★</div>
+                        <span className="text-[14px] font-medium leading-tight truncate"
+                          style={{ color: activeTechs.length === 0 ? '#0694D1' : '#374151' }}>
+                          All Technologies
+                        </span>
                       </div>
-                      <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1" style={{ background: activeTech === t.name ? '#0694D1' : '#E2E8F0', color: activeTech === t.name ? 'white' : '#6B7280' }}>{t.count}</span>
+                      <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                        style={{
+                          background: activeTechs.length === 0 ? '#0694D1' : '#E2E8F0',
+                          color:      activeTechs.length === 0 ? 'white' : '#6B7280',
+                        }}>
+                        {COURSES.length}
+                      </span>
                     </button>
-                  ))}
+                  )}
+                  {SIDEBAR_TECHNOLOGIES
+                    .filter(t => t.name !== 'All' && (!techSearch || t.name.toLowerCase().includes(techSearch.toLowerCase())))
+                    .map(t => {
+                      const active = activeTechs.includes(t.name)
+                      return (
+                        <button key={t.name}
+                          onClick={() => toggleTech(t.name)}
+                          className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
+                          style={{
+                            borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`,
+                            background:  active ? '#EBF8FE' : 'white',
+                          }}>
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+                              style={{ background: t.bg, color: t.color }}>
+                              {getTechIcon(t.name)}
+                            </div>
+                            <span className="text-[14px] font-medium leading-tight truncate"
+                              style={{ color: active ? '#0694D1' : '#374151' }}
+                              title={t.label}>
+                              {t.label}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0 ml-1">
+                            <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5"
+                              style={{
+                                background: active ? '#0694D1' : '#E2E8F0',
+                                color:      active ? 'white' : '#6B7280',
+                              }}>
+                              {t.count}
+                            </span>
+                            <div className="w-3.5 h-3.5 rounded border-[1.5px] flex items-center justify-center shrink-0"
+                              style={active ? { borderColor: '#0694D1', background: '#0694D1' } : { borderColor: '#CBD5E1', background: 'white' }}>
+                              {active && <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                            </div>
+                          </div>
+                        </button>
+                      )
+                    })}
                 </div>
-                <div className="p-4 mt-auto" style={{ borderTop: '1px solid #EBF8FE' }}>
-                  <button onClick={() => { setFormType('individual'); setShowFormModal(true) }} className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90"
-                    style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    Enquire Now
-                  </button>
-                </div>
+
               </div>
 
               {/* Right panel */}
@@ -1860,7 +1956,7 @@ export default function ClassroomTrainingPage() {
                   </div>
                 </div>
 
-                {/* Desktop: search + city + OEM */}
+                {/* Desktop: Search + City */}
                 <div className="hidden lg:flex items-center gap-2 mb-2">
                   <div className="relative flex-1 min-w-0">
                     <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1874,15 +1970,6 @@ export default function ClassroomTrainingPage() {
                     )}
                   </div>
                   <FilterDropdown label="City" options={['All Cities', ...CITY_OPTIONS]} value={filterCity} onChange={v => { setFilterCity(v === 'All Cities' ? '' : v); setPage(0) }} />
-                  <button onClick={() => setShowVendorPanel(p => !p)}
-                    className="shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all"
-                    style={filterVendors.length > 0 ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' } : { background: 'white', color: '#374151', border: '1px solid #CAEFFF' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                    OEM
-                    {filterVendors.length > 0 && (
-                      <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold" style={{ background: 'rgba(255,255,255,0.25)', color: 'white' }}>{filterVendors.length}</span>
-                    )}
-                  </button>
                 </div>
 
                 {/* Mobile: search */}
@@ -1900,37 +1987,38 @@ export default function ClassroomTrainingPage() {
                   </div>
                 </div>
 
-                {/* Mobile: City + OEM equal-width row */}
-                <div className="lg:hidden flex items-center gap-2 mb-2">
-                  <div className="flex-1 min-w-0">
-                    <FilterDropdown label="City" options={['All Cities', ...CITY_OPTIONS]} value={filterCity} onChange={v => { setFilterCity(v === 'All Cities' ? '' : v); setPage(0) }} inputType="radio" fullWidth />
+                {/* Mobile: Vendor | Tech (row 1), City (row 2) */}
+                <div className="lg:hidden flex flex-col gap-2 mb-2">
+                  <div className="flex gap-2">
+                    <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS.filter(v => COURSES.some(c => c.vendor === v))]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth /></div>
+                    <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.filter(t => t.name !== 'All').map(t => t.label)} value={activeTechs[0] ?? ''} onChange={v => { setActiveTechs(v ? [v] : []); setPage(0) }} fullWidth inputType="checkbox" values={activeTechs} onMultiChange={vals => { setActiveTechs(vals); setPage(0) }} /></div>
                   </div>
-                  <button onClick={() => setShowVendorPanel(p => !p)}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
-                    style={filterVendors.length > 0 ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' } : { background: 'white', color: '#374151', border: '1px solid #CAEFFF' }}>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                    OEM
-                    {filterVendors.length > 0 && (
-                      <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold" style={{ background: 'rgba(255,255,255,0.3)', color: 'white' }}>{filterVendors.length}</span>
-                    )}
-                  </button>
+                  <FilterDropdown label="City" options={['All Cities', ...CITY_OPTIONS]} value={filterCity} onChange={v => { setFilterCity(v === 'All Cities' ? '' : v); setPage(0) }} inputType="radio" fullWidth />
                 </div>
                 <div className="lg:hidden mb-3">
                   <span className="text-xs font-medium" style={{ color: '#64748B' }}>Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}</span>
                 </div>
 
                 {/* Active filter chips */}
-                {filterVendors.length > 0 && (
+                {(filterVendor || activeTechs.length > 0) && (
                   <div className="flex items-center gap-2 flex-wrap mb-3">
-                    {filterVendors.map(v => (
-                      <span key={v} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#EBF8FE', color: '#0694D1', border: '1.5px solid #CAEFFF' }}>
-                        {v}
-                        <button onClick={() => toggleVendor(v)} className="hover:opacity-70">
+                    {filterVendor && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#EBF8FE', color: '#0694D1', border: '1.5px solid #CAEFFF' }}>
+                        {filterVendor}
+                        <button onClick={() => { setFilterVendor(''); setPage(0) }} className="hover:opacity-70">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                        </button>
+                      </span>
+                    )}
+                    {activeTechs.map(t => (
+                      <span key={t} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: '#EBF8FE', color: '#0694D1', border: '1.5px solid #CAEFFF' }}>
+                        {t}
+                        <button onClick={() => toggleTech(t)} className="hover:opacity-70">
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
                         </button>
                       </span>
                     ))}
-                    <button onClick={() => { setFilterVendors([]); setPage(0) }} className="text-xs font-semibold transition-all hover:underline" style={{ color: '#0694D1' }}>Clear all</button>
+                    <button onClick={() => { setFilterVendor(''); setActiveTechs([]); setPage(0) }} className="text-xs font-semibold transition-all hover:underline" style={{ color: '#0694D1' }}>Clear all</button>
                     <span className="ml-auto text-xs font-medium" style={{ color: '#64748B' }}>Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}</span>
                   </div>
                 )}
@@ -1979,68 +2067,6 @@ export default function ClassroomTrainingPage() {
               </div>
             </div>
 
-            {/* OEM filter drawer */}
-            {showVendorPanel && (() => {
-              const visibleVendors = vendorSearch ? ALL_VENDORS.filter(v => v.toLowerCase().includes(vendorSearch.toLowerCase())) : ALL_VENDORS
-              const btnLabel = filterVendors.length === 1 ? `Show ${filtered.length} ${filterVendors[0]} courses →` : filterVendors.length > 1 ? `Show ${filtered.length} courses (${filterVendors.length} OEMs) →` : `View all courses →`
-              return (
-                <div className="fixed inset-0 z-[200] lg:absolute lg:inset-0 lg:z-50 flex items-center justify-center lg:items-start lg:justify-end px-4 lg:px-0 lg:rounded-2xl lg:overflow-hidden"
-                  style={{ background: 'rgba(6,17,30,0.45)', backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)' }}
-                  onClick={() => { setShowVendorPanel(false); setVendorSearch('') }}>
-                  <div className="relative z-10 flex flex-col bg-white w-full max-w-sm lg:max-w-none lg:w-[320px] rounded-2xl lg:rounded-none overflow-hidden"
-                    style={{ maxHeight: '85vh', boxShadow: '0 20px 60px rgba(0,0,0,0.18), -8px 0 40px rgba(6,148,209,0.15)' }}
-                    onClick={e => e.stopPropagation()}>
-                    <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #E2E8F0' }}>
-                      <div>
-                        <h3 className="text-base font-bold" style={{ color: '#06111E' }}>Filter by OEM</h3>
-                        {filterVendors.length > 0 && <p className="text-[11px] mt-0.5" style={{ color: '#0694D1' }}>{filterVendors.length} selected</p>}
-                      </div>
-                      <button onClick={() => { setShowVendorPanel(false); setVendorSearch('') }} className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:bg-[#F0F9FF]" style={{ border: '1.5px solid #E2E8F0', color: '#475569' }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                      </button>
-                    </div>
-                    <div className="flex-1 overflow-y-auto px-5 py-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <p className="text-[11px] font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>OEM / Vendor</p>
-                        <span className="text-[10px] font-medium" style={{ color: '#94A3B8' }}>{ALL_VENDORS.length} vendors</span>
-                      </div>
-                      <div className="relative mb-3">
-                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <input value={vendorSearch} onChange={e => setVendorSearch(e.target.value)} placeholder="Search OEMs…"
-                          className="w-full rounded-xl pl-8 py-2 text-sm outline-none"
-                          style={{ background: '#F8FBFF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: vendorSearch ? '28px' : '12px' }} />
-                        {vendorSearch && (
-                          <button onClick={() => setVendorSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center rounded-full hover:bg-[#CAEFFF]" style={{ color: '#94A3B8' }}>
-                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                          </button>
-                        )}
-                      </div>
-                      <div className="flex flex-col gap-1.5 overflow-y-auto" style={{ maxHeight: 320 }}>
-                        {visibleVendors.map(v => {
-                          const active = filterVendors.includes(v)
-                          const count = COURSES.filter(c => c.vendor === v).length
-                          return (
-                            <button key={v} onClick={() => toggleVendor(v)}
-                              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-semibold transition-all w-full text-left"
-                              style={active ? { background: 'linear-gradient(135deg,#EFF9FF,#E6F6FD)', color: '#0694D1', border: '1.5px solid #0694D1' } : { background: 'white', color: '#374151', border: '1.5px solid #E2E8F0' }}>
-                              <VendorLogo name={v} size={28} />
-                              <span className="flex-1">{v}</span>
-                              <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0" style={active ? { background: '#0694D1', color: 'white' } : { background: '#F1F5F9', color: '#6B7280' }}>{count}</span>
-                              {active && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                            </button>
-                          )
-                        })}
-                        {visibleVendors.length === 0 && <p className="text-sm py-4 w-full text-center" style={{ color: '#94A3B8' }}>No OEMs found</p>}
-                      </div>
-                    </div>
-                    <div className="flex gap-3 px-5 py-4" style={{ borderTop: '1px solid #E2E8F0' }}>
-                      <button onClick={() => { setFilterVendors([]); setPage(0) }} className="flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-[#F0F9FF]" style={{ border: '1.5px solid #0694D1', color: '#0694D1' }}>Clear all</button>
-                      <button onClick={() => { setShowVendorPanel(false); setVendorSearch('') }} className="flex-1 rounded-xl py-2.5 text-xs font-bold text-white transition-all hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>{btnLabel}</button>
-                    </div>
-                  </div>
-                </div>
-              )
-            })()}
           </div>
         </div>
       </section>
