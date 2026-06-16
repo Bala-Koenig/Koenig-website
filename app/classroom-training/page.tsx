@@ -1,5 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 
@@ -466,11 +467,11 @@ function VendorLogo({ name, size = 24 }: { name: string; size?: number }) {
   )
 }
 
-/* ── Dates Modal (classroom — shows city) ────────────────────── */
-function DatesModal({ course, onClose, onEnroll }: {
-  course: typeof COURSES[0]; onClose: () => void; onEnroll: () => void
+/* ── Dates Modal ─────────────────────────────────────────────── */
+function DatesModal({ course, onClose, onSelectDate }: {
+  course: typeof COURSES[0]; onClose: () => void; onSelectDate: (idx: number) => void
 }) {
-  const [selectedIdx, setSelectedIdx] = useState(0)
+  const CARD_VISIBLE = 1
   const days = Math.ceil(course.duration / 8)
 
   useEffect(() => {
@@ -482,7 +483,7 @@ function DatesModal({ course, onClose, onEnroll }: {
 
   const MONTH_RE = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/
   const MONTH_ORDER = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  const rows = course.schedules.map((s, i) => ({ ...s, idx: i }))
+  const rows = course.schedules.slice(CARD_VISIBLE).map((s, i) => ({ ...s, idx: i + CARD_VISIBLE }))
   const grouped: { month: string; items: typeof rows }[] = []
   rows.forEach(r => {
     const m = r.dates.match(MONTH_RE)?.[1] ?? 'Other'
@@ -490,7 +491,6 @@ function DatesModal({ course, onClose, onEnroll }: {
     if (g) g.items.push(r); else grouped.push({ month: m, items: [r] })
   })
   grouped.sort((a, b) => MONTH_ORDER.indexOf(a.month) - MONTH_ORDER.indexOf(b.month))
-  const selected = course.schedules[selectedIdx]
 
   return (
     <div className="fixed inset-0 z-[300] flex items-end sm:items-center sm:px-4 justify-center"
@@ -500,78 +500,71 @@ function DatesModal({ course, onClose, onEnroll }: {
       <div className="relative w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl overflow-hidden flex flex-col bg-white"
         style={{ maxHeight: '92vh', boxShadow: '0 -8px 40px rgba(12,25,41,0.25)', animation: 'dmUp 0.3s cubic-bezier(0.22,1,0.36,1)' } as React.CSSProperties}
         onClick={e => e.stopPropagation()}>
-        <div className="sm:hidden flex justify-center pt-3 pb-1">
+
+        {/* Mobile drag handle */}
+        <div className="sm:hidden flex justify-center pt-3 pb-1 shrink-0">
           <div className="w-10 h-1 rounded-full" style={{ background: '#CBD5E1' }} />
         </div>
-        <div className="relative px-6 pt-5 pb-4" style={{ borderBottom: '1px solid #DDE6EE' }}>
-          <button onClick={onClose} className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all hover:bg-[#E6F6FD]" style={{ border: '1.5px solid #DDE6EE', color: '#5a7a90' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+
+        {/* Header */}
+        <div className="relative px-5 pt-4 pb-3.5 shrink-0" style={{ borderBottom: '1px solid #DDE6EE' }}>
+          <button onClick={onClose}
+            className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-[#E6F6FD]"
+            style={{ border: '1.5px solid #DDE6EE', color: '#5a7a90' }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
-          <span className="inline-block text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full mb-2" style={{ background: '#E6F6FD', color: '#0694D1' }}>{course.vendor}</span>
-          <h2 className="text-sm font-bold leading-snug pr-10 mb-2" style={{ color: '#0C1929' }}>{course.code}: {course.name}</h2>
-          <span className="flex items-center gap-1.5 text-xs" style={{ color: '#5a7a90' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            {course.duration} hrs ({days} {days === 1 ? 'Day' : 'Days'})
+          <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full"
+            style={{ background: '#E6F6FD', color: '#0694D1' }}>{course.vendor}</span>
+          <h2 className="text-sm font-bold leading-snug mt-1.5 pr-10" style={{ color: '#0C1929' }}>
+            {course.code}: {course.name}
+          </h2>
+          <span className="flex items-center gap-1 text-xs mt-1" style={{ color: '#5a7a90' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            {course.duration} hrs · {days} {days === 1 ? 'Day' : 'Days'}
           </span>
         </div>
-        <div className="flex items-center px-6 py-2.5" style={{ borderBottom: '1px solid #DDE6EE', background: '#FAFCFE' }}>
-          <span className="text-xs font-medium" style={{ color: '#5a7a90' }}>{rows.length} date{rows.length !== 1 ? 's' : ''} available</span>
-        </div>
-        <div className="flex-1 overflow-y-auto px-6 py-4" style={{ minHeight: 0 }}>
-          {grouped.map(({ month, items }) => (
-            <div key={month} className="mb-4">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-[11px] font-black uppercase tracking-widest shrink-0" style={{ color: '#94A3B8' }}>{month} 2026</span>
-                <div className="flex-1 h-px" style={{ background: '#E2E8F0' }} />
-              </div>
-              <div className="flex flex-col gap-2">
-                {items.map(({ idx, dates, city, gtr }) => {
-                  const sel = selectedIdx === idx
-                  return (
-                    <button key={idx} onClick={() => setSelectedIdx(idx)}
-                      className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all"
-                      style={sel ? { background: '#E6F6FD', border: '1.5px solid #0694D1' } : { background: 'white', border: '1px solid #DDE6EE' }}>
-                      <div className="w-4 h-4 rounded-full shrink-0 flex items-center justify-center" style={sel ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
-                        {sel && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
-                      </div>
-                      <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                        <span className="flex items-center gap-1.5 text-sm font-bold" style={{ color: sel ? '#0694D1' : '#0C1929' }}>
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                          {dates} 2026
-                        </span>
-                        <span className="flex items-center gap-1.5 text-xs" style={{ color: sel ? '#0694D1' : '#5a7a90' }}>
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+
+        {/* Scrollable date list */}
+        <div className="flex-1 overflow-y-auto" style={{ minHeight: 0 }}>
+          <div className="px-5 pt-4 pb-5">
+            <p className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>
+              Select a Date · {rows.length} available
+            </p>
+            {grouped.map(({ month, items }) => (
+              <div key={month} className="mb-3 last:mb-0">
+                <div className="flex items-center gap-3 mb-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-widest shrink-0" style={{ color: '#C4D0DC' }}>{month} 2026</span>
+                  <div className="flex-1 h-px" style={{ background: '#F1F5F9' }} />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  {items.map(({ idx, dates, city, gtr }) => (
+                    <button key={idx} onClick={() => { onSelectDate(idx); onClose() }}
+                      className="w-full flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-left transition-all active:opacity-70 cursor-pointer"
+                      style={{ background: 'white', border: '1px solid #E8EFF5' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#F0FAFF'; (e.currentTarget as HTMLButtonElement).style.border = '1px solid #CAEFFF' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'white'; (e.currentTarget as HTMLButtonElement).style.border = '1px solid #E8EFF5' }}>
+                      <div className="w-3.5 h-3.5 rounded-full shrink-0 border-[1.5px]" style={{ borderColor: '#CBD5E1' }} />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[13px] font-bold block" style={{ color: '#0C1929' }}>{dates} 2026</span>
+                        <span className="text-[11px] flex items-center gap-1" style={{ color: '#5a7a90' }}>
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                           {city}
-                        </span>
-                        <span className="flex items-center gap-1.5 text-xs" style={{ color: sel ? '#0694D1' : '#94A3B8' }}>
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                          Classroom
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
                         {gtr && (
-                          <span className="flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: '#DCFCE7', color: '#16A34A' }}>
-                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                          <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: '#DCFCE7', color: '#16A34A' }}>
+                            <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                             GTR
                           </span>
                         )}
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: '#E6F6FD', color: '#0694D1' }}>In-Person</span>
+                        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full" style={{ background: '#E6F6FD', color: '#0694D1' }}>Classroom</span>
                       </div>
                     </button>
-                  )
-                })}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className="flex items-center justify-between px-6 py-4" style={{ background: '#F5F8FB', borderTop: '1px solid #DDE6EE' }}>
-          <div className="min-w-0 mr-4">
-            <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#94A3B8' }}>Selected</p>
-            <p className="text-sm font-bold" style={{ color: '#0C1929' }}>{selected ? `${selected.dates} 2026 — ${selected.city}` : '—'}</p>
-          </div>
-          <div className="flex items-center gap-2.5 shrink-0">
-            <button onClick={onClose} className="rounded-xl px-5 py-2.5 text-sm font-semibold transition-all hover:bg-[#E6F6FD]" style={{ border: '1px solid #DDE6EE', color: '#5a7a90', background: 'white' }}>Cancel</button>
-            <button onClick={onEnroll} className="rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' }}>Enroll Now</button>
+            ))}
           </div>
         </div>
       </div>
@@ -579,116 +572,240 @@ function DatesModal({ course, onClose, onEnroll }: {
   )
 }
 
-/* ── Course Card (classroom — shows city with map pin) ───────── */
-function CourseCard({ course, onEnroll, onViewDates, onSyllabus }: {
-  course: typeof COURSES[0]; onEnroll: () => void; onViewDates: () => void; onSyllabus: () => void
+/* ── Course Card ─────────────────────────────────────────────── */
+function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
+  course: typeof COURSES[0]; onEnroll: () => void; onSyllabus: () => void; dark?: boolean
 }) {
-  const [selectedSlot, setSelectedSlot] = useState(0)
-  const FULL_VISIBLE = 2
+  const [selectedIdx, setSelectedIdx] = useState(0)
+  const [certAdded, setCertAdded] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [feesOpen, setFeesOpen] = useState(false)
+  const FULL_VISIBLE = 1
   const fullCards = course.schedules.slice(0, FULL_VISIBLE)
   const extraCount = course.schedules.length - FULL_VISIBLE
   const hasMore = extraCount > 0
   const isPopular = (course.tags ?? []).includes('POPULAR')
   const days = Math.ceil(course.duration / 8)
+  const modalSched = selectedIdx >= FULL_VISIBLE ? course.schedules[selectedIdx] : null
+
+  const courseNum = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
 
   const RadioDot = ({ active }: { active: boolean }) => (
     <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
-      style={active ? { background: '#0694D1' } : { border: '1.5px solid #CBD5E1' }}>
+      style={active ? { background: '#0694D1' } : { border: `1.5px solid ${dark ? 'rgba(255,255,255,0.25)' : '#CBD5E1'}` }}>
       {active && <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
     </div>
   )
 
   const GtrBadge = () => (
-    <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: '#DCFCE7', color: '#15803D' }}>
+    <span className="flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+      style={{ background: dark ? 'rgba(21,128,61,0.25)' : '#DCFCE7', color: dark ? '#4ade80' : '#15803D' }}>
       <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       GTR
     </span>
   )
 
   return (
-    <div className="flex flex-col rounded-2xl overflow-hidden relative transition-all duration-300 hover:-translate-y-1"
-      style={{ background: 'white', border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
-      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 32px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#CAEFFF' }}
-      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLDivElement).style.borderColor = '#E2E8F0' }}>
+    <>
+      {modalOpen && typeof document !== 'undefined' && createPortal(
+        <DatesModal
+          course={course}
+          onClose={() => setModalOpen(false)}
+          onSelectDate={(idx) => setSelectedIdx(idx)}
+        />,
+        document.body
+      )}
+      {feesOpen && typeof document !== 'undefined' && createPortal(
+        <>
+          <div style={{ position: 'fixed', inset: 0, zIndex: 9998, background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(2px)' }} onClick={() => setFeesOpen(false)} />
+          <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 9999, width: 'calc(100vw - 32px)', maxWidth: 340, background: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 25px 60px rgba(0,0,0,0.22)' }}>
+            <div style={{ background: '#071e2e', padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#fff' }}>Fees Breakdown</span>
+              <button onClick={() => setFeesOpen(false)} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%', width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: 13, fontWeight: 700 }}>✕</button>
+            </div>
+            <div style={{ padding: '4px 0' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #f0f4f8' }}>
+                <div>
+                  <div style={{ color: '#4a6a8a' }}>Course Training</div>
+                  <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>{course.duration} hrs · {days} {days === 1 ? 'Day' : 'Days'} · In-Person</div>
+                </div>
+                <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>{course.price}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', fontSize: 14, background: '#f8fcff' }}>
+                <span style={{ fontWeight: 700, color: '#071e2e' }}>Total</span>
+                <span style={{ fontWeight: 700, color: '#071e2e' }}>{course.price} <span style={{ fontSize: 11, color: '#8a9db5', fontWeight: 400 }}>excl. taxes</span></span>
+              </div>
+            </div>
+            <div style={{ textAlign: 'center', padding: '10px 16px 14px', borderTop: '1px solid #e8f4fa' }}>
+              <button onClick={() => setFeesOpen(false)} style={{ background: 'none', border: 'none', fontSize: 13, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer' }}>Hide Breakdown</button>
+            </div>
+          </div>
+        </>,
+        document.body
+      )}
+      <div className="flex flex-col rounded-2xl overflow-hidden relative group/card transition-all duration-300 hover:-translate-y-1"
+        style={dark
+          ? { background: 'rgba(8,24,42,0.75)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }
+          : { background: 'white', border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = dark ? '0 12px 32px rgba(6,148,209,0.25)' : '0 12px 32px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLDivElement).style.borderColor = dark ? 'rgba(6,148,209,0.55)' : '#CAEFFF' }}
+        onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = dark ? '0 4px 20px rgba(0,0,0,0.4)' : '0 4px 16px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLDivElement).style.borderColor = dark ? 'rgba(6,148,209,0.25)' : '#E2E8F0' }}>
 
+      {/* Popular badge */}
       {isPopular && (
-        <div className="absolute top-0 right-0 z-10">
-          <span className="flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-bl-xl rounded-tr-2xl tracking-wide uppercase"
-            style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', letterSpacing: '0.04em' }}>
-            ★ Popular
-          </span>
-        </div>
+        <span className="absolute" style={{ top: 0, right: 0, display: 'inline-flex', alignItems: 'center', gap: 4, height: 20, fontSize: 9, fontWeight: 800, letterSpacing: 0.5, textTransform: 'uppercase', padding: '0 10px 0 8px', borderRadius: '0 14px 0 10px', background: 'linear-gradient(135deg,#0694D1,#22d3ee)', color: '#fff', boxShadow: '-2px 2px 8px rgba(6,148,209,0.28)', zIndex: 2 }}>
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2z"/></svg>
+          Popular
+        </span>
       )}
 
-      <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F1F5F9' }}>
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full" style={{ background: '#EBF8FE', color: '#0694D1' }}>{course.vendor}</span>
-          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold${isPopular ? ' mr-14' : ''}`}
-            style={{ background: '#EBF8FE', color: '#0694D1', border: '1px solid #CAEFFF' }}>
-            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            {course.schedules[selectedSlot].city}
-          </span>
-        </div>
-        <h3 className="mt-2 text-sm font-bold leading-snug" style={{ color: '#0F172A' }}>{course.code}: {course.name}</h3>
-        <div className="flex items-center gap-3 mt-2.5">
-          <button onClick={onSyllabus} className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition-all" style={{ border: '1px solid #0694D1', color: '#0694D1', background: 'transparent' }}>
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      {/* Card header */}
+      <div className="px-4 pt-4 pb-3" style={{ borderBottom: `1px solid ${dark ? 'rgba(6,148,209,0.15)' : '#F1F5F9'}` }}>
+        <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full"
+          style={{ background: dark ? 'rgba(6,148,209,0.18)' : '#EBF8FE', color: dark ? '#38bdf8' : '#0694D1' }}>{course.vendor}</span>
+        <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: dark ? '#fff' : '#0F172A' }}>
+          {course.code}: {course.name}
+        </h3>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-2.5">
+          <button onClick={onSyllabus}
+            className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition-all"
+            style={{ border: `1px solid ${dark ? 'rgba(6,148,209,0.45)' : '#0694D1'}`, color: dark ? '#38bdf8' : '#0694D1', background: dark ? 'rgba(6,148,209,0.1)' : 'transparent' }}>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
             Download Syllabus
           </button>
-          <div className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: '#475569' }}>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.5)' : '#475569' }}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
             {course.duration} hrs ({days} {days === 1 ? 'Day' : 'Days'})
           </div>
         </div>
       </div>
 
+      {/* Date selection */}
       <div className="px-4 py-3 flex flex-col gap-2">
-        <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: '#94A3B8' }}>Select a Date & City</p>
-        {fullCards.map((s, i) => {
-          const active = selectedSlot === i
-          return (
-            <button key={i} onClick={() => setSelectedSlot(i)}
-              className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all"
-              style={active
-                ? { background: '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }
-                : { background: 'white', border: '1px solid #E8EFF5', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex flex-col gap-1">
-                  <span className="flex items-center gap-1.5 font-bold" style={{ color: active ? '#0694D1' : '#0F172A' }}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    {s.dates}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? '#0694D1' : '#64748B' }}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    {s.city}
-                  </span>
-                  <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? '#0694D1' : '#94A3B8' }}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                    Classroom
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
-                  {s.gtr && <GtrBadge />}
-                  <RadioDot active={active} />
-                </div>
+        <p className="text-[10px] font-medium uppercase tracking-wider" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>Select a Date</p>
+
+        {modalSched ? (
+          <div className="w-full text-left rounded-xl px-3 py-2.5 text-xs"
+            style={{ background: dark ? 'rgba(6,148,209,0.15)' : '#EFF9FF', border: '1.5px solid #0694D1', borderLeft: '4px solid #0694D1', boxShadow: dark ? '0 2px 8px rgba(6,148,209,0.2)' : '0 2px 8px rgba(6,148,209,0.15)' }}>
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex flex-col gap-1">
+                <span className="flex items-center gap-1.5 font-bold" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  {modalSched.dates}
+                </span>
+                <span className="flex items-center gap-1.5 text-[11px]" style={{ color: dark ? '#38bdf8' : '#0694D1', opacity: 0.85 }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  {modalSched.city}
+                </span>
+                <span className="flex items-center gap-1.5 text-[11px]" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
+                  Classroom
+                </span>
               </div>
-            </button>
-          )
-        })}
-
-        {hasMore && (
-          <button onClick={onViewDates} className="self-start flex items-center gap-1.5 text-xs font-semibold transition-all hover:underline mt-0.5" style={{ color: '#0694D1' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            View All {course.schedules.length} Dates
-          </button>
+              <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
+                {modalSched.gtr && <GtrBadge />}
+                <RadioDot active={true} />
+              </div>
+            </div>
+          </div>
+        ) : (
+          fullCards.map((s, i) => {
+            const active = selectedIdx === i
+            return (
+              <button key={i} onClick={() => setSelectedIdx(i)}
+                className="w-full text-left rounded-xl px-3 py-2.5 text-xs transition-all cursor-pointer"
+                style={active
+                  ? { background: dark ? 'rgba(6,148,209,0.15)' : '#EFF9FF', border: `1.5px solid #0694D1`, borderLeft: '4px solid #0694D1', boxShadow: dark ? '0 2px 8px rgba(6,148,209,0.2)' : '0 2px 8px rgba(6,148,209,0.15)' }
+                  : { background: dark ? 'rgba(255,255,255,0.04)' : 'white', border: `1px solid ${dark ? 'rgba(255,255,255,0.10)' : '#E8EFF5'}`, boxShadow: dark ? 'none' : '0 1px 4px rgba(0,0,0,0.06)' }}>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex flex-col gap-1">
+                    <span className="flex items-center gap-1.5 font-bold" style={{ color: active ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.85)' : '#0F172A') }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                      </svg>
+                      {s.dates}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.45)' : '#64748B') }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                      </svg>
+                      {s.city}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.3)' : '#94A3B8') }}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                      </svg>
+                      Classroom
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
+                    {s.gtr && <GtrBadge />}
+                    <RadioDot active={active} />
+                  </div>
+                </div>
+              </button>
+            )
+          })
         )}
+
+        {/* Row 1 — dates link + price */}
+        <div className="flex items-center justify-between mt-0.5">
+          {hasMore ? (
+            <button onClick={() => setModalOpen(true)}
+              className="flex items-center gap-1 text-[11px] font-semibold transition-all hover:underline cursor-pointer"
+              style={{ color: dark ? '#38bdf8' : '#0694D1' }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              {modalSched ? 'Change date' : `View All ${course.schedules.length} Dates`}
+            </button>
+          ) : <span />}
+          <div className="text-right">
+            <p className="text-sm font-bold leading-tight" style={{ color: dark ? '#38bdf8' : '#0694D1' }}>{course.price}</p>
+            <p className="text-[10px] leading-tight mt-0.5" style={{ color: dark ? 'rgba(255,255,255,0.35)' : '#94A3B8' }}>excl. VAT/GST</p>
+          </div>
+        </div>
+        {/* Row 2 — rating + fees breakdown */}
+        <div className="flex items-center justify-between mt-1">
+          <div className="flex items-center gap-1.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: dark ? 'rgba(255,255,255,0.45)' : '#64748B', flexShrink: 0 }}>
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span className="text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.55)' : '#64748B' }}>{course.enrolled}</span>
+            <span style={{ color: dark ? 'rgba(255,255,255,0.2)' : '#CBD5E1', fontSize: 10 }}>·</span>
+            <span style={{ color: '#F59E0B', fontSize: 11 }}>★</span>
+            <span className="text-[11px] font-semibold" style={{ color: dark ? 'rgba(255,255,255,0.55)' : '#64748B' }}>{course.rating}</span>
+          </div>
+          <button onClick={() => setFeesOpen(true)} className="text-[10px] font-semibold hover:underline cursor-pointer"
+            style={{ color: dark ? 'rgba(56,189,248,0.7)' : '#0694D1' }}>
+            View Fees Breakdown
+          </button>
+        </div>
       </div>
 
+      {/* Action buttons */}
       <div className="flex gap-2 px-4 pb-4 mt-auto">
-        <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all" style={{ border: '1.5px solid #093148', color: '#093148', background: 'transparent' }}>Learn More</button>
-        <button onClick={hasMore ? onViewDates : onEnroll} className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90" style={{ background: 'linear-gradient(135deg, #093148, #076D9D)' }}>Enroll Now</button>
+        <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all cursor-pointer"
+          style={{ border: `1.5px solid ${dark ? 'rgba(255,255,255,0.2)' : '#093148'}`, color: dark ? 'rgba(255,255,255,0.75)' : '#093148', background: dark ? 'rgba(255,255,255,0.05)' : 'transparent' }}>
+          View Course
+        </button>
+        <button onClick={onEnroll}
+          className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+          style={{ background: 'linear-gradient(135deg, #093148, #076D9D)' }}>
+          Enroll Now
+        </button>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
 
@@ -708,61 +825,178 @@ const ALL_VENDORS = [
 ]
 
 /* ── FilterDropdown ──────────────────────────────────────────── */
-function FilterDropdown({ label, options, value, onChange }: { label: string; options: string[]; value: string; onChange: (v: string) => void }) {
-  const [open, setOpen] = useState(false)
+function FilterDropdown({
+  label, options, value, onChange, fullWidth, inputType = 'radio', values, onMultiChange,
+}: {
+  label: string; options: string[]; value: string; onChange: (v: string) => void; fullWidth?: boolean;
+  inputType?: 'radio' | 'checkbox'; values?: string[]; onMultiChange?: (vals: string[]) => void;
+}) {
+  const [open, setOpen]   = useState(false)
   const [query, setQuery] = useState('')
-  const ref = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+  const ref      = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    function handle(e: MouseEvent) { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false) }
-    document.addEventListener('mousedown', handle)
-    return () => document.removeEventListener('mousedown', handle)
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
   }, [])
 
-  useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 50) }, [open])
+  useEffect(() => {
+    if (!isMobile) {
+      function handle(e: MouseEvent) {
+        if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+      }
+      document.addEventListener('mousedown', handle)
+      return () => document.removeEventListener('mousedown', handle)
+    }
+  }, [isMobile])
 
-  const displayed = value && value !== label ? value : label
-  const filtered = options.filter(o => o.toLowerCase().includes(query.toLowerCase()))
-  const hasValue = value && value !== label
+  useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 80) }, [open])
+
+  const isChecked = (o: string) => inputType === 'checkbox' ? (values ?? []).includes(o) : value === o
+  const activeCount = inputType === 'checkbox' ? (values ?? []).length : (value && value !== label ? 1 : 0)
+  const displayed = inputType === 'checkbox'
+    ? label
+    : (value && value !== label ? value : label)
+  const filtered  = options.filter(o => o.toLowerCase().includes(query.toLowerCase()))
+  const hasValue  = activeCount > 0
+
+  const handleSelect = (o: string) => {
+    if (inputType === 'checkbox') {
+      const cur = values ?? []
+      const next = cur.includes(o) ? cur.filter(v => v !== o) : [...cur, o]
+      onMultiChange?.(next)
+    } else {
+      onChange(o)
+      setOpen(false)
+      setQuery('')
+    }
+  }
+
+  const handleClear = () => {
+    if (inputType === 'checkbox') { onMultiChange?.([]); }
+    else { onChange(''); }
+    setQuery('')
+  }
+
+  const triggerBtn = (
+    <button
+      onClick={() => setOpen(p => !p)}
+      className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all ${fullWidth ? 'w-full justify-between' : ''}`}
+      style={{
+        border:     `1px solid ${hasValue ? '#0694D1' : '#CAEFFF'}`,
+        background: 'white',
+        color:      hasValue ? '#0694D1' : '#475569',
+        boxShadow:  '0 1px 4px rgba(6,148,209,0.06)',
+      }}>
+      <span className="max-w-[120px] truncate">{displayed}</span>
+      {inputType === 'checkbox' && activeCount > 0 && (
+        <span style={{ minWidth: 18, height: 18, borderRadius: 999, background: '#0694D1', color: '#fff', fontSize: 10, fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '0 5px', flexShrink: 0 }}>
+          {activeCount}
+        </span>
+      )}
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+        className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} style={{ color: '#94A3B8' }}>
+        <path d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+  )
+
+  /* Mobile bottom-sheet popup */
+  const mobileSheet = open && isMobile && typeof document !== 'undefined' && createPortal(
+    <div style={{ position: 'fixed', inset: 0, zIndex: 9000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+      <div onClick={() => { setOpen(false); setQuery('') }}
+        style={{ position: 'absolute', inset: 0, background: 'rgba(6,18,30,0.55)', backdropFilter: 'blur(2px)' }} />
+      <div style={{ position: 'relative', background: '#fff', borderRadius: '20px 20px 0 0', padding: '0 0 0', maxHeight: '75vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 40px rgba(6,148,209,0.18)' }}>
+        {/* Header */}
+        <div style={{ padding: '12px 20px 0', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div style={{ width: 36, height: 4, borderRadius: 999, background: '#CBD5E1', margin: '5px auto 0' }} />
+            <button onClick={() => { setOpen(false); setQuery('') }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#94A3B8', lineHeight: 0 }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div style={{ marginBottom: 12 }}>
+            <span style={{ fontSize: 14, fontWeight: 700, color: '#0694D1' }}>{label}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#F8FBFF', border: '1px solid #CAEFFF', borderRadius: 10, padding: '8px 12px', marginBottom: 8 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)}
+              placeholder="Search…" style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 14, fontWeight: 400, color: '#0F172A', WebkitAppearance: 'none' }} />
+          </div>
+        </div>
+        {/* Options list */}
+        <div style={{ overflowY: 'auto', flex: 1, padding: '4px 12px' }}>
+          {filtered.map(o => {
+            const checked = isChecked(o)
+            return (
+              <button key={o} onClick={() => handleSelect(o)}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', padding: '10px 8px', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 400, color: checked ? '#0694D1' : '#374151', background: checked ? 'rgba(6,148,209,0.06)' : 'transparent', marginBottom: 1 }}>
+                {inputType === 'radio' ? (
+                  <span style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${checked ? '#0694D1' : '#CBD5E1'}`, background: checked ? '#0694D1' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    {checked && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', display: 'block' }} />}
+                  </span>
+                ) : (
+                  <span style={{ width: 16, height: 16, borderRadius: 4, border: `2px solid ${checked ? '#0694D1' : '#CBD5E1'}`, background: checked ? '#0694D1' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    {checked && <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  </span>
+                )}
+                {o}
+              </button>
+            )
+          })}
+          {filtered.length === 0 && (
+            <p style={{ padding: '12px 8px', fontSize: 12, color: '#94A3B8' }}>No results</p>
+          )}
+        </div>
+        {/* Bottom actions */}
+        <div style={{ flexShrink: 0, padding: '12px 16px 32px', borderTop: '1px solid #EBF8FE', display: 'flex', gap: 10 }}>
+          <button onClick={handleClear}
+            style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+            Clear
+          </button>
+          <button onClick={() => { setOpen(false); setQuery('') }}
+            style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+            Apply{activeCount > 0 ? ` (${activeCount})` : ''}
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
 
   return (
-    <div ref={ref} className="relative shrink-0">
-      <button onClick={() => setOpen(p => !p)}
-        className="inline-flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold whitespace-nowrap transition-all"
-        style={{ border: `1px solid ${hasValue ? '#0694D1' : '#CAEFFF'}`, background: hasValue ? 'rgba(6,148,209,0.08)' : 'white', color: hasValue ? '#0694D1' : '#475569', boxShadow: hasValue ? '0 0 0 3px rgba(6,148,209,0.12)' : '0 1px 4px rgba(6,148,209,0.06)' }}>
-        <span className="max-w-[120px] truncate">{displayed}</span>
-        {hasValue && (
-          <span onClick={e => { e.stopPropagation(); onChange(''); setQuery('') }}
-            className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#0694D1] text-white hover:bg-[#076D9D]">
-            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          </span>
-        )}
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-          className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} style={{ color: '#94A3B8' }}>
-          <path d="M19 9l-7 7-7-7"/>
-        </svg>
-      </button>
-      {open && (
-        <div className="absolute left-0 top-full mt-1.5 z-50 rounded-2xl overflow-hidden" style={{ minWidth: '220px', background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.16)' }}>
+    <div ref={ref} className={`relative ${fullWidth ? 'w-full' : 'shrink-0'}`}>
+      {triggerBtn}
+      {open && !isMobile && (
+        <div className="absolute left-0 top-full mt-1.5 z-50 rounded-2xl overflow-hidden"
+          style={{ width: fullWidth ? '100%' : undefined, minWidth: fullWidth ? undefined : '290px', maxWidth: 'min(290px, calc(100vw - 2rem))', background: 'white', border: '1px solid #CAEFFF', boxShadow: '0 8px 32px rgba(6,148,209,0.16)' }}>
           <div className="p-2 border-b" style={{ borderColor: '#EBF8FE' }}>
             <div className="flex items-center gap-2 rounded-lg px-3 py-1.5" style={{ background: '#F8FBFF', border: '1px solid #CAEFFF' }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-              <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)} placeholder="Search…" className="flex-1 bg-transparent text-xs outline-none" style={{ color: '#0F172A' }} />
+              <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)}
+                placeholder="Search…" className="flex-1 bg-transparent text-xs outline-none" style={{ color: '#0F172A' }} />
             </div>
           </div>
           <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
             {filtered.map(o => (
-              <button key={o} onClick={() => { onChange(o); setQuery(''); setOpen(false) }}
-                className="flex w-full items-center px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF] text-left"
-                style={{ color: value === o ? '#0694D1' : '#374151', background: value === o ? 'rgba(6,148,209,0.06)' : 'transparent', fontWeight: value === o ? 600 : 400, whiteSpace: 'nowrap' }}>
+              <button key={o} onClick={() => { onChange(o); setOpen(false); setQuery('') }}
+                className="w-full px-4 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
+                style={{ fontSize: 12, color: value === o ? '#0694D1' : '#374151', fontWeight: value === o ? 700 : 400 }}>
                 {o}
               </button>
             ))}
-            {filtered.length === 0 && <p className="px-4 py-3 text-xs" style={{ color: '#94A3B8' }}>No results</p>}
+            {filtered.length === 0 && (
+              <p className="px-4 py-3 text-xs" style={{ color: '#94A3B8' }}>No results</p>
+            )}
           </div>
         </div>
       )}
+      {mobileSheet}
     </div>
   )
 }
@@ -1073,7 +1307,6 @@ export default function ClassroomTrainingPage() {
   const [activeReviewFaq, setActiveReviewFaq] = useState<'reviews' | 'faq'>('reviews')
   const [openFaq, setOpenFaq]         = useState<number | null>(null)
   const [showFormModal, setShowFormModal] = useState(false)
-  const [datesModalCourse, setDatesModalCourse] = useState<typeof COURSES[0] | null>(null)
   const tabScrollRef = useRef<HTMLDivElement>(null)
   const [benSlideIdx, setBenSlideIdx] = useState(0)
   const benTouchStartX = useRef(0)
@@ -1081,7 +1314,6 @@ export default function ClassroomTrainingPage() {
   const howTouchStartX = useRef(0)
   const [showMobileTechPicker, setShowMobileTechPicker] = useState(false)
   const [mobileTechSearch, setMobileTechSearch] = useState('')
-  const [showMobileCityModal, setShowMobileCityModal] = useState(false)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
@@ -1118,15 +1350,6 @@ export default function ClassroomTrainingPage() {
       {/* ── SYLLABUS MODAL ───────────────────────────────────── */}
       {showSyllabusModal && (
         <SyllabusModal courseName={syllabusCourseName} onClose={() => setShowSyllabusModal(false)} />
-      )}
-
-      {/* ── DATES MODAL ──────────────────────────────────────── */}
-      {datesModalCourse && (
-        <DatesModal
-          course={datesModalCourse}
-          onClose={() => setDatesModalCourse(null)}
-          onEnroll={() => { setDatesModalCourse(null); setShowFormModal(true) }}
-        />
       )}
 
       {/* ── FORM MODAL ───────────────────────────────────────── */}
@@ -1679,12 +1902,9 @@ export default function ClassroomTrainingPage() {
 
                 {/* Mobile: City + OEM equal-width row */}
                 <div className="lg:hidden flex items-center gap-2 mb-2">
-                  <button onClick={() => setShowMobileCityModal(true)}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
-                    style={filterCity ? { border: '1px solid #0694D1', background: 'rgba(6,148,209,0.08)', color: '#0694D1' } : { border: '1px solid #CAEFFF', background: 'white', color: '#374151' }}>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    {filterCity || 'City'}
-                  </button>
+                  <div className="flex-1 min-w-0">
+                    <FilterDropdown label="City" options={['All Cities', ...CITY_OPTIONS]} value={filterCity} onChange={v => { setFilterCity(v === 'All Cities' ? '' : v); setPage(0) }} inputType="radio" fullWidth />
+                  </div>
                   <button onClick={() => setShowVendorPanel(p => !p)}
                     className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold transition-all"
                     style={filterVendors.length > 0 ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.3)' } : { background: 'white', color: '#374151', border: '1px solid #CAEFFF' }}>
@@ -1721,7 +1941,6 @@ export default function ClassroomTrainingPage() {
                     ? paginated.map(c => (
                         <CourseCard key={c.id} course={c}
                           onEnroll={() => setShowFormModal(true)}
-                          onViewDates={() => setDatesModalCourse(c)}
                           onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
                         />
                       ))
@@ -1825,43 +2044,6 @@ export default function ClassroomTrainingPage() {
           </div>
         </div>
       </section>
-
-      {/* Mobile City Modal */}
-      {showMobileCityModal && (
-        <div className="lg:hidden fixed inset-0 z-[300] flex items-center justify-center px-4"
-          style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
-          onClick={() => setShowMobileCityModal(false)}>
-          <div className="bg-white rounded-2xl w-full max-w-sm overflow-hidden"
-            style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.2)', border: '1px solid #CAEFFF' }}
-            onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid #CAEFFF' }}>
-              <h3 className="font-bold text-base" style={{ color: '#06111E' }}>Select City</h3>
-              <button onClick={() => setShowMobileCityModal(false)} className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-[#F0F9FF]" style={{ border: '1px solid #E2E8F0', color: '#475569' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-            </div>
-            <div className="overflow-y-auto" style={{ maxHeight: '60vh' }}>
-              <button onClick={() => { setFilterCity(''); setPage(0); setShowMobileCityModal(false) }}
-                className="flex items-center justify-between w-full px-5 py-3 text-sm transition-colors hover:bg-[#F0FAFF]"
-                style={{ background: !filterCity ? '#EBF8FE' : 'white', borderLeft: `3px solid ${!filterCity ? '#0694D1' : 'transparent'}` }}>
-                <span style={{ color: !filterCity ? '#0694D1' : '#374151', fontWeight: !filterCity ? 600 : 400 }}>All Cities</span>
-                {!filterCity && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
-              </button>
-              {CITY_OPTIONS.map(city => (
-                <button key={city} onClick={() => { setFilterCity(city); setPage(0); setShowMobileCityModal(false) }}
-                  className="flex items-center justify-between w-full px-5 py-3 text-sm transition-colors hover:bg-[#F0FAFF]"
-                  style={{ background: filterCity === city ? '#EBF8FE' : 'white', borderLeft: `3px solid ${filterCity === city ? '#0694D1' : 'transparent'}` }}>
-                  <span className="flex items-center gap-2" style={{ color: filterCity === city ? '#0694D1' : '#374151', fontWeight: filterCity === city ? 600 : 400 }}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    {city}
-                  </span>
-                  {filterCity === city && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
       <section className="py-[50px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
