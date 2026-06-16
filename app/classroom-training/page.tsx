@@ -548,7 +548,7 @@ function DatesModal({ course, onClose, onSelectDate }: {
                         <span className="text-[13px] font-bold block" style={{ color: '#0C1929' }}>{dates} 2026</span>
                         <span className="text-[11px] flex items-center gap-1" style={{ color: '#5a7a90' }}>
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                          {city}{CITY_COUNTRY[city] ? `, ${CITY_COUNTRY[city]}` : ''}
+                          <strong>{city}</strong>{CITY_COUNTRY[city] ? ` (${CITY_COUNTRY[city]})` : ''}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
@@ -701,7 +701,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                   </svg>
-                  {modalSched.city}{CITY_COUNTRY[modalSched.city] ? `, ${CITY_COUNTRY[modalSched.city]}` : ''}
+                  <strong>{modalSched.city}</strong>{CITY_COUNTRY[modalSched.city] ? ` (${CITY_COUNTRY[modalSched.city]})` : ''}
                 </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
@@ -731,7 +731,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                       </svg>
-                      {s.city}{CITY_COUNTRY[s.city] ? `, ${CITY_COUNTRY[s.city]}` : ''}
+                      <strong>{s.city}</strong>{CITY_COUNTRY[s.city] ? ` (${CITY_COUNTRY[s.city]})` : ''}
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
