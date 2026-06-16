@@ -701,7 +701,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                     <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                   </svg>
-                  {course.duration} hrs · {days} {days === 1 ? 'Day' : 'Days'}
+                  {CITY_TIME[modalSched.city] ?? '09:00 AM – 05:00 PM'}
                 </span>
                 <span className="flex items-center gap-1.5 text-[11px]" style={{ color: dark ? '#38bdf8' : '#0694D1', opacity: 0.85 }}>
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
@@ -737,7 +737,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
                         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                       </svg>
-                      {course.duration} hrs · {days} {days === 1 ? 'Day' : 'Days'}
+                      {CITY_TIME[s.city] ?? '09:00 AM – 05:00 PM'}
                     </span>
                     <span className="flex items-center gap-1.5 text-[11px]" style={{ color: active ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.45)' : '#64748B') }}>
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7, flexShrink: 0 }}>
@@ -809,6 +809,17 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
 }
 
 /* ── Filter data ─────────────────────────────────────────────── */
+const CITY_TIME: Record<string, string> = {
+  'Dubai': '09:00 AM – 05:00 PM GST', 'London': '09:00 AM – 05:00 PM GMT',
+  'New Delhi': '09:00 AM – 05:00 PM IST', 'Johannesburg': '09:00 AM – 05:00 PM SAST',
+  'Singapore': '09:00 AM – 05:00 PM SGT', 'Kuala Lumpur': '09:00 AM – 05:00 PM MYT',
+  'Riyadh': '09:00 AM – 05:00 PM AST', 'Cairo': '09:00 AM – 05:00 PM EET',
+  'Amsterdam': '09:00 AM – 05:00 PM CET', 'Frankfurt': '09:00 AM – 05:00 PM CET',
+  'New York': '09:00 AM – 05:00 PM EST', 'Toronto': '09:00 AM – 05:00 PM EST',
+  'Sydney': '09:00 AM – 05:00 PM AEST', 'Melbourne': '09:00 AM – 05:00 PM AEST',
+  'Bangkok': '09:00 AM – 05:00 PM ICT',
+}
+
 const CITY_COUNTRY: Record<string, string> = {
   'Dubai': 'UAE', 'London': 'UK', 'New Delhi': 'India', 'Johannesburg': 'South Africa',
   'Singapore': 'Singapore', 'Kuala Lumpur': 'Malaysia', 'Riyadh': 'Saudi Arabia',
@@ -2010,7 +2021,7 @@ export default function ClassroomTrainingPage() {
                   </div>
                   <FilterDropdown label="City" options={['All Cities', ...CITY_OPTIONS]} value={filterCity} onChange={v => { setFilterCity(v === 'All Cities' ? '' : v); setPage(0) }} inputType="radio" fullWidth />
                 </div>
-                <div className="lg:hidden mb-3">
+                <div className="mb-3">
                   <span className="text-xs font-medium" style={{ color: '#64748B' }}>Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}</span>
                 </div>
 
