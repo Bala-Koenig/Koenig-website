@@ -2112,7 +2112,7 @@ export default function ClassroomTrainingPage() {
                     </div>
                     <button onClick={() => { setFormType('individual'); setShowFormModal(true) }} className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
                       style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
-                      Enquire Now →
+                      Request More Info →
                     </button>
                   </div>
                 </div>
