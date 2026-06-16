@@ -10,7 +10,7 @@ const COURSES = [
     id: 1, vendor: 'Microsoft', code: 'AZ-104T00-A',
     name: 'Microsoft Azure Administrator',
     duration: 32,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: 'INR 1,245',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: 'INR 1,245', certFee: 14400,
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '05 – 08 May', city: 'Dubai', gtr: true },
@@ -81,7 +81,7 @@ const COURSES = [
     id: 7, vendor: 'Microsoft', code: 'AZ-204T00',
     name: 'Developing Solutions for Microsoft Azure',
     duration: 40,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 1,245',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 1,245', certFee: 14400,
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', city: 'Dubai', gtr: true },
@@ -93,7 +93,7 @@ const COURSES = [
     id: 8, vendor: 'Microsoft', code: 'AZ-305T00',
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,430+', price: 'INR 1,245',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,430+', price: 'INR 1,245', certFee: 14400,
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 11 May', city: 'Singapore', gtr: true },
@@ -105,7 +105,7 @@ const COURSES = [
     id: 9, vendor: 'PMI', code: 'PMP',
     name: 'Project Management Professional (PMP®) Certification Training',
     duration: 40,
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: 'INR 1,095',
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: 'INR 1,095', certFee: 28800,
     techs: ['Project Management'],
     schedules: [
       { dates: '04 – 08 May', city: 'Dubai', gtr: true },
@@ -129,7 +129,7 @@ const COURSES = [
     id: 11, vendor: 'AWS', code: 'AWS-SAA-C03',
     name: 'AWS Certified Solutions Architect – Associate (Architecting on AWS)',
     duration: 24,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: 'INR 1,395',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: 'INR 1,395', certFee: 14400,
     techs: ['AWS Cloud'],
     schedules: [
       { dates: '04 – 08 May', city: 'Dubai', gtr: true },
@@ -153,7 +153,7 @@ const COURSES = [
     id: 13, vendor: 'EC-Council', code: 'CEH-v13',
     name: 'Certified Ethical Hacker (CEH v13)',
     duration: 40,
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: 'INR 1,350',
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: 'INR 1,350', certFee: 14400,
     techs: ['Ethical Hacking and Penetration Testing', 'Cyber Security'],
     schedules: [
       { dates: '05 – 09 May', city: 'New Delhi', gtr: true },
@@ -165,7 +165,7 @@ const COURSES = [
     id: 14, vendor: 'CompTIA', code: 'SY0-701',
     name: 'CompTIA Security+ SY0-701',
     duration: 40,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: 'INR 945',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: 'INR 945', certFee: 4800,
     techs: ['Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', city: 'London', gtr: true },
@@ -177,7 +177,7 @@ const COURSES = [
     id: 15, vendor: 'Cisco', code: 'CCNA-200-301',
     name: 'Implementing and Administering Cisco Solutions (CCNA)',
     duration: 40,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: 'INR 995',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: 'INR 995', certFee: 14400,
     techs: ['CCNA'],
     schedules: [
       { dates: '05 – 09 May', city: 'Dubai', gtr: true },
@@ -189,7 +189,7 @@ const COURSES = [
     id: 16, vendor: 'PECB', code: 'ISO-27001-LI',
     name: 'ISO/IEC 27001 Lead Implementer',
     duration: 40,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: 'INR 1,295',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: 'INR 1,295', certFee: 28800,
     techs: ['ISO', 'Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', city: 'Riyadh', gtr: true },
@@ -667,7 +667,11 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
   const days = Math.ceil(course.duration / 8)
   const modalSched = selectedIdx >= FULL_VISIBLE ? course.schedules[selectedIdx] : null
 
-  const courseNum = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
+  const courseNum  = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
+  const certNum    = certAdded && course.certFee ? course.certFee : 0
+  const subtotal   = courseNum + certNum
+  const gstNum     = Math.round(subtotal * 0.18)
+  const grandTotal = subtotal + gstNum
 
   const RadioDot = ({ active }: { active: boolean }) => (
     <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
@@ -708,11 +712,24 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
                   <div style={{ color: '#4a6a8a' }}>Course Training</div>
                   <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>{course.duration} hrs · {days} {days === 1 ? 'Day' : 'Days'} · In-Person</div>
                 </div>
-                <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>{course.price}</span>
+                <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {courseNum.toLocaleString('en-IN')}</span>
+              </div>
+              {certAdded && course.certFee && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #f0f4f8' }}>
+                  <div>
+                    <div style={{ color: '#4a6a8a' }}>Certification Exam</div>
+                    <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>Official {course.vendor} exam voucher</div>
+                  </div>
+                  <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {certNum.toLocaleString('en-IN')}</span>
+                </div>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #e8f4fa' }}>
+                <span style={{ color: '#4a6a8a' }}>+ GST 18%</span>
+                <span style={{ fontWeight: 600, color: '#071e2e' }}>INR {gstNum.toLocaleString('en-IN')}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', fontSize: 14, background: '#f8fcff' }}>
-                <span style={{ fontWeight: 700, color: '#071e2e' }}>Total</span>
-                <span style={{ fontWeight: 700, color: '#071e2e' }}>{course.price} <span style={{ fontSize: 11, color: '#8a9db5', fontWeight: 400 }}>excl. taxes</span></span>
+                <span style={{ fontWeight: 700, color: '#071e2e' }}>Total (INR)</span>
+                <span style={{ fontWeight: 700, color: '#071e2e' }}>INR {grandTotal.toLocaleString('en-IN')}</span>
               </div>
             </div>
             <div style={{ textAlign: 'center', padding: '10px 16px 14px', borderTop: '1px solid #e8f4fa' }}>
@@ -834,6 +851,40 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
               </button>
             )
           })
+        )}
+
+        {/* Add Certification Exam checkbox */}
+        {course.certFee && (
+          <label
+            className="flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 transition-colors"
+            style={certAdded
+              ? { border: '1.5px solid #0694D1', background: dark ? 'rgba(6,148,209,0.15)' : 'rgba(6,148,209,0.08)', boxShadow: '0 0 0 1px rgba(6,148,209,0.25)' }
+              : { border: `1px solid ${dark ? 'rgba(255,255,255,0.12)' : '#E2E8F0'}`, background: dark ? 'rgba(255,255,255,0.04)' : '#F8FAFC' }
+            }
+          >
+            <div className="flex items-center gap-2">
+              <div
+                className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors"
+                style={certAdded
+                  ? { borderColor: '#0694D1', background: '#0694D1' }
+                  : { borderColor: dark ? 'rgba(255,255,255,0.3)' : '#CBD5E1', background: dark ? 'transparent' : 'white' }
+                }
+              >
+                {certAdded && (
+                  <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <span className="text-xs font-semibold" style={{ color: certAdded ? (dark ? '#38bdf8' : '#0694D1') : (dark ? 'rgba(255,255,255,0.7)' : '#374151') }}>
+                Add Certification Exam
+              </span>
+            </div>
+            <span className="text-xs font-bold" style={{ color: dark ? '#38bdf8' : '#093148' }}>
+              +INR {course.certFee.toLocaleString('en-IN')}
+            </span>
+            <input type="checkbox" className="sr-only" checked={certAdded} onChange={() => setCertAdded(!certAdded)} />
+          </label>
         )}
 
         {/* Row 1 — dates link + price */}
