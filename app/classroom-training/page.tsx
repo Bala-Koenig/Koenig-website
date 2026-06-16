@@ -1300,7 +1300,7 @@ export default function ClassroomTrainingPage() {
   const [techSearch, setTechSearch]   = useState('')
   const [search, setSearch]           = useState('')
   const [filterCity, setFilterCity]   = useState('')
-  const [filterVendor, setFilterVendor] = useState('')
+  const [filterVendor, setFilterVendor] = useState('Microsoft')
   const [vendorSearch, setVendorSearch] = useState('')
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
@@ -1343,7 +1343,16 @@ export default function ClassroomTrainingPage() {
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
-  const activeTechData = SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTech) ?? SIDEBAR_TECHNOLOGIES[0]
+  const activeTechData = activeTechs.length === 1
+    ? SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0]) ?? SIDEBAR_TECHNOLOGIES[0]
+    : filterVendor
+    ? { name: '', label: `${filterVendor} Courses`, count: filtered.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
+    : SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTech) ?? SIDEBAR_TECHNOLOGIES[0]
+  const bannerDesc = activeTechs.length === 1
+    ? (TECH_DESCS[activeTechs[0]] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} classroom courses — confirmed to run regardless of enrolment numbers.`)
+    : filterVendor
+    ? `Browse all Guaranteed-to-Run ${filterVendor} classroom courses — confirmed to run regardless of enrolment numbers.`
+    : (TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} classroom courses — confirmed to run regardless of enrolment numbers.`)
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -1946,7 +1955,7 @@ export default function ClassroomTrainingPage() {
                       <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{activeTechData.initial}</div>
                       <div>
                         <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
-                        <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{TECH_DESCS[activeTech] ?? `Browse all Guaranteed-to-Run ${activeTechData.label} classroom courses — confirmed to run regardless of enrolment numbers.`}</p>
+                        <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
                       </div>
                     </div>
                     <button onClick={() => { setFormType('individual'); setShowFormModal(true) }} className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
