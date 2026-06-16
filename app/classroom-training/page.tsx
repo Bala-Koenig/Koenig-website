@@ -10,7 +10,7 @@ const COURSES = [
     id: 1, vendor: 'Microsoft', code: 'AZ-104T00-A',
     name: 'Microsoft Azure Administrator',
     duration: 32,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: '$1,245',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: 'INR 1,245',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '05 – 08 May', city: 'Dubai', gtr: true },
@@ -22,7 +22,7 @@ const COURSES = [
     id: 2, vendor: 'Microsoft', code: 'AI-102T00',
     name: 'Designing and Implementing a Microsoft Azure AI Solution',
     duration: 40,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '960+', price: '$995',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,240+', price: 'INR 995',
     techs: ['Artificial Intelligence (AI)', 'Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', city: 'Singapore', gtr: true },
@@ -34,7 +34,7 @@ const COURSES = [
     id: 3, vendor: 'Microsoft', code: 'DP-700T00',
     name: 'Microsoft Fabric Data Engineer',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '720+', price: '$995',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,380+', price: 'INR 995',
     techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '04 – 07 May', city: 'New Delhi', gtr: true },
@@ -46,7 +46,7 @@ const COURSES = [
     id: 4, vendor: 'Microsoft', code: 'SC-300T00',
     name: 'Microsoft Identity and Access Administrator',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '840+', price: '$996',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,560+', price: 'INR 996',
     techs: ['Identity and Access Management (IAM)'],
     schedules: [
       { dates: '04 – 07 May', city: 'London', gtr: true },
@@ -58,7 +58,7 @@ const COURSES = [
     id: 5, vendor: 'Microsoft', code: 'SC-200T00',
     name: 'Microsoft Security Operations Analyst',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '780+', price: '$996',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,190+', price: 'INR 996',
     techs: ['Cyber Security'],
     schedules: [
       { dates: '04 – 07 May', city: 'Riyadh', gtr: true },
@@ -70,7 +70,7 @@ const COURSES = [
     id: 6, vendor: 'Microsoft', code: 'DP-600T00',
     name: 'Microsoft Fabric Analytics Engineer',
     duration: 32,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '560+', price: '$995',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,070+', price: 'INR 995',
     techs: ['Microsoft Fabric'],
     schedules: [
       { dates: '24 – 27 Aug', city: 'London', gtr: true },
@@ -81,7 +81,7 @@ const COURSES = [
     id: 7, vendor: 'Microsoft', code: 'AZ-204T00',
     name: 'Developing Solutions for Microsoft Azure',
     duration: 40,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: '$1,245',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 1,245',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 12 May', city: 'Dubai', gtr: true },
@@ -93,7 +93,7 @@ const COURSES = [
     id: 8, vendor: 'Microsoft', code: 'AZ-305T00',
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '980+', price: '$1,245',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,430+', price: 'INR 1,245',
     techs: ['Microsoft Azure'],
     schedules: [
       { dates: '06 – 11 May', city: 'Singapore', gtr: true },
@@ -105,7 +105,7 @@ const COURSES = [
     id: 9, vendor: 'PMI', code: 'PMP',
     name: 'Project Management Professional (PMP®) Certification Training',
     duration: 40,
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: '$1,095',
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: 'INR 1,095',
     techs: ['Project Management'],
     schedules: [
       { dates: '04 – 08 May', city: 'Dubai', gtr: true },
@@ -117,7 +117,7 @@ const COURSES = [
     id: 10, vendor: 'Microsoft', code: 'PL-300T00',
     name: 'Microsoft Power BI Data Analyst',
     duration: 8,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: '$398',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: 'INR 398',
     techs: ['Data Management & Analytics'],
     schedules: [
       { dates: '14 May', city: 'Riyadh', gtr: true },
@@ -129,7 +129,7 @@ const COURSES = [
     id: 11, vendor: 'AWS', code: 'AWS-SAA-C03',
     name: 'AWS Certified Solutions Architect – Associate (Architecting on AWS)',
     duration: 24,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: '$1,395',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: 'INR 1,395',
     techs: ['AWS Cloud'],
     schedules: [
       { dates: '04 – 08 May', city: 'Dubai', gtr: true },
@@ -141,7 +141,7 @@ const COURSES = [
     id: 12, vendor: 'AWS', code: 'AWS-COA-C02',
     name: 'AWS Certified CloudOps Engineer – Associate (Cloud Operations on AWS)',
     duration: 24,
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: '$1,195',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,280+', price: 'INR 1,195',
     techs: ['AWS Cloud'],
     schedules: [
       { dates: '11 – 13 May', city: 'Singapore', gtr: true },
@@ -153,7 +153,7 @@ const COURSES = [
     id: 13, vendor: 'EC-Council', code: 'CEH-v13',
     name: 'Certified Ethical Hacker (CEH v13)',
     duration: 40,
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: '$1,350',
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: 'INR 1,350',
     techs: ['Ethical Hacking and Penetration Testing', 'Cyber Security'],
     schedules: [
       { dates: '05 – 09 May', city: 'New Delhi', gtr: true },
@@ -165,7 +165,7 @@ const COURSES = [
     id: 14, vendor: 'CompTIA', code: 'SY0-701',
     name: 'CompTIA Security+ SY0-701',
     duration: 40,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: '$945',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: 'INR 945',
     techs: ['Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', city: 'London', gtr: true },
@@ -177,7 +177,7 @@ const COURSES = [
     id: 15, vendor: 'Cisco', code: 'CCNA-200-301',
     name: 'Implementing and Administering Cisco Solutions (CCNA)',
     duration: 40,
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: '$995',
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: 'INR 995',
     techs: ['CCNA'],
     schedules: [
       { dates: '05 – 09 May', city: 'Dubai', gtr: true },
@@ -189,7 +189,7 @@ const COURSES = [
     id: 16, vendor: 'PECB', code: 'ISO-27001-LI',
     name: 'ISO/IEC 27001 Lead Implementer',
     duration: 40,
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: '$1,295',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: 'INR 1,295',
     techs: ['ISO', 'Cyber Security'],
     schedules: [
       { dates: '12 – 16 May', city: 'Riyadh', gtr: true },
@@ -370,49 +370,129 @@ function getTechIcon(name: string) {
 }
 
 /* ── Syllabus Modal ──────────────────────────────────────────── */
+const SYL_COUNTRIES = [
+  'Afghanistan','Albania','Algeria','Argentina','Australia','Austria','Bahrain','Bangladesh',
+  'Belgium','Brazil','Canada','Chile','China','Colombia','Croatia','Czech Republic','Denmark',
+  'Egypt','Ethiopia','Finland','France','Germany','Ghana','Greece','Hong Kong','Hungary',
+  'India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Japan','Jordan','Kazakhstan',
+  'Kenya','Kuwait','Lebanon','Malaysia','Mexico','Morocco','Netherlands','New Zealand',
+  'Nigeria','Norway','Oman','Pakistan','Peru','Philippines','Poland','Portugal','Qatar',
+  'Romania','Russia','Saudi Arabia','Singapore','South Africa','South Korea','Spain','Sri Lanka',
+  'Sweden','Switzerland','Taiwan','Thailand','Turkey','Ukraine','United Arab Emirates',
+  'United Kingdom','United States','Venezuela','Vietnam','Zimbabwe',
+]
+
 function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: () => void }) {
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '' })
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => setForm(f => ({ ...f, [k]: e.target.value }))
+  const [sylName, setSylName]           = useState('')
+  const [sylEmail, setSylEmail]         = useState('')
+  const [sylCountry, setSylCountry]     = useState('')
+  const [sylCountryOpen, setSylCountryOpen] = useState(false)
+  const [submitted, setSubmitted]       = useState(false)
+  const countryRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (countryRef.current && !countryRef.current.contains(e.target as Node)) setSylCountryOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const close = () => { onClose(); setSylName(''); setSylEmail(''); setSylCountry(''); setSylCountryOpen(false); setSubmitted(false) }
+
+  const inp: React.CSSProperties = { width: '100%', boxSizing: 'border-box', background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)', borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s' }
+  const lbl: React.CSSProperties = { fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }
+
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center px-4"
-      style={{ background: 'rgba(0,0,0,0.6)' }} onClick={onClose}>
-      <div className="relative w-full max-w-md rounded-2xl p-7"
-        style={{ background: 'linear-gradient(160deg,#06283d,#093148)', boxShadow: '0 25px 60px rgba(0,0,0,0.5)' }}
-        onClick={e => e.stopPropagation()}>
-        <button onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-white/10"
-          style={{ border: '1px solid rgba(255,255,255,0.25)', color: 'white' }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <div className="flex items-center gap-1.5 mb-3">
-          <span className="w-2 h-2 rounded-full" style={{ background: '#0694D1' }} />
-          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Free Training Brochure</span>
-        </div>
-        <h2 className="text-2xl font-extrabold leading-tight mb-1 text-white">Get Your Free<br /><span style={{ color: '#0694D1' }}>Training Brochure</span></h2>
-        <p className="text-sm mb-5" style={{ color: 'rgba(255,255,255,0.6)' }}>Curriculum · Pricing · Exam prep — all in one PDF</p>
-        {courseName && <p className="text-xs font-semibold mb-4 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(6,148,209,0.15)', color: '#7DD3FC' }}>{courseName}</p>}
-        <div className="flex gap-3 mb-3">
-          <div className="flex-1">
-            <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>First Name <span style={{ color: '#F87171' }}>*</span></label>
-            <input value={form.firstName} onChange={set('firstName')} placeholder="Rahul" className="w-full rounded-xl px-3 py-2.5 text-sm outline-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
+    <>
+      <style>{`@keyframes ctSylSlideIn{from{opacity:0;transform:translate(-50%,-54%)}to{opacity:1;transform:translate(-50%,-50%)}}`}</style>
+      <div style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(5px)' }}
+        onClick={e => { if (e.target === e.currentTarget) close() }} />
+      <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 2001, width: '100%', maxWidth: 'min(90vw,440px)', background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius: 20, padding: '32px 28px 28px', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit', animation: 'ctSylSlideIn 0.3s cubic-bezier(0.25,1,0.5,1)' }}>
+        <button onClick={close} style={{ position: 'absolute', top: 14, right: 14, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+
+        {submitted ? (
+          <div style={{ textAlign: 'center', padding: '12px 0 4px' }}>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', border: '1.5px solid rgba(6,148,209,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.25 }}>You&apos;re all set, {sylName.split(' ')[0]}!</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20 }}>
+              The course content for <strong style={{ color: '#0694D1' }}>{courseName || 'this course'}</strong> will be sent to <strong style={{ color: '#fff' }}>{sylEmail}</strong> shortly.
+            </div>
+            <div style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.2)', borderRadius: 10, padding: '10px 14px', fontSize: 12, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center', marginBottom: 16 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Check your inbox — usually arrives within 2 minutes
+            </div>
+            <button onClick={close} style={{ width: '100%', padding: 11, borderRadius: 10, border: '1px solid rgba(6,148,209,0.35)', background: 'transparent', color: '#0694D1', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Close</button>
           </div>
-          <div className="flex-1">
-            <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Last Name</label>
-            <input value={form.lastName} onChange={set('lastName')} placeholder="Sharma" className="w-full rounded-xl px-3 py-2.5 text-sm outline-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
-          </div>
-        </div>
-        <div className="mb-3">
-          <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Work Email <span style={{ color: '#F87171' }}>*</span></label>
-          <input value={form.email} onChange={set('email')} placeholder="you@company.com" type="email" className="w-full rounded-xl px-3 py-2.5 text-sm outline-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
-        </div>
-        <div className="mb-5">
-          <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Phone / WhatsApp <span style={{ color: '#F87171' }}>*</span></label>
-          <input value={form.phone} onChange={set('phone')} placeholder="+91 98765 43210" type="tel" className="w-full rounded-xl px-3 py-2.5 text-sm outline-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: 'white' }} />
-        </div>
-        <button className="w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#0577b0)' }}>Get My Brochure →</button>
-        <p className="text-center text-xs mt-3" style={{ color: 'rgba(255,255,255,0.4)' }}>🔒 Your details are safe. No spam, ever.</p>
+        ) : (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: '#0694D1', textTransform: 'uppercase' }}>Download Syllabus</span>
+            </div>
+            {courseName && (
+              <div style={{ border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 14px', marginBottom: 18, background: 'rgba(255,255,255,0.05)' }}>
+                <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', marginBottom: 5 }}>Course</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0694D1', lineHeight: 1.4 }}>{courseName}</div>
+              </div>
+            )}
+            <div style={{ marginBottom: 6 }}><div style={{ fontSize: 22, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Get the Course Content</div></div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 22 }}>Fill in your details and we&apos;ll send it straight to your inbox.</div>
+
+            <form onSubmit={e => { e.preventDefault(); if (!sylCountry) return; setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <label style={lbl}>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required placeholder="John" value={sylName} onChange={e => setSylName(e.target.value)} style={inp}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={lbl}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required type="email" placeholder="you@example.com" value={sylEmail} onChange={e => setSylEmail(e.target.value)} style={inp}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={lbl}>Country <span style={{ color: '#ef4444' }}>*</span></label>
+                <div ref={countryRef} style={{ position: 'relative' }}>
+                  <button type="button" onClick={() => setSylCountryOpen(o => !o)}
+                    style={{ width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(6,148,209,0.08)', border: `1.5px solid ${sylCountryOpen ? '#0694D1' : 'rgba(6,148,209,0.3)'}`, borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: sylCountry ? '#fff' : 'rgba(255,255,255,0.4)', cursor: 'pointer', fontFamily: 'inherit', outline: 'none' }}>
+                    {sylCountry || 'Select your country'}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: sylCountryOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  {sylCountryOpen && (
+                    <div style={{ position: 'absolute', bottom: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 10000, background: '#0d2535', border: '1.5px solid rgba(6,148,209,0.35)', borderRadius: 10, maxHeight: 420, overflowY: 'auto', overscrollBehavior: 'contain', boxShadow: '0 -8px 32px rgba(0,0,0,0.6)' }}>
+                      <div style={{ padding: '9px 14px', fontSize: 13.5, color: 'rgba(255,255,255,0.35)', cursor: 'default', borderBottom: '1px solid rgba(6,148,209,0.15)' }}>Select your country</div>
+                      {SYL_COUNTRIES.map(c => (
+                        <div key={c} onClick={() => { setSylCountry(c); setSylCountryOpen(false) }}
+                          style={{ padding: '9px 14px', fontSize: 13.5, cursor: 'pointer', color: sylCountry === c ? '#fff' : '#c8dce9', background: sylCountry === c ? '#1a5fa8' : 'transparent', transition: 'background 0.12s' }}
+                          onMouseEnter={e => { if (sylCountry !== c) e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                          onMouseLeave={e => { if (sylCountry !== c) e.currentTarget.style.background = 'transparent' }}>
+                          {c}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Course content will be sent to your email ID</span>
+              </div>
+              <button type="submit" onClick={e => { if (!sylCountry) { e.preventDefault(); setSylCountryOpen(true) } }}
+                style={{ width: '100%', padding: 13, borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: 0.2, boxShadow: '0 4px 18px rgba(6,148,209,0.4)', marginTop: 2, transition: 'filter 0.18s' }}
+                onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')} onMouseLeave={e => (e.currentTarget.style.filter = 'none')}>
+                Send Course Content →
+              </button>
+              <div style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                No spam, ever. Unsubscribe anytime.
+              </div>
+            </form>
+          </>
+        )}
       </div>
-    </div>
+    </>
   )
 }
 
