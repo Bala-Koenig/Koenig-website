@@ -1553,7 +1553,7 @@ export default function ClassroomTrainingPage() {
           .ct-stat-item:hover .ct-stat-glow { opacity: 1 !important; }
         `}</style>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[30px]">
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[35px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left — text */}
