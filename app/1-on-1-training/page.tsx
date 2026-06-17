@@ -515,7 +515,7 @@ export default function OneOnOneTrainingPage() {
 
               <div className="flex flex-wrap gap-3">
                 <a href="#request" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}>
-                  Request Free Consultation
+                  Request More Info
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
                 <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition-all hover:bg-white/10" style={{ border: '1.5px solid rgba(37,211,102,0.45)', color: '#25D366' }}>
