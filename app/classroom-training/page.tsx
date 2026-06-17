@@ -1317,130 +1317,155 @@ function InquiryForm({ formType, setFormType }: { formType: 'individual' | 'ente
   )
 }
 
-/* ── Testimonial Card ────────────────────────────────────────── */
-function IloTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; onExpandChange?: (exp: boolean) => void }) {
-  const [expanded, setExpanded] = useState(false)
-  const isLong = t.quote.length > 140
+/* ── CT Testimonials Column (CSS keyframe vertical scroll) ──── */
+function CtTestimonialsColumn({ items, duration = 15, className }: { items: typeof TESTIMONIALS; duration?: number; className?: string }) {
+  const doubled = [...items, ...items]
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-      <div className="flex-1 flex flex-col p-5">
-        <div className="mb-3 text-base leading-none" style={{ color: '#F59E0B', letterSpacing: '1px' }}>★★★★★</div>
-        <p className="mb-4 text-sm leading-relaxed flex-1" style={{ color: '#2d4a6a' }}>&ldquo;{isLong && !expanded ? `${t.quote.slice(0, 140)}…` : t.quote}&rdquo;</p>
-        {isLong && (
-          <button onClick={() => { const n = !expanded; setExpanded(n); onExpandChange?.(n) }}
-            className="mb-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
-            style={{ borderColor: '#0694D1' }}>
-            {expanded ? 'Show Less ↑' : 'Show More ↓'}
-          </button>
-        )}
-        <div className="flex items-center gap-3">
-          {t.avatar ? (
-            <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover object-top shrink-0" style={{ border: '2px solid #DCEEFB', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }} />
-          ) : (
-            <div className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0" style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}>{t.initials}</div>
-          )}
-          <div className="min-w-0">
-            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
-            <p className="text-xs font-semibold mt-0.5" style={{ color: '#0694D1' }}>{t.role}</p>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
-        <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
-        <span className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: '#EBF8FE', color: '#0569a8', border: '1px solid #CAEFFF' }}>✓ Verified</span>
-      </div>
+    <div className={`ilo-test-col-wrap${className ? ' ' + className : ''}`} style={{ overflow: 'hidden' }}>
+      <ul className="ilo-test-col-track" style={{ animationDuration: `${duration}s`, listStyle: 'none', margin: 0, padding: 0 }}>
+        {doubled.map((t, i) => (
+          <li key={i} style={{ width: 280, flexShrink: 0 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRadius: 16, background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+              <div style={{ flex: 1, padding: '18px 18px 14px' }}>
+                <div style={{ marginBottom: 8, fontSize: 13, color: '#FBBF24' }}>★★★★★</div>
+                <p style={{ margin: '0 0 14px', fontSize: 13, lineHeight: 1.7, color: '#2d4a6a' }}>&ldquo;{t.quote}&rdquo;</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  {t.avatar ? (
+                    <img decoding="async" src={t.avatar} alt={t.name} loading="lazy"
+                      style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #DCEEFB', flexShrink: 0, objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #DCEEFB', flexShrink: 0, background: t.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: '#fff' }}>
+                      {t.initials}
+                    </div>
+                  )}
+                  <div style={{ minWidth: 0 }}>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#0d1b2a', lineHeight: 1.3 }}>{t.name}</p>
+                    <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: '#0694D1' }}>{t.role}</p>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #E8F4FA', background: '#F8FCFF', padding: '10px 18px' }}>
+                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#0d1b2a' }}>{t.course}</p>
+                <span style={{ background: '#E8F4FA', color: '#0569a8', borderRadius: 20, padding: '2px 10px', fontSize: 11, fontWeight: 700 }}>✓ Verified</span>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
 
-/* ── Mobile Horizontal Marquee ───────────────────────────────── */
-function IloMobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const pos = useRef(0)
-  const paused = useRef(false)
-  const expandedCount = useRef(0)
-  const dragStartX = useRef(0)
-  const dragStartPos = useRef(0)
+/* ── CT Mobile Testimonial Row (rAF horizontal scroll) ───────── */
+function CtMobileTestimonialRow({ items }: { items: typeof TESTIMONIALS }) {
+  const trackRef = useRef<HTMLUListElement>(null)
+  const posRef = useRef(0)
+  const dragRef = useRef({ active: false, startX: 0, startPos: 0 })
+  const rafRef = useRef<number | null>(null)
+  const [popup, setPopup] = useState<typeof TESTIMONIALS[0] | null>(null)
 
   useEffect(() => {
-    const inner = trackRef.current
-    if (!inner) return
-    let prev = performance.now(); let raf: number
-    function tick(now: number) {
-      const dt = now - prev; prev = now
-      if (!paused.current && inner) {
-        pos.current += 0.04 * dt
-        const half = inner.scrollWidth / 2
-        if (half > 0 && pos.current >= half) pos.current -= half
-        inner.style.transform = `translateX(-${pos.current}px)`
+    const track = trackRef.current
+    if (!track) return
+    const loop = () => {
+      if (!dragRef.current.active) {
+        posRef.current += 0.5
+        const half = track.scrollWidth / 2
+        if (posRef.current >= half) posRef.current -= half
+        track.style.transform = `translateX(-${posRef.current}px)`
       }
-      raf = requestAnimationFrame(tick)
+      rafRef.current = requestAnimationFrame(loop)
     }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
+    rafRef.current = requestAnimationFrame(loop)
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
   }, [])
 
+  const onTouchStart = (e: React.TouchEvent) => {
+    dragRef.current = { active: true, startX: e.touches[0].clientX, startPos: posRef.current }
+  }
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!dragRef.current.active || !trackRef.current) return
+    const delta = dragRef.current.startX - e.touches[0].clientX
+    const half = trackRef.current.scrollWidth / 2
+    posRef.current = ((dragRef.current.startPos + delta) % half + half) % half
+    trackRef.current.style.transform = `translateX(-${posRef.current}px)`
+  }
+  const onTouchEnd = () => { dragRef.current.active = false }
+
   return (
-    <div className="sm:hidden overflow-hidden"
-      style={{ maskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)' }}
-      onTouchStart={e => { paused.current = true; dragStartX.current = e.touches[0].clientX; dragStartPos.current = pos.current }}
-      onTouchMove={e => {
-        const delta = dragStartX.current - e.touches[0].clientX
-        const inner = trackRef.current; if (!inner) return
-        const half = inner.scrollWidth / 2
-        let newPos = dragStartPos.current + delta
-        if (newPos < 0) newPos = 0
-        if (half > 0 && newPos >= half) newPos = half - 1
-        pos.current = newPos; inner.style.transform = `translateX(-${pos.current}px)`
-      }}
-      onTouchEnd={() => { if (expandedCount.current === 0) paused.current = false }}>
-      <div ref={trackRef} className="flex items-stretch gap-4 py-2" style={{ width: 'max-content' }}>
-        {[...items, ...items].map((t, i) => (
-          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
-            <IloTestimonialCard t={t} onExpandChange={exp => {
-              expandedCount.current += exp ? 1 : -1
-              if (expandedCount.current < 0) expandedCount.current = 0
-              paused.current = expandedCount.current > 0
-            }} />
+    <>
+      <div className="sm:hidden" style={{ overflow: 'hidden', marginTop: 28 }}
+        onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+        <ul ref={trackRef} style={{ listStyle: 'none', margin: 0, padding: '4px 0', display: 'flex', gap: '16px', width: 'max-content' }}>
+          {[...items, ...items].map((t, i) => (
+            <li key={i} style={{ width: 280, flexShrink: 0 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRadius: 16, background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+                <div style={{ flex: 1, padding: '18px 18px 14px' }}>
+                  <div style={{ marginBottom: 8, fontSize: 13, color: '#FBBF24' }}>★★★★★</div>
+                  <p style={{ margin: '0 0 6px', fontSize: 13, lineHeight: 1.7, color: '#2d4a6a', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>&ldquo;{t.quote}&rdquo;</p>
+                  <button onClick={e => { e.stopPropagation(); setPopup(t) }}
+                    style={{ background: 'none', border: 'none', color: '#0694D1', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', padding: '0 0 12px', display: 'block' }}>
+                    Show more →
+                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    {t.avatar ? (
+                      <img decoding="async" src={t.avatar} alt={t.name} loading="lazy"
+                        style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #DCEEFB', flexShrink: 0, objectFit: 'cover' }} />
+                    ) : (
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #DCEEFB', flexShrink: 0, background: t.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: '#fff' }}>
+                        {t.initials}
+                      </div>
+                    )}
+                    <div style={{ minWidth: 0 }}>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#0d1b2a', lineHeight: 1.3 }}>{t.name}</p>
+                      <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: '#0694D1' }}>{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #E8F4FA', background: '#F8FCFF', padding: '10px 18px' }}>
+                  <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#0d1b2a' }}>{t.course}</p>
+                  <span style={{ background: '#E8F4FA', color: '#0569a8', borderRadius: 20, padding: '2px 10px', fontSize: 11, fontWeight: 700 }}>✓ Verified</span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      {popup && typeof document !== 'undefined' && createPortal(
+        <div onClick={() => setPopup(null)} style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(7,30,46,0.70)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '20px 20px 0 0', padding: '28px 24px 40px', width: '100%', maxWidth: 480, maxHeight: '85vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <span style={{ fontSize: 16, color: '#FBBF24', letterSpacing: 2 }}>★★★★★</span>
+              <button onClick={() => setPopup(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b8299" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+            <p style={{ fontSize: 15, lineHeight: 1.8, color: '#2d4a6a', margin: '0 0 24px' }}>&ldquo;{popup.quote}&rdquo;</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
+              {popup.avatar ? (
+                <img decoding="async" loading="lazy" src={popup.avatar} alt={popup.name}
+                  style={{ width: 52, height: 52, borderRadius: '50%', border: '2px solid #DCEEFB', objectFit: 'cover', flexShrink: 0 }} />
+              ) : (
+                <div style={{ width: 52, height: 52, borderRadius: '50%', border: '2px solid #DCEEFB', flexShrink: 0, background: popup.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 700, color: '#fff' }}>
+                  {popup.initials}
+                </div>
+              )}
+              <div>
+                <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#0d1b2a' }}>{popup.name}</p>
+                <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#0694D1' }}>{popup.role}</p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #E8F4FA', paddingTop: 16 }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: '#0d1b2a' }}>{popup.course}</span>
+              <span style={{ background: '#E8F4FA', color: '#0569a8', borderRadius: 20, padding: '4px 14px', fontSize: 12, fontWeight: 700 }}>✓ Verified</span>
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-/* ── Desktop Scroll Column ───────────────────────────────────── */
-function IloScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
-  const innerRef = useRef<HTMLDivElement>(null)
-  const pos = useRef(0)
-  const paused = useRef(false)
-
-  useEffect(() => {
-    const inner = innerRef.current
-    if (!inner) return
-    let prev = performance.now(); let raf: number
-    function tick(now: number) {
-      const dt = now - prev; prev = now
-      if (!paused.current && inner) {
-        pos.current += speed * dt
-        const half = inner.scrollHeight / 2
-        if (half > 0 && pos.current >= half) pos.current -= half
-        inner.style.transform = `translateY(-${pos.current}px)`
-      }
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [speed])
-
-  return (
-    <div style={{ height: '520px', overflow: 'hidden' }}
-      onMouseEnter={() => { paused.current = true }}
-      onMouseLeave={() => { paused.current = false }}>
-      <div ref={innerRef} className="flex flex-col gap-4 pb-4">
-        {[...items, ...items].map((t, i) => <IloTestimonialCard key={i} t={t} />)}
-      </div>
-    </div>
+        </div>,
+        document.body
+      )}
+    </>
   )
 }
 
@@ -1456,7 +1481,6 @@ export default function ClassroomTrainingPage() {
   const [vendorSearch, setVendorSearch] = useState('')
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
-  const [activeReviewFaq, setActiveReviewFaq] = useState<'reviews' | 'faq'>('reviews')
   const [openFaq, setOpenFaq]         = useState<number | null>(null)
   const [showFormModal, setShowFormModal] = useState(false)
   const tabScrollRef = useRef<HTMLDivElement>(null)
@@ -2323,132 +2347,149 @@ export default function ClassroomTrainingPage() {
         </div>
       </section>
 
-      {/* ── REVIEWS & FAQ ────────────────────────────────────── */}
-      <section className={`relative overflow-hidden py-[50px] sm:bg-white ${activeReviewFaq === 'faq' ? 'bg-koenig-light' : 'bg-white'}`}>
-        {activeReviewFaq === 'faq' && (<>
-          <div className="sm:hidden pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
-          <div className="sm:hidden pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
-        </>)}
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="hidden sm:block text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
-              {activeReviewFaq === 'reviews' ? <>What Our <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Students Say</span></> : <>Frequently <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Asked Questions</span></>}
+      {/* ── STUDENT REVIEWS ──────────────────────────────────── */}
+      <section className="ct-test-section" style={{ background: '#E8F4FA', padding: '50px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
+        <style>{`
+          @keyframes ctScrollCol { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+          .ilo-test-col-track { display: flex; flex-direction: column; gap: 20px; animation: ctScrollCol linear infinite; }
+          .ilo-test-cols-outer:hover .ilo-test-col-track { animation-play-state: paused; }
+          .ilo-test-col-md { display: none; }
+          .ilo-test-col-lg { display: none; }
+          @media (min-width: 768px) { .ilo-test-col-md { display: block !important; } }
+          @media (min-width: 1024px) { .ilo-test-col-lg { display: block !important; } }
+          @media (max-width: 640px) {
+            .ilo-test-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .ilo-test-stats-grid > div { border-bottom: 1px solid #CAEFFF; }
+            .ilo-test-stats-grid > div:nth-child(odd) { border-right: 1px solid #CAEFFF !important; }
+            .ilo-test-stats-grid > div:nth-child(even) { border-right: none !important; }
+            .ilo-test-stats-grid > div:nth-last-child(-n+2) { border-bottom: none; }
+            .ct-test-section { padding: 40px 20px !important; }
+          }
+        `}</style>
+        <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
+        <div style={{ pointerEvents: 'none', position: 'absolute', right: -128, bottom: 0, width: 350, height: 350, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%)' }} />
+        <div style={{ pointerEvents: 'none', position: 'absolute', left: -80, top: '50%', transform: 'translateY(-50%)', width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
+        <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative' }}>
+          <div style={{ textAlign: 'center' }}>
+            <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999, background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
+              Real Transformations
+            </span>
+            <h2 style={{ fontSize: 'clamp(22px,3.5vw,34px)', fontWeight: 800, color: '#071e2e', margin: '0 0 12px', lineHeight: 1.3, letterSpacing: '-0.015em' }}>
+              Classroom Training{' '}
+              <span style={{ background: 'linear-gradient(90deg,#0694D1,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Student Reviews
+              </span>
             </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>
-              {activeReviewFaq === 'reviews' ? '18,400+ verified reviews — 4.9/5 average rating' : 'Everything you need to know about Classroom Training with Koenig'}
+            <p style={{ textAlign: 'center', maxWidth: 480, margin: '0 auto', color: '#7a8c96', fontSize: 15, lineHeight: 1.65 }}>
+              Real results from IT professionals worldwide — rated 4.9/5 from 18,400+ verified reviews.
             </p>
           </div>
-
-          <div className="flex justify-center mb-8">
-            <div className="tab-border-glow">
-              <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
-                {([{ id: 'reviews' as const, label: 'Student Reviews' }, { id: 'faq' as const, label: 'Common Questions' }]).map(tab => (
-                  <button key={tab.id} onClick={() => setActiveReviewFaq(tab.id)}
-                    className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${activeReviewFaq === tab.id ? 'px-6 sm:px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'px-4 sm:px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]'}`}>
-                    {tab.label}
-                  </button>
+          <div style={{ margin: '28px auto 0', maxWidth: 760 }}>
+            <div style={{ background: '#fff', borderRadius: 16, padding: '20px 24px', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', border: '1px solid #DCEEFB' }}>
+              <div className="ilo-test-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
+                {[
+                  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, val: '18,400+', label: 'Verified Reviews' },
+                  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>, val: '4.9 / 5', label: 'Average Rating' },
+                  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, val: '95%', label: 'Would Recommend' },
+                  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, val: '1M+', label: 'Professionals Trained' },
+                ].map((s, i, arr) => (
+                  <div key={s.label} style={{ textAlign: 'center', padding: '8px 16px', borderRight: i < arr.length - 1 ? '1px solid #CAEFFF' : 'none' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 6 }}>{s.icon}</div>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: '#093148', lineHeight: 1.2 }}>{s.val}</div>
+                    <div style={{ marginTop: 4, fontSize: 12, color: '#666' }}>{s.label}</div>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
-
-          <div className="sm:hidden text-center mb-8">
-            <h2 className="text-2xl font-bold mb-2" style={{ color: '#06111E' }}>
-              {activeReviewFaq === 'reviews' ? <>What Our <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Students Say</span></> : <>Frequently <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Asked Questions</span></>}
-            </h2>
-            <p className="text-sm" style={{ color: '#7a8c96' }}>
-              {activeReviewFaq === 'reviews' ? '18,400+ verified reviews — 4.9/5 average rating' : 'Everything you need to know about Classroom Training with Koenig'}
-            </p>
+          <CtMobileTestimonialRow items={TESTIMONIALS} />
+          <div className="ilo-test-cols-outer hidden sm:flex" style={{ justifyContent: 'center', gap: 24, marginTop: 48, maxHeight: 740, overflow: 'hidden', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }}>
+            <CtTestimonialsColumn items={TESTIMONIALS.slice(0, 3)} duration={15} />
+            <CtTestimonialsColumn items={TESTIMONIALS.slice(3, 6)} duration={19} className="ilo-test-col-md" />
+            <CtTestimonialsColumn items={TESTIMONIALS.slice(6, 9)} duration={17} className="ilo-test-col-lg" />
           </div>
+        </div>
+      </section>
 
-          {activeReviewFaq === 'reviews' && (
-            <>
-              <IloMobileMarquee items={TESTIMONIALS} />
-              <div className="hidden sm:block relative overflow-hidden"
-                style={{ height: '520px', maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)' }}>
-                <div className="grid grid-cols-3 gap-4 h-full">
-                  <IloScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} />
-                  <IloScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} />
-                  <IloScrollColumn items={TESTIMONIALS.slice(6, 9)} speed={0.038} />
-                </div>
-              </div>
-            </>
-          )}
-
-          {activeReviewFaq === 'faq' && (
-            <>
-              <div className="hidden sm:flex gap-3">
-                <div className="flex flex-1 flex-col gap-3">
-                  {FAQS.filter((_, i) => i % 2 === 0).map((f, j) => {
-                    const i = j * 2; const isOpen = openFaq === i
-                    return (
-                      <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
-                        <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-6 py-4 text-left">
-                          <span className="text-base font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
-                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                          </span>
-                        </button>
-                        <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
-                          <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-6 py-4 text-base leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-                <div className="flex flex-1 flex-col gap-3">
-                  {FAQS.filter((_, i) => i % 2 !== 0).map((f, j) => {
-                    const i = j * 2 + 1; const isOpen = openFaq === i
-                    return (
-                      <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
-                        <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-6 py-4 text-left">
-                          <span className="text-base font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
-                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                          </span>
-                        </button>
-                        <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
-                          <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-6 py-4 text-base leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-              <div className="hidden sm:block mt-8 text-center">
-                <p className="mb-3 text-base" style={{ color: '#7a8c96' }}>Still have questions?</p>
-                <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
-                  Chat with a Training Advisor
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
-                </button>
-              </div>
-              <div className="sm:hidden flex flex-col gap-3">
-                {FAQS.map((f, i) => {
-                  const isOpen = openFaq === i
-                  return (
-                    <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
-                      <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left">
-                        <span className="text-sm font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                        </span>
-                      </button>
-                      <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
-                        <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
-                      </div>
+      {/* ── FREQUENTLY ASKED QUESTIONS ───────────────────────── */}
+      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
+              Frequently <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Asked Questions</span>
+            </h2>
+            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>Everything you need to know about Classroom Training with Koenig</p>
+          </div>
+          <div className="hidden sm:flex gap-3">
+            <div className="flex flex-1 flex-col gap-3">
+              {FAQS.filter((_, i) => i % 2 === 0).map((f, j) => {
+                const i = j * 2; const isOpen = openFaq === i
+                return (
+                  <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                    <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-6 py-4 text-left">
+                      <span className="text-base font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                      </span>
+                    </button>
+                    <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                      <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-6 py-4 text-base leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
                     </div>
-                  )
-                })}
-              </div>
-              <div className="sm:hidden mt-8 text-center">
-                <p className="mb-3 text-sm" style={{ color: '#7a8c96' }}>Still have questions?</p>
-                <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
-                  Chat with a Training Advisor
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
-                </button>
-              </div>
-            </>
-          )}
+                  </div>
+                )
+              })}
+            </div>
+            <div className="flex flex-1 flex-col gap-3">
+              {FAQS.filter((_, i) => i % 2 !== 0).map((f, j) => {
+                const i = j * 2 + 1; const isOpen = openFaq === i
+                return (
+                  <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                    <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-6 py-4 text-left">
+                      <span className="text-base font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                      </span>
+                    </button>
+                    <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                      <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-6 py-4 text-base leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <div className="hidden sm:block mt-8 text-center">
+            <p className="mb-3 text-base" style={{ color: '#7a8c96' }}>Still have questions?</p>
+            <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
+              Chat with a Training Advisor
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
+            </button>
+          </div>
+          <div className="sm:hidden flex flex-col gap-3">
+            {FAQS.map((f, i) => {
+              const isOpen = openFaq === i
+              return (
+                <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                  <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left">
+                    <span className="text-sm font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                  </button>
+                  <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                    <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          <div className="sm:hidden mt-8 text-center">
+            <p className="mb-3 text-sm" style={{ color: '#7a8c96' }}>Still have questions?</p>
+            <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
+              Chat with a Training Advisor
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
+            </button>
+          </div>
         </div>
       </section>
 
