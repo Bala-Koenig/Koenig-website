@@ -479,7 +479,7 @@ function BrochureForm({ onClose, courseName }: { onClose: () => void; courseName
       </div>
       <div>
         <label style={labelStyle}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
-        <input required type="email" style={inputStyle} placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)}
+        <input required type="email" style={inputStyle} placeholder="john@example.com" value={email} onChange={e => setEmail(e.target.value)}
           onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
       </div>
       <div>
