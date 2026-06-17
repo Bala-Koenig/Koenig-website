@@ -229,7 +229,7 @@ export default function FlyMeATrainerPage() {
 
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-[15px] sm:mb-0">
                 <a href="#request" className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90 sm:w-auto w-full" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}>
-                  Get a Free Quote
+                  Request More Info
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
                 <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition-all hover:bg-white/10 sm:w-auto w-full" style={{ border: '1.5px solid rgba(37,211,102,0.45)', color: '#25D366' }}>
