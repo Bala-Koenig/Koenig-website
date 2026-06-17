@@ -656,8 +656,8 @@ function DatesModal({ course, onClose, onSelectDate }: {
 }
 
 /* ── Course Card ─────────────────────────────────────────────── */
-function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
-  course: typeof COURSES[0]; onEnroll: () => void; onSyllabus: () => void; dark?: boolean
+function CourseCard({ course, onSyllabus, dark = false }: {
+  course: typeof COURSES[0]; onSyllabus: () => void; dark?: boolean
 }) {
   const [selectedIdx, setSelectedIdx] = useState(0)
   const [certAdded, setCertAdded] = useState(false)
@@ -931,11 +931,6 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
         <button className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all cursor-pointer"
           style={{ border: `1.5px solid ${dark ? 'rgba(255,255,255,0.2)' : '#093148'}`, color: dark ? 'rgba(255,255,255,0.75)' : '#093148', background: dark ? 'rgba(255,255,255,0.05)' : 'transparent' }}>
           View Course
-        </button>
-        <button onClick={onEnroll}
-          className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
-          style={{ background: 'linear-gradient(135deg, #093148, #076D9D)' }}>
-          Enroll Now
         </button>
       </div>
       </div>
@@ -1482,7 +1477,6 @@ export default function ClassroomTrainingPage() {
   const [page, setPage]               = useState(0)
   const [formType, setFormType]       = useState<'individual' | 'enterprise'>('individual')
   const [openFaq, setOpenFaq]         = useState<number | null>(null)
-  const [showFormModal, setShowFormModal] = useState(false)
   const tabScrollRef = useRef<HTMLDivElement>(null)
   const [benSlideIdx, setBenSlideIdx] = useState(0)
   const benTouchStartX = useRef(0)
@@ -1498,14 +1492,6 @@ export default function ClassroomTrainingPage() {
     setActiveTechs(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
     setPage(0)
   }
-
-  useEffect(() => {
-    if (!showFormModal) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setShowFormModal(false) }
-    document.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
-  }, [showFormModal])
 
   const filtered = COURSES.filter(c => {
     const q = search.toLowerCase()
@@ -1537,32 +1523,6 @@ export default function ClassroomTrainingPage() {
       {/* ── SYLLABUS MODAL ───────────────────────────────────── */}
       {showSyllabusModal && (
         <SyllabusModal courseName={syllabusCourseName} onClose={() => setShowSyllabusModal(false)} />
-      )}
-
-      {/* ── FORM MODAL ───────────────────────────────────────── */}
-      {showFormModal && (
-        <div className="fixed inset-0 z-[9999] overflow-y-auto" onClick={() => setShowFormModal(false)}
-          style={{ background: 'rgba(4,10,20,0.82)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
-          <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
-            <div className="relative w-full max-w-2xl rounded-2xl"
-              style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 32px 80px rgba(0,0,0,0.65)' }}
-              onClick={e => e.stopPropagation()}>
-              <button onClick={() => setShowFormModal(false)}
-                className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-white/10"
-                style={{ color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.15)' }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-              <div className="px-6 sm:px-8 pt-8 pb-7">
-                <div className="flex justify-center mb-4">
-                  <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest" style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>LET&apos;S TALK</span>
-                </div>
-                <h2 className="text-center text-xl sm:text-2xl font-bold text-white mb-1">Request for more <span style={{ color: '#38bdf8' }}>information</span></h2>
-                <p className="text-center text-sm mb-6" style={{ color: 'rgba(255,255,255,0.42)' }}>Classroom Training with Koenig Solutions</p>
-                <InquiryForm formType={formType} setFormType={setFormType} />
-              </div>
-            </div>
-          </div>
-        </div>
       )}
 
       {/* ── HERO ─────────────────────────────────────────────── */}
@@ -1622,10 +1582,6 @@ export default function ClassroomTrainingPage() {
               </div>
 
               <div className="flex flex-col lg:flex-row flex-wrap gap-3">
-                <button onClick={() => setShowFormModal(true)} className="w-full lg:w-auto inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
-                  Request More Info
-                </button>
                 <a href="#schedule" className="w-full lg:w-auto inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
                   style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
                   View Upcoming Batches
@@ -2134,10 +2090,6 @@ export default function ClassroomTrainingPage() {
                         <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
                       </div>
                     </div>
-                    <button onClick={() => { setFormType('individual'); setShowFormModal(true) }} className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                      style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
-                      Request More Info →
-                    </button>
                   </div>
                 </div>
 
@@ -2190,7 +2142,6 @@ export default function ClassroomTrainingPage() {
                   {paginated.length > 0
                     ? paginated.map(c => (
                         <CourseCard key={c.id} course={c}
-                          onEnroll={() => setShowFormModal(true)}
                           onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
                         />
                       ))
