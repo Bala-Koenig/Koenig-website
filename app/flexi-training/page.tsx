@@ -601,8 +601,8 @@ function CurrencyDropdown({ currency, setCurrency }: {
           })}
         </div>
         <div style={{ flexShrink: 0, padding: '12px 16px 32px', borderTop: '1px solid #EBF8FE', display: 'flex', gap: 10 }}>
-          <button onClick={() => { setPending(CURRENCIES[0]); }}
-            style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Clear</button>
+          <button onClick={() => setOpen(false)}
+            style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Close</button>
           <button onClick={() => { setCurrency(pending); setOpen(false) }}
             style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Apply</button>
         </div>
@@ -756,8 +756,13 @@ function FilterDropdown({ label, options, value, onChange, fullWidth, inputType 
           {filtered.length === 0 && <p style={{ padding: '12px 8px', fontSize: 12, color: '#94A3B8' }}>No results</p>}
         </div>
         <div style={{ flexShrink: 0, padding: '12px 16px 32px', borderTop: '1px solid #EBF8FE', display: 'flex', gap: 10 }}>
-          <button onClick={handleClear}
-            style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Clear</button>
+          {inputType === 'radio' ? (
+            <button onClick={() => { setOpen(false); setQuery('') }}
+              style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Close</button>
+          ) : (
+            <button onClick={handleClear}
+              style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Clear</button>
+          )}
           <button onClick={handleApply}
             style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
             Apply{activeCount > 0 && inputType === 'checkbox' ? ` (${activeCount})` : ''}
