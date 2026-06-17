@@ -764,9 +764,9 @@ export default function OneOnOneTrainingPage() {
             .oo1-cert-price-curr{font-size:10px;font-weight:600;color:#0694D1;margin-right:1px;opacity:0.8;}
             .oo1-cert-price-amount{font-size:15px;font-weight:700;color:#0694D1;letter-spacing:-0.3px;line-height:1;}
             .oo1-cert-actions{display:flex;gap:7px;}
-            .oo1-cert-btn-brochure{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 8px;border-radius:8px;font-size:10px;font-weight:700;background:transparent;color:#0694D1;border:1.5px solid #0694D1;cursor:pointer;transition:background 0.18s;white-space:nowrap;font-family:inherit;}
+            .oo1-cert-btn-brochure{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;height:32px;padding:0 8px;border-radius:8px;font-size:10px;font-weight:700;background:transparent;color:#0694D1;border:1.5px solid #0694D1;cursor:pointer;transition:background 0.18s;white-space:nowrap;font-family:inherit;}
             .oo1-cert-btn-brochure:hover{background:rgba(6,148,209,0.07);}
-            .oo1-cert-btn-details{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 8px;border-radius:8px;font-size:10.5px;font-weight:700;background:linear-gradient(135deg,#093148 0%,#0d5280 100%);color:#fff;border:none;cursor:pointer;transition:filter 0.22s,box-shadow 0.22s,transform 0.22s;white-space:nowrap;font-family:inherit;box-shadow:0 2px 8px rgba(9,49,72,0.3);}
+            .oo1-cert-btn-details{flex:1;display:flex;align-items:center;justify-content:center;height:32px;padding:0 8px;border-radius:8px;font-size:10.5px;font-weight:700;background:linear-gradient(135deg,#093148 0%,#0d5280 100%);color:#fff;border:none;cursor:pointer;transition:filter 0.22s,box-shadow 0.22s,transform 0.22s;white-space:nowrap;font-family:inherit;box-shadow:0 2px 8px rgba(9,49,72,0.3);}
             .oo1-cert-btn-details:hover{filter:brightness(1.25);box-shadow:0 4px 14px rgba(9,49,72,0.4);transform:translateY(-1px);}
             @keyframes oo1FadeIn{from{opacity:0}to{opacity:1}}
             .oo1-modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px 20px;overflow-y:auto;animation:oo1FadeIn 0.2s ease;}
