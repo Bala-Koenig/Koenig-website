@@ -932,8 +932,7 @@ function CourseCard({ course, onEnroll, onSyllabus, dark = false }: {
           style={{ border: `1.5px solid ${dark ? 'rgba(255,255,255,0.2)' : '#093148'}`, color: dark ? 'rgba(255,255,255,0.75)' : '#093148', background: dark ? 'rgba(255,255,255,0.05)' : 'transparent' }}>
           View Course
         </button>
-        <button onClick={onEnroll}
-          className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
+        <button className="flex-1 rounded-lg py-2.5 text-sm font-bold text-white transition-all hover:opacity-90"
           style={{ background: 'linear-gradient(135deg, #093148, #076D9D)' }}>
           Enroll Now
         </button>
