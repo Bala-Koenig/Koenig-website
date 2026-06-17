@@ -202,7 +202,7 @@ export default function FlyMeATrainerPage() {
           <div className="absolute top-1/2 right-0 h-[400px] w-[400px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle,#38bdf8 0%,transparent 70%)' }} />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: 20, paddingBottom: 20 }}>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: 35, paddingBottom: 35 }}>
           <div className="grid lg:grid-cols-2 gap-0 lg:gap-16 items-center">
             {/* Left */}
             <div>
