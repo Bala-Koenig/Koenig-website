@@ -543,7 +543,7 @@ export default function OneOnOneTrainingPage() {
         `}</style>
 
         {/* Banner content */}
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: 35, paddingBottom: 35 }}>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: 15, paddingBottom: 20 }}>
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left */}
             <div>
