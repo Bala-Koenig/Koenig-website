@@ -1115,109 +1115,96 @@ export default function FlexiTrainingPage() {
 
             {/* Left — text */}
             <div>
-              <div className="mb-[15px] lg:mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
-                style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                Blended Learning — Self-Paced Training
-              </div>
-              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-[15px] lg:mb-4 text-white">
-                <span className="block">Flexi – Blended Learning</span>
-                <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  (Self-Paced Training)
-                </span>
+              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-[15px] text-white">
+                Flexi - Self Paced Training from Koenig
               </h1>
-              <p className="text-base sm:text-lg leading-relaxed mb-[15px] lg:mb-6" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                Live-online-style video recordings, official course-book / DMOC, and hands-on labs — all at your own pace. Courses marked &lsquo;Instant&rsquo; are available within minutes of purchase.
+
+              {/* Feature icons row */}
+              <div className="flex flex-wrap gap-x-5 gap-y-2 mb-[15px]" style={{ color: 'rgba(255,255,255,0.75)', fontSize: 13 }}>
+                <span className="inline-flex items-center gap-1.5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                  Live Online Style Video
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  Official Course-Book
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  Hands-on Labs
+                </span>
+              </div>
+
+              <p className="text-sm sm:text-base leading-relaxed mb-[15px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                Courses marked <strong className="text-white">&ldquo;Instant&rdquo;</strong> are available within minutes of purchase. You will receive an email with login details to LET portal to access the purchase. Other courses can take up to 48 hrs to deliver.
               </p>
 
-              <div className="flex flex-wrap gap-2 mb-[15px] lg:mb-8">
-                {['Live Online Style Video', 'Official Course-Book / DMOC', 'Hands-on Labs'].map(tag => (
-                  <span key={tag} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                    style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)', color: '#38bdf8' }}>
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <div className="mb-[15px]" style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }} />
 
-              <div className="flex flex-col lg:flex-row flex-wrap gap-3">
-                <a href="#request" className="w-full lg:w-auto inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
-                  Request More Information
-                </a>
-                <a href="#schedule" className="w-full lg:w-auto inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
-                  style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
-                  Browse Flexi Courses
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-              </div>
+              <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                Customized plans available with Flexi Enterprise – select the ideal mix of courses and participants for your team{' '}
+                <a href="#request" className="font-semibold" style={{ color: '#38bdf8' }}>Enquire Now&gt;&gt;</a>
+              </p>
+            </div>
 
-              {/* Mobile stat tiles */}
-              <div className="lg:hidden grid grid-cols-4 gap-2 mt-[15px]">
-                {[
-                  { val: '5,000+', label: 'Courses'      },
-                  { val: '200+',   label: 'Vendors'      },
-                  { val: 'Instant', label: 'Access'      },
-                  { val: '33+',    label: 'Yrs Training' },
-                ].map(({ val, label }, i) => (
-                  <div key={val} className="rounded-xl p-2 text-center"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}>
-                    <div className="text-sm font-bold text-white leading-tight">{val}</div>
-                    <div className="text-[9px] mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>{label}</div>
-                  </div>
-                ))}
+            {/* Right — feature bubbles */}
+            <div className="hidden lg:flex items-center justify-center relative" style={{ minHeight: 320 }}>
+              <div className="relative flex items-center justify-center" style={{ width: 260, height: 260 }}>
+                {/* Outer ring */}
+                <div className="absolute inset-0 rounded-full" style={{ border: '2px solid rgba(6,148,209,0.35)' }} />
+                <div className="absolute inset-0 rounded-full" style={{ border: '2px dashed rgba(6,148,209,0.15)', transform: 'scale(1.12)' }} />
+                {/* Center label */}
+                <div className="flex flex-col items-center justify-center rounded-full z-10"
+                  style={{ width: 160, height: 160, background: 'linear-gradient(135deg, #0694D1 0%, #076D9D 100%)', boxShadow: '0 0 40px rgba(6,148,209,0.4)' }}>
+                  <div className="text-xs font-bold text-white/60 uppercase tracking-widest mb-1">SELF-PACED</div>
+                  <div className="text-2xl font-black text-white">FLEXI</div>
+                  <div className="text-xs font-bold text-white/60 uppercase tracking-widest mt-1">LEARNING</div>
+                </div>
+                {/* Bubble: top */}
+                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
+                  style={{ top: -48, left: '50%', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 148, backdropFilter: 'blur(6px)' }}>
+                  Free Upgrades to <span style={{ color: '#38bdf8' }}>New Version</span>
+                </div>
+                {/* Bubble: left */}
+                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
+                  style={{ left: -168, top: '30%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 160, backdropFilter: 'blur(6px)' }}>
+                  Get Access to <span style={{ color: '#38bdf8' }}>Unlimited Flexi Courses</span> with an Annual Subscription
+                </div>
+                {/* Bubble: bottom-left */}
+                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
+                  style={{ left: -148, bottom: -10, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 148, backdropFilter: 'blur(6px)' }}>
+                  Free <span style={{ color: '#38bdf8' }}>Online Doubt Clearance</span> Session
+                </div>
+                {/* Bubble: right */}
+                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
+                  style={{ right: -172, top: '15%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 164, backdropFilter: 'blur(6px)' }}>
+                  Access to <span style={{ color: '#38bdf8' }}>Qubits</span> (Interactive self-assessment tool)
+                </div>
+                {/* Bubble: bottom-right */}
+                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
+                  style={{ right: -152, bottom: -10, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 148, backdropFilter: 'blur(6px)' }}>
+                  Recorded Sessions from <span style={{ color: '#38bdf8' }}>Live Interactive Classes</span>
+                </div>
               </div>
             </div>
 
-            {/* Right — stats card */}
-            <div className="hidden lg:flex flex-col gap-4">
-              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)', position: 'relative' }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
-                    {[
-                      { val: '5,000+', label: 'Flexi Courses', icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></> },
-                      { val: '200+', label: 'Vendor Partners', icon: <><rect x="2" y="7" width="20" height="14" rx="2" ry="2" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></> },
-                    ].map(({ val, label, icon }, i) => (
-                      <div key={val} className="flexi-stat-item" style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
-                        <div className="flexi-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" style={{ flexShrink: 0 }}>{icon}</svg>
-                          <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{val}</div>
-                        </div>
-                        <div style={{ fontSize: 15, fontWeight: 400, color: 'rgba(255,255,255,0.6)' }}>{label}</div>
-                      </div>
-                    ))}
-                    <div style={{ background: 'rgba(6,148,209,0.12)' }} />
-                  </div>
-                  <div style={{ height: 1, background: 'rgba(6,148,209,0.12)' }} />
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
-                    {[
-                      { val: 'Instant', label: 'Access on Purchase', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/> },
-                      { val: '33+', label: 'Years in Training', icon: <><circle cx="12" cy="8" r="7" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}/></> },
-                    ].map(({ val, label, icon }, i) => (
-                      <div key={val} className="flexi-stat-item" style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
-                        <div className="flexi-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" style={{ flexShrink: 0 }}>{icon}</svg>
-                          <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{val}</div>
-                        </div>
-                        <div style={{ fontSize: 15, fontWeight: 400, color: 'rgba(255,255,255,0.6)' }}>{label}</div>
-                      </div>
-                    ))}
-                    <div style={{ background: 'rgba(6,148,209,0.12)' }} />
-                  </div>
+            {/* Mobile feature list */}
+            <div className="lg:hidden flex flex-col gap-2 mt-[15px]">
+              {[
+                'Free Upgrades to New Version',
+                'Get Access to Unlimited Flexi Courses with an Annual Subscription',
+                'Free Online Doubt Clearance Session',
+                'Access to Qubits (Interactive self-assessment tool)',
+                'Recorded Sessions from Live Interactive Classes',
+              ].map(f => (
+                <div key={f} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <span className="mt-1 shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.2)', border: '1px solid rgba(6,148,209,0.4)' }}>
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  {f}
                 </div>
-              </div>
-              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', background: 'rgba(255,255,255,0.02)', padding: '20px 22px' }}>
-                <p style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 10 }}>Authorised for</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'Oracle', 'Red Hat', 'PECB'].map(p => (
-                    <span key={p} style={{ fontSize: 10, fontWeight: 600, padding: '3px 9px', borderRadius: 999, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.5)' }}>{p}</span>
-                  ))}
-                  <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 999, background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>+190 more</span>
-                </div>
-              </div>
+              ))}
+            </div>
             </div>
 
           </div>
