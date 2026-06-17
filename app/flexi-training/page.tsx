@@ -1504,7 +1504,7 @@ export default function FlexiTrainingPage() {
                   <span className="mt-1 shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.2)', border: '1px solid rgba(6,148,209,0.4)' }}>
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </span>
-                  {f}
+                  <span>{f}</span>
                 </div>
               ))}
             </div>
