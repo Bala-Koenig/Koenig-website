@@ -1147,45 +1147,24 @@ export default function FlexiTrainingPage() {
               </p>
             </div>
 
-            {/* Right — feature bubbles */}
-            <div className="hidden lg:flex items-center justify-center relative" style={{ minHeight: 320 }}>
-              <div className="relative flex items-center justify-center" style={{ width: 260, height: 260 }}>
-                {/* Outer ring */}
-                <div className="absolute inset-0 rounded-full" style={{ border: '2px solid rgba(6,148,209,0.35)' }} />
-                <div className="absolute inset-0 rounded-full" style={{ border: '2px dashed rgba(6,148,209,0.15)', transform: 'scale(1.12)' }} />
-                {/* Center label */}
-                <div className="flex flex-col items-center justify-center rounded-full z-10"
-                  style={{ width: 160, height: 160, background: 'linear-gradient(135deg, #0694D1 0%, #076D9D 100%)', boxShadow: '0 0 40px rgba(6,148,209,0.4)' }}>
-                  <div className="text-xs font-bold text-white/60 uppercase tracking-widest mb-1">SELF-PACED</div>
-                  <div className="text-2xl font-black text-white">FLEXI</div>
-                  <div className="text-xs font-bold text-white/60 uppercase tracking-widest mt-1">LEARNING</div>
+            {/* Right — feature cards */}
+            <div className="hidden lg:grid grid-cols-2 gap-3">
+              {[
+                { text: 'Free Upgrades to New Version' },
+                { text: 'Get Access to Unlimited Flexi Courses with an Annual Subscription' },
+                { text: 'Free Online Doubt Clearance Session' },
+                { text: 'Access to Qubits (Interactive self-assessment tool)' },
+                { text: 'Recorded Sessions from Live Interactive Classes' },
+              ].map(({ text }) => (
+                <div key={text} className="flex items-start gap-3 rounded-xl px-4 py-3"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(6,148,209,0.25)' }}>
+                  <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full flex items-center justify-center"
+                    style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.5)' }}>
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span className="text-sm leading-snug" style={{ color: 'rgba(255,255,255,0.82)' }}>{text}</span>
                 </div>
-                {/* Bubble: top */}
-                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
-                  style={{ top: -48, left: '50%', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 148, backdropFilter: 'blur(6px)' }}>
-                  Free Upgrades to <span style={{ color: '#38bdf8' }}>New Version</span>
-                </div>
-                {/* Bubble: left */}
-                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
-                  style={{ left: -168, top: '30%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 160, backdropFilter: 'blur(6px)' }}>
-                  Get Access to <span style={{ color: '#38bdf8' }}>Unlimited Flexi Courses</span> with an Annual Subscription
-                </div>
-                {/* Bubble: bottom-left */}
-                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
-                  style={{ left: -148, bottom: -10, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 148, backdropFilter: 'blur(6px)' }}>
-                  Free <span style={{ color: '#38bdf8' }}>Online Doubt Clearance</span> Session
-                </div>
-                {/* Bubble: right */}
-                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
-                  style={{ right: -172, top: '15%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 164, backdropFilter: 'blur(6px)' }}>
-                  Access to <span style={{ color: '#38bdf8' }}>Qubits</span> (Interactive self-assessment tool)
-                </div>
-                {/* Bubble: bottom-right */}
-                <div className="absolute text-center rounded-2xl px-3 py-2 text-xs font-semibold leading-snug"
-                  style={{ right: -152, bottom: -10, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(6,148,209,0.3)', color: 'rgba(255,255,255,0.85)', width: 148, backdropFilter: 'blur(6px)' }}>
-                  Recorded Sessions from <span style={{ color: '#38bdf8' }}>Live Interactive Classes</span>
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* Mobile feature list */}
