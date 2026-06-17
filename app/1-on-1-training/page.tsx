@@ -1079,18 +1079,18 @@ export default function OneOnOneTrainingPage() {
 
           {/* Stats bar */}
           <div style={{ margin: '0 auto 15px', maxWidth: 760 }}>
-            <div style={{ background: '#fff', borderRadius: 16, padding: '18px 24px', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', border: '1px solid #DCEEFB' }}>
+            <div style={{ background: '#fff', borderRadius: 16, padding: '14px 8px', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', border: '1px solid #DCEEFB' }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 0 }}>
                 {[
-                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, val: '12,000+', label: 'Verified Reviews' },
-                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>, val: '4.9 / 5', label: 'Average Rating' },
-                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, val: '93%', label: 'Would Recommend' },
-                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, val: '1M+', label: 'Professionals Trained' },
+                  { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, val: '12,000+', label: 'Verified Reviews' },
+                  { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>, val: '4.9/5', label: 'Avg Rating' },
+                  { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, val: '93%', label: 'Recommend' },
+                  { icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, val: '1M+', label: 'Trained' },
                 ].map((s, i, arr) => (
-                  <div key={s.label} style={{ textAlign: 'center', padding: '8px 12px', borderRight: i < arr.length - 1 ? '1px solid #CAEFFF' : 'none' }}>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 5 }}>{s.icon}</div>
-                    <div style={{ fontSize: 20, fontWeight: 800, color: '#093148', lineHeight: 1.2 }}>{s.val}</div>
-                    <div style={{ marginTop: 3, fontSize: 11, color: '#666' }}>{s.label}</div>
+                  <div key={s.label} style={{ textAlign: 'center', padding: '6px 4px', borderRight: i < arr.length - 1 ? '1px solid #CAEFFF' : 'none' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>{s.icon}</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: '#093148', lineHeight: 1.2, whiteSpace: 'nowrap' }}>{s.val}</div>
+                    <div style={{ marginTop: 3, fontSize: 10, color: '#666', lineHeight: 1.3 }}>{s.label}</div>
                   </div>
                 ))}
               </div>
