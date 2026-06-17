@@ -470,7 +470,7 @@ function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: (
               </div>
               <div>
                 <label style={lbl}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
-                <input required type="email" placeholder="you@example.com" value={sylEmail} onChange={e => setSylEmail(e.target.value)} style={inp}
+                <input required type="email" placeholder="john@example.com" value={sylEmail} onChange={e => setSylEmail(e.target.value)} style={inp}
                   onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
               </div>
               <div>
@@ -892,7 +892,7 @@ function FlexiLeadFormSection() {
             </div>
             <div>
               <label style={lbl}>Personal Email <span style={{ color: '#f87171' }}>*</span></label>
-              <input type="email" required placeholder="you@company.com" value={form.email} onChange={e => set('email', e.target.value)} style={inp} />
+              <input type="email" required placeholder="john@example.com" value={form.email} onChange={e => set('email', e.target.value)} style={inp} />
             </div>
           </div>
 

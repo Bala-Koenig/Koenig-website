@@ -449,7 +449,7 @@ function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: (
               </div>
               <div>
                 <label style={lbl}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
-                <input required type="email" placeholder="you@example.com" value={sylEmail} onChange={e => setSylEmail(e.target.value)} style={inp}
+                <input required type="email" placeholder="john@example.com" value={sylEmail} onChange={e => setSylEmail(e.target.value)} style={inp}
                   onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
               </div>
               <div>
