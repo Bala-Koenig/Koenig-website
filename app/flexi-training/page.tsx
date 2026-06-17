@@ -10,7 +10,7 @@ const COURSES = [
     id: 1, vendor: 'Microsoft', code: 'AZ-104T00-A',
     name: 'Microsoft Azure Administrator',
     duration: 32, accessDuration: '90 Days',
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: 'INR 19500', certFee: 14400,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '2,100+', price: 'INR 9999', certFee: 14400,
     techs: ['Microsoft Azure'],
     startImmediately: true,
   },
@@ -18,7 +18,7 @@ const COURSES = [
     id: 2, vendor: 'Microsoft', code: 'AI-102T00',
     name: 'Designing and Implementing a Microsoft Azure AI Solution',
     duration: 40, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,350+', price: 'INR 15500',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,350+', price: 'INR 9999',
     techs: ['Artificial Intelligence (AI)', 'Microsoft Azure'],
     startImmediately: true,
   },
@@ -26,7 +26,7 @@ const COURSES = [
     id: 3, vendor: 'Microsoft', code: 'DP-700T00',
     name: 'Microsoft Fabric Data Engineer',
     duration: 32, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,080+', price: 'INR 15500',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,080+', price: 'INR 9999',
     techs: ['Microsoft Fabric'],
     startImmediately: true,
   },
@@ -34,7 +34,7 @@ const COURSES = [
     id: 4, vendor: 'Microsoft', code: 'SC-300T00',
     name: 'Microsoft Identity and Access Administrator',
     duration: 32, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,240+', price: 'INR 15500',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,240+', price: 'INR 9999',
     techs: ['Identity and Access Management (IAM)'],
     startImmediately: true,
   },
@@ -42,7 +42,7 @@ const COURSES = [
     id: 5, vendor: 'Microsoft', code: 'SC-200T00',
     name: 'Microsoft Security Operations Analyst',
     duration: 32, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,620+', price: 'INR 15500',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,620+', price: 'INR 9999',
     techs: ['Cyber Security'],
     startImmediately: true,
   },
@@ -50,7 +50,7 @@ const COURSES = [
     id: 6, vendor: 'Microsoft', code: 'DP-600T00',
     name: 'Microsoft Fabric Analytics Engineer',
     duration: 32, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,470+', price: 'INR 15500',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,470+', price: 'INR 9999',
     techs: ['Microsoft Fabric'],
     startImmediately: true,
   },
@@ -58,7 +58,7 @@ const COURSES = [
     id: 7, vendor: 'Microsoft', code: 'AZ-204T00',
     name: 'Developing Solutions for Microsoft Azure',
     duration: 40, accessDuration: '90 Days',
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 19500', certFee: 14400,
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 9999', certFee: 14400,
     techs: ['Microsoft Azure'],
     startImmediately: true,
   },
@@ -66,7 +66,7 @@ const COURSES = [
     id: 8, vendor: 'Microsoft', code: 'AZ-305T00',
     name: 'Designing Microsoft Azure Infrastructure Solutions',
     duration: 32, accessDuration: '90 Days',
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,150+', price: 'INR 19500', certFee: 14400,
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,150+', price: 'INR 9999', certFee: 14400,
     techs: ['Microsoft Azure'],
     startImmediately: true,
   },
@@ -74,7 +74,7 @@ const COURSES = [
     id: 9, vendor: 'PMI', code: 'PMP',
     name: 'Project Management Professional (PMP®) Certification Training',
     duration: 40, accessDuration: '180 Days',
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: 'INR 17000', certFee: 28800,
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,600+', price: 'INR 9999', certFee: 28800,
     techs: ['Project Management'],
     startImmediately: false,
   },
@@ -82,7 +82,7 @@ const COURSES = [
     id: 10, vendor: 'Microsoft', code: 'PL-300T00',
     name: 'Microsoft Power BI Data Analyst',
     duration: 8, accessDuration: '60 Days',
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: 'INR 6250', certFee: 4800,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,800+', price: 'INR 9999', certFee: 4800,
     techs: ['Data Management & Analytics'],
     startImmediately: true,
   },
@@ -90,7 +90,7 @@ const COURSES = [
     id: 11, vendor: 'AWS', code: 'AWS-SAA-C03',
     name: 'AWS Certified Solutions Architect – Associate (Architecting on AWS)',
     duration: 24, accessDuration: '90 Days',
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: 'INR 22000', certFee: 14400,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.9, enrolled: '1,900+', price: 'INR 9999', certFee: 14400,
     techs: ['AWS Cloud'],
     startImmediately: true,
   },
@@ -98,7 +98,7 @@ const COURSES = [
     id: 12, vendor: 'AWS', code: 'AWS-COA-C02',
     name: 'AWS Certified CloudOps Engineer – Associate (Cloud Operations on AWS)',
     duration: 24, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: 'INR 18500',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '720+', price: 'INR 9999',
     techs: ['AWS Cloud'],
     startImmediately: true,
   },
@@ -106,7 +106,7 @@ const COURSES = [
     id: 13, vendor: 'EC-Council', code: 'CEH-v13',
     name: 'Certified Ethical Hacker (CEH v13)',
     duration: 40, accessDuration: '180 Days',
-    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: 'INR 21000', certFee: 14400,
+    tags: ['POPULAR', 'EXPERT'], rating: 4.9, enrolled: '2,200+', price: 'INR 9999', certFee: 14400,
     techs: ['Ethical Hacking and Penetration Testing', 'Cyber Security'],
     startImmediately: false,
   },
@@ -114,7 +114,7 @@ const COURSES = [
     id: 14, vendor: 'CompTIA', code: 'SY0-701',
     name: 'CompTIA Security+ SY0-701',
     duration: 40, accessDuration: '90 Days',
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: 'INR 15000', certFee: 14400,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '3,100+', price: 'INR 9999', certFee: 14400,
     techs: ['Cyber Security'],
     startImmediately: true,
   },
@@ -122,7 +122,7 @@ const COURSES = [
     id: 15, vendor: 'Cisco', code: 'CCNA-200-301',
     name: 'Implementing and Administering Cisco Solutions (CCNA)',
     duration: 40, accessDuration: '180 Days',
-    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: 'INR 15500', certFee: 14400,
+    tags: ['POPULAR', 'ASSOCIATE'], rating: 4.8, enrolled: '2,400+', price: 'INR 9999', certFee: 14400,
     techs: ['CCNA'],
     startImmediately: false,
   },
@@ -130,7 +130,7 @@ const COURSES = [
     id: 16, vendor: 'PECB', code: 'ISO-27001-LI',
     name: 'ISO/IEC 27001 Lead Implementer',
     duration: 40, accessDuration: '90 Days',
-    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: 'INR 20500',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,200+', price: 'INR 9999',
     techs: ['ISO', 'Cyber Security'],
     startImmediately: true,
   },
@@ -138,7 +138,7 @@ const COURSES = [
     id: 17, vendor: 'Microsoft', code: 'MS-900T01',
     name: 'Microsoft 365 Fundamentals',
     duration: 8, accessDuration: '60 Days',
-    tags: ['FUNDAMENTALS'], rating: 4.7, enrolled: '2,800+', price: 'INR 4750',
+    tags: ['FUNDAMENTALS'], rating: 4.7, enrolled: '2,800+', price: 'INR 9999',
     techs: ['Microsoft 365'],
     startImmediately: true,
   },
@@ -146,7 +146,7 @@ const COURSES = [
     id: 18, vendor: 'Microsoft', code: 'AZ-900T00',
     name: 'Microsoft Azure Fundamentals',
     duration: 8, accessDuration: '60 Days',
-    tags: ['POPULAR', 'FUNDAMENTALS'], rating: 4.8, enrolled: '4,100+', price: 'INR 4750', certFee: 4800,
+    tags: ['POPULAR', 'FUNDAMENTALS'], rating: 4.8, enrolled: '4,100+', price: 'INR 9999', certFee: 4800,
     techs: ['Microsoft Azure'],
     startImmediately: true,
   },
@@ -154,7 +154,7 @@ const COURSES = [
     id: 19, vendor: 'Microsoft', code: 'AZ-500T00',
     name: 'Microsoft Azure Security Technologies',
     duration: 32, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,430+', price: 'INR 15500',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,430+', price: 'INR 9999',
     techs: ['Cyber Security', 'Microsoft Azure'],
     startImmediately: true,
   },
@@ -162,7 +162,7 @@ const COURSES = [
     id: 20, vendor: 'Microsoft', code: 'MD-102T00',
     name: 'Microsoft 365 Endpoint Administrator',
     duration: 40, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '980+', price: 'INR 17000',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '980+', price: 'INR 9999',
     techs: ['Microsoft 365'],
     startImmediately: true,
   },
@@ -170,7 +170,7 @@ const COURSES = [
     id: 21, vendor: 'AWS', code: 'AWS-SAP-C02',
     name: 'AWS Certified Solutions Architect – Professional',
     duration: 40, accessDuration: '180 Days',
-    tags: ['EXPERT'], rating: 4.9, enrolled: '1,650+', price: 'INR 26000', certFee: 28800,
+    tags: ['EXPERT'], rating: 4.9, enrolled: '1,650+', price: 'INR 9999', certFee: 28800,
     techs: ['AWS Cloud'],
     startImmediately: false,
   },
@@ -178,7 +178,7 @@ const COURSES = [
     id: 22, vendor: 'CompTIA', code: 'N10-009',
     name: 'CompTIA Network+ N10-009',
     duration: 40, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,850+', price: 'INR 14000', certFee: 14400,
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,850+', price: 'INR 9999', certFee: 14400,
     techs: ['Networking'],
     startImmediately: true,
   },
@@ -186,7 +186,7 @@ const COURSES = [
     id: 23, vendor: 'PMI', code: 'CAPM',
     name: 'Certified Associate in Project Management (CAPM®)',
     duration: 24, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,100+', price: 'INR 10500',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '1,100+', price: 'INR 9999',
     techs: ['Project Management'],
     startImmediately: true,
   },
@@ -194,7 +194,7 @@ const COURSES = [
     id: 24, vendor: 'Oracle', code: 'OCI-2024',
     name: 'Oracle Cloud Infrastructure 2024 Architect Associate',
     duration: 32, accessDuration: '90 Days',
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '680+', price: 'INR 19000', certFee: 14400,
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '680+', price: 'INR 9999', certFee: 14400,
     techs: ['Oracle Cloud'],
     startImmediately: true,
   },
@@ -202,7 +202,7 @@ const COURSES = [
     id: 25, vendor: 'Red Hat', code: 'RH124',
     name: 'Red Hat System Administration I (RHCSA Prep)',
     duration: 40, accessDuration: '180 Days',
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,050+', price: 'INR 18000',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,050+', price: 'INR 9999',
     techs: ['Linux'],
     startImmediately: false,
   },
@@ -210,7 +210,7 @@ const COURSES = [
     id: 26, vendor: 'EC-Council', code: 'CPENT',
     name: 'Certified Penetration Testing Professional (CPENT)',
     duration: 40, accessDuration: '180 Days',
-    tags: ['EXPERT'], rating: 4.9, enrolled: '630+', price: 'INR 24500', certFee: 28800,
+    tags: ['EXPERT'], rating: 4.9, enrolled: '630+', price: 'INR 9999', certFee: 28800,
     techs: ['Ethical Hacking and Penetration Testing', 'Cyber Security'],
     startImmediately: false,
   },
@@ -218,7 +218,7 @@ const COURSES = [
     id: 27, vendor: 'PMI', code: 'PRINCE2-Foundation',
     name: 'PRINCE2® Foundation Certification Training',
     duration: 16, accessDuration: '60 Days',
-    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,750+', price: 'INR 9000',
+    tags: ['ASSOCIATE'], rating: 4.8, enrolled: '1,750+', price: 'INR 9999',
     techs: ['Project Management'],
     startImmediately: true,
   },
@@ -717,7 +717,7 @@ function CourseCard({ course, onSyllabus }: {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #f0f4f8' }}>
                 <div>
                   <div style={{ color: '#4a6a8a' }}>Flexi Course Access</div>
-                  <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>{course.duration} hrs · {days} {days === 1 ? 'Day' : 'Days'} · {course.accessDuration} Access</div>
+                  <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>{course.duration} hrs · {course.accessDuration} Access</div>
                 </div>
                 <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {courseNum.toLocaleString('en-IN')}</span>
               </div>
@@ -778,7 +778,7 @@ function CourseCard({ course, onSyllabus }: {
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>
-              {course.duration} hrs ({days} {days === 1 ? 'Day' : 'Days'})
+              {course.duration} hrs
             </div>
           </div>
         </div>
@@ -804,17 +804,6 @@ function CourseCard({ course, onSyllabus }: {
                 Within 24h
               </span>
             )}
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 mt-0.5">
-            {(course.tags ?? []).filter(t => t !== 'POPULAR').map(tag => {
-              const s = TAG_STYLES[tag] ?? { bg: '#F1F5F9', color: '#475569' }
-              return (
-                <span key={tag} className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                  style={{ background: s.bg, color: s.color }}>{tag}</span>
-              )
-            })}
           </div>
 
           {/* Exam Voucher checkbox */}
@@ -856,11 +845,6 @@ function CourseCard({ course, onSyllabus }: {
             <div className="flex items-center gap-1.5">
               <span style={{ color: '#F59E0B', fontSize: 11 }}>★</span>
               <span className="text-[11px] font-semibold" style={{ color: '#64748B' }}>{course.rating}</span>
-              <span style={{ color: '#CBD5E1', fontSize: 10 }}>·</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-              <span className="text-[11px] font-semibold" style={{ color: '#64748B' }}>{course.enrolled}</span>
             </div>
             <div className="text-right">
               <p className="text-sm font-bold leading-tight" style={{ color: '#0694D1' }}>{course.price}</p>
