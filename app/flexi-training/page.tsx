@@ -1038,10 +1038,11 @@ function FlexiMobileTestimonialRow({ items }: { items: typeof TESTIMONIALS }) {
 
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function FlexiTrainingPage() {
-  const [activeTech, setActiveTech]       = useState('All')
+  const [activeTechs, setActiveTechs]     = useState<string[]>([])
   const [search, setSearch]               = useState('')
   const [filterVendor, setFilterVendor]   = useState('Microsoft')
   const [vendorSearch, setVendorSearch]   = useState('')
+  const [techSearch, setTechSearch]       = useState('')
   const [page, setPage]                   = useState(0)
   const [formType, setFormType]           = useState<'individual' | 'enterprise'>('individual')
   const [openFaq, setOpenFaq]             = useState<number | null>(null)
@@ -1054,6 +1055,11 @@ export default function FlexiTrainingPage() {
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
 
+  const toggleTech = (t: string) => {
+    setActiveTechs(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
+    setPage(0)
+  }
+
   useEffect(() => {
     const container = tabScrollRef.current
     if (!container) return
@@ -1065,16 +1071,24 @@ export default function FlexiTrainingPage() {
   const filtered = COURSES.filter(c => {
     const q = search.toLowerCase()
     const matchSearch = !q || c.name.toLowerCase().includes(q) || c.vendor.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
-    const matchTech   = activeTech === 'All' || (c.techs ?? []).includes(activeTech)
+    const matchTech   = activeTechs.length > 0
+      ? (c.techs ?? []).some(t => activeTechs.includes(t))
+      : true
     const matchVendor = !filterVendor || c.vendor === filterVendor
     return matchSearch && matchTech && matchVendor
   })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated  = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE)
-  const activeTechData = SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTech) ?? SIDEBAR_TECHNOLOGIES[0]
-  const bannerDesc = filterVendor
+  const activeTechData = activeTechs.length === 1
+    ? SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0]) ?? SIDEBAR_TECHNOLOGIES[0]
+    : filterVendor
+    ? { name: '', label: `${filterVendor} Courses`, count: filtered.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' }
+    : SIDEBAR_TECHNOLOGIES[0]
+  const bannerDesc = activeTechs.length === 1
+    ? (TECH_DESCS[activeTechs[0]] ?? `Browse all self-paced ${activeTechData.label} Flexi Training courses — start immediately.`)
+    : filterVendor
     ? `Browse all self-paced ${filterVendor} Flexi Training courses with official labs and materials.`
-    : (TECH_DESCS[activeTech] ?? `Browse all self-paced ${activeTechData.label} Flexi Training courses — start immediately.`)
+    : `Browse all self-paced Flexi Training courses with official labs, materials, and optional exam vouchers.`
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -1104,20 +1118,20 @@ export default function FlexiTrainingPage() {
               <div className="mb-[15px] lg:mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
                 style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                Self-Paced Blended Learning — Start Immediately
+                Blended Learning — Self-Paced Training
               </div>
               <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-[15px] lg:mb-4 text-white">
-                <span className="block">Train on Your Terms.</span>
+                <span className="block">Flexi – Blended Learning</span>
                 <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  Flexi Training, Anytime.
+                  (Self-Paced Training)
                 </span>
               </h1>
               <p className="text-base sm:text-lg leading-relaxed mb-[15px] lg:mb-6" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                Live-online-style videos, official course materials, and hands-on labs — all at your own pace. Start instantly on 5,000+ courses from 200+ vendors.
+                Live-online-style video recordings, official course-book / DMOC, and hands-on labs — all at your own pace. Courses marked &lsquo;Instant&rsquo; are available within minutes of purchase.
               </p>
 
               <div className="flex flex-wrap gap-2 mb-[15px] lg:mb-8">
-                {['Instant Access', 'Official Materials', 'Hands-on Labs', 'Exam Vouchers'].map(tag => (
+                {['Live Online Style Video', 'Official Course-Book / DMOC', 'Hands-on Labs'].map(tag => (
                   <span key={tag} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
                     style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)', color: '#38bdf8' }}>
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1127,6 +1141,10 @@ export default function FlexiTrainingPage() {
               </div>
 
               <div className="flex flex-col lg:flex-row flex-wrap gap-3">
+                <a href="#request" className="w-full lg:w-auto inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
+                  Request More Information
+                </a>
                 <a href="#schedule" className="w-full lg:w-auto inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
                   style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
                   Browse Flexi Courses
@@ -1328,169 +1346,212 @@ export default function FlexiTrainingPage() {
 
       {/* ── COURSES ──────────────────────────────────────────── */}
       <section id="schedule" className="relative py-[20px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
+          <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+
           <div className="flex flex-col items-center text-center mb-[15px]">
-            <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#06111E' }}>
-              Browse{' '}
-              <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Flexi Courses
-              </span>
+            <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>Self-Paced Courses</div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e', lineHeight: 1.2 }}>
+              Browse <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Flexi Courses</em>
             </h2>
-            <p className="mt-2 max-w-xl text-sm sm:text-base" style={{ color: '#475569' }}>
-              Self-paced courses with official materials, hands-on labs, and optional exam vouchers. Start anytime.
+            <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>
+              Self-paced with official materials, hands-on labs, and optional exam vouchers — start anytime.
             </p>
           </div>
 
-          <div className="flex gap-5 items-start">
-            {/* Left sidebar — desktop */}
-            <div className="hidden lg:flex flex-col w-[220px] shrink-0 rounded-2xl overflow-hidden bg-white self-start sticky top-4"
-              style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
-              <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
-                <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>VENDOR</p>
-                <div className="relative">
-                  <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                  <input type="text" placeholder="Search..." value={vendorSearch} onChange={e => setVendorSearch(e.target.value)}
-                    className="w-full pl-7 py-1.5 text-[11px] rounded-lg outline-none"
-                    style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: vendorSearch ? '24px' : '8px' }} />
-                  {vendorSearch && (
-                    <button onClick={() => setVendorSearch('')} className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5" style={{ color: '#64748B' }}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <div className="relative rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
+            <div className="flex gap-5 items-start">
+
+              {/* Left sidebar — desktop */}
+              <div className="hidden lg:flex flex-col w-[220px] shrink-0 rounded-2xl overflow-hidden bg-white self-start sticky top-4"
+                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.07)' }}>
+                {/* Vendor */}
+                <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
+                  <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>VENDOR</p>
+                  <div className="relative">
+                    <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" placeholder="Search..." value={vendorSearch} onChange={e => setVendorSearch(e.target.value)}
+                      className="w-full pl-7 py-1.5 text-[11px] rounded-lg outline-none"
+                      style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: vendorSearch ? '24px' : '8px' }} />
+                    {vendorSearch && (
+                      <button onClick={() => setVendorSearch('')} className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5 hover:bg-[#CAEFFF] transition-all" style={{ color: '#64748B' }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </button>
+                    )}
+                  </div>
+                  <div className="mt-2" style={{ borderBottom: '1px solid #EBF8FE', marginLeft: '-12px', marginRight: '-12px' }} />
+                </div>
+                <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 296 }}>
+                  {ALL_VENDORS.filter(v => !vendorSearch || v.toLowerCase().includes(vendorSearch.toLowerCase())).map(v => {
+                    const count = COURSES.filter(c => c.vendor === v).length
+                    if (count === 0) return null
+                    const active = filterVendor === v
+                    return (
+                      <button key={v} onClick={() => { setFilterVendor(active ? '' : v); setPage(0) }}
+                        className="flex items-center justify-between w-full px-3 py-2 text-left transition-colors hover:bg-[#F0FAFF]"
+                        style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, background: active ? '#EBF8FE' : 'white' }}>
+                        <span className="text-[13px] font-medium truncate" style={{ color: active ? '#0694D1' : '#374151' }} title={v}>{v}</span>
+                        <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                          style={{ background: active ? '#0694D1' : '#E2E8F0', color: active ? 'white' : '#6B7280' }}>{count}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+                {/* Technology */}
+                <div className="px-3 pt-2.5 pb-2" style={{ borderTop: '1px solid #EBF8FE', borderBottom: '1px solid #EBF8FE' }}>
+                  <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>TECHNOLOGY</p>
+                  <div className="relative">
+                    <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" placeholder="Search..." value={techSearch} onChange={e => setTechSearch(e.target.value)}
+                      className="w-full pl-7 py-1.5 text-[11px] rounded-lg outline-none"
+                      style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: techSearch ? '24px' : '8px' }} />
+                    {techSearch && (
+                      <button onClick={() => setTechSearch('')} className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-5 h-5 hover:bg-[#CAEFFF] transition-all" style={{ color: '#64748B' }}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 352 }}>
+                  {!techSearch && (
+                    <button onClick={() => { setActiveTechs([]); setPage(0) }}
+                      className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
+                      style={{ borderLeft: `3px solid ${activeTechs.length === 0 ? '#0694D1' : 'transparent'}`, background: activeTechs.length === 0 ? '#EBF8FE' : 'white' }}>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: '#EBF8FE', color: '#0694D1', fontSize: 13, fontWeight: 700 }}>★</div>
+                        <span className="text-[14px] font-medium leading-tight truncate" style={{ color: activeTechs.length === 0 ? '#0694D1' : '#374151' }}>All Technologies</span>
+                      </div>
+                      <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5 shrink-0 ml-1"
+                        style={{ background: activeTechs.length === 0 ? '#0694D1' : '#E2E8F0', color: activeTechs.length === 0 ? 'white' : '#6B7280' }}>{COURSES.length}</span>
                     </button>
                   )}
-                </div>
-              </div>
-              <div className="overflow-y-auto" style={{ maxHeight: 220 }}>
-                {ALL_VENDORS.filter(v => !vendorSearch || v.toLowerCase().includes(vendorSearch.toLowerCase())).map(v => {
-                  const active = filterVendor === v
-                  return (
-                    <button key={v} onClick={() => { setFilterVendor(active ? '' : v); setPage(0) }}
-                      className="flex items-center justify-between w-full px-3 py-2 text-[11px] font-medium text-left transition-colors hover:bg-[#F0FAFF]"
-                      style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, color: active ? '#0694D1' : '#374151', fontWeight: active ? 700 : 400, background: active ? '#EBF8FE' : 'white' }}>
-                      {v}
-                      <span className="text-[10px] rounded-full px-1.5 py-0.5"
-                        style={{ background: active ? '#0694D1' : '#E2E8F0', color: active ? 'white' : '#6B7280' }}>
-                        {COURSES.filter(c => c.vendor === v).length}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-              <div className="px-3 pt-3 pb-2" style={{ borderTop: '1px solid #EBF8FE', borderBottom: '1px solid #EBF8FE' }}>
-                <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>TECHNOLOGY</p>
-              </div>
-              <div className="overflow-y-auto" style={{ maxHeight: 320 }}>
-                {SIDEBAR_TECHNOLOGIES.map(t => {
-                  const active = activeTech === t.name
-                  return (
-                    <button key={t.name} onClick={() => { setActiveTech(t.name); setPage(0) }}
-                      className="flex items-center justify-between w-full px-3 py-2 text-[11px] font-medium text-left transition-colors hover:bg-[#F0FAFF]"
-                      style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, color: active ? '#0694D1' : '#374151', fontWeight: active ? 700 : 400, background: active ? '#EBF8FE' : 'white' }}>
-                      <span className="flex items-center gap-2">
-                        <span className="w-4 h-4 rounded-sm flex items-center justify-center text-[9px] font-bold shrink-0"
-                          style={{ background: t.bg, color: t.color }}>{typeof t.initial === 'string' && t.initial.length <= 2 ? t.initial : '★'}</span>
-                        {t.label}
-                      </span>
-                      <span className="text-[10px] rounded-full px-1.5 py-0.5"
-                        style={{ background: active ? '#0694D1' : '#E2E8F0', color: active ? 'white' : '#6B7280' }}>{t.count}</span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Right — course grid */}
-            <div className="flex-1 min-w-0">
-              {/* Mobile banner */}
-              <div className="lg:hidden mb-3 rounded-xl p-3" style={{ background: 'white', border: '1px solid #CAEFFF' }}>
-                <div className="flex items-center gap-3 min-w-0 mb-2">
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>
-                    {typeof activeTechData.initial === 'string' ? activeTechData.initial : '★'}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-bold truncate" style={{ color: '#071e2e' }}>{activeTechData.label}</p>
-                    <p className="text-xs truncate" style={{ color: '#64748B' }}>{bannerDesc}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="relative flex-1">
-                    <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input type="text" placeholder="Search courses..." value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
-                      className="w-full rounded-xl pl-9 py-2 text-sm outline-none bg-white"
-                      style={{ border: '1px solid #CAEFFF', color: '#0F172A' }} />
-                  </div>
-                  <FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" />
+                  {SIDEBAR_TECHNOLOGIES.filter(t => t.name !== 'All' && (!techSearch || t.label.toLowerCase().includes(techSearch.toLowerCase()))).map(t => {
+                    const active = activeTechs.includes(t.name)
+                    return (
+                      <button key={t.name} onClick={() => toggleTech(t.name)}
+                        className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
+                        style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, background: active ? '#EBF8FE' : 'white' }}>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>{t.initial}</div>
+                          <span className="text-[14px] font-medium leading-tight truncate" style={{ color: active ? '#0694D1' : '#374151' }} title={t.label}>{t.label}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 shrink-0 ml-1">
+                          <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5" style={{ background: active ? '#0694D1' : '#E2E8F0', color: active ? 'white' : '#6B7280' }}>{t.count}</span>
+                          <div className="w-3.5 h-3.5 rounded border-[1.5px] flex items-center justify-center shrink-0"
+                            style={active ? { borderColor: '#0694D1', background: '#0694D1' } : { borderColor: '#CBD5E1', background: 'white' }}>
+                            {active && <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </div>
+                        </div>
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
-              {/* Desktop banner */}
-              <div className="hidden lg:block mb-3 rounded-xl p-3" style={{ background: 'white', border: '1px solid #CAEFFF' }}>
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>
-                      {typeof activeTechData.initial === 'string' ? activeTechData.initial : '★'}
+              {/* Right panel */}
+              <div className="flex-1 min-w-0">
+
+                {/* Tech header card */}
+                <div className="flex flex-col gap-3 mb-5 p-5 rounded-2xl bg-white" style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex items-center gap-4">
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{activeTechData.initial}</div>
+                      <div>
+                        <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
+                        <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-sm font-bold" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
-                      <p className="text-xs" style={{ color: '#64748B' }}>{bannerDesc}</p>
-                    </div>
+                    <a href="#request" className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                      style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                      Request More Info →
+                    </a>
                   </div>
                 </div>
-                <div className="hidden lg:flex items-center gap-2 mt-2">
+
+                {/* Desktop: search bar */}
+                <div className="hidden lg:flex items-center gap-2 mb-2">
                   <div className="relative flex-1 min-w-0">
                     <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     <input type="text" placeholder="Search courses..." value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
                       className="w-full rounded-xl pl-9 py-2.5 text-sm outline-none bg-white"
                       style={{ border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: search ? '32px' : '12px' }} />
                     {search && (
-                      <button onClick={() => { setSearch(''); setPage(0) }} className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-6 h-6" style={{ color: '#64748B' }}>
+                      <button onClick={() => { setSearch(''); setPage(0) }} className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-6 h-6 transition-all" style={{ color: '#64748B' }}>
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
                       </button>
                     )}
                   </div>
-                  <FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS.filter(v => COURSES.some(c => c.vendor === v))]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth />
                 </div>
-              </div>
 
-              {/* Course grid */}
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {paginated.length > 0
-                  ? paginated.map(c => (
-                      <CourseCard key={c.id} course={c}
-                        onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
-                      />
-                    ))
-                  : (
-                    <div className="col-span-full flex flex-col items-center py-16 rounded-2xl" style={{ background: '#F8FBFE', border: '1px solid #CAEFFF' }}>
-                      <svg className="mb-3 opacity-40" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                      <p className="text-sm font-semibold" style={{ color: '#64748B' }}>No courses found</p>
+                {/* Mobile: search */}
+                <div className="lg:hidden mb-2">
+                  <div className="relative">
+                    <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" placeholder="Search courses..." value={search} onChange={e => { setSearch(e.target.value); setPage(0) }}
+                      className="w-full rounded-xl pl-9 py-2.5 text-sm outline-none bg-white"
+                      style={{ border: '1px solid #CAEFFF', color: '#0F172A', paddingRight: search ? '32px' : '12px' }} />
+                    {search && (
+                      <button onClick={() => { setSearch(''); setPage(0) }} className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full w-6 h-6 transition-all" style={{ color: '#64748B' }}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Mobile: Vendor + All Technologies row */}
+                <div className="lg:hidden flex gap-2 mb-2">
+                  <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS.filter(v => COURSES.some(c => c.vendor === v))]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth /></div>
+                  <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.filter(t => t.name !== 'All').map(t => t.label)} value={activeTechs.length === 1 ? (SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0])?.label ?? '') : ''} onChange={v => { const n = SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v; setActiveTechs(n ? [n] : []); setPage(0) }} fullWidth inputType="checkbox" values={activeTechs.map(n => SIDEBAR_TECHNOLOGIES.find(t => t.name === n)?.label ?? n)} onMultiChange={vals => { setActiveTechs(vals.map(v => SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v)); setPage(0) }} /></div>
+                </div>
+
+                <div className="mb-3">
+                  <span className="text-xs font-medium" style={{ color: '#64748B' }}>Showing {filtered.length} course{filtered.length !== 1 ? 's' : ''}</span>
+                </div>
+
+                {/* Course grid */}
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {paginated.length > 0
+                    ? paginated.map(c => (
+                        <CourseCard key={c.id} course={c}
+                          onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
+                        />
+                      ))
+                    : (
+                      <div className="col-span-full flex flex-col items-center py-16 rounded-2xl" style={{ background: '#F8FBFE', border: '1px solid #CAEFFF' }}>
+                        <svg className="mb-3 opacity-40" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <p className="text-sm font-semibold" style={{ color: '#64748B' }}>No courses found</p>
+                      </div>
+                    )
+                  }
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (() => {
+                  const WINDOW = 5, half = Math.floor(WINDOW / 2)
+                  let start = Math.max(0, page - half)
+                  let end = Math.min(totalPages - 1, start + WINDOW - 1)
+                  if (end - start < WINDOW - 1) start = Math.max(0, end - WINDOW + 1)
+                  const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i)
+                  const PageBtn = ({ p }: { p: number }) => (
+                    <button onClick={() => setPage(p)} className="w-9 h-9 rounded-full text-sm font-bold transition-all hover:opacity-80"
+                      style={page === p ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' } : { border: '1.5px solid #E2E8F0', color: '#64748B', background: 'white' }}>
+                      {p + 1}
+                    </button>
+                  )
+                  return (
+                    <div className="flex items-center justify-center gap-2 mt-8">
+                      <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} className="w-11 h-11 rounded-full flex items-center justify-center text-xl font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]" style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>‹</button>
+                      {start > 0 && <><PageBtn p={0} /><span className="text-sm" style={{ color: '#94A3B8' }}>…</span></>}
+                      {pages.map(p => <PageBtn key={p} p={p} />)}
+                      {end < totalPages - 1 && <><span className="text-sm" style={{ color: '#94A3B8' }}>…</span><PageBtn p={totalPages - 1} /></>}
+                      <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1} className="w-11 h-11 rounded-full flex items-center justify-center text-xl font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]" style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>›</button>
                     </div>
                   )
-                }
+                })()}
               </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (() => {
-                const WINDOW = 5
-                let start = Math.max(0, page - Math.floor(WINDOW / 2))
-                let end = Math.min(totalPages - 1, start + WINDOW - 1)
-                if (end - start < WINDOW - 1) start = Math.max(0, end - WINDOW + 1)
-                const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i)
-                const PageBtn = ({ p }: { p: number }) => (
-                  <button onClick={() => setPage(p)} className="w-9 h-9 rounded-full text-sm font-bold transition-all hover:opacity-80"
-                    style={page === p ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: 'white', border: 'none', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' } : { border: '1.5px solid #E2E8F0', color: '#64748B', background: 'white' }}>
-                    {p + 1}
-                  </button>
-                )
-                return (
-                  <div className="flex items-center justify-center gap-2 mt-8">
-                    <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} className="w-11 h-11 rounded-full flex items-center justify-center text-xl font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]" style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>‹</button>
-                    {start > 0 && <><PageBtn p={0} /><span className="text-sm" style={{ color: '#94A3B8' }}>…</span></>}
-                    {pages.map(p => <PageBtn key={p} p={p} />)}
-                    {end < totalPages - 1 && <><span className="text-sm" style={{ color: '#94A3B8' }}>…</span><PageBtn p={totalPages - 1} /></>}
-                    <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page === totalPages - 1} className="w-11 h-11 rounded-full flex items-center justify-center text-xl font-bold transition-all disabled:opacity-30 hover:bg-[#EBF8FE]" style={{ border: '1.5px solid #CAEFFF', color: '#0694D1', background: 'white' }}>›</button>
-                  </div>
-                )
-              })()}
             </div>
           </div>
         </div>
