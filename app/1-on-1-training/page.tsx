@@ -544,7 +544,7 @@ export default function OneOnOneTrainingPage() {
 
         {/* Banner content */}
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: 15, paddingBottom: 20 }}>
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-0 lg:gap-16 items-center">
             {/* Left */}
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)', color: '#38bdf8' }}>
@@ -1194,7 +1194,7 @@ export default function OneOnOneTrainingPage() {
 
       {brochureModal && (
         <div className="oo1-modal-overlay" onClick={e => { if (e.target === e.currentTarget) setBrochureModal(false) }}>
-          <div style={{ background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', border: '1px solid rgba(6,148,209,0.22)', borderRadius: 20, padding: '32px 28px 28px', width: '100%', maxWidth: 440, position: 'relative', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit', margin: '0 16px' }}>
+          <div style={{ background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', border: '1px solid rgba(6,148,209,0.22)', borderRadius: 20, padding: '32px 28px 28px', width: '100%', maxWidth: 440, position: 'relative', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit' }}>
             {/* Close button */}
             <button onClick={() => setBrochureModal(false)} style={{ position: 'absolute', top: 14, right: 14, width: 28, height: 28, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.6)', fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit' }}>✕</button>
             {/* Badge */}
