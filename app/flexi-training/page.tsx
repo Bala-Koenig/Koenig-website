@@ -1205,7 +1205,6 @@ export default function FlexiTrainingPage() {
                 </div>
               ))}
             </div>
-            </div>
 
           </div>
         </div>
