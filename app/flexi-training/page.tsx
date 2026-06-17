@@ -918,7 +918,7 @@ function CourseCard({ course, currency }: {
   const fmt = (inr: number) => {
     const v = toLocal(inr)
     const s = currency.code === 'INR' ? v.toLocaleString('en-IN') : v.toLocaleString('en-US')
-    return `${currency.symbol} ${s}`
+    return `${currency.code} ${s}`
   }
 
   const courseNumINR  = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
@@ -1048,7 +1048,7 @@ function CourseCard({ course, currency }: {
               </div>
             </div>
             <span className="text-xs font-bold" style={{ color: '#093148' }}>
-              {fmt(LABS_FEE_INR)} +
+              {fmt(LABS_FEE_INR)}
             </span>
             <input type="checkbox" className="sr-only" checked={labsAdded} onChange={() => setLabsAdded(!labsAdded)} />
           </label>
@@ -1081,7 +1081,7 @@ function CourseCard({ course, currency }: {
                 </div>
               </div>
               <span className="text-xs font-bold" style={{ color: '#093148' }}>
-                {fmt(course.certFee)} +
+                {fmt(course.certFee)}
               </span>
               <input type="checkbox" className="sr-only" checked={voucherAdded} onChange={() => setVoucherAdded(!voucherAdded)} />
             </label>
