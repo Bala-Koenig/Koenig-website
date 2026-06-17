@@ -2209,6 +2209,21 @@ export default function ClassroomTrainingPage() {
         </div>
       </section>
 
+      {/* ── REQUEST INFO FORM ────────────────────────────────── */}
+      <section id="request" className="py-[50px]" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
+        <div className="mx-auto max-w-3xl px-4 md:px-8">
+          <div className="rounded-2xl px-8 sm:px-12 py-7 sm:py-9"
+            style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 0 1px rgba(6,148,209,0.08), 0 24px 60px rgba(0,0,0,0.5)' }}>
+            <div className="flex justify-center mb-4">
+              <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest" style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>LET&apos;S TALK</span>
+            </div>
+            <h2 className="text-center text-2xl sm:text-3xl font-bold text-white mb-1">Request for more <span style={{ color: '#38bdf8' }}>information</span></h2>
+            <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.42)' }}>Classroom Training with Koenig Solutions</p>
+            <InquiryForm formType={formType} setFormType={setFormType} />
+          </div>
+        </div>
+      </section>
+
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
       <section className="py-[50px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
@@ -2437,20 +2452,6 @@ export default function ClassroomTrainingPage() {
         </div>
       </section>
 
-      {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <section id="request" className="py-[50px]" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
-        <div className="mx-auto max-w-3xl px-4 md:px-8">
-          <div className="rounded-2xl px-8 sm:px-12 py-7 sm:py-9"
-            style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 0 1px rgba(6,148,209,0.08), 0 24px 60px rgba(0,0,0,0.5)' }}>
-            <div className="flex justify-center mb-4">
-              <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest" style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>LET&apos;S TALK</span>
-            </div>
-            <h2 className="text-center text-2xl sm:text-3xl font-bold text-white mb-1">Request for more <span style={{ color: '#38bdf8' }}>information</span></h2>
-            <p className="text-center text-sm mb-8" style={{ color: 'rgba(255,255,255,0.42)' }}>Classroom Training with Koenig Solutions</p>
-            <InquiryForm formType={formType} setFormType={setFormType} />
-          </div>
-        </div>
-      </section>
     </div>
   )
 }
