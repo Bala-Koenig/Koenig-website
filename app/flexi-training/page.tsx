@@ -757,7 +757,7 @@ function FlexiLeadFormSection() {
 
   if (submitted) {
     return (
-      <section style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '60px 24px' }}>
+      <section style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '30px 24px' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.3)', borderRadius: 20, padding: '48px 32px', textAlign: 'center' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
           <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 20, margin: '0 0 8px' }}>Thank you!</h3>
@@ -768,7 +768,7 @@ function FlexiLeadFormSection() {
   }
 
   return (
-    <section id="request" style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '52px 24px' }}>
+    <section id="request" style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '30px 24px' }}>
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
         <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
           className="flexi-ilf-form" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.20)', borderRadius: 20, padding: '32px 28px' }}>
@@ -1488,7 +1488,7 @@ export default function FlexiTrainingPage() {
       </section>
 
       {/* ── BENEFITS ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '20px', paddingBottom: '20px' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '30px', paddingBottom: '30px' }}>
         <style>{`
           @keyframes benCardIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
           .flexi-ben-card { position:relative;overflow:hidden;border-radius:18px;padding:24px;cursor:default;
@@ -1559,7 +1559,7 @@ export default function FlexiTrainingPage() {
       </section>
 
       {/* ── COURSES ──────────────────────────────────────────── */}
-      <section id="schedule" className="relative py-[20px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+      <section id="schedule" className="relative py-[30px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
@@ -1775,7 +1775,7 @@ export default function FlexiTrainingPage() {
       <FlexiLeadFormSection />
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
-      <section className="py-[20px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
+      <section className="py-[30px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-[15px]">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
@@ -1851,7 +1851,7 @@ export default function FlexiTrainingPage() {
       </section>
 
       {/* ── STUDENT REVIEWS ──────────────────────────────────── */}
-      <section className="flexi-test-section" style={{ background: '#E8F4FA', padding: '20px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
+      <section className="flexi-test-section" style={{ background: '#E8F4FA', padding: '30px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
         <style>{`
           @keyframes flexiScrollCol { from { transform: translateY(0); } to { transform: translateY(-50%); } }
           .flexi-test-col-track { display: flex; flex-direction: column; gap: 20px; animation: flexiScrollCol linear infinite; }
@@ -1861,7 +1861,7 @@ export default function FlexiTrainingPage() {
           @media (min-width: 768px) { .flexi-test-col-md { display: block !important; } }
           @media (min-width: 1024px) { .flexi-test-col-lg { display: block !important; } }
           @media (max-width: 640px) {
-            .flexi-test-section { padding: 20px 20px !important; }
+            .flexi-test-section { padding: 30px 20px !important; }
           }
         `}</style>
         <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
@@ -1905,7 +1905,7 @@ export default function FlexiTrainingPage() {
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '30px', paddingBottom: '30px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-[15px]">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
