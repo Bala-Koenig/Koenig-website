@@ -209,7 +209,7 @@ const TAG_STYLES: Record<string, { bg: string; color: string; dot?: boolean }> =
 const TRAINING_TABS = [
   { id: 'ilo',       label: 'Live Online Classroom (ILO)', href: '/live-online-classroom' },
   { id: 'classroom', label: 'Classroom Training',          href: '/classroom-training'    },
-  { id: 'flexi',     label: 'Flexi Training',              href: '#'                      },
+  { id: 'flexi',     label: 'Flexi Training',              href: '/flexi-training'        },
   { id: '1on1',      label: '1-on-1 Training',             href: '/1-on-1-training'       },
   { id: 'fmat',      label: 'Fly-Me-a-Trainer (FMAT)',    href: '#'                      },
 ]
