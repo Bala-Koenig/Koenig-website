@@ -514,10 +514,12 @@ export default function OneOnOneTrainingPage() {
   const [benSlideIdx,  setBenSlideIdx]  = useState(0)
   const [howSlideIdx,  setHowSlideIdx]  = useState(0)
   const [howWhoTab, setHowWhoTab] = useState<'how' | 'who'>('how')
+  const [whoSlideIdx, setWhoSlideIdx] = useState(0)
   const [brochureModal, setBrochureModal] = useState(false)
   const [brochureCourse, setBrochureCourse] = useState('')
   const benTouchStartX = useRef(0)
   const howTouchStartX = useRef(0)
+  const whoTouchStartX = useRef(0)
 
   useEffect(() => {
     const el = tabScrollRef.current?.querySelector('[data-tab="1on1"]') as HTMLElement | null
@@ -934,18 +936,33 @@ export default function OneOnOneTrainingPage() {
             </div>
           )}
 
-          {/* WHO: mobile cards */}
+          {/* WHO: mobile slider */}
           {howWhoTab === 'who' && (
-            <div className="flex flex-col gap-3">
-              {WHO_FOR.map((w, i) => (
-                <div key={i} className="flex gap-4 rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}>
-                  <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center mt-0.5" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>{w.icon}</div>
-                  <div>
-                    <h3 className="text-sm font-bold mb-1" style={{ color: '#0F172A' }}>{w.title}</h3>
-                    <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{w.desc}</p>
-                  </div>
+            <div onTouchStart={e => { whoTouchStartX.current = e.touches[0].clientX }} onTouchEnd={e => { const dx = whoTouchStartX.current - e.changedTouches[0].clientX; if (dx > 50) setWhoSlideIdx(p => Math.min(p + 1, WHO_FOR.length - 1)); if (dx < -50) setWhoSlideIdx(p => Math.max(p - 1, 0)) }}>
+              <div className="overflow-hidden">
+                <div className="flex" style={{ transform: `translateX(-${whoSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
+                  {WHO_FOR.map((w, i) => (
+                    <div key={i} className="shrink-0 w-full rounded-2xl p-6" style={{ background: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}>
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>{w.icon}</div>
+                      <h3 className="text-base font-bold mb-2" style={{ color: '#0F172A' }}>{w.title}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{w.desc}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div className="flex items-center justify-center gap-4 mt-5">
+                <button onClick={() => setWhoSlideIdx(p => Math.max(p - 1, 0))} disabled={whoSlideIdx === 0} className="flex items-center justify-center w-8 h-8 rounded-full" style={{ background: whoSlideIdx === 0 ? 'rgba(6,148,209,0.06)' : 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.3)', color: whoSlideIdx === 0 ? 'rgba(6,148,209,0.3)' : '#0694D1' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div className="flex gap-2">
+                  {WHO_FOR.map((_, i) => (
+                    <button key={i} onClick={() => setWhoSlideIdx(i)} className="rounded-full transition-all duration-300" style={{ width: whoSlideIdx === i ? 20 : 7, height: 7, background: whoSlideIdx === i ? '#0694D1' : 'rgba(6,148,209,0.25)' }} />
+                  ))}
+                </div>
+                <button onClick={() => setWhoSlideIdx(p => Math.min(p + 1, WHO_FOR.length - 1))} disabled={whoSlideIdx === WHO_FOR.length - 1} className="flex items-center justify-center w-8 h-8 rounded-full" style={{ background: whoSlideIdx === WHO_FOR.length - 1 ? 'rgba(6,148,209,0.06)' : 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.3)', color: whoSlideIdx === WHO_FOR.length - 1 ? 'rgba(6,148,209,0.3)' : '#0694D1' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
             </div>
           )}
         </div>
