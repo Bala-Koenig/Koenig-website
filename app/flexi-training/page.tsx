@@ -782,6 +782,21 @@ function CourseCard({ course }: {
               Duration of videos: {course.duration} hrs
             </div>
           </div>
+          <div style={{ borderTop: '1px solid #F1F5F9', margin: '8px 0 6px' }} />
+          <div>
+            {course.startImmediately ? (
+              <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full w-fit"
+                style={{ background: '#DCFCE7', color: '#15803D' }}>
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Instant
+              </span>
+            ) : (
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                style={{ background: '#EBF8FE', color: '#0694D1' }}>
+                Within 24h
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Access info */}
