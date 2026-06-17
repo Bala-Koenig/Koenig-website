@@ -513,24 +513,6 @@ export default function OneOnOneTrainingPage() {
                 Skip the classroom. Get a private certified instructor dedicated entirely to <em>you</em>. Train on your schedule, at your pace, focused on exactly what you need to certify and advance your career.
               </p>
 
-              {/* Feature list */}
-              <div className="flex flex-col gap-2 mb-6">
-                {[
-                  <>Get Access to <span style={{ color: '#38bdf8' }}>Unlimited 1-on-1 Sessions</span> on any day</>,
-                  <>Free <span style={{ color: '#38bdf8' }}>Schedule Flexibility</span> — weekdays, weekends & holidays</>,
-                  <>100% <span style={{ color: '#38bdf8' }}>Customized Curriculum</span> tailored to your goals</>,
-                  <>Instructor <span style={{ color: '#38bdf8' }}>100% focused on you</span> — no group distractions</>,
-                  <>Sessions start in as little as <span style={{ color: '#38bdf8' }}>24 hours</span></>,
-                ].map((f, i) => (
-                  <div key={i} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                    <span className="mt-0.5 shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.2)', border: '1px solid rgba(6,148,209,0.4)' }}>
-                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    </span>
-                    <span>{f}</span>
-                  </div>
-                ))}
-              </div>
-
               <div className="flex flex-wrap gap-3">
                 <a href="#request" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}>
                   Request Free Consultation
