@@ -602,9 +602,9 @@ function CurrencyDropdown({ currency, setCurrency }: {
         </div>
         <div style={{ flexShrink: 0, padding: '12px 16px 32px', borderTop: '1px solid #EBF8FE', display: 'flex', gap: 10 }}>
           <button onClick={() => { setPending(CURRENCIES[0]); }}
-            style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Reset</button>
+            style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Clear</button>
           <button onClick={() => { setCurrency(pending); setOpen(false) }}
-            style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>OK</button>
+            style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Apply</button>
         </div>
       </div>
     </div>,
@@ -760,7 +760,7 @@ function FilterDropdown({ label, options, value, onChange, fullWidth, inputType 
             style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Clear</button>
           <button onClick={handleApply}
             style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
-            {inputType === 'radio' ? 'OK' : `Apply${activeCount > 0 ? ` (${activeCount})` : ''}`}
+            Apply{activeCount > 0 && inputType === 'checkbox' ? ` (${activeCount})` : ''}
           </button>
         </div>
       </div>
