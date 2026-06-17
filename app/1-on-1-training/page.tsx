@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 
@@ -88,14 +88,14 @@ const HOW_STEPS = [
 
 /* ── Popular courses ─────────────────────────────────────────── */
 const POPULAR_COURSES = [
-  { vendor: 'Microsoft', code: 'AZ-104',  name: 'Microsoft Azure Administrator',                             days: 5, level: 'Intermediate', hot: true,  enrolled: '4,200+', rating: '4.9' },
-  { vendor: 'AWS',       code: 'SAA-C03', name: 'AWS Solutions Architect – Associate',                        days: 4, level: 'Intermediate', hot: true,  enrolled: '3,800+', rating: '4.8' },
-  { vendor: 'CompTIA',   code: 'SY0-701', name: 'CompTIA Security+',                                          days: 5, level: 'Intermediate', hot: true,  enrolled: '3,500+', rating: '4.7' },
-  { vendor: 'Cisco',     code: 'CCNA',    name: 'CCNA – Cisco Certified Network Associate',                    days: 5, level: 'Beginner',     hot: false, enrolled: '2,900+', rating: '4.6' },
-  { vendor: 'ISC2',      code: 'CISSP',   name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced',     hot: true,  enrolled: '1,800+', rating: '4.9' },
-  { vendor: 'PMI',       code: 'PMP',     name: 'Project Management Professional (PMP)',                      days: 4, level: 'Advanced',     hot: true,  enrolled: '5,200+', rating: '4.8' },
-  { vendor: 'Microsoft', code: 'AZ-305',  name: 'Azure Solutions Architect Expert',                           days: 4, level: 'Advanced',     hot: false, enrolled: '2,100+', rating: '4.7' },
-  { vendor: 'CompTIA',   code: 'N10-009', name: 'CompTIA Network+',                                           days: 5, level: 'Beginner',     hot: false, enrolled: '2,600+', rating: '4.6' },
+  { vendor: 'Microsoft', code: 'AZ-104',  name: 'Microsoft Azure Administrator',                             days: 5, level: 'Intermediate', hot: true,  enrolled: '4,200+', rating: '4.9', price: '33,000' },
+  { vendor: 'AWS',       code: 'SAA-C03', name: 'AWS Solutions Architect – Associate',                        days: 4, level: 'Intermediate', hot: true,  enrolled: '3,800+', rating: '4.8', price: '35,000' },
+  { vendor: 'CompTIA',   code: 'SY0-701', name: 'CompTIA Security+',                                          days: 5, level: 'Intermediate', hot: true,  enrolled: '3,500+', rating: '4.7', price: '28,000' },
+  { vendor: 'Cisco',     code: 'CCNA',    name: 'CCNA – Cisco Certified Network Associate',                    days: 5, level: 'Beginner',     hot: false, enrolled: '2,900+', rating: '4.6', price: '32,000' },
+  { vendor: 'ISC2',      code: 'CISSP',   name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced',     hot: true,  enrolled: '1,800+', rating: '4.9', price: '45,000' },
+  { vendor: 'PMI',       code: 'PMP',     name: 'Project Management Professional (PMP)',                      days: 4, level: 'Advanced',     hot: true,  enrolled: '5,200+', rating: '4.8', price: '38,000' },
+  { vendor: 'Microsoft', code: 'AZ-305',  name: 'Azure Solutions Architect Expert',                           days: 4, level: 'Advanced',     hot: false, enrolled: '2,100+', rating: '4.7', price: '42,000' },
+  { vendor: 'CompTIA',   code: 'N10-009', name: 'CompTIA Network+',                                           days: 5, level: 'Beginner',     hot: false, enrolled: '2,600+', rating: '4.6', price: '25,000' },
 ]
 
 /* ── Comparison ──────────────────────────────────────────────── */
@@ -429,11 +429,80 @@ function ScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: num
 /* ════════════════════════════════════════════════════════════════
    PAGE
 ════════════════════════════════════════════════════════════════ */
+function BrochureForm({ onClose, courseName }: { onClose: () => void; courseName?: string }) {
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail]       = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%', boxSizing: 'border-box',
+    background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)',
+    borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff',
+    outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s',
+  }
+  const labelStyle: React.CSSProperties = {
+    fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)',
+    textTransform: 'uppercase', marginBottom: 5, display: 'block',
+  }
+
+  if (submitted) {
+    return (
+      <div style={{ textAlign: 'center', padding: '12px 0 4px' }}>
+        <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', border: '1.5px solid rgba(6,148,209,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.25 }}>You&apos;re all set, {fullName.split(' ')[0]}!</div>
+        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20 }}>
+          The course content for <strong style={{ color: '#0694D1' }}>{courseName || 'this course'}</strong> will be sent to <strong style={{ color: '#fff' }}>{email}</strong> shortly.
+        </div>
+        <div style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.2)', borderRadius: 10, padding: '10px 14px', fontSize: 12, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center', marginBottom: 16 }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Check your inbox — usually arrives within 2 minutes
+        </div>
+        <button onClick={onClose} style={{ width: '100%', padding: '11px', borderRadius: 10, border: '1px solid rgba(6,148,209,0.35)', background: 'transparent', color: '#0694D1', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+          Close
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div>
+        <label style={labelStyle}>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
+        <input required style={inputStyle} placeholder="Rahul Sharma" value={fullName} onChange={e => setFullName(e.target.value)}
+          onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+      </div>
+      <div>
+        <label style={labelStyle}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
+        <input required type="email" style={inputStyle} placeholder="you@company.com" value={email} onChange={e => setEmail(e.target.value)}
+          onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Course content will be sent to your email ID</span>
+      </div>
+      <button type="submit" style={{ width: '100%', padding: '13px', borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: 0.2, boxShadow: '0 4px 18px rgba(6,148,209,0.4)', marginTop: 2, transition: 'filter 0.18s' }}
+        onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')}
+        onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
+      >
+        Send Course Content →
+      </button>
+      <div style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        No spam, ever. Unsubscribe anytime.
+      </div>
+    </form>
+  )
+}
+
 export default function OneOnOneTrainingPage() {
   const tabScrollRef   = useRef<HTMLDivElement>(null)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [benSlideIdx,  setBenSlideIdx]  = useState(0)
   const [howSlideIdx,  setHowSlideIdx]  = useState(0)
+  const [brochureModal, setBrochureModal] = useState(false)
+  const [brochureCourse, setBrochureCourse] = useState('')
   const benTouchStartX = useRef(0)
   const howTouchStartX = useRef(0)
 
@@ -686,6 +755,8 @@ export default function OneOnOneTrainingPage() {
             .oo1-cert-btn-brochure:hover{background:rgba(6,148,209,0.07);}
             .oo1-cert-btn-details{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 8px;border-radius:8px;font-size:10.5px;font-weight:700;background:linear-gradient(135deg,#093148 0%,#0d5280 100%);color:#fff;border:none;cursor:pointer;transition:filter 0.22s,box-shadow 0.22s,transform 0.22s;white-space:nowrap;font-family:inherit;box-shadow:0 2px 8px rgba(9,49,72,0.3);}
             .oo1-cert-btn-details:hover{filter:brightness(1.25);box-shadow:0 4px 14px rgba(9,49,72,0.4);transform:translateY(-1px);}
+            @keyframes oo1FadeIn{from{opacity:0}to{opacity:1}}
+            .oo1-modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px 20px;overflow-y:auto;animation:oo1FadeIn 0.2s ease;}
           `}</style>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -737,15 +808,15 @@ export default function OneOnOneTrainingPage() {
                       </span>
                       <span className="oo1-cert-price">
                         <span className="oo1-cert-price-curr">₹</span>
-                        <span className="oo1-cert-price-amount">On Request</span>
+                        <span className="oo1-cert-price-amount">{c.price}</span>
                       </span>
                     </div>
                     <div className="oo1-cert-actions">
-                      <button className="oo1-cert-btn-brochure" style={{ flex: 1, whiteSpace: 'nowrap' }}>
+                      <button className="oo1-cert-btn-brochure" style={{ flex: 1, whiteSpace: 'nowrap' }} onClick={e => { e.preventDefault(); setBrochureCourse(c.name); setBrochureModal(true) }}>
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Download Syllabus
                       </button>
-                      <span className="oo1-cert-btn-details" style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}>Book 1-on-1 →</span>
+                      <span className="oo1-cert-btn-details" style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}>Enroll Now</span>
                     </div>
                   </div>
                 </a>
@@ -1027,6 +1098,29 @@ export default function OneOnOneTrainingPage() {
           </div>
         </div>
       </section>
+
+      {brochureModal && (
+        <div className="oo1-modal-overlay" onClick={e => { if (e.target === e.currentTarget) setBrochureModal(false) }}>
+          <div style={{ background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius: 20, padding: '32px 28px 28px', width: '100%', maxWidth: 440, position: 'relative', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit' }}>
+            <button onClick={() => setBrochureModal(false)} style={{ position: 'absolute', top: 14, right: 14, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', display: 'inline-block', flexShrink: 0 }}/>
+              <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: '#0694D1', textTransform: 'uppercase' }}>Download Syllabus</span>
+            </div>
+            {brochureCourse && (
+              <div style={{ marginBottom: 16, padding: '10px 14px', background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', borderRadius: 10 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.8, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 3 }}>Course</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', lineHeight: 1.35 }}>{brochureCourse}</div>
+              </div>
+            )}
+            <div style={{ marginBottom: 6 }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Get the Course Content</div>
+            </div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 22 }}>Fill in your details and we&apos;ll send it straight to your inbox.</div>
+            <BrochureForm onClose={() => setBrochureModal(false)} courseName={brochureCourse} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
