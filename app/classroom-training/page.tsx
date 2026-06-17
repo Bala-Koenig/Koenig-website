@@ -1493,6 +1493,14 @@ export default function ClassroomTrainingPage() {
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
   const PER_PAGE = 9
 
+  useEffect(() => {
+    const container = tabScrollRef.current
+    if (!container) return
+    const activeBtn = container.querySelector('[data-tab="classroom"]') as HTMLElement
+    if (!activeBtn) return
+    container.scrollLeft = activeBtn.offsetLeft - container.offsetLeft
+  }, [])
+
   const toggleTech = (t: string) => {
     setActiveTechs(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
     setPage(0)
