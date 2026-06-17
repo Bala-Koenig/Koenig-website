@@ -1169,7 +1169,7 @@ export default async function CourseLiveDataPage() {
                       <span className="text-sm font-bold text-koenig-dark">
                         {(review.PseudoName as string) || (review.ClientName as string) || 'Anonymous'}
                       </span>
-                      {review.Country && (
+                      {(review.Country as string) && (
                         <span className="ml-2 text-xs text-koenig-muted">
                           {review.Country as string}
                         </span>
