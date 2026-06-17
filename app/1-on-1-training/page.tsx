@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 
@@ -162,165 +161,159 @@ const HEAR_OPTIONS = [
 
 /* ── Lead Form Section ───────────────────────────────────────── */
 function OneOnOneLeadFormSection() {
-  const [formType, setFormType] = useState<'individual' | 'enterprise'>('individual')
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [course, setCourse] = useState('')
-  const [hear, setHear] = useState('')
-  const [msg, setMsg] = useState('')
+  const [tab, setTab] = useState<'individual' | 'enterprise'>('individual')
   const [submitted, setSubmitted] = useState(false)
-  const [hearOpen, setHearOpen] = useState(false)
-  const hearRef = useRef<HTMLDivElement>(null)
+  const [robotChecked, setRobotChecked] = useState(false)
+  const [form, setForm] = useState({ fullName: '', email: '', phone: '', courseName: '', trainees: '', hearAbout: '', message: '' })
 
-  useEffect(() => {
-    function handle(e: MouseEvent) {
-      if (hearRef.current && !hearRef.current.contains(e.target as Node)) setHearOpen(false)
-    }
-    document.addEventListener('mousedown', handle)
-    return () => document.removeEventListener('mousedown', handle)
-  }, [])
+  const set = (key: string, val: string) => setForm(p => ({ ...p, [key]: val }))
 
-  const fieldStyle = { background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', width: '100%', padding: '11px 16px', fontSize: 14, outline: 'none' } as React.CSSProperties
-  const focusIn  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }
-  const focusOut = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }
+  const inp: React.CSSProperties = { width: '100%', boxSizing: 'border-box', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 12, color: '#fff', padding: '10px 14px', fontSize: 13.5, fontFamily: 'inherit', outline: 'none' }
+  const lbl: React.CSSProperties = { display: 'block', fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.65)', marginBottom: 6 }
+
+  if (submitted) {
+    return (
+      <section style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '30px 24px' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.3)', borderRadius: 20, padding: '48px 32px', textAlign: 'center' }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
+          <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 20, margin: '0 0 8px' }}>Thank you!</h3>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14 }}>A Koenig advisor will contact you within 1 business day.</p>
+        </div>
+      </section>
+    )
+  }
 
   return (
-    <section id="request" style={{ background: 'linear-gradient(160deg,#07111e 0%,#0a1828 100%)', paddingTop: '30px', paddingBottom: '30px' }}>
-      <div style={{ maxWidth: 780, margin: '0 auto', padding: '0 20px' }}>
-        <div className="rounded-2xl px-6 sm:px-10 py-8" style={{ background: 'linear-gradient(160deg,#091828 0%,#0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 0 1px rgba(6,148,209,0.08),0 24px 60px rgba(0,0,0,0.5)' }}>
-          <div className="flex justify-center mb-4">
-            <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest" style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>LET'S TALK</span>
-          </div>
-          <h2 className="text-center text-2xl sm:text-3xl font-bold text-white mb-1">Request for more <span style={{ color: '#38bdf8' }}>information</span></h2>
-          <p className="text-center text-sm mb-6" style={{ color: 'rgba(255,255,255,0.42)' }}>1-on-1 Training with Koenig Solutions</p>
+    <section id="request" style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '30px 24px' }}>
+      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+        <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
+          className="oo1-ilf-form" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.20)', borderRadius: 20, padding: '32px 28px' }}>
 
-          {/* WhatsApp / Email */}
-          <div className="flex gap-3 mb-6">
-            <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer"
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-white/10"
-              style={{ border: '1px solid rgba(37,211,102,0.35)', color: '#25D366', background: 'rgba(37,211,102,0.05)' }}>
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
-              WhatsApp
-            </a>
-            <a href="mailto:info@koenig-solutions.com"
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-white/10"
-              style={{ border: '1px solid rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.05)' }}>
-              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-              Email Us
-            </a>
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <span style={{ display: 'inline-block', border: '1px solid rgba(6,148,209,0.55)', background: 'rgba(6,148,209,0.12)', color: '#38bdf8', borderRadius: 999, padding: '4px 16px', fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
+              Let&apos;s Talk
+            </span>
+            <h2 style={{ color: '#fff', fontWeight: 800, fontSize: 'clamp(20px,3vw,28px)', margin: '0 0 6px', lineHeight: 1.25 }}>
+              Request for more <span style={{ color: '#38bdf8' }}>information</span>
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px' }}>1-on-1 Training with Koenig Solutions</p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 7, border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '8px 16px', color: 'rgba(255,255,255,0.75)', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp us
+              </a>
+              <a href="mailto:info@koenig-solutions.com"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 7, border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '8px 16px', color: 'rgba(255,255,255,0.75)', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+                Email us
+              </a>
+            </div>
           </div>
 
           {/* Individual / Enterprise toggle */}
-          <div className="flex rounded-xl p-1 mb-5" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 12, padding: 4, marginBottom: 20 }}>
             {(['individual', 'enterprise'] as const).map(t => (
-              <button key={t} type="button" onClick={() => setFormType(t)}
-                className="flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all capitalize"
-                style={formType === t ? { background: '#0694D1', color: '#fff', boxShadow: '0 2px 8px rgba(6,148,209,0.4)' } : { color: 'rgba(255,255,255,0.45)', background: 'transparent' }}>
+              <button key={t} type="button" onClick={() => setTab(t)}
+                style={{ flex: 1, borderRadius: 9, padding: '10px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s',
+                  ...(tab === t ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', boxShadow: '0 2px 12px rgba(6,148,209,0.35)' } : { background: 'transparent', color: 'rgba(255,255,255,0.45)' }) }}>
                 {t === 'individual'
-                  ? <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  : <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                }
-                {t}
+                  ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/><path d="M2 12h20"/></svg>}
+                {t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
             ))}
           </div>
 
-          {submitted ? (
-            <div className="rounded-2xl p-10 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.25)' }}>
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: 'rgba(34,197,94,0.15)' }}>
-                <svg className="h-7 w-7" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <h3 className="text-lg font-bold text-white mb-1">Thank you!</h3>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>A Koenig advisor will contact you within 2 hours.</p>
-              <button onClick={() => { setSubmitted(false); setName(''); setEmail(''); setPhone(''); setCourse(''); setHear(''); setMsg('') }}
-                className="mt-5 rounded-xl px-6 py-2.5 text-sm font-semibold text-white" style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}>
-                Submit Another
-              </button>
+          {/* Row 1 */}
+          <div className="oo1-ilf-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+            <div>
+              <label style={lbl}>Full Name <span style={{ color: '#f87171' }}>*</span></label>
+              <input type="text" required placeholder="John Smith" value={form.fullName} onChange={e => set('fullName', e.target.value)} style={inp} />
             </div>
-          ) : (
-            <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Full Name <span style={{ color: '#0694D1' }}>*</span></label>
-                  <input required value={name} onChange={e => setName(e.target.value)} placeholder="John Smith" style={fieldStyle} onFocus={focusIn} onBlur={focusOut} />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>{formType === 'enterprise' ? 'Business ' : ''}Email <span style={{ color: '#0694D1' }}>*</span></label>
-                  <input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={formType === 'enterprise' ? 'you@company.com' : 'you@email.com'} style={fieldStyle} onFocus={focusIn} onBlur={focusOut} />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Phone / WhatsApp <span style={{ color: '#0694D1' }}>*</span></label>
-                <input required type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+1 (555) 000-0000" style={fieldStyle} onFocus={focusIn} onBlur={focusOut} />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Course Name</label>
-                <input value={course} onChange={e => setCourse(e.target.value)} placeholder="e.g. AZ-104, CISSP, PMP…" style={fieldStyle} onFocus={focusIn} onBlur={focusOut} />
-              </div>
+            <div>
+              <label style={lbl}>{tab === 'enterprise' ? 'Business ' : ''}Email <span style={{ color: '#f87171' }}>*</span></label>
+              <input type="email" required placeholder={tab === 'enterprise' ? 'you@company.com' : 'you@email.com'} value={form.email} onChange={e => set('email', e.target.value)} style={inp} />
+            </div>
+          </div>
 
-              {/* How did you hear dropdown */}
-              <div ref={hearRef} style={{ position: 'relative' }}>
-                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>How did you hear about us?</label>
-                <button type="button" onClick={() => setHearOpen(o => !o)}
-                  className="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm text-left transition-all"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${hearOpen ? 'rgba(6,148,209,0.6)' : 'rgba(255,255,255,0.12)'}`, color: hear ? '#fff' : 'rgba(255,255,255,0.28)', boxShadow: hearOpen ? '0 0 0 3px rgba(6,148,209,0.12)' : 'none' }}>
-                  <span>{hear || 'Select an option'}</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: hearOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}><path d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                {hearOpen && typeof document !== 'undefined' && createPortal(
-                  <div style={{ position: 'fixed', inset: 0, zIndex: 9000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-                    <div onClick={() => setHearOpen(false)} style={{ position: 'absolute', inset: 0, background: 'rgba(6,18,30,0.55)', backdropFilter: 'blur(2px)' }} />
-                    <div style={{ position: 'relative', background: '#0c1f34', borderRadius: '20px 20px 0 0', maxHeight: '60vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 40px rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.25)' }}>
-                      <div style={{ padding: '14px 20px 10px', borderBottom: '1px solid rgba(6,148,209,0.15)', flexShrink: 0 }}>
-                        <div style={{ width: 36, height: 4, borderRadius: 999, background: 'rgba(255,255,255,0.2)', margin: '0 auto 10px' }} />
-                        <p style={{ fontSize: 14, fontWeight: 700, color: '#38bdf8', textAlign: 'center' }}>How did you hear about us?</p>
-                      </div>
-                      <div style={{ overflowY: 'auto', flex: 1, padding: '6px 12px' }}>
-                        {HEAR_OPTIONS.map(o => (
-                          <button key={o} type="button" onClick={() => { setHear(o); setHearOpen(false) }}
-                            style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', padding: '10px 8px', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, color: o === hear ? '#38bdf8' : 'rgba(255,255,255,0.8)', background: o === hear ? 'rgba(6,148,209,0.15)' : 'transparent', marginBottom: 1 }}>
-                            <span style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${o === hear ? '#0694D1' : 'rgba(255,255,255,0.25)'}`, background: o === hear ? '#0694D1' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                              {o === hear && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', display: 'block' }} />}
-                            </span>
-                            {o}
-                          </button>
-                        ))}
-                      </div>
-                      <div style={{ padding: '12px 16px 32px', borderTop: '1px solid rgba(6,148,209,0.15)', flexShrink: 0 }}>
-                        <button type="button" onClick={() => setHearOpen(false)} style={{ width: '100%', padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Close</button>
-                      </div>
-                    </div>
-                  </div>,
-                  document.body
-                )}
-              </div>
+          {/* Row 2 */}
+          <div className="oo1-ilf-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+            <div>
+              <label style={lbl}>Phone / WhatsApp <span style={{ color: '#f87171' }}>*</span></label>
+              <input type="tel" required placeholder="+1 (555) 000-0000" value={form.phone} onChange={e => set('phone', e.target.value)} style={inp} />
+            </div>
+            <div>
+              {tab === 'individual' ? (
+                <>
+                  <label style={lbl}>Course Name</label>
+                  <input type="text" placeholder="e.g. AZ-104, CISSP, PMP…" value={form.courseName} onChange={e => set('courseName', e.target.value)} style={inp} />
+                </>
+              ) : (
+                <>
+                  <label style={lbl}>Number of Trainees</label>
+                  <input type="number" min="1" placeholder="e.g. 5" value={form.trainees} onChange={e => set('trainees', e.target.value)} style={inp} />
+                </>
+              )}
+            </div>
+          </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Tell us about your training goals</label>
-                <textarea rows={3} value={msg} onChange={e => setMsg(e.target.value)}
-                  placeholder="e.g. I want to pass AZ-104 within 3 weeks, currently a network engineer…"
-                  style={{ ...fieldStyle, resize: 'none' } as React.CSSProperties}
-                  onFocus={focusIn} onBlur={focusOut} />
-              </div>
+          {/* How did you hear */}
+          <div style={{ marginBottom: 12, position: 'relative' }}>
+            <label style={lbl}>How did you hear about us?</label>
+            <select value={form.hearAbout} onChange={e => set('hearAbout', e.target.value)}
+              style={{ ...inp, appearance: 'none', WebkitAppearance: 'none', color: form.hearAbout ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+              <option value="" style={{ background: '#0a1929' }}>Select Option</option>
+              {HEAR_OPTIONS.map(o => <option key={o} value={o} style={{ background: '#0a1929', color: '#fff' }}>{o}</option>)}
+            </select>
+            <svg style={{ position: 'absolute', right: 14, top: 'calc(50% + 10px)', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'rgba(255,255,255,0.4)' }}
+              width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
 
-              {/* reCAPTCHA placeholder */}
-              <div className="flex items-center gap-3 rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div className="w-5 h-5 rounded border-2 shrink-0" style={{ borderColor: 'rgba(255,255,255,0.3)' }} />
-                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>I'm not a robot</span>
-                <div className="ml-auto flex flex-col items-center">
-                  <svg width="32" height="32" viewBox="0 0 64 64" fill="none"><path d="M32 8C18.7 8 8 18.7 8 32s10.7 24 24 24 24-10.7 24-24S45.3 8 32 8z" fill="#4A90E2" opacity=".2"/><path d="M32 16c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16z" fill="#4A90E2" opacity=".4"/></svg>
-                  <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.3)' }}>reCAPTCHA</span>
-                </div>
-              </div>
+          {/* Training goals */}
+          <div style={{ marginBottom: 12 }}>
+            <label style={lbl}>Tell us about your training goals</label>
+            <textarea rows={4} placeholder="e.g. I want to pass AZ-104 within 3 weeks, currently a network engineer…"
+              value={form.message} onChange={e => set('message', e.target.value)}
+              style={{ ...inp, resize: 'none', lineHeight: 1.6 }} />
+          </div>
 
-              <button type="submit" className="w-full rounded-xl py-3.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
-                style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}>
-                Submit Enquiry →
-              </button>
-            </form>
-          )}
-        </div>
+          {/* reCAPTCHA mock */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 4, padding: '8px 14px' }}>
+              <input type="checkbox" checked={robotChecked} onChange={e => setRobotChecked(e.target.checked)} style={{ width: 16, height: 16, cursor: 'pointer' }} />
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)' }}>I&apos;m not a robot</span>
+              <div style={{ marginLeft: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+                  <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#4A90D9"/>
+                  <path d="M32 14c-9.941 0-18 8.059-18 18s8.059 18 18 18 18-8.059 18-18-8.059-18-18-18z" fill="white"/>
+                  <path d="M32 20c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" fill="#4A90D9"/>
+                  <path d="M32 26a6 6 0 100 12 6 6 0 000-12z" fill="white"/>
+                </svg>
+                <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.35)', lineHeight: 1.2 }}>reCAPTCHA</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Submit */}
+          <button type="submit"
+            style={{ width: '100%', padding: '14px 0', borderRadius: 12, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694D1 0%,#076D9D 100%)', boxShadow: '0 0 28px rgba(6,148,209,0.40)' }}>
+            Submit — Get a Free Consultation
+          </button>
+          <p style={{ textAlign: 'center', fontSize: 11.5, color: 'rgba(255,255,255,0.30)', marginTop: 10 }}>
+            We&apos;ll respond within 1 business day · No spam, ever.
+          </p>
+        </form>
+
+        <style>{`
+          @media(max-width:600px){
+            .oo1-ilf-grid { grid-template-columns: 1fr !important; }
+            .oo1-ilf-form { padding: 20px 16px !important; }
+          }
+        `}</style>
       </div>
     </section>
   )
@@ -669,22 +662,34 @@ export default function OneOnOneTrainingPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {POPULAR_COURSES.map((c, i) => (
-              <a key={i} href="#request" className="group relative rounded-xl bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl block" style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.10)' }}>
-                <div className="mb-3 flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold" style={{ background: 'rgba(7,109,157,0.15)', color: '#3AB6EB', border: '1px solid rgba(6,148,209,0.3)' }}>
-                    {c.vendor}
+              <a key={i} href="#request"
+                className="flex flex-col rounded-2xl overflow-hidden relative transition-all duration-300 hover:-translate-y-1 block"
+                style={{ background: 'white', border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 12px 32px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#CAEFFF' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#E2E8F0' }}>
+
+                {c.hot && (
+                  <span className="absolute" style={{ top: 0, right: 0, display: 'inline-flex', alignItems: 'center', gap: 4, height: 20, fontSize: 9, fontWeight: 800, letterSpacing: 0.5, textTransform: 'uppercase', padding: '0 10px 0 8px', borderRadius: '0 14px 0 10px', background: 'linear-gradient(135deg,#0694D1,#22d3ee)', color: '#fff', boxShadow: '-2px 2px 8px rgba(6,148,209,0.28)', zIndex: 2 }}>
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2z"/></svg>
+                    Popular
                   </span>
-                  {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-red-50 text-red-600">🔥 Hot</span>}
+                )}
+
+                <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F1F5F9' }}>
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full"
+                    style={{ background: '#EBF8FE', color: '#0694D1' }}>{c.vendor}</span>
+                  <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: '#0F172A' }}>{c.name}</h3>
+                  <div className="flex items-center gap-1 mt-2.5 text-[11px] font-semibold" style={{ color: '#475569' }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    Start Anytime · {c.days * 8} hrs ({c.days}d)
+                  </div>
                 </div>
-                <h3 className="mb-1.5 text-sm font-semibold leading-snug transition-colors group-hover:text-[#0694D1]" style={{ color: '#06111E' }}>{c.name}</h3>
-                <div className="mb-3 flex items-center gap-2 text-xs flex-wrap" style={{ color: '#7a8c96' }}>
-                  <span>Start Anytime</span>
-                  <span>·</span>
-                  <span>{c.days * 8} hrs ({c.days}d)</span>
-                </div>
-                <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: '#CAEFFF' }}>
+
+                <div className="flex items-center justify-between px-4 py-3 mt-auto">
                   <span className="text-sm font-bold" style={{ color: c.level === 'Beginner' ? '#16a34a' : c.level === 'Intermediate' ? '#0694D1' : '#7c3aed' }}>{c.level}</span>
-                  <span className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: '#093148' }}>Book 1-on-1 →</span>
+                  <span className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>Book 1-on-1 →</span>
                 </div>
               </a>
             ))}
