@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 
@@ -95,94 +95,284 @@ const FAQS = [
 ]
 
 const TESTIMONIALS = [
-  { name: 'Adham Al Mayasi', role: 'IT Professional, 🇴🇲 Oman', initials: 'AA', bg: 'linear-gradient(135deg,#076D9D,#4DBFEF)', quote: 'Your dedication, expertise, and unwavering commitment to your craft are truly inspiring. You have a unique ability to connect with your trainees.' },
-  { name: 'Emmanuel Masabo', role: 'Network Engineer, 🇷🇼 Rwanda', initials: 'EM', bg: 'linear-gradient(135deg,#093148,#076D9D)', quote: 'The trainer is very organised. She helped us understand difficult concepts in simple ways. She managed the time professionally — the content was huge but all was delivered perfectly.' },
-  { name: 'Yoosuf Nizam', role: 'Cloud Architect, 🇲🇻 Maldives', initials: 'YN', bg: 'linear-gradient(135deg,#F47920,#f6a05c)', quote: 'This trainer is undoubtedly one of the finest I have encountered. His profound knowledge and articulate teaching style make complex concepts remarkably accessible.' },
-  { name: 'Amjad Kushar', role: 'IT Manager, 🇸🇦 Saudi Arabia', initials: 'AK', bg: 'linear-gradient(135deg,#093148,#F47920)', quote: 'I would like to express my sincere appreciation to the trainer for providing such an outstanding learning experience tailored precisely to my knowledge gaps.' },
-  { name: 'David Muriuki', role: 'Security Engineer, 🇰🇪 Kenya', initials: 'DM', bg: 'linear-gradient(135deg,#34A853,#076D9D)', quote: 'His approach was nothing short of excellent — blending professionalism with a deep understanding of real-world scenarios that made every session highly engaging.' },
-  { name: 'Monica Kalamula', role: 'Systems Admin, 🇲🇼 Malawi', initials: 'MK', bg: 'linear-gradient(135deg,#476D8D,#0694D1)', quote: 'His expertise shone through in his ability to translate complex ideas into digestible information — one of the best training experiences I\'ve had.' },
+  { name: 'Adham Al Mayasi',   role: 'IT Professional, 🇴🇲 Oman',      course: 'AZ-104: Microsoft Azure Administrator',         initials: 'AA', bg: 'linear-gradient(135deg,#076D9D,#4DBFEF)', quote: 'Your dedication, expertise, and unwavering commitment to your craft are truly inspiring. You have a unique ability to connect with your trainees, instilling a sense of belief and motivation that stays long after the sessions end.' },
+  { name: 'Emmanuel Masabo',   role: 'Network Engineer, 🇷🇼 Rwanda',    course: 'CCNA (200-301): Cisco Certified Network Associate', initials: 'EM', bg: 'linear-gradient(135deg,#093148,#076D9D)', quote: 'The trainer is very organised. She helped us understand difficult concepts in simple ways. She managed the time professionally — the content was huge but all was delivered perfectly.' },
+  { name: 'Yoosuf Nizam',     role: 'Cloud Architect, 🇲🇻 Maldives',   course: 'AWS Solutions Architect – Associate (SAA-C03)',    initials: 'YN', bg: 'linear-gradient(135deg,#F47920,#f6a05c)', quote: 'This trainer is undoubtedly one of the finest I have encountered. His profound knowledge and articulate teaching style make complex concepts remarkably accessible.' },
+  { name: 'Amjad Kushar',     role: 'IT Manager, 🇸🇦 Saudi Arabia',    course: 'AZ-500: Microsoft Azure Security Technologies',   initials: 'AK', bg: 'linear-gradient(135deg,#093148,#F47920)', quote: 'I would like to express my sincere appreciation to the trainer for providing such an outstanding learning experience tailored precisely to my knowledge gaps.' },
+  { name: 'David Muriuki',    role: 'Security Engineer, 🇰🇪 Kenya',    course: 'CEH v13: Certified Ethical Hacker',               initials: 'DM', bg: 'linear-gradient(135deg,#34A853,#076D9D)', quote: 'His approach was nothing short of excellent — blending professionalism with a deep understanding of real-world scenarios that made every session highly engaging.' },
+  { name: 'Monica Kalamula',  role: 'Systems Admin, 🇲🇼 Malawi',       course: 'CompTIA Security+ (SY0-701)',                      initials: 'MK', bg: 'linear-gradient(135deg,#476D8D,#0694D1)', quote: 'His expertise shone through in his ability to translate complex ideas into digestible information — one of the best training experiences I\'ve had.' },
 ]
 
-const COUNTRIES = ['India','United States','United Kingdom','Canada','Australia','UAE','Singapore','Germany','France','Netherlands','Saudi Arabia','Qatar','South Africa','New Zealand','Other']
+const HEAR_OPTIONS = [
+  'Search Engine (Google/Bing)', 'LinkedIn', 'Facebook / Instagram', 'Twitter / X', 'YouTube',
+  'Colleague / Friend Referral', 'Previous Koenig Student', 'Email Newsletter',
+  'Company Recommendation', 'Job Board', 'Online Forum / Reddit', 'Other',
+]
 
-function LeadForm() {
-  const [fullName, setFullName] = useState('')
-  const [email, setEmail]       = useState('')
-  const [phone, setPhone]       = useState('')
-  const [country, setCountry]   = useState('')
-  const [team, setTeam]         = useState('')
-  const [course, setCourse]     = useState('')
-  const [message, setMessage]   = useState('')
-  const [submitted, setSubmitted] = useState(false)
-
-  const inp: React.CSSProperties = {
-    width: '100%', boxSizing: 'border-box',
-    background: 'rgba(6,148,209,0.07)', border: '1.5px solid rgba(6,148,209,0.25)',
-    borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff',
-    outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s',
-  }
-  const lbl: React.CSSProperties = {
-    fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.5)',
-    textTransform: 'uppercase', marginBottom: 5, display: 'block',
-  }
-  const focus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => (e.target.style.borderColor = '#0694D1')
-  const blur  = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => (e.target.style.borderColor = 'rgba(6,148,209,0.25)')
-
-  if (submitted) return (
-    <div style={{ textAlign: 'center', padding: '40px 0' }}>
-      <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+/* ── Testimonial Card ─────────────────────────────────────────── */
+function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
+  const [exp, setExp] = useState(false)
+  const isLong = t.quote.length > 140
+  return (
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+      <div className="flex-1 flex flex-col p-5">
+        <div className="mb-3 text-base leading-none" style={{ color: '#F59E0B', letterSpacing: 1 }}>★★★★★</div>
+        <p className="mb-4 text-sm leading-relaxed flex-1" style={{ color: '#2d4a6a' }}>&ldquo;{isLong && !exp ? `${t.quote.slice(0, 140)}…` : t.quote}&rdquo;</p>
+        {isLong && (
+          <button onClick={() => setExp(p => !p)} className="mb-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] hover:bg-[#0694D1] hover:text-white transition-all" style={{ borderColor: '#0694D1' }}>
+            {exp ? 'Show Less ↑' : 'Show More ↓'}
+          </button>
+        )}
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0" style={{ background: t.bg, border: '2px solid #DCEEFB' }}>{t.initials}</div>
+          <div className="min-w-0">
+            <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
+            <p className="text-xs font-semibold mt-0.5" style={{ color: '#0694D1' }}>{t.role}</p>
+          </div>
+        </div>
       </div>
-      <h3 style={{ color: '#fff', fontSize: 20, fontWeight: 700, marginBottom: 8 }}>Request Received!</h3>
-      <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, lineHeight: 1.6 }}>Our FMAT team will reach out within 1 business day with a detailed quote and availability.</p>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
+        <p className="text-xs font-bold truncate mr-2" style={{ color: '#0d1b2a' }}>{t.course}</p>
+        <span className="rounded-full px-2.5 py-1 text-xs font-semibold shrink-0" style={{ background: '#EBF8FE', color: '#0569a8', border: '1px solid #CAEFFF' }}>✓ Verified</span>
+      </div>
     </div>
   )
+}
+
+/* ── Mobile horizontal marquee ───────────────────────────────── */
+function MobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
+  const trackRef = useRef<HTMLUListElement>(null)
+  const posRef   = useRef(0)
+  const dragRef  = useRef({ active: false, startX: 0, startPos: 0 })
+
+  useEffect(() => {
+    const inner = trackRef.current
+    if (!inner) return
+    let prev = performance.now(); let raf: number
+    function tick(now: number) {
+      const dt = now - prev; prev = now
+      if (!dragRef.current.active && inner) {
+        posRef.current += 0.038 * dt
+        const half = inner.scrollWidth / 2
+        if (half > 0 && posRef.current >= half) posRef.current -= half
+        inner.style.transform = `translateX(-${posRef.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
 
   return (
-    <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-        <div>
-          <label style={lbl}>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
-          <input required style={inp} placeholder="John" value={fullName} onChange={e => setFullName(e.target.value)} onFocus={focus} onBlur={blur} />
-        </div>
-        <div>
-          <label style={lbl}>Email <span style={{ color: '#ef4444' }}>*</span></label>
-          <input required type="email" style={inp} placeholder="john@example.com" value={email} onChange={e => setEmail(e.target.value)} onFocus={focus} onBlur={blur} />
-        </div>
-        <div>
-          <label style={lbl}>Phone / WhatsApp <span style={{ color: '#ef4444' }}>*</span></label>
-          <input required type="tel" style={inp} placeholder="+1 (555) 000-0000" value={phone} onChange={e => setPhone(e.target.value)} onFocus={focus} onBlur={blur} />
-        </div>
-        <div>
-          <label style={lbl}>Country <span style={{ color: '#ef4444' }}>*</span></label>
-          <select required style={{ ...inp, color: country ? '#fff' : 'rgba(255,255,255,0.4)', appearance: 'none' }} value={country} onChange={e => setCountry(e.target.value)} onFocus={focus} onBlur={blur}>
-            <option value="" style={{ background: '#0d2d47' }}>Select country</option>
-            {COUNTRIES.map(c => <option key={c} value={c} style={{ background: '#0d2d47', color: '#c8d8e8' }}>{c}</option>)}
-          </select>
-        </div>
-        <div>
-          <label style={lbl}>Team Size</label>
-          <input type="number" min="1" style={inp} placeholder="e.g. 10" value={team} onChange={e => setTeam(e.target.value)} onFocus={focus} onBlur={blur} />
-        </div>
-        <div>
-          <label style={lbl}>Course / Topic</label>
-          <input style={inp} placeholder="e.g. AZ-104, CCNA…" value={course} onChange={e => setCourse(e.target.value)} onFocus={focus} onBlur={blur} />
-        </div>
+    <div className="sm:hidden overflow-hidden mt-5" style={{ maskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)' }}
+      onTouchStart={e => { dragRef.current = { active: true, startX: e.touches[0].clientX, startPos: posRef.current } }}
+      onTouchMove={e => {
+        const dx = dragRef.current.startX - e.touches[0].clientX
+        const inner = trackRef.current; if (!inner) return
+        const half = inner.scrollWidth / 2
+        let p = dragRef.current.startPos + dx
+        if (p < 0) p = 0; if (half > 0 && p >= half) p = half - 1
+        posRef.current = p; inner.style.transform = `translateX(-${p}px)`
+      }}
+      onTouchEnd={() => { dragRef.current.active = false }}>
+      <ul ref={trackRef} className="flex gap-4 py-2" style={{ width: 'max-content', listStyle: 'none', padding: 0, margin: 0 }}>
+        {[...items, ...items].map((t, i) => (
+          <li key={i} style={{ width: 280, flexShrink: 0 }}>
+            <TestimonialCard t={t} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+/* ── Desktop scroll column ───────────────────────────────────── */
+function ScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
+  const ref  = useRef<HTMLDivElement>(null)
+  const pos  = useRef(0)
+  const paus = useRef(false)
+  useEffect(() => {
+    const el = ref.current; if (!el) return
+    let prev = performance.now(); let raf: number
+    function tick(now: number) {
+      const dt = now - prev; prev = now
+      if (!paus.current && el) {
+        pos.current += speed * dt
+        const half = el.scrollHeight / 2
+        if (half > 0 && pos.current >= half) pos.current -= half
+        el.style.transform = `translateY(-${pos.current}px)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [speed])
+  return (
+    <div style={{ height: 520, overflow: 'hidden' }} onMouseEnter={() => { paus.current = true }} onMouseLeave={() => { paus.current = false }}>
+      <div ref={ref} className="flex flex-col gap-4">
+        {[...items, ...items].map((t, i) => <TestimonialCard key={i} t={t} />)}
       </div>
-      <div>
-        <label style={lbl}>Additional Requirements</label>
-        <textarea style={{ ...inp, resize: 'vertical', minHeight: 90 } as React.CSSProperties} placeholder="Preferred dates, location, specific topics, lab requirements…"
-          value={message} onChange={e => setMessage(e.target.value)} onFocus={focus} onBlur={blur} />
+    </div>
+  )
+}
+
+/* ── Lead Form Section ───────────────────────────────────────── */
+function FmatLeadFormSection() {
+  const [tab, setTab] = useState<'individual' | 'enterprise'>('individual')
+  const [submitted, setSubmitted] = useState(false)
+  const [robotChecked, setRobotChecked] = useState(false)
+  const [form, setForm] = useState({ fullName: '', email: '', phone: '', courseName: '', trainees: '', hearAbout: '', message: '' })
+
+  const set = (key: string, val: string) => setForm(p => ({ ...p, [key]: val }))
+
+  const inp: React.CSSProperties = { width: '100%', boxSizing: 'border-box', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 12, color: '#fff', padding: '10px 14px', fontSize: 13.5, fontFamily: 'inherit', outline: 'none' }
+  const lbl: React.CSSProperties = { display: 'block', fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.65)', marginBottom: 6 }
+
+  if (submitted) {
+    return (
+      <section id="request" style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '30px 24px' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto', background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.3)', borderRadius: 20, padding: '48px 32px', textAlign: 'center' }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
+          <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 20, margin: '0 0 8px' }}>Thank you!</h3>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14 }}>Our FMAT team will reach out within 1 business day.</p>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section id="request" style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', padding: '30px 24px' }}>
+      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+        <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
+          className="fmat-ilf-form" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.20)', borderRadius: 20, padding: '32px 28px' }}>
+
+          {/* Header */}
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <span style={{ display: 'inline-block', border: '1px solid rgba(6,148,209,0.55)', background: 'rgba(6,148,209,0.12)', color: '#38bdf8', borderRadius: 999, padding: '4px 16px', fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>
+              Let&apos;s Talk
+            </span>
+            <h2 style={{ color: '#fff', fontWeight: 800, fontSize: 'clamp(20px,3vw,28px)', margin: '0 0 6px', lineHeight: 1.25 }}>
+              Request for more <span style={{ color: '#38bdf8' }}>information</span>
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, margin: '0 0 16px' }}>Fly-Me-a-Trainer with Koenig Solutions</p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 7, border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '8px 16px', color: 'rgba(255,255,255,0.75)', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp us
+              </a>
+              <a href="mailto:info@koenig-solutions.com"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 7, border: '1px solid rgba(255,255,255,0.15)', borderRadius: 10, padding: '8px 16px', color: 'rgba(255,255,255,0.75)', fontSize: 13, textDecoration: 'none', fontFamily: 'inherit' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+                Email us
+              </a>
+            </div>
+          </div>
+
+          {/* Individual / Enterprise toggle */}
+          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 12, padding: 4, marginBottom: 20 }}>
+            {(['individual', 'enterprise'] as const).map(t => (
+              <button key={t} type="button" onClick={() => setTab(t)}
+                style={{ flex: 1, borderRadius: 9, padding: '10px 0', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s',
+                  ...(tab === t ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', boxShadow: '0 2px 12px rgba(6,148,209,0.35)' } : { background: 'transparent', color: 'rgba(255,255,255,0.45)' }) }}>
+                {t === 'individual'
+                  ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/><path d="M2 12h20"/></svg>}
+                {t.charAt(0).toUpperCase() + t.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          {/* Row 1 */}
+          <div className="fmat-ilf-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+            <div>
+              <label style={lbl}>Full Name <span style={{ color: '#f87171' }}>*</span></label>
+              <input type="text" required placeholder="John Smith" value={form.fullName} onChange={e => set('fullName', e.target.value)} style={inp} />
+            </div>
+            <div>
+              <label style={lbl}>{tab === 'enterprise' ? 'Business ' : ''}Email <span style={{ color: '#f87171' }}>*</span></label>
+              <input type="email" required placeholder="john@example.com" value={form.email} onChange={e => set('email', e.target.value)} style={inp} />
+            </div>
+          </div>
+
+          {/* Row 2 */}
+          <div className="fmat-ilf-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+            <div>
+              <label style={lbl}>Phone / WhatsApp <span style={{ color: '#f87171' }}>*</span></label>
+              <input type="tel" required placeholder="+1 (555) 000-0000" value={form.phone} onChange={e => set('phone', e.target.value)} style={inp} />
+            </div>
+            <div>
+              {tab === 'individual' ? (
+                <>
+                  <label style={lbl}>Course Name</label>
+                  <input type="text" placeholder="e.g. AZ-104, CISSP, PMP…" value={form.courseName} onChange={e => set('courseName', e.target.value)} style={inp} />
+                </>
+              ) : (
+                <>
+                  <label style={lbl}>Number of Trainees</label>
+                  <input type="number" min="1" placeholder="e.g. 5" value={form.trainees} onChange={e => set('trainees', e.target.value)} style={inp} />
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* How did you hear */}
+          <div style={{ marginBottom: 12, position: 'relative' }}>
+            <label style={lbl}>How did you hear about us?</label>
+            <select value={form.hearAbout} onChange={e => set('hearAbout', e.target.value)}
+              style={{ ...inp, appearance: 'none', WebkitAppearance: 'none', color: form.hearAbout ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+              <option value="" style={{ background: '#0a1929' }}>Select Option</option>
+              {HEAR_OPTIONS.map(o => <option key={o} value={o} style={{ background: '#0a1929', color: '#fff' }}>{o}</option>)}
+            </select>
+            <svg style={{ position: 'absolute', right: 14, top: 'calc(50% + 10px)', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'rgba(255,255,255,0.4)' }}
+              width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
+
+          {/* Training goals */}
+          <div style={{ marginBottom: 12 }}>
+            <label style={lbl}>Tell us about your training goals</label>
+            <textarea rows={4} placeholder="e.g. Preferred dates, location, number of attendees, specific topics…"
+              value={form.message} onChange={e => set('message', e.target.value)}
+              style={{ ...inp, resize: 'none', lineHeight: 1.6 }} />
+          </div>
+
+          {/* reCAPTCHA mock */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 4, padding: '8px 14px' }}>
+              <input type="checkbox" checked={robotChecked} onChange={e => setRobotChecked(e.target.checked)} style={{ width: 16, height: 16, cursor: 'pointer' }} />
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)' }}>I&apos;m not a robot</span>
+              <div style={{ marginLeft: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+                  <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#4A90D9"/>
+                  <path d="M32 14c-9.941 0-18 8.059-18 18s8.059 18 18 18 18-8.059 18-18-8.059-18-18-18z" fill="white"/>
+                  <path d="M32 20c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" fill="#4A90D9"/>
+                  <path d="M32 26a6 6 0 100 12 6 6 0 000-12z" fill="white"/>
+                </svg>
+                <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.35)', lineHeight: 1.2 }}>reCAPTCHA</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Submit */}
+          <button type="submit"
+            style={{ width: '100%', padding: '14px 0', borderRadius: 12, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694D1 0%,#076D9D 100%)', boxShadow: '0 0 28px rgba(6,148,209,0.40)' }}>
+            Request More Info
+          </button>
+          <p style={{ textAlign: 'center', fontSize: 11.5, color: 'rgba(255,255,255,0.30)', marginTop: 10 }}>
+            We&apos;ll respond within 1 business day · No spam, ever.
+          </p>
+        </form>
+
+        <style>{`
+          @media(max-width:600px){
+            .fmat-ilf-grid { grid-template-columns: 1fr !important; }
+            .fmat-ilf-form { padding: 20px 16px !important; }
+          }
+        `}</style>
       </div>
-      <button type="submit" style={{ width: '100%', padding: '13px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', boxShadow: '0 4px 20px rgba(6,148,209,0.4)', transition: 'filter 0.18s' }}
-        onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')}
-        onMouseLeave={e => (e.currentTarget.style.filter = 'none')}>
-        Request More Info
-      </button>
-      <p style={{ textAlign: 'center', fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
-        We respond within 1 business day · No spam, ever.
-      </p>
-    </form>
+    </section>
   )
 }
 
@@ -419,22 +609,13 @@ export default function FlyMeATrainerPage() {
               Trusted by Teams <span style={{ color: '#0694D1' }}>Worldwide</span>
             </h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0" style={{ background: t.bg }}>{t.initials}</div>
-                  <div>
-                    <div className="text-sm font-bold" style={{ color: '#0F172A' }}>{t.name}</div>
-                    <div className="text-xs" style={{ color: '#94a3b8' }}>{t.role}</div>
-                  </div>
-                </div>
-                <div className="flex gap-0.5 mb-3">
-                  {[1,2,3,4,5].map(s => <svg key={s} width="12" height="12" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>)}
-                </div>
-                <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>&ldquo;{t.quote}&rdquo;</p>
-              </div>
-            ))}
+          {/* Mobile: auto-scrolling marquee */}
+          <MobileMarquee items={TESTIMONIALS} />
+          {/* Desktop: scroll columns */}
+          <div className="hidden sm:flex gap-4 mt-5">
+            <div className="flex-1 max-w-[320px]"><ScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} /></div>
+            <div className="flex-1 max-w-[320px] hidden md:block"><ScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} /></div>
+            <div className="flex-1 max-w-[320px] hidden lg:block"><ScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.038} /></div>
           </div>
         </div>
       </section>
@@ -471,35 +652,7 @@ export default function FlyMeATrainerPage() {
       </section>
 
       {/* ── REQUEST FORM ───────────────────────────────────────── */}
-      <section id="request" style={{ background: 'linear-gradient(135deg,#06111E 0%,#0d1f35 100%)', paddingTop: 30, paddingBottom: 30 }}>
-        <div className="mx-auto max-w-3xl px-4 md:px-8">
-          <div className="text-center mb-[20px]">
-            <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)', color: '#38bdf8' }}>Get a Free Quote</div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
-              Bring Training to <span style={{ color: '#0694D1' }}>Your Team</span>
-            </h2>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Fill in the details below and our FMAT team will send you a customized quote within 1 business day.</p>
-          </div>
-          <div style={{ background: 'linear-gradient(160deg,#0d1f2e 0%,#091525 100%)', border: '1px solid rgba(6,148,209,0.2)', borderRadius: 20, padding: '32px 28px' }}>
-            <LeadForm />
-          </div>
-
-          {/* Trust badges */}
-          <div className="flex flex-wrap justify-center gap-6 mt-6">
-            {[
-              { icon: '🌍', label: '50+ Countries Served' },
-              { icon: '✈️', label: 'All-Inclusive Travel' },
-              { icon: '🌱', label: 'Carbon Neutral Pledge' },
-              { icon: '⚡', label: 'Quick Turnaround' },
-            ].map(b => (
-              <div key={b.label} className="flex items-center gap-2">
-                <span style={{ fontSize: 16 }}>{b.icon}</span>
-                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>{b.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FmatLeadFormSection />
     </div>
   )
 }
