@@ -770,7 +770,7 @@ function CourseCard({ course }: {
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>
-              {course.duration} hrs
+              Duration of videos: {course.duration} hrs
             </div>
           </div>
         </div>
