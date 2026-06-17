@@ -873,15 +873,15 @@ export default function OneOnOneTrainingPage() {
       <section className="sm:hidden" style={{ background: howWhoTab === 'how' ? 'linear-gradient(135deg,#06111E 0%,#093148 100%)' : '#E8F4FA', paddingTop: 30, paddingBottom: 30, transition: 'background 0.3s' }}>
         <div className="mx-auto max-w-7xl px-4">
           {/* Tab switcher */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
-            <div className="oo1-tab-shimmer-border">
-              <div className="oo1-tab-shimmer-inner">
+          <div style={{ marginBottom: 10 }}>
+            <div className="oo1-tab-shimmer-border" style={{ width: '100%' }}>
+              <div className="oo1-tab-shimmer-inner" style={{ width: '100%' }}>
                 {([
                   { key: 'how', label: 'How It Works' },
                   { key: 'who', label: 'Who Is It For?' },
                 ] as const).map(t => (
                   <button key={t.key} onClick={() => setHowWhoTab(t.key)}
-                    style={{ padding: '8px 16px', borderRadius: 14, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, transition: 'background 0.22s, color 0.22s, box-shadow 0.22s',
+                    style={{ flex: 1, padding: '9px 8px', borderRadius: 14, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 15, fontWeight: 700, transition: 'background 0.22s, color 0.22s, box-shadow 0.22s',
                       background: howWhoTab === t.key ? 'linear-gradient(135deg,#0694D1 0%,#22d3ee 100%)' : 'transparent',
                       color: howWhoTab === t.key ? '#fff' : '#4a6375',
                       boxShadow: howWhoTab === t.key ? '0 4px 18px rgba(6,148,209,0.38)' : 'none',
