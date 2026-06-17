@@ -866,7 +866,7 @@ export default function OneOnOneTrainingPage() {
           display: inline-flex; background: white; border-radius: 20px; padding: 6px; gap: 6px;
         }
       `}</style>
-      <section style={{ background: '#f4fafd', paddingTop: 36, paddingBottom: 36 }}>
+      <section style={{ background: howWhoTab === 'how' ? 'linear-gradient(135deg,#06111E 0%,#093148 100%)' : '#f4fafd', paddingTop: 36, paddingBottom: 36, transition: 'background 0.3s' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Tab switcher */}
@@ -889,19 +889,19 @@ export default function OneOnOneTrainingPage() {
               </div>
             </div>
           </div>
-          <p className="text-center text-sm mb-[20px]" style={{ color: '#7a9db3' }}>
+          <p className="text-center text-sm mb-[20px]" style={{ color: howWhoTab === 'how' ? 'rgba(255,255,255,0.5)' : '#7a9db3' }}>
             {howWhoTab === 'how' ? 'From course selection to certification in four simple steps' : 'Find out if 1-on-1 training is the right fit for your learning goals'}
           </p>
 
           {/* HOW IT WORKS content */}
           {howWhoTab === 'how' && (
-            <div style={{ background: 'linear-gradient(135deg,#06111E 0%,#093148 100%)', borderRadius: 20, padding: '28px 24px' }}>
+            <>
               {/* Mobile slider */}
               <div className="sm:hidden" onTouchStart={e => { howTouchStartX.current = e.touches[0].clientX }} onTouchEnd={e => { const dx = howTouchStartX.current - e.changedTouches[0].clientX; if (dx > 50) setHowSlideIdx(p => Math.min(p + 1, HOW_STEPS.length - 1)); if (dx < -50) setHowSlideIdx(p => Math.max(p - 1, 0)) }}>
                 <div className="overflow-hidden">
                   <div className="flex" style={{ transform: `translateX(-${howSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
                     {HOW_STEPS.map((step) => (
-                      <div key={step.step} className="shrink-0 w-full rounded-2xl p-6" style={{ background: 'rgba(13,32,53,0.8)', border: '1px solid rgba(6,148,209,0.2)' }}>
+                      <div key={step.step} className="shrink-0 w-full rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,rgba(13,32,53,.95),rgba(10,22,40,.98))', border: '1px solid rgba(6,148,209,0.2)' }}>
                         <div className="flex items-center gap-3 mb-4">
                           <span className="text-4xl font-black" style={{ color: 'rgba(6,148,209,0.2)', lineHeight: 1 }}>{step.step}</span>
                           <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.3)' }}>
@@ -936,7 +936,7 @@ export default function OneOnOneTrainingPage() {
               {/* Desktop grid */}
               <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {HOW_STEPS.map((step) => (
-                  <div key={step.step} className="rounded-2xl p-6" style={{ background: 'rgba(13,32,53,0.8)', border: '1px solid rgba(6,148,209,0.2)' }}>
+                  <div key={step.step} className="rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,rgba(13,32,53,.95),rgba(10,22,40,.98))', border: '1px solid rgba(6,148,209,0.2)' }}>
                     <div className="flex items-center gap-3 mb-4">
                       <span className="text-4xl font-black" style={{ color: 'rgba(6,148,209,0.2)', lineHeight: 1 }}>{step.step}</span>
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.3)' }}>
@@ -953,7 +953,7 @@ export default function OneOnOneTrainingPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </>
           )}
 
           {/* WHO IS IT FOR content */}
