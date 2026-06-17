@@ -1047,7 +1047,7 @@ function CourseCard({ course, currency }: {
                 </span>
               </div>
             </div>
-            <span className="text-xs font-bold" style={{ color: '#093148' }}>
+            <span className="text-xs font-bold whitespace-nowrap" style={{ color: '#093148' }}>
               {fmt(LABS_FEE_INR)}
             </span>
             <input type="checkbox" className="sr-only" checked={labsAdded} onChange={() => setLabsAdded(!labsAdded)} />
@@ -1080,7 +1080,7 @@ function CourseCard({ course, currency }: {
                   </span>
                 </div>
               </div>
-              <span className="text-xs font-bold" style={{ color: '#093148' }}>
+              <span className="text-xs font-bold whitespace-nowrap" style={{ color: '#093148' }}>
                 {fmt(course.certFee)}
               </span>
               <input type="checkbox" className="sr-only" checked={voucherAdded} onChange={() => setVoucherAdded(!voucherAdded)} />
