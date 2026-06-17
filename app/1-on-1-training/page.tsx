@@ -558,7 +558,7 @@ export default function OneOnOneTrainingPage() {
                 <br className="hidden sm:block" />
                 1-on-1 with Expert Instructors
               </h1>
-              <p className="text-base leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.68)' }}>
+              <p className="text-base leading-relaxed mb-[15px]" style={{ color: 'rgba(255,255,255,0.68)' }}>
                 Skip the classroom. Get a private certified instructor dedicated entirely to <em>you</em>. Train on your schedule, at your pace, focused on exactly what you need to certify and advance your career.
               </p>
 
