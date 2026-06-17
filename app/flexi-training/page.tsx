@@ -689,8 +689,8 @@ function InquiryForm({ formType, setFormType }: { formType: 'individual' | 'ente
 }
 
 /* ── Course Card ─────────────────────────────────────────────── */
-function CourseCard({ course, onSyllabus }: {
-  course: typeof COURSES[0]; onSyllabus: () => void;
+function CourseCard({ course }: {
+  course: typeof COURSES[0];
 }) {
   const [voucherAdded, setVoucherAdded] = useState(false)
   const [feesOpen, setFeesOpen] = useState(false)
@@ -766,14 +766,6 @@ function CourseCard({ course, onSyllabus }: {
             {course.code}: {course.name}
           </h3>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-2.5">
-            <button onClick={onSyllabus}
-              className="flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold transition-all"
-              style={{ border: '1px solid #0694D1', color: '#0694D1', background: 'transparent' }}>
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-              </svg>
-              Download Syllabus
-            </button>
             <div className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: '#475569' }}>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
@@ -1445,7 +1437,6 @@ export default function FlexiTrainingPage() {
                   {paginated.length > 0
                     ? paginated.map(c => (
                         <CourseCard key={c.id} course={c}
-                          onSyllabus={() => { setSyllabusCourseName(`${c.code}: ${c.name}`); setShowSyllabusModal(true) }}
                         />
                       ))
                     : (
