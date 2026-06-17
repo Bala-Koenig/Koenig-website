@@ -88,14 +88,14 @@ const HOW_STEPS = [
 
 /* ── Popular courses ─────────────────────────────────────────── */
 const POPULAR_COURSES = [
-  { vendor: 'Microsoft', code: 'AZ-104',  name: 'Microsoft Azure Administrator',                            days: 5, level: 'Intermediate', hot: true  },
-  { vendor: 'AWS',       code: 'SAA-C03', name: 'AWS Solutions Architect – Associate',                       days: 4, level: 'Intermediate', hot: true  },
-  { vendor: 'CompTIA',   code: 'SY0-701', name: 'CompTIA Security+',                                         days: 5, level: 'Intermediate', hot: true  },
-  { vendor: 'Cisco',     code: 'CCNA',    name: 'CCNA – Cisco Certified Network Associate',                   days: 5, level: 'Beginner',     hot: false },
-  { vendor: 'ISC2',      code: 'CISSP',   name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced',     hot: true  },
-  { vendor: 'PMI',       code: 'PMP',     name: 'Project Management Professional (PMP)',                     days: 4, level: 'Advanced',     hot: true  },
-  { vendor: 'Microsoft', code: 'AZ-305',  name: 'Azure Solutions Architect Expert',                          days: 4, level: 'Advanced',     hot: false },
-  { vendor: 'CompTIA',   code: 'N10-009', name: 'CompTIA Network+',                                          days: 5, level: 'Beginner',     hot: false },
+  { vendor: 'Microsoft', code: 'AZ-104',  name: 'Microsoft Azure Administrator',                             days: 5, level: 'Intermediate', hot: true,  enrolled: '4,200+', rating: '4.9' },
+  { vendor: 'AWS',       code: 'SAA-C03', name: 'AWS Solutions Architect – Associate',                        days: 4, level: 'Intermediate', hot: true,  enrolled: '3,800+', rating: '4.8' },
+  { vendor: 'CompTIA',   code: 'SY0-701', name: 'CompTIA Security+',                                          days: 5, level: 'Intermediate', hot: true,  enrolled: '3,500+', rating: '4.7' },
+  { vendor: 'Cisco',     code: 'CCNA',    name: 'CCNA – Cisco Certified Network Associate',                    days: 5, level: 'Beginner',     hot: false, enrolled: '2,900+', rating: '4.6' },
+  { vendor: 'ISC2',      code: 'CISSP',   name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced',     hot: true,  enrolled: '1,800+', rating: '4.9' },
+  { vendor: 'PMI',       code: 'PMP',     name: 'Project Management Professional (PMP)',                      days: 4, level: 'Advanced',     hot: true,  enrolled: '5,200+', rating: '4.8' },
+  { vendor: 'Microsoft', code: 'AZ-305',  name: 'Azure Solutions Architect Expert',                           days: 4, level: 'Advanced',     hot: false, enrolled: '2,100+', rating: '4.7' },
+  { vendor: 'CompTIA',   code: 'N10-009', name: 'CompTIA Network+',                                           days: 5, level: 'Beginner',     hot: false, enrolled: '2,600+', rating: '4.6' },
 ]
 
 /* ── Comparison ──────────────────────────────────────────────── */
@@ -674,7 +674,13 @@ export default function OneOnOneTrainingPage() {
             .oo1-cert-code{display:inline-block;font-size:12px;font-family:'SFMono-Regular','Consolas',monospace;color:#0694D1;background:rgba(6,148,209,0.1);border:1px solid rgba(6,148,209,0.28);padding:2px 7px;border-radius:4px;font-weight:700;letter-spacing:0.4px;}
             .oo1-cert-hours{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-family:'SFMono-Regular','Consolas',monospace;color:#5a7a90;background:rgba(6,148,209,0.05);border:1px solid rgba(6,148,209,0.14);padding:2px 7px;border-radius:4px;font-weight:600;letter-spacing:0.3px;}
             .oo1-cert-footer{display:flex;flex-direction:column;gap:8px;margin-top:auto;border-top:1px solid rgba(6,148,209,0.08);padding-top:10px;}
-            .oo1-cert-vendor-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;background:rgba(6,148,209,0.10);color:#0694D1;border:1px solid rgba(6,148,209,0.28);letter-spacing:0.03em;}
+            .oo1-cert-price-row{display:flex;align-items:center;justify-content:space-between;}
+            .oo1-cert-enrolled{font-size:10px;color:#5a7a90;font-weight:600;display:flex;align-items:center;gap:4px;}
+            .oo1-cert-enrolled svg{color:#0694D1;}
+            .oo1-cert-rating{display:flex;align-items:center;gap:3px;font-size:10px;font-weight:700;color:#d97706;}
+            .oo1-cert-price{display:flex;align-items:baseline;gap:1px;margin-left:auto;}
+            .oo1-cert-price-curr{font-size:10px;font-weight:600;color:#0694D1;margin-right:1px;opacity:0.8;}
+            .oo1-cert-price-amount{font-size:15px;font-weight:700;color:#0694D1;letter-spacing:-0.3px;line-height:1;}
             .oo1-cert-actions{display:flex;gap:7px;}
             .oo1-cert-btn-brochure{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 8px;border-radius:8px;font-size:10px;font-weight:700;background:transparent;color:#0694D1;border:1.5px solid #0694D1;cursor:pointer;transition:background 0.18s;white-space:nowrap;font-family:inherit;}
             .oo1-cert-btn-brochure:hover{background:rgba(6,148,209,0.07);}
@@ -720,16 +726,26 @@ export default function OneOnOneTrainingPage() {
                   </div>
 
                   <div className="oo1-cert-footer">
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span className="oo1-cert-vendor-badge">{c.vendor}</span>
-                      <span style={{ fontSize: 10, color: '#5a7a90', fontStyle: 'italic' }}>Start Anytime</span>
+                    <div className="oo1-cert-price-row">
+                      <span className="oo1-cert-enrolled">
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        {c.enrolled}
+                      </span>
+                      <span className="oo1-cert-rating">
+                        <span>★</span>
+                        {c.rating}
+                      </span>
+                      <span className="oo1-cert-price">
+                        <span className="oo1-cert-price-curr">₹</span>
+                        <span className="oo1-cert-price-amount">On Request</span>
+                      </span>
                     </div>
                     <div className="oo1-cert-actions">
-                      <button className="oo1-cert-btn-brochure">
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                        1-on-1 Info
+                      <button className="oo1-cert-btn-brochure" style={{ flex: 1, whiteSpace: 'nowrap' }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download Syllabus
                       </button>
-                      <span className="oo1-cert-btn-details">Book 1-on-1 →</span>
+                      <span className="oo1-cert-btn-details" style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}>Book 1-on-1 →</span>
                     </div>
                   </div>
                 </a>
