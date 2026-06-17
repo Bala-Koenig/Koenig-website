@@ -983,7 +983,7 @@ export default function OneOnOneTrainingPage() {
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Compare</p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               1-on-1 Training vs{' '}
-              <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Group Classes</span>
+              <span style={{ color: '#38bdf8' }}>Group Classes</span>
             </h2>
             <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>See why thousands of professionals choose private training over batch classes.</p>
           </div>
