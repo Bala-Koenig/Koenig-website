@@ -660,39 +660,81 @@ export default function OneOnOneTrainingPage() {
             <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>Every course available as a private session — start any day, any timezone.</p>
           </div>
 
+          <style>{`
+            .oo1-cert-card{background:#fff;border:1.5px solid rgba(6,148,209,0.12);border-radius:14px;padding:16px 16px 14px;cursor:pointer;transition:all 0.25s;display:flex;flex-direction:column;position:relative;overflow:visible;gap:0;min-height:250px;box-shadow:0 2px 10px rgba(6,148,209,0.07);text-decoration:none;color:inherit;}
+            .oo1-cert-card:hover{box-shadow:0 8px 32px rgba(6,148,209,0.18),0 2px 8px rgba(0,0,0,0.06);transform:translateY(-3px);}
+            .oo1-cert-hot-badge{position:absolute;top:0;right:0;display:inline-flex;align-items:center;gap:4px;height:20px;font-size:9px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;padding:0 10px 0 8px;border-radius:0 14px 0 10px;background:linear-gradient(135deg,#0694D1,#22d3ee);color:#fff;border:none;flex-shrink:0;box-shadow:-2px 2px 8px rgba(6,148,209,0.28);z-index:2;}
+            .oo1-cert-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;padding:3px 9px 3px 7px;border-radius:20px;margin-bottom:3px;width:fit-content;border:none;line-height:1;}
+            .oo1-cert-badge.fund{background:linear-gradient(135deg,#4DBFEF,#0694D1);color:#fff;box-shadow:0 2px 8px rgba(6,148,209,0.25);}
+            .oo1-cert-badge.assoc{background:linear-gradient(135deg,#0694D1,#076D9D);color:#fff;box-shadow:0 2px 8px rgba(6,108,157,0.3);}
+            .oo1-cert-badge.expert{background:linear-gradient(135deg,#076D9D,#062238);color:#fff;box-shadow:0 2px 8px rgba(6,34,56,0.35);}
+            .oo1-cert-name{font-size:14px;font-weight:800;color:#071e2e;margin-bottom:8px;line-height:1.4;flex:1;letter-spacing:-0.01em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:59px;transition:color 0.18s;position:relative;}
+            .oo1-cert-name-wrap{position:relative;flex:1;margin-top:10px;}
+            .oo1-cert-code-row{display:flex;align-items:center;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
+            .oo1-cert-code{display:inline-block;font-size:12px;font-family:'SFMono-Regular','Consolas',monospace;color:#0694D1;background:rgba(6,148,209,0.1);border:1px solid rgba(6,148,209,0.28);padding:2px 7px;border-radius:4px;font-weight:700;letter-spacing:0.4px;}
+            .oo1-cert-hours{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-family:'SFMono-Regular','Consolas',monospace;color:#5a7a90;background:rgba(6,148,209,0.05);border:1px solid rgba(6,148,209,0.14);padding:2px 7px;border-radius:4px;font-weight:600;letter-spacing:0.3px;}
+            .oo1-cert-footer{display:flex;flex-direction:column;gap:8px;margin-top:auto;border-top:1px solid rgba(6,148,209,0.08);padding-top:10px;}
+            .oo1-cert-vendor-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;background:rgba(6,148,209,0.10);color:#0694D1;border:1px solid rgba(6,148,209,0.28);letter-spacing:0.03em;}
+            .oo1-cert-actions{display:flex;gap:7px;}
+            .oo1-cert-btn-brochure{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 8px;border-radius:8px;font-size:10px;font-weight:700;background:transparent;color:#0694D1;border:1.5px solid #0694D1;cursor:pointer;transition:background 0.18s;white-space:nowrap;font-family:inherit;}
+            .oo1-cert-btn-brochure:hover{background:rgba(6,148,209,0.07);}
+            .oo1-cert-btn-details{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 8px;border-radius:8px;font-size:10.5px;font-weight:700;background:linear-gradient(135deg,#093148 0%,#0d5280 100%);color:#fff;border:none;cursor:pointer;transition:filter 0.22s,box-shadow 0.22s,transform 0.22s;white-space:nowrap;font-family:inherit;box-shadow:0 2px 8px rgba(9,49,72,0.3);}
+            .oo1-cert-btn-details:hover{filter:brightness(1.25);box-shadow:0 4px 14px rgba(9,49,72,0.4);transform:translateY(-1px);}
+          `}</style>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {POPULAR_COURSES.map((c, i) => (
-              <a key={i} href="#request"
-                className="flex flex-col rounded-2xl overflow-hidden relative transition-all duration-300 hover:-translate-y-1 block"
-                style={{ background: 'white', border: '1px solid #E2E8F0', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 12px 32px rgba(6,148,209,0.18)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#CAEFFF' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#E2E8F0' }}>
+            {POPULAR_COURSES.map((c, i) => {
+              const lvl = c.level === 'Beginner' ? 'fund' : c.level === 'Intermediate' ? 'assoc' : 'expert'
+              const lvlLabel = c.level === 'Beginner' ? 'Fundamentals' : c.level === 'Intermediate' ? 'Associate' : 'Expert'
+              return (
+                <a key={i} href="#request" className="oo1-cert-card">
+                  {c.hot && (
+                    <span className="oo1-cert-hot-badge">
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z"/></svg>
+                      Popular
+                    </span>
+                  )}
 
-                {c.hot && (
-                  <span className="absolute" style={{ top: 0, right: 0, display: 'inline-flex', alignItems: 'center', gap: 4, height: 20, fontSize: 9, fontWeight: 800, letterSpacing: 0.5, textTransform: 'uppercase', padding: '0 10px 0 8px', borderRadius: '0 14px 0 10px', background: 'linear-gradient(135deg,#0694D1,#22d3ee)', color: '#fff', boxShadow: '-2px 2px 8px rgba(6,148,209,0.28)', zIndex: 2 }}>
-                    <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2z"/></svg>
-                    Popular
-                  </span>
-                )}
-
-                <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid #F1F5F9' }}>
-                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full"
-                    style={{ background: '#EBF8FE', color: '#0694D1' }}>{c.vendor}</span>
-                  <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: '#0F172A' }}>{c.name}</h3>
-                  <div className="flex items-center gap-1 mt-2.5 text-[11px] font-semibold" style={{ color: '#475569' }}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    Start Anytime · {c.days * 8} hrs ({c.days}d)
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', marginBottom: 6, marginTop: -8 }}>
+                    <span className={`oo1-cert-badge ${lvl}`} style={{ marginBottom: 0 }}>
+                      {lvl === 'fund' ? (
+                        <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>{lvlLabel}</>
+                      ) : lvl === 'assoc' ? (
+                        <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>{lvlLabel}</>
+                      ) : (
+                        <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7l4 9h12l4-9-6 4-4-6-4 6z"/></svg>{lvlLabel}</>
+                      )}
+                    </span>
                   </div>
-                </div>
 
-                <div className="flex items-center justify-between px-4 py-3 mt-auto">
-                  <span className="text-sm font-bold" style={{ color: c.level === 'Beginner' ? '#16a34a' : c.level === 'Intermediate' ? '#0694D1' : '#7c3aed' }}>{c.level}</span>
-                  <span className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>Book 1-on-1 →</span>
-                </div>
-              </a>
-            ))}
+                  <div className="oo1-cert-name-wrap">
+                    <div className="oo1-cert-name">{c.name}</div>
+                  </div>
+
+                  <div className="oo1-cert-code-row">
+                    <span className="oo1-cert-code">{c.code}</span>
+                    <span className="oo1-cert-hours">
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      {c.days}d · {c.days * 8}hrs
+                    </span>
+                  </div>
+
+                  <div className="oo1-cert-footer">
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span className="oo1-cert-vendor-badge">{c.vendor}</span>
+                      <span style={{ fontSize: 10, color: '#5a7a90', fontStyle: 'italic' }}>Start Anytime</span>
+                    </div>
+                    <div className="oo1-cert-actions">
+                      <button className="oo1-cert-btn-brochure">
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                        1-on-1 Info
+                      </button>
+                      <span className="oo1-cert-btn-details">Book 1-on-1 →</span>
+                    </div>
+                  </div>
+                </a>
+              )
+            })}
           </div>
 
           <p className="mt-6 text-center text-sm" style={{ color: '#5a7a90' }}>
