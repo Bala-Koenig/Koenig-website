@@ -1150,8 +1150,8 @@ export default function FlexiTrainingPage() {
             {/* Right — feature cards */}
             <div className="hidden lg:grid grid-cols-2 gap-3" style={{ gridTemplateRows: 'auto auto auto' }}>
               {[
-                { full: false, label: <>Free Upgrades to <span style={{ color: '#38bdf8' }}>New Version</span></> },
                 { full: false, label: <>Get Access to <span style={{ color: '#38bdf8' }}>Unlimited Flexi Courses</span> with an Annual Subscription</> },
+                { full: false, label: <>Free Upgrades to <span style={{ color: '#38bdf8' }}>New Version</span></> },
                 { full: false, label: <>Free <span style={{ color: '#38bdf8' }}>Online Doubt Clearance</span> Session</> },
                 { full: false, label: <>Access to <span style={{ color: '#38bdf8' }}>Qubits</span> (Interactive self-assessment tool)</> },
                 { full: true,  label: <>Recorded Sessions from <span style={{ color: '#38bdf8' }}>Live Interactive Classes</span></> },
@@ -1171,8 +1171,8 @@ export default function FlexiTrainingPage() {
             {/* Mobile feature list */}
             <div className="lg:hidden flex flex-col gap-2 mt-[15px]">
               {[
-                <>Free Upgrades to <span style={{ color: '#38bdf8' }}>New Version</span></>,
                 <>Get Access to <span style={{ color: '#38bdf8' }}>Unlimited Flexi Courses</span> with an Annual Subscription</>,
+                <>Free Upgrades to <span style={{ color: '#38bdf8' }}>New Version</span></>,
                 <>Free <span style={{ color: '#38bdf8' }}>Online Doubt Clearance</span> Session</>,
                 <>Access to <span style={{ color: '#38bdf8' }}>Qubits</span> (Interactive self-assessment tool)</>,
                 <>Recorded Sessions from <span style={{ color: '#38bdf8' }}>Live Interactive Classes</span></>,
