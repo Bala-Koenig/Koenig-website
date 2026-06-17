@@ -774,18 +774,16 @@ function CourseCard({ course }: {
           <h3 className="mt-2 text-sm font-bold leading-snug pr-12" style={{ color: '#0F172A' }}>
             {course.code}: {course.name}
           </h3>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-2.5">
+          <div className="flex items-center gap-2 mt-2.5">
             <div className="flex items-center gap-1 text-[12px] font-semibold" style={{ color: '#475569' }}>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>
               Duration of videos: {course.duration} hrs
             </div>
-          </div>
-          <div style={{ borderTop: '1px solid #F1F5F9', margin: '8px 0 6px' }} />
-          <div>
+            <span style={{ color: '#CBD5E1' }}>|</span>
             {course.startImmediately ? (
-              <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full w-fit"
+              <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full"
                 style={{ background: '#DCFCE7', color: '#15803D' }}>
                 <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 Instant
