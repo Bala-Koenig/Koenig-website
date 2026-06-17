@@ -177,7 +177,7 @@ function LeadForm() {
       <button type="submit" style={{ width: '100%', padding: '13px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', boxShadow: '0 4px 20px rgba(6,148,209,0.4)', transition: 'filter 0.18s' }}
         onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')}
         onMouseLeave={e => (e.currentTarget.style.filter = 'none')}>
-        Request a Free Quote →
+        Request More Info
       </button>
       <p style={{ textAlign: 'center', fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
         We respond within 1 business day · No spam, ever.
@@ -211,7 +211,7 @@ export default function FlyMeATrainerPage() {
                 Onsite · All-Inclusive · Global Delivery
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-white mb-4">
+              <h1 className="sm:text-4xl lg:text-5xl font-black leading-tight text-white mb-4" style={{ fontSize: 36 }}>
                 The Trainer{' '}
                 <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Comes</span>
                 {' '}to You.
