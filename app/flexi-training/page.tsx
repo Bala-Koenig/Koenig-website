@@ -1350,7 +1350,7 @@ function FlexiMobileTestimonialRow({ items }: { items: typeof TESTIMONIALS }) {
 export default function FlexiTrainingPage() {
   const [activeTechs, setActiveTechs]     = useState<string[]>([])
   const [search, setSearch]               = useState('')
-  const [filterVendor, setFilterVendor]   = useState('Microsoft')
+  const [filterVendor, setFilterVendor]   = useState('')
   const [vendorSearch, setVendorSearch]   = useState('')
   const [techSearch, setTechSearch]       = useState('')
   const [page, setPage]                   = useState(0)
@@ -1850,7 +1850,7 @@ export default function FlexiTrainingPage() {
 
                 {/* Mobile: Vendor + All Technologies + Currency row */}
                 <div className="lg:hidden flex gap-2 mb-2 flex-wrap">
-                  <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS.filter(v => COURSES.some(c => c.vendor === v))]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth /></div>
+                  <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS.filter(v => COURSES.some(c => c.vendor === v))]} value={filterVendor || 'All Vendors'} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth /></div>
                   <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.filter(t => t.name !== 'All').map(t => t.label)} value={activeTechs.length === 1 ? (SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0])?.label ?? '') : ''} onChange={v => { const n = SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v; setActiveTechs(n ? [n] : []); setPage(0) }} fullWidth inputType="checkbox" values={activeTechs.map(n => SIDEBAR_TECHNOLOGIES.find(t => t.name === n)?.label ?? n)} onMultiChange={vals => { setActiveTechs(vals.map(v => SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v)); setPage(0) }} /></div>
                   <CurrencyDropdown currency={currency} setCurrency={setCurrency} />
                 </div>
