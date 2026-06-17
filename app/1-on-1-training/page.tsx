@@ -866,7 +866,7 @@ export default function OneOnOneTrainingPage() {
           display: inline-flex; background: white; border-radius: 20px; padding: 6px; gap: 6px;
         }
       `}</style>
-      <section style={{ background: howWhoTab === 'how' ? 'linear-gradient(135deg,#06111E 0%,#093148 100%)' : '#f4fafd', paddingTop: 36, paddingBottom: 36, transition: 'background 0.3s' }}>
+      <section style={{ background: howWhoTab === 'how' ? 'linear-gradient(135deg,#06111E 0%,#093148 100%)' : '#E8F4FA', paddingTop: 36, paddingBottom: 36, transition: 'background 0.3s' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* Tab switcher */}
