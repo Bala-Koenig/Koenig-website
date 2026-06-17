@@ -1490,11 +1490,39 @@ export default function FlexiTrainingPage() {
       {/* ── BENEFITS ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '30px', paddingBottom: '30px' }}>
         <style>{`
-          @keyframes benCardIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-          .flexi-ben-card { position:relative;overflow:hidden;border-radius:18px;padding:24px;cursor:default;
+          @keyframes flexiBenCardIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+          @keyframes flexiBenIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
+          @keyframes flexiBenDraw { from{stroke-dashoffset:500} to{stroke-dashoffset:0} }
+          @keyframes flexiBenFloat { from{transform:translateY(0px)} to{transform:translateY(-5px)} }
+          .flexi-ben-card { position:relative;overflow:hidden;border-radius:18px;padding:28px;cursor:default;
             background:linear-gradient(145deg,rgba(13,32,53,.92) 0%,rgba(10,22,40,.96) 60%,rgba(11,37,69,.88) 100%);
-            border:1px solid rgba(19,168,212,.18); transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease; }
-          .flexi-ben-card:hover { transform:translateY(-6px); border-color:rgba(19,168,212,.55); box-shadow:0 0 0 1px rgba(19,168,212,.2),0 16px 40px rgba(0,0,0,.4); }
+            border:1px solid rgba(19,168,212,.18);
+            transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease;
+            opacity:0; }
+          .flexi-ben-card.flexi-ben-visible { animation:flexiBenCardIn .55s cubic-bezier(.22,1,.36,1) forwards; }
+          .flexi-ben-card:hover { transform:translateY(-7px); border-color:rgba(19,168,212,.55); box-shadow:0 0 0 1px rgba(19,168,212,.2),0 16px 40px rgba(0,0,0,.4),0 0 32px rgba(19,168,212,.12); }
+          .flexi-ben-accent { position:absolute;top:0;left:50%;transform:translateX(-50%);height:2.5px;width:0;border-radius:2px;
+            background:linear-gradient(90deg,transparent,#13a8d4,#38bdf8,#13a8d4,transparent);
+            transition:width .45s cubic-bezier(.22,1,.36,1);pointer-events:none; }
+          .flexi-ben-card:hover .flexi-ben-accent { width:100%; }
+          .flexi-ben-icon-box { width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+            background:rgba(19,168,212,.08);border:1px solid rgba(19,168,212,.28);
+            animation:flexiBenIconPulse 3s ease-in-out infinite;transition:background .3s,border-color .3s; }
+          .flexi-ben-card:hover .flexi-ben-icon-box { background:rgba(19,168,212,.22);border-color:#13a8d4; }
+          .flexi-ben-icon-svg { display:flex;align-items:center;justify-content:center;animation:flexiBenFloat 3s ease-in-out infinite alternate; }
+          .flexi-ben-icon-svg svg path,.flexi-ben-icon-svg svg circle,.flexi-ben-icon-svg svg line,.flexi-ben-icon-svg svg polyline,.flexi-ben-icon-svg svg rect {
+            stroke-dasharray:500;stroke-dashoffset:500;stroke:#13a8d4;transition:stroke .3s ease; }
+          .flexi-ben-card.flexi-ben-visible .flexi-ben-icon-svg svg path,.flexi-ben-card.flexi-ben-visible .flexi-ben-icon-svg svg circle,
+          .flexi-ben-card.flexi-ben-visible .flexi-ben-icon-svg svg line,.flexi-ben-card.flexi-ben-visible .flexi-ben-icon-svg svg polyline,
+          .flexi-ben-card.flexi-ben-visible .flexi-ben-icon-svg svg rect { animation:flexiBenDraw 1.2s ease-in-out var(--draw-delay,0s) forwards; }
+          .flexi-ben-card:hover .flexi-ben-icon-svg svg path,.flexi-ben-card:hover .flexi-ben-icon-svg svg circle,
+          .flexi-ben-card:hover .flexi-ben-icon-svg svg line,.flexi-ben-card:hover .flexi-ben-icon-svg svg polyline,
+          .flexi-ben-card:hover .flexi-ben-icon-svg svg rect { stroke:#fff; }
+          .flexi-ben-divider { height:1px;background:rgba(19,168,212,.18);border-radius:1px;margin:12px 0;width:40px;transition:width .4s cubic-bezier(.22,1,.36,1); }
+          .flexi-ben-card:hover .flexi-ben-divider { width:100%; }
+          .flexi-ben-ghost { position:absolute;bottom:8px;right:14px;font-size:88px;font-weight:900;line-height:1;
+            color:rgba(19,168,212,.045);letter-spacing:-4px;pointer-events:none;user-select:none;transition:transform .4s ease,color .4s ease; }
+          .flexi-ben-card:hover .flexi-ben-ghost { transform:translateY(-4px);color:rgba(19,168,212,.08); }
         `}</style>
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="text-center mb-[15px]">
@@ -1507,51 +1535,80 @@ export default function FlexiTrainingPage() {
             </h2>
           </div>
           {/* Mobile slider */}
-          <div className="sm:hidden"
-            onTouchStart={e => { benTouchStartX.current = e.touches[0].clientX }}
-            onTouchEnd={e => {
-              const dx = benTouchStartX.current - e.changedTouches[0].clientX
-              if (dx > 50)  setBenSlideIdx(p => Math.min(p + 1, BENEFITS.length - 1))
-              if (dx < -50) setBenSlideIdx(p => Math.max(p - 1, 0))
-            }}>
-            <div className="overflow-hidden">
+          <div className="sm:hidden">
+            <div className="overflow-hidden"
+              onTouchStart={e => { benTouchStartX.current = e.touches[0].clientX }}
+              onTouchEnd={e => {
+                const dx = benTouchStartX.current - e.changedTouches[0].clientX
+                if (dx > 50)  setBenSlideIdx(p => Math.min(p + 1, BENEFITS.length - 1))
+                if (dx < -50) setBenSlideIdx(p => Math.max(p - 1, 0))
+              }}>
               <div className="flex" style={{ transform: `translateX(-${benSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
-                {BENEFITS.map(b => (
-                  <div key={b.title} className="flexi-ben-card shrink-0 w-full">
+                {BENEFITS.map((b, i) => (
+                  <div key={b.title} className="flexi-ben-card flexi-ben-visible shrink-0 w-full" style={{ ['--draw-delay' as string]: '0s' } as React.CSSProperties}>
+                    <div className="flexi-ben-accent" />
                     <div className="flex gap-4 items-start">
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(19,168,212,0.08)', border: '1px solid rgba(19,168,212,0.28)' }}>
-                        {b.icon}
+                      <div className="flexi-ben-icon-box shrink-0">
+                        <div className="flexi-ben-icon-svg">{b.icon}</div>
                       </div>
-                      <div>
-                        <h3 className="text-base font-bold text-white mb-1">{b.title}</h3>
+                      <div className="min-w-0">
+                        <h3 className="text-base font-bold text-white">{b.title}</h3>
+                        <div className="flexi-ben-divider" />
                         <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{b.desc}</p>
                       </div>
                     </div>
+                    <div className="flexi-ben-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="flex justify-center gap-1.5 mt-4">
-              {BENEFITS.map((_, i) => (
-                <button key={i} onClick={() => setBenSlideIdx(i)}
-                  className="rounded-full transition-all"
-                  style={{ width: i === benSlideIdx ? 20 : 8, height: 8, background: i === benSlideIdx ? '#0694D1' : 'rgba(255,255,255,0.2)' }} />
-              ))}
+            {/* Dots + Arrows */}
+            <div className="flex items-center justify-center gap-4 mt-5">
+              <button
+                onClick={() => setBenSlideIdx(p => Math.max(p - 1, 0))}
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-all"
+                style={{ background: benSlideIdx === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: benSlideIdx === 0 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}
+                disabled={benSlideIdx === 0}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="flex gap-2">
+                {BENEFITS.map((_, i) => (
+                  <button key={i} onClick={() => setBenSlideIdx(i)} className="rounded-full transition-all duration-300"
+                    style={{ width: benSlideIdx === i ? 20 : 7, height: 7, background: benSlideIdx === i ? '#0694D1' : 'rgba(255,255,255,0.22)' }} />
+                ))}
+              </div>
+              <button
+                onClick={() => setBenSlideIdx(p => Math.min(p + 1, BENEFITS.length - 1))}
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-all"
+                style={{ background: benSlideIdx === BENEFITS.length - 1 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: benSlideIdx === BENEFITS.length - 1 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}
+                disabled={benSlideIdx === BENEFITS.length - 1}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
             </div>
           </div>
           {/* Desktop grid */}
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {BENEFITS.map(b => (
-              <div key={b.title} className="flexi-ben-card">
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {BENEFITS.map((b, i) => (
+              <div key={b.title} className="flexi-ben-card" style={{ animationDelay: `${i * 0.1}s` }}
+                ref={el => {
+                  if (!el) return
+                  const obs = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { el.classList.add('flexi-ben-visible'); obs.disconnect() } }, { threshold: 0.12 })
+                  obs.observe(el)
+                }}>
+                <div className="flexi-ben-accent" />
                 <div className="flex gap-4 items-start">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(19,168,212,0.08)', border: '1px solid rgba(19,168,212,0.28)' }}>
-                    {b.icon}
+                  <div className="flexi-ben-icon-box shrink-0" style={{ animationDelay: `${i * 0.6}s` }}>
+                    <div className="flexi-ben-icon-svg" style={{ animationDelay: `${i * 0.4}s`, ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>{b.icon}</div>
                   </div>
-                  <div>
-                    <h3 className="text-base font-bold text-white mb-1">{b.title}</h3>
+                  <div className="min-w-0">
+                    <h3 className="text-base font-bold text-white">{b.title}</h3>
+                    <div className="flexi-ben-divider" />
                     <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{b.desc}</p>
                   </div>
                 </div>
+                <div className="flexi-ben-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</div>
               </div>
             ))}
           </div>
@@ -1816,12 +1873,30 @@ export default function FlexiTrainingPage() {
                 ))}
               </div>
             </div>
-            <div className="flex justify-center gap-1.5 mt-4">
-              {HOW_IT_WORKS.map((_, i) => (
-                <button key={i} onClick={() => setHowSlideIdx(i)}
-                  className="rounded-full transition-all"
-                  style={{ width: i === howSlideIdx ? 20 : 8, height: 8, background: i === howSlideIdx ? '#0694D1' : 'rgba(255,255,255,0.2)' }} />
-              ))}
+            {/* Dots + Arrows */}
+            <div className="flex items-center justify-center gap-4 mt-5">
+              <button
+                onClick={() => setHowSlideIdx(p => Math.max(p - 1, 0))}
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-all"
+                style={{ background: howSlideIdx === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === 0 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}
+                disabled={howSlideIdx === 0}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="flex gap-2">
+                {HOW_IT_WORKS.map((_, i) => (
+                  <button key={i} onClick={() => setHowSlideIdx(i)} className="rounded-full transition-all duration-300"
+                    style={{ width: howSlideIdx === i ? 20 : 7, height: 7, background: howSlideIdx === i ? '#0694D1' : 'rgba(255,255,255,0.22)' }} />
+                ))}
+              </div>
+              <button
+                onClick={() => setHowSlideIdx(p => Math.min(p + 1, HOW_IT_WORKS.length - 1))}
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-all"
+                style={{ background: howSlideIdx === HOW_IT_WORKS.length - 1 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === HOW_IT_WORKS.length - 1 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}
+                disabled={howSlideIdx === HOW_IT_WORKS.length - 1}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
             </div>
           </div>
 
