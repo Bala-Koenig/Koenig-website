@@ -536,29 +536,85 @@ function CurrencyDropdown({ currency, setCurrency }: {
   setCurrency: (c: typeof CURRENCIES[0]) => void;
 }) {
   const [open, setOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [pending, setPending] = useState(currency)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    function handle(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
-    }
-    document.addEventListener('mousedown', handle)
-    return () => document.removeEventListener('mousedown', handle)
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
   }, [])
+
+  useEffect(() => {
+    if (!isMobile) {
+      function handle(e: MouseEvent) {
+        if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+      }
+      document.addEventListener('mousedown', handle)
+      return () => document.removeEventListener('mousedown', handle)
+    }
+  }, [isMobile])
+
+  const handleOpen = () => { setPending(currency); setOpen(true) }
+
+  const triggerBtn = (
+    <button onClick={handleOpen}
+      className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold whitespace-nowrap transition-all"
+      style={{ border: '1px solid #CAEFFF', background: 'white', color: '#475569', boxShadow: '0 1px 4px rgba(6,148,209,0.06)' }}>
+      <span style={{ fontSize: 14 }}>{currency.flag}</span>
+      <span>{currency.code}</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+        style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.18s', flexShrink: 0 }}>
+        <path d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+  )
+
+  const mobileSheet = open && isMobile && typeof document !== 'undefined' && createPortal(
+    <div style={{ position: 'fixed', inset: 0, zIndex: 9000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+      <div onClick={() => setOpen(false)} style={{ position: 'absolute', inset: 0, background: 'rgba(6,18,30,0.55)', backdropFilter: 'blur(2px)' }} />
+      <div style={{ position: 'relative', background: '#fff', borderRadius: '20px 20px 0 0', maxHeight: '75vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 40px rgba(6,148,209,0.18)' }}>
+        <div style={{ padding: '12px 20px 0', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div style={{ width: 36, height: 4, borderRadius: 999, background: '#CBD5E1', margin: '5px auto 0' }} />
+            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#94A3B8', lineHeight: 0 }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div style={{ marginBottom: 12 }}><span style={{ fontSize: 14, fontWeight: 700, color: '#0694D1' }}>Currency</span></div>
+        </div>
+        <div style={{ overflowY: 'auto', flex: 1, padding: '4px 12px' }}>
+          {CURRENCIES.map(c => {
+            const checked = c.code === pending.code
+            return (
+              <button key={c.code} onClick={() => setPending(c)}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', padding: '10px 8px', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 400, color: checked ? '#0694D1' : '#374151', background: checked ? 'rgba(6,148,209,0.06)' : 'transparent', marginBottom: 1 }}>
+                <span style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${checked ? '#0694D1' : '#CBD5E1'}`, background: checked ? '#0694D1' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  {checked && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', display: 'block' }} />}
+                </span>
+                <span style={{ fontSize: 16, flexShrink: 0 }}>{c.flag}</span>
+                <span style={{ fontWeight: checked ? 700 : 400 }}>{c.label}</span>
+              </button>
+            )
+          })}
+        </div>
+        <div style={{ flexShrink: 0, padding: '12px 16px 32px', borderTop: '1px solid #EBF8FE', display: 'flex', gap: 10 }}>
+          <button onClick={() => { setPending(CURRENCIES[0]); }}
+            style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Reset</button>
+          <button onClick={() => { setCurrency(pending); setOpen(false) }}
+            style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>OK</button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
 
   return (
     <div ref={ref} style={{ position: 'relative', flexShrink: 0 }}>
-      <button onClick={() => setOpen(o => !o)}
-        className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold whitespace-nowrap transition-all"
-        style={{ border: '1px solid #CAEFFF', background: 'white', color: '#475569', boxShadow: '0 1px 4px rgba(6,148,209,0.06)' }}>
-        <span style={{ fontSize: 14 }}>{currency.flag}</span>
-        <span>{currency.code}</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-          style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.18s', flexShrink: 0 }}>
-          <path d="M19 9l-7 7-7-7"/>
-        </svg>
-      </button>
-      {open && (
+      {triggerBtn}
+      {open && !isMobile && (
         <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, zIndex: 9000, background: '#fff', border: '1px solid #CAEFFF', borderRadius: 12, boxShadow: '0 8px 28px rgba(6,148,209,0.18)', minWidth: 200, overflow: 'hidden' }}>
           {CURRENCIES.map(c => (
             <button key={c.code} onClick={() => { setCurrency(c); setOpen(false) }}
@@ -571,6 +627,7 @@ function CurrencyDropdown({ currency, setCurrency }: {
           ))}
         </div>
       )}
+      {mobileSheet}
     </div>
   )
 }
@@ -583,6 +640,7 @@ function FilterDropdown({ label, options, value, onChange, fullWidth, inputType 
   const [open, setOpen]   = useState(false)
   const [query, setQuery] = useState('')
   const [isMobile, setIsMobile] = useState(false)
+  const [pendingRadio, setPendingRadio] = useState(value)
   const ref      = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -603,9 +661,12 @@ function FilterDropdown({ label, options, value, onChange, fullWidth, inputType 
     }
   }, [isMobile])
 
-  useEffect(() => { if (open) setTimeout(() => inputRef.current?.focus(), 80) }, [open])
+  useEffect(() => { if (open) { setPendingRadio(value); setTimeout(() => inputRef.current?.focus(), 80) } }, [open])
 
-  const isChecked = (o: string) => inputType === 'checkbox' ? (values ?? []).includes(o) : value === o
+  const isChecked = (o: string) => {
+    if (inputType === 'checkbox') return (values ?? []).includes(o)
+    return isMobile ? o === pendingRadio : o === value
+  }
   const activeCount = inputType === 'checkbox' ? (values ?? []).length : (value && value !== label ? 1 : 0)
   const displayed = inputType === 'checkbox' ? label : (value && value !== label ? value : label)
   const filtered  = options.filter(o => o.toLowerCase().includes(query.toLowerCase()))
@@ -616,6 +677,8 @@ function FilterDropdown({ label, options, value, onChange, fullWidth, inputType 
       const cur = values ?? []
       const next = cur.includes(o) ? cur.filter(v => v !== o) : [...cur, o]
       onMultiChange?.(next)
+    } else if (isMobile) {
+      setPendingRadio(o)
     } else {
       onChange(o)
       setOpen(false)
@@ -625,7 +688,14 @@ function FilterDropdown({ label, options, value, onChange, fullWidth, inputType 
 
   const handleClear = () => {
     if (inputType === 'checkbox') { onMultiChange?.([]); }
+    else if (isMobile) { setPendingRadio(''); }
     else { onChange(''); }
+    setQuery('')
+  }
+
+  const handleApply = () => {
+    if (inputType === 'radio') { onChange(pendingRadio); }
+    setOpen(false)
     setQuery('')
   }
 
@@ -688,9 +758,9 @@ function FilterDropdown({ label, options, value, onChange, fullWidth, inputType 
         <div style={{ flexShrink: 0, padding: '12px 16px 32px', borderTop: '1px solid #EBF8FE', display: 'flex', gap: 10 }}>
           <button onClick={handleClear}
             style={{ flex: 1, padding: '11px', borderRadius: 12, background: 'transparent', border: '1.5px solid #CAEFFF', color: '#64748B', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Clear</button>
-          <button onClick={() => { setOpen(false); setQuery('') }}
+          <button onClick={handleApply}
             style={{ flex: 2, padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
-            Apply{activeCount > 0 ? ` (${activeCount})` : ''}
+            {inputType === 'radio' ? 'OK' : `Apply${activeCount > 0 ? ` (${activeCount})` : ''}`}
           </button>
         </div>
       </div>
