@@ -4,6 +4,23 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 
+const CURRENCIES = [
+  { code: 'INR', symbol: '₹',   flag: '🇮🇳', rate: 1,     label: 'INR - Indian Rupee' },
+  { code: 'USD', symbol: '$',   flag: '🇺🇸', rate: 83,    label: 'USD - US Dollar' },
+  { code: 'EUR', symbol: '€',   flag: '🇪🇺', rate: 90,    label: 'EUR - Euro' },
+  { code: 'GBP', symbol: '£',   flag: '🇬🇧', rate: 105,   label: 'GBP - British Pound' },
+  { code: 'AED', symbol: 'د.إ', flag: '🇦🇪', rate: 22.7,  label: 'AED - UAE Dirham' },
+  { code: 'SGD', symbol: 'S$',  flag: '🇸🇬', rate: 62,    label: 'SGD - Singapore Dollar' },
+  { code: 'AUD', symbol: 'A$',  flag: '🇦🇺', rate: 54,    label: 'AUD - Australian Dollar' },
+  { code: 'CAD', symbol: 'CA$', flag: '🇨🇦', rate: 61,    label: 'CAD - Canadian Dollar' },
+]
+const COUNTRY_CURRENCY: Record<string, string> = {
+  IN: 'INR', US: 'USD', GB: 'GBP', AU: 'AUD', CA: 'CAD', SG: 'SGD',
+  AE: 'AED', SA: 'AED', QA: 'AED', KW: 'AED', BH: 'AED', OM: 'AED',
+  DE: 'EUR', FR: 'EUR', ES: 'EUR', IT: 'EUR', NL: 'EUR', BE: 'EUR',
+  PT: 'EUR', IE: 'EUR', AT: 'EUR', FI: 'EUR', GR: 'EUR',
+}
+
 /* ── Course data ─────────────────────────────────────────────── */
 const COURSES = [
   {
@@ -491,6 +508,73 @@ function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: (
   )
 }
 
+/* ── Tech Icon (matches ILO) ─────────────────────────────────── */
+function getTechIcon(name: string) {
+  const n = name.toLowerCase()
+  const p = { width: 13, height: 13, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '2', strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
+  if (name === 'All') return <svg {...p}><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+  if (/\b(aws)\b|azure|gcp|google cloud|cloud native/.test(n) || n === 'cloud') return <svg {...p}><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+  if (/identity|iam|active directory/.test(n)) return <svg {...p}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+  if (/security|cyber|hacking|penetration|firewall|vapt|pci dss|information security|soc|incident|digital forensics/.test(n)) return <svg {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  if (/artificial intelligence|\bai\b|machine learning|nlp|natural language|mlops|generative|ai engineering|ai ethics|ai agent|enterprise ai|ai cloud|intelligent automation|ai governance|azure ai/.test(n)) return <svg {...p}><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/></svg>
+  if (/\bdata\b|analytics|fabric|warehouse|reporting|big data|data engineer|data science|data architect|data governance|data analysis|data management/.test(n)) return <svg {...p}><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+  if (/devops|kubernetes|docker|container|microservice/.test(n)) return <svg {...p}><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+  if (/network|cisco|ccna|ccnp|routing|switching|wireless|meraki/.test(n)) return <svg {...p}><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+  if (/project management|agile|scrum|pmp|prince2|program management|product management|delivery manager/.test(n)) return <svg {...p}><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+  if (/database|\bsql\b|oracle|postgresql|dba/.test(n)) return <svg {...p}><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+  if (/linux|red hat|rhel|openshift|jboss/.test(n)) return <svg {...p}><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+  if (/\bsap\b|\berp\b|supply chain|procurement|inventory|oracle ebs/.test(n)) return <svg {...p}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  if (/itsm|itil|service management|servicenow|service desk/.test(n)) return <svg {...p}><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+  if (/\biso\b|governance|compliance|audit|cobit|grc|risk|lead implementer|lead auditor|data privacy/.test(n)) return <svg {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+  if (/microsoft/.test(n)) return <svg {...p}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+  return <svg {...p}><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+}
+
+/* ── Currency Dropdown ───────────────────────────────────────── */
+function CurrencyDropdown({ currency, setCurrency }: {
+  currency: typeof CURRENCIES[0];
+  setCurrency: (c: typeof CURRENCIES[0]) => void;
+}) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handle)
+    return () => document.removeEventListener('mousedown', handle)
+  }, [])
+
+  return (
+    <div ref={ref} style={{ position: 'relative', flexShrink: 0 }}>
+      <button onClick={() => setOpen(o => !o)}
+        className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold whitespace-nowrap transition-all"
+        style={{ border: '1px solid #CAEFFF', background: 'white', color: '#475569', boxShadow: '0 1px 4px rgba(6,148,209,0.06)' }}>
+        <span style={{ fontSize: 14 }}>{currency.flag}</span>
+        <span>{currency.code}</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.18s', flexShrink: 0 }}>
+          <path d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      {open && (
+        <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, zIndex: 9000, background: '#fff', border: '1px solid #CAEFFF', borderRadius: 12, boxShadow: '0 8px 28px rgba(6,148,209,0.18)', minWidth: 200, overflow: 'hidden' }}>
+          {CURRENCIES.map(c => (
+            <button key={c.code} onClick={() => { setCurrency(c); setOpen(false) }}
+              className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
+              style={{ background: c.code === currency.code ? '#EBF8FE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
+              <span style={{ fontSize: 16 }}>{c.flag}</span>
+              <span className="text-sm font-semibold" style={{ color: c.code === currency.code ? '#0694D1' : '#374151' }}>{c.code}</span>
+              <span className="text-xs" style={{ color: '#94A3B8', marginLeft: 'auto' }}>{c.symbol}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ── FilterDropdown ──────────────────────────────────────────── */
 function FilterDropdown({ label, options, value, onChange, fullWidth, inputType = 'radio', values, onMultiChange }: {
   label: string; options: string[]; value: string; onChange: (v: string) => void; fullWidth?: boolean;
@@ -689,22 +773,30 @@ function InquiryForm({ formType, setFormType }: { formType: 'individual' | 'ente
 }
 
 /* ── Course Card ─────────────────────────────────────────────── */
-function CourseCard({ course }: {
+function CourseCard({ course, currency }: {
   course: typeof COURSES[0];
+  currency: typeof CURRENCIES[0];
 }) {
   const [voucherAdded, setVoucherAdded] = useState(false)
   const [labsAdded, setLabsAdded] = useState(false)
   const [feesOpen, setFeesOpen] = useState(false)
   const isPopular = (course.tags ?? []).includes('POPULAR')
   const days = Math.ceil(course.duration / 8)
-  const LABS_FEE = 4639
+  const LABS_FEE_INR = 4639
 
-  const courseNum  = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
-  const voucherNum = voucherAdded && course.certFee ? course.certFee : 0
-  const labsNum    = labsAdded ? LABS_FEE : 0
-  const subtotal   = courseNum + voucherNum + labsNum
-  const gstNum     = Math.round(subtotal * 0.18)
-  const grandTotal = subtotal + gstNum
+  const toLocal = (inr: number) => Math.round(inr / currency.rate)
+  const fmt = (inr: number) => {
+    const v = toLocal(inr)
+    const s = currency.code === 'INR' ? v.toLocaleString('en-IN') : v.toLocaleString('en-US')
+    return `${currency.symbol} ${s}`
+  }
+
+  const courseNumINR  = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
+  const voucherNumINR = voucherAdded && course.certFee ? course.certFee : 0
+  const labsNumINR    = labsAdded ? LABS_FEE_INR : 0
+  const subtotalINR   = courseNumINR + voucherNumINR + labsNumINR
+  const gstINR        = currency.code === 'INR' ? Math.round(subtotalINR * 0.18) : 0
+  const grandTotalINR = subtotalINR + gstINR
 
   return (
     <>
@@ -722,12 +814,12 @@ function CourseCard({ course }: {
                   <div style={{ color: '#4a6a8a' }}>Flexi Course Access</div>
                   <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>{course.duration} hrs · {course.accessDuration} Access</div>
                 </div>
-                <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {courseNum.toLocaleString('en-IN')}</span>
+                <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>{fmt(courseNumINR)}</span>
               </div>
               {labsAdded && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #f0f4f8' }}>
                   <div style={{ color: '#4a6a8a' }}>Hands-on Labs</div>
-                  <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {labsNum.toLocaleString('en-IN')}</span>
+                  <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>{fmt(labsNumINR)}</span>
                 </div>
               )}
               {voucherAdded && course.certFee && (
@@ -736,16 +828,18 @@ function CourseCard({ course }: {
                     <div style={{ color: '#4a6a8a' }}>Exam Voucher</div>
                     <div style={{ fontSize: 11, color: '#8a9db5', marginTop: 2 }}>Official {course.vendor} exam voucher</div>
                   </div>
-                  <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {voucherNum.toLocaleString('en-IN')}</span>
+                  <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>{fmt(voucherNumINR)}</span>
                 </div>
               )}
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #e8f4fa' }}>
-                <span style={{ color: '#4a6a8a' }}>+ GST 18%</span>
-                <span style={{ fontWeight: 600, color: '#071e2e' }}>INR {gstNum.toLocaleString('en-IN')}</span>
-              </div>
+              {currency.code === 'INR' && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #e8f4fa' }}>
+                  <span style={{ color: '#4a6a8a' }}>+ GST 18%</span>
+                  <span style={{ fontWeight: 600, color: '#071e2e' }}>{fmt(gstINR)}</span>
+                </div>
+              )}
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', fontSize: 14, background: '#f8fcff' }}>
-                <span style={{ fontWeight: 700, color: '#071e2e' }}>Total (INR)</span>
-                <span style={{ fontWeight: 700, color: '#071e2e' }}>INR {grandTotal.toLocaleString('en-IN')}</span>
+                <span style={{ fontWeight: 700, color: '#071e2e' }}>Total ({currency.code})</span>
+                <span style={{ fontWeight: 700, color: '#071e2e' }}>{fmt(grandTotalINR)}</span>
               </div>
             </div>
             <div style={{ textAlign: 'center', padding: '10px 16px 14px', borderTop: '1px solid #e8f4fa' }}>
@@ -824,7 +918,7 @@ function CourseCard({ course }: {
               </div>
             </div>
             <span className="text-xs font-bold" style={{ color: '#093148' }}>
-              INR {LABS_FEE.toLocaleString('en-IN')} +
+              {fmt(LABS_FEE_INR)} +
             </span>
             <input type="checkbox" className="sr-only" checked={labsAdded} onChange={() => setLabsAdded(!labsAdded)} />
           </label>
@@ -857,7 +951,7 @@ function CourseCard({ course }: {
                 </div>
               </div>
               <span className="text-xs font-bold" style={{ color: '#093148' }}>
-                INR {course.certFee.toLocaleString('en-IN')} +
+                {fmt(course.certFee)} +
               </span>
               <input type="checkbox" className="sr-only" checked={voucherAdded} onChange={() => setVoucherAdded(!voucherAdded)} />
             </label>
@@ -871,9 +965,11 @@ function CourseCard({ course }: {
             </div>
             <div className="text-right">
               <p className="text-sm font-bold leading-tight" style={{ color: '#0694D1' }}>
-                INR {subtotal.toLocaleString('en-IN')}
+                {fmt(subtotalINR)}
               </p>
-              <p className="text-[10px] leading-tight mt-0.5" style={{ color: '#94A3B8' }}>excl. VAT/GST</p>
+              <p className="text-[10px] leading-tight mt-0.5" style={{ color: '#94A3B8' }}>
+                {currency.code === 'INR' ? 'excl. GST 18%' : 'excl. local taxes'}
+              </p>
             </div>
           </div>
 
@@ -1062,7 +1158,21 @@ export default function FlexiTrainingPage() {
   const howTouchStartX                     = useRef(0)
   const [showSyllabusModal, setShowSyllabusModal] = useState(false)
   const [syllabusCourseName, setSyllabusCourseName] = useState('')
+  const [currency, setCurrency]           = useState(CURRENCIES[0])
   const PER_PAGE = 9
+
+  useEffect(() => {
+    fetch('https://ipapi.co/json/')
+      .then(r => r.json())
+      .then((data: { country_code?: string }) => {
+        const code = COUNTRY_CURRENCY[data.country_code ?? '']
+        if (code) {
+          const found = CURRENCIES.find(c => c.code === code)
+          if (found) setCurrency(found)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   const toggleTech = (t: string) => {
     setActiveTechs(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
@@ -1410,7 +1520,7 @@ export default function FlexiTrainingPage() {
                         className="flex items-center justify-between w-full px-3 py-2.5 text-left transition-colors hover:bg-[#F0FAFF]"
                         style={{ borderLeft: `3px solid ${active ? '#0694D1' : 'transparent'}`, background: active ? '#EBF8FE' : 'white' }}>
                         <div className="flex items-center gap-2 min-w-0">
-                          <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>{t.initial}</div>
+                          <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>{getTechIcon(t.name)}</div>
                           <span className="text-[14px] font-medium leading-tight truncate" style={{ color: active ? '#0694D1' : '#374151' }} title={t.label}>{t.label}</span>
                         </div>
                         <div className="flex items-center gap-1.5 shrink-0 ml-1">
@@ -1433,7 +1543,7 @@ export default function FlexiTrainingPage() {
                 <div className="flex flex-col gap-3 mb-5 p-5 rounded-2xl bg-white" style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div className="flex items-center gap-4">
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{activeTechData.initial}</div>
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{getTechIcon(activeTechData.name || 'All')}</div>
                       <div>
                         <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
                         <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
@@ -1446,7 +1556,7 @@ export default function FlexiTrainingPage() {
                   </div>
                 </div>
 
-                {/* Desktop: search bar */}
+                {/* Desktop: search bar + currency */}
                 <div className="hidden lg:flex items-center gap-2 mb-2">
                   <div className="relative flex-1 min-w-0">
                     <svg className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1459,6 +1569,7 @@ export default function FlexiTrainingPage() {
                       </button>
                     )}
                   </div>
+                  <CurrencyDropdown currency={currency} setCurrency={setCurrency} />
                 </div>
 
                 {/* Mobile: search */}
@@ -1476,10 +1587,11 @@ export default function FlexiTrainingPage() {
                   </div>
                 </div>
 
-                {/* Mobile: Vendor + All Technologies row */}
-                <div className="lg:hidden flex gap-2 mb-2">
+                {/* Mobile: Vendor + All Technologies + Currency row */}
+                <div className="lg:hidden flex gap-2 mb-2 flex-wrap">
                   <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS.filter(v => COURSES.some(c => c.vendor === v))]} value={filterVendor} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth /></div>
                   <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.filter(t => t.name !== 'All').map(t => t.label)} value={activeTechs.length === 1 ? (SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0])?.label ?? '') : ''} onChange={v => { const n = SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v; setActiveTechs(n ? [n] : []); setPage(0) }} fullWidth inputType="checkbox" values={activeTechs.map(n => SIDEBAR_TECHNOLOGIES.find(t => t.name === n)?.label ?? n)} onMultiChange={vals => { setActiveTechs(vals.map(v => SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v)); setPage(0) }} /></div>
+                  <CurrencyDropdown currency={currency} setCurrency={setCurrency} />
                 </div>
 
                 <div className="mb-3">
@@ -1490,8 +1602,7 @@ export default function FlexiTrainingPage() {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {paginated.length > 0
                     ? paginated.map(c => (
-                        <CourseCard key={c.id} course={c}
-                        />
+                        <CourseCard key={c.id} course={c} currency={currency} />
                       ))
                     : (
                       <div className="col-span-full flex flex-col items-center py-16 rounded-2xl" style={{ background: '#F8FBFE', border: '1px solid #CAEFFF' }}>
