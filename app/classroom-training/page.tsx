@@ -1937,61 +1937,6 @@ export default function ClassroomTrainingPage() {
           <div className="relative rounded-2xl p-4 sm:p-5" style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
 
             {/* Mobile tech picker */}
-            <div className="lg:hidden mb-4 relative">
-              {showMobileTechPicker && (
-                <div className="fixed inset-0 z-[10]" onClick={() => { setShowMobileTechPicker(false); setMobileTechSearch('') }} />
-              )}
-              <button onClick={() => { setShowMobileTechPicker(p => !p); setMobileTechSearch('') }}
-                className="relative z-[11] w-full flex items-center justify-between gap-3 rounded-xl px-4 py-3 bg-white transition-all"
-                style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{activeTechData.initial}</div>
-                  <span className="text-sm font-bold truncate" style={{ color: '#071e2e' }}>{activeTechData.label}</span>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="rounded-full px-3 py-0.5 text-xs font-bold" style={{ background: '#EBF8FE', color: '#0694D1' }}>{filtered.length}</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                    style={{ transform: showMobileTechPicker ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s' }}>
-                    <polyline points="6 9 12 15 18 9"/>
-                  </svg>
-                </div>
-              </button>
-              {showMobileTechPicker && (
-                <div className="absolute left-0 right-0 top-full mt-1 z-[12] rounded-xl bg-white overflow-hidden" style={{ border: '1px solid #CAEFFF', boxShadow: '0 8px 24px rgba(6,148,209,0.15)' }}>
-                  <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #EBF8FE' }}>
-                    <div className="relative">
-                      <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                      <input type="text" placeholder="Search technologies..." value={mobileTechSearch}
-                        onChange={e => setMobileTechSearch(e.target.value)} onClick={e => e.stopPropagation()}
-                        className="w-full pl-7 pr-7 py-2 text-sm rounded-lg outline-none"
-                        style={{ background: '#F0F9FF', border: '1px solid #CAEFFF', color: '#0F172A' }} />
-                      {mobileTechSearch && (
-                        <button onClick={e => { e.stopPropagation(); setMobileTechSearch('') }}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-4 h-4 rounded-full" style={{ color: '#94A3B8' }}>
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <div className="max-h-52 overflow-y-auto">
-                    {SIDEBAR_TECHNOLOGIES
-                      .filter(t => (t.name === 'All' || t.count > 0) && (!mobileTechSearch || t.label.toLowerCase().includes(mobileTechSearch.toLowerCase())))
-                      .map(t => (
-                        <button key={t.name} onClick={() => { setActiveTech(t.name); setPage(0); setShowMobileTechPicker(false); setMobileTechSearch('') }}
-                          className="flex items-center justify-between w-full px-4 py-2.5 text-sm transition-colors hover:bg-[#F0FAFF]"
-                          style={{ borderLeft: `3px solid ${activeTech === t.name ? '#0694D1' : 'transparent'}`, background: activeTech === t.name ? '#EBF8FE' : 'white' }}>
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: t.bg, color: t.color }}>{getTechIcon(t.name)}</div>
-                            <span className="font-medium text-left" style={{ color: activeTech === t.name ? '#0694D1' : '#374151' }}>{t.label}</span>
-                          </div>
-                          <span className="text-[10px] font-bold rounded-full px-1.5 py-0.5" style={{ background: activeTech === t.name ? '#0694D1' : '#E2E8F0', color: activeTech === t.name ? 'white' : '#6B7280' }}>{t.count}</span>
-                        </button>
-                      ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
             {/* Two-panel layout */}
             <div className="flex gap-5 items-start">
 
