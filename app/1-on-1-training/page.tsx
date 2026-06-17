@@ -1,283 +1,347 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 
-/* ── Learning-options tab data ───────────────────────────────── */
+/* ── Learning tabs ───────────────────────────────────────────── */
 const LEARNING_TABS = [
-  { id: 'ilo',      label: 'Live Online Classroom', href: '/live-online-classroom' },
-  { id: 'fmat',     label: 'Fly-Me-a-Trainer (FMAT)', href: '#' },
-  { id: 'classroom',label: 'Classroom Training',    href: '/classroom-training' },
-  { id: '1on1',     label: '1-on-1 Training',        href: '/1-on-1-training' },
-  { id: 'flexi',    label: 'Flexi',                  href: '#' },
+  { id: 'ilo',      label: 'Live Online Classroom (ILO)', href: '/live-online-classroom' },
+  { id: 'classroom',label: 'Classroom Training',          href: '/classroom-training'   },
+  { id: 'flexi',    label: 'Flexi',                       href: '/flexi-training'       },
+  { id: '1on1',     label: '1-on-1 Training',             href: '/1-on-1-training'      },
+  { id: 'fmat',     label: 'Fly-Me-a-Trainer (FMAT)',     href: '#'                     },
+]
+
+/* ── Stats ───────────────────────────────────────────────────── */
+const STATS = [
+  { value: '5,000+', label: 'Courses' },
+  { value: '300+',   label: 'Instructors' },
+  { value: '33+',    label: 'Years' },
+  { value: '99.1%',  label: 'Satisfaction' },
 ]
 
 /* ── Benefits ────────────────────────────────────────────────── */
 const BENEFITS = [
   {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-      </svg>
-    ),
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
     title: 'Flexible Scheduling',
     desc: 'Train on any day — including weekends and holidays. Pick start times that fit your time zone and daily routine.',
   },
   {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-      </svg>
-    ),
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
     title: 'Fully Customized Curriculum',
     desc: 'Syllabus adapted to your skill level, goals, and pace. Skip what you know, deep-dive where it matters.',
   },
   {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-      </svg>
-    ),
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>,
     title: 'Accelerated Learning',
     desc: "Learn up to 3× faster than group classes. No waiting — the instructor's entire attention is on you.",
   },
   {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-      </svg>
-    ),
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>,
     title: 'Certified Expert Instructors',
     desc: '300+ industry-certified trainers with real-world experience, handpicked to match your technical domain.',
   },
   {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
-      </svg>
-    ),
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
     title: 'Train From Anywhere',
     desc: 'Fully online, live sessions from your home or office. No travel, no relocation — just pure learning.',
   },
   {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-      </svg>
-    ),
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
     title: 'Guaranteed to Run',
     desc: 'Every booked session runs — no minimum enrolments, no cancellations. Your slot is yours alone.',
   },
 ]
 
-/* ── How It Works steps ──────────────────────────────────────── */
-const STEPS = [
+/* ── How It Works ────────────────────────────────────────────── */
+const HOW_STEPS = [
   {
-    num: '01',
+    step: '01',
     title: 'Choose Your Course',
-    desc: 'Browse 5,000+ courses across Microsoft, AWS, Cisco, CompTIA and more. Our advisors can help you pick the right certification path.',
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-      </svg>
-    ),
+    desc: 'Browse 5,000+ courses across Microsoft, AWS, Cisco, CompTIA and more. Our advisors can help you pick the right path.',
+    tags: ['5,000+ Courses', 'Expert Guidance'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>,
   },
   {
-    num: '02',
+    step: '02',
     title: 'Pick Your Schedule',
-    desc: 'Select any start date that suits you — weekday, weekend, morning or evening. Sessions can start in as little as 24 hours.',
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-      </svg>
-    ),
+    desc: 'Select any start date — weekday, weekend, morning or evening. Sessions can begin in as little as 24 hours.',
+    tags: ['Any Day', 'Start in 24h'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>,
   },
   {
-    num: '03',
+    step: '03',
     title: 'Get Matched with an Expert',
-    desc: 'We assign a certified instructor who specialises in your exact topic. Review their profile and request a change at any time.',
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-      </svg>
-    ),
+    desc: 'We assign a certified instructor who specialises in your exact topic. Request a change at any time.',
+    tags: ['Certified Trainer', 'Perfect Match'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>,
   },
   {
-    num: '04',
+    step: '04',
     title: 'Learn, Practice & Certify',
     desc: 'Attend live sessions, get hands-on labs, ask questions freely, and walk away exam-ready — backed by our Happiness Guarantee.',
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-      </svg>
-    ),
+    tags: ['Live Labs', 'Exam Ready'],
+    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>,
   },
-]
-
-/* ── Page stats ──────────────────────────────────────────────── */
-const STATS = [
-  { value: '5,000+', label: 'Courses Available' },
-  { value: '300+',   label: 'Expert Instructors' },
-  { value: '33+',    label: 'Years of Excellence' },
-  { value: '99.1%',  label: 'Satisfaction Rate' },
 ]
 
 /* ── Popular courses ─────────────────────────────────────────── */
 const POPULAR_COURSES = [
-  { vendor: 'Microsoft', code: 'AZ-104',  name: 'Microsoft Azure Administrator',                        days: 5, level: 'Intermediate', hot: true,  tz: 'IST / GST / GMT' },
-  { vendor: 'AWS',       code: 'SAA-C03', name: 'AWS Solutions Architect – Associate',                   days: 4, level: 'Intermediate', hot: true,  tz: 'EST / GMT / IST' },
-  { vendor: 'CompTIA',   code: 'SY0-701', name: 'CompTIA Security+',                                     days: 5, level: 'Intermediate', hot: true,  tz: 'All timezones'   },
-  { vendor: 'Cisco',     code: 'CCNA',    name: 'CCNA – Cisco Certified Network Associate',               days: 5, level: 'Beginner',     hot: false, tz: 'IST / GST'       },
-  { vendor: 'ISC2',      code: 'CISSP',   name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced', hot: true, tz: 'EST / GMT / IST' },
-  { vendor: 'PMI',       code: 'PMP',     name: 'Project Management Professional (PMP)',                 days: 4, level: 'Advanced',     hot: true,  tz: 'All timezones'   },
-  { vendor: 'Microsoft', code: 'AZ-305',  name: 'Azure Solutions Architect Expert',                      days: 4, level: 'Advanced',     hot: false, tz: 'IST / GST / GMT' },
-  { vendor: 'CompTIA',   code: 'N10-009', name: 'CompTIA Network+',                                      days: 5, level: 'Beginner',     hot: false, tz: 'All timezones'   },
+  { vendor: 'Microsoft', code: 'AZ-104',  name: 'Microsoft Azure Administrator',                            days: 5, level: 'Intermediate', hot: true  },
+  { vendor: 'AWS',       code: 'SAA-C03', name: 'AWS Solutions Architect – Associate',                       days: 4, level: 'Intermediate', hot: true  },
+  { vendor: 'CompTIA',   code: 'SY0-701', name: 'CompTIA Security+',                                         days: 5, level: 'Intermediate', hot: true  },
+  { vendor: 'Cisco',     code: 'CCNA',    name: 'CCNA – Cisco Certified Network Associate',                   days: 5, level: 'Beginner',     hot: false },
+  { vendor: 'ISC2',      code: 'CISSP',   name: 'CISSP – Certified Information Systems Security Professional', days: 5, level: 'Advanced',     hot: true  },
+  { vendor: 'PMI',       code: 'PMP',     name: 'Project Management Professional (PMP)',                     days: 4, level: 'Advanced',     hot: true  },
+  { vendor: 'Microsoft', code: 'AZ-305',  name: 'Azure Solutions Architect Expert',                          days: 4, level: 'Advanced',     hot: false },
+  { vendor: 'CompTIA',   code: 'N10-009', name: 'CompTIA Network+',                                          days: 5, level: 'Beginner',     hot: false },
 ]
 
-const VENDOR_BADGE = 'bg-[#076D9D]/30 text-[#3AB6EB] ring-1 ring-[#0694D1]/40'
-
-/* ── Comparison rows ─────────────────────────────────────────── */
+/* ── Comparison ──────────────────────────────────────────────── */
 const COMPARISON = [
-  { feature: 'Class Size',        one: 'Just you',                  group: '8–20 students' },
-  { feature: 'Schedule',          one: 'Any day, any time',         group: 'Fixed batch dates' },
-  { feature: 'Pace',              one: 'Entirely your pace',        group: "Trainer's set pace" },
-  { feature: 'Curriculum',        one: 'Tailored to your goals',    group: 'Standard syllabus' },
-  { feature: 'Instructor Focus',  one: '100% on you',               group: 'Split across students' },
-  { feature: 'Start Date',        one: 'As early as tomorrow',      group: 'Next scheduled batch' },
-  { feature: 'Session Recording', one: 'Available on request',      group: 'Shared recording' },
-  { feature: 'Exam Readiness',    one: 'Personalised prep plan',    group: 'General exam tips' },
+  { feature: 'Class Size',        one: 'Just you',               group: '8–20 students'        },
+  { feature: 'Schedule',          one: 'Any day, any time',      group: 'Fixed batch dates'     },
+  { feature: 'Pace',              one: 'Entirely your pace',     group: "Trainer's set pace"    },
+  { feature: 'Curriculum',        one: 'Tailored to your goals', group: 'Standard syllabus'     },
+  { feature: 'Instructor Focus',  one: '100% on you',            group: 'Split across students' },
+  { feature: 'Start Date',        one: 'As early as tomorrow',   group: 'Next scheduled batch'  },
+  { feature: 'Session Recording', one: 'Available on request',   group: 'Shared recording'      },
+  { feature: 'Exam Readiness',    one: 'Personalised prep plan', group: 'General exam tips'     },
 ]
 
 /* ── Who is it for ───────────────────────────────────────────── */
 const WHO_FOR = [
-  {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-      </svg>
-    ),
-    title: 'Busy Professionals',
-    desc: 'Juggling work and upskilling? Train before or after office hours, on weekends, or during breaks — no fixed schedule required.',
-  },
-  {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-      </svg>
-    ),
-    title: 'Exam Re-takers',
-    desc: 'Struggled with a certification? Focus exactly on the topics where you need improvement, with targeted practice and guidance.',
-  },
-  {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
-      </svg>
-    ),
-    title: 'Career Changers',
-    desc: 'Transitioning into IT? Get a curriculum built around your background, covering foundations and advanced topics at the right speed.',
-  },
-  {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-      </svg>
-    ),
-    title: 'Corporate Teams',
-    desc: 'Need to upskill 2–3 team members fast? 1-on-1 or small-group private sessions deliver maximum ROI with minimal downtime.',
-  },
-  {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
-      </svg>
-    ),
-    title: 'Remote Learners Worldwide',
-    desc: 'Live anywhere in the world? Attend sessions from your home or office — no travel, no relocation, no compromise on quality.',
-  },
-  {
-    icon: (
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-      </svg>
-    ),
-    title: 'Fast-Track Learners',
-    desc: 'Have a certification deadline coming up? Compress a 5-day course into an intensive sprint tailored to your existing knowledge.',
-  },
+  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>, title: 'Busy Professionals', desc: 'Juggling work and upskilling? Train before or after office hours, on weekends, or during breaks — no fixed schedule.' },
+  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>, title: 'Exam Re-takers', desc: 'Struggled with a certification? Focus exactly on the topics where you need improvement with targeted practice.' },
+  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>, title: 'Career Changers', desc: 'Transitioning into IT? Get a curriculum built around your background, covering foundations at the right speed.' },
+  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>, title: 'Corporate Teams', desc: 'Need to upskill 2–3 team members fast? 1-on-1 or small-group private sessions deliver maximum ROI.' },
+  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>, title: 'Remote Learners Worldwide', desc: 'Live anywhere in the world? Attend sessions from your home — no travel, no relocation, no compromise on quality.' },
+  { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>, title: 'Fast-Track Learners', desc: 'Have a certification deadline? Compress a 5-day course into an intensive sprint tailored to your existing knowledge.' },
 ]
 
 /* ── Testimonials ────────────────────────────────────────────── */
 const TESTIMONIALS = [
-  { name: 'Adham Al Maqasi',   role: 'IT Professional, 🇴🇲 Oman',      course: '1-on-1 Certified',
-    quote: 'I wanted to take a moment to express my deep appreciation for your exceptional skills as a trainer. Your dedication, expertise, and unwavering commitment are truly inspiring. You have a unique ability to connect with trainees, instilling a sense of belief and motivation.',
-    initials: 'AA', avatarBg: 'linear-gradient(135deg,#076D9D,#4DBFEF)', avatar: '/images/headshots/headshot-1.webp' },
-  { name: 'Emmanuel Masabo',   role: 'Network Engineer, 🇷🇼 Rwanda',    course: '1-on-1 Certified',
-    quote: 'The trainer is very organised. She helped us understand difficult concepts in simple ways. She managed the time professionally — the content was huge but all was delivered perfectly. Kind, always happy, and puts the learner in a great mood.',
-    initials: 'EM', avatarBg: 'linear-gradient(135deg,#093148,#076D9D)', avatar: '/images/headshots/headshot-4.png' },
-  { name: 'Yoosuf Nizam',      role: 'Cloud Architect, 🇲🇻 Maldives',   course: '1-on-1 Certified',
-    quote: 'This trainer is undoubtedly one of the finest I have encountered. His profound knowledge and articulate teaching style make complex concepts remarkably accessible. His consistent preparation for each session greatly enhanced my learning.',
-    initials: 'YN', avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)', avatar: '/images/headshots/headshot-3.webp' },
-  { name: 'Amjad Kushar',      role: 'IT Manager, 🇸🇦 Saudi Arabia',    course: '1-on-1 Certified',
-    quote: 'I would like to express my sincere appreciation to the trainer for providing such an outstanding learning experience. The 1-on-1 format meant every session was tailored precisely to my knowledge gaps. I look forward to booking another course.',
-    initials: 'AK', avatarBg: 'linear-gradient(135deg,#093148,#F47920)', avatar: '/images/headshots/headshot-4.png' },
-  { name: 'David Muriuki',     role: 'Security Engineer, 🇰🇪 Kenya',    course: '1-on-1 Certified',
-    quote: 'I recently attended this course and must commend the exceptional pedagogical skills demonstrated by our trainer. His approach was nothing short of excellent — blending professionalism with a deep understanding of real-world scenarios.',
-    initials: 'DM', avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)', avatar: '/images/headshots/headshot-5.webp' },
-  { name: 'Monica Kalamula',   role: 'Systems Admin, 🇲🇼 Malawi',       course: '1-on-1 Certified',
-    quote: 'From the outset it was evident the instructor possessed a deep understanding of the subject matter. His expertise shone through not only in theory but in his ability to translate complex ideas into easily digestible information.',
-    initials: 'MK', avatarBg: 'linear-gradient(135deg,#476D8D,#0694D1)', avatar: '/images/headshots/headshot-2.webp' },
+  { name: 'Adham Al Maqasi',  role: 'IT Professional, 🇴🇲 Oman',         course: 'AZ-104: Microsoft Azure Administrator',     initials: 'AA', bg: 'linear-gradient(135deg,#076D9D,#4DBFEF)', quote: 'Your dedication, expertise, and unwavering commitment are truly inspiring. You have a unique ability to connect with trainees, instilling a sense of belief and motivation that stays long after the sessions end.' },
+  { name: 'Emmanuel Masabo',  role: 'Network Engineer, 🇷🇼 Rwanda',        course: 'CCNA (200-301): Cisco Certified Network Associate', initials: 'EM', bg: 'linear-gradient(135deg,#093148,#076D9D)', quote: 'The trainer is very organised. She helped us understand difficult concepts in simple ways. She managed the time professionally — the content was huge but all was delivered perfectly.' },
+  { name: 'Yoosuf Nizam',     role: 'Cloud Architect, 🇲🇻 Maldives',       course: 'AWS Solutions Architect – Associate (SAA-C03)', initials: 'YN', bg: 'linear-gradient(135deg,#F47920,#f6a05c)', quote: 'This trainer is undoubtedly one of the finest I have encountered. His profound knowledge and articulate teaching style make complex concepts remarkably accessible.' },
+  { name: 'Amjad Kushar',     role: 'IT Manager, 🇸🇦 Saudi Arabia',        course: 'AZ-500: Microsoft Azure Security Technologies', initials: 'AK', bg: 'linear-gradient(135deg,#093148,#F47920)', quote: 'I would like to express my sincere appreciation to the trainer for providing such an outstanding learning experience. Every session was tailored precisely to my knowledge gaps.' },
+  { name: 'David Muriuki',    role: 'Security Engineer, 🇰🇪 Kenya',        course: 'CEH v13: Certified Ethical Hacker',            initials: 'DM', bg: 'linear-gradient(135deg,#34A853,#076D9D)', quote: 'His approach was nothing short of excellent — blending professionalism with a deep understanding of real-world scenarios that made every session highly engaging.' },
+  { name: 'Monica Kalamula',  role: 'Systems Admin, 🇲🇼 Malawi',           course: 'CompTIA Security+ (SY0-701)',                  initials: 'MK', bg: 'linear-gradient(135deg,#476D8D,#0694D1)', quote: 'From the outset it was evident the instructor possessed a deep understanding of the subject. His expertise shone through in his ability to translate complex ideas into digestible information.' },
+  { name: 'Fredrick F. Arthur', role: 'Data Analyst, 🇬🇭 Ghana',           course: 'PL-300: Microsoft Power BI Data Analyst',      initials: 'FA', bg: 'linear-gradient(135deg,#0694D1,#38bdf8)', quote: 'Your passion and expertise in teaching Power BI have been incredibly motivating. Your clear explanations and practical approach made the learning journey truly enjoyable.' },
+  { name: 'Anacleto F. da Rosa', role: 'Developer, 🇦🇴 Angola',            course: 'Python Programming (PCEP)',                    initials: 'AF', bg: 'linear-gradient(135deg,#7c3aed,#0694D1)', quote: 'My teacher is very friendly and knowledgeable. The teacher has a passion for Python and explains every topic so well. I am very happy with the 1-on-1 training experience.' },
+  { name: 'Emanuel B. Mahina', role: 'Security Specialist, 🇦🇴 Angola',    course: 'CISSP – Certified Information Systems Security Professional', initials: 'EB', bg: 'linear-gradient(135deg,#16a34a,#0694D1)', quote: 'I received one of the best trainings and with the best trainer in the security area. I have gained a lot of knowledge that I am already applying in my daily work.' },
 ]
 
 /* ── FAQs ────────────────────────────────────────────────────── */
 const FAQS = [
-  {
-    q: 'How can I schedule a 1-on-1 batch?',
-    a: 'Simply visit your desired course page and choose your preferred start date and time. If you\'d like personalised guidance, fill out our enquiry form to schedule a free tech call with a Koenig Solutions expert. They\'ll help you find the ideal training match.',
-  },
-  {
-    q: 'Can I take training over the weekend?',
-    a: 'Absolutely. 1-on-1 training sessions can be scheduled on any day of the week, including Saturdays and Sundays, as well as public holidays. Just let us know your preferred time when you enquire.',
-  },
-  {
-    q: 'Can I change the schedule after booking a training?',
-    a: 'Yes, you can reschedule your session at any time before it begins, subject to trainer availability. Simply contact your account manager or reach us on WhatsApp and we\'ll coordinate the change for you.',
-  },
-  {
-    q: 'My colleague and I would like to be trained together. Can we set up a 1-on-2 training?',
-    a: 'Yes! Koenig supports small-group private sessions (1-on-2 or 1-on-3). Both participants still benefit from a dedicated instructor and fully customised content, with the added bonus of a shared learning experience.',
-  },
-  {
-    q: 'Can I opt for a longer duration than prescribed for the standard course?',
-    a: 'Yes. Because sessions are fully private, you can request additional hours, extra lab time, or extended deep-dives on specific topics. Your instructor will adapt the schedule and content to suit the extended duration.',
-  },
-  {
-    q: 'Is 1-on-1 training available for all 5,000+ courses?',
-    a: 'Yes. Every course in the Koenig catalogue — across Microsoft, AWS, Cisco, CompTIA, PMI, and hundreds more vendors — is available in 1-on-1 format. If you don\'t see a specific course, contact us and we\'ll arrange it.',
-  },
+  { q: 'How can I schedule a 1-on-1 batch?', a: "Simply visit your desired course page and choose your preferred start date and time. If you'd like personalised guidance, fill out our enquiry form to schedule a free tech call with a Koenig Solutions expert." },
+  { q: 'Can I take training over the weekend?', a: 'Absolutely. 1-on-1 training sessions can be scheduled on any day of the week, including Saturdays and Sundays, as well as public holidays. Just let us know your preferred time when you enquire.' },
+  { q: 'Can I change the schedule after booking a training?', a: "Yes, you can reschedule your session at any time before it begins, subject to trainer availability. Simply contact your account manager or reach us on WhatsApp and we'll coordinate the change for you." },
+  { q: 'My colleague and I would like to be trained together. Can we set up a 1-on-2 training?', a: 'Yes! Koenig supports small-group private sessions (1-on-2 or 1-on-3). Both participants still benefit from a dedicated instructor and fully customised content.' },
+  { q: 'Can I opt for a longer duration than the standard course?', a: 'Yes. Because sessions are fully private, you can request additional hours, extra lab time, or extended deep-dives on specific topics. Your instructor will adapt the schedule accordingly.' },
+  { q: 'Is 1-on-1 training available for all 5,000+ courses?', a: "Yes. Every course in the Koenig catalogue — across Microsoft, AWS, Cisco, CompTIA, PMI, and hundreds more vendors — is available in 1-on-1 format. If you don't see a specific course, contact us and we'll arrange it." },
 ]
 
+/* ── HEAR OPTIONS for form ───────────────────────────────────── */
+const HEAR_OPTIONS = [
+  'Search Engine (Google/Bing)',
+  'LinkedIn',
+  'Facebook / Instagram',
+  'Twitter / X',
+  'YouTube',
+  'Colleague / Friend Referral',
+  'Previous Koenig Student',
+  'Email Newsletter',
+  'Company Recommendation',
+  'Job Board',
+  'Online Forum / Reddit',
+  'Other',
+]
+
+/* ── Lead Form Section ───────────────────────────────────────── */
+function OneOnOneLeadFormSection() {
+  const [formType, setFormType] = useState<'individual' | 'enterprise'>('individual')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [course, setCourse] = useState('')
+  const [hear, setHear] = useState('')
+  const [msg, setMsg] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [hearOpen, setHearOpen] = useState(false)
+  const hearRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (hearRef.current && !hearRef.current.contains(e.target as Node)) setHearOpen(false)
+    }
+    document.addEventListener('mousedown', handle)
+    return () => document.removeEventListener('mousedown', handle)
+  }, [])
+
+  const fieldStyle = { background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, color: '#fff', width: '100%', padding: '11px 16px', fontSize: 14, outline: 'none' } as React.CSSProperties
+  const focusIn  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }
+  const focusOut = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }
+
+  return (
+    <section id="request" style={{ background: 'linear-gradient(160deg,#07111e 0%,#0a1828 100%)', paddingTop: '30px', paddingBottom: '30px' }}>
+      <div style={{ maxWidth: 780, margin: '0 auto', padding: '0 20px' }}>
+        <div className="rounded-2xl px-6 sm:px-10 py-8" style={{ background: 'linear-gradient(160deg,#091828 0%,#0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 0 1px rgba(6,148,209,0.08),0 24px 60px rgba(0,0,0,0.5)' }}>
+          <div className="flex justify-center mb-4">
+            <span className="rounded-full px-4 py-1 text-xs font-bold tracking-widest" style={{ border: '1px solid rgba(6,148,209,0.55)', color: '#38bdf8' }}>LET'S TALK</span>
+          </div>
+          <h2 className="text-center text-2xl sm:text-3xl font-bold text-white mb-1">Request for more <span style={{ color: '#38bdf8' }}>information</span></h2>
+          <p className="text-center text-sm mb-6" style={{ color: 'rgba(255,255,255,0.42)' }}>1-on-1 Training with Koenig Solutions</p>
+
+          {/* WhatsApp / Email */}
+          <div className="flex gap-3 mb-6">
+            <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer"
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-white/10"
+              style={{ border: '1px solid rgba(37,211,102,0.35)', color: '#25D366', background: 'rgba(37,211,102,0.05)' }}>
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+              WhatsApp
+            </a>
+            <a href="mailto:info@koenig-solutions.com"
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-white/10"
+              style={{ border: '1px solid rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.05)' }}>
+              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+              Email Us
+            </a>
+          </div>
+
+          {/* Individual / Enterprise toggle */}
+          <div className="flex rounded-xl p-1 mb-5" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            {(['individual', 'enterprise'] as const).map(t => (
+              <button key={t} type="button" onClick={() => setFormType(t)}
+                className="flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all capitalize"
+                style={formType === t ? { background: '#0694D1', color: '#fff', boxShadow: '0 2px 8px rgba(6,148,209,0.4)' } : { color: 'rgba(255,255,255,0.45)', background: 'transparent' }}>
+                {t === 'individual'
+                  ? <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  : <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                }
+                {t}
+              </button>
+            ))}
+          </div>
+
+          {submitted ? (
+            <div className="rounded-2xl p-10 text-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.25)' }}>
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: 'rgba(34,197,94,0.15)' }}>
+                <svg className="h-7 w-7" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-1">Thank you!</h3>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>A Koenig advisor will contact you within 2 hours.</p>
+              <button onClick={() => { setSubmitted(false); setName(''); setEmail(''); setPhone(''); setCourse(''); setHear(''); setMsg('') }}
+                className="mt-5 rounded-xl px-6 py-2.5 text-sm font-semibold text-white" style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}>
+                Submit Another
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Full Name <span style={{ color: '#0694D1' }}>*</span></label>
+                  <input required value={name} onChange={e => setName(e.target.value)} placeholder="John Smith" style={fieldStyle} onFocus={focusIn} onBlur={focusOut} />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>{formType === 'enterprise' ? 'Business ' : ''}Email <span style={{ color: '#0694D1' }}>*</span></label>
+                  <input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={formType === 'enterprise' ? 'you@company.com' : 'you@email.com'} style={fieldStyle} onFocus={focusIn} onBlur={focusOut} />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Phone / WhatsApp <span style={{ color: '#0694D1' }}>*</span></label>
+                <input required type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+1 (555) 000-0000" style={fieldStyle} onFocus={focusIn} onBlur={focusOut} />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Course Name</label>
+                <input value={course} onChange={e => setCourse(e.target.value)} placeholder="e.g. AZ-104, CISSP, PMP…" style={fieldStyle} onFocus={focusIn} onBlur={focusOut} />
+              </div>
+
+              {/* How did you hear dropdown */}
+              <div ref={hearRef} style={{ position: 'relative' }}>
+                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>How did you hear about us?</label>
+                <button type="button" onClick={() => setHearOpen(o => !o)}
+                  className="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm text-left transition-all"
+                  style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${hearOpen ? 'rgba(6,148,209,0.6)' : 'rgba(255,255,255,0.12)'}`, color: hear ? '#fff' : 'rgba(255,255,255,0.28)', boxShadow: hearOpen ? '0 0 0 3px rgba(6,148,209,0.12)' : 'none' }}>
+                  <span>{hear || 'Select an option'}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: hearOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}><path d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                {hearOpen && typeof document !== 'undefined' && createPortal(
+                  <div style={{ position: 'fixed', inset: 0, zIndex: 9000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                    <div onClick={() => setHearOpen(false)} style={{ position: 'absolute', inset: 0, background: 'rgba(6,18,30,0.55)', backdropFilter: 'blur(2px)' }} />
+                    <div style={{ position: 'relative', background: '#0c1f34', borderRadius: '20px 20px 0 0', maxHeight: '60vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 40px rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.25)' }}>
+                      <div style={{ padding: '14px 20px 10px', borderBottom: '1px solid rgba(6,148,209,0.15)', flexShrink: 0 }}>
+                        <div style={{ width: 36, height: 4, borderRadius: 999, background: 'rgba(255,255,255,0.2)', margin: '0 auto 10px' }} />
+                        <p style={{ fontSize: 14, fontWeight: 700, color: '#38bdf8', textAlign: 'center' }}>How did you hear about us?</p>
+                      </div>
+                      <div style={{ overflowY: 'auto', flex: 1, padding: '6px 12px' }}>
+                        {HEAR_OPTIONS.map(o => (
+                          <button key={o} type="button" onClick={() => { setHear(o); setHearOpen(false) }}
+                            style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left', padding: '10px 8px', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 14, color: o === hear ? '#38bdf8' : 'rgba(255,255,255,0.8)', background: o === hear ? 'rgba(6,148,209,0.15)' : 'transparent', marginBottom: 1 }}>
+                            <span style={{ width: 16, height: 16, borderRadius: '50%', border: `2px solid ${o === hear ? '#0694D1' : 'rgba(255,255,255,0.25)'}`, background: o === hear ? '#0694D1' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                              {o === hear && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', display: 'block' }} />}
+                            </span>
+                            {o}
+                          </button>
+                        ))}
+                      </div>
+                      <div style={{ padding: '12px 16px 32px', borderTop: '1px solid rgba(6,148,209,0.15)', flexShrink: 0 }}>
+                        <button type="button" onClick={() => setHearOpen(false)} style={{ width: '100%', padding: '11px', borderRadius: 12, background: 'linear-gradient(135deg,#0694D1,#076D9D)', border: 'none', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Close</button>
+                      </div>
+                    </div>
+                  </div>,
+                  document.body
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Tell us about your training goals</label>
+                <textarea rows={3} value={msg} onChange={e => setMsg(e.target.value)}
+                  placeholder="e.g. I want to pass AZ-104 within 3 weeks, currently a network engineer…"
+                  style={{ ...fieldStyle, resize: 'none' } as React.CSSProperties}
+                  onFocus={focusIn} onBlur={focusOut} />
+              </div>
+
+              {/* reCAPTCHA placeholder */}
+              <div className="flex items-center gap-3 rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="w-5 h-5 rounded border-2 shrink-0" style={{ borderColor: 'rgba(255,255,255,0.3)' }} />
+                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>I'm not a robot</span>
+                <div className="ml-auto flex flex-col items-center">
+                  <svg width="32" height="32" viewBox="0 0 64 64" fill="none"><path d="M32 8C18.7 8 8 18.7 8 32s10.7 24 24 24 24-10.7 24-24S45.3 8 32 8z" fill="#4A90E2" opacity=".2"/><path d="M32 16c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16z" fill="#4A90E2" opacity=".4"/></svg>
+                  <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.3)' }}>reCAPTCHA</span>
+                </div>
+              </div>
+
+              <button type="submit" className="w-full rounded-xl py-3.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
+                style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}>
+                Submit Enquiry →
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /* ── Testimonial Card ────────────────────────────────────────── */
-function OneOnOneTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; onExpandChange?: (exp: boolean) => void }) {
-  const [expanded, setExpanded] = useState(false)
+function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
+  const [exp, setExp] = useState(false)
   const isLong = t.quote.length > 140
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
       <div className="flex-1 flex flex-col p-5">
-        <div className="mb-3 text-base leading-none" style={{ color: '#F59E0B', letterSpacing: '1px' }}>★★★★★</div>
-        <p className="mb-4 text-sm leading-relaxed flex-1" style={{ color: '#2d4a6a' }}>&ldquo;{isLong && !expanded ? `${t.quote.slice(0, 140)}…` : t.quote}&rdquo;</p>
+        <div className="mb-3 text-base leading-none" style={{ color: '#F59E0B', letterSpacing: 1 }}>★★★★★</div>
+        <p className="mb-4 text-sm leading-relaxed flex-1" style={{ color: '#2d4a6a' }}>&ldquo;{isLong && !exp ? `${t.quote.slice(0, 140)}…` : t.quote}&rdquo;</p>
         {isLong && (
-          <button onClick={() => { const n = !expanded; setExpanded(n); onExpandChange?.(n) }}
-            className="mb-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white"
-            style={{ borderColor: '#0694D1' }}>
-            {expanded ? 'Show Less ↑' : 'Show More ↓'}
+          <button onClick={() => setExp(p => !p)} className="mb-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] hover:bg-[#0694D1] hover:text-white transition-all" style={{ borderColor: '#0694D1' }}>
+            {exp ? 'Show Less ↑' : 'Show More ↓'}
           </button>
         )}
         <div className="flex items-center gap-3">
-          {t.avatar ? (
-            <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover object-top shrink-0" style={{ border: '2px solid #DCEEFB', boxShadow: '0 2px 8px rgba(6,148,209,0.15)' }} />
-          ) : (
-            <div className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0" style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}>{t.initials}</div>
-          )}
+          <div className="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0" style={{ background: t.bg, border: '2px solid #DCEEFB' }}>{t.initials}</div>
           <div className="min-w-0">
             <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
             <p className="text-xs font-semibold mt-0.5" style={{ color: '#0694D1' }}>{t.role}</p>
@@ -285,21 +349,18 @@ function OneOnOneTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS
         </div>
       </div>
       <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
-        <p className="text-xs font-bold" style={{ color: '#0d1b2a' }}>{t.course}</p>
-        <span className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: '#EBF8FE', color: '#0569a8', border: '1px solid #CAEFFF' }}>✓ Verified</span>
+        <p className="text-xs font-bold truncate mr-2" style={{ color: '#0d1b2a' }}>{t.course}</p>
+        <span className="rounded-full px-2.5 py-1 text-xs font-semibold shrink-0" style={{ background: '#EBF8FE', color: '#0569a8', border: '1px solid #CAEFFF' }}>✓ Verified</span>
       </div>
     </div>
   )
 }
 
-/* ── Mobile Horizontal Marquee ───────────────────────────────── */
-function OneOnOneMobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const pos = useRef(0)
-  const paused = useRef(false)
-  const expandedCount = useRef(0)
-  const dragStartX = useRef(0)
-  const dragStartPos = useRef(0)
+/* ── Mobile horizontal marquee ───────────────────────────────── */
+function MobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
+  const trackRef = useRef<HTMLUListElement>(null)
+  const posRef   = useRef(0)
+  const dragRef  = useRef({ active: false, startX: 0, startPos: 0 })
 
   useEffect(() => {
     const inner = trackRef.current
@@ -307,11 +368,11 @@ function OneOnOneMobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
     let prev = performance.now(); let raf: number
     function tick(now: number) {
       const dt = now - prev; prev = now
-      if (!paused.current && inner) {
-        pos.current += 0.04 * dt
+      if (!dragRef.current.active && inner) {
+        posRef.current += 0.038 * dt
         const half = inner.scrollWidth / 2
-        if (half > 0 && pos.current >= half) pos.current -= half
-        inner.style.transform = `translateX(-${pos.current}px)`
+        if (half > 0 && posRef.current >= half) posRef.current -= half
+        inner.style.transform = `translateX(-${posRef.current}px)`
       }
       raf = requestAnimationFrame(tick)
     }
@@ -320,196 +381,198 @@ function OneOnOneMobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
   }, [])
 
   return (
-    <div className="sm:hidden overflow-hidden"
-      style={{ maskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)' }}
-      onTouchStart={e => { paused.current = true; dragStartX.current = e.touches[0].clientX; dragStartPos.current = pos.current }}
+    <div className="sm:hidden overflow-hidden mt-5" style={{ maskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)', WebkitMaskImage: 'linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%)' }}
+      onTouchStart={e => { dragRef.current = { active: true, startX: e.touches[0].clientX, startPos: posRef.current } }}
       onTouchMove={e => {
-        const delta = dragStartX.current - e.touches[0].clientX
+        const dx = dragRef.current.startX - e.touches[0].clientX
         const inner = trackRef.current; if (!inner) return
         const half = inner.scrollWidth / 2
-        let newPos = dragStartPos.current + delta
-        if (newPos < 0) newPos = 0
-        if (half > 0 && newPos >= half) newPos = half - 1
-        pos.current = newPos; inner.style.transform = `translateX(-${pos.current}px)`
+        let p = dragRef.current.startPos + dx
+        if (p < 0) p = 0; if (half > 0 && p >= half) p = half - 1
+        posRef.current = p; inner.style.transform = `translateX(-${p}px)`
       }}
-      onTouchEnd={() => { if (expandedCount.current === 0) paused.current = false }}>
-      <div ref={trackRef} className="flex items-stretch gap-4 py-2" style={{ width: 'max-content' }}>
+      onTouchEnd={() => { dragRef.current.active = false }}>
+      <ul ref={trackRef} className="flex gap-4 py-2" style={{ width: 'max-content', listStyle: 'none', padding: 0, margin: 0 }}>
         {[...items, ...items].map((t, i) => (
-          <div key={i} style={{ width: '280px', flexShrink: 0 }}>
-            <OneOnOneTestimonialCard t={t} onExpandChange={exp => {
-              expandedCount.current += exp ? 1 : -1
-              if (expandedCount.current < 0) expandedCount.current = 0
-              paused.current = expandedCount.current > 0
-            }} />
-          </div>
+          <li key={i} style={{ width: 280, flexShrink: 0 }}>
+            <TestimonialCard t={t} />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   )
 }
 
-/* ── Desktop Scroll Column ───────────────────────────────────── */
-function OneOnOneScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
-  const innerRef = useRef<HTMLDivElement>(null)
-  const pos = useRef(0)
-  const paused = useRef(false)
-
+/* ── Desktop scroll column ───────────────────────────────────── */
+function ScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: number }) {
+  const ref  = useRef<HTMLDivElement>(null)
+  const pos  = useRef(0)
+  const paus = useRef(false)
   useEffect(() => {
-    const inner = innerRef.current
-    if (!inner) return
+    const el = ref.current; if (!el) return
     let prev = performance.now(); let raf: number
     function tick(now: number) {
       const dt = now - prev; prev = now
-      if (!paused.current && inner) {
+      if (!paus.current && el) {
         pos.current += speed * dt
-        const half = inner.scrollHeight / 2
+        const half = el.scrollHeight / 2
         if (half > 0 && pos.current >= half) pos.current -= half
-        inner.style.transform = `translateY(-${pos.current}px)`
+        el.style.transform = `translateY(-${pos.current}px)`
       }
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
   }, [speed])
-
   return (
-    <div style={{ height: '520px', overflow: 'hidden' }}
-      onMouseEnter={() => { paused.current = true }}
-      onMouseLeave={() => { paused.current = false }}>
-      <div ref={innerRef} className="flex flex-col gap-4 pb-4">
-        {[...items, ...items].map((t, i) => <OneOnOneTestimonialCard key={i} t={t} />)}
+    <div style={{ height: 520, overflow: 'hidden' }} onMouseEnter={() => { paus.current = true }} onMouseLeave={() => { paus.current = false }}>
+      <div ref={ref} className="flex flex-col gap-4">
+        {[...items, ...items].map((t, i) => <TestimonialCard key={i} t={t} />)}
       </div>
     </div>
   )
 }
 
+/* ════════════════════════════════════════════════════════════════
+   PAGE
+════════════════════════════════════════════════════════════════ */
 export default function OneOnOneTrainingPage() {
-  const [activeTab, setActiveTab] = useState('1on1')
-  const tabScrollRef = useRef<HTMLDivElement>(null)
-  const [openFaq, setOpenFaq] = useState<number | null>(0)
-  const [reviewTab, setReviewTab] = useState<'reviews' | 'faqs'>('reviews')
-  const [formType, setFormType] = useState<'individual' | 'enterprise'>('individual')
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', course: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
+  const tabScrollRef   = useRef<HTMLDivElement>(null)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [benSlideIdx,  setBenSlideIdx]  = useState(0)
+  const [howSlideIdx,  setHowSlideIdx]  = useState(0)
+  const benTouchStartX = useRef(0)
+  const howTouchStartX = useRef(0)
+
+  useEffect(() => {
+    const el = tabScrollRef.current?.querySelector('[data-tab="1on1"]') as HTMLElement | null
+    if (el) el.scrollIntoView({ behavior: 'instant', inline: 'start', block: 'nearest' })
+  }, [])
 
   return (
-    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif", background: '#f8fafc' }}>
-
-      {/* ── JSON-LD Breadcrumb + FAQ Schema ── */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.koenig-solutions.com' },
-              { '@type': 'ListItem', position: 2, name: 'Learning Options', item: 'https://www.koenig-solutions.com/learning-options' },
-              { '@type': 'ListItem', position: 3, name: '1-on-1 Training', item: 'https://www.koenig-solutions.com/1-on-1-training' },
-            ],
-          }),
-        }}
-      />
-
+    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
 
-      {/* ════════════════════════════════════════════════════════
-           HERO
-      ════════════════════════════════════════════════════════ */}
-      <section
-        aria-label="1-on-1 Training Hero"
-        style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 55%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
-      >
-        {/* Background blobs */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full opacity-[0.07]" style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
-          <div className="absolute top-1/2 right-0 h-[400px] w-[400px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 70%)' }} />
-          <div className="absolute bottom-0 left-1/3 h-[300px] w-[300px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
+      {/* ── BANNER ─────────────────────────────────────────────── */}
+      <section style={{ background: 'linear-gradient(135deg,#06111E 0%,#071828 55%,#061624 100%)', position: 'relative', overflow: 'hidden' }}>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full opacity-[0.07]" style={{ background: 'radial-gradient(circle,#0694D1 0%,transparent 70%)' }} />
+          <div className="absolute top-1/2 right-0 h-[400px] w-[400px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle,#38bdf8 0%,transparent 70%)' }} />
         </div>
 
         <style>{`
-          @keyframes lolFloat1 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-10px) rotate(1deg)} }
-          @keyframes lolFloat2 { 0%,100%{transform:translateY(0) rotate(1deg)} 50%{transform:translateY(-8px) rotate(-1deg)} }
-          @keyframes lolFloat3 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(9px) translateX(3px)} }
-          @keyframes lolFloat4 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(8px) rotate(1.5deg)} }
-          @keyframes lolGlow   { 0%,100%{box-shadow:0 4px 18px rgba(6,109,157,0.30),inset 0 1px 0 rgba(255,255,255,0.18)} 50%{box-shadow:0 4px 28px rgba(6,148,209,0.55),0 0 16px rgba(58,182,235,0.30),inset 0 1px 0 rgba(255,255,255,0.28)} }
+          @keyframes tab-border-sweep{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+          .tab-border-glow{background:linear-gradient(270deg,#0694D1,#38bdf8,#076D9D,#38bdf8,#0694D1);background-size:400% 400%;animation:tab-border-sweep 3s ease infinite;padding:2px;border-radius:1rem;display:inline-flex;}
+          @keyframes oo1Float1{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
+          @keyframes oo1Float2{0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-8px) rotate(-1deg)}}
+          @keyframes oo1Float3{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
+          @keyframes oo1Float4{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(8px) rotate(1.5deg)}}
+          @keyframes oo1Glow{0%,100%{box-shadow:0 4px 18px rgba(6,109,157,.30)}50%{box-shadow:0 4px 28px rgba(6,148,209,.55)}}
         `}</style>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-5 lg:py-[50px]">
+        {/* Training tabs */}
+        <div className="border-b" style={{ borderColor: 'rgba(6,148,209,0.2)' }}>
+          <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-4">
+            <div className="sm:hidden">
+              <div className="tab-border-glow" style={{ display: 'block', width: '100%' }}>
+                <div ref={tabScrollRef} className="flex overflow-x-auto rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]" style={{ scrollbarWidth: 'none' }}>
+                  {LEARNING_TABS.map(t => t.id === '1on1' ? (
+                    <button key={t.id} data-tab="1on1" className="relative whitespace-nowrap rounded-xl font-semibold shrink-0 px-5 py-2.5 text-sm bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">{t.label}</button>
+                  ) : (
+                    <Link key={t.id} href={t.href} className="inline-flex items-center whitespace-nowrap rounded-xl font-semibold shrink-0 px-4 py-2.5 text-sm text-[#7a8c96]">{t.label}</Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="hidden sm:flex justify-center">
+              <div className="tab-border-glow">
+                <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
+                  {LEARNING_TABS.map(t => t.id === '1on1' ? (
+                    <button key={t.id} className="relative whitespace-nowrap rounded-xl font-semibold shrink-0 px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">{t.label}</button>
+                  ) : (
+                    <Link key={t.id} href={t.href} className="inline-flex items-center whitespace-nowrap rounded-xl font-semibold shrink-0 px-6 py-3 text-sm text-[#7a8c96] hover:text-[#093148]">{t.label}</Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Banner content */}
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]" style={{ paddingTop: 35, paddingBottom: 35 }}>
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Left copy */}
+            {/* Left */}
             <div>
-              {/* Badge */}
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)', color: '#38bdf8' }}>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)', color: '#38bdf8' }}>
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                 Fully Personalized · Expert-Led · Any Schedule
               </div>
-
-              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight text-white mb-5">
+              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight text-white mb-4">
                 Your Training,{' '}
-                <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>
-                  Your Way
-                </span>
+                <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg,#0694D1,#38bdf8)' }}>Your Way</span>
                 {' '}—{' '}
                 <br className="hidden sm:block" />
                 1-on-1 with Expert Instructors
               </h1>
-
-              <p className="text-lg leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.70)' }}>
-                Skip the classroom. Get a private certified instructor dedicated entirely to <em>you</em>. Train on your schedule, at your pace, focused on exactly what you need to pass your certification and advance your career.
+              <p className="text-base leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.68)' }}>
+                Skip the classroom. Get a private certified instructor dedicated entirely to <em>you</em>. Train on your schedule, at your pace, focused on exactly what you need to certify and advance your career.
               </p>
 
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-4 mb-8">
-                <a
-                  href="#enquiry-form"
-                  className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-base font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}
-                >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                  Request Free Consultation
-                </a>
+              {/* Feature list */}
+              <div className="flex flex-col gap-2 mb-6">
+                {[
+                  <>Get Access to <span style={{ color: '#38bdf8' }}>Unlimited 1-on-1 Sessions</span> on any day</>,
+                  <>Free <span style={{ color: '#38bdf8' }}>Schedule Flexibility</span> — weekdays, weekends & holidays</>,
+                  <>100% <span style={{ color: '#38bdf8' }}>Customized Curriculum</span> tailored to your goals</>,
+                  <>Instructor <span style={{ color: '#38bdf8' }}>100% focused on you</span> — no group distractions</>,
+                  <>Sessions start in as little as <span style={{ color: '#38bdf8' }}>24 hours</span></>,
+                ].map((f, i) => (
+                  <div key={i} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                    <span className="mt-0.5 shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.2)', border: '1px solid rgba(6,148,209,0.4)' }}>
+                      <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    <span>{f}</span>
+                  </div>
+                ))}
               </div>
 
-              {/* Trust badges */}
-              <div className="flex flex-wrap items-center gap-2.5">
-                {['No group sessions', 'Sessions start in 24h', 'Happiness Guarantee'].map(text => (
-                  <span key={text} className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold"
-                    style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.32)', color: '#38bdf8' }}>
-                    <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    {text}
-                  </span>
-                ))}
+              <div className="flex flex-wrap gap-3">
+                <a href="#request" className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}>
+                  Request Free Consultation
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+                <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition-all hover:bg-white/10" style={{ border: '1.5px solid rgba(37,211,102,0.45)', color: '#25D366' }}>
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
+                  WhatsApp Us
+                </a>
               </div>
             </div>
 
-            {/* Right — image with floating stat cards */}
+            {/* Right — floating cards + image (desktop) */}
             <div className="hidden lg:block">
-              <div className="relative mx-auto" style={{ width: '500px', padding: '44px' }}>
+              <div className="relative mx-auto" style={{ width: 500, padding: 44 }}>
                 {([
-                  { val: '300+',   label: 'Instructors',  pos: { top: 0,    left: 0  }, anim: 'lolFloat1 3.4s ease-in-out infinite' },
-                  { val: '5,000+', label: 'Courses',      pos: { top: 0,    right: 0 }, anim: 'lolFloat2 3.8s ease-in-out infinite 0.5s' },
-                  { val: '99.1%',  label: 'Satisfaction', pos: { bottom: 0, left: 0  }, anim: 'lolFloat3 4.0s ease-in-out infinite 1.0s' },
-                  { val: '24h',    label: 'Start Time',   pos: { bottom: 0, right: 0 }, anim: 'lolFloat4 3.6s ease-in-out infinite 1.5s' },
+                  { val: '300+',   label: 'Instructors',  pos: { top: 0,    left: 0  }, anim: 'oo1Float1 3.4s ease-in-out infinite' },
+                  { val: '5,000+', label: 'Courses',      pos: { top: 0,    right: 0 }, anim: 'oo1Float2 3.8s ease-in-out infinite 0.5s' },
+                  { val: '99.1%',  label: 'Satisfaction', pos: { bottom: 0, left: 0  }, anim: 'oo1Float3 4.0s ease-in-out infinite 1.0s' },
+                  { val: '24h',    label: 'Start Time',   pos: { bottom: 0, right: 0 }, anim: 'oo1Float4 3.6s ease-in-out infinite 1.5s' },
                 ] as { val: string; label: string; pos: React.CSSProperties; anim: string }[]).map(({ val, label, pos, anim }) => (
                   <div key={val} className="absolute flex flex-col items-center justify-center rounded-xl"
-                    style={{ ...pos, width: 76, padding: '8px 10px', background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(6,148,209,0.30)', textAlign: 'center', animation: `${anim}, lolGlow 3s ease-in-out infinite`, zIndex: 10 }}>
+                    style={{ ...pos, width: 76, padding: '8px 10px', background: 'rgba(255,255,255,0.96)', border: '1px solid rgba(6,148,209,0.30)', textAlign: 'center', animation: `${anim}, oo1Glow 3s ease-in-out infinite`, zIndex: 10 }}>
                     <span className="text-base font-black leading-none" style={{ color: '#0694D1' }}>{val}</span>
                     <span className="text-[10px] font-medium mt-0.5" style={{ color: '#475569' }}>{label}</span>
                   </div>
                 ))}
-                <div className="relative overflow-hidden rounded-2xl"
-                  style={{ background: 'rgba(6,25,45,0.52)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1.5px solid rgba(6,148,209,0.50)', boxShadow: '0 0 0 4px rgba(6,148,209,0.08), 0 0 30px 6px rgba(6,148,209,0.22), 0 8px 40px rgba(6,109,157,0.28)' }}>
-                  <img src="/images/home-banner/1on1.png" alt="1-on-1 Training with Expert Instructor" className="w-full h-auto object-contain" />
+                <div className="relative overflow-hidden rounded-2xl" style={{ background: 'rgba(6,25,45,0.52)', border: '1.5px solid rgba(6,148,209,0.50)', boxShadow: '0 0 0 4px rgba(6,148,209,0.08),0 0 30px 6px rgba(6,148,209,0.22)' }}>
+                  <img src="/images/home-banner/1on1.png" alt="1-on-1 Training" className="w-full h-auto object-contain" />
                 </div>
               </div>
             </div>
 
-            {/* Mobile — stat tiles */}
-            <div className="lg:hidden grid grid-cols-4 gap-2 mt-4">
+            {/* Mobile stats */}
+            <div className="lg:hidden grid grid-cols-4 gap-2">
               {STATS.map(s => (
-                <div key={s.label} className="flex flex-col items-center justify-center rounded-xl py-3 px-1"
-                  style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(6,148,209,0.30)', backdropFilter: 'blur(12px)' }}>
+                <div key={s.label} className="flex flex-col items-center justify-center rounded-xl py-3 px-1" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(6,148,209,0.30)' }}>
                   <span className="text-sm font-black leading-none" style={{ color: '#38bdf8' }}>{s.value}</span>
                   <span className="text-[10px] font-medium mt-0.5 text-center leading-tight" style={{ color: 'rgba(255,255,255,0.55)' }}>{s.label}</span>
                 </div>
@@ -519,845 +582,411 @@ export default function OneOnOneTrainingPage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-           TRAINING MODE TABS
-      ════════════════════════════════════════════════════════ */}
-      <style>{`
-        @keyframes tab-border-sweep { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-        .tab-border-glow { background:linear-gradient(270deg,#0694D1,#38bdf8,#076D9D,#38bdf8,#0694D1); background-size:400% 400%; animation:tab-border-sweep 3s ease infinite; padding:2px; border-radius:1rem; display:inline-flex; }
-      `}</style>
-      <section className="bg-white border-b py-4" style={{ borderColor: '#E2E8F0' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          {/* Mobile: scrollable */}
+      {/* ── BENEFITS ───────────────────────────────────────────── */}
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: 30, paddingBottom: 30 }}>
+        <style>{`
+          @keyframes oo1BenCardIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+          @keyframes oo1BenIconPulse{0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)}50%{box-shadow:0 0 0 7px rgba(19,168,212,.06)}}
+          @keyframes oo1BenDraw{from{stroke-dashoffset:500}to{stroke-dashoffset:0}}
+          @keyframes oo1BenFloat{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+          .oo1-ben-card{position:relative;overflow:hidden;border-radius:18px;padding:28px;cursor:default;
+            background:linear-gradient(145deg,rgba(13,32,53,.92) 0%,rgba(10,22,40,.96) 60%,rgba(11,37,69,.88) 100%);
+            border:1px solid rgba(19,168,212,.18);transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease;opacity:0;}
+          .oo1-ben-card.oo1-ben-vis{animation:oo1BenCardIn .55s cubic-bezier(.22,1,.36,1) forwards;}
+          .oo1-ben-card:hover{transform:translateY(-7px);border-color:rgba(19,168,212,.55);box-shadow:0 0 0 1px rgba(19,168,212,.2),0 16px 40px rgba(0,0,0,.4);}
+          .oo1-ben-accent{position:absolute;top:0;left:50%;transform:translateX(-50%);height:2.5px;width:0;border-radius:2px;background:linear-gradient(90deg,transparent,#13a8d4,#38bdf8,#13a8d4,transparent);transition:width .45s cubic-bezier(.22,1,.36,1);pointer-events:none;}
+          .oo1-ben-card:hover .oo1-ben-accent{width:100%;}
+          .oo1-ben-icon-box{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(19,168,212,.08);border:1px solid rgba(19,168,212,.28);animation:oo1BenIconPulse 3s ease-in-out infinite;transition:background .3s,border-color .3s;}
+          .oo1-ben-card:hover .oo1-ben-icon-box{background:rgba(19,168,212,.22);border-color:#13a8d4;}
+          .oo1-ben-icon-svg{display:flex;align-items:center;justify-content:center;animation:oo1BenFloat 3s ease-in-out infinite alternate;}
+          .oo1-ben-icon-svg svg path,.oo1-ben-icon-svg svg circle,.oo1-ben-icon-svg svg line,.oo1-ben-icon-svg svg polyline,.oo1-ben-icon-svg svg rect{stroke-dasharray:500;stroke-dashoffset:500;stroke:#13a8d4;transition:stroke .3s ease;}
+          .oo1-ben-card.oo1-ben-vis .oo1-ben-icon-svg svg path,.oo1-ben-card.oo1-ben-vis .oo1-ben-icon-svg svg circle,.oo1-ben-card.oo1-ben-vis .oo1-ben-icon-svg svg line,.oo1-ben-card.oo1-ben-vis .oo1-ben-icon-svg svg polyline,.oo1-ben-card.oo1-ben-vis .oo1-ben-icon-svg svg rect{animation:oo1BenDraw 1.2s ease-in-out var(--draw-delay,0s) forwards;}
+          .oo1-ben-card:hover .oo1-ben-icon-svg svg path,.oo1-ben-card:hover .oo1-ben-icon-svg svg circle,.oo1-ben-card:hover .oo1-ben-icon-svg svg line,.oo1-ben-card:hover .oo1-ben-icon-svg svg polyline,.oo1-ben-card:hover .oo1-ben-icon-svg svg rect{stroke:#fff;}
+          .oo1-ben-divider{height:1px;background:rgba(19,168,212,.18);border-radius:1px;margin:12px 0;width:40px;transition:width .4s cubic-bezier(.22,1,.36,1);}
+          .oo1-ben-card:hover .oo1-ben-divider{width:100%;}
+          .oo1-ben-ghost{position:absolute;bottom:8px;right:14px;font-size:88px;font-weight:900;line-height:1;color:rgba(19,168,212,.045);letter-spacing:-4px;pointer-events:none;user-select:none;transition:transform .4s ease,color .4s ease;}
+          .oo1-ben-card:hover .oo1-ben-ghost{transform:translateY(-4px);color:rgba(19,168,212,.08);}
+        `}</style>
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="text-center mb-[15px]">
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Why 1-on-1</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+              Why Choose{' '}
+              <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>1-on-1 Training</span>
+              {' '}with Koenig?
+            </h2>
+          </div>
+
+          {/* Mobile slider */}
           <div className="sm:hidden">
-            <div className="tab-border-glow" style={{ display: 'block', width: '100%' }}>
-              <div ref={tabScrollRef} className="flex overflow-x-auto rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {LEARNING_TABS.map(t =>
-                  t.id === '1on1' ? (
-                    <button key={t.id}
-                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-3 text-sm bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">
-                      {t.label}
-                    </button>
-                  ) : (
-                    <Link key={t.id} href={t.href}
-                      className="inline-flex items-center relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-4 py-3 text-sm text-[#7a8c96]">
-                      {t.label}
-                    </Link>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-          {/* Desktop: centered */}
-          <div className="hidden sm:flex justify-center">
-            <div className="tab-border-glow">
-              <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
-                {LEARNING_TABS.map(t =>
-                  t.id === '1on1' ? (
-                    <button key={t.id}
-                      className="relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30">
-                      {t.label}
-                    </button>
-                  ) : (
-                    <Link key={t.id} href={t.href}
-                      className="inline-flex items-center relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 px-6 py-3 text-sm text-[#7a8c96] hover:text-[#093148]">
-                      {t.label}
-                    </Link>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-           WHY 1-ON-1 TRAINING — BENEFITS GRID
-      ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="benefits-heading" className="py-10" style={{ background: '#f8fafc' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="mb-12 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-              Why Choose 1-on-1
-            </span>
-            <h2 id="benefits-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
-              Everything Revolves Around <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>You</span>
-            </h2>
-            <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
-              Unlike group classes, every minute of every session is focused entirely on your learning goals — no distractions, no compromise.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {BENEFITS.map((b, i) => (
-              <article
-                key={i}
-                className="group rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1"
-                style={{
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 30px rgba(6,148,209,0.12)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
-              >
-                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-                  {b.icon}
-                </div>
-                <h3 className="mb-2 text-lg font-bold text-[#0F172A]">{b.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{b.desc}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-           HOW IT WORKS — 4-STEP PROCESS
-      ════════════════════════════════════════════════════════ */}
-      <section
-        aria-labelledby="how-it-works-heading"
-        className="py-10"
-        style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 60%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
-      >
-        {/* Subtle grid overlay */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(6,148,209,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,209,0.04) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="mb-14 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8' }}>
-              How It Works
-            </span>
-            <h2 id="how-it-works-heading" className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
-              Start Learning in{' '}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>4 Simple Steps</span>
-            </h2>
-            <p className="mx-auto max-w-2xl text-lg" style={{ color: 'rgba(255,255,255,0.60)' }}>
-              From course selection to certification — we make the entire journey seamless.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {STEPS.map((step, i) => (
-              <div key={i} className="relative">
-                {/* Connector line for desktop */}
-                {i < STEPS.length - 1 && (
-                  <div aria-hidden="true" className="hidden lg:block absolute top-10 left-full w-full h-px z-0" style={{ background: 'linear-gradient(90deg, rgba(6,148,209,0.5), rgba(6,148,209,0.1))', width: 'calc(100% - 40px)', left: '70%' }} />
-                )}
-
-                <div
-                  className="relative z-10 rounded-2xl p-7 h-full transition-all duration-300 hover:-translate-y-1"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.2)', backdropFilter: 'blur(10px)' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.5)'; (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.08)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.2)'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)' }}
-                >
-                  {/* Step number */}
-                  <div className="mb-4 flex items-center gap-3">
-                    <span className="text-5xl font-black leading-none bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, rgba(6,148,209,0.3), rgba(56,189,248,0.15))' }}>
-                      {step.num}
-                    </span>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8' }}>
-                      {step.icon}
+            <div className="overflow-hidden" onTouchStart={e => { benTouchStartX.current = e.touches[0].clientX }} onTouchEnd={e => { const dx = benTouchStartX.current - e.changedTouches[0].clientX; if (dx > 50) setBenSlideIdx(p => Math.min(p + 1, BENEFITS.length - 1)); if (dx < -50) setBenSlideIdx(p => Math.max(p - 1, 0)) }}>
+              <div className="flex" style={{ transform: `translateX(-${benSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
+                {BENEFITS.map((b, i) => (
+                  <div key={b.title} className="oo1-ben-card oo1-ben-vis shrink-0 w-full" style={{ ['--draw-delay' as string]: '0s' } as React.CSSProperties}>
+                    <div className="oo1-ben-accent" />
+                    <div className="flex gap-4 items-start">
+                      <div className="oo1-ben-icon-box shrink-0"><div className="oo1-ben-icon-svg">{b.icon}</div></div>
+                      <div className="min-w-0">
+                        <h3 className="text-base font-bold text-white">{b.title}</h3>
+                        <div className="oo1-ben-divider" />
+                        <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{b.desc}</p>
+                      </div>
                     </div>
+                    <div className="oo1-ben-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</div>
                   </div>
-                  <h3 className="mb-2 text-base font-bold text-white">{step.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{step.desc}</p>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+            <div className="flex items-center justify-center gap-4 mt-5">
+              <button onClick={() => setBenSlideIdx(p => Math.max(p - 1, 0))} disabled={benSlideIdx === 0} className="flex items-center justify-center w-8 h-8 rounded-full transition-all" style={{ background: benSlideIdx === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: benSlideIdx === 0 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="flex gap-2">
+                {BENEFITS.map((_, i) => (
+                  <button key={i} onClick={() => setBenSlideIdx(i)} className="rounded-full transition-all duration-300" style={{ width: benSlideIdx === i ? 20 : 7, height: 7, background: benSlideIdx === i ? '#0694D1' : 'rgba(255,255,255,0.22)' }} />
+                ))}
+              </div>
+              <button onClick={() => setBenSlideIdx(p => Math.min(p + 1, BENEFITS.length - 1))} disabled={benSlideIdx === BENEFITS.length - 1} className="flex items-center justify-center w-8 h-8 rounded-full transition-all" style={{ background: benSlideIdx === BENEFITS.length - 1 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: benSlideIdx === BENEFITS.length - 1 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
           </div>
 
-          {/* Bottom CTA strip */}
-          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
-            <p className="text-lg font-semibold text-white">Ready to get started?</p>
-            <a
-              href="#enquiry-form"
-              className="inline-flex items-center gap-2 rounded-xl px-7 py-3 text-sm font-bold text-white transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}
-            >
-              Book a Free Tech Call
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
+          {/* Desktop grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {BENEFITS.map((b, i) => (
+              <div key={b.title} className="oo1-ben-card" style={{ animationDelay: `${i * 0.1}s` }}
+                ref={el => { if (!el) return; const obs = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { el.classList.add('oo1-ben-vis'); obs.disconnect() } }, { threshold: 0.12 }); obs.observe(el) }}>
+                <div className="oo1-ben-accent" />
+                <div className="flex gap-4 items-start">
+                  <div className="oo1-ben-icon-box shrink-0" style={{ animationDelay: `${i * 0.6}s` }}>
+                    <div className="oo1-ben-icon-svg" style={{ animationDelay: `${i * 0.4}s`, ['--draw-delay' as string]: `${i * 0.15}s` } as React.CSSProperties}>{b.icon}</div>
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-base font-bold text-white">{b.title}</h3>
+                    <div className="oo1-ben-divider" />
+                    <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,.52)' }}>{b.desc}</p>
+                  </div>
+                </div>
+                <div className="oo1-ben-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-           POPULAR COURSES FOR 1-ON-1
-      ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="courses-heading" className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-10">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -bottom-16 left-1/4 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Most Booked</span>
-              <h2 id="courses-heading" className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">
-                Popular Courses for{' '}
-                <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">1-on-1 Training</span>
-              </h2>
-              <p className="text-sm text-koenig-muted">Every course available as a private session — start any day, any timezone.</p>
-            </div>
-            <a
-              href="#enquiry-form"
-              className="group inline-flex shrink-0 items-center gap-3 rounded-2xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}
-            >
-              Browse All Courses
-              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </a>
+      {/* ── POPULAR COURSES ────────────────────────────────────── */}
+      <section className="relative py-[30px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle,rgba(6,148,209,0.18) 0%,transparent 70%)' }} />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="flex flex-col items-center text-center mb-[15px]">
+            <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>Most Booked</div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e' }}>
+              Popular Courses for{' '}
+              <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>1-on-1 Training</em>
+            </h2>
+            <p className="text-sm" style={{ color: '#5a7a90', marginTop: 4 }}>Every course available as a private session — start any day, any timezone.</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {POPULAR_COURSES.map((c, i) => (
-              <a
-                key={i}
-                href="#enquiry-form"
-                role="button"
-                tabIndex={0}
-                className="group relative cursor-pointer rounded-xl bg-white p-5 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue block"
-                style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.10)' }}
-              >
-                {/* Row 1 — vendor badge + hot badge / level */}
+              <a key={i} href="#request" className="group relative rounded-xl bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl block" style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.10)' }}>
                 <div className="mb-3 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold whitespace-nowrap ${VENDOR_BADGE}`}>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                      {c.vendor}
-                    </span>
-                    <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold whitespace-nowrap bg-[#EBF8FE] text-[#0694d1]">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
-                      1-on-1 Online
-                    </span>
-                  </div>
-                  {c.hot && (
-                    <span className="rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap bg-red-50 text-red-600">🔥 Hot</span>
-                  )}
+                  <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold" style={{ background: 'rgba(7,109,157,0.15)', color: '#3AB6EB', border: '1px solid rgba(6,148,209,0.3)' }}>
+                    {c.vendor}
+                  </span>
+                  {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-red-50 text-red-600">🔥 Hot</span>}
                 </div>
-
-                {/* Row 2 — course name */}
-                <h3 className="mb-1.5 text-sm font-semibold text-koenig-navy transition-colors group-hover:text-koenig-blue leading-snug">{c.name}</h3>
-
-                {/* Row 3 — meta */}
-                <div className="mb-3 flex items-center gap-2 text-xs text-koenig-gray flex-wrap">
-                  <span className="flex items-center gap-1">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    Start Anytime
-                  </span>
+                <h3 className="mb-1.5 text-sm font-semibold leading-snug transition-colors group-hover:text-[#0694D1]" style={{ color: '#06111E' }}>{c.name}</h3>
+                <div className="mb-3 flex items-center gap-2 text-xs flex-wrap" style={{ color: '#7a8c96' }}>
+                  <span>Start Anytime</span>
                   <span>·</span>
-                  <span className="flex items-center gap-1">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    {c.days * 8} Hrs ({c.days}d)
-                  </span>
-                  <span>·</span>
-                  <span className="flex items-center gap-1 truncate">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    {c.tz}
-                  </span>
+                  <span>{c.days * 8} hrs ({c.days}d)</span>
                 </div>
-
-                {/* Row 4 — footer */}
-                <div className="flex items-center justify-between border-t border-koenig-border pt-3">
-                  <div>
-                    <p className="text-xs text-koenig-muted">Level</p>
-                    <p className="text-sm font-bold text-koenig-dark"
-                      style={{ color: c.level === 'Beginner' ? '#16a34a' : c.level === 'Intermediate' ? '#0694D1' : '#7c3aed' }}>
-                      {c.level}
-                    </p>
-                  </div>
-                  <span className="rounded-lg px-3 py-2 text-xs font-semibold text-white shadow-sm transition-all whitespace-nowrap group-hover:shadow-lg" style={{ background: '#093148' }}>
-                    Book 1-on-1 →
-                  </span>
+                <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: '#CAEFFF' }}>
+                  <span className="text-sm font-bold" style={{ color: c.level === 'Beginner' ? '#16a34a' : c.level === 'Intermediate' ? '#0694D1' : '#7c3aed' }}>{c.level}</span>
+                  <span className="rounded-lg px-3 py-1.5 text-xs font-semibold text-white" style={{ background: '#093148' }}>Book 1-on-1 →</span>
                 </div>
               </a>
             ))}
           </div>
 
-          <p className="mt-6 text-center text-sm text-koenig-muted">
+          <p className="mt-6 text-center text-sm" style={{ color: '#5a7a90' }}>
             Can&apos;t find your course?{' '}
-            <a href="#enquiry-form" className="font-semibold hover:underline text-koenig-blue">
-              Request any of 5,000+ courses as a 1-on-1 →
-            </a>
+            <a href="#request" className="font-semibold hover:underline" style={{ color: '#0694D1' }}>Request any of 5,000+ courses as a 1-on-1 →</a>
           </p>
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-           1-ON-1 vs GROUP COMPARISON
-      ════════════════════════════════════════════════════════ */}
-      <section
-        aria-labelledby="comparison-heading"
-        className="py-10"
-        style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 60%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
-      >
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(6,148,209,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,209,0.03) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+      {/* ── REQUEST INFO FORM ──────────────────────────────────── */}
+      <OneOnOneLeadFormSection />
 
-        <div className="relative mx-auto max-w-5xl px-4 md:px-8 lg:px-[50px]">
-          <div className="mb-12 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8' }}>
-              Compare
-            </span>
-            <h2 id="comparison-heading" className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
-              1-on-1 Training vs{' '}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Group Classes</span>
+      {/* ── HOW IT WORKS ───────────────────────────────────────── */}
+      <section style={{ background: 'linear-gradient(135deg,#06111E 0%,#093148 100%)', paddingTop: 30, paddingBottom: 30 }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="text-center mb-[15px]">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+              How 1-on-1 Training{' '}
+              <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Works</span>
             </h2>
-            <p className="mx-auto max-w-xl text-lg" style={{ color: 'rgba(255,255,255,0.55)' }}>
-              See why thousands of professionals choose private training over batch classes.
-            </p>
+            <p className="text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>From course selection to certification in four simple steps</p>
           </div>
 
-          {/* Table */}
-          <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(6,148,209,0.2)' }}>
-            {/* Header */}
-            <div className="grid grid-cols-3 text-sm font-bold" style={{ background: 'rgba(6,148,209,0.15)' }}>
-              <div className="px-6 py-4" style={{ color: 'rgba(255,255,255,0.5)' }}>Feature</div>
-              <div className="px-6 py-4 text-center" style={{ color: '#38bdf8' }}>
-                <span className="inline-flex items-center gap-1.5">
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  1-on-1 Training
-                </span>
+          {/* Mobile slider */}
+          <div className="sm:hidden" onTouchStart={e => { howTouchStartX.current = e.touches[0].clientX }} onTouchEnd={e => { const dx = howTouchStartX.current - e.changedTouches[0].clientX; if (dx > 50) setHowSlideIdx(p => Math.min(p + 1, HOW_STEPS.length - 1)); if (dx < -50) setHowSlideIdx(p => Math.max(p - 1, 0)) }}>
+            <div className="overflow-hidden">
+              <div className="flex" style={{ transform: `translateX(-${howSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
+                {HOW_STEPS.map((step, i) => (
+                  <div key={step.step} className="shrink-0 w-full rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,rgba(13,32,53,.95),rgba(10,22,40,.98))', border: '1px solid rgba(6,148,209,0.2)' }}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-4xl font-black" style={{ color: 'rgba(6,148,209,0.2)', lineHeight: 1 }}>{step.step}</span>
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.3)' }}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeLinecap="round" strokeLinejoin="round">{step.icon}</svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base font-bold text-white mb-2">{step.title}</h3>
+                    <p className="text-sm leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {step.tags.map(tag => (
+                        <span key={tag} className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="px-6 py-4 text-center" style={{ color: 'rgba(255,255,255,0.45)' }}>Group Class</div>
             </div>
+            <div className="flex items-center justify-center gap-4 mt-5">
+              <button onClick={() => setHowSlideIdx(p => Math.max(p - 1, 0))} disabled={howSlideIdx === 0} className="flex items-center justify-center w-8 h-8 rounded-full transition-all" style={{ background: howSlideIdx === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === 0 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div className="flex gap-2">
+                {HOW_STEPS.map((_, i) => (
+                  <button key={i} onClick={() => setHowSlideIdx(i)} className="rounded-full transition-all duration-300" style={{ width: howSlideIdx === i ? 20 : 7, height: 7, background: howSlideIdx === i ? '#0694D1' : 'rgba(255,255,255,0.22)' }} />
+                ))}
+              </div>
+              <button onClick={() => setHowSlideIdx(p => Math.min(p + 1, HOW_STEPS.length - 1))} disabled={howSlideIdx === HOW_STEPS.length - 1} className="flex items-center justify-center w-8 h-8 rounded-full transition-all" style={{ background: howSlideIdx === HOW_STEPS.length - 1 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === HOW_STEPS.length - 1 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
 
+          {/* Desktop grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {HOW_STEPS.map((step, i) => (
+              <div key={step.step} className="rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,rgba(13,32,53,.95),rgba(10,22,40,.98))', border: '1px solid rgba(6,148,209,0.2)' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-4xl font-black" style={{ color: 'rgba(6,148,209,0.2)', lineHeight: 1 }}>{step.step}</span>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.3)' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeLinecap="round" strokeLinejoin="round">{step.icon}</svg>
+                  </div>
+                </div>
+                <h3 className="text-base font-bold text-white mb-2">{step.title}</h3>
+                <p className="text-sm leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {step.tags.map(tag => (
+                    <span key={tag} className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 1-ON-1 vs GROUP COMPARISON ─────────────────────────── */}
+      <section style={{ background: '#07121e', paddingTop: 30, paddingBottom: 30 }}>
+        <div className="mx-auto max-w-5xl px-4 md:px-8 lg:px-[50px]">
+          <div className="text-center mb-[15px]">
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Compare</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+              1-on-1 Training vs{' '}
+              <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Group Classes</span>
+            </h2>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>See why thousands of professionals choose private training over batch classes.</p>
+          </div>
+
+          <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(6,148,209,0.2)' }}>
+            <div className="grid grid-cols-3 text-sm font-bold" style={{ background: 'rgba(6,148,209,0.15)' }}>
+              <div className="px-4 sm:px-6 py-4" style={{ color: 'rgba(255,255,255,0.5)' }}>Feature</div>
+              <div className="px-4 sm:px-6 py-4 text-center" style={{ color: '#38bdf8' }}>1-on-1 Training</div>
+              <div className="px-4 sm:px-6 py-4 text-center" style={{ color: 'rgba(255,255,255,0.45)' }}>Group Class</div>
+            </div>
             {COMPARISON.map((row, i) => (
-              <div
-                key={i}
-                className="grid grid-cols-3 text-sm transition-colors"
-                style={{ background: i % 2 === 0 ? 'rgba(255,255,255,0.025)' : 'transparent', borderTop: '1px solid rgba(6,148,209,0.10)' }}
-              >
-                <div className="px-6 py-4 font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{row.feature}</div>
-                <div className="px-6 py-4 text-center">
+              <div key={i} className="grid grid-cols-3 text-xs sm:text-sm transition-colors" style={{ background: i % 2 === 0 ? 'rgba(255,255,255,0.025)' : 'transparent', borderTop: '1px solid rgba(6,148,209,0.10)' }}>
+                <div className="px-4 sm:px-6 py-3.5 font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{row.feature}</div>
+                <div className="px-4 sm:px-6 py-3.5 text-center">
                   <span className="inline-flex items-center gap-1.5 font-semibold" style={{ color: '#38bdf8' }}>
-                    <svg className="h-4 w-4 shrink-0" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                     {row.one}
                   </span>
                 </div>
-                <div className="px-6 py-4 text-center">
+                <div className="px-4 sm:px-6 py-3.5 text-center">
                   <span className="inline-flex items-center gap-1.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                    <svg className="h-4 w-4 shrink-0" style={{ color: 'rgba(239,68,68,0.6)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    <svg className="h-3.5 w-3.5 shrink-0" style={{ color: 'rgba(239,68,68,0.6)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     {row.group}
                   </span>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-10 text-center">
-            <a
-              href="#enquiry-form"
-              className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 text-sm font-bold text-white transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}
-            >
-              Start My 1-on-1 Journey
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      {/* ── WHO IS IT FOR ──────────────────────────────────────── */}
+      <section style={{ background: '#ffffff', paddingTop: 30, paddingBottom: 30 }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="text-center mb-[15px]">
+            <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>Is It Right For You?</div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e' }}>
+              Who Is 1-on-1 Training{' '}
+              <span style={{ background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Perfect For?</span>
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {WHO_FOR.map((w, i) => (
+              <div key={i} className="flex gap-4 rounded-2xl p-5 transition-all hover:-translate-y-0.5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 24px rgba(6,148,209,0.10)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.background = '#f8fafc'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}>
+                <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center mt-0.5" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>{w.icon}</div>
+                <div>
+                  <h3 className="text-sm font-bold mb-1" style={{ color: '#0F172A' }}>{w.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{w.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── STUDENT REVIEWS ────────────────────────────────────── */}
+      <section style={{ background: '#E8F4FA', paddingTop: 30, paddingBottom: 30, overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
+        <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle,rgba(6,148,209,0.20) 0%,transparent 65%)' }} />
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="text-center mb-[15px]">
+            <span className="inline-block mb-3 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>Real Results</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold mb-2" style={{ color: '#071e2e' }}>
+              1-on-1 Training{' '}
+              <span style={{ background: 'linear-gradient(90deg,#0694D1,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Student Reviews</span>
+            </h2>
+            <p style={{ color: '#7a8c96', fontSize: 15 }}>Real results from IT professionals worldwide — rated 4.9/5 from thousands of verified reviews.</p>
+          </div>
+
+          {/* Stats bar */}
+          <div style={{ margin: '0 auto 15px', maxWidth: 760 }}>
+            <div style={{ background: '#fff', borderRadius: 16, padding: '18px 24px', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', border: '1px solid #DCEEFB' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 0 }}>
+                {[
+                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, val: '12,000+', label: 'Verified Reviews' },
+                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>, val: '4.9 / 5', label: 'Average Rating' },
+                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>, val: '93%', label: 'Would Recommend' },
+                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>, val: '1M+', label: 'Professionals Trained' },
+                ].map((s, i, arr) => (
+                  <div key={s.label} style={{ textAlign: 'center', padding: '8px 12px', borderRight: i < arr.length - 1 ? '1px solid #CAEFFF' : 'none' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 5 }}>{s.icon}</div>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: '#093148', lineHeight: 1.2 }}>{s.val}</div>
+                    <div style={{ marginTop: 3, fontSize: 11, color: '#666' }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <MobileMarquee items={TESTIMONIALS} />
+
+          <div className="hidden sm:flex justify-center gap-6 mt-8 overflow-hidden" style={{ maxHeight: 520, WebkitMaskImage: 'linear-gradient(to bottom,transparent,black 10%,black 90%,transparent)', maskImage: 'linear-gradient(to bottom,transparent,black 10%,black 90%,transparent)' }}>
+            <div className="flex-1 max-w-[320px]"><ScrollColumn items={TESTIMONIALS.slice(0, 3)} speed={0.030} /></div>
+            <div className="flex-1 max-w-[320px] hidden md:block"><ScrollColumn items={TESTIMONIALS.slice(3, 6)} speed={0.025} /></div>
+            <div className="flex-1 max-w-[320px] hidden lg:block"><ScrollColumn items={TESTIMONIALS.slice(6, 9)} speed={0.038} /></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: 30, paddingBottom: 30 }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center mb-[15px]">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
+              Frequently <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Asked Questions</span>
+            </h2>
+            <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>Everything you need to know about 1-on-1 Training with Koenig</p>
+          </div>
+
+          {/* Desktop: 2 columns */}
+          <div className="hidden sm:flex gap-3">
+            <div className="flex flex-1 flex-col gap-3">
+              {FAQS.filter((_, i) => i % 2 === 0).map((f, j) => {
+                const i = j * 2; const isOpen = openFaq === i
+                return (
+                  <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s,box-shadow 0.3s' }}>
+                    <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-6 py-4 text-left">
+                      <span className="text-base font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1),background 0.3s' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                      </span>
+                    </button>
+                    <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                      <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-6 py-4 text-base leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <div className="flex flex-1 flex-col gap-3">
+              {FAQS.filter((_, i) => i % 2 !== 0).map((f, j) => {
+                const i = j * 2 + 1; const isOpen = openFaq === i
+                return (
+                  <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s,box-shadow 0.3s' }}>
+                    <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-6 py-4 text-left">
+                      <span className="text-base font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1),background 0.3s' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                      </span>
+                    </button>
+                    <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                      <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-6 py-4 text-base leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+          <div className="hidden sm:block mt-[15px] text-center">
+            <p className="mb-3 text-base" style={{ color: '#7a8c96' }}>Still have questions?</p>
+            <a href="#request" className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
+              Chat with a Training Advisor
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
+            </a>
+          </div>
+
+          {/* Mobile: stacked */}
+          <div className="sm:hidden flex flex-col gap-3">
+            {FAQS.map((f, i) => {
+              const isOpen = openFaq === i
+              return (
+                <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s,box-shadow 0.3s' }}>
+                  <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left">
+                    <span className="text-sm font-semibold leading-snug" style={{ color: isOpen ? '#0694d1' : '#053148', transition: 'color 0.3s' }}>{f.q}</span>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1),background 0.3s' }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? 'white' : '#0694d1'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                  </button>
+                  <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+                    <div style={{ overflow: 'hidden' }}><p className="border-t border-[#EBF8FE] px-4 py-3 text-sm leading-relaxed" style={{ color: '#7a8c96' }}>{f.a}</p></div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          <div className="sm:hidden mt-[15px] text-center">
+            <a href="#request" className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
+              Chat with a Training Advisor
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
             </a>
           </div>
         </div>
       </section>
-
-      {/* ════════════════════════════════════════════════════════
-           WHO IS 1-ON-1 FOR?
-      ════════════════════════════════════════════════════════ */}
-      <section aria-labelledby="who-for-heading" className="py-10" style={{ background: '#ffffff' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="mb-12 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-              Is It Right for You?
-            </span>
-            <h2 id="who-for-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
-              Who Is 1-on-1 Training{' '}
-              <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Perfect For?</span>
-            </h2>
-            <p className="mx-auto max-w-2xl text-lg leading-relaxed" style={{ color: '#64748b' }}>
-              Whether you&apos;re a first-timer or a seasoned professional, 1-on-1 training adapts to every learner profile.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {WHO_FOR.map((w, i) => (
-              <article
-                key={i}
-                className="flex gap-5 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-0.5"
-                style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; (e.currentTarget as HTMLElement).style.background = '#ffffff'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 24px rgba(6,148,209,0.10)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.background = '#f8fafc'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}
-              >
-                <div className="shrink-0 mt-0.5 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>
-                  {w.icon}
-                </div>
-                <div>
-                  <h3 className="mb-1.5 text-base font-bold text-[#0F172A]">{w.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{w.desc}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          {/* Bottom banner */}
-          <div className="mt-14 rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6" style={{ background: 'linear-gradient(135deg, #06111E, #071828)', border: '1px solid rgba(6,148,209,0.25)' }}>
-            <div>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-2">
-                Not sure if 1-on-1 is right for you?
-              </h3>
-              <p style={{ color: 'rgba(255,255,255,0.55)' }} className="text-sm max-w-lg">
-                Talk to a Koenig advisor for free — they&apos;ll assess your goals and recommend the best learning format, no commitment required.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 shrink-0">
-              <a
-                href="#enquiry-form"
-                className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:opacity-90 whitespace-nowrap"
-                style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}
-              >
-                Talk to an Advisor
-              </a>
-              <a
-                href="https://wa.me/919840722417"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10 whitespace-nowrap"
-                style={{ border: '1.5px solid rgba(37,211,102,0.45)', color: '#25D366' }}
-              >
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
-                WhatsApp Us
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-           REVIEWS & FAQ  (tabbed)
-      ════════════════════════════════════════════════════════ */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: FAQS.map(f => ({
-              '@type': 'Question',
-              name: f.q,
-              acceptedAnswer: { '@type': 'Answer', text: f.a },
-            })),
-          }),
-        }}
-      />
-
-      <section className="py-10" style={{ background: '#f8fafc' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-
-          {/* Tab toggle */}
-          <div className="mb-10 flex justify-center">
-            <div className="tab-border-glow">
-              <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
-                {([
-                  { id: 'reviews' as const, label: 'Student Reviews' },
-                  { id: 'faqs'    as const, label: 'Common Questions' },
-                ]).map(tab => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setReviewTab(tab.id)}
-                    className={`relative whitespace-nowrap rounded-xl font-semibold transition-all duration-[250ms] shrink-0 ${
-                      reviewTab === tab.id
-                        ? 'px-6 sm:px-8 py-3 text-sm sm:text-base bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30'
-                        : 'px-4 sm:px-6 py-2.5 text-sm text-[#7a8c96] hover:text-[#093148]'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* ── Student Reviews panel ── */}
-          {reviewTab === 'reviews' && (
-            <>
-              <div className="hidden sm:block text-center mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
-                  What Our Students <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Are Saying</span>
-                </h2>
-                <p className="text-sm sm:text-base" style={{ color: '#7a8c96' }}>12,000+ verified reviews — 4.9/5 average rating</p>
-              </div>
-              <div className="sm:hidden text-center mb-8">
-                <h2 className="text-2xl font-bold mb-2" style={{ color: '#06111E' }}>
-                  What Our Students <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Are Saying</span>
-                </h2>
-                <p className="text-sm" style={{ color: '#7a8c96' }}>12,000+ verified reviews — 4.9/5 average rating</p>
-              </div>
-
-              <OneOnOneMobileMarquee items={TESTIMONIALS} />
-              <div className="hidden sm:block relative overflow-hidden"
-                style={{ height: '520px', maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 86%, transparent 100%)' }}>
-                <div className="grid grid-cols-3 gap-4 h-full">
-                  <OneOnOneScrollColumn items={TESTIMONIALS.slice(0, 2)} speed={0.030} />
-                  <OneOnOneScrollColumn items={TESTIMONIALS.slice(2, 4)} speed={0.025} />
-                  <OneOnOneScrollColumn items={TESTIMONIALS.slice(4, 6)} speed={0.038} />
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* ── Common Questions panel ── */}
-          {reviewTab === 'faqs' && (
-            <div className="mx-auto max-w-3xl">
-              <div className="mb-10 text-center">
-                <h2 id="faq-heading" className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] mb-4">
-                  Frequently Asked{' '}
-                  <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Questions</span>
-                </h2>
-              </div>
-
-              <div className="space-y-3">
-                {FAQS.map((faq, i) => (
-                  <div
-                    key={i}
-                    className="rounded-2xl overflow-hidden transition-all duration-200"
-                    style={{ border: openFaq === i ? '1.5px solid rgba(6,148,209,0.4)' : '1.5px solid #e2e8f0', boxShadow: openFaq === i ? '0 4px 20px rgba(6,148,209,0.08)' : 'none' }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                      aria-expanded={openFaq === i}
-                      className="flex w-full items-center justify-between px-6 py-5 text-left gap-4 transition-colors"
-                      style={{ background: openFaq === i ? 'rgba(6,148,209,0.04)' : '#ffffff' }}
-                    >
-                      <span className="text-base font-semibold text-[#0F172A]">{faq.q}</span>
-                      <span
-                        className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full transition-all duration-200"
-                        style={{ background: openFaq === i ? '#0694D1' : '#f1f5f9', color: openFaq === i ? '#ffffff' : '#64748b', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                      >
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                      </span>
-                    </button>
-                    {openFaq === i && (
-                      <div className="px-6 pb-5" style={{ background: 'rgba(6,148,209,0.02)' }}>
-                        <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>{faq.a}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              <p className="mt-8 text-center text-sm" style={{ color: '#94a3b8' }}>
-                Still have questions?{' '}
-                <a href="mailto:info@koenig-solutions.com" className="font-semibold hover:underline" style={{ color: '#0694D1' }}>
-                  Email us at info@koenig-solutions.com
-                </a>
-              </p>
-            </div>
-          )}
-
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-           ENQUIRY FORM
-      ════════════════════════════════════════════════════════ */}
-      <section
-        id="enquiry-form"
-        aria-labelledby="form-heading"
-        className="py-10"
-        style={{ background: 'linear-gradient(135deg, #06111E 0%, #071828 60%, #061624 100%)', position: 'relative', overflow: 'hidden' }}
-      >
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(6,148,209,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(6,148,209,0.04) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-        <div aria-hidden="true" className="pointer-events-none absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full opacity-[0.06]" style={{ background: 'radial-gradient(circle, #0694D1 0%, transparent 70%)' }} />
-
-        <div className="relative mx-auto max-w-2xl px-4 md:px-8 lg:px-0">
-          <div className="mb-10 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8' }}>
-              Get Started
-            </span>
-            <h2 id="form-heading" className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
-              Request More Information
-            </h2>
-            <p style={{ color: 'rgba(255,255,255,0.55)' }} className="text-base">
-              Tell us about your training goals and we&apos;ll get back to you within 2 hours.
-            </p>
-          </div>
-
-          {submitted ? (
-            <div className="rounded-2xl p-12 text-center" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(6,148,209,0.3)' }}>
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: 'rgba(34,197,94,0.15)' }}>
-                <svg className="h-8 w-8" style={{ color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Thank you!</h3>
-              <p style={{ color: 'rgba(255,255,255,0.55)' }}>A Koenig advisor will contact you within 2 hours.</p>
-              <button
-                onClick={() => { setSubmitted(false); setForm({ firstName: '', lastName: '', email: '', phone: '', course: '', message: '' }) }}
-                className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-80"
-                style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}
-              >
-                Submit Another
-              </button>
-            </div>
-          ) : (
-            <div className="rounded-2xl p-8 sm:p-10" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.2)', backdropFilter: 'blur(16px)' }}>
-              {/* Contact quick-links */}
-              <div className="flex gap-3 mb-7">
-                <a href="mailto:info@koenig-solutions.com" className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-white/10" style={{ border: '1px solid rgba(255,255,255,0.18)', color: 'rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.05)' }}>
-                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                  Email Us
-                </a>
-                <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer" className="flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all hover:bg-white/10" style={{ border: '1px solid rgba(37,211,102,0.35)', color: '#25D366', background: 'rgba(37,211,102,0.05)' }}>
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
-                  WhatsApp
-                </a>
-              </div>
-
-              {/* Individual / Enterprise toggle */}
-              <div className="flex rounded-xl p-1 mb-6" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                {(['individual', 'enterprise'] as const).map(t => (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => setFormType(t)}
-                    className="flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all capitalize"
-                    style={formType === t ? { background: '#0694D1', color: '#ffffff', boxShadow: '0 2px 8px rgba(6,148,209,0.4)' } : { color: 'rgba(255,255,255,0.45)', background: 'transparent' }}
-                  >
-                    {t === 'individual' ? (
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    ) : (
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    )}
-                    {t}
-                  </button>
-                ))}
-              </div>
-
-              {/* Form fields */}
-              <form
-                onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
-                className="space-y-4"
-              >
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>First Name <span style={{ color: '#0694D1' }}>*</span></label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="John"
-                      value={form.firstName}
-                      onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
-                      className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
-                      onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
-                      onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>Last Name <span style={{ color: '#0694D1' }}>*</span></label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Smith"
-                      value={form.lastName}
-                      onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
-                      className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
-                      onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
-                      onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>{formType === 'enterprise' ? 'Business ' : ''}Email <span style={{ color: '#0694D1' }}>*</span></label>
-                  <input
-                    required
-                    type="email"
-                    placeholder={formType === 'enterprise' ? 'you@company.com' : 'you@email.com'}
-                    value={form.email}
-                    onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                    className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
-                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
-                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>Phone / WhatsApp <span style={{ color: '#0694D1' }}>*</span></label>
-                  <input
-                    required
-                    type="tel"
-                    placeholder="+1 (555) 000-0000"
-                    value={form.phone}
-                    onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
-                    className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
-                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
-                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>Course Name</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. AZ-104, CISSP, PMP…"
-                    value={form.course}
-                    onChange={e => setForm(f => ({ ...f, course: e.target.value }))}
-                    className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25"
-                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
-                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.40)' }}>Tell us about your Training Goals</label>
-                  <textarea
-                    rows={4}
-                    placeholder="e.g. I want to pass AZ-104 within 3 weeks, currently a network engineer…"
-                    value={form.message}
-                    onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                    className="w-full rounded-xl px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/25 resize-none"
-                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
-                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(6,148,209,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.12)' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none' }}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full rounded-xl py-4 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.4)' }}
-                >
-                  Submit Request
-                </button>
-              </form>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-           FINAL CTA STRIP
-      ════════════════════════════════════════════════════════ */}
-      <section
-        aria-label="Final call to action"
-        className="py-14"
-        style={{ background: '#0694D1' }}
-      >
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-1">
-                Ready to Train 1-on-1?
-              </h2>
-              <p style={{ color: 'rgba(255,255,255,0.75)' }} className="text-base">
-                Sessions start in as little as 24 hours. No group, no compromise.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 shrink-0">
-              <a
-                href="#enquiry-form"
-                className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-bold transition-all whitespace-nowrap"
-                style={{ background: '#ffffff', color: '#0694D1', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}
-              >
-                Book Free Consultation
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-              </a>
-              <a
-                href="https://wa.me/919840722417"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 text-sm font-bold text-white transition-all hover:bg-white/10 whitespace-nowrap"
-                style={{ border: '2px solid rgba(255,255,255,0.6)' }}
-              >
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
-                Chat on WhatsApp
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════
-           FOOTER
-      ════════════════════════════════════════════════════════ */}
-      <footer style={{ background: '#06111E', borderTop: '1px solid rgba(6,148,209,0.15)' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-14">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
-            {/* Brand */}
-            <div className="col-span-2 sm:col-span-3 lg:col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <div style={{ background: '#ffffff', borderRadius: '6px', padding: '6px 10px' }}>
-                  <span className="text-sm font-black" style={{ color: '#06111E' }}>KOENIG</span>
-                </div>
-              </div>
-              <p className="text-sm leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,0.45)', maxWidth: '280px' }}>
-                Global IT training leader since 1993. 5,000+ courses, 300+ expert instructors, 13+ global locations.
-              </p>
-              <div className="flex items-center gap-1.5 text-sm mb-2" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                <svg className="h-4 w-4 shrink-0" style={{ color: '#25D366' }} viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.555 4.116 1.527 5.843L0 24l6.305-1.654A11.936 11.936 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.799 9.799 0 01-5.007-1.371l-.359-.214-3.742.981.999-3.65-.234-.375A9.818 9.818 0 012.182 12C2.182 6.579 6.579 2.182 12 2.182S21.818 6.579 21.818 12 17.421 21.818 12 21.818z"/></svg>
-                <a href="https://wa.me/919840722417" className="hover:text-white transition-colors">+91-984-072-2417</a>
-              </div>
-              <div className="flex items-center gap-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                <svg className="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                <a href="mailto:info@koenig-solutions.com" className="hover:text-white transition-colors">info@koenig-solutions.com</a>
-              </div>
-            </div>
-
-            {/* Learning Options */}
-            <div>
-              <h4 className="mb-4 text-sm font-bold text-white">Learning Options</h4>
-              <ul className="space-y-2.5">
-                {['Live Online Training', '1-on-1 Training', 'Classroom Training', 'Fly-Me-a-Trainer', 'Flexi Training', 'Customized Training'].map(l => (
-                  <li key={l}>
-                    <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.45)' }}>{l}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h4 className="mb-4 text-sm font-bold text-white">Company</h4>
-              <ul className="space-y-2.5">
-                {['About Koenig', 'Our Story', 'Leadership', 'Our Clients', 'Our Awards', 'Careers'].map(l => (
-                  <li key={l}>
-                    <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.45)' }}>{l}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h4 className="mb-4 text-sm font-bold text-white">Support</h4>
-              <ul className="space-y-2.5">
-                {['Student Feedback', 'Happiness Guarantee', 'Refund Policy', 'Privacy Policy', 'Terms of Service', 'Contact Us'].map(l => (
-                  <li key={l}>
-                    <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.45)' }}>{l}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.30)' }}>
-              © 1997–2026 Koenig Solutions Pvt. Ltd. All rights reserved.
-            </p>
-            <p className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.25)' }}>
-              We believe in &ldquo;Err is Human, to Admit Divine!&rdquo; — feel free to{' '}
-              <a href="mailto:webmaster@koenig-solutions.com" className="hover:text-white transition-colors" style={{ color: 'rgba(6,148,209,0.7)' }}>
-                write to us
-              </a>{' '}
-              if you spot any issues.
-            </p>
-          </div>
-        </div>
-      </footer>
-
     </div>
   )
 }
