@@ -463,11 +463,6 @@ export default function OneOnOneTrainingPage() {
         <style>{`
           @keyframes tab-border-sweep{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
           .tab-border-glow{background:linear-gradient(270deg,#0694D1,#38bdf8,#076D9D,#38bdf8,#0694D1);background-size:400% 400%;animation:tab-border-sweep 3s ease infinite;padding:2px;border-radius:1rem;display:inline-flex;}
-          @keyframes oo1Float1{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
-          @keyframes oo1Float2{0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-8px) rotate(-1deg)}}
-          @keyframes oo1Float3{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
-          @keyframes oo1Float4{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(8px) rotate(1.5deg)}}
-          @keyframes oo1Glow{0%,100%{box-shadow:0 4px 18px rgba(6,109,157,.30)}50%{box-shadow:0 4px 28px rgba(6,148,209,.55)}}
         `}</style>
 
         {/* Training tabs */}
@@ -548,25 +543,25 @@ export default function OneOnOneTrainingPage() {
               </div>
             </div>
 
-            {/* Right — floating cards + image (desktop) */}
-            <div className="hidden lg:block">
-              <div className="relative mx-auto" style={{ width: 500, padding: 44 }}>
-                {([
-                  { val: '300+',   label: 'Instructors',  pos: { top: 0,    left: 0  }, anim: 'oo1Float1 3.4s ease-in-out infinite' },
-                  { val: '5,000+', label: 'Courses',      pos: { top: 0,    right: 0 }, anim: 'oo1Float2 3.8s ease-in-out infinite 0.5s' },
-                  { val: '99.1%',  label: 'Satisfaction', pos: { bottom: 0, left: 0  }, anim: 'oo1Float3 4.0s ease-in-out infinite 1.0s' },
-                  { val: '24h',    label: 'Start Time',   pos: { bottom: 0, right: 0 }, anim: 'oo1Float4 3.6s ease-in-out infinite 1.5s' },
-                ] as { val: string; label: string; pos: React.CSSProperties; anim: string }[]).map(({ val, label, pos, anim }) => (
-                  <div key={val} className="absolute flex flex-col items-center justify-center rounded-xl"
-                    style={{ ...pos, width: 76, padding: '8px 10px', background: 'rgba(255,255,255,0.96)', border: '1px solid rgba(6,148,209,0.30)', textAlign: 'center', animation: `${anim}, oo1Glow 3s ease-in-out infinite`, zIndex: 10 }}>
-                    <span className="text-base font-black leading-none" style={{ color: '#0694D1' }}>{val}</span>
-                    <span className="text-[10px] font-medium mt-0.5" style={{ color: '#475569' }}>{label}</span>
-                  </div>
-                ))}
-                <div className="relative overflow-hidden rounded-2xl" style={{ background: 'rgba(6,25,45,0.52)', border: '1.5px solid rgba(6,148,209,0.50)', boxShadow: '0 0 0 4px rgba(6,148,209,0.08),0 0 30px 6px rgba(6,148,209,0.22)' }}>
-                  <img src="/images/home-banner/1on1.png" alt="1-on-1 Training" className="w-full h-auto object-contain" />
+            {/* Right — feature cards (desktop) */}
+            <div className="hidden lg:grid grid-cols-2 gap-3" style={{ gridTemplateRows: 'auto auto auto' }}>
+              {[
+                { full: false, label: <>Get Access to <span style={{ color: '#38bdf8' }}>Unlimited 1-on-1 Sessions</span> on any day</> },
+                { full: false, label: <>Free <span style={{ color: '#38bdf8' }}>Schedule Flexibility</span> — weekdays, weekends & holidays</> },
+                { full: false, label: <>100% <span style={{ color: '#38bdf8' }}>Customized Curriculum</span> tailored to your goals</> },
+                { full: false, label: <>Instructor <span style={{ color: '#38bdf8' }}>100% focused on you</span> — no group distractions</> },
+                { full: true,  label: <>Sessions start in as little as <span style={{ color: '#38bdf8' }}>24 hours</span></> },
+              ].map(({ label, full }, i) => (
+                <div key={i}
+                  className="flex items-start gap-3 rounded-xl px-4 py-3"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(6,148,209,0.25)', gridColumn: full ? '1 / -1' : undefined }}>
+                  <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full flex items-center justify-center"
+                    style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.5)' }}>
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <span className="text-sm leading-snug" style={{ color: 'rgba(255,255,255,0.82)' }}>{label}</span>
                 </div>
-              </div>
+              ))}
             </div>
 
             {/* Mobile stats */}
