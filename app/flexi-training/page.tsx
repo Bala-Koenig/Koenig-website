@@ -766,7 +766,7 @@ function CourseCard({ course }: {
             {course.code}: {course.name}
           </h3>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-2.5">
-            <div className="flex items-center gap-1 text-[11px] font-semibold" style={{ color: '#475569' }}>
+            <div className="flex items-center gap-1 text-[14px] font-semibold" style={{ color: '#475569' }}>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>
