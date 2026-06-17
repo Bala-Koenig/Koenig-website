@@ -1787,7 +1787,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── BENEFITS ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '30px', paddingBottom: '30px' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '20px', paddingBottom: '20px' }}>
         <style>{`
           @keyframes indIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
           @keyframes indCardIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
@@ -1830,7 +1830,7 @@ export default function ClassroomTrainingPage() {
           .ben-card:hover .ben-tag { background:rgba(19,168,212,.22);color:#7de8ff;border-color:rgba(19,168,212,.45); }
         `}</style>
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="text-center mb-10 sm:mb-12">
+          <div className="text-center mb-[15px]">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Why Classroom</p>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
               Why Choose{' '}
@@ -1917,14 +1917,14 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── UPCOMING SCHEDULE ────────────────────────────────── */}
-      <section id="schedule" className="relative py-[30px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+      <section id="schedule" className="relative py-[20px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
         </div>
         <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
-          <div className="flex flex-col items-center text-center mb-10">
+          <div className="flex flex-col items-center text-center mb-[15px]">
             <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>Guaranteed Schedules</div>
             <h2 className="text-2xl sm:text-3xl font-extrabold mb-1" style={{ color: '#071e2e', lineHeight: 1.2 }}>
               Find Your <em style={{ fontStyle: 'normal', background: 'linear-gradient(90deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Guaranteed to Run</em> Classroom Course
@@ -2186,7 +2186,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <section id="request" className="py-[30px]" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
+      <section id="request" className="py-[20px]" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
         <div className="mx-auto max-w-3xl px-4 md:px-8">
           <div className="rounded-2xl px-8 sm:px-12 py-7 sm:py-9"
             style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 0 1px rgba(6,148,209,0.08), 0 24px 60px rgba(0,0,0,0.5)' }}>
@@ -2201,9 +2201,9 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
-      <section className="py-[30px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
+      <section className="py-[20px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="text-center mb-10">
+          <div className="text-center mb-[15px]">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               How Classroom Training{' '}
               <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Works</span>
@@ -2274,9 +2274,9 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── TRAINING CATEGORIES ──────────────────────────────── */}
-      <section className="py-[30px]" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
+      <section className="py-[20px]" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="text-center mb-10">
+          <div className="text-center mb-[15px]">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white">Popular <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Training Categories</span></h2>
             <p className="text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>5,000+ classroom courses across the technologies that matter most in 2026</p>
           </div>
@@ -2300,7 +2300,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── STUDENT REVIEWS ──────────────────────────────────── */}
-      <section className="ct-test-section" style={{ background: '#E8F4FA', padding: '30px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
+      <section className="ct-test-section" style={{ background: '#E8F4FA', padding: '20px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
         <style>{`
           @keyframes ctScrollCol { from { transform: translateY(0); } to { transform: translateY(-50%); } }
           .ilo-test-col-track { display: flex; flex-direction: column; gap: 20px; animation: ctScrollCol linear infinite; }
@@ -2315,7 +2315,7 @@ export default function ClassroomTrainingPage() {
             .ilo-test-stats-grid > div:nth-child(odd) { border-right: 1px solid #CAEFFF !important; }
             .ilo-test-stats-grid > div:nth-child(even) { border-right: none !important; }
             .ilo-test-stats-grid > div:nth-last-child(-n+2) { border-bottom: none; }
-            .ct-test-section { padding: 30px 20px !important; }
+            .ct-test-section { padding: 20px 20px !important; }
           }
         `}</style>
         <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
@@ -2336,7 +2336,7 @@ export default function ClassroomTrainingPage() {
               Real results from IT professionals worldwide — rated 4.9/5 from 18,400+ verified reviews.
             </p>
           </div>
-          <div style={{ margin: '28px auto 0', maxWidth: 760 }}>
+          <div style={{ margin: '15px auto 0', maxWidth: 760 }}>
             <div style={{ background: '#fff', borderRadius: 16, padding: '20px 24px', boxShadow: '0 4px 20px rgba(6,148,209,0.10)', border: '1px solid #DCEEFB' }}>
               <div className="ilo-test-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
                 {[
@@ -2364,9 +2364,9 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── FREQUENTLY ASKED QUESTIONS ───────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '30px', paddingBottom: '30px' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '20px', paddingBottom: '20px' }}>
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-8">
+          <div className="text-center mb-[15px]">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
               Frequently <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Asked Questions</span>
             </h2>
@@ -2410,7 +2410,7 @@ export default function ClassroomTrainingPage() {
               })}
             </div>
           </div>
-          <div className="hidden sm:block mt-8 text-center">
+          <div className="hidden sm:block mt-[15px] text-center">
             <p className="mb-3 text-base" style={{ color: '#7a8c96' }}>Still have questions?</p>
             <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
               Chat with a Training Advisor
@@ -2435,7 +2435,7 @@ export default function ClassroomTrainingPage() {
               )
             })}
           </div>
-          <div className="sm:hidden mt-8 text-center">
+          <div className="sm:hidden mt-[15px] text-center">
             <p className="mb-3 text-sm" style={{ color: '#7a8c96' }}>Still have questions?</p>
             <button className="group inline-flex items-center gap-3 rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all hover:bg-[#076D9D] hover:text-white">
               Chat with a Training Advisor
