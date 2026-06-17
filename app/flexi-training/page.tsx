@@ -693,13 +693,16 @@ function CourseCard({ course }: {
   course: typeof COURSES[0];
 }) {
   const [voucherAdded, setVoucherAdded] = useState(false)
+  const [labsAdded, setLabsAdded] = useState(false)
   const [feesOpen, setFeesOpen] = useState(false)
   const isPopular = (course.tags ?? []).includes('POPULAR')
   const days = Math.ceil(course.duration / 8)
+  const LABS_FEE = 4639
 
   const courseNum  = parseInt(course.price.replace(/[^0-9]/g, ''), 10)
   const voucherNum = voucherAdded && course.certFee ? course.certFee : 0
-  const subtotal   = courseNum + voucherNum
+  const labsNum    = labsAdded ? LABS_FEE : 0
+  const subtotal   = courseNum + voucherNum + labsNum
   const gstNum     = Math.round(subtotal * 0.18)
   const grandTotal = subtotal + gstNum
 
@@ -721,6 +724,12 @@ function CourseCard({ course }: {
                 </div>
                 <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {courseNum.toLocaleString('en-IN')}</span>
               </div>
+              {labsAdded && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #f0f4f8' }}>
+                  <div style={{ color: '#4a6a8a' }}>Hands-on Labs</div>
+                  <span style={{ fontWeight: 600, color: '#071e2e', flexShrink: 0 }}>INR {labsNum.toLocaleString('en-IN')}</span>
+                </div>
+              )}
               {voucherAdded && course.certFee && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 16px', fontSize: 14, borderBottom: '1px solid #f0f4f8' }}>
                   <div>
@@ -777,6 +786,36 @@ function CourseCard({ course }: {
 
         {/* Access info */}
         <div className="px-4 py-3 flex flex-col gap-2">
+          {/* Hands-on Labs checkbox */}
+          <label className="flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 transition-colors"
+            style={labsAdded
+              ? { border: '1.5px solid #0694D1', background: 'rgba(6,148,209,0.08)', boxShadow: '0 0 0 1px rgba(6,148,209,0.25)' }
+              : { border: '1px solid #E2E8F0', background: '#F8FAFC' }
+            }>
+            <div className="flex items-center gap-2">
+              <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors"
+                style={labsAdded ? { borderColor: '#0694D1', background: '#0694D1' } : { borderColor: '#CBD5E1', background: 'white' }}>
+                {labsAdded && (
+                  <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <div className="flex items-center gap-1.5">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={labsAdded ? '#0694D1' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/>
+                </svg>
+                <span className="text-xs font-semibold" style={{ color: labsAdded ? '#0694D1' : '#374151' }}>
+                  Hands-on Labs
+                </span>
+              </div>
+            </div>
+            <span className="text-xs font-bold" style={{ color: '#093148' }}>
+              INR {LABS_FEE.toLocaleString('en-IN')} +
+            </span>
+            <input type="checkbox" className="sr-only" checked={labsAdded} onChange={() => setLabsAdded(!labsAdded)} />
+          </label>
+
           {/* Exam Voucher checkbox */}
           {course.certFee && (
             <label
@@ -818,7 +857,9 @@ function CourseCard({ course }: {
               <span className="text-[11px] font-semibold" style={{ color: '#64748B' }}>{course.rating}</span>
             </div>
             <div className="text-right">
-              <p className="text-sm font-bold leading-tight" style={{ color: '#0694D1' }}>{course.price}</p>
+              <p className="text-sm font-bold leading-tight" style={{ color: '#0694D1' }}>
+                INR {subtotal.toLocaleString('en-IN')}
+              </p>
               <p className="text-[10px] leading-tight mt-0.5" style={{ color: '#94A3B8' }}>excl. VAT/GST</p>
             </div>
           </div>
