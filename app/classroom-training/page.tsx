@@ -1576,7 +1576,7 @@ export default function ClassroomTrainingPage() {
           .ct-stat-item:hover .ct-stat-glow { opacity: 1 !important; }
         `}</style>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[35px]">
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] py-[30px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left — text */}
@@ -1779,7 +1779,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── BENEFITS ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '50px', paddingBottom: '50px' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px]" style={{ background: '#07121e', paddingTop: '30px', paddingBottom: '30px' }}>
         <style>{`
           @keyframes indIconPulse { 0%,100%{box-shadow:0 0 0 0 rgba(19,168,212,.25)} 50%{box-shadow:0 0 0 7px rgba(19,168,212,.06),0 0 16px rgba(19,168,212,.18)} }
           @keyframes indCardIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
@@ -1909,7 +1909,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── UPCOMING SCHEDULE ────────────────────────────────── */}
-      <section id="schedule" className="relative py-[50px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
+      <section id="schedule" className="relative py-[30px]" style={{ background: '#EBF8FE', borderTop: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-20 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
           <div className="absolute -bottom-16 left-1/4 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
@@ -2233,7 +2233,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── REQUEST INFO FORM ────────────────────────────────── */}
-      <section id="request" className="py-[50px]" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
+      <section id="request" className="py-[30px]" style={{ background: 'linear-gradient(160deg, #07111e 0%, #0a1828 100%)' }}>
         <div className="mx-auto max-w-3xl px-4 md:px-8">
           <div className="rounded-2xl px-8 sm:px-12 py-7 sm:py-9"
             style={{ background: 'linear-gradient(160deg, #091828 0%, #0c1f34 100%)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 0 1px rgba(6,148,209,0.08), 0 24px 60px rgba(0,0,0,0.5)' }}>
@@ -2248,7 +2248,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────── */}
-      <section className="py-[50px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
+      <section className="py-[30px]" style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
@@ -2321,7 +2321,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── TRAINING CATEGORIES ──────────────────────────────── */}
-      <section className="py-[50px]" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
+      <section className="py-[30px]" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white">Popular <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Training Categories</span></h2>
@@ -2347,7 +2347,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── STUDENT REVIEWS ──────────────────────────────────── */}
-      <section className="ct-test-section" style={{ background: '#E8F4FA', padding: '50px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
+      <section className="ct-test-section" style={{ background: '#E8F4FA', padding: '30px 48px', overflow: 'hidden', position: 'relative', borderTop: '1px solid #CAEFFF' }}>
         <style>{`
           @keyframes ctScrollCol { from { transform: translateY(0); } to { transform: translateY(-50%); } }
           .ilo-test-col-track { display: flex; flex-direction: column; gap: 20px; animation: ctScrollCol linear infinite; }
@@ -2362,7 +2362,7 @@ export default function ClassroomTrainingPage() {
             .ilo-test-stats-grid > div:nth-child(odd) { border-right: 1px solid #CAEFFF !important; }
             .ilo-test-stats-grid > div:nth-child(even) { border-right: none !important; }
             .ilo-test-stats-grid > div:nth-last-child(-n+2) { border-bottom: none; }
-            .ct-test-section { padding: 40px 20px !important; }
+            .ct-test-section { padding: 30px 20px !important; }
           }
         `}</style>
         <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
@@ -2411,7 +2411,7 @@ export default function ClassroomTrainingPage() {
       </section>
 
       {/* ── FREQUENTLY ASKED QUESTIONS ───────────────────────── */}
-      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
+      <section className="relative overflow-hidden px-4 lg:px-[50px] bg-koenig-light" style={{ paddingTop: '30px', paddingBottom: '30px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#06111E' }}>
