@@ -847,7 +847,7 @@ export default function OneOnOneTrainingPage() {
       {/* ── REQUEST INFO FORM ──────────────────────────────────── */}
       <OneOnOneLeadFormSection />
 
-      {/* ── HOW IT WORKS + WHO IS IT FOR (tabbed) ──────────────── */}
+      {/* ── HOW IT WORKS + WHO IS IT FOR — mobile: tabbed, desktop: separate ── */}
       <style>{`
         @keyframes oo1-tab-shimmer {
           0%   { background-position: 0% 50%; }
@@ -866,19 +866,20 @@ export default function OneOnOneTrainingPage() {
           display: inline-flex; background: white; border-radius: 20px; padding: 6px; gap: 6px;
         }
       `}</style>
-      <section style={{ background: howWhoTab === 'how' ? 'linear-gradient(135deg,#06111E 0%,#093148 100%)' : '#E8F4FA', paddingTop: 36, paddingBottom: 36, transition: 'background 0.3s' }}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
+      {/* MOBILE: tabbed section */}
+      <section className="sm:hidden" style={{ background: howWhoTab === 'how' ? 'linear-gradient(135deg,#06111E 0%,#093148 100%)' : '#E8F4FA', paddingTop: 30, paddingBottom: 30, transition: 'background 0.3s' }}>
+        <div className="mx-auto max-w-7xl px-4">
           {/* Tab switcher */}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
             <div className="oo1-tab-shimmer-border">
               <div className="oo1-tab-shimmer-inner">
                 {([
-                  { key: 'how', label: 'How 1-on-1 Training Works' },
-                  { key: 'who', label: 'Who Is It Perfect For?' },
+                  { key: 'how', label: 'How It Works' },
+                  { key: 'who', label: 'Who Is It For?' },
                 ] as const).map(t => (
                   <button key={t.key} onClick={() => setHowWhoTab(t.key)}
-                    style={{ padding: '9px 22px', borderRadius: 16, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, transition: 'background 0.22s, color 0.22s, box-shadow 0.22s',
+                    style={{ padding: '8px 16px', borderRadius: 14, border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 12, fontWeight: 700, transition: 'background 0.22s, color 0.22s, box-shadow 0.22s',
                       background: howWhoTab === t.key ? 'linear-gradient(135deg,#0694D1 0%,#22d3ee 100%)' : 'transparent',
                       color: howWhoTab === t.key ? '#fff' : '#4a6375',
                       boxShadow: howWhoTab === t.key ? '0 4px 18px rgba(6,148,209,0.38)' : 'none',
@@ -889,80 +890,55 @@ export default function OneOnOneTrainingPage() {
               </div>
             </div>
           </div>
-          <p className="text-center text-sm mb-[20px]" style={{ color: howWhoTab === 'how' ? 'rgba(255,255,255,0.5)' : '#7a9db3' }}>
+          <p className="text-center text-xs mb-5" style={{ color: howWhoTab === 'how' ? 'rgba(255,255,255,0.5)' : '#7a9db3' }}>
             {howWhoTab === 'how' ? 'From course selection to certification in four simple steps' : 'Find out if 1-on-1 training is the right fit for your learning goals'}
           </p>
 
-          {/* HOW IT WORKS content */}
+          {/* HOW: mobile slider */}
           {howWhoTab === 'how' && (
-            <>
-              {/* Mobile slider */}
-              <div className="sm:hidden" onTouchStart={e => { howTouchStartX.current = e.touches[0].clientX }} onTouchEnd={e => { const dx = howTouchStartX.current - e.changedTouches[0].clientX; if (dx > 50) setHowSlideIdx(p => Math.min(p + 1, HOW_STEPS.length - 1)); if (dx < -50) setHowSlideIdx(p => Math.max(p - 1, 0)) }}>
-                <div className="overflow-hidden">
-                  <div className="flex" style={{ transform: `translateX(-${howSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
-                    {HOW_STEPS.map((step) => (
-                      <div key={step.step} className="shrink-0 w-full rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,rgba(13,32,53,.95),rgba(10,22,40,.98))', border: '1px solid rgba(6,148,209,0.2)' }}>
-                        <div className="flex items-center gap-3 mb-4">
-                          <span className="text-4xl font-black" style={{ color: 'rgba(6,148,209,0.2)', lineHeight: 1 }}>{step.step}</span>
-                          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.3)' }}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeLinecap="round" strokeLinejoin="round">{step.icon}</svg>
-                          </div>
-                        </div>
-                        <h3 className="text-base font-bold text-white mb-2">{step.title}</h3>
-                        <p className="text-sm leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {step.tags.map(tag => (
-                            <span key={tag} className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>{tag}</span>
-                          ))}
+            <div onTouchStart={e => { howTouchStartX.current = e.touches[0].clientX }} onTouchEnd={e => { const dx = howTouchStartX.current - e.changedTouches[0].clientX; if (dx > 50) setHowSlideIdx(p => Math.min(p + 1, HOW_STEPS.length - 1)); if (dx < -50) setHowSlideIdx(p => Math.max(p - 1, 0)) }}>
+              <div className="overflow-hidden">
+                <div className="flex" style={{ transform: `translateX(-${howSlideIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
+                  {HOW_STEPS.map((step) => (
+                    <div key={step.step} className="shrink-0 w-full rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,rgba(13,32,53,.95),rgba(10,22,40,.98))', border: '1px solid rgba(6,148,209,0.2)' }}>
+                      <div className="flex items-center gap-3 mb-4">
+                        <span className="text-4xl font-black" style={{ color: 'rgba(6,148,209,0.2)', lineHeight: 1 }}>{step.step}</span>
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.3)' }}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeLinecap="round" strokeLinejoin="round">{step.icon}</svg>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex items-center justify-center gap-4 mt-5">
-                  <button onClick={() => setHowSlideIdx(p => Math.max(p - 1, 0))} disabled={howSlideIdx === 0} className="flex items-center justify-center w-8 h-8 rounded-full" style={{ background: howSlideIdx === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === 0 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                  </button>
-                  <div className="flex gap-2">
-                    {HOW_STEPS.map((_, i) => (
-                      <button key={i} onClick={() => setHowSlideIdx(i)} className="rounded-full transition-all duration-300" style={{ width: howSlideIdx === i ? 20 : 7, height: 7, background: howSlideIdx === i ? '#0694D1' : 'rgba(255,255,255,0.22)' }} />
-                    ))}
-                  </div>
-                  <button onClick={() => setHowSlideIdx(p => Math.min(p + 1, HOW_STEPS.length - 1))} disabled={howSlideIdx === HOW_STEPS.length - 1} className="flex items-center justify-center w-8 h-8 rounded-full" style={{ background: howSlideIdx === HOW_STEPS.length - 1 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === HOW_STEPS.length - 1 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                  </button>
-                </div>
-              </div>
-              {/* Desktop grid */}
-              <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {HOW_STEPS.map((step) => (
-                  <div key={step.step} className="rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,rgba(13,32,53,.95),rgba(10,22,40,.98))', border: '1px solid rgba(6,148,209,0.2)' }}>
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-4xl font-black" style={{ color: 'rgba(6,148,209,0.2)', lineHeight: 1 }}>{step.step}</span>
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.3)' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeLinecap="round" strokeLinejoin="round">{step.icon}</svg>
+                      <h3 className="text-base font-bold text-white mb-2">{step.title}</h3>
+                      <p className="text-sm leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {step.tags.map(tag => (
+                          <span key={tag} className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>{tag}</span>
+                        ))}
                       </div>
                     </div>
-                    <h3 className="text-base font-bold text-white mb-2">{step.title}</h3>
-                    <p className="text-sm leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {step.tags.map(tag => (
-                        <span key={tag} className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </>
+              <div className="flex items-center justify-center gap-4 mt-5">
+                <button onClick={() => setHowSlideIdx(p => Math.max(p - 1, 0))} disabled={howSlideIdx === 0} className="flex items-center justify-center w-8 h-8 rounded-full" style={{ background: howSlideIdx === 0 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === 0 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div className="flex gap-2">
+                  {HOW_STEPS.map((_, i) => (
+                    <button key={i} onClick={() => setHowSlideIdx(i)} className="rounded-full transition-all duration-300" style={{ width: howSlideIdx === i ? 20 : 7, height: 7, background: howSlideIdx === i ? '#0694D1' : 'rgba(255,255,255,0.22)' }} />
+                  ))}
+                </div>
+                <button onClick={() => setHowSlideIdx(p => Math.min(p + 1, HOW_STEPS.length - 1))} disabled={howSlideIdx === HOW_STEPS.length - 1} className="flex items-center justify-center w-8 h-8 rounded-full" style={{ background: howSlideIdx === HOW_STEPS.length - 1 ? 'rgba(255,255,255,0.06)' : 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.35)', color: howSlideIdx === HOW_STEPS.length - 1 ? 'rgba(255,255,255,0.25)' : '#38bdf8' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+            </div>
           )}
 
-          {/* WHO IS IT FOR content */}
+          {/* WHO: mobile cards */}
           {howWhoTab === 'who' && (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex flex-col gap-3">
               {WHO_FOR.map((w, i) => (
-                <div key={i} className="flex gap-4 rounded-2xl p-5 transition-all hover:-translate-y-0.5" style={{ background: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 24px rgba(6,148,209,0.12)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 10px rgba(6,148,209,0.06)' }}>
+                <div key={i} className="flex gap-4 rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}>
                   <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center mt-0.5" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>{w.icon}</div>
                   <div>
                     <h3 className="text-sm font-bold mb-1" style={{ color: '#0F172A' }}>{w.title}</h3>
@@ -972,7 +948,62 @@ export default function OneOnOneTrainingPage() {
               ))}
             </div>
           )}
+        </div>
+      </section>
 
+      {/* DESKTOP: How It Works */}
+      <section className="hidden sm:block" style={{ background: 'linear-gradient(135deg,#06111E 0%,#093148 100%)', paddingTop: 30, paddingBottom: 30 }}>
+        <div className="mx-auto max-w-7xl px-8 lg:px-[50px]">
+          <div className="text-center mb-[15px]">
+            <h2 className="text-3xl font-bold text-white mb-2">
+              How 1-on-1 Training <span style={{ color: '#38bdf8' }}>Works</span>
+            </h2>
+            <p className="text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>From course selection to certification in four simple steps</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {HOW_STEPS.map((step) => (
+              <div key={step.step} className="rounded-2xl p-6" style={{ background: 'linear-gradient(145deg,rgba(13,32,53,.95),rgba(10,22,40,.98))', border: '1px solid rgba(6,148,209,0.2)' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-4xl font-black" style={{ color: 'rgba(6,148,209,0.2)', lineHeight: 1 }}>{step.step}</span>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.3)' }}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeLinecap="round" strokeLinejoin="round">{step.icon}</svg>
+                  </div>
+                </div>
+                <h3 className="text-base font-bold text-white mb-2">{step.title}</h3>
+                <p className="text-sm leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {step.tags.map(tag => (
+                    <span key={tag} className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* DESKTOP: Who Is It For */}
+      <section className="hidden sm:block" style={{ background: '#E8F4FA', paddingTop: 30, paddingBottom: 30 }}>
+        <div className="mx-auto max-w-7xl px-8 lg:px-[50px]">
+          <div className="text-center mb-[15px]">
+            <div className="inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest mb-2" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>Is It Right For You?</div>
+            <h2 className="text-3xl font-extrabold mb-1" style={{ color: '#071e2e' }}>
+              Who Is 1-on-1 Training <span style={{ color: '#0694D1' }}>Perfect For?</span>
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {WHO_FOR.map((w, i) => (
+              <div key={i} className="flex gap-4 rounded-2xl p-5 transition-all hover:-translate-y-0.5" style={{ background: '#fff', border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 24px rgba(6,148,209,0.12)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#e2e8f0'; (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 10px rgba(6,148,209,0.06)' }}>
+                <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center mt-0.5" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>{w.icon}</div>
+                <div>
+                  <h3 className="text-sm font-bold mb-1" style={{ color: '#0F172A' }}>{w.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{w.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
