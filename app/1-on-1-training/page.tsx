@@ -9,7 +9,7 @@ const LEARNING_TABS = [
   { id: 'classroom',label: 'Classroom Training',          href: '/classroom-training'   },
   { id: 'flexi',    label: 'Flexi',                       href: '/flexi-training'       },
   { id: '1on1',     label: '1-on-1 Training',             href: '/1-on-1-training'      },
-  { id: 'fmat',     label: 'Fly-Me-a-Trainer (FMAT)',     href: '#'                     },
+  { id: 'fmat',     label: 'Fly-Me-a-Trainer (FMAT)',     href: '/fly-me-a-trainer'     },
 ]
 
 /* ── Stats ───────────────────────────────────────────────────── */
