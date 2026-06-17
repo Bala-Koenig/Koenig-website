@@ -785,27 +785,6 @@ function CourseCard({ course, onSyllabus }: {
 
         {/* Access info */}
         <div className="px-4 py-3 flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              <span className="text-xs font-semibold" style={{ color: '#475569' }}>Access Duration: <span style={{ color: '#093148' }}>{course.accessDuration}</span></span>
-            </div>
-            {course.startImmediately ? (
-              <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full"
-                style={{ background: '#DCFCE7', color: '#15803D' }}>
-                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Instant
-              </span>
-            ) : (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                style={{ background: '#EBF8FE', color: '#0694D1' }}>
-                Within 24h
-              </span>
-            )}
-          </div>
-
           {/* Exam Voucher checkbox */}
           {course.certFee && (
             <label
