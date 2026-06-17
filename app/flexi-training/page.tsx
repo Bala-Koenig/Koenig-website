@@ -1148,21 +1148,22 @@ export default function FlexiTrainingPage() {
             </div>
 
             {/* Right — feature cards */}
-            <div className="hidden lg:grid grid-cols-2 gap-3">
+            <div className="hidden lg:grid grid-cols-2 gap-3" style={{ gridTemplateRows: 'auto auto auto' }}>
               {[
-                { text: 'Free Upgrades to New Version' },
-                { text: 'Get Access to Unlimited Flexi Courses with an Annual Subscription' },
-                { text: 'Free Online Doubt Clearance Session' },
-                { text: 'Access to Qubits (Interactive self-assessment tool)' },
-                { text: 'Recorded Sessions from Live Interactive Classes' },
-              ].map(({ text }) => (
-                <div key={text} className="flex items-start gap-3 rounded-xl px-4 py-3"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(6,148,209,0.25)' }}>
+                { full: false, label: <>Free Upgrades to <span style={{ color: '#38bdf8' }}>New Version</span></> },
+                { full: false, label: <>Get Access to <span style={{ color: '#38bdf8' }}>Unlimited Flexi Courses</span> with an Annual Subscription</> },
+                { full: false, label: <>Free <span style={{ color: '#38bdf8' }}>Online Doubt Clearance</span> Session</> },
+                { full: false, label: <>Access to <span style={{ color: '#38bdf8' }}>Qubits</span> (Interactive self-assessment tool)</> },
+                { full: true,  label: <>Recorded Sessions from <span style={{ color: '#38bdf8' }}>Live Interactive Classes</span></> },
+              ].map(({ label, full }, i) => (
+                <div key={i}
+                  className="flex items-start gap-3 rounded-xl px-4 py-3"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(6,148,209,0.25)', gridColumn: full ? '1 / -1' : undefined }}>
                   <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full flex items-center justify-center"
                     style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.5)' }}>
                     <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </span>
-                  <span className="text-sm leading-snug" style={{ color: 'rgba(255,255,255,0.82)' }}>{text}</span>
+                  <span className="text-sm leading-snug" style={{ color: 'rgba(255,255,255,0.82)' }}>{label}</span>
                 </div>
               ))}
             </div>
@@ -1170,13 +1171,13 @@ export default function FlexiTrainingPage() {
             {/* Mobile feature list */}
             <div className="lg:hidden flex flex-col gap-2 mt-[15px]">
               {[
-                'Free Upgrades to New Version',
-                'Get Access to Unlimited Flexi Courses with an Annual Subscription',
-                'Free Online Doubt Clearance Session',
-                'Access to Qubits (Interactive self-assessment tool)',
-                'Recorded Sessions from Live Interactive Classes',
-              ].map(f => (
-                <div key={f} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                <>Free Upgrades to <span style={{ color: '#38bdf8' }}>New Version</span></>,
+                <>Get Access to <span style={{ color: '#38bdf8' }}>Unlimited Flexi Courses</span> with an Annual Subscription</>,
+                <>Free <span style={{ color: '#38bdf8' }}>Online Doubt Clearance</span> Session</>,
+                <>Access to <span style={{ color: '#38bdf8' }}>Qubits</span> (Interactive self-assessment tool)</>,
+                <>Recorded Sessions from <span style={{ color: '#38bdf8' }}>Live Interactive Classes</span></>,
+              ].map((f, i) => (
+                <div key={i} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
                   <span className="mt-1 shrink-0 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.2)', border: '1px solid rgba(6,148,209,0.4)' }}>
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </span>
