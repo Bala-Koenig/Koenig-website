@@ -234,7 +234,7 @@ function OneOnOneLeadFormSection() {
             </div>
             <div>
               <label style={lbl}>{tab === 'enterprise' ? 'Business ' : ''}Email <span style={{ color: '#f87171' }}>*</span></label>
-              <input type="email" required placeholder={tab === 'enterprise' ? 'you@company.com' : 'you@email.com'} value={form.email} onChange={e => set('email', e.target.value)} style={inp} />
+              <input type="email" required placeholder={tab === 'enterprise' ? 'john@example.com' : 'john@example.com'} value={form.email} onChange={e => set('email', e.target.value)} style={inp} />
             </div>
           </div>
 
