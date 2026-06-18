@@ -565,6 +565,9 @@ export default function FlyMeATrainerPage() {
         </div>
       </section>
 
+      {/* ── REQUEST FORM ───────────────────────────────────────── */}
+      <FmatLeadFormSection />
+
       {/* ── HOW IT WORKS ───────────────────────────────────────── */}
       <section style={{ background: 'linear-gradient(135deg,#06111E 0%,#093148 100%)', paddingTop: 30, paddingBottom: 30 }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
@@ -743,8 +746,6 @@ export default function FlyMeATrainerPage() {
         </div>
       </section>
 
-      {/* ── REQUEST FORM ───────────────────────────────────────── */}
-      <FmatLeadFormSection />
     </div>
   )
 }
