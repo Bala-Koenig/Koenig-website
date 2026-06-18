@@ -561,13 +561,13 @@ export default function FlyMeATrainerPage() {
             <div className="overflow-hidden">
               <div className="flex" style={{ transform: `translateX(-${benIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
                 {Array.from({ length: BEN_SLIDES }).map((_, si) => (
-                  <div key={si} className="shrink-0 w-full grid grid-cols-2 gap-3">
+                  <div key={si} className="shrink-0 w-full flex flex-col gap-3">
                     {BENEFITS.slice(si * 2, si * 2 + 2).map((b, i) => (
-                      <div key={i} className="flex flex-col gap-3 rounded-2xl p-4 bg-white" style={{ border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}>
-                        <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>{b.icon}</div>
+                      <div key={i} className="flex gap-4 rounded-2xl p-4 bg-white" style={{ border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}>
+                        <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center mt-0.5" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>{b.icon}</div>
                         <div>
                           <h3 className="text-sm font-bold mb-1" style={{ color: '#0F172A' }}>{b.title}</h3>
-                          <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{b.desc}</p>
+                          <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{b.desc}</p>
                         </div>
                       </div>
                     ))}
