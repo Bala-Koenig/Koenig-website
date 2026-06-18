@@ -384,7 +384,10 @@ function FmatLeadFormSection() {
 export default function FlyMeATrainerPage() {
   const [openFaq, setOpenFaq]   = useState<number | null>(null)
   const [howIdx, setHowIdx]     = useState(0)
+  const [benIdx, setBenIdx]     = useState(0)
   const howTouchX = useRef(0)
+  const benTouchX = useRef(0)
+  const BEN_SLIDES = Math.ceil(BENEFITS.length / 2)
   const tabScrollRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = tabScrollRef.current?.querySelector('[data-tab="fmat"]') as HTMLElement | null
@@ -549,7 +552,36 @@ export default function FlyMeATrainerPage() {
             </h2>
             <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: '#7a8c96' }}>No flights for your team, no generic syllabus, no compromise on quality — the instructor comes to you.</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Mobile: 2-card slider */}
+          <div className="sm:hidden"
+            onTouchStart={e => { benTouchX.current = e.touches[0].clientX }}
+            onTouchEnd={e => { const dx = benTouchX.current - e.changedTouches[0].clientX; if (dx > 50) setBenIdx(p => Math.min(p + 1, BEN_SLIDES - 1)); if (dx < -50) setBenIdx(p => Math.max(p - 1, 0)) }}>
+            <div className="overflow-hidden">
+              <div className="flex" style={{ transform: `translateX(-${benIdx * 100}%)`, transition: 'transform 0.38s cubic-bezier(0.22,1,0.36,1)' }}>
+                {Array.from({ length: BEN_SLIDES }).map((_, si) => (
+                  <div key={si} className="shrink-0 w-full grid grid-cols-2 gap-3">
+                    {BENEFITS.slice(si * 2, si * 2 + 2).map((b, i) => (
+                      <div key={i} className="flex flex-col gap-3 rounded-2xl p-4 bg-white" style={{ border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}>
+                        <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1' }}>{b.icon}</div>
+                        <div>
+                          <h3 className="text-sm font-bold mb-1" style={{ color: '#0F172A' }}>{b.title}</h3>
+                          <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{b.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center justify-center gap-2 mt-4">
+              {Array.from({ length: BEN_SLIDES }).map((_, i) => (
+                <button key={i} onClick={() => setBenIdx(i)} className="rounded-full transition-all duration-300" style={{ width: benIdx === i ? 20 : 7, height: 7, background: benIdx === i ? '#0694D1' : 'rgba(6,148,209,0.25)' }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {BENEFITS.map((b, i) => (
               <div key={i} className="flex gap-4 rounded-2xl p-5 transition-all hover:-translate-y-0.5 bg-white" style={{ border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 24px rgba(6,148,209,0.12)' }}
