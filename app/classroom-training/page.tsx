@@ -1618,9 +1618,15 @@ export default function ClassroomTrainingPage() {
               </div>
 
               {/* Carbon pledge */}
-              <div className="flex items-center gap-2 mb-[15px] rounded-xl px-4 py-2.5" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', display: 'inline-flex' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8C8 10 5.9 16.17 3.82 19.5c-.13.21-.41.27-.64.14-.33-.19-.58-.52-.58-.89V5.5A2.5 2.5 0 0 1 5.09 3H19a2 2 0 0 1 2 2v9.5A2.5 2.5 0 0 1 18.5 17H17"/></svg>
-                <span style={{ fontSize: 12, color: '#22c55e', fontWeight: 600 }}>We plant a tree for every trainer flight — carbon neutral commitment</span>
+              <div className="mb-[15px] lg:mb-8 inline-flex items-center gap-2.5 rounded-xl px-4 py-2.5"
+                style={{ background: 'rgba(220,252,231,0.07)', border: '1px solid rgba(74,222,128,0.25)' }}>
+                <span className="text-base leading-none" role="img" aria-label="tree">🌱</span>
+                <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.72)' }}>
+                  We pledge carbon neutrality by planting a tree for every flight taken
+                </span>
+                <a href="https://www.koenig-solutions.com/koenig-environmental-policy" target="_blank" rel="noopener noreferrer" className="whitespace-nowrap text-xs font-semibold hover:underline" style={{ color: '#4ade80' }}>
+                  Learn More &rsaquo;&rsaquo;
+                </a>
               </div>
 
               <div className="flex flex-col lg:flex-row flex-wrap gap-3">
