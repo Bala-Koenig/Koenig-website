@@ -104,13 +104,13 @@ export default function OurStoryPage() {
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
+              <h1 className="text-[36px] font-bold text-white leading-tight mb-6">
                 Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Story</span>
               </h1>
-              <p className="text-xl text-white/80 mb-4 leading-relaxed">
+              <p className="text-base text-white/80 mb-4 leading-relaxed">
                 Thirty years ago, a young entrepreneur started a training company in a small Delhi office with a dream to make world-class IT education accessible to everyone.
               </p>
-              <p className="text-lg text-white/60 leading-relaxed">
+              <p className="text-sm text-white/60 leading-relaxed">
                 Three near-death experiences. Three pivots. One unstoppable mission — to help people earn Money, Respect, and Peace of Mind through technology skills.
               </p>
               <DownloadPptButton />
@@ -134,7 +134,7 @@ export default function OurStoryPage() {
       {/* LIGHT SECTION – Timeline */}
       <section className="bg-white py-5 sm:py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">Three Decades of <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Resilience</span></h2>
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-3 text-center">Three Decades of <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Resilience</span></h2>
           <p className="text-center text-[#475569] mb-12">From a single Delhi office to 30,000+ students monthly in 195 countries</p>
           <div ref={gridRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TIMELINE.map((t, i) => (
@@ -184,7 +184,7 @@ export default function OurStoryPage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">The Koenig <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Ethos</span></h2>
+            <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-6">The Koenig <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Ethos</span></h2>
 
             {/* Main I < O card */}
             <div className="relative rounded-2xl p-8 mb-6 overflow-hidden"
@@ -247,8 +247,8 @@ export default function OurStoryPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Want to Be Part of Our Next <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Chapter?</span></h2>
-          <p className="text-[#475569] mb-8 text-lg">Train with Koenig and write your own success story.</p>
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-4">Want to Be Part of Our Next <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Chapter?</span></h2>
+          <p className="text-[#475569] mb-8 text-base">Train with Koenig and write your own success story.</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a href="mailto:info@koenig-solutions.com"
               className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">

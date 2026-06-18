@@ -204,10 +204,10 @@ export default function LeadershipPage() {
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
+                <h1 className="text-[36px] font-bold text-white leading-tight mb-6">
                   Leadership <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Team</span>
                 </h1>
-                <p className="text-xl text-white/80 leading-relaxed">
+                <p className="text-base text-white/80 leading-relaxed">
                   The people behind 33 years of innovation, resilience, and customer obsession. Each leader brings deep domain expertise and a shared commitment to student outcomes.
                 </p>
                 <DownloadPptButton />
@@ -259,8 +259,8 @@ export default function LeadershipPage() {
 
                 {/* Info */}
                 <div className="flex-1 text-center sm:text-left">
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#0F172A] mb-1">{CEO.name}</h3>
-                  <p className="text-[#0694D1] font-semibold text-lg mb-4">{CEO.title}</p>
+                  <h3 className="text-2xl font-bold text-[#0F172A] mb-1">{CEO.name}</h3>
+                  <p className="text-[#0694D1] font-semibold text-base mb-4">{CEO.title}</p>
                   <div className="flex flex-wrap gap-3 justify-center sm:justify-start mb-6">
                     {CEO.tags.map(tag => (
                       <span key={tag} className="bg-[#EFF6FF] text-[#0694D1] px-3 py-1 rounded-full text-sm font-medium">{tag}</span>
@@ -433,8 +433,8 @@ export default function LeadershipPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl font-bold text-[#0F172A] mb-4">Join Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Team</span></h2>
-          <p className="text-[#475569] mb-8 text-lg max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-4">Join Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Team</span></h2>
+          <p className="text-[#475569] mb-8 text-base max-w-xl mx-auto">
             We&#39;re always looking for passionate educators, tech experts, and business professionals to help us grow.
           </p>
           <a href="mailto:hr@koenig-solutions.com"

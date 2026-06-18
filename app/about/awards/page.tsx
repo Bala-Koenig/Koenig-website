@@ -177,13 +177,13 @@ export default function AwardsPage() {
           <div className="kglass-banner py-7 px-4 sm:py-10 sm:px-8 lg:px-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6">
+                <h1 className="text-[36px] font-bold text-white leading-tight mb-4 sm:mb-6">
                   Awards &amp; <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Achievements</span>
                 </h1>
-                <p className="text-sm sm:text-lg lg:text-xl text-white/80 mb-3 sm:mb-4 leading-relaxed">
+                <p className="text-sm sm:text-base text-white/80 mb-3 sm:mb-4 leading-relaxed">
                   Recognized by the world's leading technology vendors and workplace authorities since 1993. Our awards reflect one thing: consistently excellent training outcomes.
                 </p>
-                <p className="text-xs sm:text-base lg:text-lg text-white/60 leading-relaxed">
+                <p className="text-xs sm:text-sm text-white/60 leading-relaxed">
                   These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
                 </p>
               </div>
@@ -222,7 +222,7 @@ export default function AwardsPage() {
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
           {/* MICROSOFT AWARDS CAROUSEL */}
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-[30px] text-center">
             Microsoft <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Awards</span>
           </h2>
 
@@ -277,7 +277,7 @@ export default function AwardsPage() {
           </div>
 
           {/* AWS AWARDS CAROUSEL */}
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             AWS <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #ff9900, #FFD580)' }}>Awards</span>
           </h2>
 
@@ -338,7 +338,7 @@ export default function AwardsPage() {
           </div>
 
           {/* EC-COUNCIL AWARDS CAROUSEL */}
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             EC-Council <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #c8102e, #ff4d6d)' }}>Awards</span>
           </h2>
 
@@ -399,7 +399,7 @@ export default function AwardsPage() {
           </div>
 
           {/* PECB AWARDS CAROUSEL */}
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             PECB <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #334155, #64748b)' }}>Awards</span>
           </h2>
 
@@ -460,7 +460,7 @@ export default function AwardsPage() {
           </div>
 
           {/* ORACLE AWARD — single card */}
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             Oracle <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #c74634, #f46c44)' }}>Award</span>
           </h2>
 
@@ -491,7 +491,7 @@ export default function AwardsPage() {
           </div>
 
           {/* WORKPLACE EXCELLENCE — single card */}
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-[30px] text-center mt-12 sm:mt-20">
             Workplace <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #e8002d, #1a1a5e)' }}>Excellence</span>
           </h2>
 

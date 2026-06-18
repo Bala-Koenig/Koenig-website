@@ -77,13 +77,13 @@ export default function OurPartnersPage() {
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
+                <h1 className="text-[36px] font-bold text-white leading-tight mb-6">
                   Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Partners</span>
                 </h1>
-                <p className="text-xl text-white/80 mb-4 leading-relaxed">
+                <p className="text-base text-white/80 mb-4 leading-relaxed">
                   Koenig is an authorized training partner of the world's leading technology vendors. This isn't a badge we buy — it's an authorization we earn through rigorous assessment, certified instructors, and verified delivery.
                 </p>
-                <p className="text-lg text-white/60 leading-relaxed">
+                <p className="text-sm text-white/60 leading-relaxed">
                   When you train with Koenig, you train with the source — the same curricula, the same standards, the same recognition that the vendor itself demands.
                 </p>
                 <DownloadPptButton />
@@ -113,7 +113,7 @@ export default function OurPartnersPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full opacity-20 blur-[120px]" style={{ background: '#38bdf8' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-3 text-center">
             Authorized by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span>
           </h2>
           <p className="text-center text-[#475569] mb-12">{PARTNERS.length}+ vendor authorizations across cloud, security, networking, and beyond</p>
@@ -202,7 +202,7 @@ export default function OurPartnersPage() {
           <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Why Authorization <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Matters</span></h2>
+          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-3 text-center">Why Authorization <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Matters</span></h2>
           <p className="text-center text-white/60 mb-12">The difference between authorized and unauthorized training is significant</p>
           <div className="grid sm:grid-cols-3 gap-5">
             {[

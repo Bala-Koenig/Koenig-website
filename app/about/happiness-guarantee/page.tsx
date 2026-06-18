@@ -140,10 +140,10 @@ export default function HappinessGuaranteePage() {
           <div className="kglass-banner py-8 px-5 sm:py-10 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6">
+                <h1 className="text-[36px] font-bold text-white leading-tight mb-4 sm:mb-6">
                   Learn with <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Confidence:</span> Koenig Solutions' Happiness Guarantee
                 </h1>
-                <p className="text-sm sm:text-lg text-white/70 leading-relaxed">
+                <p className="text-sm sm:text-base text-white/70 leading-relaxed">
                   Happiness is achieved when expectations are met. We set clear expectations and then we exceed them — every single time.
                 </p>
               </div>
@@ -168,7 +168,7 @@ export default function HappinessGuaranteePage() {
           <div className="absolute -bottom-20 -right-20 w-[350px] h-[350px] rounded-full opacity-30 blur-[80px]" style={{ background: 'radial-gradient(circle, #7DD3FA, transparent 70%)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-8 sm:mb-12 text-center">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-8 sm:mb-12 text-center">
             What is the <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Happiness Guarantee?</span>
           </h2>
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-stretch">
@@ -223,7 +223,7 @@ export default function HappinessGuaranteePage() {
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 text-center">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-3 text-center">
             How Does it <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Work?</span>
           </h2>
           <p className="text-center text-white/50 text-sm sm:text-base mb-8 sm:mb-12 max-w-2xl mx-auto">
@@ -275,7 +275,7 @@ export default function HappinessGuaranteePage() {
           <div className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full opacity-30 blur-[80px]" style={{ background: 'radial-gradient(circle, #7DD3FA, transparent 70%)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0F172A] mb-8 sm:mb-12 text-center">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-8 sm:mb-12 text-center">
             A Message from <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Our CEO</span>
           </h2>
           <div className="max-w-4xl mx-auto">
@@ -422,7 +422,7 @@ export default function HappinessGuaranteePage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-[#0694D1] animate-pulse inline-block" />
                 Join 1M+ professionals trained
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold" style={{ color: '#053148' }}>
+              <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#053148' }}>
                 Ready to Get Started?
               </h2>
               <p className="mt-1.5 text-sm text-[#475569]">Happiness Guaranteed — or your money back.</p>

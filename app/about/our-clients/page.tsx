@@ -56,23 +56,23 @@ export default function OurClientsPage() {
           <div className="kglass-banner py-10 px-4 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-6">
+                <h1 className="text-[36px] font-bold text-white leading-tight mb-6">
                   Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Clients</span>
                 </h1>
-                <p className="text-xl text-white/80 mb-4 leading-relaxed">
+                <p className="text-base text-white/80 mb-4 leading-relaxed">
                   From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
                 </p>
                 <div className="grid grid-cols-3 mt-8 rounded-xl overflow-hidden" style={{ border: '1px solid rgba(56,189,248,0.25)' }}>
                   <div className="text-center py-4 px-1" style={{ borderRight: '1px solid rgba(56,189,248,0.25)' }}>
-                    <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">1M+</div>
+                    <div className="text-xl sm:text-2xl font-bold text-[#38bdf8]">1M+</div>
                     <div className="text-white/60 text-xs leading-tight">Professionals Certified</div>
                   </div>
                   <div className="text-center py-4 px-1" style={{ borderRight: '1px solid rgba(56,189,248,0.25)' }}>
-                    <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">195+</div>
+                    <div className="text-xl sm:text-2xl font-bold text-[#38bdf8]">195+</div>
                     <div className="text-white/60 text-xs leading-tight">Countries</div>
                   </div>
                   <div className="text-center py-4 px-1">
-                    <div className="text-2xl sm:text-3xl font-bold text-[#38bdf8]">30+</div>
+                    <div className="text-xl sm:text-2xl font-bold text-[#38bdf8]">30+</div>
                     <div className="text-white/60 text-xs leading-tight">Fortune-500 Clients</div>
                   </div>
                 </div>
@@ -97,7 +97,7 @@ export default function OurClientsPage() {
       {/* LIGHT SECTION – Client logos grid */}
       <section className="bg-white py-5 sm:py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-3 text-center">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-3 text-center">
             Trusted by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span>
           </h2>
           <p className="text-center text-[#475569] mb-12">Organizations that rely on Koenig to develop their teams</p>
@@ -128,7 +128,7 @@ export default function OurClientsPage() {
           <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 text-center">Industries We <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Serve</span></h2>
+          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-3 text-center">Industries We <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Serve</span></h2>
           <p className="text-center text-white/60 mb-12">Koenig delivers specialist IT training across every major sector</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
             {[
@@ -229,8 +229,8 @@ export default function OurClientsPage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-6">Enterprise Training <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Solutions</span></h2>
-            <p className="text-[#475569] text-lg leading-relaxed mb-6">
+            <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-6">Enterprise Training <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Solutions</span></h2>
+            <p className="text-[#475569] text-base leading-relaxed mb-6">
               We deliver bespoke corporate training programs tailored to your organization's technology stack, business goals, and learning preferences. From instructor-led classroom sessions to fully remote live online cohorts — we build the program around you.
             </p>
             <p className="text-[#475569] leading-relaxed mb-8">
