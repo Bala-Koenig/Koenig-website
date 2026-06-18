@@ -416,7 +416,7 @@ export default function FlyMeATrainerPage() {
                 Onsite · All-Inclusive · Global Delivery
               </div>
 
-              <h1 className="sm:text-4xl lg:text-5xl font-black leading-tight text-white mb-4" style={{ fontSize: 36 }}>
+              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight text-white mb-4">
                 The Trainer{' '}
                 <span style={{ background: 'linear-gradient(135deg,#0694D1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Comes</span>
                 {' '}to You.
