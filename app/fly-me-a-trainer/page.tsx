@@ -636,31 +636,6 @@ export default function FlyMeATrainerPage() {
         </div>
       </section>
 
-      {/* ── WHAT YOU NEED TO PROVIDE ───────────────────────────── */}
-      <section style={{ background: '#ffffff', paddingTop: 30, paddingBottom: 30 }}>
-        <div className="mx-auto max-w-5xl px-4 md:px-8 lg:px-[50px]">
-          <div className="text-center mb-[15px]">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#071e2e' }}>
-              What You Need to <span style={{ color: '#0694D1' }}>Provide</span>
-            </h2>
-            <p className="text-sm" style={{ color: '#7a8c96' }}>Minimal setup — we handle everything else</p>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              { icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>, title: 'Training Room', desc: 'A comfortable space with seating for all participants and enough room for the instructor.' },
-              { icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M1.5 8.5h21M1.5 12h21M5 4.5h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-11a2 2 0 0 1 2-2z"/></svg>, title: 'Strong Wi-Fi', desc: 'Reliable internet connection for lab exercises, demos, and any cloud-based course content.' },
-              { icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>, title: 'Projector or Screen', desc: 'A projector or large display screen so all participants can clearly follow the instructor.' },
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center text-center p-6 rounded-2xl" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'rgba(6,148,209,0.08)' }}>{item.icon}</div>
-                <h3 className="text-base font-bold mb-2" style={{ color: '#0F172A' }}>{item.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── TESTIMONIALS ───────────────────────────────────────── */}
       <section style={{ background: '#E8F4FA', paddingTop: 30, paddingBottom: 30, overflow: 'hidden', borderTop: '1px solid #CAEFFF' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
