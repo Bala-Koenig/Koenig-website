@@ -1250,13 +1250,14 @@ function FlexiMobileTestimonialRow({ items }: { items: typeof TESTIMONIALS }) {
   const posRef   = useRef(0)
   const dragRef  = useRef({ active: false, startX: 0, startPos: 0 })
   const rafRef   = useRef<number | null>(null)
+  const popupOpenRef = useRef(false)
   const [popup, setPopup] = useState<typeof TESTIMONIALS[0] | null>(null)
 
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
     const loop = () => {
-      if (!dragRef.current.active) {
+      if (!dragRef.current.active && !popupOpenRef.current) {
         posRef.current += 0.5
         const half = track.scrollWidth / 2
         if (posRef.current >= half) posRef.current -= half
@@ -1289,7 +1290,7 @@ function FlexiMobileTestimonialRow({ items }: { items: typeof TESTIMONIALS }) {
                 <div style={{ flex: 1, padding: '18px 18px 14px' }}>
                   <div style={{ marginBottom: 8, fontSize: 13, color: '#FBBF24' }}>★★★★★</div>
                   <p style={{ margin: '0 0 6px', fontSize: 13, lineHeight: 1.7, color: '#2d4a6a', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>&ldquo;{t.quote}&rdquo;</p>
-                  <button onClick={e => { e.stopPropagation(); setPopup(t) }}
+                  <button onClick={e => { e.stopPropagation(); popupOpenRef.current = true; setPopup(t) }}
                     style={{ background: 'none', border: 'none', color: '#0694D1', fontSize: 11, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', padding: '0 0 12px', display: 'block' }}>Show more →</button>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     {t.avatar ? (
@@ -1316,11 +1317,11 @@ function FlexiMobileTestimonialRow({ items }: { items: typeof TESTIMONIALS }) {
         </ul>
       </div>
       {popup && typeof document !== 'undefined' && createPortal(
-        <div onClick={() => setPopup(null)} style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(7,30,46,0.70)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+        <div onClick={() => { popupOpenRef.current = false; setPopup(null) }} style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(7,30,46,0.70)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
           <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '20px 20px 0 0', padding: '28px 24px 40px', width: '100%', maxWidth: 480, maxHeight: '85vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <span style={{ fontSize: 16, color: '#FBBF24', letterSpacing: 2 }}>★★★★★</span>
-              <button onClick={() => setPopup(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+              <button onClick={() => { popupOpenRef.current = false; setPopup(null) }} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b8299" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>

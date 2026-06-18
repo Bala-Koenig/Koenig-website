@@ -325,7 +325,7 @@ function OneOnOneLeadFormSection() {
 }
 
 /* ── Testimonial Card ────────────────────────────────────────── */
-function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
+function TestimonialCard({ t, onExpand }: { t: typeof TESTIMONIALS[0]; onExpand?: (expanded: boolean) => void }) {
   const [exp, setExp] = useState(false)
   const isLong = t.quote.length > 140
   return (
@@ -334,7 +334,7 @@ function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
         <div className="mb-3 text-base leading-none" style={{ color: '#F59E0B', letterSpacing: 1 }}>★★★★★</div>
         <p className="mb-4 text-sm leading-relaxed flex-1" style={{ color: '#2d4a6a' }}>&ldquo;{isLong && !exp ? `${t.quote.slice(0, 140)}…` : t.quote}&rdquo;</p>
         {isLong && (
-          <button onClick={() => setExp(p => !p)} className="mb-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] hover:bg-[#0694D1] hover:text-white transition-all" style={{ borderColor: '#0694D1' }}>
+          <button onClick={() => { const next = !exp; setExp(next); onExpand?.(next) }} className="mb-3 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] hover:bg-[#0694D1] hover:text-white transition-all" style={{ borderColor: '#0694D1' }}>
             {exp ? 'Show Less ↑' : 'Show More ↓'}
           </button>
         )}
@@ -359,6 +359,7 @@ function MobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
   const trackRef = useRef<HTMLUListElement>(null)
   const posRef   = useRef(0)
   const dragRef  = useRef({ active: false, startX: 0, startPos: 0 })
+  const cardExpandedRef = useRef(false)
 
   useEffect(() => {
     const inner = trackRef.current
@@ -366,7 +367,7 @@ function MobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
     let prev = performance.now(); let raf: number
     function tick(now: number) {
       const dt = now - prev; prev = now
-      if (!dragRef.current.active && inner) {
+      if (!dragRef.current.active && !cardExpandedRef.current && inner) {
         posRef.current += 0.038 * dt
         const half = inner.scrollWidth / 2
         if (half > 0 && posRef.current >= half) posRef.current -= half
@@ -393,7 +394,7 @@ function MobileMarquee({ items }: { items: typeof TESTIMONIALS }) {
       <ul ref={trackRef} className="flex gap-4 py-2" style={{ width: 'max-content', listStyle: 'none', padding: 0, margin: 0 }}>
         {[...items, ...items].map((t, i) => (
           <li key={i} style={{ width: 280, flexShrink: 0 }}>
-            <TestimonialCard t={t} />
+            <TestimonialCard t={t} onExpand={v => { cardExpandedRef.current = v }} />
           </li>
         ))}
       </ul>
@@ -406,12 +407,13 @@ function ScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: num
   const ref  = useRef<HTMLDivElement>(null)
   const pos  = useRef(0)
   const paus = useRef(false)
+  const cardExpandedRef = useRef(false)
   useEffect(() => {
     const el = ref.current; if (!el) return
     let prev = performance.now(); let raf: number
     function tick(now: number) {
       const dt = now - prev; prev = now
-      if (!paus.current && el) {
+      if (!paus.current && !cardExpandedRef.current && el) {
         pos.current += speed * dt
         const half = el.scrollHeight / 2
         if (half > 0 && pos.current >= half) pos.current -= half
@@ -425,7 +427,7 @@ function ScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: num
   return (
     <div style={{ height: 520, overflow: 'hidden' }} onMouseEnter={() => { paus.current = true }} onMouseLeave={() => { paus.current = false }}>
       <div ref={ref} className="flex flex-col gap-4">
-        {[...items, ...items].map((t, i) => <TestimonialCard key={i} t={t} />)}
+        {[...items, ...items].map((t, i) => <TestimonialCard key={i} t={t} onExpand={v => { cardExpandedRef.current = v }} />)}
       </div>
     </div>
   )
