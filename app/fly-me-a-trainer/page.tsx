@@ -5,11 +5,16 @@ import Navbar from '@/components/Navbar'
 
 /* ── Learning tabs ─────────────────────────────────────────────── */
 const LEARNING_TABS = [
-  { id: 'ilo',      label: 'Live Online (ILO)',          href: '/live-online-classroom' },
-  { id: 'classroom',label: 'Classroom',                  href: '/classroom-training'   },
-  { id: 'flexi',    label: 'Flexi',                      href: '/flexi-training'       },
-  { id: '1on1',     label: '1-on-1',                     href: '/1-on-1-training'      },
-  { id: 'fmat',     label: 'Fly-Me-a-Trainer',           href: '/fly-me-a-trainer'     },
+  { id: 'ilo',      label: 'Live Online Training',      href: '/live-online-classroom',
+    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> },
+  { id: 'classroom',label: 'Classroom',                  href: '/classroom-training',
+    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
+  { id: 'flexi',    label: 'Flexi',                      href: '/flexi-training',
+    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> },
+  { id: '1on1',     label: '1-on-1',                     href: '/1-on-1-training',
+    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> },
+  { id: 'fmat',     label: 'Fly-Me-a-Trainer',           href: '/fly-me-a-trainer',
+    icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 19-7z"/></svg> },
 ]
 
 const STATS = [
@@ -380,6 +385,11 @@ export default function FlyMeATrainerPage() {
   const [openFaq, setOpenFaq]   = useState<number | null>(null)
   const [howIdx, setHowIdx]     = useState(0)
   const howTouchX = useRef(0)
+  const tabScrollRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = tabScrollRef.current?.querySelector('[data-tab="fmat"]') as HTMLElement | null
+    if (el) el.scrollIntoView({ behavior: 'instant', inline: 'start', block: 'nearest' })
+  }, [])
 
   return (
     <div style={{ fontFamily: 'inherit' }}>
@@ -464,14 +474,15 @@ export default function FlyMeATrainerPage() {
       {/* ── TRAINING TABS ──────────────────────────────────────── */}
       <section className="bg-white border-b py-4" style={{ borderColor: '#E2E8F0' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <div ref={tabScrollRef} className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             {LEARNING_TABS.map(tab => (
               <Link key={tab.id} href={tab.href}
-                className="shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-all"
+                data-tab={tab.id}
+                className="inline-flex items-center gap-1.5 shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-all"
                 style={tab.id === 'fmat'
                   ? { background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', boxShadow: '0 2px 10px rgba(6,148,209,0.35)' }
                   : { background: '#F1F5F9', color: '#64748b' }}>
-                {tab.label}
+                {tab.icon}{tab.label}
               </Link>
             ))}
           </div>
