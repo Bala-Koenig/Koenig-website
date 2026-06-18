@@ -6,17 +6,18 @@ export default function DownloadPptButton() {
       href="https://www.koenig-solutions.com/assets/media/ppt/Koenig-Corp-Presentation.pdf"
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative inline-flex items-center justify-center gap-2 border border-white/30 text-white/80 hover:border-[#0694D1] hover:text-[#38bdf8] font-semibold px-6 py-3 rounded-xl transition-all duration-300 mt-3 mb-0 overflow-hidden"
+      className="group relative inline-flex items-center justify-center gap-2 font-bold text-white px-6 py-3 rounded-xl transition-all duration-300 mt-3 mb-0 overflow-hidden hover:-translate-y-0.5"
+      style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.45)' }}
     >
       {/* shimmer sweep — always animating */}
       <span
         className="pointer-events-none absolute inset-0 animate-shimmer-slide"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.15), transparent)' }}
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)' }}
       />
 
       {/* ping ring */}
       <span className="relative flex h-4 w-4 shrink-0">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#38bdf8] opacity-30" />
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-30" />
         <span className="relative inline-flex items-center justify-center w-4 h-4">
           <svg
             width="15" height="15"

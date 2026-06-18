@@ -106,7 +106,10 @@ export default function OurClientsPage() {
             {CLIENTS.map(c => (
               <div
                 key={c.name}
-                className="flex items-center justify-center p-6 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] hover:border-[#0694D1]/40 hover:bg-[#EFF6FF] hover:shadow-md transition-all"
+                className="flex items-center justify-center p-6 rounded-xl hover:shadow-md transition-all"
+                style={{ background: 'rgba(6,148,209,0.04)', border: '1px solid rgba(6,148,209,0.15)', boxShadow: '0 0 12px rgba(6,148,209,0.06)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.10)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)' }}
                 title={c.name}>
                 <img
                   src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}

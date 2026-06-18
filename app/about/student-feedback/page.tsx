@@ -123,7 +123,7 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
     onExpandChange?.(next)
   }
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+    <div className="flex flex-col overflow-hidden rounded-2xl h-full" style={{ background: 'rgba(6,148,209,0.04)', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 2px 12px rgba(6,148,209,0.10)' }}>
       <div className="flex-1 p-5">
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
         <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
@@ -145,7 +145,7 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: '#E8F4FA', background: '#F8FCFF' }}>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,148,209,0.06)' }}>
         <div>
           <p className="text-xs font-bold" style={{ color: '#093148' }}>{t.course}</p>
           <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
@@ -583,7 +583,7 @@ export default function StudentFeedbackPage() {
           <div className="hidden sm:block">
             <div className="grid grid-cols-3 gap-6">
               {REVISION_TESTIMONIALS.slice(revPage * REV_PER_PAGE, revPage * REV_PER_PAGE + REV_PER_PAGE).map((r, i) => (
-                <div key={i} className="relative flex flex-col bg-white rounded-2xl p-6" style={{ boxShadow: '0 4px 24px rgba(6,148,209,0.1)', border: '1px solid #E8F4FA' }}>
+                <div key={i} className="relative flex flex-col rounded-2xl p-6" style={{ background: 'rgba(6,148,209,0.04)', boxShadow: '0 4px 24px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.18)' }}>
                   <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
                   <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
                   <div className="text-5xl font-serif leading-none mb-2" style={{ color: '#DCEEFB' }}>&ldquo;</div>
@@ -648,7 +648,7 @@ export default function StudentFeedbackPage() {
 
           {/* Mobile: single card with dots */}
           <div className="sm:hidden">
-            <div className="relative bg-white rounded-2xl p-6" style={{ boxShadow: '0 4px 24px rgba(6,148,209,0.1)', border: '1px solid #E8F4FA' }}
+            <div className="relative rounded-2xl p-6" style={{ background: 'rgba(6,148,209,0.04)', boxShadow: '0 4px 24px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.18)' }}
               onTouchStart={e => { revTouchX.current = e.touches[0].clientX }}
               onTouchEnd={e => {
                 const dx = e.changedTouches[0].clientX - revTouchX.current
@@ -717,21 +717,21 @@ export default function StudentFeedbackPage() {
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8">
             {/* Google card */}
-            <div className="flex items-center gap-5 bg-white rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>
+            <div className="flex items-center gap-5 rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 8px 32px rgba(6,148,209,0.18)' }}>
               <div>
                 <div className="text-2xl font-bold tracking-tight leading-none mb-2">
                   <span style={{ color: '#4285F4' }}>G</span><span style={{ color: '#EA4335' }}>o</span><span style={{ color: '#FBBC05' }}>o</span><span style={{ color: '#4285F4' }}>g</span><span style={{ color: '#34A853' }}>l</span><span style={{ color: '#EA4335' }}>e</span>
                 </div>
                 <div className="text-yellow-400 text-base leading-none">★★★★<span style={{ opacity: 0.3 }}>★</span></div>
               </div>
-              <div className="h-12 w-px" style={{ background: '#E8F4FA' }} />
+              <div className="h-12 w-px" style={{ background: 'rgba(6,148,209,0.3)' }} />
               <div>
-                <div className="text-3xl font-bold text-[#093148] leading-none">4.4</div>
-                <div className="text-xs text-[#7a8c96] font-medium mt-1">out of 5</div>
+                <div className="text-3xl font-bold text-white leading-none">4.4</div>
+                <div className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>out of 5</div>
               </div>
             </div>
             {/* Facebook card */}
-            <div className="flex items-center gap-5 bg-white rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>
+            <div className="flex items-center gap-5 rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 8px 32px rgba(6,148,209,0.18)' }}>
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -739,10 +739,10 @@ export default function StudentFeedbackPage() {
                 </div>
                 <div className="text-yellow-400 text-base leading-none">★★★★<span style={{ opacity: 0.3 }}>★</span></div>
               </div>
-              <div className="h-12 w-px" style={{ background: '#E8F4FA' }} />
+              <div className="h-12 w-px" style={{ background: 'rgba(6,148,209,0.3)' }} />
               <div>
-                <div className="text-3xl font-bold text-[#093148] leading-none">4.2</div>
-                <div className="text-xs text-[#7a8c96] font-medium mt-1">out of 5</div>
+                <div className="text-3xl font-bold text-white leading-none">4.2</div>
+                <div className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>out of 5</div>
               </div>
             </div>
           </div>

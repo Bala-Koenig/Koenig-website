@@ -149,9 +149,9 @@ export default function OurStoryPage() {
                   </div>
                 )}
                 <div
-                  className="timeline-card h-full rounded-2xl bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  className="timeline-card h-full rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                   data-delay={`${i * 0.13}s`}
-                  style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)', border: '1px solid rgba(0,0,0,0.07)' }}>
+                  style={{ background: 'rgba(6,148,209,0.04)', boxShadow: '0 2px 16px rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.18)' }}>
                   {/* Colored top accent */}
                   <div className="h-1" style={{ backgroundColor: t.color }} />
                   <div className="p-6">

@@ -122,8 +122,8 @@ export default function OurPartnersPage() {
             {PARTNERS.map(p => (
               <div
                 key={p.name}
-                className="group flex flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1"
-                style={{ border: '1px solid #BAE6FD', boxShadow: '0 4px 18px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)' }}
+                className="group flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1"
+                style={{ background: 'rgba(6,148,209,0.04)', border: '1px solid rgba(6,148,209,0.20)', boxShadow: '0 4px 18px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 36px rgba(6,148,209,0.28), 0 2px 8px rgba(6,148,209,0.14)'; (e.currentTarget as HTMLElement).style.borderColor = '#0694D1' }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 18px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = '#BAE6FD' }}
               >
@@ -132,7 +132,7 @@ export default function OurPartnersPage() {
                   style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
 
                 {/* Logo area */}
-                <div className="flex h-[88px] w-full items-center justify-center bg-white px-4 py-3">
+                <div className="flex h-[88px] w-full items-center justify-center px-4 py-3" style={{ background: 'rgba(255,255,255,0.85)' }}>
                   {p.img ? (
                     <img
                       src={`/images/partners/${encodeURIComponent(p.img)}`}
@@ -148,7 +148,7 @@ export default function OurPartnersPage() {
                 </div>
 
                 {/* Name + courses */}
-                <div className="flex flex-col items-center gap-1 border-t border-[#EEF6FF] bg-[#F8FBFF] px-3 pt-2.5 pb-2">
+                <div className="flex flex-col items-center gap-1 border-t px-3 pt-2.5 pb-2" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,148,209,0.06)' }}>
                   <p className="truncate w-full text-center text-[11px] font-bold text-[#0b2545]">{p.name}</p>
                   <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold"
                     style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1' }}>
@@ -157,7 +157,7 @@ export default function OurPartnersPage() {
                 </div>
 
                 {/* Verify button */}
-                <div className="px-3 pb-3 pt-1.5 bg-[#F8FBFF]">
+                <div className="px-3 pb-3 pt-1.5" style={{ background: 'rgba(6,148,209,0.06)' }}>
                   {p.verify ? (
                     <a
                       href={p.verify}

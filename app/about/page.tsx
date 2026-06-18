@@ -232,14 +232,14 @@ export default function AboutPage() {
 
                 {/* Card 2 — Our Vision */}
                 <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
-                  style={{ boxShadow: '0 0 0 1px rgba(5,150,105,0.18), 0 4px 20px rgba(5,150,105,0.08)' }}>
+                  style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 4px 20px rgba(6,148,209,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                    style={{ background: 'rgba(5,150,105,0.12)', boxShadow: '0 4px 14px rgba(5,150,105,0.18)' }}>
-                    <svg className="w-8 h-8" fill="none" stroke="#059669" strokeWidth="1.5" viewBox="0 0 24 24">
+                    style={{ background: 'rgba(6,148,209,0.12)', boxShadow: '0 4px 14px rgba(6,148,209,0.18)' }}>
+                    <svg className="w-8 h-8" fill="none" stroke="#0694D1" strokeWidth="1.5" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
                     </svg>
                   </div>
-                  <p className="font-bold mb-2" style={{ color: '#059669' }}>Our Vision</p>
+                  <p className="font-bold mb-2" style={{ color: '#0694D1' }}>Our Vision</p>
                   <p className="text-[#374151] text-sm leading-relaxed">
                     To contribute to a more equitable and prosperous world through education. Today, Koenig has offices across the globe to help accomplish that vision.
                   </p>
@@ -256,14 +256,14 @@ export default function AboutPage() {
 
                 {/* Card 3 — The Kites */}
                 <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
-                  style={{ boxShadow: '0 0 0 1px rgba(124,58,237,0.18), 0 4px 20px rgba(124,58,237,0.08)' }}>
+                  style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 4px 20px rgba(6,148,209,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                    style={{ background: 'rgba(124,58,237,0.12)', boxShadow: '0 4px 14px rgba(124,58,237,0.18)' }}>
-                    <svg className="w-8 h-8" fill="none" stroke="#7c3aed" strokeWidth="1.5" viewBox="0 0 24 24">
+                    style={{ background: 'rgba(6,148,209,0.12)', boxShadow: '0 4px 14px rgba(6,148,209,0.18)' }}>
+                    <svg className="w-8 h-8" fill="none" stroke="#0694D1" strokeWidth="1.5" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                     </svg>
                   </div>
-                  <p className="font-bold mb-2" style={{ color: '#7c3aed' }}>The Kites</p>
+                  <p className="font-bold mb-2" style={{ color: '#0694D1' }}>The Kites</p>
                   <p className="text-[#374151] text-sm leading-relaxed">
                     Our dedicated team of professionals, known as <strong>Kites</strong>, are passionate about delivering exceptional customer experiences worldwide.
                   </p>
@@ -308,14 +308,14 @@ export default function AboutPage() {
 
                 {/* Card 5 — Constant Improvement */}
                 <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
-                  style={{ boxShadow: '0 0 0 1px rgba(220,38,38,0.18), 0 4px 20px rgba(220,38,38,0.08)' }}>
+                  style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 4px 20px rgba(6,148,209,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                    style={{ background: 'rgba(220,38,38,0.12)', boxShadow: '0 4px 14px rgba(220,38,38,0.18)' }}>
-                    <svg className="w-8 h-8" fill="none" stroke="#dc2626" strokeWidth="1.5" viewBox="0 0 24 24">
+                    style={{ background: 'rgba(6,148,209,0.12)', boxShadow: '0 4px 14px rgba(6,148,209,0.18)' }}>
+                    <svg className="w-8 h-8" fill="none" stroke="#0694D1" strokeWidth="1.5" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                     </svg>
                   </div>
-                  <p className="font-bold mb-2" style={{ color: '#dc2626' }}>Constant Improvement</p>
+                  <p className="font-bold mb-2" style={{ color: '#0694D1' }}>Constant Improvement</p>
                   <p className="text-[#374151] text-sm leading-relaxed">
                     We believe in the philosophy of <strong>Constant Improvement</strong> — always striving to be better for our trainers, students, and the communities we serve worldwide.
                   </p>
