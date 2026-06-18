@@ -79,20 +79,20 @@ export default function AboutPage() {
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-4">
+                <h1 className="text-[36px] font-bold text-white leading-tight mb-3">
                   About <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Koenig Solutions</span>
                 </h1>
-                <p className="text-xl text-white/80 mb-3 leading-relaxed">
+                <p className="text-base text-white/80 mb-3 leading-relaxed">
                   A global leader in IT training. Just tell us
                 </p>
                 <div className="flex flex-wrap gap-3 mb-3">
                   {/* What */}
-                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-base px-4 py-1.5 rounded-full">
+                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-sm px-4 py-1.5 rounded-full">
                     <span className="www-icon-q inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#38bdf8]/20 text-[#38bdf8] text-xs font-black leading-none">?</span>
                     What
                   </span>
                   {/* Where */}
-                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-base px-4 py-1.5 rounded-full">
+                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-sm px-4 py-1.5 rounded-full">
                     <span className="www-icon-pin inline-flex items-center justify-center w-5 h-5">
                       <svg width="12" height="16" viewBox="0 0 12 16" fill="none">
                         <path d="M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 114.5 5 1.5 1.5 0 016 6.5z" fill="#38bdf8"/>
@@ -101,7 +101,7 @@ export default function AboutPage() {
                     Where
                   </span>
                   {/* When */}
-                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-base px-4 py-1.5 rounded-full">
+                  <span className="www-item inline-flex items-center gap-1.5 bg-[#38bdf8]/10 border border-[#38bdf8]/30 text-[#38bdf8] font-semibold text-sm px-4 py-1.5 rounded-full">
                     <span className="www-icon-clock inline-flex items-center justify-center w-5 h-5">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
@@ -110,8 +110,8 @@ export default function AboutPage() {
                     When
                   </span>
                 </div>
-                <p className="text-xl text-white/80 leading-relaxed">— we'll deliver the training.</p>
-                <p className="text-lg text-white/60 mb-8">
+                <p className="text-base text-white/80 leading-relaxed">— we'll deliver the training.</p>
+                <p className="text-sm text-white/60 mb-6">
                   We empower you to earn <span className="text-white font-medium">Money, Respect and Peace of Mind.</span>
                 </p>
                 <div className="inline-flex flex-col gap-0">
@@ -141,7 +141,7 @@ export default function AboutPage() {
                 <img src={s.icon} alt={s.label} className="h-8 w-8 object-contain shrink-0"
                   style={{ filter: 'brightness(0) saturate(100%) invert(66%) sepia(72%) saturate(500%) hue-rotate(163deg) brightness(103%)' }} />
                 <div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#38bdf8] leading-tight">{s.value}</div>
+                  <div className="text-lg sm:text-xl font-bold text-[#38bdf8] leading-tight">{s.value}</div>
                   <div className="text-xs text-white/60 leading-snug">{s.label}</div>
                 </div>
               </div>
@@ -198,10 +198,10 @@ export default function AboutPage() {
           {/* WHO WE ARE content */}
           {activeTab === 'who' && (
             <>
-              <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">
+              <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-2 text-center">
                 Who We <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are</span>
               </h2>
-              <p className="text-center text-[#475569] mb-10">Three decades of training excellence, built on one belief</p>
+              <p className="text-center text-sm text-[#475569] mb-8">Three decades of training excellence, built on one belief</p>
 
               {/* Row 1: 3 cards with animated arrows */}
               <div className="flex flex-col sm:flex-row items-stretch">
@@ -328,10 +328,10 @@ export default function AboutPage() {
           {/* GLOBAL PRESENCE content */}
           {activeTab === 'global' && (
             <>
-              <h2 className="text-3xl sm:text-4xl font-bold text-[#0F172A] mb-2 text-center">
+              <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-2 text-center">
                 Our Global <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Presence</span>
               </h2>
-              <p className="text-center text-[#475569] mb-10">13 offices. 195+ countries served.</p>
+              <p className="text-center text-sm text-[#475569] mb-8">13 offices. 195+ countries served.</p>
 
               <div className="kglass-light rounded-2xl p-8 sm:p-10"
                 style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 8px 40px rgba(56,189,248,0.22), 0 0 80px rgba(6,148,209,0.12)' }}>
@@ -369,10 +369,10 @@ export default function AboutPage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 text-center">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-2 text-center">
             Awards &amp; <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Recognition</span>
           </h2>
-          <p className="text-center text-white/50 mb-10">Proud milestones that reflect our commitment to excellence</p>
+          <p className="text-center text-sm text-white/50 mb-8">Proud milestones that reflect our commitment to excellence</p>
 
           <div className="grid sm:grid-cols-2 gap-6">
 
@@ -390,7 +390,7 @@ export default function AboutPage() {
               </div>
               {/* Content — right */}
               <div className="text-center sm:text-left">
-                <p className="text-xl font-bold text-[#38bdf8] mb-3">Great Place to Work® Certified</p>
+                <p className="text-base font-bold text-[#38bdf8] mb-2">Great Place to Work® Certified</p>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Koenig Solutions is proud to be certified as a{' '}
                   <strong className="text-white/80">Great Place to Work® (JAN 2026–JAN 2027)</strong>,
@@ -410,7 +410,7 @@ export default function AboutPage() {
               </div>
               {/* Content — right */}
               <div className="text-center sm:text-left">
-                <p className="text-xl font-bold text-[#38bdf8] mb-3">Best Place to Work in Education</p>
+                <p className="text-base font-bold text-[#38bdf8] mb-2">Best Place to Work in Education</p>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Recognised as the{' '}
                   <strong className="text-white/80">Best Place to Work in Education (2010–2026)</strong>.
@@ -442,10 +442,10 @@ export default function AboutPage() {
           <div className="about-blob3 absolute -bottom-16 -right-24 w-[350px] h-[350px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Upskill?</span></h2>
-          <p className="text-white/70 mb-8 text-lg">Join 30,000+ students training with Koenig every month.</p>
+          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-3">Ready to <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Upskill?</span></h2>
+          <p className="text-white/70 mb-6 text-sm">Join 30,000+ students training with Koenig every month.</p>
           <a href="mailto:info@koenig-solutions.com"
-            className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">
+            className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-3 rounded-xl transition-colors text-base">
             Get in Touch
           </a>
         </div>
