@@ -115,16 +115,6 @@ export default function AboutPage() {
                   We empower you to earn <span className="text-white font-medium">Money, Respect and Peace of Mind.</span>
                 </p>
                 <div className="inline-flex flex-col gap-0">
-                  <div className="flex flex-wrap gap-4">
-                    <Link href="/about/our-story"
-                      className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-6 py-3 rounded-xl transition-colors">
-                      Our Story
-                    </Link>
-                    <Link href="/about/leadership"
-                      className="inline-block border border-[#0694D1] text-[#38bdf8] hover:bg-[#0694D1] hover:text-white font-semibold px-6 py-3 rounded-xl transition-colors">
-                      Meet the Team
-                    </Link>
-                  </div>
                   <DownloadPptButton />
                 </div>
               </div>
