@@ -132,17 +132,24 @@ export default function OurStoryPage() {
       </section>
 
       {/* LIGHT SECTION – Timeline */}
-      <section className="bg-white py-5 sm:py-[50px]">
-        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+      <section className="relative py-5 sm:py-[50px] overflow-hidden"
+        style={{ backgroundColor: '#EBF5FF' }}>
+        {/* Glow gradient blobs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-20 left-1/4 w-[600px] h-[300px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[250px] rounded-full bg-[#38bdf8] opacity-[0.13] blur-[100px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] rounded-full bg-[#0694D1] opacity-[0.07] blur-[80px]" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-3 text-center">Three Decades of <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Resilience</span></h2>
-          <p className="text-center text-[#475569] mb-12">From a single Delhi office to 30,000+ students monthly in 195 countries</p>
+          <p className="text-center text-[#0F172A]/60 mb-12">From a single Delhi office to 30,000+ students monthly in 195 countries</p>
           <div ref={gridRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TIMELINE.map((t, i) => (
               <div key={t.year} className="relative">
                 {/* Animated arrow between cards (not after last in each row) */}
                 {i % 3 !== 2 && (
-                  <div className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 items-center justify-center w-7 h-7 rounded-full bg-white shadow-md"
-                    style={{ border: '1px solid rgba(6,148,209,0.3)' }}>
+                  <div className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 items-center justify-center w-7 h-7 rounded-full shadow-md"
+                    style={{ background: 'white', border: '1px solid rgba(6,148,209,0.35)' }}>
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="arrow-pulse">
                       <polyline points="9 18 15 12 9 6"/>
                     </svg>
@@ -151,7 +158,7 @@ export default function OurStoryPage() {
                 <div
                   className="timeline-card h-full rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                   data-delay={`${i * 0.13}s`}
-                  style={{ background: 'rgba(6,148,209,0.04)', boxShadow: '0 2px 16px rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.18)' }}>
+                  style={{ background: 'white', boxShadow: '0 2px 20px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.20)' }}>
                   {/* Colored top accent */}
                   <div className="h-1" style={{ backgroundColor: t.color }} />
                   <div className="p-6">
@@ -167,7 +174,7 @@ export default function OurStoryPage() {
                       </span>
                     </div>
                     <h3 className="text-base font-bold text-[#0F172A] mb-2">{t.event}</h3>
-                    <p className="text-sm text-[#64748B] leading-relaxed">{t.desc}</p>
+                    <p className="text-sm text-[#475569] leading-relaxed">{t.desc}</p>
                   </div>
                 </div>
               </div>
