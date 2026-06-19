@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
@@ -369,31 +368,20 @@ export default function HappinessGuaranteePage() {
       {/* ── CTA ── */}
       <section className="py-5 sm:py-[50px]" style={{ backgroundColor: '#F8FBFF' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="relative rounded-2xl overflow-hidden flex items-stretch"
+          <div className="rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 px-8 py-6 sm:px-12 sm:py-7"
             style={{ background: '#EBF5FF', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 4px 32px rgba(6,148,209,0.10)' }}>
-            <div className="flex-1 px-8 py-8 sm:px-12 sm:py-10 flex flex-col justify-center">
-              <p className="text-xs font-bold tracking-widest text-[#0694D1] uppercase mb-3">Koenig Solutions</p>
-              <h2 className="text-[22px] sm:text-[28px] font-bold text-[#0F172A] leading-snug mb-2">
-                Ready to Get Started?
-              </h2>
-              <p className="text-sm text-[#475569] mb-6">Happiness Guaranteed — or your money back. Join 1M+ professionals trained worldwide.</p>
-              <div>
-                <Link
-                  href="/courses"
-                  className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
-                  Explore Our Courses →
-                </Link>
-              </div>
+            <div>
+              <p className="text-xs font-bold tracking-widest text-[#0694D1] uppercase mb-1">Koenig Solutions</p>
+              <h2 className="text-[20px] sm:text-[24px] font-bold text-[#0F172A] leading-snug mb-1">Ready to Get Started?</h2>
+              <p className="text-sm text-[#475569]">Happiness Guaranteed — or your money back. Join 1M+ professionals trained worldwide.</p>
             </div>
-            <div className="relative hidden sm:block w-[320px] flex-shrink-0">
-              <Image
-                src="/images/home-banner/classroom-training.webp"
-                alt="Koenig IT Training"
-                width={320}
-                height={220}
-                className="w-full h-full object-cover"
-              />
+            <div className="shrink-0">
+              <Link
+                href="/courses"
+                className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg whitespace-nowrap"
+                style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
+                Explore Our Courses →
+              </Link>
             </div>
           </div>
         </div>
