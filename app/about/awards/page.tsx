@@ -188,27 +188,32 @@ export default function AwardsPage() {
                 </p>
               </div>
               <div className="kglass-dark rounded-2xl p-5 sm:p-6">
-                {/* Top row: icon + number + star */}
+                {/* Stat row */}
                 <div className="flex items-start justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  <div className="flex items-center gap-2.5">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
                     </svg>
-                    <span className="text-3xl sm:text-4xl font-bold" style={{ color: '#38bdf8' }}>12+</span>
+                    <span className="text-[38px] sm:text-[44px] font-bold leading-none" style={{ color: '#38bdf8' }}>12+</span>
                   </div>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 mt-1">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 mt-1 flex-shrink-0">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                   </svg>
                 </div>
-                <p className="text-white/70 text-sm mb-4">Global Awards &amp; Recognitions</p>
+                <p className="text-white/60 text-[13px] mb-4">Global Awards &amp; Recognitions</p>
+                <div className="border-t mb-4" style={{ borderColor: 'rgba(255,255,255,0.08)' }} />
                 {/* Vendor pills */}
                 <div className="flex flex-wrap gap-2">
-                  {['Microsoft', 'AWS', 'EC-Council', 'PECB', 'Oracle', 'Great Place to Work'].map(v => (
-                    <span key={v} className="text-[11px] font-medium text-white/80 px-3 py-1 rounded-full"
-                      style={{ border: '1px solid rgba(56,189,248,0.25)', background: 'rgba(56,189,248,0.06)' }}>
+                  {['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'Oracle', 'Red Hat'].map(v => (
+                    <span key={v} className="text-[11px] font-medium text-white/75 px-2.5 py-1 rounded-full"
+                      style={{ border: '1px solid rgba(255,255,255,0.14)', background: 'rgba(255,255,255,0.05)' }}>
                       {v}
                     </span>
                   ))}
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
+                    style={{ border: '1px solid rgba(56,189,248,0.35)', background: 'rgba(56,189,248,0.12)', color: '#38bdf8' }}>
+                    +42 more
+                  </span>
                 </div>
               </div>
             </div>
