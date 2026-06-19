@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
-import ContactForm from '../technologies/power-platform/components/ContactForm'
+import ContactModal from '../live-online-classroom/components/ContactModal'
 
 const STATS = [
   { value: '33+',      label: 'Years of Excellence',            icon: '/images/home-banner/icon-infographic-30+.svg' },
@@ -35,7 +35,6 @@ type Tab = 'who' | 'global'
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState<Tab>('who')
-  const [showForm, setShowForm] = useState(false)
 
   return (
     <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -450,7 +449,7 @@ export default function AboutPage() {
               <p className="text-sm text-[#475569] mb-6">Join 30,000+ professionals trained every month across 195 countries.</p>
               <div>
                 <button
-                  onClick={() => setShowForm(true)}
+                  onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'individual' } }))}
                   className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg"
                   style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
                   Request More Info
@@ -475,22 +474,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── REQUEST MORE INFO MODAL ─────────────────────────── */}
-      {showForm && (
-        <div
-          style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(4,24,37,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
-          onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false) }}>
-          <div style={{ position: 'relative', width: '100%', maxWidth: 560, maxHeight: '90vh', overflowY: 'auto', borderRadius: 20, background: '#fff' }}>
-            <button
-              onClick={() => setShowForm(false)}
-              style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, width: 32, height: 32, borderRadius: '50%', border: 'none', background: 'rgba(9,49,72,0.08)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, color: '#093148', lineHeight: 1 }}
-              aria-label="Close">
-              ×
-            </button>
-            <ContactForm />
-          </div>
-        </div>
-      )}
+      <ContactModal />
     </div>
   )
 }
