@@ -255,12 +255,6 @@ export default function OurPartnersPage() {
               </div>
             ))}
           </div>
-          <div className="text-center mt-12">
-            <a href="mailto:info@koenig-solutions.com"
-              className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">
-              Enquire About a Course
-            </a>
-          </div>
         </div>
       </section>
     </div>
