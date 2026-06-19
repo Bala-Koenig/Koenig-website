@@ -251,7 +251,7 @@ export default function OurStoryPage() {
               <h2 className="text-[22px] sm:text-[28px] font-bold text-[#0F172A] leading-snug mb-2">
                 Want to Be Part of Our Next Chapter?
               </h2>
-              <p className="text-sm text-[#475569] mb-6">Train with Koenig and write your own success story.</p>
+              <p className="text-sm text-[#475569] mb-6">We&apos;re always looking for passionate educators, tech experts, and professionals to join our team.</p>
               <div>
                 <a
                   href="https://www.koenig-solutions.com/koenig-careers"
