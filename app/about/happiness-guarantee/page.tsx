@@ -279,7 +279,7 @@ export default function HappinessGuaranteePage() {
             A Message from <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Our CEO</span>
           </h2>
           <div className="max-w-4xl mx-auto">
-            <div className="kglass-light rounded-3xl overflow-hidden" style={{ boxShadow: '0 8px 40px rgba(6,148,209,0.12)' }}>
+            <div className="rounded-3xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid rgba(6,148,209,0.15)', boxShadow: '0 8px 40px rgba(6,148,209,0.10)' }}>
 
               {/* Top accent bar */}
               <div className="h-1 w-full" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8, #0694D1)' }} />
