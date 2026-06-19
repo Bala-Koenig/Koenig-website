@@ -458,7 +458,7 @@ export default function AboutPage() {
               </div>
             </div>
             {/* Right image */}
-            <div className="hidden sm:block w-[320px] flex-shrink-0">
+            <div className="relative hidden sm:block w-[320px] flex-shrink-0">
               <Image
                 src="/images/home-banner/classroom-training.webp"
                 alt="Koenig IT Training"
@@ -466,6 +466,10 @@ export default function AboutPage() {
                 height={220}
                 className="w-full h-full object-cover"
               />
+              {/* Left fade into banner */}
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #EBF5FF 0%, transparent 35%)' }} />
+              {/* Soft shadow along all edges */}
+              <div className="absolute inset-0" style={{ boxShadow: 'inset 8px 0 16px rgba(6,148,209,0.08), inset 0 8px 16px rgba(6,148,209,0.05), inset 0 -8px 16px rgba(6,148,209,0.05)' }} />
             </div>
           </div>
         </div>
