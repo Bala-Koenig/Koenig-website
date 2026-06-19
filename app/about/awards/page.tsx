@@ -187,23 +187,17 @@ export default function AwardsPage() {
                   These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
                 </p>
               </div>
-              <div className="grid grid-cols-3 gap-2 sm:gap-3">
+              <div className="grid grid-cols-3 gap-4 sm:gap-5 items-center">
                 {[
-                  { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft', count: '3', label: 'Awards', color: '#00a1f1' },
-                  { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS', count: '3', label: 'Awards', color: '#ff9900' },
-                  { logo: '/images/partners/EC-Council-logo.png', vendor: 'EC-Council', count: '3', label: 'Awards', color: '#c8102e' },
-                  { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB', count: '2', label: 'Awards', color: '#94a3b8' },
-                  { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle', count: '1', label: 'Award', color: '#c74634' },
-                  { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW', count: '15', label: 'Yrs', color: '#e8002d' },
-                ].map(({ logo, vendor, count, label, color }) => (
-                  <div key={vendor} className="kglass-dark rounded-xl overflow-hidden flex flex-col">
-                    <div className="flex items-center justify-center p-2 sm:p-3" style={{ height: '60px', backgroundColor: '#ddf1fb' }}>
-                      <img src={logo} alt={vendor} className="max-h-full max-w-full object-contain" />
-                    </div>
-                    <div className="flex flex-col items-center justify-center py-2 px-1">
-                      <span className="text-base sm:text-xl font-bold text-white leading-none">{count} <span className="text-[10px] sm:text-xs font-normal text-white/50">{label}</span></span>
-                      <span className="text-[9px] sm:text-[10px] font-semibold mt-0.5 text-center leading-tight" style={{ color }}>{vendor}</span>
-                    </div>
+                  { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft' },
+                  { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS' },
+                  { logo: '/images/partners/EC-Council-logo.png', vendor: 'EC-Council' },
+                  { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB' },
+                  { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle' },
+                  { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW' },
+                ].map(({ logo, vendor }) => (
+                  <div key={vendor} className="flex items-center justify-center">
+                    <img src={logo} alt={vendor} className="max-h-12 max-w-full object-contain" />
                   </div>
                 ))}
               </div>
