@@ -2515,9 +2515,9 @@ p {
 .cf-search-clear:hover { background: rgba(0,120,212,0.15); color: #0078D4; }
 /* ── AI Mode ── */
 .cf-search-wrap.ai-active { border-color:#0694D1; box-shadow:0 0 0 3px rgba(6,148,209,0.15),0 0 16px rgba(6,148,209,0.10); background:#EEF8FF; }
-@keyframes aiOutlinePulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+@keyframes aiOutlinePulse { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
 .cf-ai-btn { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:6px; border:none; background:transparent; color:#0694D1; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit; flex-shrink:0; white-space:nowrap; position:relative; isolation:isolate; transition:color 0.2s; }
-.cf-ai-btn::before { content:''; position:absolute; inset:-1.5px; border-radius:8px; background:linear-gradient(135deg, #a8d8f0 0%, #0694D1 40%, #38bdf8 70%, #7ec8e8 100%); animation:aiOutlinePulse 3s ease-in-out infinite; z-index:-2; }
+.cf-ai-btn::before { content:''; position:absolute; inset:-1px; border-radius:8px; background:linear-gradient(135deg, #c8e8f8 0%, #5bb8e8 45%, #a0d8f2 100%); animation:aiOutlinePulse 4s ease-in-out infinite; z-index:-2; }
 .cf-ai-btn::after { content:''; position:absolute; inset:1.5px; border-radius:5px; background:#ffffff; z-index:-1; }
 .cf-ai-btn:hover::before { opacity:1; }
 .cf-ai-btn.on::before { animation:aiOutlinePulse 1.8s ease-in-out infinite; }
