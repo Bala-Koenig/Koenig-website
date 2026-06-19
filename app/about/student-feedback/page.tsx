@@ -333,7 +333,7 @@ export default function StudentFeedbackPage() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(56,189,248,0.12)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.25)' }}>
                 <span className="text-yellow-400">★</span> Trusted by 5M+ Learners Worldwide
               </div>
-              <h1 className="text-[36px] font-bold leading-tight mb-4 text-white">
+              <h1 className="text-[26px] sm:text-[36px] font-bold leading-tight mb-4 text-white">
                 Real Learners.<br />
                 <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Stories.</span>
               </h1>
@@ -465,18 +465,18 @@ export default function StudentFeedbackPage() {
             <div className="inline-flex overflow-hidden rounded-[14px] bg-white p-1.5 shadow-[0_4px_20px_rgba(6,148,209,0.12)]">
               <button
                 onClick={() => setActiveTab('testimonial')}
-                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'testimonial' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#093148]'}`}
+                className={`relative flex items-center gap-1.5 sm:gap-2 rounded-xl px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'testimonial' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#093148]'}`}
               >
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
                 Students Testimonial
               </button>
               <button
                 onClick={() => setActiveTab('videos')}
-                className={`relative flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'videos' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#093148]'}`}
+                className={`relative flex items-center gap-1.5 sm:gap-2 rounded-xl px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold transition-all duration-[250ms] ${activeTab === 'videos' ? 'bg-gradient-to-r from-[#0694D1] to-cyan-500 text-white shadow-md shadow-[#0694D1]/30' : 'text-[#7a8c96] hover:text-[#093148]'}`}
               >
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
                 Student Testimonial Videos

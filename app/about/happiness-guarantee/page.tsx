@@ -368,7 +368,7 @@ export default function HappinessGuaranteePage() {
       {/* ── CTA ── */}
       <section className="py-5 sm:py-[50px]" style={{ backgroundColor: '#F8FBFF' }}>
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 px-8 py-6 sm:px-12 sm:py-7"
+          <div className="rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 px-5 py-5 sm:px-12 sm:py-7"
             style={{ background: '#EBF5FF', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 4px 32px rgba(6,148,209,0.10)' }}>
             <div>
               <p className="text-xs font-bold tracking-widest text-[#0694D1] uppercase mb-1">Koenig Solutions</p>
@@ -398,15 +398,15 @@ export default function HappinessGuaranteePage() {
           <div className="flex justify-center mb-8 sm:mb-10">
             <div className="flex rounded-xl p-1.5" style={{ border: '2px solid #0694D1', background: '#fff' }}>
               <button onClick={() => setTab('why')}
-                className="cursor-pointer flex items-center gap-2 font-semibold px-6 py-2.5 rounded-lg text-sm transition-all"
+                className="cursor-pointer flex items-center gap-1.5 sm:gap-2 font-semibold px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all"
                 style={tab === 'why' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { background: '#fff', color: '#0694D1' }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 Why Choose Us
               </button>
               <button onClick={() => setTab('feedback')}
-                className="cursor-pointer flex items-center gap-2 font-semibold px-6 py-2.5 rounded-lg text-sm transition-all"
+                className="cursor-pointer flex items-center gap-1.5 sm:gap-2 font-semibold px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all"
                 style={tab === 'feedback' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { background: '#fff', color: '#0694D1' }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                 Student Feedback
               </button>
             </div>

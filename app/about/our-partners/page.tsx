@@ -74,10 +74,10 @@ export default function OurPartnersPage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-10 px-8 sm:px-10">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="kglass-banner py-6 px-4 sm:py-10 sm:px-10">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h1 className="text-[36px] font-bold text-white leading-tight mb-6">
+                <h1 className="text-[26px] sm:text-[36px] font-bold text-white leading-tight mb-4 sm:mb-6">
                   Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Partners</span>
                 </h1>
                 <p className="text-base text-white/80 mb-4 leading-relaxed">
