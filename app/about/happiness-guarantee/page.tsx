@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
@@ -365,74 +366,35 @@ export default function HappinessGuaranteePage() {
         </div>
       </section>
 
-      {/* ── CTA — mild blue bg ── */}
-      <section className="relative py-5 sm:py-14 overflow-hidden" style={{ background: 'linear-gradient(135deg, #c8e6f5 0%, #ddf1fb 40%, #b8dff0 100%)' }}>
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[200px] bg-[#0694D1] opacity-[0.12] blur-[80px] rounded-full" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[200px] bg-[#38bdf8] opacity-[0.10] blur-[70px] rounded-full" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="relative rounded-2xl py-8 sm:py-10 px-6 sm:px-12 overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-5"
-            style={{ background: '#ffffff', border: '1.5px solid rgba(6,148,209,0.25)', boxShadow: '0 4px 32px rgba(6,148,209,0.14), 0 1px 4px rgba(6,148,209,0.08)' }}>
-
-            {/* Decorative background shapes */}
-            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
-
-              {/* Diagonal stripe band — top-right corner */}
-              <svg className="absolute -right-4 -top-4 opacity-[0.05]" width="220" height="160" viewBox="0 0 220 160" fill="none">
-                {[0,1,2,3,4,5,6,7].map(i => (
-                  <line key={i} x1={i*28} y1="0" x2={i*28+160} y2="160" stroke="#0694D1" strokeWidth="10"/>
-                ))}
-              </svg>
-
-              {/* Large faded shield watermark — right center */}
-              <svg className="absolute right-16 top-1/2 -translate-y-1/2 opacity-[0.18]" width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <polyline points="9 12 11 14 15 10"/>
-              </svg>
-
-              {/* Floating rotated square — bottom-left */}
-              <svg className="absolute -left-6 -bottom-6 opacity-[0.20]" width="120" height="120" viewBox="0 0 120 120" fill="none">
-                <rect x="20" y="20" width="80" height="80" rx="8" stroke="#0694D1" strokeWidth="2" transform="rotate(15 60 60)"/>
-                <rect x="32" y="32" width="56" height="56" rx="6" stroke="#38bdf8" strokeWidth="1.5" transform="rotate(15 60 60)"/>
-              </svg>
-
-              {/* Dot grid — centre-left */}
-              <svg className="absolute left-[38%] top-1/2 -translate-y-1/2 opacity-[0.22]" width="80" height="80" viewBox="0 0 80 80">
-                {Array.from({ length: 4 }).map((_, row) =>
-                  Array.from({ length: 4 }).map((_, col) => (
-                    <circle key={`${row}-${col}`} cx={col * 20 + 10} cy={row * 20 + 10} r="2" fill="#0694D1"/>
-                  ))
-                )}
-              </svg>
-
-              {/* Arc wave — bottom */}
-              <svg className="absolute bottom-0 left-0 w-full opacity-[0.18]" height="40" viewBox="0 0 900 40" preserveAspectRatio="none" fill="none">
-                <path d="M0 40 Q225 0 450 20 Q675 40 900 0 L900 40 Z" fill="#0694D1"/>
-              </svg>
-
-              {/* Small accent circle — top-left */}
-              <div className="absolute top-4 left-4 w-16 h-16 rounded-full opacity-[0.22]" style={{ background: 'radial-gradient(circle, #0694D1, transparent 70%)' }}/>
-            </div>
-
-            {/* Content */}
-            <div className="relative z-10 text-center sm:text-left">
-              <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3"
-                style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.18)' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0694D1] animate-pulse inline-block" />
-                Join 1M+ professionals trained
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#053148' }}>
+      {/* ── CTA ── */}
+      <section className="py-5 sm:py-[50px]" style={{ backgroundColor: '#F8FBFF' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="relative rounded-2xl overflow-hidden flex items-stretch"
+            style={{ background: '#EBF5FF', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 4px 32px rgba(6,148,209,0.10)' }}>
+            <div className="flex-1 px-8 py-8 sm:px-12 sm:py-10 flex flex-col justify-center">
+              <p className="text-xs font-bold tracking-widest text-[#0694D1] uppercase mb-3">Koenig Solutions</p>
+              <h2 className="text-[22px] sm:text-[28px] font-bold text-[#0F172A] leading-snug mb-2">
                 Ready to Get Started?
               </h2>
-              <p className="mt-1.5 text-sm text-[#475569]">Happiness Guaranteed — or your money back.</p>
+              <p className="text-sm text-[#475569] mb-6">Happiness Guaranteed — or your money back. Join 1M+ professionals trained worldwide.</p>
+              <div>
+                <Link
+                  href="/courses"
+                  className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
+                  Explore Our Courses →
+                </Link>
+              </div>
             </div>
-
-            <Link href="/courses"
-              className="relative z-10 shrink-0 font-semibold px-6 sm:px-8 py-3 rounded-xl text-sm sm:text-base transition-all text-white hover:-translate-y-0.5"
-              style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}>
-              Explore Our Courses →
-            </Link>
+            <div className="relative hidden sm:block w-[320px] flex-shrink-0">
+              <Image
+                src="/images/home-banner/classroom-training.webp"
+                alt="Koenig IT Training"
+                width={320}
+                height={220}
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
