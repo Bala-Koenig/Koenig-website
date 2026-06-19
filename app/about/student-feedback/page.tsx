@@ -370,8 +370,8 @@ export default function StudentFeedbackPage() {
                       {s.svg}
                     </div>
                     <div className="min-w-0">
-                      <div className="text-sm font-extrabold leading-none" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s.val}</div>
-                      <div className="text-[9px] leading-tight text-white/50 mt-0.5">{s.label}</div>
+                      <div className="text-base sm:text-xl font-extrabold leading-none" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s.val}</div>
+                      <div className="text-[10px] sm:text-xs leading-tight text-white/50 mt-0.5">{s.label}</div>
                     </div>
                   </div>
                 ))}
