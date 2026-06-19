@@ -102,19 +102,13 @@ export default function OurClientsPage() {
           </h2>
           <p className="text-center text-[#475569] mb-12">Organizations that rely on Koenig to develop their teams</p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-x-8 gap-y-8 items-center">
             {CLIENTS.map(c => (
-              <div
-                key={c.name}
-                className="flex items-center justify-center p-6 rounded-xl hover:shadow-md transition-all"
-                style={{ background: 'rgba(6,148,209,0.04)', border: '1px solid rgba(6,148,209,0.15)', boxShadow: '0 0 12px rgba(6,148,209,0.06)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.10)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)' }}
-                title={c.name}>
+              <div key={c.name} className="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-200" title={c.name}>
                 <img
                   src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
                   alt={c.name}
-                  className="h-14 w-auto max-w-full object-contain"
+                  className="h-10 w-auto max-w-full object-contain"
                 />
               </div>
             ))}
