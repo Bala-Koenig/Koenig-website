@@ -140,7 +140,7 @@ export default function HappinessGuaranteePage() {
           <div className="kglass-banner py-6 px-5 sm:py-7 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
               <div>
-                <h1 className="text-[28px] sm:text-[32px] font-bold text-white leading-tight mb-3 sm:mb-4">
+                <h1 className="text-[24px] sm:text-[32px] font-bold text-white leading-tight mb-3 sm:mb-4">
                   Learn with <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Confidence:</span> Koenig Solutions' Happiness Guarantee
                 </h1>
                 <p className="text-sm text-white/70 leading-relaxed">
@@ -168,7 +168,7 @@ export default function HappinessGuaranteePage() {
           <div className="absolute -bottom-20 -right-20 w-[350px] h-[350px] rounded-full opacity-30 blur-[80px]" style={{ background: 'radial-gradient(circle, #7DD3FA, transparent 70%)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-8 sm:mb-12 text-center">
+          <h2 className="text-[20px] sm:text-[28px] font-bold text-[#0F172A] mb-8 sm:mb-12 text-center">
             What is the <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Happiness Guarantee?</span>
           </h2>
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-stretch">
@@ -223,7 +223,7 @@ export default function HappinessGuaranteePage() {
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-3 text-center">
+          <h2 className="text-[20px] sm:text-[28px] font-bold text-white mb-3 text-center">
             How Does it <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Work?</span>
           </h2>
           <p className="text-center text-white/50 text-sm sm:text-base mb-8 sm:mb-12 max-w-2xl mx-auto">
@@ -275,7 +275,7 @@ export default function HappinessGuaranteePage() {
           <div className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full opacity-30 blur-[80px]" style={{ background: 'radial-gradient(circle, #7DD3FA, transparent 70%)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-8 sm:mb-12 text-center">
+          <h2 className="text-[20px] sm:text-[28px] font-bold text-[#0F172A] mb-8 sm:mb-12 text-center">
             A Message from <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Our CEO</span>
           </h2>
           <div className="max-w-4xl mx-auto">

@@ -333,7 +333,7 @@ export default function StudentFeedbackPage() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(56,189,248,0.12)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.25)' }}>
                 <span className="text-yellow-400">★</span> Trusted by 5M+ Learners Worldwide
               </div>
-              <h1 className="text-[26px] sm:text-[36px] font-bold leading-tight mb-4 text-white">
+              <h1 className="text-[24px] sm:text-[36px] font-bold leading-tight mb-4 text-white">
                 Real Learners.<br />
                 <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Stories.</span>
               </h1>
@@ -438,7 +438,7 @@ export default function StudentFeedbackPage() {
 
           {/* Section heading */}
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-[28px] font-bold mb-2" style={{ color: '#093148' }}>
+            <h2 className="text-[20px] sm:text-[28px] font-bold mb-2" style={{ color: '#093148' }}>
               The Koenig <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Experience</span>
             </h2>
             <p className="text-sm sm:text-base text-[#7a8c96]">Hear firsthand from students who&apos;ve experienced the Koenig difference.</p>
@@ -566,7 +566,7 @@ export default function StudentFeedbackPage() {
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
               Revision Classes
             </span>
-            <h2 className="text-2xl sm:text-[28px] font-bold text-[#093148] mb-3">
+            <h2 className="text-[20px] sm:text-[28px] font-bold text-[#093148] mb-3">
               Learner Feedback on Our <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Revision Classes</span>
             </h2>
             <p className="text-sm sm:text-base text-[#7a8c96] max-w-2xl mx-auto">
@@ -704,7 +704,7 @@ export default function StudentFeedbackPage() {
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8' }}>
               Our Reputation
             </span>
-            <h2 className="text-2xl sm:text-[28px] font-bold text-white">
+            <h2 className="text-[20px] sm:text-[28px] font-bold text-white">
               Rated Highly Across{' '}
               <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Platforms</span>
             </h2>
@@ -757,7 +757,7 @@ export default function StudentFeedbackPage() {
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.12)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>
               Explore Our Courses
             </span>
-            <h2 className="text-2xl sm:text-[28px] font-bold text-[#093148] leading-snug">
+            <h2 className="text-[20px] sm:text-[28px] font-bold text-[#093148] leading-snug">
               Join 5 million+ learners who&apos;ve upskilled with<br className="hidden sm:block" />
               <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}> Koenig&apos;s top-rated programs</span>
             </h2>

@@ -77,7 +77,7 @@ export default function OurPartnersPage() {
           <div className="kglass-banner py-6 px-4 sm:py-10 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h1 className="text-[26px] sm:text-[36px] font-bold text-white leading-tight mb-4 sm:mb-6">
+                <h1 className="text-[24px] sm:text-[36px] font-bold text-white leading-tight mb-4 sm:mb-6">
                   Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Partners</span>
                 </h1>
                 <p className="text-base text-white/80 mb-4 leading-relaxed">
@@ -113,7 +113,7 @@ export default function OurPartnersPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full opacity-20 blur-[120px]" style={{ background: '#38bdf8' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-3 text-center">
+          <h2 className="text-[20px] sm:text-[28px] font-bold text-[#0F172A] mb-3 text-center">
             Authorized by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span>
           </h2>
           <p className="text-center text-[#475569] mb-12">{PARTNERS.length}+ vendor authorizations across cloud, security, networking, and beyond</p>
@@ -202,7 +202,7 @@ export default function OurPartnersPage() {
           <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-3 text-center">Why Authorization <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Matters</span></h2>
+          <h2 className="text-[20px] sm:text-[28px] font-bold text-white mb-3 text-center">Why Authorization <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Matters</span></h2>
           <p className="text-center text-white/60 mb-12">The difference between authorized and unauthorized training is significant</p>
           <div className="grid sm:grid-cols-3 gap-5">
             {[
