@@ -10,6 +10,9 @@ import Image from 'next/image'
 
 const ABOUT_LINKS: { label: string; href: string }[] = [
   { label: 'About Us',            href: '/about' },
+  { label: 'Our Clients',         href: '/about/our-clients' },
+  { label: 'Our Partners',        href: '/about/our-partners' },
+  { label: 'Our Awards',          href: '/about/awards' },
   { label: 'Happiness Guarantee', href: '/about/happiness-guarantee' },
   { label: 'Student Feedback',    href: '/about/student-feedback' },
 ]

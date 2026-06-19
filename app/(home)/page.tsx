@@ -1065,6 +1065,9 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
 /* ─── Dropdown data ─────────────────────────────────────────── */
 const ABOUT_LINKS = [
   { label: 'About Us',            href: '/about' },
+  { label: 'Our Clients',         href: '/about/our-clients' },
+  { label: 'Our Partners',        href: '/about/our-partners' },
+  { label: 'Our Awards',          href: '/about/awards' },
   { label: 'Happiness Guarantee', href: '/about/happiness-guarantee' },
   { label: 'Student Feedback',    href: '/about/student-feedback' },
 ]
