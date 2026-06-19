@@ -104,11 +104,11 @@ export default function OurClientsPage() {
 
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-x-8 gap-y-8 items-center">
             {CLIENTS.map(c => (
-              <div key={c.name} className="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-200" title={c.name}>
+              <div key={c.name} className="flex items-center justify-center" title={c.name}>
                 <img
                   src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
                   alt={c.name}
-                  className="h-10 w-auto max-w-full object-contain"
+                  className="h-14 w-auto max-w-full object-contain"
                 />
               </div>
             ))}
