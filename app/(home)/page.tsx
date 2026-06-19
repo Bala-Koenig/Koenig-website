@@ -1063,7 +1063,11 @@ function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
 /* ─── Page ──────────────────────────────────────────────────── */
 
 /* ─── Dropdown data ─────────────────────────────────────────── */
-const ABOUT_LINKS = ['About Us','Our Clientele','Leadership','Our Partners','Happiness Guarantee','Student Feedback','Testimonials','Koenig Koshish','Our Awards']
+const ABOUT_LINKS = [
+  { label: 'About Us',            href: '/about' },
+  { label: 'Happiness Guarantee', href: '/about/happiness-guarantee' },
+  { label: 'Student Feedback',    href: '/about/student-feedback' },
+]
 const LEARNING_LINKS = [
   { label: 'Live Online Training', href: '/live-online-classroom' },
   { label: 'Classroom Training',   href: '#' },
@@ -2460,7 +2464,7 @@ export default function Design4Page() {
                 {mobileAboutOpen && (
                   <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
                     {ABOUT_LINKS.map(link => (
-                      <a key={link} href="#" className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }}>{link}</a>
+                      <a key={link.label} href={link.href} className="block px-5 py-2.5 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.8)' }}>{link.label}</a>
                     ))}
                   </div>
                 )}
@@ -2701,15 +2705,15 @@ export default function Design4Page() {
         >
           {ABOUT_LINKS.map(link => (
             <button
-              key={link}
+              key={link.label}
               type="button"
               className="block w-full text-left px-5 py-2.5 text-sm transition-colors"
               style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer' }}
               onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)'; }}
               onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent'; }}
-              onClick={() => setAboutMenuOpen(false)}
+              onClick={() => { setAboutMenuOpen(false); router.push(link.href) }}
             >
-              {link}
+              {link.label}
             </button>
           ))}
         </div>,
