@@ -104,6 +104,30 @@ const VENDOR_SECTIONS = [
       },
     ],
   },
+  {
+    name: 'Red Hat',
+    ...BRAND,
+    awards: [
+      {
+        img: 'RED-25.png',
+        title: 'Red Hat Training Partner Award',
+        desc: 'Koenig Solutions was recognised by Red Hat for outstanding performance and excellence in delivering Red Hat training and certification programmes, demonstrating a sustained commitment to open-source technology education in 2025.',
+        year: '2025',
+      },
+      {
+        img: 'RED-24.png',
+        title: 'Red Hat Training Partner Award',
+        desc: 'Koenig Solutions was honoured by Red Hat in 2024 for its exceptional contribution to growing the Red Hat certified professional community, reflecting a high standard of training delivery across enterprise Linux, OpenShift, and Ansible.',
+        year: '2024',
+      },
+      {
+        img: 'Redhat-23.png',
+        title: 'Red Hat Training Partner Award',
+        desc: 'Koenig Solutions received recognition from Red Hat in 2023 for its dedication to delivering world-class Red Hat training, enabling IT professionals to master enterprise open-source technologies and achieve certification success.',
+        year: '2023',
+      },
+    ],
+  },
 ]
 
 const SINGLE_AWARDS = [
