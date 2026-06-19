@@ -158,7 +158,7 @@ export default function OurStoryPage() {
                 <div
                   className="timeline-card h-full rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                   data-delay={`${i * 0.13}s`}
-                  style={{ background: 'white', boxShadow: '0 2px 20px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.20)' }}>
+                  style={{ background: 'linear-gradient(145deg, rgba(6,148,209,0.08) 0%, rgba(56,189,248,0.04) 100%)', boxShadow: '0 2px 20px rgba(6,148,209,0.14)', border: '1px solid rgba(6,148,209,0.22)' }}>
                   {/* Colored top accent */}
                   <div className="h-1" style={{ backgroundColor: t.color }} />
                   <div className="p-6">
@@ -173,8 +173,8 @@ export default function OurStoryPage() {
                         {t.year}
                       </span>
                     </div>
-                    <h3 className="text-base font-bold text-[#0F172A] mb-2">{t.event}</h3>
-                    <p className="text-sm text-[#475569] leading-relaxed">{t.desc}</p>
+                    <h3 className="text-base font-bold text-[#0694D1] mb-2">{t.event}</h3>
+                    <p className="text-sm text-[#0F172A]/65 leading-relaxed">{t.desc}</p>
                   </div>
                 </div>
               </div>
