@@ -395,7 +395,7 @@ export default function HappinessGuaranteePage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           {/* Tab buttons */}
-          <div className="flex gap-3 mb-8 sm:mb-10">
+          <div className="flex gap-3 mb-8 sm:mb-10 justify-center">
             <button onClick={() => setTab('why')}
               className="cursor-pointer font-semibold px-5 py-2 rounded-full text-sm transition-all"
               style={tab === 'why' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { border: '1px solid rgba(6,148,209,0.4)', color: '#38bdf8' }}>
