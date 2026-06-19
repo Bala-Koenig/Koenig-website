@@ -324,7 +324,7 @@ export default function StudentFeedbackPage() {
         .sf-blob2{animation:sfBlob2 15s ease-in-out infinite}
         .sf-blob3{animation:sfBlob3 18s ease-in-out infinite}
       `}</style>
-      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-4 sm:py-[30px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="sf-blob1 absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-[#0694D1] opacity-[0.08] blur-[130px]" />
           <div className="sf-blob2 absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[110px]" />
@@ -332,7 +332,7 @@ export default function StudentFeedbackPage() {
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-7 px-4 sm:py-10 sm:px-10">
+          <div className="kglass-banner py-5 px-4 sm:py-7 sm:px-10">
           <div className="flex flex-col md:flex-row md:items-center gap-8 lg:gap-14">
             <div className="flex-1">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(56,189,248,0.12)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.25)' }}>
