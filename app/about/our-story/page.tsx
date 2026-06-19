@@ -1,9 +1,10 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import Link from 'next/link'
+import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
+import ContactModal from '../live-online-classroom/components/ContactModal'
 
 const TIMELINE = [
   {
@@ -240,34 +241,44 @@ export default function OurStoryPage() {
         </div>
       </section>
 
-      {/* LIGHT SECTION – CTA */}
-      <section
-        className="relative py-5 sm:py-[50px] text-center overflow-hidden"
-        style={{
-          backgroundColor: '#EBF5FF',
-          backgroundImage: 'radial-gradient(rgba(6,148,209,0.28) 1.5px, transparent 1.5px)',
-          backgroundSize: '24px 24px',
-        }}>
-
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[260px] bg-[#EBF5FF] opacity-80 blur-[60px] rounded-full" />
-        </div>
-
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-4">Want to Be Part of Our Next <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Chapter?</span></h2>
-          <p className="text-[#475569] mb-8 text-base">Train with Koenig and write your own success story.</p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a href="mailto:info@koenig-solutions.com"
-              className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">
-              Contact Us
-            </a>
-            <Link href="/about/leadership"
-              className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors">
-              Meet the Team
-            </Link>
+      {/* CTA BANNER */}
+      <section className="py-5 sm:py-[50px]" style={{ backgroundColor: '#F8FBFF' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="relative rounded-2xl overflow-hidden flex items-stretch"
+            style={{ background: '#EBF5FF', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 4px 32px rgba(6,148,209,0.10)' }}>
+            {/* Left content */}
+            <div className="flex-1 px-8 py-8 sm:px-12 sm:py-10 flex flex-col justify-center">
+              <p className="text-xs font-bold tracking-widest text-[#0694D1] uppercase mb-3">Koenig Solutions</p>
+              <h2 className="text-[22px] sm:text-[28px] font-bold text-[#0F172A] leading-snug mb-2">
+                Want to Be Part of Our Next Chapter?
+              </h2>
+              <p className="text-sm text-[#475569] mb-6">Train with Koenig and write your own success story.</p>
+              <div>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'individual' } }))}
+                  className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
+                  Request More Info
+                </button>
+              </div>
+            </div>
+            {/* Right image */}
+            <div className="relative hidden sm:block w-[320px] flex-shrink-0">
+              <Image
+                src="/images/home-banner/classroom-training.webp"
+                alt="Koenig IT Training"
+                width={320}
+                height={220}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #EBF5FF 0%, transparent 35%)' }} />
+              <div className="absolute inset-0" style={{ boxShadow: 'inset 8px 0 16px rgba(6,148,209,0.08), inset 0 8px 16px rgba(6,148,209,0.05), inset 0 -8px 16px rgba(6,148,209,0.05)' }} />
+            </div>
           </div>
         </div>
       </section>
+
+      <ContactModal />
     </div>
   )
 }
