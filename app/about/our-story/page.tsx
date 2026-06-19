@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
-import ContactModal from '../live-online-classroom/components/ContactModal'
+import ContactModal from '../../live-online-classroom/components/ContactModal'
 
 const TIMELINE = [
   {
