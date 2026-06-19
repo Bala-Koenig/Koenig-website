@@ -16,36 +16,36 @@ const TIMELINE = [
   {
     year: '2001',
     event: 'Near-Death #1 — Dotcom Bust',
-    color: '#ef4444',
-    iconBg: 'rgba(239,68,68,0.12)',
+    color: '#075985',
+    iconBg: 'rgba(7,89,133,0.12)',
     desc: 'The dotcom bubble wiped out the domestic market. Koenig pivoted to offshore training, finding its first UK customer Andy Sau — a move that would define the next decade.',
   },
   {
     year: '2004–2015',
     event: 'Rapid Growth',
-    color: '#22c55e',
-    iconBg: 'rgba(34,197,94,0.12)',
+    color: '#38bdf8',
+    iconBg: 'rgba(56,189,248,0.12)',
     desc: 'Students grew from 10 to 1,000+ per month. Offices opened in Shimla, Goa, and Dubai. Live online training launched, breaking geographical barriers for learners worldwide.',
   },
   {
     year: '2016',
     event: 'Near-Death #2 — Oil Crisis',
-    color: '#f59e0b',
-    iconBg: 'rgba(245,158,11,0.12)',
+    color: '#0369a1',
+    iconBg: 'rgba(3,105,161,0.12)',
     desc: '80% revenue drop almost ended everything. Strict cost controls and an unwavering team kept Koenig alive. Full recovery was achieved by year-end — stronger than before.',
   },
   {
     year: '2020',
     event: 'Near-Death #3 — COVID-19',
-    color: '#a855f7',
-    iconBg: 'rgba(168,85,247,0.12)',
+    color: '#0284c7',
+    iconBg: 'rgba(2,132,199,0.12)',
     desc: 'Pandemic shut down the world. Koenig made a full pivot to live online delivery and adopted a WFH model overnight. The crisis became a catalyst — student numbers surged.',
   },
   {
     year: '2026',
     event: 'Today',
-    color: '#38bdf8',
-    iconBg: 'rgba(56,189,248,0.12)',
+    color: '#22d3ee',
+    iconBg: 'rgba(34,211,238,0.12)',
     desc: '30,000+ students/month. 300+ trainers. 5,000+ courses across 12 countries. Three near-deaths and 33 years later, Koenig stands as a global leader in IT training.',
   },
 ]
@@ -158,7 +158,7 @@ export default function OurStoryPage() {
                 <div
                   className="timeline-card h-full rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                   data-delay={`${i * 0.13}s`}
-                  style={{ background: 'linear-gradient(145deg, rgba(6,148,209,0.08) 0%, rgba(56,189,248,0.04) 100%)', boxShadow: '0 2px 20px rgba(6,148,209,0.14)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                  style={{ background: 'white', boxShadow: '0 2px 20px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.20)' }}>
                   {/* Colored top accent */}
                   <div className="h-1" style={{ backgroundColor: t.color }} />
                   <div className="p-6">
@@ -173,8 +173,8 @@ export default function OurStoryPage() {
                         {t.year}
                       </span>
                     </div>
-                    <h3 className="text-base font-bold text-[#0694D1] mb-2">{t.event}</h3>
-                    <p className="text-sm text-[#0F172A]/65 leading-relaxed">{t.desc}</p>
+                    <h3 className="text-base font-bold text-[#0F172A] mb-2">{t.event}</h3>
+                    <p className="text-sm text-[#475569] leading-relaxed">{t.desc}</p>
                   </div>
                 </div>
               </div>
