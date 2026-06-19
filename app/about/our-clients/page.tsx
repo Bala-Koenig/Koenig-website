@@ -1,9 +1,10 @@
 'use client'
 import React from 'react'
-import Link from 'next/link'
+import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
+import ContactModal from '../../live-online-classroom/components/ContactModal'
 
 const CLIENTS = [
   { name: 'Google',             img: 'google.png'               },
@@ -211,41 +212,51 @@ export default function OurClientsPage() {
         </div>
       </section>
 
-      {/* LIGHT SECTION – Enterprise callout */}
-      <section
-        className="relative py-5 sm:py-[50px] overflow-hidden"
-        style={{
-          backgroundColor: '#EBF5FF',
-          backgroundImage: 'radial-gradient(rgba(6,148,209,0.28) 1.5px, transparent 1.5px)',
-          backgroundSize: '24px 24px',
-        }}>
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[260px] bg-[#EBF5FF] opacity-80 blur-[60px] rounded-full" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[180px] bg-[#0694D1] opacity-[0.10] blur-[80px] rounded-full" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[100px] bg-[#38bdf8] opacity-[0.12] blur-[50px] rounded-full" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-6">Enterprise Training <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Solutions</span></h2>
-            <p className="text-[#475569] text-base leading-relaxed mb-6">
-              We deliver bespoke corporate training programs tailored to your organization's technology stack, business goals, and learning preferences. From instructor-led classroom sessions to fully remote live online cohorts — we build the program around you.
-            </p>
-            <p className="text-[#475569] leading-relaxed mb-8">
-              Our enterprise clients benefit from dedicated account managers, custom courseware, volume pricing, and a guaranteed satisfaction policy. Whether you're upskilling 10 or 10,000 employees, Koenig scales with you.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a href="mailto:info@koenig-solutions.com"
-                className="inline-block w-full sm:w-auto text-center bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-4 rounded-xl transition-colors">
-                Talk to Enterprise Sales
-              </a>
-              <Link href="/about/happiness-guarantee"
-                className="inline-block w-full sm:w-auto text-center border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors">
-                Our Happiness Guarantee
-              </Link>
+      {/* ENTERPRISE CTA BANNER */}
+      <section className="py-5 sm:py-[50px]" style={{ backgroundColor: '#F8FBFF' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="relative rounded-2xl overflow-hidden flex items-stretch"
+            style={{ background: '#EBF5FF', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 4px 32px rgba(6,148,209,0.10)' }}>
+            {/* Left content */}
+            <div className="flex-1 px-8 py-8 sm:px-12 sm:py-10 flex flex-col justify-center">
+              <p className="text-xs font-bold tracking-widest text-[#0694D1] uppercase mb-3">Koenig Solutions</p>
+              <h2 className="text-[22px] sm:text-[28px] font-bold text-[#0F172A] leading-snug mb-3">
+                Enterprise Training Solutions
+              </h2>
+              <p className="text-sm text-[#475569] leading-relaxed mb-3">
+                We deliver bespoke corporate training programs tailored to your organization&apos;s technology stack, business goals, and learning preferences. From instructor-led classroom sessions to fully remote live online cohorts — we build the program around you.
+              </p>
+              <p className="text-sm text-[#475569] leading-relaxed mb-6">
+                Our enterprise clients benefit from dedicated account managers, custom courseware, volume pricing, and a guaranteed satisfaction policy. Whether you&apos;re upskilling 10 or 10,000 employees, Koenig scales with you.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'enterprise' } }))}
+                  className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
+                  Talk to Enterprise Sales
+                </button>
+                <a href="/about/happiness-guarantee"
+                  className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-7 py-3 rounded-xl transition-colors text-sm">
+                  Our Happiness Guarantee
+                </a>
+              </div>
+            </div>
+            {/* Right image */}
+            <div className="relative hidden sm:block w-[320px] flex-shrink-0">
+              <Image
+                src="/images/home-banner/classroom-training.webp"
+                alt="Koenig Enterprise Training"
+                width={320}
+                height={220}
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
       </section>
+
+      <ContactModal />
     </div>
   )
 }
