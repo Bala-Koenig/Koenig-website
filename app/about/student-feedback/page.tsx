@@ -717,21 +717,21 @@ export default function StudentFeedbackPage() {
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8">
             {/* Google card */}
-            <div className="flex items-center gap-5 rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 8px 32px rgba(6,148,209,0.18)' }}>
+            <div className="flex items-center gap-5 rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ background: '#fff', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 8px 32px rgba(6,148,209,0.12)' }}>
               <div>
                 <div className="text-2xl font-bold tracking-tight leading-none mb-2">
                   <span style={{ color: '#4285F4' }}>G</span><span style={{ color: '#EA4335' }}>o</span><span style={{ color: '#FBBC05' }}>o</span><span style={{ color: '#4285F4' }}>g</span><span style={{ color: '#34A853' }}>l</span><span style={{ color: '#EA4335' }}>e</span>
                 </div>
                 <div className="text-yellow-400 text-base leading-none">★★★★<span style={{ opacity: 0.3 }}>★</span></div>
               </div>
-              <div className="h-12 w-px" style={{ background: 'rgba(6,148,209,0.3)' }} />
+              <div className="h-12 w-px" style={{ background: 'rgba(6,148,209,0.2)' }} />
               <div>
-                <div className="text-3xl font-bold text-white leading-none">4.4</div>
-                <div className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>out of 5</div>
+                <div className="text-3xl font-bold leading-none" style={{ color: '#0F172A' }}>4.4</div>
+                <div className="text-xs font-medium mt-1" style={{ color: '#64748B' }}>out of 5</div>
               </div>
             </div>
             {/* Facebook card */}
-            <div className="flex items-center gap-5 rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 8px 32px rgba(6,148,209,0.18)' }}>
+            <div className="flex items-center gap-5 rounded-2xl px-8 py-6 w-full sm:w-auto sm:min-w-[240px]" style={{ background: '#fff', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 8px 32px rgba(6,148,209,0.12)' }}>
               <div>
                 <div className="flex items-center gap-1.5 mb-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -739,10 +739,10 @@ export default function StudentFeedbackPage() {
                 </div>
                 <div className="text-yellow-400 text-base leading-none">★★★★<span style={{ opacity: 0.3 }}>★</span></div>
               </div>
-              <div className="h-12 w-px" style={{ background: 'rgba(6,148,209,0.3)' }} />
+              <div className="h-12 w-px" style={{ background: 'rgba(6,148,209,0.2)' }} />
               <div>
-                <div className="text-3xl font-bold text-white leading-none">4.2</div>
-                <div className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>out of 5</div>
+                <div className="text-3xl font-bold leading-none" style={{ color: '#0F172A' }}>4.2</div>
+                <div className="text-xs font-medium mt-1" style={{ color: '#64748B' }}>out of 5</div>
               </div>
             </div>
           </div>
