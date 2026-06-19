@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
-import ContactModal from '../../live-online-classroom/components/ContactModal'
 
 const TIMELINE = [
   {
@@ -254,12 +253,14 @@ export default function OurStoryPage() {
               </h2>
               <p className="text-sm text-[#475569] mb-6">Train with Koenig and write your own success story.</p>
               <div>
-                <button
-                  onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'individual' } }))}
+                <a
+                  href="https://www.koenig-solutions.com/koenig-careers"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg"
                   style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
-                  Request More Info
-                </button>
+                  Explore Careers
+                </a>
               </div>
             </div>
             {/* Right image */}
@@ -276,7 +277,6 @@ export default function OurStoryPage() {
         </div>
       </section>
 
-      <ContactModal />
     </div>
   )
 }
