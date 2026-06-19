@@ -130,20 +130,20 @@ export default function HappinessGuaranteePage() {
       <AboutSubNav />
 
       {/* ── BANNER — dark + blue glow ── */}
-      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px]">
+      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[30px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.07] blur-[100px]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] bg-[#0694D1] opacity-[0.04] blur-[80px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-8 px-5 sm:py-10 sm:px-10">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="kglass-banner py-6 px-5 sm:py-7 sm:px-10">
+            <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
               <div>
-                <h1 className="text-[36px] font-bold text-white leading-tight mb-4 sm:mb-6">
+                <h1 className="text-[28px] sm:text-[32px] font-bold text-white leading-tight mb-3 sm:mb-4">
                   Learn with <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Confidence:</span> Koenig Solutions' Happiness Guarantee
                 </h1>
-                <p className="text-sm sm:text-base text-white/70 leading-relaxed">
+                <p className="text-sm text-white/70 leading-relaxed">
                   Happiness is achieved when expectations are met. We set clear expectations and then we exceed them — every single time.
                 </p>
               </div>
@@ -151,8 +151,8 @@ export default function HappinessGuaranteePage() {
                 <img
                   src="/images/happinessGuranty.webp"
                   alt="Happiness Guaranteed"
-                  className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-2xl"
-                  style={{ filter: 'drop-shadow(0 0 40px rgba(6,148,209,0.4))', animation: 'iconFloat 4s ease-in-out infinite' }}
+                  className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 object-contain"
+                  style={{ filter: 'drop-shadow(0 0 30px rgba(6,148,209,0.4))', animation: 'iconFloat 4s ease-in-out infinite' }}
                 />
               </div>
             </div>
