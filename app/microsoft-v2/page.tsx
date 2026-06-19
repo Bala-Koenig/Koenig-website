@@ -10842,10 +10842,10 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
   }, []);
 
   useEffect(() => {
-    if (!aiMode) { setAiResults(null); setAiThinking(false); return; }
+    if (!aiMode) { setAiResults(null); setAiThinking(false); setAiLearnMore(false); return; }
     const term = aiChip || aiQuery;
-    if (!term.trim() || getContextChips(aiQuery).length === 0) { setAiResults(null); setAiThinking(false); return; }
-    setAiThinking(true); setAiResults(null);
+    if (!term.trim() || getContextChips(aiQuery).length === 0) { setAiResults(null); setAiThinking(false); setAiLearnMore(false); return; }
+    setAiThinking(true); setAiResults(null); setAiLearnMore(false);
     if (aiDebounceRef.current) clearTimeout(aiDebounceRef.current);
     aiDebounceRef.current = setTimeout(() => { setAiThinking(false); setAiResults(classifyAiQuery(term + " " + aiQuery)); }, 600);
     return () => { if (aiDebounceRef.current) clearTimeout(aiDebounceRef.current); };
