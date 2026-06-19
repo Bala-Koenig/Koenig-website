@@ -123,7 +123,7 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
     onExpandChange?.(next)
   }
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl h-full" style={{ background: 'rgba(6,148,209,0.04)', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 2px 12px rgba(6,148,209,0.10)' }}>
+    <div className="flex flex-col overflow-hidden rounded-2xl h-full" style={{ background: '#ffffff', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 2px 12px rgba(6,148,209,0.10)' }}>
       <div className="flex-1 p-5">
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
         <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
@@ -145,7 +145,7 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,148,209,0.06)' }}>
+      <div className="flex items-center justify-between border-t px-5 py-3" style={{ borderColor: 'rgba(6,148,209,0.15)', background: '#f8fbff' }}>
         <div>
           <p className="text-xs font-bold" style={{ color: '#093148' }}>{t.course}</p>
           <p className="mt-0.5 text-xs" style={{ color: '#999' }}>{t.date}</p>
