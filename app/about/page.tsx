@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
+import ContactForm from '../technologies/power-platform/components/ContactForm'
 
 const STATS = [
   { value: '33+',      label: 'Years of Excellence',            icon: '/images/home-banner/icon-infographic-30+.svg' },
@@ -35,14 +36,6 @@ type Tab = 'who' | 'global'
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState<Tab>('who')
   const [showForm, setShowForm] = useState(false)
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
-
-  function handleFormSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => { setShowForm(false); setSubmitted(false); setFormData({ name: '', email: '', phone: '', message: '' }) }, 2000)
-  }
 
   return (
     <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -452,13 +445,14 @@ export default function AboutPage() {
             <div className="flex-1 px-8 py-8 sm:px-12 sm:py-10 flex flex-col justify-center">
               <p className="text-xs font-bold tracking-widest text-[#0694D1] uppercase mb-3">Koenig Solutions</p>
               <h2 className="text-[22px] sm:text-[28px] font-bold text-[#0F172A] leading-snug mb-2">
-                Ready to Upskill with<br className="hidden sm:block" /> Certified IT Training?
+                Ready to Upskill with Certified IT Training?
               </h2>
               <p className="text-sm text-[#475569] mb-6">Join 30,000+ professionals trained every month across 195 countries.</p>
               <div>
                 <button
                   onClick={() => setShowForm(true)}
-                  className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-7 py-3 rounded-xl transition-colors text-sm">
+                  className="inline-block text-white font-semibold px-7 py-3 rounded-full transition-all text-sm hover:opacity-90 hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
                   Request More Info
                 </button>
               </div>
@@ -480,81 +474,16 @@ export default function AboutPage() {
       {/* ── REQUEST MORE INFO MODAL ─────────────────────────── */}
       {showForm && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ backgroundColor: 'rgba(6,17,30,0.80)', backdropFilter: 'blur(8px)' }}
-          onClick={() => setShowForm(false)}>
-          <div
-            className="relative w-full max-w-md rounded-2xl overflow-hidden shadow-2xl"
-            style={{ background: '#0D1F30', border: '1px solid rgba(6,148,209,0.20)' }}
-            onClick={e => e.stopPropagation()}>
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-              <div>
-                <h3 className="text-lg font-bold text-white">Request More Info</h3>
-                <p className="text-[#38bdf8] text-xs mt-0.5">Our team will get back to you within 24 hours</p>
-              </div>
-              <button onClick={() => setShowForm(false)}
-                className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white transition-colors text-2xl leading-none ml-3"
-                aria-label="Close">×</button>
-            </div>
-            {/* Form */}
-            <div className="px-6 py-5">
-              {submitted ? (
-                <div className="text-center py-8">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-                    style={{ background: 'rgba(6,148,209,0.20)' }}>
-                    <svg className="w-7 h-7 text-[#38bdf8]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <p className="text-white font-semibold text-base">Thank you!</p>
-                  <p className="text-white/60 text-sm mt-1">We&apos;ll be in touch shortly.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-white/70 text-xs font-semibold mb-1.5 uppercase tracking-wide">Full Name</label>
-                    <input
-                      type="text" required placeholder="Your name"
-                      value={formData.name}
-                      onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
-                      className="w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[#0694D1]"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.25)' }} />
-                  </div>
-                  <div>
-                    <label className="block text-white/70 text-xs font-semibold mb-1.5 uppercase tracking-wide">Email</label>
-                    <input
-                      type="email" required placeholder="you@email.com"
-                      value={formData.email}
-                      onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
-                      className="w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[#0694D1]"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.25)' }} />
-                  </div>
-                  <div>
-                    <label className="block text-white/70 text-xs font-semibold mb-1.5 uppercase tracking-wide">Phone</label>
-                    <input
-                      type="tel" placeholder="+1 234 567 8900"
-                      value={formData.phone}
-                      onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))}
-                      className="w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[#0694D1]"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.25)' }} />
-                  </div>
-                  <div>
-                    <label className="block text-white/70 text-xs font-semibold mb-1.5 uppercase tracking-wide">Message</label>
-                    <textarea
-                      rows={3} placeholder="Tell us what you're looking for..."
-                      value={formData.message}
-                      onChange={e => setFormData(p => ({ ...p, message: e.target.value }))}
-                      className="w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[#0694D1] resize-none"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.25)' }} />
-                  </div>
-                  <button type="submit"
-                    className="w-full bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold py-3 rounded-xl transition-colors text-sm">
-                    Submit Request
-                  </button>
-                </form>
-              )}
-            </div>
+          style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(4,24,37,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}
+          onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false) }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: 560, maxHeight: '90vh', overflowY: 'auto', borderRadius: 20, background: '#fff' }}>
+            <button
+              onClick={() => setShowForm(false)}
+              style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, width: 32, height: 32, borderRadius: '50%', border: 'none', background: 'rgba(9,49,72,0.08)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, color: '#093148', lineHeight: 1 }}
+              aria-label="Close">
+              ×
+            </button>
+            <ContactForm />
           </div>
         </div>
       )}
