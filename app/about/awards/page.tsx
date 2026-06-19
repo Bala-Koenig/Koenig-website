@@ -323,13 +323,6 @@ export default function AwardsPage() {
             </div>
           </div>
 
-          {/* Footer link */}
-          <div className="text-center pt-2">
-            <Link href="/about/our-partners"
-              className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-colors text-sm sm:text-base">
-              See Our Partners
-            </Link>
-          </div>
 
         </div>
       </section>
