@@ -395,17 +395,21 @@ export default function HappinessGuaranteePage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           {/* Tab buttons */}
-          <div className="flex gap-3 mb-8 sm:mb-10 justify-center">
-            <button onClick={() => setTab('why')}
-              className="cursor-pointer font-semibold px-5 py-2 rounded-full text-sm transition-all"
-              style={tab === 'why' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { border: '1px solid rgba(6,148,209,0.4)', color: '#38bdf8' }}>
-              Why Choose Us
-            </button>
-            <button onClick={() => setTab('feedback')}
-              className="cursor-pointer font-semibold px-5 py-2 rounded-full text-sm transition-all"
-              style={tab === 'feedback' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { border: '1px solid rgba(6,148,209,0.4)', color: '#38bdf8' }}>
-              Student Feedback
-            </button>
+          <div className="flex justify-center mb-8 sm:mb-10">
+            <div className="flex rounded-full p-1" style={{ border: '2px solid #0694D1' }}>
+              <button onClick={() => setTab('why')}
+                className="cursor-pointer flex items-center gap-2 font-semibold px-5 py-2 rounded-full text-sm transition-all"
+                style={tab === 'why' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { color: '#0694D1' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Why Choose Us
+              </button>
+              <button onClick={() => setTab('feedback')}
+                className="cursor-pointer flex items-center gap-2 font-semibold px-5 py-2 rounded-full text-sm transition-all"
+                style={tab === 'feedback' ? { background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff' } : { color: '#0694D1' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                Student Feedback
+              </button>
+            </div>
           </div>
 
           {/* Why Choose Us cards */}
