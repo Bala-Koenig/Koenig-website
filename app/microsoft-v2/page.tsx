@@ -11375,6 +11375,10 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                                 </div>,
                                 document.body
                               )}
+                              <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:10}}>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                                <span style={{fontSize:12,color:"#4a6375"}}><strong style={{color:"#071e2e",fontWeight:700}}>{aiResults.courses.length}</strong> course{aiResults.courses.length !== 1 ? "s" : ""} recommended for you</span>
+                              </div>
                               <div className="cert-grid" style={{gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:14}}>
                                 {aiResults.courses.map((c, i) => (
                                   <div key={i} className={`cert-card ${c.level}-card`} style={{minHeight:250,cursor:"pointer"}}>
