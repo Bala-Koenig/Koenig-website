@@ -583,7 +583,7 @@ export default function StudentFeedbackPage() {
           <div className="hidden sm:block">
             <div className="grid grid-cols-3 gap-6">
               {REVISION_TESTIMONIALS.slice(revPage * REV_PER_PAGE, revPage * REV_PER_PAGE + REV_PER_PAGE).map((r, i) => (
-                <div key={i} className="relative flex flex-col rounded-2xl p-6" style={{ background: 'rgba(6,148,209,0.04)', boxShadow: '0 4px 24px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.18)' }}>
+                <div key={i} className="relative flex flex-col rounded-2xl p-6" style={{ background: '#ffffff', boxShadow: '0 4px 24px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.18)' }}>
                   <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
                   <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
                   <div className="text-5xl font-serif leading-none mb-2" style={{ color: '#DCEEFB' }}>&ldquo;</div>
@@ -648,7 +648,7 @@ export default function StudentFeedbackPage() {
 
           {/* Mobile: single card with dots */}
           <div className="sm:hidden">
-            <div className="relative rounded-2xl p-6" style={{ background: 'rgba(6,148,209,0.04)', boxShadow: '0 4px 24px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.18)' }}
+            <div className="relative rounded-2xl p-6" style={{ background: '#ffffff', boxShadow: '0 4px 24px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.18)' }}
               onTouchStart={e => { revTouchX.current = e.touches[0].clientX }}
               onTouchEnd={e => {
                 const dx = e.changedTouches[0].clientX - revTouchX.current
