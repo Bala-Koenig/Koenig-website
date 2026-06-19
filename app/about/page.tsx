@@ -80,7 +80,7 @@ export default function AboutPage() {
           <div className="kglass-banner py-10 px-8 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-[36px] font-bold text-white leading-tight mb-3">
+                <h1 className="text-[24px] sm:text-[36px] font-bold text-white leading-tight mb-3">
                   About <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Koenig Solutions</span>
                 </h1>
                 <p className="text-base text-white/80 mb-3 leading-relaxed">
@@ -199,7 +199,7 @@ export default function AboutPage() {
           {/* WHO WE ARE content */}
           {activeTab === 'who' && (
             <>
-              <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-2 text-center">
+              <h2 className="text-[20px] sm:text-[28px] font-bold text-[#0F172A] mb-2 text-center">
                 Who We <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Are</span>
               </h2>
               <p className="text-center text-sm text-[#475569] mb-8">Three decades of training excellence, built on one belief</p>
@@ -329,7 +329,7 @@ export default function AboutPage() {
           {/* GLOBAL PRESENCE content */}
           {activeTab === 'global' && (
             <>
-              <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-2 text-center">
+              <h2 className="text-[20px] sm:text-[28px] font-bold text-[#0F172A] mb-2 text-center">
                 Our Global <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Presence</span>
               </h2>
               <p className="text-center text-sm text-[#475569] mb-8">13 offices. 195+ countries served.</p>
@@ -370,7 +370,7 @@ export default function AboutPage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
-          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-2 text-center">
+          <h2 className="text-[20px] sm:text-[28px] font-bold text-white mb-2 text-center">
             Awards &amp; <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Recognition</span>
           </h2>
           <p className="text-center text-sm text-white/50 mb-8">Proud milestones that reflect our commitment to excellence</p>
