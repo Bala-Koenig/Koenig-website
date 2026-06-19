@@ -10631,6 +10631,37 @@ const CARDS_PER_PAGE = 12;
 /* ── AI Mode keyword classifier (demo — no API needed) ── */
 function classifyAiQuery(q: string) {
   const t = q.toLowerCase();
+  const isAdvancing = /advance|career|next.?level|grow|senior|promot|already|specialist|experienced/i.test(t);
+
+  /* ── Career-advancement branches ── */
+  if (/power.?bi/i.test(t) && isAdvancing) return {
+    advice: "As a Power BI expert ready to advance, your next move is Microsoft Fabric (DP-600) — it unifies Power BI, Azure Synapse, and Data Factory into one enterprise platform. Pair it with DP-203 to cross into senior data engineering and unlock roles that pay 30–40% more than BI-only positions.",
+    learnMore: { title: "Power BI → Senior Data Career", overview: "Power BI experts who add Microsoft Fabric and Azure data engineering skills are among the most in-demand data professionals globally. The convergence of BI, engineering, and AI on a single platform has created a talent gap that certified professionals can command a significant premium to fill.", careers: ["Senior BI Developer", "Data Engineer", "Analytics Engineer", "Microsoft Fabric Architect", "Data Platform Consultant"], skills: ["Microsoft Fabric lakehouses & OneLake architecture", "Power BI semantic models & advanced DAX patterns", "Azure Data Factory & Synapse Pipelines", "Real-time analytics with Eventstream", "Data governance with Microsoft Purview"], whyNow: "Microsoft Fabric is the fastest-adopted new Microsoft product in a decade. Organisations are urgently hiring professionals who bridge Power BI expertise with the Fabric platform — the DP-600 certification is the credential that proves exactly that.", points: ["DP-600 is the natural next cert for any Power BI pro", "Fabric skills command 25–35% salary premium over BI-only roles", "Microsoft Fabric adoption doubled in the last 12 months", "DP-203 + DP-600 = complete senior data engineer profile"] },
+    courses: [
+      { name: "Power BI Data Analyst Associate", code: "PL-300", dur: "3 days", level: "assoc", url: "/courses/pl-300" },
+      { name: "Azure Data Engineer Associate", code: "DP-203", dur: "4 days", level: "assoc", url: "/courses/dp-203" },
+      { name: "Fabric Analytics Engineer Associate", code: "DP-600", dur: "4 days", level: "expert", url: "/courses/dp-600" },
+    ],
+  };
+  if (/security|cyber|soc|sentinel|defender/i.test(t) && isAdvancing) return {
+    advice: "To advance your security career, AZ-500 and SC-100 are the expert-level certs that hiring managers at banks, government, and enterprise look for. They validate your ability to architect and govern a full Zero Trust environment — not just operate tools.",
+    learnMore: { title: "Senior Security Career Path", overview: "Senior cybersecurity roles are the highest-compensated positions in all of IT. Microsoft's expert-level security certifications — AZ-500 and SC-100 — validate the architect-level skills that distinguish senior practitioners from junior analysts.", careers: ["Cloud Security Architect", "Cybersecurity Architect", "Senior SOC Lead", "Zero Trust Architect", "Identity & Access Architect"], skills: ["Microsoft Sentinel SIEM/SOAR architecture", "Zero Trust design & implementation", "Azure security posture management (CSPM)", "Entra ID identity governance & privileged access", "Threat modelling & incident response at scale"], whyNow: "Senior security architects are among the hardest roles to fill globally. SC-100 validates you can design security across an entire enterprise — a skill set organisations are paying a significant premium for right now.", points: ["SC-100 is one of Microsoft's hardest certs — stands out immediately", "Security architect avg. salary 40–50% above analyst level", "AZ-500 required by government & regulated-industry employers", "Labs on live Sentinel, Defender & Purview environments"] },
+    courses: [
+      { name: "Microsoft Azure Security Technologies", code: "AZ-500", dur: "4 days", level: "assoc", url: "/courses/az-500" },
+      { name: "Microsoft Security Operations Analyst", code: "SC-200", dur: "4 days", level: "assoc", url: "/courses/sc-200" },
+      { name: "Microsoft Cybersecurity Architect", code: "SC-100", dur: "4 days", level: "expert", url: "/courses/sc-100" },
+    ],
+  };
+  if (/devops|pipeline|ci.?cd|github|terraform/i.test(t) && isAdvancing) return {
+    advice: "If you're already in DevOps and want to advance, AZ-400 is the expert-level certification that sets you apart. It covers the full engineering lifecycle — from pipelines and IaC to security scanning and Kubernetes — and is a recognised signal for senior and lead roles.",
+    learnMore: { title: "Senior DevOps Career Path", overview: "AZ-400 is one of the few Microsoft expert certifications — and one of the most respected in the industry. It validates end-to-end ownership of the DevOps lifecycle, from source control strategy to production monitoring and governance.", careers: ["Senior DevOps Engineer", "Platform Engineer", "Site Reliability Engineer (SRE)", "DevSecOps Architect", "Cloud Infrastructure Lead"], skills: ["Advanced Azure Pipelines & multi-stage deployments", "Infrastructure as Code with Terraform & Bicep", "DevSecOps: security scanning in CI/CD", "Container strategies with AKS & Helm", "Observability, SLOs, and incident management"], whyNow: "Platform engineering and SRE roles are the fastest-growing category in cloud hiring. AZ-400 holders consistently command senior salaries and are prioritised for principal and staff-level engineering tracks.", points: ["AZ-400: expert-level — one of the hardest Microsoft certs", "Pre-req: AZ-104 or equivalent real-world experience", "Labs run against live Azure DevOps organisations", "Average salary jump of 25–35% post-AZ-400 certification"] },
+    courses: [
+      { name: "Azure Solutions Architect Expert", code: "AZ-305", dur: "4 days", level: "expert", url: "/courses/az-305" },
+      { name: "Designing and Implementing Microsoft DevOps Solutions", code: "AZ-400", dur: "5 days", level: "expert", url: "/courses/az-400" },
+      { name: "Azure Data Engineer Associate", code: "DP-203", dur: "4 days", level: "assoc", url: "/courses/dp-203" },
+    ],
+  };
+
   if (/beginner|start|intro|fundamental|az-900|basic|new to azure/i.test(t)) return {
     advice: "Great starting point. Azure Fundamentals (AZ-900) builds the cloud vocabulary every professional needs, regardless of role. From there, branch into administration, development, or architecture based on your direction.",
     learnMore: { title: "Azure for Beginners", overview: "Microsoft Azure is the world's second-largest cloud platform, used by 95% of Fortune 500 companies. Getting started with Azure is the single highest-ROI step an IT professional can take — it opens doors across administration, security, development, and architecture.", careers: ["Cloud Administrator", "Azure Solutions Architect", "Cloud Support Engineer", "IT Infrastructure Manager", "DevOps Engineer"], skills: ["Cloud concepts & deployment models", "Core Azure services (compute, storage, networking)", "Azure pricing, SLAs, and support plans", "Identity & access management basics", "Azure management tools & governance"], whyNow: "Cloud skills are now baseline requirements across IT. Azure-certified professionals earn 26% more on average than non-certified peers, and demand continues to outpace supply globally.", points: ["AZ-900 exam: 45 min, ~40 questions, $165", "No prior cloud experience required", "95% first-attempt pass rate at Koenig", "Guaranteed batch — your schedule won't be cancelled"] },
@@ -10676,7 +10707,7 @@ function classifyAiQuery(q: string) {
       { name: "Microsoft Azure Security Technologies", code: "AZ-500", dur: "4 days", level: "expert", url: "/courses/az-500" },
     ],
   };
-  if (/data|database|sql|synapse|analytics|fabric|power bi/i.test(t)) return {
+  if (/data|database|sql|synapse|analytics|fabric|power.?bi/i.test(t)) return {
     advice: "The modern data estate runs on Azure. From real-time analytics to enterprise data warehousing, these courses cover the full data engineering and analytics lifecycle on Microsoft's platform.",
     learnMore: { title: "Azure Data & Analytics", overview: "Data engineering and analytics are among the most in-demand and best-compensated skills across every industry. Azure's data platform — Synapse Analytics, Data Factory, Microsoft Fabric, and Azure SQL — powers the data estate of thousands of enterprises worldwide.", careers: ["Data Engineer", "Data Analyst", "Analytics Engineer", "Database Administrator", "BI Developer / Power BI Specialist"], skills: ["Azure Data Factory pipeline design & orchestration", "Azure Synapse Analytics & SQL pools", "Microsoft Fabric lakehouses & dataflows", "Power BI semantic models & reporting", "Azure SQL, Cosmos DB, and NoSQL patterns"], whyNow: "Data Engineer is consistently ranked in the top 5 highest-paying cloud roles. Microsoft Fabric is the fastest-growing new Azure service, and organisations urgently need professionals who can work across the full data lifecycle.", points: ["DP-203 maps directly to Data Engineer job descriptions", "Microsoft Fabric is the #1 new Azure skill employers want", "Data Engineer avg. salary: $120k–$160k globally", "Labs use real Azure data services with live datasets"] },
     courses: [
@@ -10700,6 +10731,19 @@ const AI_CHIPS = ["Azure for beginners", "AI & ML path", "Azure DevOps", "Micros
 
 function getContextChips(q: string): string[] {
   const t = q.toLowerCase().trim();
+  const isAdvancing = /advance|career|next.?level|grow|senior|promot|already|specialist|experienced/i.test(t);
+
+  /* Career-advancement chips — skill-specific */
+  if (/power.?bi/i.test(t) && isAdvancing)
+    return ["Microsoft Fabric (DP-600)", "Data Engineering Path", "PL-300 Advanced", "Azure Synapse"];
+  if (/security|cyber|soc|sentinel|defender/i.test(t) && isAdvancing)
+    return ["SC-100 Architect", "AZ-500 Expert", "Zero Trust Senior", "DevSecOps Path"];
+  if (/devops|pipeline|github|terraform/i.test(t) && isAdvancing)
+    return ["AZ-400 Expert", "Platform Engineer Path", "SRE Track", "DevSecOps"];
+  if (/azure|cloud/i.test(t) && isAdvancing)
+    return ["Solutions Architect", "AZ-305 Expert", "Azure DevOps", "Cloud Security"];
+
+  /* Standard topic chips */
   if (/security|cyber|soc|sentinel|defender|compliance|zero trust/i.test(t))
     return ["Azure Security", "Zero Trust", "Compliance & Identity", "Microsoft Defender"];
   if (/\bai\b|machine.?learn|ml|artificial|cognitive|openai/i.test(t))
@@ -11500,6 +11544,12 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                         </div>
                       ) : (
                         <>
+                        {searchActive && (
+                          <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 2px 12px",fontSize:12.5,color:"var(--light-sub)"}}>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                            <span><strong style={{color:"var(--light-text)",fontWeight:700}}>{courseDisplay.length}</strong> course{courseDisplay.length !== 1 ? "s" : ""} found for <strong style={{color:"var(--light-text)"}}>&ldquo;{certSearch.trim()}&rdquo;</strong></span>
+                          </div>
+                        )}
                         <div className="cert-grid">
                           {pagedCourseDisplay.map((c,i) => {
                             return (
