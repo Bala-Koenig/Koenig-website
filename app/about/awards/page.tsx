@@ -4,15 +4,19 @@ import AboutSubNav from '@/components/AboutSubNav'
 
 /* ─── Award data ─────────────────────────────────────────────── */
 
+const BRAND = {
+  color: '#0694D1',
+  gradFrom: '#0694D1',
+  gradTo: '#38bdf8',
+  cardBg: '#EBF5FF',
+  cardBorder: 'rgba(6,148,209,0.18)',
+  shadow: 'rgba(6,148,209,0.10)',
+}
+
 const VENDOR_SECTIONS = [
   {
     name: 'Microsoft',
-    color: '#00a1f1',
-    gradFrom: '#00a1f1',
-    gradTo: '#50c8ff',
-    cardBg: '#F0F9FF',
-    cardBorder: 'rgba(0,161,241,0.18)',
-    shadow: 'rgba(0,161,241,0.12)',
+    ...BRAND,
     awards: [
       {
         img: 'MS-Partner-of-the-year-2025-popup.webp',
@@ -36,12 +40,7 @@ const VENDOR_SECTIONS = [
   },
   {
     name: 'AWS',
-    color: '#ff9900',
-    gradFrom: '#ff9900',
-    gradTo: '#FFD580',
-    cardBg: '#FFFBF5',
-    cardBorder: 'rgba(255,153,0,0.18)',
-    shadow: 'rgba(255,153,0,0.12)',
+    ...BRAND,
     awards: [
       {
         img: 'Finalist–AWS-Partner-of-the-Year-2024.webp',
@@ -65,12 +64,7 @@ const VENDOR_SECTIONS = [
   },
   {
     name: 'EC-Council',
-    color: '#c8102e',
-    gradFrom: '#c8102e',
-    gradTo: '#ff4d6d',
-    cardBg: '#FFF5F6',
-    cardBorder: 'rgba(200,16,46,0.18)',
-    shadow: 'rgba(200,16,46,0.10)',
+    ...BRAND,
     awards: [
       {
         img: 'Winner-of-EC-Council-ATC-of-the-Year-Award-2024.webp',
@@ -94,12 +88,7 @@ const VENDOR_SECTIONS = [
   },
   {
     name: 'PECB',
-    color: '#475569',
-    gradFrom: '#334155',
-    gradTo: '#64748b',
-    cardBg: '#F8FAFC',
-    cardBorder: 'rgba(51,65,85,0.18)',
-    shadow: 'rgba(51,65,85,0.10)',
+    ...BRAND,
     awards: [
       {
         img: 'Winner-of-the-PECB-Titanium-Partner-Award-2024.webp',
@@ -120,12 +109,7 @@ const VENDOR_SECTIONS = [
 const SINGLE_AWARDS = [
   {
     vendor: 'Oracle',
-    color: '#c74634',
-    gradFrom: '#c74634',
-    gradTo: '#f46c44',
-    cardBg: '#FFF8F7',
-    cardBorder: 'rgba(199,70,52,0.18)',
-    shadow: 'rgba(199,70,52,0.10)',
+    ...BRAND,
     img: 'award-oracle.webp',
     title: 'Winner of the Oracle Award',
     desc: 'Koenig Solutions was honored with the Oracle Award, recognizing its outstanding performance in delivering Oracle training programs. This accolade underscores Koenig\'s expertise in Oracle technologies and its role in empowering professionals with essential skills for the evolving IT industry.',
@@ -133,12 +117,7 @@ const SINGLE_AWARDS = [
   },
   {
     vendor: 'Great Place to Work',
-    color: '#e8002d',
-    gradFrom: '#e8002d',
-    gradTo: '#1a1a5e',
-    cardBg: '#FFF5F6',
-    cardBorder: 'rgba(232,0,45,0.18)',
-    shadow: 'rgba(232,0,45,0.08)',
+    ...BRAND,
     img: 'Certified-as-great-place-to-work.webp',
     title: 'Certified as a Great Place to Work',
     desc: 'Koenig Solutions has been consistently certified as a Great Place to Work from 2011 to 2027. This prestigious certification recognizes the organization\'s commitment to fostering a positive, inclusive, and empowering work culture, where employees thrive and contribute to meaningful success.',
@@ -278,9 +257,9 @@ export default function AwardsPage() {
           {/* Single-award vendors — horizontal card */}
           <div>
             <div className="flex items-center gap-3 mb-6 sm:mb-8">
-              <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(180deg, #c74634, #e8002d)' }} />
+              <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(180deg, #0694D1, #38bdf8)' }} />
               <h2 className="text-xl sm:text-[24px] font-bold text-[#0F172A]">
-                More <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #c74634, #e8002d)' }}>Recognitions</span>
+                More <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Recognitions</span>
               </h2>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
