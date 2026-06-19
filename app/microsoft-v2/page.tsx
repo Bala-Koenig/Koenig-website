@@ -2518,7 +2518,7 @@ p {
 @property --ai-rot { syntax:'<angle>'; inherits:false; initial-value:0deg; }
 @keyframes aiGlowSpin { to { --ai-rot:360deg; } }
 .cf-ai-btn { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:6px; border:none; background:transparent; color:#0694D1; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit; flex-shrink:0; white-space:nowrap; position:relative; isolation:isolate; transition:color 0.2s; }
-.cf-ai-btn::before { content:''; position:absolute; inset:-1.5px; border-radius:8px; background:conic-gradient(from var(--ai-rot), #0694D1 0%, #38bdf8 40%, #b8e8fb 50%, #38bdf8 60%, #0694D1 100%); animation:aiGlowSpin 5s linear infinite; z-index:-2; filter:blur(1.5px); }
+.cf-ai-btn::before { content:''; position:absolute; inset:-1.5px; border-radius:8px; background:conic-gradient(from var(--ai-rot), #a8d8f0 0%, #c8eaf8 40%, #e8f6fd 50%, #c8eaf8 60%, #a8d8f0 100%); animation:aiGlowSpin 5s linear infinite; z-index:-2; filter:blur(1.5px); }
 .cf-ai-btn::after { content:''; position:absolute; inset:1.5px; border-radius:5px; background:#ffffff; z-index:-1; }
 .cf-ai-btn:hover::after { background:#ffffff; }
 .cf-ai-btn.on::before { animation:aiGlowSpin 3s linear infinite; filter:blur(2px); }
