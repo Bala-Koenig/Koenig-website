@@ -187,19 +187,23 @@ export default function AwardsPage() {
                   These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
                 </p>
               </div>
-              <div className="grid grid-cols-3 gap-4 sm:gap-5 items-center">
-                {[
-                  { logo: '/images/partners/microsoft-cloud-t.png', vendor: 'Microsoft' },
-                  { logo: '/images/partners/amazon-authorized.png', vendor: 'AWS' },
-                  { logo: '/images/partners/EC-Council-logo.png', vendor: 'EC-Council' },
-                  { logo: '/images/partners/Authorized PECB Certification Courses Training badge.png', vendor: 'PECB' },
-                  { logo: '/images/partners/o-prtnr-clr-rgb.png', vendor: 'Oracle' },
-                  { logo: '/images/awards/Certified-as-great-place-to-work.webp', vendor: 'GPTW' },
-                ].map(({ logo, vendor }) => (
-                  <div key={vendor} className="flex items-center justify-center">
-                    <img src={logo} alt={vendor} className="max-h-12 max-w-full object-contain" />
-                  </div>
-                ))}
+              <div className="kglass-dark rounded-2xl p-4 sm:p-6">
+                <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                  {[
+                    { count: '3', label: 'Awards', vendor: 'Microsoft', color: '#00a1f1' },
+                    { count: '3', label: 'Awards', vendor: 'AWS', color: '#ff9900' },
+                    { count: '3', label: 'Awards', vendor: 'EC-Council', color: '#c8102e' },
+                    { count: '2', label: 'Awards', vendor: 'PECB', color: '#94a3b8' },
+                    { count: '1', label: 'Award', vendor: 'Oracle', color: '#c74634' },
+                    { count: '15', label: 'Yrs', vendor: 'Great Place to Work', color: '#e8002d' },
+                  ].map(({ count, label, vendor, color }) => (
+                    <div key={vendor} className="flex flex-col items-center text-center">
+                      <span className="text-2xl sm:text-3xl font-bold text-white leading-none">{count}</span>
+                      <span className="text-[10px] sm:text-xs text-white/50 mt-0.5">{label}</span>
+                      <span className="text-[9px] sm:text-[10px] font-semibold mt-1 leading-tight" style={{ color }}>{vendor}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
