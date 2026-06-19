@@ -451,7 +451,7 @@ export default function AboutPage() {
               <div>
                 <button
                   onClick={() => setShowForm(true)}
-                  className="inline-block text-white font-semibold px-7 py-3 rounded-full transition-all text-sm hover:opacity-90 hover:shadow-lg"
+                  className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg"
                   style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
                   Request More Info
                 </button>
