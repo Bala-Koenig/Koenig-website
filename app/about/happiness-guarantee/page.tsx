@@ -197,7 +197,7 @@ export default function HappinessGuaranteePage() {
                   text: <>If, for any reason, you're not satisfied with your Koenig Solutions training experience, we promise to make it right.</>,
                 },
               ].map((item, i) => (
-                <div key={i} className="kglass-light flex gap-4 items-start rounded-2xl p-4 sm:p-5">
+                <div key={i} className="flex gap-4 items-start rounded-2xl p-4 sm:p-5" style={{ background: '#ffffff', border: '1px solid rgba(6,148,209,0.15)', boxShadow: '0 2px 12px rgba(6,148,209,0.08)' }}>
                   <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110 hover:shadow-lg"
                     style={{
                       background: 'rgba(6,148,209,0.1)',
