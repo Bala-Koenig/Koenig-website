@@ -34,6 +34,15 @@ type Tab = 'who' | 'global'
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState<Tab>('who')
+  const [showForm, setShowForm] = useState(false)
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
+  const [submitted, setSubmitted] = useState(false)
+
+  function handleFormSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setSubmitted(true)
+    setTimeout(() => { setShowForm(false); setSubmitted(false); setFormData({ name: '', email: '', phone: '', message: '' }) }, 2000)
+  }
 
   return (
     <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -434,22 +443,121 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── CTA ────────────────────────────────────────────── */}
-      <section className="relative bg-[#06111E] overflow-hidden py-5 sm:py-[50px] text-center">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="about-blob1 absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[#0694D1] opacity-[0.10] blur-[120px]" />
-          <div className="about-blob2 absolute -bottom-16 -left-24 w-[350px] h-[350px] rounded-full bg-[#38bdf8] opacity-[0.06] blur-[100px]" />
-          <div className="about-blob3 absolute -bottom-16 -right-24 w-[350px] h-[350px] rounded-full bg-[#0694D1] opacity-[0.06] blur-[100px]" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <h2 className="text-2xl sm:text-[28px] font-bold text-white mb-3">Ready to <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Upskill?</span></h2>
-          <p className="text-white/70 mb-6 text-sm">Join 30,000+ students training with Koenig every month.</p>
-          <a href="mailto:info@koenig-solutions.com"
-            className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-8 py-3 rounded-xl transition-colors text-base">
-            Get in Touch
-          </a>
+      {/* ── READY TO UPSKILL BANNER ─────────────────────────── */}
+      <section className="py-5 sm:py-[50px]" style={{ backgroundColor: '#F8FBFF' }}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
+          <div className="relative rounded-2xl overflow-hidden flex items-stretch"
+            style={{ background: '#EBF5FF', border: '1px solid rgba(6,148,209,0.18)', boxShadow: '0 4px 32px rgba(6,148,209,0.10)' }}>
+            {/* Left content */}
+            <div className="flex-1 px-8 py-8 sm:px-12 sm:py-10 flex flex-col justify-center">
+              <p className="text-xs font-bold tracking-widest text-[#0694D1] uppercase mb-3">Koenig Solutions</p>
+              <h2 className="text-[22px] sm:text-[28px] font-bold text-[#0F172A] leading-snug mb-2">
+                Ready to Upskill with<br className="hidden sm:block" /> Certified IT Training?
+              </h2>
+              <p className="text-sm text-[#475569] mb-6">Join 30,000+ professionals trained every month across 195 countries.</p>
+              <div>
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="inline-block bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold px-7 py-3 rounded-xl transition-colors text-sm">
+                  Request More Info
+                </button>
+              </div>
+            </div>
+            {/* Right image */}
+            <div className="hidden sm:block w-[320px] flex-shrink-0">
+              <Image
+                src="/images/home-banner/classroom-training.webp"
+                alt="Koenig IT Training"
+                width={320}
+                height={220}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* ── REQUEST MORE INFO MODAL ─────────────────────────── */}
+      {showForm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backgroundColor: 'rgba(6,17,30,0.80)', backdropFilter: 'blur(8px)' }}
+          onClick={() => setShowForm(false)}>
+          <div
+            className="relative w-full max-w-md rounded-2xl overflow-hidden shadow-2xl"
+            style={{ background: '#0D1F30', border: '1px solid rgba(6,148,209,0.20)' }}
+            onClick={e => e.stopPropagation()}>
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+              <div>
+                <h3 className="text-lg font-bold text-white">Request More Info</h3>
+                <p className="text-[#38bdf8] text-xs mt-0.5">Our team will get back to you within 24 hours</p>
+              </div>
+              <button onClick={() => setShowForm(false)}
+                className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white transition-colors text-2xl leading-none ml-3"
+                aria-label="Close">×</button>
+            </div>
+            {/* Form */}
+            <div className="px-6 py-5">
+              {submitted ? (
+                <div className="text-center py-8">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                    style={{ background: 'rgba(6,148,209,0.20)' }}>
+                    <svg className="w-7 h-7 text-[#38bdf8]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <p className="text-white font-semibold text-base">Thank you!</p>
+                  <p className="text-white/60 text-sm mt-1">We&apos;ll be in touch shortly.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleFormSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-white/70 text-xs font-semibold mb-1.5 uppercase tracking-wide">Full Name</label>
+                    <input
+                      type="text" required placeholder="Your name"
+                      value={formData.name}
+                      onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
+                      className="w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[#0694D1]"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.25)' }} />
+                  </div>
+                  <div>
+                    <label className="block text-white/70 text-xs font-semibold mb-1.5 uppercase tracking-wide">Email</label>
+                    <input
+                      type="email" required placeholder="you@email.com"
+                      value={formData.email}
+                      onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
+                      className="w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[#0694D1]"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.25)' }} />
+                  </div>
+                  <div>
+                    <label className="block text-white/70 text-xs font-semibold mb-1.5 uppercase tracking-wide">Phone</label>
+                    <input
+                      type="tel" placeholder="+1 234 567 8900"
+                      value={formData.phone}
+                      onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))}
+                      className="w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[#0694D1]"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.25)' }} />
+                  </div>
+                  <div>
+                    <label className="block text-white/70 text-xs font-semibold mb-1.5 uppercase tracking-wide">Message</label>
+                    <textarea
+                      rows={3} placeholder="Tell us what you're looking for..."
+                      value={formData.message}
+                      onChange={e => setFormData(p => ({ ...p, message: e.target.value }))}
+                      className="w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[#0694D1] resize-none"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(6,148,209,0.25)' }} />
+                  </div>
+                  <button type="submit"
+                    className="w-full bg-[#0694D1] hover:bg-[#0580bb] text-white font-semibold py-3 rounded-xl transition-colors text-sm">
+                    Submit Request
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
