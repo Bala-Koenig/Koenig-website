@@ -468,7 +468,6 @@ export default function AboutPage() {
               {/* Left fade into banner */}
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #EBF5FF 0%, transparent 35%)' }} />
               {/* Soft shadow along all edges */}
-              <div className="absolute inset-0" style={{ boxShadow: 'inset 8px 0 16px rgba(6,148,209,0.08), inset 0 8px 16px rgba(6,148,209,0.05), inset 0 -8px 16px rgba(6,148,209,0.05)' }} />
             </div>
           </div>
         </div>
