@@ -2519,10 +2519,10 @@ p {
 @keyframes aiGlowSpin { to { --ai-rot:360deg; } }
 .cf-ai-btn { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:6px; border:none; background:transparent; color:#0694D1; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit; flex-shrink:0; white-space:nowrap; position:relative; isolation:isolate; transition:color 0.2s; }
 .cf-ai-btn::before { content:''; position:absolute; inset:-2px; border-radius:8px; background:conic-gradient(from var(--ai-rot), #0694D1 0%, #38bdf8 30%, #e0f5ff 50%, #38bdf8 70%, #0694D1 100%); animation:aiGlowSpin 2.5s linear infinite; z-index:-2; filter:blur(2px); }
-.cf-ai-btn::after { content:''; position:absolute; inset:1.5px; border-radius:5px; background:#EEF8FF; z-index:-1; }
-.cf-ai-btn:hover::after { background:rgba(6,148,209,0.12); }
+.cf-ai-btn::after { content:''; position:absolute; inset:1.5px; border-radius:5px; background:#ffffff; z-index:-1; }
+.cf-ai-btn:hover::after { background:#ffffff; }
 .cf-ai-btn.on::before { animation:aiGlowSpin 1.2s linear infinite; filter:blur(3px); }
-.cf-ai-btn.on::after { background:rgba(6,148,209,0.12); }
+.cf-ai-btn.on::after { background:#ffffff; }
 .cf-ai-btn.on { font-weight:800; }
 @keyframes aiPanelIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
 .cf-ai-panel { border-left:1px solid var(--light-border); border-right:1px solid var(--light-border); border-bottom:1px solid var(--light-border); background:#F8FCFF; animation:aiPanelIn 0.25s cubic-bezier(0.22,1,0.36,1); overflow:hidden; }
