@@ -187,21 +187,27 @@ export default function AwardsPage() {
                   These aren't participation trophies — every award here was earned through measurable results, verified by the vendors themselves.
                 </p>
               </div>
-              <div className="kglass-dark rounded-2xl p-4 sm:p-6">
-                <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                  {[
-                    { count: '3', label: 'Awards', vendor: 'Microsoft', color: '#00a1f1' },
-                    { count: '3', label: 'Awards', vendor: 'AWS', color: '#ff9900' },
-                    { count: '3', label: 'Awards', vendor: 'EC-Council', color: '#c8102e' },
-                    { count: '2', label: 'Awards', vendor: 'PECB', color: '#94a3b8' },
-                    { count: '1', label: 'Award', vendor: 'Oracle', color: '#c74634' },
-                    { count: '15', label: 'Yrs', vendor: 'Great Place to Work', color: '#e8002d' },
-                  ].map(({ count, label, vendor, color }) => (
-                    <div key={vendor} className="flex flex-col items-center text-center">
-                      <span className="text-2xl sm:text-3xl font-bold text-white leading-none">{count}</span>
-                      <span className="text-[10px] sm:text-xs text-white/50 mt-0.5">{label}</span>
-                      <span className="text-[9px] sm:text-[10px] font-semibold mt-1 leading-tight" style={{ color }}>{vendor}</span>
-                    </div>
+              <div className="kglass-dark rounded-2xl p-5 sm:p-6">
+                {/* Top row: icon + number + star */}
+                <div className="flex items-start justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    <span className="text-3xl sm:text-4xl font-bold" style={{ color: '#38bdf8' }}>12+</span>
+                  </div>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 mt-1">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                </div>
+                <p className="text-white/70 text-sm mb-4">Global Awards &amp; Recognitions</p>
+                {/* Vendor pills */}
+                <div className="flex flex-wrap gap-2">
+                  {['Microsoft', 'AWS', 'EC-Council', 'PECB', 'Oracle', 'Great Place to Work'].map(v => (
+                    <span key={v} className="text-[11px] font-medium text-white/80 px-3 py-1 rounded-full"
+                      style={{ border: '1px solid rgba(56,189,248,0.25)', background: 'rgba(56,189,248,0.06)' }}>
+                      {v}
+                    </span>
                   ))}
                 </div>
               </div>
