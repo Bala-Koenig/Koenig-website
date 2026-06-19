@@ -128,7 +128,7 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
         <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
         <div className="overflow-hidden transition-all duration-300 ease-in-out" style={{ maxHeight: expanded ? '200px' : '0px', opacity: expanded ? 1 : 0 }}>
-          <p className="mb-3 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{extra}</p>
+          <p className="mb-3 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{extra}</p>
         </div>
         {showMore && (
           <button onClick={handleToggle} className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold text-[#0694D1] transition-all hover:bg-[#0694D1] hover:text-white" style={{ borderColor: '#0694D1' }}>
