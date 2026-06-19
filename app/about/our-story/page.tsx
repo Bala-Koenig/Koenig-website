@@ -271,7 +271,6 @@ export default function OurStoryPage() {
                 height={220}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #EBF5FF 0%, transparent 35%)' }} />
             </div>
           </div>
         </div>

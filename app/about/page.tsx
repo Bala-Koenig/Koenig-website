@@ -466,7 +466,6 @@ export default function AboutPage() {
                 className="w-full h-full object-cover"
               />
               {/* Left fade into banner */}
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, #EBF5FF 0%, transparent 35%)' }} />
               {/* Soft shadow along all edges */}
             </div>
           </div>
