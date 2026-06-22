@@ -1,4 +1,5 @@
-import Link from 'next/link'
+'use client'
+import { useState, useEffect, useRef } from 'react'
 import Navbar from '@/components/Navbar'
 import AboutSubNav from '@/components/AboutSubNav'
 
@@ -149,6 +150,136 @@ const SINGLE_AWARDS = [
   },
 ]
 
+/* ─── Mobile vendor slider ───────────────────────────────────── */
+
+function VendorSlider() {
+  const [isMobile, setIsMobile] = useState(false)
+  const [idx, setIdx] = useState(0)
+  const touchStartRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 600)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  const prev = () => setIdx(i => (i - 1 + VENDOR_SECTIONS.length) % VENDOR_SECTIONS.length)
+  const next = () => setIdx(i => (i + 1) % VENDOR_SECTIONS.length)
+
+  const onTouchStart = (e: React.TouchEvent) => { touchStartRef.current = e.touches[0].clientX }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartRef.current === null) return
+    const diff = touchStartRef.current - e.changedTouches[0].clientX
+    if (Math.abs(diff) > 40) { if (diff > 0) next(); else prev() }
+    touchStartRef.current = null
+  }
+
+  if (isMobile) {
+    const vendor = VENDOR_SECTIONS[idx]
+    return (
+      <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        {/* Vendor heading */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: `linear-gradient(180deg, ${vendor.gradFrom}, ${vendor.gradTo})` }} />
+          <h2 className="text-xl font-bold text-[#0F172A]">
+            {vendor.name}{' '}
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>Awards</span>
+          </h2>
+          <span className="ml-1 text-xs font-semibold px-2.5 py-1 rounded-full text-white"
+            style={{ background: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>
+            {vendor.awards.length}
+          </span>
+        </div>
+
+        {/* Award cards stacked */}
+        <div className="flex flex-col gap-4">
+          {vendor.awards.map(award => (
+            <div key={award.title} className="bg-white rounded-2xl overflow-hidden flex flex-col"
+              style={{ border: `1px solid ${vendor.cardBorder}`, boxShadow: `0 2px 16px ${vendor.shadow}` }}>
+              <div className="h-[3px] w-full flex-shrink-0" style={{ background: `linear-gradient(90deg, ${vendor.gradFrom}, ${vendor.gradTo})` }} />
+              <div className="flex items-center justify-center px-6 pt-6 pb-4">
+                <div className="w-full rounded-xl overflow-hidden flex items-center justify-center"
+                  style={{ height: 140, background: vendor.cardBg, border: `1px solid ${vendor.cardBorder}` }}>
+                  <img src={`/images/awards/${encodeURIComponent(award.img)}`} alt={award.title} className="max-h-full max-w-full object-contain p-3" />
+                </div>
+              </div>
+              <div className="px-5 pb-4 flex flex-col flex-1">
+                <h3 className="font-bold text-[#0F172A] text-sm leading-snug mb-2">{award.title}</h3>
+                <p className="text-[#64748B] text-xs leading-relaxed flex-1">{award.desc}</p>
+                <div className="mt-4 flex justify-end">
+                  <span className="text-xs font-semibold px-3 py-1.5 rounded-full text-white"
+                    style={{ background: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>
+                    {award.year}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Dots */}
+        <div className="flex justify-center gap-1.5 mt-5">
+          {VENDOR_SECTIONS.map((_, i) => (
+            <button key={i} onClick={() => setIdx(i)} style={{
+              width: i === idx ? 22 : 7, height: 7,
+              borderRadius: i === idx ? 4 : '50%',
+              background: i === idx ? '#0694D1' : 'rgba(6,148,209,0.25)',
+              border: 'none', padding: 0, cursor: 'pointer', transition: 'all 0.25s',
+            }} />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  // Desktop: original grid layout
+  return (
+    <>
+      {VENDOR_SECTIONS.map(vendor => (
+        <div key={vendor.name}>
+          <div className="flex items-center gap-3 mb-6 sm:mb-8">
+            <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: `linear-gradient(180deg, ${vendor.gradFrom}, ${vendor.gradTo})` }} />
+            <h2 className="text-xl sm:text-[24px] font-bold text-[#0F172A]">
+              {vendor.name}{' '}
+              <span className="bg-clip-text text-transparent" style={{ backgroundImage: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>
+                Awards
+              </span>
+            </h2>
+            <span className="ml-1 text-xs font-semibold px-2.5 py-1 rounded-full text-white"
+              style={{ background: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>
+              {vendor.awards.length}
+            </span>
+          </div>
+          <div className={`grid grid-cols-1 sm:grid-cols-2 ${vendor.awards.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-4 sm:gap-5`}>
+            {vendor.awards.map(award => (
+              <div key={award.title} className="bg-white rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1"
+                style={{ border: `1px solid ${vendor.cardBorder}`, boxShadow: `0 2px 16px ${vendor.shadow}` }}>
+                <div className="h-[3px] w-full flex-shrink-0" style={{ background: `linear-gradient(90deg, ${vendor.gradFrom}, ${vendor.gradTo})` }} />
+                <div className="flex items-center justify-center px-6 pt-6 pb-4">
+                  <div className="w-full rounded-xl overflow-hidden flex items-center justify-center" style={{ height: '140px', background: vendor.cardBg, border: `1px solid ${vendor.cardBorder}` }}>
+                    <img src={`/images/awards/${encodeURIComponent(award.img)}`} alt={award.title} className="max-h-full max-w-full object-contain p-3" />
+                  </div>
+                </div>
+                <div className="px-5 pb-4 flex flex-col flex-1">
+                  <h3 className="font-bold text-[#0F172A] text-sm sm:text-[15px] leading-snug mb-2">{award.title}</h3>
+                  <p className="text-[#64748B] text-xs sm:text-sm leading-relaxed flex-1">{award.desc}</p>
+                  <div className="mt-4 flex justify-end">
+                    <span className="text-xs font-semibold px-3 py-1.5 rounded-full text-white"
+                      style={{ background: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>
+                      {award.year}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </>
+  )
+}
+
 /* ─── Page ───────────────────────────────────────────────────── */
 
 export default function AwardsPage() {
@@ -218,65 +349,8 @@ export default function AwardsPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px] space-y-14 sm:space-y-20">
 
-          {/* Vendor sections with 3-col grids */}
-          {VENDOR_SECTIONS.map(vendor => (
-            <div key={vendor.name}>
-              {/* Section header */}
-              <div className="flex items-center gap-3 mb-6 sm:mb-8">
-                <div className="w-1 h-7 rounded-full flex-shrink-0" style={{ background: `linear-gradient(180deg, ${vendor.gradFrom}, ${vendor.gradTo})` }} />
-                <h2 className="text-xl sm:text-[24px] font-bold text-[#0F172A]">
-                  {vendor.name}{' '}
-                  <span className="bg-clip-text text-transparent" style={{ backgroundImage: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>
-                    Awards
-                  </span>
-                </h2>
-                <span className="ml-1 text-xs font-semibold px-2.5 py-1 rounded-full text-white"
-                  style={{ background: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>
-                  {vendor.awards.length}
-                </span>
-              </div>
-
-              {/* Cards grid */}
-              <div className={`grid grid-cols-1 sm:grid-cols-2 ${vendor.awards.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-4 sm:gap-5`}>
-                {vendor.awards.map(award => (
-                  <div
-                    key={award.title}
-                    className="bg-white rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1"
-                    style={{
-                      border: `1px solid ${vendor.cardBorder}`,
-                      boxShadow: `0 2px 16px ${vendor.shadow}`,
-                    }}
-                  >
-                    {/* Top accent */}
-                    <div className="h-[3px] w-full flex-shrink-0" style={{ background: `linear-gradient(90deg, ${vendor.gradFrom}, ${vendor.gradTo})` }} />
-
-                    {/* Image */}
-                    <div className="flex items-center justify-center px-6 pt-6 pb-4">
-                      <div className="w-full rounded-xl overflow-hidden flex items-center justify-center" style={{ height: '140px', background: vendor.cardBg, border: `1px solid ${vendor.cardBorder}` }}>
-                        <img
-                          src={`/images/awards/${encodeURIComponent(award.img)}`}
-                          alt={award.title}
-                          className="max-h-full max-w-full object-contain p-3"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="px-5 pb-4 flex flex-col flex-1">
-                      <h3 className="font-bold text-[#0F172A] text-sm sm:text-[15px] leading-snug mb-2">{award.title}</h3>
-                      <p className="text-[#64748B] text-xs sm:text-sm leading-relaxed flex-1">{award.desc}</p>
-                      <div className="mt-4 flex justify-end">
-                        <span className="text-xs font-semibold px-3 py-1.5 rounded-full text-white"
-                          style={{ background: `linear-gradient(135deg, ${vendor.gradFrom}, ${vendor.gradTo})` }}>
-                          {award.year}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+          {/* Vendor sections — slider on mobile, grid on desktop */}
+          <VendorSlider />
 
           {/* Single-award vendors — horizontal card */}
           <div>
