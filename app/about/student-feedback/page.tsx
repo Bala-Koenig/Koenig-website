@@ -124,8 +124,15 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
       <div className="flex-1 p-5">
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
         <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
-        {extra && (
+        <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: expanded ? '200px' : '0px', opacity: expanded ? 1 : 0 }}>
           <p className="mb-3 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{extra}</p>
+        </div>
+        {showMore && (
+          <button onClick={handleToggle}
+            className="mb-4 w-fit rounded-full border px-3 py-1 text-xs font-semibold transition-all hover:bg-[#0694D1] hover:text-white"
+            style={{ borderColor: 'rgba(6,148,209,0.4)', color: '#0694D1' }}>
+            {expanded ? 'Show Less ↑' : 'Show More ↓'}
+          </button>
         )}
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}>
