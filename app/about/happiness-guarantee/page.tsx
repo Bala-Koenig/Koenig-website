@@ -218,6 +218,7 @@ function HowSlider() {
 
 export default function HappinessGuaranteePage() {
   const [tab, setTab] = useState<'why' | 'feedback'>('why')
+  const [ceoExpanded, setCeoExpanded] = useState(false)
   return (
     <div className="about-page" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
@@ -390,8 +391,8 @@ export default function HappinessGuaranteePage() {
                 </div>
 
                 {/* Body paragraphs with left accent */}
-                <div className="flex flex-col gap-4 mb-6">
-                  {[
+                {(() => {
+                  const rows = [
                     {
                       gradient: 'linear-gradient(180deg, #0694D1, #38bdf8)',
                       delay: '0s',
@@ -407,18 +408,24 @@ export default function HappinessGuaranteePage() {
                       delay: '0.3s',
                       content: <>Enjoy your learning journey at Koenig Solutions. I am confident you'll gain valuable knowledge and skills.</>,
                     },
-                  ].map((row, i) => (
-                    <div key={i} className="flex gap-3 items-start">
-                      <div className="w-[3px] shrink-0 rounded-full self-stretch"
-                        style={{
-                          background: row.gradient,
-                          transformOrigin: 'top',
-                          animation: `lineGrow 0.6s cubic-bezier(0.22,1,0.36,1) ${row.delay} both`,
-                        }} />
-                      <p className="text-[#475569] text-sm sm:text-base leading-relaxed">{row.content}</p>
+                  ]
+                  return (
+                    <div className="flex flex-col gap-4 mb-6">
+                      {rows.map((row, i) => (
+                        <div key={i} className={i > 0 ? `sm:flex gap-3 items-start${ceoExpanded ? ' flex' : ' hidden'}` : 'flex gap-3 items-start'}>
+                          <div className="w-[3px] shrink-0 rounded-full self-stretch"
+                            style={{ background: row.gradient, transformOrigin: 'top', animation: `lineGrow 0.6s cubic-bezier(0.22,1,0.36,1) ${row.delay} both` }} />
+                          <p className="text-[#475569] text-sm sm:text-base leading-relaxed">{row.content}</p>
+                        </div>
+                      ))}
+                      <button onClick={() => setCeoExpanded(e => !e)}
+                        className="sm:hidden w-fit text-xs font-semibold text-[#0694D1] mt-1"
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                        {ceoExpanded ? 'Read less ↑' : 'Read more ↓'}
+                      </button>
                     </div>
-                  ))}
-                </div>
+                  )
+                })()}
 
                 {/* Divider */}
                 <div className="h-px mb-5" style={{ background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.25), transparent)' }} />
