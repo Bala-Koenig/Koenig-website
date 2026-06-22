@@ -13345,8 +13345,30 @@ function AwardsSlider() {
   const dragging = useRef(false);
   const lastX = useRef(0);
   const [cursor, setCursor] = useState("grab");
+  const [isMobile, setIsMobile] = useState(false);
+  const [vendorIdx, setVendorIdx] = useState(0);
+  const touchStartRef = useRef(null);
+
+  // Group awards by vendor (preserving insertion order)
+  const VENDOR_GROUPS = (() => {
+    const map = {};
+    const order = [];
+    MS_AWARDS.forEach(a => {
+      if (!map[a.vendorLogo]) { map[a.vendorLogo] = []; order.push(a.vendorLogo); }
+      map[a.vendorLogo].push(a);
+    });
+    return order.map(logo => ({ logo, awards: map[logo] }));
+  })();
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 600);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
     const track = trackRef.current;
     if (!track) return;
     const tick = () => {
@@ -13361,7 +13383,7 @@ function AwardsSlider() {
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+  }, [isMobile]);
 
   const startDrag = (x) => { dragging.current = true; lastX.current = x; setCursor("grabbing"); };
   const moveDrag = (x) => { if (!dragging.current) return; posRef.current += x - lastX.current; lastX.current = x; };
@@ -13383,6 +13405,17 @@ function AwardsSlider() {
       icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
       color: '#0694d1' },
   ];
+
+  const prevVendor = () => setVendorIdx(i => (i - 1 + VENDOR_GROUPS.length) % VENDOR_GROUPS.length);
+  const nextVendor = () => setVendorIdx(i => (i + 1) % VENDOR_GROUPS.length);
+
+  const onTouchStart = (e) => { touchStartRef.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStartRef.current === null) return;
+    const diff = touchStartRef.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) { if (diff > 0) nextVendor(); else prevVendor(); }
+    touchStartRef.current = null;
+  };
 
   return (
     <section className="awards-sec" style={{
@@ -13428,58 +13461,102 @@ function AwardsSlider() {
         </div>
       </div>
 
-      {/* Draggable marquee */}
-      <div
-        style={{
-          overflowX: "clip", padding: "14px 0", cursor, userSelect: "none",
-          maskImage: "linear-gradient(to right,transparent 0,#000 80px,#000 calc(100% - 80px),transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to right,transparent 0,#000 80px,#000 calc(100% - 80px),transparent 100%)",
-        }}
-        onMouseDown={e => { startDrag(e.clientX); e.preventDefault(); }}
-        onMouseMove={e => moveDrag(e.clientX)}
-        onMouseUp={endDrag}
-        onMouseLeave={endDrag}
-        onTouchStart={e => startDrag(e.touches[0].clientX)}
-        onTouchMove={e => { e.preventDefault(); moveDrag(e.touches[0].clientX); }}
-        onTouchEnd={endDrag}
-      >
-        <div ref={trackRef} style={{ display: "flex", gap: 20, paddingLeft: 20, paddingRight: 20, width: "max-content", willChange: "transform" }}>
-          {doubled.map((a, i) => (
-            <div
-              key={i}
-              style={{
-                flexShrink: 0, width: 380, height: 280, background: "#fff",
-                borderRadius: 18, border: "1.5px solid #CAEFFF", overflow: "hidden",
-                display: "flex", boxShadow: "0 2px 12px rgba(0,0,0,0.07), 0 4px 16px rgba(6,148,209,0.10)",
-                transition: "transform 0.25s ease, box-shadow 0.25s ease",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.04)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(7,109,157,0.3)"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.07), 0 4px 16px rgba(6,148,209,0.10)"; }}
-            >
-              {/* Left — award image */}
-              <div style={{ width: 150, flexShrink: 0, background: "#F0FAFF", borderRight: "1.5px solid #CAEFFF", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", padding: 8 }}>
-                <img decoding="async"
-                  src={`/images/awards/${encodeURIComponent(a.awardImg)}`}
-                  alt={a.title}
-                  style={{ width: "90%", height: "90%", objectFit: "contain" }}
-                  loading="lazy" draggable={false}
-                />
-              </div>
-              {/* Right — vendor logo + title + year */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "20px 12px", textAlign: "center" }}>
-                <div style={{ height: 64, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  {a.vendorLogo === 'GPTW'
-                    ? <img decoding="async" loading="lazy" src={`/images/awards/${encodeURIComponent(a.awardImg)}`} alt="Great Place to Work" style={{ maxHeight: 64, maxWidth: 140, objectFit: "contain" }} draggable={false} />
-                    : <img decoding="async" src={`/images/partners/${encodeURIComponent(a.vendorLogo)}`} alt="" style={{ maxHeight: 64, maxWidth: 140, objectFit: "contain" }} loading="lazy" draggable={false} />
-                  }
+      {/* Mobile: vendor-per-slide slider */}
+      {isMobile ? (
+        <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} style={{ padding: "0 15px" }}>
+          {/* Vendor logo */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 14, minHeight: 48 }}>
+            {VENDOR_GROUPS[vendorIdx].logo === 'GPTW'
+              ? <img loading="lazy" src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" style={{ maxHeight: 44, maxWidth: 140, objectFit: "contain" }} />
+              : <img loading="lazy" src={`/images/partners/${encodeURIComponent(VENDOR_GROUPS[vendorIdx].logo)}`} alt="" style={{ maxHeight: 44, maxWidth: 140, objectFit: "contain" }} />
+            }
+          </div>
+          {/* Award cards for current vendor */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {VENDOR_GROUPS[vendorIdx].awards.map((a, i) => (
+              <div key={i} style={{
+                display: "flex", borderRadius: 14, border: "1.5px solid #CAEFFF",
+                overflow: "hidden", background: "#fff",
+                boxShadow: "0 2px 10px rgba(6,148,209,0.08)",
+              }}>
+                <div style={{ width: 100, flexShrink: 0, background: "#F0FAFF", borderRight: "1.5px solid #CAEFFF", display: "flex", alignItems: "center", justifyContent: "center", padding: 8 }}>
+                  <img loading="lazy" src={`/images/awards/${encodeURIComponent(a.awardImg)}`} alt={a.title}
+                    style={{ width: "90%", height: "90%", objectFit: "contain" }} />
                 </div>
-                <p style={{ fontSize: 14, fontWeight: 700, color: "#0f1f3d", lineHeight: 1.35, margin: 0 }}>{a.title}</p>
-                <span style={{ border: "1px solid #CAEFFF", borderRadius: 20, padding: "2px 12px", fontSize: 13, fontWeight: 600, color: "#7a9ab0" }}>{a.year}</span>
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 6, padding: "12px 10px" }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: "#0f1f3d", lineHeight: 1.4, margin: 0 }}>{a.title}</p>
+                  <span style={{ border: "1px solid #CAEFFF", borderRadius: 20, padding: "2px 10px", fontSize: 11, fontWeight: 600, color: "#7a9ab0", alignSelf: "flex-start" }}>{a.year}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {/* Dots navigation */}
+          <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 16 }}>
+            {VENDOR_GROUPS.map((_, i) => (
+              <button key={i} onClick={() => setVendorIdx(i)} style={{
+                width: i === vendorIdx ? 22 : 7, height: 7,
+                borderRadius: i === vendorIdx ? 4 : "50%",
+                background: i === vendorIdx ? "#0694D1" : "rgba(6,148,209,0.2)",
+                border: "none", padding: 0, cursor: "pointer",
+                transition: "all 0.25s",
+              }} />
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        /* Desktop: draggable marquee */
+        <div
+          style={{
+            overflowX: "clip", padding: "14px 0", cursor, userSelect: "none",
+            maskImage: "linear-gradient(to right,transparent 0,#000 80px,#000 calc(100% - 80px),transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right,transparent 0,#000 80px,#000 calc(100% - 80px),transparent 100%)",
+          }}
+          onMouseDown={e => { startDrag(e.clientX); e.preventDefault(); }}
+          onMouseMove={e => moveDrag(e.clientX)}
+          onMouseUp={endDrag}
+          onMouseLeave={endDrag}
+          onTouchStart={e => startDrag(e.touches[0].clientX)}
+          onTouchMove={e => { e.preventDefault(); moveDrag(e.touches[0].clientX); }}
+          onTouchEnd={endDrag}
+        >
+          <div ref={trackRef} style={{ display: "flex", gap: 20, paddingLeft: 20, paddingRight: 20, width: "max-content", willChange: "transform" }}>
+            {doubled.map((a, i) => (
+              <div
+                key={i}
+                style={{
+                  flexShrink: 0, width: 380, height: 280, background: "#fff",
+                  borderRadius: 18, border: "1.5px solid #CAEFFF", overflow: "hidden",
+                  display: "flex", boxShadow: "0 2px 12px rgba(0,0,0,0.07), 0 4px 16px rgba(6,148,209,0.10)",
+                  transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.04)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(7,109,157,0.3)"; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.07), 0 4px 16px rgba(6,148,209,0.10)"; }}
+              >
+                {/* Left — award image */}
+                <div style={{ width: 150, flexShrink: 0, background: "#F0FAFF", borderRight: "1.5px solid #CAEFFF", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", padding: 8 }}>
+                  <img decoding="async"
+                    src={`/images/awards/${encodeURIComponent(a.awardImg)}`}
+                    alt={a.title}
+                    style={{ width: "90%", height: "90%", objectFit: "contain" }}
+                    loading="lazy" draggable={false}
+                  />
+                </div>
+                {/* Right — vendor logo + title + year */}
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "20px 12px", textAlign: "center" }}>
+                  <div style={{ height: 64, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {a.vendorLogo === 'GPTW'
+                      ? <img decoding="async" loading="lazy" src={`/images/awards/${encodeURIComponent(a.awardImg)}`} alt="Great Place to Work" style={{ maxHeight: 64, maxWidth: 140, objectFit: "contain" }} draggable={false} />
+                      : <img decoding="async" src={`/images/partners/${encodeURIComponent(a.vendorLogo)}`} alt="" style={{ maxHeight: 64, maxWidth: 140, objectFit: "contain" }} loading="lazy" draggable={false} />
+                    }
+                  </div>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: "#0f1f3d", lineHeight: 1.35, margin: 0 }}>{a.title}</p>
+                  <span style={{ border: "1px solid #CAEFFF", borderRadius: 20, padding: "2px 12px", fontSize: 13, fontWeight: 600, color: "#7a9ab0" }}>{a.year}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
