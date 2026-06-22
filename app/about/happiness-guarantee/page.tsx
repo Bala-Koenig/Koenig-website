@@ -167,6 +167,55 @@ function PointsSlider() {
   )
 }
 
+const HOW_CARDS = [
+  {
+    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>,
+    title: 'Resolution Options',
+    desc: "We're committed to resolving any issues you may encounter during your training. In such cases, we will assess the situation and implement one of two solutions:",
+  },
+  {
+    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
+    title: 'Full Refund',
+    desc: 'We will provide a full refund for the course fee (excluding courseware and exam vouchers costs, if applicable)',
+  },
+  {
+    icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>,
+    title: 'Class Redo',
+    desc: 'You can re-enroll in the same course free of charge at a future date (subject to availability)',
+  },
+]
+
+function HowSlider() {
+  const [idx, setIdx] = useState(0)
+  const touchStartRef = useRef<number | null>(null)
+  const prev = () => setIdx(i => (i - 1 + HOW_CARDS.length) % HOW_CARDS.length)
+  const next = () => setIdx(i => (i + 1) % HOW_CARDS.length)
+  const onTouchStart = (e: React.TouchEvent) => { touchStartRef.current = e.touches[0].clientX }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartRef.current === null) return
+    const diff = touchStartRef.current - e.changedTouches[0].clientX
+    if (Math.abs(diff) > 40) diff > 0 ? next() : prev()
+    touchStartRef.current = null
+  }
+  const card = HOW_CARDS[idx]
+  return (
+    <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <div className="kglass-dark rounded-2xl p-6 flex flex-col items-center text-center gap-3">
+        <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)', boxShadow: '0 0 20px rgba(56,189,248,0.15)' }}>
+          {card.icon}
+        </div>
+        <h3 className="font-bold text-[#38bdf8] text-base">{card.title}</h3>
+        <p className="text-white/60 text-sm leading-relaxed">{card.desc}</p>
+      </div>
+      <div className="flex justify-center gap-2 mt-3">
+        {HOW_CARDS.map((_, i) => (
+          <button key={i} onClick={() => setIdx(i)} style={{ height: '8px', borderRadius: '4px', border: 'none', cursor: 'pointer', transition: 'all 0.3s', background: i === idx ? '#38bdf8' : 'rgba(56,189,248,0.25)', width: i === idx ? '20px' : '8px' }} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function HappinessGuaranteePage() {
   const [tab, setTab] = useState<'why' | 'feedback'>('why')
   return (
@@ -268,24 +317,13 @@ export default function HappinessGuaranteePage() {
           <p className="text-center text-white/50 text-sm sm:text-base mb-8 sm:mb-12 max-w-2xl mx-auto">
             To ensure a successful learning experience, we ask for your feedback multiple times. If you encounter any issues or feel your expectations are not being met, simply inform your trainer or contact our customer support team.
           </p>
-          <div className="grid sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
-            {[
-              {
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>,
-                title: 'Resolution Options',
-                desc: "We're committed to resolving any issues you may encounter during your training. In such cases, we will assess the situation and implement one of two solutions:",
-              },
-              {
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
-                title: 'Full Refund',
-                desc: 'We will provide a full refund for the course fee (excluding courseware and exam vouchers costs, if applicable)',
-              },
-              {
-                icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>,
-                title: 'Class Redo',
-                desc: 'You can re-enroll in the same course free of charge at a future date (subject to availability)',
-              },
-            ].map((card, i) => (
+          {/* Mobile: one card at a time */}
+          <div className="sm:hidden max-w-4xl mx-auto">
+            <HowSlider />
+          </div>
+          {/* Desktop: 3-col grid */}
+          <div className="hidden sm:grid sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
+            {HOW_CARDS.map((card, i) => (
               <div key={card.title} className="kglass-dark rounded-2xl p-6 flex flex-col items-center text-center gap-3">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-300 hover:scale-110"
                   style={{
