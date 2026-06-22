@@ -1492,30 +1492,8 @@ function AwardsMarquee({ awards }: { awards: typeof AWARDS }) {
   const dragging = useRef(false)
   const lastX = useRef(0)
   const [cursor, setCursor] = useState<'grab' | 'grabbing'>('grab')
-  const [isMobile, setIsMobile] = useState(false)
-  const [vendorIdx, setVendorIdx] = useState(0)
-  const touchStartRef = useRef<number | null>(null)
-
-  // Group awards by vendor (preserving insertion order)
-  const vendorGroups = (() => {
-    const map: Record<string, typeof AWARDS> = {}
-    const order: string[] = []
-    awards.forEach(a => {
-      if (!map[a.vendorLogo]) { map[a.vendorLogo] = []; order.push(a.vendorLogo) }
-      map[a.vendorLogo].push(a)
-    })
-    return order.map(logo => ({ logo, awards: map[logo] }))
-  })()
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 600)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-
-  useEffect(() => {
-    if (isMobile) return
     const track = trackRef.current
     if (!track) return
     const tick = () => {
@@ -1530,7 +1508,7 @@ function AwardsMarquee({ awards }: { awards: typeof AWARDS }) {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current!)
-  }, [isMobile])
+  }, [])
 
   const startDrag = (x: number) => { dragging.current = true; lastX.current = x; setCursor('grabbing') }
   const moveDrag = (x: number) => {
@@ -1540,59 +1518,7 @@ function AwardsMarquee({ awards }: { awards: typeof AWARDS }) {
   }
   const endDrag = () => { dragging.current = false; setCursor('grab') }
 
-  const prevVendor = () => setVendorIdx(i => (i - 1 + vendorGroups.length) % vendorGroups.length)
-  const nextVendor = () => setVendorIdx(i => (i + 1) % vendorGroups.length)
-
-  const onTouchStart = (e: React.TouchEvent) => { touchStartRef.current = e.touches[0].clientX }
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartRef.current === null) return
-    const diff = touchStartRef.current - e.changedTouches[0].clientX
-    if (Math.abs(diff) > 40) { if (diff > 0) nextVendor(); else prevVendor() }
-    touchStartRef.current = null
-  }
-
   const doubled = [...awards, ...awards]
-
-  if (isMobile) {
-    const group = vendorGroups[vendorIdx]
-    return (
-      <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} style={{ padding: '0 15px' }}>
-        {/* Vendor logo */}
-        <div className="flex justify-center items-center mb-3" style={{ minHeight: 48 }}>
-          {group.logo === 'GPTW'
-            ? <img loading="lazy" src="/images/awards/Certified-as-great-place-to-work.webp" alt="Great Place to Work" className="object-contain" style={{ maxHeight: 44, maxWidth: 140 }} />
-            : <img loading="lazy" src={`/images/partners/${encodeURIComponent(group.logo)}`} alt="" className="object-contain" style={{ maxHeight: 44, maxWidth: 140 }} />
-          }
-        </div>
-        {/* Award cards for this vendor */}
-        <div className="flex flex-col gap-2.5">
-          {group.awards.map((a, i) => (
-            <div key={i} className="flex overflow-hidden rounded-2xl bg-white" style={{ border: '1.5px solid #CAEFFF', boxShadow: '0 2px 10px rgba(6,148,209,0.08)' }}>
-              <div className="flex shrink-0 items-center justify-center" style={{ width: 100, background: '#F0FAFF', borderRight: '1.5px solid #CAEFFF', padding: 8 }}>
-                <img loading="lazy" src={`/images/awards/${encodeURIComponent(a.awardImg)}`} alt={a.title} className="object-contain" style={{ width: '90%', height: '90%' }} />
-              </div>
-              <div className="flex flex-1 flex-col justify-center gap-1.5 px-3 py-3">
-                <p className="text-xs font-bold leading-snug text-koenig-dark" style={{ margin: 0 }}>{a.title}</p>
-                <span className="self-start rounded-full border border-[#CAEFFF] px-2.5 py-0.5 text-xs font-semibold text-koenig-muted">{a.year}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* Dot navigation */}
-        <div className="flex justify-center gap-1.5 mt-4">
-          {vendorGroups.map((_, i) => (
-            <button key={i} onClick={() => setVendorIdx(i)} style={{
-              width: i === vendorIdx ? 22 : 7, height: 7,
-              borderRadius: i === vendorIdx ? 4 : '50%',
-              background: i === vendorIdx ? '#0694D1' : 'rgba(6,148,209,0.2)',
-              border: 'none', padding: 0, cursor: 'pointer', transition: 'all 0.25s',
-            }} />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div
       style={{ overflowX: 'clip', padding: '14px 0', cursor, userSelect: 'none', maskImage: 'linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%)', WebkitMaskImage: 'linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%)' }}
