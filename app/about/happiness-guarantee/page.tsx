@@ -122,6 +122,51 @@ function ScrollColumn({ items, speed }: { items: typeof TESTIMONIALS; speed: num
   )
 }
 
+const HG_POINTS = [
+  {
+    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+    text: <>At Koenig Solutions, your happiness is our top priority. That's why we offer our comprehensive <strong>Happiness Guarantee.</strong></>,
+  },
+  {
+    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>,
+    text: <>We understand that "happiness" can be subjective. However, we believe happiness is achieved when expectations are met. This guarantee ensures you receive the high-quality training and service you deserve.</>,
+  },
+  {
+    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+    text: <>If, for any reason, you're not satisfied with your Koenig Solutions training experience, we promise to make it right.</>,
+  },
+]
+
+function PointsSlider() {
+  const [idx, setIdx] = useState(0)
+  const touchStartRef = useRef<number | null>(null)
+  const prev = () => setIdx(i => (i - 1 + HG_POINTS.length) % HG_POINTS.length)
+  const next = () => setIdx(i => (i + 1) % HG_POINTS.length)
+  const onTouchStart = (e: React.TouchEvent) => { touchStartRef.current = e.touches[0].clientX }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartRef.current === null) return
+    const diff = touchStartRef.current - e.changedTouches[0].clientX
+    if (Math.abs(diff) > 40) diff > 0 ? next() : prev()
+    touchStartRef.current = null
+  }
+  const item = HG_POINTS[idx]
+  return (
+    <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <div className="flex gap-4 items-start rounded-2xl p-4" style={{ background: '#ffffff', border: '1px solid rgba(6,148,209,0.15)', boxShadow: '0 2px 12px rgba(6,148,209,0.08)', minHeight: '110px' }}>
+        <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.2)' }}>
+          {item.icon}
+        </div>
+        <p className="text-[#334155] text-sm leading-relaxed">{item.text}</p>
+      </div>
+      <div className="flex justify-center gap-2 mt-3">
+        {HG_POINTS.map((_, i) => (
+          <button key={i} onClick={() => setIdx(i)} style={{ height: '8px', borderRadius: '4px', border: 'none', cursor: 'pointer', transition: 'all 0.3s', background: i === idx ? '#0694D1' : 'rgba(6,148,209,0.25)', width: i === idx ? '20px' : '8px' }} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function HappinessGuaranteePage() {
   const [tab, setTab] = useState<'why' | 'feedback'>('why')
   return (
@@ -183,34 +228,28 @@ export default function HappinessGuaranteePage() {
             </div>
             {/* Points */}
             <div className="flex-1 flex flex-col gap-4 justify-center">
-              {[
-                {
-                  icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
-                  text: <>At Koenig Solutions, your happiness is our top priority. That's why we offer our comprehensive <strong>Happiness Guarantee.</strong></>,
-                },
-                {
-                  icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>,
-                  text: <>We understand that "happiness" can be subjective. However, we believe happiness is achieved when expectations are met. This guarantee ensures you receive the high-quality training and service you deserve.</>,
-                },
-                {
-                  icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
-                  text: <>If, for any reason, you're not satisfied with your Koenig Solutions training experience, we promise to make it right.</>,
-                },
-              ].map((item, i) => (
-                <div key={i} className="flex gap-4 items-start rounded-2xl p-4 sm:p-5" style={{ background: '#ffffff', border: '1px solid rgba(6,148,209,0.15)', boxShadow: '0 2px 12px rgba(6,148,209,0.08)' }}>
-                  <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110 hover:shadow-lg"
-                    style={{
-                      background: 'rgba(6,148,209,0.1)',
-                      border: '1px solid rgba(6,148,209,0.2)',
-                      animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.35}s both, iconFloat 3s ease-in-out ${i * 0.35 + 0.7}s infinite`,
-                    }}>
-                    {React.cloneElement(item.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, {
-                      style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.35 + 0.1}s both` },
-                    })}
+              {/* Mobile: one card at a time with swipe */}
+              <div className="sm:hidden">
+                <PointsSlider />
+              </div>
+              {/* Desktop: all stacked */}
+              <div className="hidden sm:flex flex-col gap-4">
+                {HG_POINTS.map((item, i) => (
+                  <div key={i} className="flex gap-4 items-start rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid rgba(6,148,209,0.15)', boxShadow: '0 2px 12px rgba(6,148,209,0.08)' }}>
+                    <div className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 hover:scale-110 hover:shadow-lg"
+                      style={{
+                        background: 'rgba(6,148,209,0.1)',
+                        border: '1px solid rgba(6,148,209,0.2)',
+                        animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.35}s both, iconFloat 3s ease-in-out ${i * 0.35 + 0.7}s infinite`,
+                      }}>
+                      {React.cloneElement(item.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, {
+                        style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.35 + 0.1}s both` },
+                      })}
+                    </div>
+                    <p className="text-[#334155] text-sm sm:text-base leading-relaxed">{item.text}</p>
                   </div>
-                  <p className="text-[#334155] text-sm sm:text-base leading-relaxed">{item.text}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
