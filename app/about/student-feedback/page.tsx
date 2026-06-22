@@ -307,6 +307,7 @@ export default function StudentFeedbackPage() {
   const revTotalPages = Math.ceil(REVISION_TESTIMONIALS.length / REV_PER_PAGE)
   const [showAllTestimonials, setShowAllTestimonials] = useState(false)
   const [showAllVideos, setShowAllVideos] = useState(false)
+  const [showAllCourses, setShowAllCourses] = useState(false)
   const revTouchX = useRef(0)
 
   return (
@@ -768,11 +769,11 @@ export default function StudentFeedbackPage() {
           </div>
 
           {/* Course grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
             {COURSES.map((course, i) => (
               <div
                 key={i}
-                className="group relative flex items-center gap-3 rounded-2xl px-4 py-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_10px_36px_rgba(6,148,209,0.22)]"
+                className={`group relative flex items-center gap-3 rounded-2xl px-4 py-4 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_10px_36px_rgba(6,148,209,0.22)]${i >= 6 && !showAllCourses ? ' hidden sm:flex' : ''}`}
                 style={{
                   background: '#ffffff',
                   border: '1px solid rgba(6,148,209,0.18)',
@@ -798,7 +799,21 @@ export default function StudentFeedbackPage() {
             ))}
           </div>
 
-          <div className="flex justify-center">
+          {/* Mobile: show more/less courses */}
+          <div className="sm:hidden flex justify-center mb-6">
+            <button
+              onClick={() => setShowAllCourses(p => !p)}
+              className="group inline-flex items-center gap-2 rounded-2xl px-6 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+              style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+              {showAllCourses ? 'Show Less Courses' : 'View More Courses'}
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>
+                {showAllCourses ? '↑' : '→'}
+              </span>
+            </button>
+          </div>
+
+          {/* Desktop: show all courses button */}
+          <div className="hidden sm:flex justify-center">
             <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Show All Course
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
