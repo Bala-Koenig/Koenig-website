@@ -116,15 +116,15 @@ const CSS = `
     padding-bottom: 20px !important;
     margin-bottom: 0 !important;
   }
-  /* 16px horizontal padding on every section */
+  /* 15px horizontal padding on every section */
   .globe-sec, .companies-sec, .cert-showcase-sec, .certs-sec,
   .ced-sec, .lgm-sec, .certpath-sec, .roi-sec, .edge-sec, .preview-sec,
   .enroll-sec, .hiw2-sec, .compare-sec, .pricing-sec, .batches-sec,
   .webinars-sec, .referral-sec, .test-sec, .lf-sec, .learn-sec,
   .features-sec, .usp-sec, .why-sec, .trainer-sec, .awards-sec,
   .faq-chatbot-sec, .bottom-cta, .footer, .ticker-wrap, .stats-bar {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
   }
   /* Awards stats: 2×2 grid on mobile */
   .award-stats-grid { grid-template-columns: repeat(2,1fr) !important; }
@@ -138,7 +138,7 @@ const CSS = `
   .review-stats-grid > div:nth-child(2) { border-bottom: 1px solid #CAEFFF; }
   /* Hero: enforce uniform 16px horizontal padding; no bottom padding so stats bar sits flush */
   .hero { padding-left: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; }
-  .hero-cols { padding: 20px 16px !important; width: 100% !important; box-sizing: border-box !important; }
+  .hero-cols { padding: 20px 15px !important; width: 100% !important; box-sizing: border-box !important; }
   .hero-left { width: 100% !important; max-width: 100% !important; padding-right: 0 !important; box-sizing: border-box !important; min-width: 0; }
   .hero-h1, .hero-sub, .hero-features, .hero-proof { max-width: 100%; overflow-wrap: break-word; word-break: break-word; }
 }
