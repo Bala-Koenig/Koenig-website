@@ -216,6 +216,45 @@ function HowSlider() {
   )
 }
 
+const WHY_CARDS = [
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>, title: 'Happiness Guarantee', desc: "We're so confident in the quality of our training that we offer a comprehensive Happiness Guarantee" },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>, title: 'Unparalleled Course Selection', desc: 'Explore over 5,000 courses across diverse industries and skill sets to find the perfect fit for your learning goals' },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>, title: 'Expert Instructors', desc: 'Learn from industry veterans with real-world experience' },
+  { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>, title: 'Flexible Learning Options', desc: 'Choose from online, classroom, or blended learning formats to suit your schedule' },
+]
+
+function WhySlider() {
+  const [idx, setIdx] = useState(0)
+  const touchStartRef = useRef<number | null>(null)
+  const prev = () => setIdx(i => (i - 1 + WHY_CARDS.length) % WHY_CARDS.length)
+  const next = () => setIdx(i => (i + 1) % WHY_CARDS.length)
+  const onTouchStart = (e: React.TouchEvent) => { touchStartRef.current = e.touches[0].clientX }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartRef.current === null) return
+    const diff = touchStartRef.current - e.changedTouches[0].clientX
+    if (Math.abs(diff) > 40) diff > 0 ? next() : prev()
+    touchStartRef.current = null
+  }
+  const card = WHY_CARDS[idx]
+  return (
+    <div onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <div className="kglass-dark rounded-2xl p-5 flex flex-col gap-3" style={{ borderTop: '2px solid rgba(56,189,248,0.3)' }}>
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+          style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', boxShadow: '0 0 16px rgba(56,189,248,0.12)' }}>
+          {card.icon}
+        </div>
+        <h3 className="font-bold text-[#38bdf8] text-sm leading-snug">{card.title}</h3>
+        <p className="text-white/55 text-xs leading-relaxed">{card.desc}</p>
+      </div>
+      <div className="flex justify-center gap-2 mt-3">
+        {WHY_CARDS.map((_, i) => (
+          <button key={i} onClick={() => setIdx(i)} style={{ height: '8px', borderRadius: '4px', border: 'none', cursor: 'pointer', transition: 'all 0.3s', background: i === idx ? '#38bdf8' : 'rgba(56,189,248,0.25)', width: i === idx ? '20px' : '8px' }} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function HappinessGuaranteePage() {
   const [tab, setTab] = useState<'why' | 'feedback'>('why')
   const [ceoExpanded, setCeoExpanded] = useState(false)
@@ -498,23 +537,25 @@ export default function HappinessGuaranteePage() {
 
           {/* Why Choose Us cards */}
           {tab === 'why' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-              {[
-                { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>, title: 'Happiness Guarantee', desc: "We're so confident in the quality of our training that we offer a comprehensive Happiness Guarantee" },
-                { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>, title: 'Unparalleled Course Selection', desc: 'Explore over 5,000 courses across diverse industries and skill sets to find the perfect fit for your learning goals' },
-                { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>, title: 'Expert Instructors', desc: 'Learn from industry veterans with real-world experience' },
-                { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>, title: 'Flexible Learning Options', desc: 'Choose from online, classroom, or blended learning formats to suit your schedule' },
-              ].map((p, i) => (
-                <div key={p.title} className="kglass-dark rounded-2xl p-5 sm:p-6 flex flex-col gap-3" style={{ borderTop: '2px solid rgba(56,189,248,0.3)' }}>
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', boxShadow: '0 0 16px rgba(56,189,248,0.12)', animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.2}s both, iconFloat 3s ease-in-out ${i * 0.2 + 0.7}s infinite` }}>
-                    {React.cloneElement(p.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, { style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.2 + 0.1}s both` } })}
+            <>
+              {/* Mobile: slider */}
+              <div className="sm:hidden">
+                <WhySlider />
+              </div>
+              {/* Desktop: grid */}
+              <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+                {WHY_CARDS.map((p, i) => (
+                  <div key={p.title} className="kglass-dark rounded-2xl p-5 sm:p-6 flex flex-col gap-3" style={{ borderTop: '2px solid rgba(56,189,248,0.3)' }}>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', boxShadow: '0 0 16px rgba(56,189,248,0.12)', animation: `iconPop 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.2}s both, iconFloat 3s ease-in-out ${i * 0.2 + 0.7}s infinite` }}>
+                      {React.cloneElement(p.icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, { style: { strokeDasharray: 300, strokeDashoffset: 300, animation: `strokeDraw 1.2s ease ${i * 0.2 + 0.1}s both` } })}
+                    </div>
+                    <h3 className="font-bold text-[#38bdf8] text-sm sm:text-base leading-snug">{p.title}</h3>
+                    <p className="text-white/55 text-xs sm:text-sm leading-relaxed">{p.desc}</p>
                   </div>
-                  <h3 className="font-bold text-[#38bdf8] text-sm sm:text-base leading-snug">{p.title}</h3>
-                  <p className="text-white/55 text-xs sm:text-sm leading-relaxed">{p.desc}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </>
           )}
 
           {/* Student Feedback — inline testimonials */}
