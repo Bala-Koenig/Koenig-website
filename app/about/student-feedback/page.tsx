@@ -803,12 +803,9 @@ export default function StudentFeedbackPage() {
           <div className="sm:hidden flex justify-center mb-6">
             <button
               onClick={() => setShowAllCourses(p => !p)}
-              className="group inline-flex items-center gap-2 rounded-2xl px-6 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
-              {showAllCourses ? 'Show Less Courses' : 'View More Courses'}
-              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>
-                {showAllCourses ? '↑' : '→'}
-              </span>
+              className="text-sm font-semibold"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0694D1', padding: 0 }}>
+              {showAllCourses ? 'Show Less Courses ↑' : 'View More Courses →'}
             </button>
           </div>
 
