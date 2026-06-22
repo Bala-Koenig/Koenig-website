@@ -805,7 +805,7 @@ export default function StudentFeedbackPage() {
               onClick={() => setShowAllCourses(p => !p)}
               className="text-sm font-semibold"
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0694D1', padding: 0 }}>
-              {showAllCourses ? 'Show Less Courses ↑' : 'View More Courses →'}
+              {showAllCourses ? 'Show Less Courses ↑' : 'View More Courses ⇊'}
             </button>
           </div>
 
