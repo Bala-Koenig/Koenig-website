@@ -399,20 +399,24 @@ export default function CustomisedTrainingPage() {
                   el.style.transform = 'none'
                 }}>
                 {/* Thumbnail */}
-                <div style={{ aspectRatio: '16/9', overflow: 'hidden', background: '#0d1f2d', flexShrink: 0, transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)' }}>
+                <div style={{ aspectRatio: '16/9', overflow: 'hidden', background: '#0d1f2d', flexShrink: 0, position: 'relative', transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={cs.img}
                     alt={cs.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                      imageRendering: 'auto', transform: 'translateZ(0)',
-                      filter: 'blur(0.4px) brightness(1.03) saturate(1.05)',
+                      imageRendering: 'auto', transform: 'scale(1.01)',
+                      filter: 'brightness(1.04) saturate(1.06)',
                       WebkitBackfaceVisibility: 'hidden' }}
                     onError={e => {
                       const img = e.currentTarget as HTMLImageElement
                       img.style.display = 'none'
                     }}
                   />
+                  {/* smooth bottom fade into card */}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '45%',
+                    background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 100%)',
+                    pointerEvents: 'none' }} />
                 </div>
                 {/* Body */}
                 <div style={{ padding: '16px 18px 18px', flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
