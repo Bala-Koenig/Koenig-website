@@ -406,8 +406,7 @@ export default function CustomisedTrainingPage() {
                     alt={cs.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block',
                       imageRendering: 'auto', transform: 'scale(1.01)',
-                      filter: 'blur(0.6px) brightness(1.04) saturate(1.06)',
-                      WebkitBackfaceVisibility: 'hidden', transition: 'filter 0.3s ease' }}
+                      WebkitBackfaceVisibility: 'hidden' }}
                     onError={e => {
                       const img = e.currentTarget as HTMLImageElement
                       img.style.display = 'none'
