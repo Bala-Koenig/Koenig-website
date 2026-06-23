@@ -413,10 +413,6 @@ export default function CustomisedTrainingPage() {
                       img.style.display = 'none'
                     }}
                   />
-                  {/* smooth bottom fade into card */}
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '45%',
-                    background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 100%)',
-                    pointerEvents: 'none' }} />
                 </div>
                 {/* Body */}
                 <div style={{ padding: '16px 18px 18px', flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
