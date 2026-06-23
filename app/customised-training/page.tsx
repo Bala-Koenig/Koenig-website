@@ -45,65 +45,45 @@ const FEATURES = [
 /* ── Case studies ────────────────────────────────────────────────── */
 const CASE_STUDIES = [
   { id: 1,  title: 'Seamless SAP Migration Through Tailored Training',
-    bg: 'linear-gradient(135deg,#0f2d4a 0%,#1a4a6e 100%)', accent: '#4da6d6',
-    icon: <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></> },
+    img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=338' },
   { id: 2,  title: 'Fueling Innovation with Azure OpenAI Hackathons',
-    bg: 'linear-gradient(135deg,#0a2540 0%,#0e4d7a 100%)', accent: '#38bdf8',
-    icon: <><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3M6.343 6.343l-.707-.707M10.121 20.364A9 9 0 1 1 20.364 10.12"/><path d="M12 7v5l3 3"/></> },
+    img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&h=338' },
   { id: 3,  title: '140 Learners Upskilled in Azure and AI Fundamentals',
-    bg: 'linear-gradient(135deg,#0d3352 0%,#0694D1 100%)', accent: '#e0f2fe',
-    icon: <><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><path d="M9 14l2 2 4-4"/></> },
+    img: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&h=338' },
   { id: 4,  title: 'Empowering Women in Tech with AI Training',
-    bg: 'linear-gradient(135deg,#2d1b69 0%,#6d28d9 100%)', accent: '#c4b5fd',
-    icon: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></> },
+    img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=338' },
   { id: 5,  title: 'Power BI Upskilling Across Roles and Regions',
-    bg: 'linear-gradient(135deg,#1e3a5f 0%,#f59e0b 60%)', accent: '#fde68a',
-    icon: <><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><rect x="2" y="2" width="20" height="20" rx="2" fill="none"/></> },
+    img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&h=338' },
   { id: 6,  title: 'Cloud Migration Kickoff with Azure & AWS Training',
-    bg: 'linear-gradient(135deg,#0a2540 0%,#0f4c75 100%)', accent: '#67e8f9',
-    icon: <><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><path d="M12 12l3 3-3 3m-3-3h6"/></> },
+    img: 'https://images.unsplash.com/photo-1544197150-b99a580bb6cc?auto=format&fit=crop&w=600&h=338' },
   { id: 7,  title: 'Boosting Security Skills with Microsoft Stack Training',
-    bg: 'linear-gradient(135deg,#1a0533 0%,#7c3aed 80%)', accent: '#a78bfa',
-    icon: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></> },
+    img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&h=338' },
   { id: 8,  title: 'Custom Leadership Training for Cross-Cultural Impact',
-    bg: 'linear-gradient(135deg,#064e3b 0%,#059669 100%)', accent: '#6ee7b7',
-    icon: <><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></> },
+    img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&h=338' },
   { id: 9,  title: 'Solving Postgres-Azure Complexity with Custom Training',
-    bg: 'linear-gradient(135deg,#1e3a5f 0%,#1d4ed8 100%)', accent: '#93c5fd',
-    icon: <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M9 13l2 2 4-4"/></> },
+    img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&h=338' },
   { id: 10, title: 'Equipping Nonprofits with Real-World AI & Data Skills',
-    bg: 'linear-gradient(135deg,#7f1d1d 0%,#dc2626 80%)', accent: '#fca5a5',
-    icon: <><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></> },
+    img: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=600&h=338' },
   { id: 11, title: 'On-Premise Power BI Training for High-Security Environments',
-    bg: 'linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%)', accent: '#60a5fa',
-    icon: <><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><line x1="12" y1="20" x2="18" y2="10"/></> },
+    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&h=338' },
   { id: 12, title: 'Rebuilding BI Publisher Training from the Ground Up',
-    bg: 'linear-gradient(135deg,#1c1917 0%,#78350f 100%)', accent: '#fbbf24',
-    icon: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><path d="M9 9l1 1 3-3"/></> },
+    img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&h=338' },
   { id: 13, title: 'Scaling Azure Training with Multilingual AI Localization',
-    bg: 'linear-gradient(135deg,#0d3352 0%,#0694D1 100%)', accent: '#7dd3fc',
-    icon: <><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></> },
+    img: 'https://images.unsplash.com/photo-1526958097429-a1cc86c77fe1?auto=format&fit=crop&w=600&h=338' },
   { id: 14, title: 'Terraform Certification with IBM Cloud, Tailored On-Site',
-    bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 100%)', accent: '#818cf8',
-    icon: <><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="12" y1="2" x2="12" y2="22"/></> },
+    img: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&h=338' },
   { id: 15, title: 'Mastering OKD: OpenShift Training for Cost-Saving DevOps',
-    bg: 'linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)', accent: '#34d399',
-    icon: <><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></> },
+    img: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=600&h=338' },
   { id: 16, title: 'Building In-House Microservices Expertise from the Ground Up',
-    bg: 'linear-gradient(135deg,#0a2540 0%,#0369a1 100%)', accent: '#38bdf8',
-    icon: <><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="8" height="8" rx="1"/><line x1="10" y1="6" x2="14" y2="6"/><line x1="10" y1="18" x2="14" y2="18"/><line x1="6" y1="10" x2="6" y2="14"/><line x1="18" y1="10" x2="18" y2="14"/></> },
+    img: 'https://images.unsplash.com/photo-1509718443690-d8e2fb3474b7?auto=format&fit=crop&w=600&h=338' },
   { id: 17, title: 'Custom LMS & Cyber Labs Training for Global Retailer',
-    bg: 'linear-gradient(135deg,#4c0519 0%,#9f1239 100%)', accent: '#fda4af',
-    icon: <><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></> },
+    img: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&h=338' },
   { id: 18, title: 'Scaling Copilot Training with Role-Based Precision',
-    bg: 'linear-gradient(135deg,#0a1628 0%,#0694D1 100%)', accent: '#bae6fd',
-    icon: <><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 19-7z"/></> },
+    img: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=600&h=338' },
   { id: 19, title: 'Offline Network Training for High-Security Government Environments',
-    bg: 'linear-gradient(135deg,#1a2e1a 0%,#166534 100%)', accent: '#86efac',
-    icon: <><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></> },
+    img: 'https://images.unsplash.com/photo-1569098644584-210bcd375b59?auto=format&fit=crop&w=600&h=338' },
   { id: 20, title: 'Custom Cisco Nexus Training for Data Center Excellence',
-    bg: 'linear-gradient(135deg,#0c1a2e 0%,#0f3460 100%)', accent: '#60a5fa',
-    icon: <><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></> },
+    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&h=338' },
 ]
 
 /* ── Stats (ILO style) ──────────────────────────────────────────── */
@@ -399,18 +379,17 @@ export default function CustomisedTrainingPage() {
                   el.style.transform = 'none'
                 }}>
                 {/* Thumbnail */}
-                <div style={{ aspectRatio: '16/9', overflow: 'hidden', background: cs.bg, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                  {/* subtle grid pattern */}
-                  <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.08 }} xmlns="http://www.w3.org/2000/svg">
-                    <defs><pattern id={`grid-${cs.id}`} width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="white" strokeWidth="0.5"/></pattern></defs>
-                    <rect width="100%" height="100%" fill={`url(#grid-${cs.id})`}/>
-                  </svg>
-                  {/* topic icon */}
-                  <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke={cs.accent} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'relative', zIndex: 1, filter: `drop-shadow(0 0 12px ${cs.accent}66)` }}>
-                    {cs.icon}
-                  </svg>
-                  {/* accent glow orb */}
-                  <div style={{ position: 'absolute', width: 80, height: 80, borderRadius: '50%', background: cs.accent, opacity: 0.08, filter: 'blur(20px)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', pointerEvents: 'none' }}/>
+                <div style={{ aspectRatio: '16/9', overflow: 'hidden', background: '#0d1f2d', flexShrink: 0 }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={cs.img}
+                    alt={cs.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    onError={e => {
+                      const img = e.currentTarget as HTMLImageElement
+                      img.style.display = 'none'
+                    }}
+                  />
                 </div>
                 {/* Body */}
                 <div style={{ padding: '16px 18px 18px', flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
