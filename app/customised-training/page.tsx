@@ -414,6 +414,79 @@ export default function CustomisedTrainingPage() {
         </div>
       </section>
 
+      {/* ── HOW IT WORKS ───────────────────────────────────────── */}
+      <section style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px', position: 'relative', overflow: 'hidden' }}>
+        {/* Radial glow */}
+        <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 700, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 65%)' }} />
+        <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)', position: 'relative' }}>
+          <div style={{ textAlign: 'center', marginBottom: 52 }}>
+            <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999, background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
+              Our Process
+            </span>
+            <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#fff', marginBottom: 14, lineHeight: 1.25, letterSpacing: '-0.015em' }}>
+              How Customised Training{' '}
+              <span style={{ background: 'linear-gradient(90deg,#0694D1,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Works
+              </span>
+            </h2>
+            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+              From your first conversation to post-training reports — a seamless end-to-end experience built around your goals.
+            </p>
+          </div>
+
+          <div className="ct-how-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, position: 'relative' }}>
+            {/* Connecting line */}
+            <div className="ct-how-line" style={{ position: 'absolute', top: 36, left: '12.5%', right: '12.5%', height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.35) 15%, rgba(6,148,209,0.35) 85%, transparent)', pointerEvents: 'none', zIndex: 0 }} />
+
+            {[
+              {
+                step: '01', title: 'Share Your Requirement',
+                desc: 'Tell us your team size, skills gaps, preferred format, timeline, and budget. We listen before we design.',
+                icon: <><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></>,
+              },
+              {
+                step: '02', title: 'Custom Curriculum Design',
+                desc: 'Our experts build a bespoke course outline, blending AI tools, live sessions, and role-based scenarios.',
+                icon: <><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></>,
+              },
+              {
+                step: '03', title: 'Live Training Delivery',
+                desc: 'Vendor-certified instructors deliver online or onsite — with recorded sessions, labs, and real-time support.',
+                icon: <><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></>,
+              },
+              {
+                step: '04', title: 'Reports & Certification',
+                desc: 'Detailed manager reports on attendance and performance, plus exam redemption and Qubits scores.',
+                icon: <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
+              },
+            ].map((s, i) => (
+              <div key={i} style={{ position: 'relative', zIndex: 1, padding: '0 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <div style={{ width: 72, height: 72, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, flexShrink: 0, position: 'relative',
+                  background: 'linear-gradient(135deg, rgba(6,148,209,0.18), rgba(6,148,209,0.06))',
+                  border: '1.5px solid rgba(6,148,209,0.35)',
+                  boxShadow: '0 0 24px rgba(6,148,209,0.18)' }}>
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
+                  <span style={{ position: 'absolute', top: -8, right: -8, width: 22, height: 22, borderRadius: '50%', background: 'linear-gradient(135deg,#0694D1,#076D9D)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, color: '#fff', letterSpacing: 0 }}>{s.step}</span>
+                </div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 10, lineHeight: 1.4 }}>{s.title}</h3>
+                <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <style>{`
+            @media (max-width: 767px) {
+              .ct-how-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+              .ct-how-line { display: none !important; }
+            }
+            @media (min-width: 768px) and (max-width: 1023px) {
+              .ct-how-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 32px !important; }
+              .ct-how-line { display: none !important; }
+            }
+          `}</style>
+        </div>
+      </section>
+
       {/* ── CUSTOM COURSE GENERATOR ─────────────────────────────── */}
       <section id="generator" style={{ background: '#fff', padding: '64px 20px', borderTop: '1px solid #E2E8F0' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
@@ -503,81 +576,6 @@ export default function CustomisedTrainingPage() {
               )}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ───────────────────────────────────────── */}
-      <section style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px', position: 'relative', overflow: 'hidden' }}>
-        {/* Radial glow */}
-        <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 700, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 65%)' }} />
-        <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)', position: 'relative' }}>
-          <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999, background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
-              Our Process
-            </span>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#fff', marginBottom: 14, lineHeight: 1.25, letterSpacing: '-0.015em' }}>
-              How Customised Training{' '}
-              <span style={{ background: 'linear-gradient(90deg,#0694D1,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                Works
-              </span>
-            </h2>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
-              From your first conversation to post-training reports — a seamless end-to-end experience built around your goals.
-            </p>
-          </div>
-
-          <div className="ct-how-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, position: 'relative' }}>
-            {/* Connecting line */}
-            <div className="ct-how-line" style={{ position: 'absolute', top: 36, left: '12.5%', right: '12.5%', height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.35) 15%, rgba(6,148,209,0.35) 85%, transparent)', pointerEvents: 'none', zIndex: 0 }} />
-
-            {[
-              {
-                step: '01', title: 'Share Your Requirement',
-                desc: 'Tell us your team size, skills gaps, preferred format, timeline, and budget. We listen before we design.',
-                icon: <><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></>,
-              },
-              {
-                step: '02', title: 'Custom Curriculum Design',
-                desc: 'Our experts build a bespoke course outline, blending AI tools, live sessions, and role-based scenarios.',
-                icon: <><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></>,
-              },
-              {
-                step: '03', title: 'Live Training Delivery',
-                desc: 'Vendor-certified instructors deliver online or onsite — with recorded sessions, labs, and real-time support.',
-                icon: <><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></>,
-              },
-              {
-                step: '04', title: 'Reports & Certification',
-                desc: 'Detailed manager reports on attendance and performance, plus exam redemption and Qubits scores.',
-                icon: <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
-              },
-            ].map((s, i) => (
-              <div key={i} style={{ position: 'relative', zIndex: 1, padding: '0 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                {/* Step circle */}
-                <div style={{ width: 72, height: 72, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, flexShrink: 0, position: 'relative',
-                  background: 'linear-gradient(135deg, rgba(6,148,209,0.18), rgba(6,148,209,0.06))',
-                  border: '1.5px solid rgba(6,148,209,0.35)',
-                  boxShadow: '0 0 24px rgba(6,148,209,0.18)' }}>
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{s.icon}</svg>
-                  <span style={{ position: 'absolute', top: -8, right: -8, width: 22, height: 22, borderRadius: '50%', background: 'linear-gradient(135deg,#0694D1,#076D9D)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, color: '#fff', letterSpacing: 0 }}>{s.step}</span>
-                </div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 10, lineHeight: 1.4 }}>{s.title}</h3>
-                <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.48)', lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile: stack */}
-          <style>{`
-            @media (max-width: 767px) {
-              .ct-how-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-              .ct-how-line { display: none !important; }
-            }
-            @media (min-width: 768px) and (max-width: 1023px) {
-              .ct-how-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 32px !important; }
-              .ct-how-line { display: none !important; }
-            }
-          `}</style>
         </div>
       </section>
     </div>
