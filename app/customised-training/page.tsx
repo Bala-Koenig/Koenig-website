@@ -1,38 +1,55 @@
 'use client'
 import { useState, useRef } from 'react'
+import Link from 'next/link'
 import Navbar from '@/components/Navbar'
+
+/* ── Training mode tabs (same as ILO / flexi) ──────────────────── */
+const TRAINING_TABS = [
+  { id: 'ilo',        label: 'Live Online',         href: '/live-online-classroom' },
+  { id: 'classroom',  label: 'Classroom',            href: '/classroom-training' },
+  { id: '1on1',       label: '1-on-1',               href: '/1-on-1-training' },
+  { id: 'fmat',       label: 'Fly-Me-a-Trainer',     href: '/fly-me-a-trainer' },
+  { id: 'flexi',      label: 'Flexi',                href: '/flexi-training' },
+  { id: 'customised', label: 'Customised Training',  href: '/customised-training' },
+]
 
 /* ── Feature cards ──────────────────────────────────────────────── */
 const FEATURES = [
   {
     img: 'https://www.koenig-solutions.com/assets/CourseImagesNew/Ai.png',
-    title: 'Embedding AI Tools/Gen AI capabilities',
-    desc: 'Leverage cutting-edge AI tools and technology in the context of your chosen course to enhance your learning outcomes and sharpen your skills.',
+    title: 'Embedding AI Tools / Gen AI',
+    desc: 'Leverage cutting-edge AI tools and technology in the context of your chosen course to enhance learning outcomes.',
+    icon: <><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="15" x2="22" y2="15"/></>,
   },
   {
     img: 'https://www.koenig-solutions.com/assets/CourseImagesNew/video.png',
     title: 'Recorded Sessions',
-    desc: 'We provide session recordings accessible for 90 days, with extensions available upon request.',
+    desc: 'Session recordings accessible for 90 days, with extensions available upon request.',
+    icon: <><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></>,
   },
   {
     img: 'https://www.koenig-solutions.com/assets/CourseImagesNew/report.png',
-    title: 'Customized Report for Managers',
-    desc: 'We provide tailored reports for managers, offering insights into learner performance, attendance, exam redemption, Qubits scores, and more.',
+    title: 'Manager Reports',
+    desc: 'Tailored reports for managers — learner performance, attendance, exam redemption, Qubits scores, and more.',
+    icon: <><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></>,
   },
   {
     img: 'https://www.koenig-solutions.com/assets/CourseImagesNew/live.png',
     title: 'Live Training',
-    desc: 'We offer expert-led training delivered live in both online and offline formats to suit your needs.',
+    desc: 'Expert-led training delivered live in both online and offline formats to suit your schedule.',
+    icon: <><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></>,
   },
   {
     img: 'https://www.koenig-solutions.com/assets/CourseImagesNew/custom.png',
-    title: 'Customized LMS for Learners',
-    desc: 'Our learning tool gives learners access to Qubits, knowledge checks, trainer-shared resources, and all course-related information.',
+    title: 'Customised LMS',
+    desc: 'Learner access to Qubits, knowledge checks, trainer-shared resources and all course-related information.',
+    icon: <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></>,
   },
   {
     img: 'https://www.koenig-solutions.com/assets/CourseImagesNew/translate.png',
-    title: 'Translation of Content',
-    desc: 'We offer content translation services, including PPTs, videos with voiceovers, and subtitles in your required language.',
+    title: 'Content Translation',
+    desc: 'PPTs, videos with voiceovers, and subtitles translated into your required language.',
+    icon: <><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></>,
   },
 ]
 
@@ -60,321 +77,302 @@ const CASE_STUDIES = [
   { id: 20, title: 'Custom Cisco Nexus Training for Data Center Excellence' },
 ]
 
-const INITIAL_VISIBLE = 8
-
-/* ── Contact form countries ──────────────────────────────────────── */
-const COUNTRIES = [
-  'Afghanistan','Albania','Algeria','Argentina','Australia','Austria','Bahrain','Bangladesh',
-  'Belgium','Brazil','Canada','Chile','China','Colombia','Croatia','Czech Republic','Denmark',
-  'Egypt','Ethiopia','Finland','France','Germany','Ghana','Greece','Hong Kong','Hungary',
-  'India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Japan','Jordan','Kazakhstan',
-  'Kenya','Kuwait','Lebanon','Malaysia','Mexico','Morocco','Netherlands','New Zealand',
-  'Nigeria','Norway','Oman','Pakistan','Peru','Philippines','Poland','Portugal','Qatar',
-  'Romania','Russia','Saudi Arabia','Singapore','South Africa','South Korea','Spain','Sri Lanka',
-  'Sweden','Switzerland','Taiwan','Thailand','Turkey','Ukraine','United Arab Emirates',
-  'United Kingdom','United States','Venezuela','Vietnam','Zimbabwe',
+/* ── Stats (ILO style) ──────────────────────────────────────────── */
+const HERO_STATS = [
+  { val: '500+',  label: 'Enterprise Clients',
+    icon: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></> },
+  { val: '50+',   label: 'Countries Served',
+    icon: <><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></> },
+  { val: '98%',   label: 'Satisfaction Rate',
+    icon: <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></> },
+  { val: '33+',   label: 'Years in Training',
+    icon: <><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></> },
 ]
 
-/* ── Contact / Get Started modal ─────────────────────────────────── */
-function ContactModal({ onClose }: { onClose: () => void }) {
-  const [name, setName]       = useState('')
-  const [email, setEmail]     = useState('')
-  const [phone, setPhone]     = useState('')
-  const [org, setOrg]         = useState('')
-  const [country, setCountry] = useState('')
-  const [msg, setMsg]         = useState('')
-  const [countryOpen, setCountryOpen] = useState(false)
-  const [submitted, setSubmitted]     = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-
-  const inp: React.CSSProperties = {
-    width: '100%', boxSizing: 'border-box',
-    background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)',
-    borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff',
-    outline: 'none', fontFamily: 'inherit',
-  }
-  const lbl: React.CSSProperties = {
-    fontSize: 10, fontWeight: 800, letterSpacing: 0.8,
-    color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block',
-  }
-
-  return (
-    <>
-      <style>{`@keyframes ctSlideIn{from{opacity:0;transform:translate(-50%,-54%)}to{opacity:1;transform:translate(-50%,-50%)}}`}</style>
-      <div style={{ position:'fixed', inset:0, zIndex:2000, background:'rgba(0,0,0,0.65)', backdropFilter:'blur(5px)' }}
-        onClick={e => { if (e.target === e.currentTarget) onClose() }} />
-      <div style={{ position:'fixed', top:'50%', left:'50%', transform:'translate(-50%,-50%)', zIndex:2001,
-        width:'100%', maxWidth:480, maxHeight:'90vh', overflowY:'auto',
-        background:'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius:20,
-        padding:'32px 28px 28px', boxShadow:'0 24px 60px rgba(0,0,0,0.5)', fontFamily:'inherit',
-        animation:'ctSlideIn 0.3s cubic-bezier(0.25,1,0.5,1)' }}>
-        <button onClick={onClose} style={{ position:'absolute', top:14, right:14, width:30, height:30,
-          borderRadius:'50%', background:'rgba(255,255,255,0.1)', border:'none', color:'#fff',
-          fontSize:14, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>✕</button>
-        {submitted ? (
-          <div style={{ textAlign:'center', padding:'20px 0' }}>
-            <div style={{ width:56, height:56, borderRadius:'50%', background:'rgba(6,148,209,0.15)',
-              border:'1.5px solid rgba(6,148,209,0.4)', display:'flex', alignItems:'center',
-              justifyContent:'center', margin:'0 auto 20px' }}>
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div style={{ fontSize:20, fontWeight:800, color:'#fff', marginBottom:10 }}>Thank you, {name.split(' ')[0]}!</div>
-            <div style={{ fontSize:13, color:'rgba(255,255,255,0.6)', lineHeight:1.7, marginBottom:24 }}>
-              Our training advisors will get back to you within one business day to discuss your customised training requirements.
-            </div>
-            <button onClick={onClose} style={{ padding:'11px 28px', borderRadius:10, border:'1px solid rgba(6,148,209,0.35)',
-              background:'transparent', color:'#0694D1', fontSize:13, fontWeight:700, cursor:'pointer', fontFamily:'inherit' }}>Close</button>
-          </div>
-        ) : (
-          <>
-            <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:16 }}>
-              <span style={{ width:7, height:7, borderRadius:'50%', background:'#0694D1', display:'inline-block' }} />
-              <span style={{ fontSize:10, fontWeight:800, letterSpacing:1.2, color:'#0694D1', textTransform:'uppercase' }}>Get a Custom Quote</span>
-            </div>
-            <div style={{ fontSize:22, fontWeight:800, color:'#fff', marginBottom:6 }}>Tell Us About Your Training Needs</div>
-            <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginBottom:24, lineHeight:1.65 }}>
-              Fill in your details and a Koenig advisor will design a solution for your team.
-            </div>
-            <form onSubmit={e => { e.preventDefault(); if (!country) return; setSubmitted(true) }}
-              style={{ display:'flex', flexDirection:'column', gap:14 }}>
-              <div><label style={lbl}>Full Name <span style={{ color:'#ef4444' }}>*</span></label>
-                <input required value={name} onChange={e => setName(e.target.value)} placeholder="John Smith" style={inp}
-                  onFocus={e => (e.target.style.borderColor='#0694D1')} onBlur={e => (e.target.style.borderColor='rgba(6,148,209,0.3)')} /></div>
-              <div><label style={lbl}>Work Email <span style={{ color:'#ef4444' }}>*</span></label>
-                <input required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="john@company.com" style={inp}
-                  onFocus={e => (e.target.style.borderColor='#0694D1')} onBlur={e => (e.target.style.borderColor='rgba(6,148,209,0.3)')} /></div>
-              <div><label style={lbl}>Phone Number</label>
-                <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="+1 555 000 0000" style={inp}
-                  onFocus={e => (e.target.style.borderColor='#0694D1')} onBlur={e => (e.target.style.borderColor='rgba(6,148,209,0.3)')} /></div>
-              <div><label style={lbl}>Organisation</label>
-                <input value={org} onChange={e => setOrg(e.target.value)} placeholder="Company name" style={inp}
-                  onFocus={e => (e.target.style.borderColor='#0694D1')} onBlur={e => (e.target.style.borderColor='rgba(6,148,209,0.3)')} /></div>
-              <div ref={ref} style={{ position:'relative' }}>
-                <label style={lbl}>Country <span style={{ color:'#ef4444' }}>*</span></label>
-                <button type="button" onClick={() => setCountryOpen(o => !o)}
-                  style={{ width:'100%', boxSizing:'border-box', display:'flex', alignItems:'center', justifyContent:'space-between',
-                    background:'rgba(6,148,209,0.08)', border:`1.5px solid ${countryOpen ? '#0694D1' : 'rgba(6,148,209,0.3)'}`,
-                    borderRadius:10, padding:'11px 14px', fontSize:13.5, color:country ? '#fff' : 'rgba(255,255,255,0.4)',
-                    cursor:'pointer', fontFamily:'inherit', outline:'none' }}>
-                  {country || 'Select your country'}
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                    style={{ transform:countryOpen ? 'rotate(180deg)' : 'none', transition:'transform 0.2s', flexShrink:0 }}>
-                    <polyline points="6 9 12 15 18 9"/>
-                  </svg>
-                </button>
-                {countryOpen && (
-                  <div style={{ position:'absolute', bottom:'calc(100% + 4px)', left:0, right:0, zIndex:10000,
-                    background:'#0d2535', border:'1.5px solid rgba(6,148,209,0.35)', borderRadius:10,
-                    maxHeight:200, overflowY:'auto', boxShadow:'0 -8px 32px rgba(0,0,0,0.6)' }}>
-                    {COUNTRIES.map(c => (
-                      <div key={c} onClick={() => { setCountry(c); setCountryOpen(false) }}
-                        style={{ padding:'9px 14px', fontSize:13.5, cursor:'pointer',
-                          color:country === c ? '#fff' : '#c8dce9', background:country === c ? '#1a5fa8' : 'transparent' }}
-                        onMouseEnter={e => { if (country !== c) (e.currentTarget as HTMLDivElement).style.background='rgba(6,148,209,0.18)' }}
-                        onMouseLeave={e => { if (country !== c) (e.currentTarget as HTMLDivElement).style.background='transparent' }}>
-                        {c}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div><label style={lbl}>Training Requirement</label>
-                <textarea value={msg} onChange={e => setMsg(e.target.value)} rows={3}
-                  placeholder="Describe your training goals, team size, topics, timeline…"
-                  style={{ ...inp, resize:'vertical', minHeight:80 }}
-                  onFocus={e => (e.target.style.borderColor='#0694D1')} onBlur={e => (e.target.style.borderColor='rgba(6,148,209,0.3)')} /></div>
-              <button type="submit" onClick={e => { if (!country) { e.preventDefault(); setCountryOpen(true) } }}
-                style={{ width:'100%', padding:13, borderRadius:10, border:'none', cursor:'pointer',
-                  background:'linear-gradient(135deg,#0694D1,#0577ab)', color:'#fff', fontSize:14,
-                  fontWeight:700, fontFamily:'inherit', boxShadow:'0 4px 18px rgba(6,148,209,0.4)', marginTop:2 }}>
-                Send My Requirement →
-              </button>
-            </form>
-          </>
-        )}
-      </div>
-    </>
-  )
-}
+const INITIAL_VISIBLE = 8
 
 /* ── Page ────────────────────────────────────────────────────────── */
 export default function CustomisedTrainingPage() {
-  const [showAll, setShowAll]           = useState(false)
-  const [showModal, setShowModal]       = useState(false)
-  const [requirement, setRequirement]   = useState('')
-  const [generating, setGenerating]     = useState(false)
-  const [generated, setGenerated]       = useState(false)
-  const [emailSent, setEmailSent]       = useState(false)
+  const [showAll, setShowAll]         = useState(false)
+  const [requirement, setRequirement] = useState('')
+  const [generating, setGenerating]   = useState(false)
+  const [generated, setGenerated]     = useState(false)
+  const [emailSent, setEmailSent]     = useState(false)
 
   const visibleStudies = showAll ? CASE_STUDIES : CASE_STUDIES.slice(0, INITIAL_VISIBLE)
 
   const handleGenerate = () => {
-    if (!requirement.trim()) return
+    if (!requirement.trim() || generating) return
     setGenerating(true)
     setGenerated(false)
     setTimeout(() => { setGenerating(false); setGenerated(true) }, 2000)
   }
 
-  const handleEmailToc = () => {
-    setEmailSent(true)
-    setTimeout(() => setEmailSent(false), 3000)
-  }
-
   return (
-    <div style={{ fontFamily: 'inherit', background: '#f8fafc', minHeight: '100vh' }}>
+    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
 
-      {/* ── Hero ───────────────────────────────────────────────────── */}
-      <section style={{
-        background: 'linear-gradient(135deg, #06111E 0%, #093148 60%, #0a3d5a 100%)',
-        position: 'relative', overflow: 'hidden',
-        paddingTop: 80,
-      }}>
-        {/* decorative blobs */}
-        <div style={{ position:'absolute', top:-80, right:-80, width:420, height:420,
-          borderRadius:'50%', background:'rgba(6,148,209,0.08)', pointerEvents:'none' }} />
-        <div style={{ position:'absolute', bottom:-60, left:-60, width:300, height:300,
-          borderRadius:'50%', background:'rgba(6,148,209,0.05)', pointerEvents:'none' }} />
+      {/* ── HERO ───────────────────────────────────────────────── */}
+      <section style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', position: 'relative', overflow: 'hidden' }}>
+        {/* Background glow blobs */}
+        <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0 }}>
+          <div style={{ position: 'absolute', top: -160, right: '33%', width: 600, height: 600, borderRadius: '50%', opacity: 0.15, filter: 'blur(120px)', background: '#0694D1' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, width: 400, height: 400, borderRadius: '50%', opacity: 0.10, filter: 'blur(100px)', background: '#38bdf8' }} />
+          <div style={{ position: 'absolute', top: '50%', right: 0, width: 300, height: 300, borderRadius: '50%', opacity: 0.08, filter: 'blur(80px)', background: '#076D9D' }} />
+        </div>
 
-        <div style={{ maxWidth:1200, margin:'0 auto', padding:'48px 20px 0', position:'relative', zIndex:1 }}>
-          <div style={{ display:'flex', alignItems:'center', gap:40, flexWrap:'wrap' }}>
+        <style>{`
+          .ct-stat-item:hover .ct-stat-glow { opacity: 1 !important; }
+          @media (max-width: 1023px) {
+            .ct-hero-grid { grid-template-columns: 1fr !important; }
+            .ct-stats-card { display: none !important; }
+            .ct-mobile-stats { display: grid !important; }
+          }
+        `}</style>
 
-            {/* left: text */}
-            <div style={{ flex:'1 1 320px', paddingBottom:48 }}>
-              <div style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(6,148,209,0.15)',
-                border:'1px solid rgba(6,148,209,0.3)', borderRadius:999, padding:'6px 14px', marginBottom:20 }}>
-                <span style={{ width:6, height:6, borderRadius:'50%', background:'#0694D1', display:'inline-block' }} />
-                <span style={{ fontSize:11, fontWeight:800, letterSpacing:1.2, color:'#0694D1', textTransform:'uppercase' }}>
-                  Customised Training
-                </span>
+        <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '35px 20px 35px', paddingLeft: 'max(20px, 50px)', paddingRight: 'max(20px, 50px)' }}>
+          <div className="ct-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
+
+            {/* ── Left: text ─────────────────────────────────── */}
+            <div>
+              <div style={{ marginBottom: 16, display: 'inline-flex', alignItems: 'center', gap: 8,
+                borderRadius: 999, padding: '6px 16px', fontSize: 12, fontWeight: 600,
+                background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#38bdf8', display: 'inline-block', animation: 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite' }} />
+                Enterprise Learning Solutions
               </div>
-              <h1 style={{ fontSize:'clamp(24px,4vw,40px)', fontWeight:800, color:'#fff', lineHeight:1.22,
-                marginBottom:18, letterSpacing:-0.5 }}>
-                Empower your Workforce with Koenig&apos;s Customized Learning Solutions
+
+              <h1 style={{ fontSize: 'clamp(26px, 3.5vw, 42px)', fontWeight: 800, lineHeight: 1.18,
+                marginBottom: 16, color: '#fff', letterSpacing: '-0.02em' }}>
+                Empower your Workforce with Koenig&apos;s{' '}
+                <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                  Customized Learning
+                </span>
               </h1>
-              <p style={{ fontSize:16, color:'rgba(255,255,255,0.65)', lineHeight:1.7, marginBottom:32, maxWidth:520 }}>
-                Koenig&apos;s Customized Learning Solutions are designed to meet your business goals. We combine expert instructors, AI-powered tools, and tailored content to build programmes that deliver measurable outcomes.
+
+              <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: 28, maxWidth: 520 }}>
+                Tailored programmes designed around your business goals — blending expert-led live training, AI tools, custom LMS, and multilingual content delivery.
               </p>
-              <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
-                <button onClick={() => setShowModal(true)} style={{
-                  padding:'13px 28px', borderRadius:12, border:'none', cursor:'pointer',
-                  background:'linear-gradient(135deg,#0694D1,#0577ab)', color:'#fff',
-                  fontSize:14, fontWeight:700, boxShadow:'0 4px 18px rgba(6,148,209,0.4)',
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+                <a href="#generator" style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '12px 24px', borderRadius: 12, border: 'none', cursor: 'pointer',
+                  background: 'linear-gradient(135deg, #0694D1, #076D9D)',
+                  color: '#fff', fontSize: 14, fontWeight: 700, textDecoration: 'none',
+                  boxShadow: '0 0 20px rgba(6,148,209,0.35)',
                 }}>
-                  Get a Custom Quote →
-                </button>
+                  Generate a Custom Course
+                </a>
                 <a href="#case-studies" style={{
-                  padding:'13px 28px', borderRadius:12, border:'1.5px solid rgba(6,148,209,0.4)',
-                  color:'#fff', fontSize:14, fontWeight:600, textDecoration:'none', display:'inline-flex',
-                  alignItems:'center', backdropFilter:'blur(4px)',
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '12px 24px', borderRadius: 12, cursor: 'pointer',
+                  border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8',
+                  background: 'rgba(6,148,209,0.08)', fontSize: 14, fontWeight: 700,
+                  textDecoration: 'none',
                 }}>
                   View Case Studies
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
               </div>
-              {/* stats row */}
-              <div style={{ display:'flex', gap:24, marginTop:36, flexWrap:'wrap' }}>
-                {[
-                  { label:'Clients Trained', value:'500+' },
-                  { label:'Countries Served', value:'50+' },
-                  { label:'Satisfaction Rate', value:'98%' },
-                ].map(s => (
-                  <div key={s.label}>
-                    <div style={{ fontSize:24, fontWeight:800, color:'#0694D1' }}>{s.value}</div>
-                    <div style={{ fontSize:11, color:'rgba(255,255,255,0.5)', marginTop:2 }}>{s.label}</div>
+
+              {/* Mobile stats (hidden on desktop) */}
+              <div className="ct-mobile-stats" style={{ display: 'none', gridTemplateColumns: '1fr 1fr', borderRadius: 16, border: '1px solid rgba(6,148,209,0.18)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
+                {HERO_STATS.map(({ val, label }, i) => (
+                  <div key={val} style={{ padding: '18px 16px', display: 'flex', flexDirection: 'column', gap: 4,
+                    borderRight: i % 2 === 0 ? '1px solid rgba(6,148,209,0.12)' : 'none',
+                    borderBottom: i < 2 ? '1px solid rgba(6,148,209,0.12)' : 'none' }}>
+                    <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1,
+                      background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)',
+                      WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{val}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* right: hero image */}
-            <div style={{ flex:'1 1 280px', display:'flex', justifyContent:'flex-end', alignSelf:'flex-end' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://www.koenig-solutions.com/assets/CourseImagesNew/customised-training.png"
-                alt="Customised Training"
-                style={{ maxWidth:'100%', maxHeight:360, objectFit:'contain', display:'block' }}
-              />
+            {/* ── Right: stats card (ILO style) ──────────────── */}
+            <div className="ct-stats-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+              {/* 2×2 stats grid */}
+              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', overflow: 'hidden',
+                background: 'rgba(255,255,255,0.02)', position: 'relative' }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                <div style={{ display: 'grid', gridTemplateRows: 'auto 1px auto' }}>
+                  {/* Row 1 */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
+                    {HERO_STATS.slice(0, 2).map((s, i) => (
+                      <>
+                        {i === 1 && <div key="div" style={{ background: 'rgba(6,148,209,0.12)' }} />}
+                        <div key={s.val} className="ct-stat-item" style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', gap: 8, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
+                          <div className="ct-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>{s.icon}</svg>
+                            <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s.val}</div>
+                          </div>
+                          <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>{s.label}</div>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                  {/* divider */}
+                  <div style={{ height: 1, background: 'rgba(6,148,209,0.12)' }} />
+                  {/* Row 2 */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
+                    {HERO_STATS.slice(2, 4).map((s, i) => (
+                      <>
+                        {i === 1 && <div key="div2" style={{ background: 'rgba(6,148,209,0.12)' }} />}
+                        <div key={s.val} className="ct-stat-item" style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', gap: 8, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
+                          <div className="ct-stat-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>{s.icon}</svg>
+                            <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s.val}</div>
+                          </div>
+                          <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>{s.label}</div>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Trusted by card */}
+              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', background: 'rgba(255,255,255,0.02)', position: 'relative', padding: '20px 22px' }}>
+                <div style={{ position: 'absolute', inset: 0, borderRadius: 20, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'relative' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.55)' }}>Trusted by enterprises across</div>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {['Finance','Healthcare','Government','Retail','Technology','Manufacturing','Consulting','Telecoms'].map(s => (
+                      <span key={s} style={{ fontSize: 10, fontWeight: 600, padding: '3px 10px', borderRadius: 999,
+                        background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)',
+                        color: 'rgba(255,255,255,0.5)' }}>{s}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── How We Are Different ───────────────────────────────────── */}
-      <section style={{ background:'#fff', padding:'64px 20px' }}>
-        <div style={{ maxWidth:1200, margin:'0 auto' }}>
-          <div style={{ textAlign:'center', marginBottom:48 }}>
-            <h2 style={{ fontSize:'clamp(20px,3vw,32px)', fontWeight:800, color:'#06111E', marginBottom:14 }}>
-              How are Koenig&apos;s Customized Learning Solutions different?
+      {/* ── TRAINING MODE TABS ─────────────────────────────────── */}
+      <section style={{ background: '#fff', borderBottom: '1px solid #E2E8F0', padding: '16px 20px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'inline-flex', borderRadius: 14, padding: 6, background: '#fff',
+            boxShadow: '0 4px 20px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.2)', overflowX: 'auto' }}>
+            {TRAINING_TABS.map(t => (
+              t.id === 'customised'
+                ? <span key={t.id} style={{ display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap',
+                    borderRadius: 10, padding: '10px 18px', fontSize: 13, fontWeight: 700, cursor: 'default',
+                    background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff',
+                    boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }}>
+                    {t.label}
+                  </span>
+                : <Link key={t.id} href={t.href} style={{ display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap',
+                    borderRadius: 10, padding: '10px 18px', fontSize: 13, fontWeight: 600,
+                    color: '#7a8c96', textDecoration: 'none', transition: 'color 0.15s' }}>
+                    {t.label}
+                  </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
+      <section style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
+              background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12,
+              fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
+              What Makes Us Different
+            </span>
+            <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#fff', marginBottom: 14, lineHeight: 1.25, letterSpacing: '-0.015em' }}>
+              How are Koenig&apos;s Customized Learning{' '}
+              <span style={{ background: 'linear-gradient(90deg,#0694D1,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Solutions different?
+              </span>
             </h2>
-            <p style={{ fontSize:15, color:'#5a7a8c', maxWidth:680, margin:'0 auto', lineHeight:1.7 }}>
-              Koenig provides Customized Learning Solutions by combining different services to meet the business outcome you need:
+            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', maxWidth: 600, margin: '0 auto', lineHeight: 1.7 }}>
+              Koenig combines different services to meet the business outcome you need.
             </p>
           </div>
-          <div style={{
-            display:'grid',
-            gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))',
-            gap:24,
-          }}>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             {FEATURES.map((f, i) => (
-              <div key={i} style={{
-                background:'#f8fafc', border:'1.5px solid #e8f0f7',
-                borderRadius:16, padding:'28px 24px',
-                transition:'border-color 0.2s, box-shadow 0.2s',
-              }}
+              <div key={i}
+                style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 12, padding: '24px 22px',
+                  borderRadius: 20, cursor: 'default', overflow: 'hidden', transition: 'all 0.3s',
+                  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)',
+                  backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.2)' }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLDivElement
-                  el.style.borderColor = '#0694D1'
-                  el.style.boxShadow = '0 8px 28px rgba(6,148,209,0.12)'
+                  el.style.borderColor = 'rgba(6,148,209,0.55)'
+                  el.style.boxShadow = '0 12px 36px rgba(0,0,0,0.35), 0 0 0 1px rgba(6,148,209,0.3), 0 0 28px rgba(6,148,209,0.15)'
+                  el.style.transform = 'translateY(-3px)'
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLDivElement
-                  el.style.borderColor = '#e8f0f7'
-                  el.style.boxShadow = 'none'
+                  el.style.borderColor = 'rgba(255,255,255,0.07)'
+                  el.style.boxShadow = '0 4px 24px rgba(0,0,0,0.2)'
+                  el.style.transform = 'none'
                 }}>
-                <div style={{ width:56, height:56, borderRadius:14,
-                  background:'linear-gradient(135deg,rgba(6,148,209,0.08),rgba(6,148,209,0.15))',
-                  display:'flex', alignItems:'center', justifyContent:'center', marginBottom:18 }}>
+                {/* Top accent line on hover */}
+                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', height: 2, width: 0,
+                  borderRadius: 999, pointerEvents: 'none', transition: 'width 0.5s',
+                  background: 'linear-gradient(90deg, transparent, #0694D1, #38bdf8, #0694D1, transparent)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.width = '100%' }}
+                />
+                {/* Icon */}
+                <div style={{ width: 48, height: 48, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.28)' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={f.img} alt={f.title} style={{ width:36, height:36, objectFit:'contain' }} />
+                  <img src={f.img} alt={f.title} style={{ width: 30, height: 30, objectFit: 'contain' }}
+                    onError={e => {
+                      const img = e.currentTarget as HTMLImageElement
+                      img.style.display = 'none'
+                      if (img.parentElement) img.parentElement.innerHTML = `<svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0694D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${(f.icon as unknown as {props: {children: string}}).props?.children ?? ''}</svg>`
+                    }} />
                 </div>
-                <h3 style={{ fontSize:15, fontWeight:700, color:'#06111E', marginBottom:10, lineHeight:1.4 }}>
-                  {f.title}
-                </h3>
-                <p style={{ fontSize:13.5, color:'#5a7a8c', lineHeight:1.7, margin:0 }}>
-                  {f.desc}
-                </p>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#fff', lineHeight: 1.4, margin: 0 }}>{f.title}</h3>
+                <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Case Studies ───────────────────────────────────────────── */}
-      <section id="case-studies" style={{ background:'#f0f7fc', padding:'64px 20px' }}>
-        <div style={{ maxWidth:1200, margin:'0 auto' }}>
-          <div style={{ textAlign:'center', marginBottom:48 }}>
-            <div style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(6,148,209,0.1)',
-              borderRadius:999, padding:'5px 14px', marginBottom:14 }}>
-              <span style={{ fontSize:11, fontWeight:800, letterSpacing:1.2, color:'#0694D1', textTransform:'uppercase' }}>
-                Success Stories
+      {/* ── CASE STUDIES ───────────────────────────────────────── */}
+      <section id="case-studies" style={{ background: '#f0f7fc', padding: '64px 20px', borderTop: '1px solid #CAEFFF' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
+              background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12,
+              fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
+              Success Stories
+            </span>
+            <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#06111E', marginBottom: 14, lineHeight: 1.25, letterSpacing: '-0.015em' }}>
+              Our{' '}
+              <span style={{ background: 'linear-gradient(90deg,#0694D1,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Case Studies
               </span>
-            </div>
-            <h2 style={{ fontSize:'clamp(20px,3vw,32px)', fontWeight:800, color:'#06111E', marginBottom:14 }}>
-              Our Case Studies
             </h2>
-            <p style={{ fontSize:15, color:'#5a7a8c', maxWidth:600, margin:'0 auto', lineHeight:1.7 }}>
-              Explore how Koenig has delivered tailored learning programmes for organisations across the globe.
+            <p style={{ fontSize: 15, color: '#7a8c96', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+              How Koenig has delivered tailored learning programmes for organisations across the globe.
             </p>
           </div>
 
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(260px, 1fr))', gap:24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: 20 }}>
             {visibleStudies.map(cs => (
-              <div key={cs.id} style={{
-                background:'#fff', borderRadius:16, overflow:'hidden',
-                border:'1.5px solid #e8f0f7', boxShadow:'0 2px 8px rgba(6,148,209,0.06)',
-                transition:'box-shadow 0.2s, transform 0.2s',
-                display:'flex', flexDirection:'column',
-              }}
+              <div key={cs.id}
+                style={{ background: '#fff', borderRadius: 16, overflow: 'hidden',
+                  border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.06)',
+                  transition: 'box-shadow 0.2s, transform 0.2s', display: 'flex', flexDirection: 'column' }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLDivElement
                   el.style.boxShadow = '0 12px 32px rgba(6,148,209,0.14)'
@@ -385,44 +383,37 @@ export default function CustomisedTrainingPage() {
                   el.style.boxShadow = '0 2px 8px rgba(6,148,209,0.06)'
                   el.style.transform = 'none'
                 }}>
-                {/* thumbnail */}
-                <div style={{ aspectRatio:'16/9', overflow:'hidden', background:'#e8f0f7', flexShrink:0 }}>
+                {/* Thumbnail */}
+                <div style={{ aspectRatio: '16/9', overflow: 'hidden', background: '#e8f0f7', flexShrink: 0 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`https://www.koenig-solutions.com/assets/CourseImagesNew/case-study-${cs.id}.png`}
                     alt={cs.title}
-                    style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                     onError={e => {
                       const img = e.currentTarget as HTMLImageElement
                       img.style.display = 'none'
-                      if (img.parentElement) {
-                        img.parentElement.style.background = `hsl(${(cs.id * 37) % 360}, 40%, 88%)`
-                        img.parentElement.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(6,148,209,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>`
+                      const parent = img.parentElement
+                      if (parent) {
+                        parent.style.background = `hsl(${(cs.id * 47 + 190) % 360}, 35%, 88%)`
+                        parent.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0.5"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0694D1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>`
                       }
                     }}
                   />
                 </div>
-                {/* body */}
-                <div style={{ padding:'18px 20px 20px', flex:1, display:'flex', flexDirection:'column', gap:14 }}>
-                  <h3 style={{ fontSize:14, fontWeight:700, color:'#06111E', lineHeight:1.5, margin:0 }}>
+                {/* Body */}
+                <div style={{ padding: '16px 18px 18px', flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <h3 style={{ fontSize: 13.5, fontWeight: 700, color: '#06111E', lineHeight: 1.55, margin: 0 }}>
                     {cs.title}
                   </h3>
-                  <div style={{ marginTop:'auto' }}>
-                    <a
-                      href={`https://www.koenig-solutions.com/customised-training`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display:'inline-flex', alignItems:'center', gap:7,
-                        fontSize:12.5, fontWeight:700, color:'#0694D1', textDecoration:'none',
-                      }}>
-                      {/* PDF icon */}
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <div style={{ marginTop: 'auto' }}>
+                    <a href="https://www.koenig-solutions.com/customised-training"
+                      target="_blank" rel="noopener noreferrer"
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: 6,
+                        fontSize: 12, fontWeight: 700, color: '#0694D1', textDecoration: 'none' }}>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                        <polyline points="10 9 9 9 8 9"/>
                       </svg>
                       Read More
                     </a>
@@ -432,51 +423,42 @@ export default function CustomisedTrainingPage() {
             ))}
           </div>
 
-          {/* show more / less */}
           {CASE_STUDIES.length > INITIAL_VISIBLE && (
-            <div style={{ textAlign:'center', marginTop:40 }}>
+            <div style={{ textAlign: 'center', marginTop: 40 }}>
               <button
                 onClick={() => setShowAll(s => !s)}
-                style={{
-                  padding:'13px 32px', borderRadius:12, border:'2px solid #0694D1',
-                  background:'transparent', color:'#0694D1', fontSize:14, fontWeight:700,
-                  cursor:'pointer', transition:'all 0.2s',
-                }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLButtonElement
-                  el.style.background = '#0694D1'; el.style.color = '#fff'
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLButtonElement
-                  el.style.background = 'transparent'; el.style.color = '#0694D1'
-                }}>
-                {showAll ? 'Show Less' : `Show More (${CASE_STUDIES.length - INITIAL_VISIBLE} more)`}
+                style={{ padding: '12px 32px', borderRadius: 12, border: '2px solid #0694D1',
+                  background: 'transparent', color: '#0694D1', fontSize: 14, fontWeight: 700,
+                  cursor: 'pointer', transition: 'all 0.2s' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLButtonElement; el.style.background = '#0694D1'; el.style.color = '#fff' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLButtonElement; el.style.background = 'transparent'; el.style.color = '#0694D1' }}>
+                {showAll ? 'Show Less' : `Show ${CASE_STUDIES.length - INITIAL_VISIBLE} More Case Studies`}
               </button>
             </div>
           )}
         </div>
       </section>
 
-      {/* ── Custom Course Generator ─────────────────────────────────── */}
-      <section style={{ background:'#fff', padding:'64px 20px' }}>
-        <div style={{ maxWidth:800, margin:'0 auto' }}>
-          <div style={{ textAlign:'center', marginBottom:36 }}>
-            <div style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(6,148,209,0.1)',
-              borderRadius:999, padding:'5px 14px', marginBottom:14 }}>
-              <span style={{ fontSize:11, fontWeight:800, letterSpacing:1.2, color:'#0694D1', textTransform:'uppercase' }}>
-                AI-Powered
-              </span>
-            </div>
-            <h2 style={{ fontSize:'clamp(18px,3vw,28px)', fontWeight:800, color:'#06111E', marginBottom:12 }}>
-              Need Customized Training?
+      {/* ── CUSTOM COURSE GENERATOR ─────────────────────────────── */}
+      <section id="generator" style={{ background: '#fff', padding: '64px 20px', borderTop: '1px solid #E2E8F0' }}>
+        <div style={{ maxWidth: 860, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
+              background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12,
+              fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
+              AI-Powered
+            </span>
+            <h2 style={{ fontSize: 'clamp(20px, 3vw, 30px)', fontWeight: 800, color: '#06111E', marginBottom: 12, letterSpacing: '-0.015em' }}>
+              Need Customised Training?
             </h2>
-            <p style={{ fontSize:15, color:'#5a7a8c', lineHeight:1.7 }}>
+            <p style={{ fontSize: 15, color: '#7a8c96', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
               Share your requirement below and generate a custom course table of contents.
             </p>
           </div>
 
-          <div style={{ background:'#f8fafc', border:'1.5px solid #e8f0f7', borderRadius:20, padding:'32px 28px' }}>
-            <label style={{ display:'block', fontSize:13, fontWeight:700, color:'#06111E', marginBottom:10 }}>
+          <div style={{ background: '#f8fafc', border: '1.5px solid #CAEFFF', borderRadius: 20, padding: '36px 32px',
+            boxShadow: '0 4px 24px rgba(6,148,209,0.07)' }}>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#06111E', marginBottom: 10 }}>
               Describe Your Training Requirement
             </label>
             <textarea
@@ -484,71 +466,64 @@ export default function CustomisedTrainingPage() {
               onChange={e => setRequirement(e.target.value)}
               rows={5}
               placeholder="E.g. We need Azure Administrator training for 25 engineers, blended with AI/ML fundamentals, over 5 days onsite in Dubai."
-              style={{
-                width:'100%', boxSizing:'border-box', background:'#fff', border:'1.5px solid #CAEFFF',
-                borderRadius:12, padding:'14px 16px', fontSize:14, color:'#06111E',
-                outline:'none', fontFamily:'inherit', resize:'vertical', minHeight:120,
-                transition:'border-color 0.2s',
-              }}
-              onFocus={e => (e.target.style.borderColor='#0694D1')}
-              onBlur={e => (e.target.style.borderColor='#CAEFFF')}
+              style={{ width: '100%', boxSizing: 'border-box', background: '#fff',
+                border: '1.5px solid #CAEFFF', borderRadius: 12, padding: '14px 16px',
+                fontSize: 14, color: '#06111E', outline: 'none', fontFamily: 'inherit',
+                resize: 'vertical', minHeight: 120, transition: 'border-color 0.2s' }}
+              onFocus={e => (e.target.style.borderColor = '#0694D1')}
+              onBlur={e => (e.target.style.borderColor = '#CAEFFF')}
             />
 
+            {generating && (
+              <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 10,
+                background: 'linear-gradient(135deg,#f0f7fc,#e8f4fb)', border: '1.5px solid #CAEFFF',
+                borderRadius: 12, padding: '16px 20px' }}>
+                <style>{`@keyframes ctSpin{to{transform:rotate(360deg)}}`}</style>
+                <div style={{ width: 16, height: 16, border: '2px solid #0694D1', borderTopColor: 'transparent',
+                  borderRadius: '50%', animation: 'ctSpin 0.7s linear infinite', flexShrink: 0 }} />
+                <span style={{ fontSize: 13.5, color: '#5a7a8c', fontWeight: 500 }}>TOC generating in progress…</span>
+              </div>
+            )}
+
             {generated && (
-              <div style={{ marginTop:16, background:'linear-gradient(135deg,#f0f7fc,#e8f4fb)',
-                border:'1.5px solid #CAEFFF', borderRadius:12, padding:'16px 20px' }}>
-                <div style={{ fontSize:13, fontWeight:700, color:'#06111E', marginBottom:10 }}>
+              <div style={{ marginTop: 16, background: 'linear-gradient(135deg,#f0f7fc,#e8f4fb)',
+                border: '1.5px solid #CAEFFF', borderRadius: 12, padding: '20px 22px' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#06111E', marginBottom: 12 }}>
                   Generated Table of Contents
                 </div>
-                <div style={{ fontSize:13, color:'#5a7a8c', lineHeight:1.8 }}>
-                  <div>1. Introduction &amp; Business Context</div>
-                  <div>2. Core Technical Concepts</div>
-                  <div>3. Hands-on Lab Sessions</div>
-                  <div>4. Role-Based Scenario Workshops</div>
-                  <div>5. Assessment &amp; Knowledge Check</div>
-                  <div>6. Certification Preparation</div>
-                </div>
-                <div style={{ fontSize:12, color:'rgba(6,148,209,0.7)', marginTop:8 }}>
-                  Review the above TOC. If any change is required, mention below &amp; click Re-Generate.
+                {['Introduction & Business Context', 'Core Technical Concepts', 'Hands-on Lab Sessions', 'Role-Based Scenario Workshops', 'Assessment & Knowledge Check', 'Certification Preparation'].map((item, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 8 }}>
+                    <span style={{ minWidth: 22, height: 22, borderRadius: 6, background: 'rgba(6,148,209,0.1)',
+                      color: '#0694D1', fontSize: 11, fontWeight: 800, display: 'inline-flex',
+                      alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{i + 1}</span>
+                    <span style={{ fontSize: 13.5, color: '#374151', lineHeight: 1.55 }}>{item}</span>
+                  </div>
+                ))}
+                <div style={{ fontSize: 12, color: 'rgba(6,148,209,0.7)', marginTop: 12, paddingTop: 12,
+                  borderTop: '1px solid #CAEFFF' }}>
+                  Review the above TOC. If any change is required, mention below and click Re-Generate.
                 </div>
               </div>
             )}
 
-            {generating && (
-              <div style={{ marginTop:16, display:'flex', alignItems:'center', gap:10,
-                background:'linear-gradient(135deg,#f0f7fc,#e8f4fb)', border:'1.5px solid #CAEFFF',
-                borderRadius:12, padding:'16px 20px' }}>
-                <div style={{ width:16, height:16, border:'2px solid #0694D1', borderTopColor:'transparent',
-                  borderRadius:'50%', animation:'ctSpin 0.7s linear infinite', flexShrink:0 }} />
-                <span style={{ fontSize:13, color:'#5a7a8c' }}>TOC generating in progress…</span>
-              </div>
-            )}
-
-            <style>{`@keyframes ctSpin{to{transform:rotate(360deg)}}`}</style>
-
-            <div style={{ display:'flex', gap:12, marginTop:18, flexWrap:'wrap' }}>
-              <button
-                onClick={handleGenerate}
-                disabled={!requirement.trim() || generating}
-                style={{
-                  padding:'12px 24px', borderRadius:12, border:'none', cursor:requirement.trim() && !generating ? 'pointer' : 'not-allowed',
-                  background:requirement.trim() && !generating ? 'linear-gradient(135deg,#0694D1,#0577ab)' : '#cbd5e1',
-                  color:'#fff', fontSize:13.5, fontWeight:700, fontFamily:'inherit',
-                  boxShadow:requirement.trim() && !generating ? '0 4px 14px rgba(6,148,209,0.35)' : 'none',
-                  transition:'all 0.2s',
-                }}>
+            <div style={{ display: 'flex', gap: 12, marginTop: 20, flexWrap: 'wrap' }}>
+              <button onClick={handleGenerate} disabled={!requirement.trim() || generating}
+                style={{ padding: '12px 26px', borderRadius: 12, border: 'none',
+                  cursor: requirement.trim() && !generating ? 'pointer' : 'not-allowed',
+                  background: requirement.trim() && !generating
+                    ? 'linear-gradient(135deg,#0694D1,#0577ab)' : '#cbd5e1',
+                  color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit',
+                  boxShadow: requirement.trim() && !generating ? '0 4px 14px rgba(6,148,209,0.35)' : 'none',
+                  transition: 'all 0.2s' }}>
                 {generated ? 'Re-Generate Course' : 'Generate Course'}
               </button>
               {generated && (
-                <button
-                  onClick={handleEmailToc}
-                  style={{
-                    padding:'12px 24px', borderRadius:12, border:'1.5px solid #0694D1',
-                    background:emailSent ? '#0694D1' : 'transparent',
-                    color:emailSent ? '#fff' : '#0694D1', fontSize:13.5, fontWeight:700,
-                    cursor:'pointer', fontFamily:'inherit', transition:'all 0.2s',
-                  }}>
-                  {emailSent ? '✓ TOC Sent!' : 'Email Me the TOC'}
+                <button onClick={() => { setEmailSent(true); setTimeout(() => setEmailSent(false), 3000) }}
+                  style={{ padding: '12px 26px', borderRadius: 12,
+                    border: '1.5px solid #0694D1', background: emailSent ? '#0694D1' : 'transparent',
+                    color: emailSent ? '#fff' : '#0694D1', fontSize: 14, fontWeight: 700,
+                    cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
+                  {emailSent ? '✓ TOC Sent to Your Inbox!' : 'Email Me the TOC'}
                 </button>
               )}
             </div>
@@ -556,39 +531,41 @@ export default function CustomisedTrainingPage() {
         </div>
       </section>
 
-      {/* ── CTA Banner ─────────────────────────────────────────────── */}
-      <section style={{
-        background:'linear-gradient(135deg, #06111E 0%, #093148 100%)',
-        padding:'56px 20px', textAlign:'center',
-      }}>
-        <div style={{ maxWidth:700, margin:'0 auto' }}>
-          <h2 style={{ fontSize:'clamp(20px,3vw,30px)', fontWeight:800, color:'#fff', marginBottom:14 }}>
+      {/* ── CTA BANNER ─────────────────────────────────────────── */}
+      <section style={{ background: 'linear-gradient(135deg, #06111E 0%, #093148 100%)', padding: '60px 20px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 600, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 65%)' }} />
+        <div style={{ maxWidth: 700, margin: '0 auto', position: 'relative' }}>
+          <span style={{ display: 'inline-block', marginBottom: 16, borderRadius: 999,
+            background: 'rgba(6,148,209,0.15)', padding: '6px 18px', fontSize: 12,
+            fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#38bdf8',
+            border: '1px solid rgba(6,148,209,0.3)' }}>
+            Get Started Today
+          </span>
+          <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#fff', marginBottom: 14, lineHeight: 1.25, letterSpacing: '-0.015em' }}>
             Ready to Build a Custom Learning Programme?
           </h2>
-          <p style={{ fontSize:15, color:'rgba(255,255,255,0.65)', lineHeight:1.7, marginBottom:32 }}>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: 36 }}>
             Talk to a Koenig training advisor today. We&apos;ll design a solution tailored to your team&apos;s skills, goals, and schedule.
           </p>
-          <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap' }}>
-            <button onClick={() => setShowModal(true)} style={{
-              padding:'14px 32px', borderRadius:12, border:'none', cursor:'pointer',
-              background:'linear-gradient(135deg,#0694D1,#0577ab)', color:'#fff',
-              fontSize:14, fontWeight:700, boxShadow:'0 4px 18px rgba(6,148,209,0.4)',
-            }}>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="mailto:info@koenig-solutions.com"
+              style={{ padding: '13px 30px', borderRadius: 12, cursor: 'pointer',
+                background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff',
+                fontSize: 14, fontWeight: 700, textDecoration: 'none',
+                boxShadow: '0 0 20px rgba(6,148,209,0.4)' }}>
               Get a Custom Quote →
-            </button>
-            <a href="mailto:info@koenig-solutions.com" style={{
-              padding:'14px 32px', borderRadius:12, border:'1.5px solid rgba(6,148,209,0.4)',
-              color:'#fff', fontSize:14, fontWeight:600, textDecoration:'none',
-              display:'inline-flex', alignItems:'center',
-            }}>
-              info@koenig-solutions.com
+            </a>
+            <a href="tel:+919840722417"
+              style={{ padding: '13px 30px', borderRadius: 12,
+                border: '1.5px solid rgba(6,148,209,0.5)', color: '#38bdf8',
+                background: 'rgba(6,148,209,0.08)', fontSize: 14, fontWeight: 600,
+                textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l1.27-.84a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Call Us
             </a>
           </div>
         </div>
       </section>
-
-      {/* ── Modal ──────────────────────────────────────────────────── */}
-      {showModal && <ContactModal onClose={() => setShowModal(false)} />}
     </div>
   )
 }
