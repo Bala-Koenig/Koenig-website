@@ -1,17 +1,6 @@
 'use client'
-import { useState, useRef } from 'react'
-import Link from 'next/link'
+import { useState } from 'react'
 import Navbar from '@/components/Navbar'
-
-/* ── Training mode tabs (same as ILO / flexi) ──────────────────── */
-const TRAINING_TABS = [
-  { id: 'ilo',        label: 'Live Online',         href: '/live-online-classroom' },
-  { id: 'classroom',  label: 'Classroom',            href: '/classroom-training' },
-  { id: '1on1',       label: '1-on-1',               href: '/1-on-1-training' },
-  { id: 'fmat',       label: 'Fly-Me-a-Trainer',     href: '/fly-me-a-trainer' },
-  { id: 'flexi',      label: 'Flexi',                href: '/flexi-training' },
-  { id: 'customised', label: 'Customised Training',  href: '/customised-training' },
-]
 
 /* ── Feature cards ──────────────────────────────────────────────── */
 const FEATURES = [
@@ -259,28 +248,7 @@ export default function CustomisedTrainingPage() {
         </div>
       </section>
 
-      {/* ── TRAINING MODE TABS ─────────────────────────────────── */}
-      <section style={{ background: '#fff', borderBottom: '1px solid #E2E8F0', padding: '16px 20px' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', justifyContent: 'center' }}>
-          <div style={{ display: 'inline-flex', borderRadius: 14, padding: 6, background: '#fff',
-            boxShadow: '0 4px 20px rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.2)', overflowX: 'auto' }}>
-            {TRAINING_TABS.map(t => (
-              t.id === 'customised'
-                ? <span key={t.id} style={{ display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap',
-                    borderRadius: 10, padding: '10px 18px', fontSize: 13, fontWeight: 700, cursor: 'default',
-                    background: 'linear-gradient(135deg, #0694D1, #38bdf8)', color: '#fff',
-                    boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }}>
-                    {t.label}
-                  </span>
-                : <Link key={t.id} href={t.href} style={{ display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap',
-                    borderRadius: 10, padding: '10px 18px', fontSize: 13, fontWeight: 600,
-                    color: '#7a8c96', textDecoration: 'none', transition: 'color 0.15s' }}>
-                    {t.label}
-                  </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
       <section style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px' }}>
