@@ -399,12 +399,15 @@ export default function CustomisedTrainingPage() {
                   el.style.transform = 'none'
                 }}>
                 {/* Thumbnail */}
-                <div style={{ aspectRatio: '16/9', overflow: 'hidden', background: '#0d1f2d', flexShrink: 0 }}>
+                <div style={{ aspectRatio: '16/9', overflow: 'hidden', background: '#0d1f2d', flexShrink: 0, transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={cs.img}
                     alt={cs.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+                      imageRendering: 'auto', transform: 'translateZ(0)',
+                      filter: 'blur(0.4px) brightness(1.03) saturate(1.05)',
+                      WebkitBackfaceVisibility: 'hidden' }}
                     onError={e => {
                       const img = e.currentTarget as HTMLImageElement
                       img.style.display = 'none'
