@@ -323,7 +323,7 @@ export default function CustomisedTrainingPage() {
       </section>
 
       {/* ── CASE STUDIES ───────────────────────────────────────── */}
-      <section id="case-studies" style={{ background: '#f0f7fc', padding: '64px 20px', borderTop: '1px solid #CAEFFF' }}>
+      <section id="case-studies" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.13) 0%, rgba(6,148,209,0.04) 50%, #f0f7fc 100%)', padding: '64px 20px', borderTop: '1px solid #CAEFFF', boxShadow: 'inset 0 8px 48px rgba(6,148,209,0.10)' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
