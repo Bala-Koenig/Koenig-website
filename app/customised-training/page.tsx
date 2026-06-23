@@ -112,6 +112,13 @@ export default function CustomisedTrainingPage() {
 
         <style>{`
           .ct-stat-item:hover .ct-stat-glow { opacity: 1 !important; }
+          .ct-features-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          @media (max-width: 767px) {
+            .ct-features-grid { grid-template-columns: 1fr !important; }
+          }
+          @media (min-width: 768px) and (max-width: 1023px) {
+            .ct-features-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          }
           @media (max-width: 1023px) {
             .ct-hero-grid { grid-template-columns: 1fr !important; }
             .ct-stats-card { display: none !important; }
@@ -270,7 +277,7 @@ export default function CustomisedTrainingPage() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          <div className="ct-features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
             {FEATURES.map((f, i) => (
               <div key={i}
                 style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 12, padding: '24px 22px',
