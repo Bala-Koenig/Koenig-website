@@ -45,45 +45,65 @@ const FEATURES = [
 /* ── Case studies ────────────────────────────────────────────────── */
 const CASE_STUDIES = [
   { id: 1,  title: 'Seamless SAP Migration Through Tailored Training',
-    img: '/images/CT/Seamless SAP Migration Through Tailored Training.png' },
+    img: '/images/CT/Seamless SAP Migration Through Tailored Training.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EfU26l6V5zVCoNwtQEdAVPABwwq3HBBeR-vlWTravCUOCw?e=iSgkTX' },
   { id: 2,  title: 'Fueling Innovation with Azure OpenAI Hackathons',
-    img: '/images/CT/Fueling Innovation with Azure OpenAI Hackathons.png' },
+    img: '/images/CT/Fueling Innovation with Azure OpenAI Hackathons.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/Ec33ZZxAN1NNiMDk78_GAXYBKxagI-_1mWneNf5PhiQGYw?e=X6S8B1' },
   { id: 3,  title: '140 Learners Upskilled in Azure and AI Fundamentals',
-    img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&h=338&q=80' },
+    img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&h=338&q=80',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EfdNC1uET4VDpBOiN4cOEccB2wU0NoQF4Un5i-JH7ZLvbg?e=GHdpPN' },
   { id: 4,  title: 'Empowering Women in Tech with AI Training',
-    img: '/images/CT/Empowering Women in Tech with AI Training.png' },
+    img: '/images/CT/Empowering Women in Tech with AI Training.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EYQVsQPyQ25OiLMg15mhqQsByLTUkai3awpn1U9EQIThiA?e=EVMphd' },
   { id: 5,  title: 'Power BI Upskilling Across Roles and Regions',
-    img: '/images/CT/Power BI Upskilling Across Roles and Regions.png' },
+    img: '/images/CT/Power BI Upskilling Across Roles and Regions.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EZDedHCqW01HtbiS70zzcgUB9ZOVHGVbpiFC1-dVxF2laQ?e=uD6ENm' },
   { id: 6,  title: 'Cloud Migration Kickoff with Azure & AWS Training',
-    img: '/images/CT/Cloud Migration Kickoff with Azure & AWS Training.png' },
+    img: '/images/CT/Cloud Migration Kickoff with Azure & AWS Training.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EchtfC08EwpBgOWn3O7s5iQB7SFIREomxa8pjZif_9HTLA?e=w1IJDp' },
   { id: 7,  title: 'Boosting Security Skills with Microsoft Stack Training',
-    img: '/images/CT/Boosting Security Skills with Microsoft Stack Training.png' },
+    img: '/images/CT/Boosting Security Skills with Microsoft Stack Training.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EcnoT3TG0oBBlWyRzWJ1ADsBWTsJWWWNJW9FTXii-hvVOg?e=jhu8Fo' },
   { id: 8,  title: 'Custom Leadership Training for Cross-Cultural Impact',
-    img: '/images/CT/Custom Leadership Training for Cross-Cultural Impact.png' },
+    img: '/images/CT/Custom Leadership Training for Cross-Cultural Impact.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EdWX_PjQZaJMqK0wCpK8dTUBfIyfN0f-oA_EUxFpSthRpg?e=ksv1y3' },
   { id: 9,  title: 'Solving Postgres-Azure Complexity with Custom Training',
-    img: '/images/CT/Solving Postgres-Azure Complexity with Custom Training.png' },
+    img: '/images/CT/Solving Postgres-Azure Complexity with Custom Training.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EUnmZpX1wIdMpiVblaAbG7cBUEm98Vt1rWmy1k5StCoWnw?e=qhmnLk' },
   { id: 10, title: 'Equipping Nonprofits with Real-World AI & Data Skills',
-    img: '/images/CT/Equipping Nonprofits with Real-World AI & Data Skills.png' },
+    img: '/images/CT/Equipping Nonprofits with Real-World AI & Data Skills.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/ERNgYFVZYUVKgQmqBKGKlqsB5NMQfPiDS7SGzvpzFr8hLA?e=jlIE0s' },
   { id: 11, title: 'On-Premise Power BI Training for High-Security Environments',
-    img: '/images/CT/On-Premise Power BI Training for High-Security Environments.png' },
+    img: '/images/CT/On-Premise Power BI Training for High-Security Environments.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EeJu1_x1WOhNr3kmMexs_j8BBxZHeEPlZqOOGBnEuiu4mg?e=oSf45o' },
   { id: 12, title: 'Rebuilding BI Publisher Training from the Ground Up',
-    img: '/images/CT/Rebuilding BI Publisher Training from the Ground Up.png' },
+    img: '/images/CT/Rebuilding BI Publisher Training from the Ground Up.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EV_JHsnkjtpFrqmR5-Q9fN8BHp5sr-kYfafKCwqf5hSCAw?e=aEhYWk' },
   { id: 13, title: 'Scaling Azure Training with Multilingual AI Localization',
-    img: '/images/CT/Scaling Azure Training with Multilingual AI Localization.png' },
+    img: '/images/CT/Scaling Azure Training with Multilingual AI Localization.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EVwhr5MFlO1Iq512J2IcDq0BEoUAS8VAeEdCJNlgpv5JUA?e=vLvpXx' },
   { id: 14, title: 'Terraform Certification with IBM Cloud, Tailored On-Site',
-    img: '/images/CT/Terraform Certification with IBM Cloud, Tailored On-Site.png' },
+    img: '/images/CT/Terraform Certification with IBM Cloud, Tailored On-Site.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EQAkg1mbdbFMl_ynU7uk1ToBk8itsLiYobxivG4Vc9Ynlg?e=SBxQrD' },
   { id: 15, title: 'Mastering OKD: OpenShift Training for Cost-Saving DevOps',
-    img: '/images/CT/Mastering OKD OpenShift Training for Cost-Saving DevOps.png' },
+    img: '/images/CT/Mastering OKD OpenShift Training for Cost-Saving DevOps.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EQDdXvxwaHpOruUqfKMaBQ0BED8IeU0Frj4jpCbkgWkRhw?e=8CFIgL' },
   { id: 16, title: 'Building In-House Microservices Expertise from the Ground Up',
-    img: '/images/CT/Building In-House Microservices Expertise from the Ground Up.png' },
+    img: '/images/CT/Building In-House Microservices Expertise from the Ground Up.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EQr1Sqx6OoRCitD5dtMTWXEBUAyoXRMPpjBKwMIG-aUetw?e=VHGyUn' },
   { id: 17, title: 'Custom LMS & Cyber Labs Training for Global Retailer',
-    img: '/images/CT/Custom LMS & Cyber Labs Training for Global Retailer.png' },
+    img: '/images/CT/Custom LMS & Cyber Labs Training for Global Retailer.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EcT4yVMaUk9NmktA0mb9uoMBvZ7ORSMxzd6PvCr9X5VoYA?e=vjUWSo' },
   { id: 18, title: 'Scaling Copilot Training with Role-Based Precision',
-    img: '/images/CT/Scaling Copilot Training with Role-Based Precision.png' },
+    img: '/images/CT/Scaling Copilot Training with Role-Based Precision.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EQERTvmN2TdCk643RuJ8cbQB1Gba988f5xMe7WwQmJ3D6A?e=e7aSLi' },
   { id: 19, title: 'Offline Network Training for High-Security Government Environments',
-    img: '/images/CT/Offline Network Training for High-Security Government Environments.png' },
+    img: '/images/CT/Offline Network Training for High-Security Government Environments.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/ES-kJ9ae-eRFqf6tV79IcVcBP85HdARQ2PBmzKkMKSKWYw?e=mMokia' },
   { id: 20, title: 'Custom Cisco Nexus Training for Data Center Excellence',
-    img: '/images/CT/Custom Cisco Nexus Training for Data Center Excellence.png' },
+    img: '/images/CT/Custom Cisco Nexus Training for Data Center Excellence.png',
+    pdf: 'https://koenigsolutionsltd-my.sharepoint.com/:b:/g/personal/rohit_tiwary_koenig-solutions_com/EeLmfnLIVDBHirbTbkyiczoB6JhgGpFhrx9a2gCm2_ZtsQ?e=bcbbM8' },
 ]
 
 /* ── Stats (ILO style) ──────────────────────────────────────────── */
@@ -397,7 +417,7 @@ export default function CustomisedTrainingPage() {
                     {cs.title}
                   </h3>
                   <div style={{ marginTop: 'auto' }}>
-                    <a href="https://www.koenig-solutions.com/customised-training"
+                    <a href={cs.pdf}
                       target="_blank" rel="noopener noreferrer"
                       style={{ display: 'inline-flex', alignItems: 'center', gap: 6,
                         fontSize: 12, fontWeight: 700, color: '#0694D1', textDecoration: 'none' }}>
@@ -405,7 +425,7 @@ export default function CustomisedTrainingPage() {
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
                       </svg>
-                      Read More
+                      Read Case Study
                     </a>
                   </div>
                 </div>
