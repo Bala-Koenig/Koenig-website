@@ -1553,7 +1553,6 @@ export default function CorporateITTrainingPage() {
                         </svg>
                       )}
                     </div>
-                    {badge && <span className="absolute top-2 left-12 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: '#d1fae5', color: '#065f46' }}>{badge}</span>}
                   </button>
                 )
                 {/* City card — injected right after Classroom card */ }
