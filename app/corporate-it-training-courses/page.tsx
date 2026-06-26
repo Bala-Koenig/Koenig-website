@@ -1103,7 +1103,7 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
                 <div key={i} className="flex flex-col rounded-2xl p-4"
                   style={{ background: '#fff', border: '1.5px solid #E8F0FA', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
                   {/* Level badge + Vendor + Popular */}
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-start justify-between mb-3">
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
                       style={{ background: `${vendor.color}14`, color: vendor.color, border: `1px solid ${vendor.color}28` }}>
                       <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
