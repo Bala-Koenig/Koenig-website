@@ -1102,24 +1102,23 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
               return (
                 <div key={i} className="flex flex-col rounded-2xl p-4"
                   style={{ background: '#fff', border: '1.5px solid #E8F0FA', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-                  {/* Level badge */}
-                  <div className="flex items-center mb-2">
+                  {/* Level badge + Vendor + Popular */}
+                  <div className="flex items-center justify-between mb-3">
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
                       style={{ background: `${vendor.color}14`, color: vendor.color, border: `1px solid ${vendor.color}28` }}>
                       <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                       {level}
                     </span>
-                  </div>
-                  {/* Vendor + Popular */}
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: `${vendor.color}12`, color: vendor.color, border: `1px solid ${vendor.color}25` }}>{vendor.name}</span>
-                    {popular && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
-                        style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="#0694D1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        POPULAR
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: `${vendor.color}12`, color: vendor.color, border: `1px solid ${vendor.color}25` }}>{vendor.name}</span>
+                      {popular && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
+                          style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="#0694D1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                          POPULAR
+                        </span>
+                      )}
+                    </div>
                   </div>
                   {/* Title */}
                   <h4 className="text-sm font-bold leading-snug mb-4 flex-1" style={{ color: '#0b2545' }}>{course}</h4>
