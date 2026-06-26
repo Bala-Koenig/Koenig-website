@@ -356,8 +356,8 @@ const VENDORS = [
   },
 ]
 
-const ALL_OEMS = ['All OEMs', ...VENDORS.map(v => v.name)]
-const ALL_TECHNOLOGIES = ['All Technologies', 'Cloud', 'Cybersecurity', 'Networking', 'Data & AI', 'DevOps', 'Project Management', 'Linux', 'Database', 'ERP']
+const ALL_OEMS = ['All OEMs', ...VENDORS.map(v => v.name).sort((a, b) => a.localeCompare(b))]
+const ALL_TECHNOLOGIES = ['All Technologies', ...['Cloud', 'Cybersecurity', 'Data & AI', 'Database', 'DevOps', 'ERP', 'Linux', 'Networking', 'Project Management'].sort((a, b) => a.localeCompare(b))]
 const DURATION_OPTIONS = ['Duration (Days)', '1 day', '2–3 days', '4–5 days', '6–10 days', '10+ days']
 const TRAINING_MODES = ['Only GTR', 'Only Live Online', 'Only Classroom', 'Self-Paced']
 
@@ -421,17 +421,25 @@ function SelectDropdown({ value, options, onChange }: { value: string; options: 
 }
 
 /* ─── Inline dropdown (borderless, sits inside a cell) ─── */
-function InlineSelect({ value, options, onChange, placeholder }: { value: string; options: string[]; onChange: (v: string) => void; placeholder: string }) {
+function InlineSelect({ value, options, onChange, placeholder, searchable }: { value: string; options: string[]; onChange: (v: string) => void; placeholder: string; searchable?: boolean }) {
   const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
   const ref = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+      if (ref.current && !ref.current.contains(e.target as Node)) { setOpen(false); setQuery('') }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
+  useEffect(() => {
+    if (open && searchable) { setQuery(''); setTimeout(() => inputRef.current?.focus(), 50) }
+  }, [open, searchable])
   const isDefault = value === options[0]
+  const filtered = searchable && query
+    ? [options[0], ...options.slice(1).filter(o => o.toLowerCase().includes(query.toLowerCase()))]
+    : options
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
@@ -443,15 +451,43 @@ function InlineSelect({ value, options, onChange, placeholder }: { value: string
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-2 py-1 rounded-xl overflow-auto" style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '180px', maxHeight: '240px', top: '100%', left: 0 }}>
-          {options.map(opt => (
-            <button key={opt} onClick={() => { onChange(opt); setOpen(false) }}
-              className="w-full text-left px-4 py-2 text-sm"
-              style={{ background: value === opt ? '#EDF7FF' : 'transparent', color: value === opt ? '#076D9D' : '#374151', fontWeight: value === opt ? 600 : 400 }}
-              onMouseEnter={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
-              onMouseLeave={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
-            >{opt}</button>
-          ))}
+        <div className="absolute z-50 mt-2 rounded-xl overflow-hidden" style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '200px', top: '100%', left: 0 }}>
+          {searchable && (
+            <div className="px-3 pt-2.5 pb-2" style={{ borderBottom: '1px solid #EEF3F9' }}>
+              <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: '#F1F5F9' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  placeholder="Search partner…"
+                  className="flex-1 bg-transparent outline-none text-xs"
+                  style={{ color: '#374151', caretColor: '#076D9D' }}
+                  onKeyDown={e => e.key === 'Escape' && (setOpen(false), setQuery(''))}
+                />
+                {query && (
+                  <button onClick={() => setQuery('')} className="leading-none text-sm" style={{ color: '#94a3b8' }}>×</button>
+                )}
+              </div>
+            </div>
+          )}
+          <div style={{ maxHeight: '220px', overflowY: 'auto' }}>
+            {filtered.length === 1 && query ? (
+              <p className="px-4 py-3 text-xs" style={{ color: '#94a3b8' }}>No results for "{query}"</p>
+            ) : (
+              filtered.map(opt => (
+                <button key={opt} onClick={() => { onChange(opt); setOpen(false); setQuery('') }}
+                  className="w-full text-left px-4 py-2 text-sm"
+                  style={{ background: value === opt ? '#EDF7FF' : 'transparent', color: value === opt ? '#076D9D' : '#374151', fontWeight: value === opt ? 600 : 400 }}
+                  onMouseEnter={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
+                  onMouseLeave={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
+                >{opt}</button>
+              ))
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -982,7 +1018,7 @@ export default function CorporateITTrainingPage() {
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Partner</span>
                     </div>
-                    <InlineSelect value={oem} options={ALL_OEMS} onChange={setOem} placeholder="Any partner" />
+                    <InlineSelect value={oem} options={ALL_OEMS} onChange={setOem} placeholder="Any partner" searchable />
                   </div>
 
                   {/* Technology */}
@@ -991,7 +1027,7 @@ export default function CorporateITTrainingPage() {
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Technology</span>
                     </div>
-                    <InlineSelect value={technology} options={ALL_TECHNOLOGIES} onChange={setTechnology} placeholder="Any technology" />
+                    <InlineSelect value={technology} options={ALL_TECHNOLOGIES} onChange={setTechnology} placeholder="Any technology" searchable />
                   </div>
 
                   {/* Duration */}
