@@ -1195,7 +1195,7 @@ export default function CorporateITTrainingPage() {
         </div>
 
         {/* ── Filter section ── */}
-        <div>
+        <div className="rounded-3xl p-6" style={{ background: '#fff', border: '1.5px solid #E2EBF6', boxShadow: '0 4px 32px rgba(0,0,0,0.07)' }}>
 
           {/* Row 1: 5 individual filter cards */}
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
@@ -1396,32 +1396,26 @@ export default function CorporateITTrainingPage() {
           </div>
 
           {/* Bottom bar */}
-          <div className="flex items-center justify-between flex-wrap gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
-            <div className="text-sm">
-              <span className="font-bold text-base" style={{ color: '#0b2545' }}>{totalCourses.toLocaleString()}</span>
-              <span className="ml-1.5" style={{ color: '#64748b' }}>courses match</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors"
-                style={{ border: '1.5px solid #E2EBF6', color: '#64748b', background: '#fff' }}
-                onMouseEnter={e => (e.currentTarget.style.background = '#F8FAFC')}
-                onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                Reset
-              </button>
-              <button
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-white"
-                style={{ background: '#0b2545', boxShadow: '0 4px 14px rgba(11,37,69,0.22)' }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-              >
-                Show results
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-              </button>
-            </div>
+          <div className="flex items-center justify-center gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
+            <button
+              onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+              style={{ border: '1.5px solid #E2EBF6', color: '#64748b', background: '#fff' }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#F8FAFC')}
+              onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              Reset
+            </button>
+            <button
+              className="flex items-center gap-2 px-7 py-2.5 rounded-xl text-sm font-bold text-white"
+              style={{ background: '#0b2545', boxShadow: '0 4px 14px rgba(11,37,69,0.22)' }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              Show results
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
           </div>
 
         </div>
