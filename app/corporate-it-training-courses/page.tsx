@@ -1374,7 +1374,7 @@ export default function CorporateITTrainingPage() {
         </div>
 
         {/* ── Filter section ── */}
-        <div className="rounded-3xl p-6" style={{ background: '#f8f7f9', border: '1.5px solid #E2EBF6', boxShadow: '0 4px 32px rgba(0,0,0,0.07)' }}>
+        <div className="rounded-3xl p-6" style={{ background: '#EBF4FB', border: '1.5px solid #C8DFF0', boxShadow: '0 4px 32px rgba(6,148,209,0.08)' }}>
 
           {/* Row 1: 5 individual filter cards */}
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
@@ -1383,7 +1383,7 @@ export default function CorporateITTrainingPage() {
               const card = (active: boolean) => ({
                 background: '#fff',
                 border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
-                boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : '0 4px 18px rgba(0,0,0,0.08)',
+                boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : 'none',
                 transition: 'border-color 0.2s, box-shadow 0.2s',
               })
               const iconBox = (svg: React.ReactNode) => (
@@ -1392,7 +1392,8 @@ export default function CorporateITTrainingPage() {
               return (
                 <>
                   {/* Date Range */}
-                  <div className="col-span-2 lg:col-span-1 rounded-2xl p-4" style={card(!!(startDate || endDate))}>
+                  <div className="col-span-2 lg:col-span-1 rounded-2xl p-4" style={{ ...card(!!(startDate || endDate)), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Date Range</span>
@@ -1401,7 +1402,8 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Partner */}
-                  <div className="rounded-2xl p-4" style={card(oem !== 'All OEMs')}>
+                  <div className="rounded-2xl p-4" style={{ ...card(oem !== 'All OEMs'), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Partner</span>
@@ -1410,7 +1412,8 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Technology */}
-                  <div className="rounded-2xl p-4" style={card(technology !== 'All Technologies')}>
+                  <div className="rounded-2xl p-4" style={{ ...card(technology !== 'All Technologies'), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Technology</span>
@@ -1419,7 +1422,8 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Duration */}
-                  <div className="rounded-2xl p-4" style={card(durations.length > 0)}>
+                  <div className="rounded-2xl p-4" style={{ ...card(durations.length > 0), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Duration</span>
@@ -1428,7 +1432,8 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Price Range */}
-                  <div className="rounded-2xl p-4" style={card(!!budget)}>
+                  <div className="rounded-2xl p-4" style={{ ...card(!!budget), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Price Range</span>
@@ -1441,7 +1446,7 @@ export default function CorporateITTrainingPage() {
           </div>
 
           {/* YOUR SELECTION */}
-          <div className="rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #D1D5DB', boxShadow: '0 1px 4px rgba(6,148,209,0.04)' }}>
+          <div className="rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #D1D5DB' }}>
             <div className="flex items-center gap-2 mb-2.5">
               <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -1524,7 +1529,7 @@ export default function CorporateITTrainingPage() {
                     style={{
                       border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
                       background: '#fff',
-                      boxShadow: active ? '0 4px 18px rgba(6,148,209,0.22)' : '0 4px 14px rgba(0,0,0,0.07)',
+                      boxShadow: active ? '0 4px 18px rgba(6,148,209,0.22)' : 'none',
                       opacity: disabled ? 0.42 : 1,
                       cursor: disabled ? 'not-allowed' : 'pointer',
                       transition: 'border-color 0.2s, box-shadow 0.2s, opacity 0.2s',
@@ -1556,7 +1561,7 @@ export default function CorporateITTrainingPage() {
                       style={{
                         border: `1.5px solid ${classroomCity ? '#0694D1' : '#D1D5DB'}`,
                         background: '#fff',
-                        boxShadow: classroomCity ? '0 4px 18px rgba(6,148,209,0.18)' : '0 4px 14px rgba(0,0,0,0.07)',
+                        boxShadow: classroomCity ? '0 4px 18px rgba(6,148,209,0.18)' : 'none',
                         transition: 'border-color 0.2s, background 0.2s',
                       }}>
                       <div className="flex items-center gap-2 mb-3">
@@ -1726,27 +1731,6 @@ export default function CorporateITTrainingPage() {
         })()}
       </section>
 
-      {/* ── BOTTOM CTA ───────────────────────────────────────── */}
-      <section className="py-16 text-center px-4" style={{ background: 'linear-gradient(135deg, #061624 0%, #0694D1 100%)' }}>
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Need a Custom Training Plan?</h2>
-          <p className="mb-8" style={{ color: 'rgba(255,255,255,0.65)' }}>
-            Our corporate advisors will design a programme tailored to your team size, goals, and timeline.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="https://www.koenig-solutions.com/contact" target="_blank" rel="noopener noreferrer"
-              className="px-8 py-3.5 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity"
-              style={{ background: '#fff', color: '#0694D1' }}>
-              Talk to a Training Advisor
-            </a>
-            <a href="https://www.koenig-solutions.com/corporate-it-training-courses" target="_blank" rel="noopener noreferrer"
-              className="px-8 py-3.5 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity"
-              style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', border: '1.5px solid rgba(255,255,255,0.25)' }}>
-              Browse Full Catalogue
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }
