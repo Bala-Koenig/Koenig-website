@@ -1456,7 +1456,7 @@ export default function CorporateITTrainingPage() {
             </button>
             <button
               className="flex items-center gap-2 px-7 py-2.5 rounded-xl text-sm font-bold text-white"
-              style={{ background: '#0b2545', boxShadow: '0 4px 14px rgba(11,37,69,0.22)' }}
+              style={{ background: '#0694D1', boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }}
               onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
               onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
             >
