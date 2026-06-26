@@ -569,50 +569,96 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
   )
 }
 
-/* ─── Budget dropdown (input + quick pills) ─────────────── */
+/* ─── Price range radio dropdown ────────────────────────── */
+const PRICE_RANGES = [
+  'INR 0 to 10,000',
+  'INR 10,000 to 20,000',
+  'INR 20,000 to 30,000',
+  'INR 30,000 to 40,000',
+  'INR 40,000 to 50,000',
+  'INR 50,000 to 60,000',
+  'INR 60,000 to 70,000',
+  'INR 70,000 to 80,000',
+  'INR 80,000 to 90,000',
+  'INR 90,000 to 1,00,000',
+  'Above 1 lakh',
+]
+
 function BudgetSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
   const ref = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+      if (ref.current && !ref.current.contains(e.target as Node)) { setOpen(false); setQuery('') }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
+  useEffect(() => {
+    if (open) { setQuery(''); setTimeout(() => inputRef.current?.focus(), 50) }
+  }, [open])
+  const filtered = query ? PRICE_RANGES.filter(r => r.toLowerCase().includes(query.toLowerCase())) : PRICE_RANGES
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
-        <span className="flex-1" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 500 : 400 }}>
-          {value ? `Up to $${value}` : 'Select Budget'}
+        <span className="flex-1 truncate" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 500 : 400 }}>
+          {value || 'Select Range'}
         </span>
-        <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8" style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
+        <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8"
+          style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
           <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-2 p-3 rounded-xl" style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '210px', top: '100%', left: 0 }}>
-          <div className="relative mb-3">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold" style={{ color: '#94a3b8' }}>$</span>
-            <input type="number" placeholder="e.g. 2000" value={value} onChange={e => onChange(e.target.value)}
-              className="w-full pl-7 pr-3 py-2 rounded-lg text-sm outline-none"
-              style={{ border: '1.5px solid #D1DCE8', color: '#374151', background: '#F7FAFD', fontFamily: 'inherit' }}
-              onFocus={e => { e.currentTarget.style.borderColor = '#076D9D'; e.currentTarget.style.background = '#EDF7FF' }}
-              onBlur={e => { e.currentTarget.style.borderColor = '#D1DCE8'; e.currentTarget.style.background = '#F7FAFD' }}
-            />
+        <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
+          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '220px', top: '100%', left: 0 }}>
+          {/* Header */}
+          <div className="px-4 pt-3 pb-2.5" style={{ borderBottom: '1px solid #EEF3F9' }}>
+            <p className="text-xs font-bold text-center mb-2" style={{ color: '#64748b' }}>Price Range</p>
+            <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: '#F1F5F9' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+              <input ref={inputRef} type="text" value={query} onChange={e => setQuery(e.target.value)}
+                placeholder="Search range…"
+                className="flex-1 bg-transparent outline-none text-xs"
+                style={{ color: '#374151', caretColor: '#076D9D' }}
+                onKeyDown={e => e.key === 'Escape' && (setOpen(false), setQuery(''))}
+              />
+              {query && <button onClick={() => setQuery('')} className="leading-none text-sm" style={{ color: '#94a3b8' }}>×</button>}
+            </div>
           </div>
-          <div className="flex gap-1.5 flex-wrap">
-            {['500', '1000', '2000', '5000'].map(b => (
-              <button key={b} onClick={() => { onChange(value === b ? '' : b); setOpen(false) }}
-                className="text-xs font-semibold px-3 py-1.5 rounded-full transition-all"
-                style={{
-                  background: value === b ? '#076D9D' : '#EDF4FF',
-                  color: value === b ? '#fff' : '#076D9D',
-                  border: `1.5px solid ${value === b ? '#076D9D' : '#C8DFF0'}`,
-                }}
-              >${b}</button>
-            ))}
+          {/* Radio list */}
+          <div style={{ maxHeight: '260px', overflowY: 'auto' }}>
+            {filtered.length === 0 ? (
+              <p className="px-4 py-3 text-xs" style={{ color: '#94a3b8' }}>No results for "{query}"</p>
+            ) : filtered.map(range => {
+              const selected = value === range
+              return (
+                <button key={range}
+                  onClick={() => { onChange(selected ? '' : range); setOpen(false); setQuery('') }}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 transition-colors text-left"
+                  style={{ background: selected ? '#EDF7FF' : 'transparent' }}
+                  onMouseEnter={e => { if (!selected) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
+                  onMouseLeave={e => { if (!selected) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
+                >
+                  {/* Radio circle */}
+                  <div className="flex items-center justify-center rounded-full flex-shrink-0"
+                    style={{ width: 18, height: 18, border: `2px solid ${selected ? '#076D9D' : '#CBD5E1'}` }}>
+                    {selected && <div className="rounded-full" style={{ width: 8, height: 8, background: '#076D9D' }} />}
+                  </div>
+                  <span className="text-sm" style={{ color: selected ? '#076D9D' : '#374151', fontWeight: selected ? 600 : 400 }}>{range}</span>
+                </button>
+              )
+            })}
           </div>
+          {value && (
+            <div className="px-4 py-2" style={{ borderTop: '1px solid #EEF3F9' }}>
+              <button onClick={() => { onChange(''); setQuery('') }} className="text-xs font-semibold" style={{ color: '#076D9D' }}>Clear</button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -1165,7 +1211,7 @@ export default function CorporateITTrainingPage() {
                 ))}
                 {budget && (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
-                    Budget: ${budget}
+                    {budget}
                     <button onClick={() => setBudget('')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 )}
