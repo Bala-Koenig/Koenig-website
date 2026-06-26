@@ -479,7 +479,7 @@ function InlineSelect({ value, options, onChange, placeholder, searchable }: { v
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
-        <span className="flex-1 truncate" style={{ color: isDefault ? '#94a3b8' : '#0b2545', fontWeight: isDefault ? 400 : 700 }}>
+        <span className="flex-1 min-w-0 truncate" style={{ color: isDefault ? '#94a3b8' : '#0b2545', fontWeight: isDefault ? 400 : 700 }}>
           {isDefault ? placeholder : value}
         </span>
         <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8" style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
@@ -625,7 +625,7 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
-        <span className="flex-1 truncate" style={{ color: hasValue ? '#0b2545' : '#94a3b8', fontWeight: hasValue ? 700 : 400 }}>{label}</span>
+        <span className="flex-1 min-w-0 truncate" style={{ color: hasValue ? '#0b2545' : '#94a3b8', fontWeight: hasValue ? 700 : 400 }}>{label}</span>
         <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
           style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
           <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
@@ -708,7 +708,7 @@ function BudgetSelect({ value, onChange }: { value: string; onChange: (v: string
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
-        <span className="flex-1 truncate" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 700 : 400 }}>
+        <span className="flex-1 min-w-0 truncate" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 700 : 400 }}>
           {value || 'Select Range'}
         </span>
         <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
@@ -901,7 +901,7 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
   return (
     <div ref={ref} className="relative">
       <button onClick={handleOpen} className="flex items-center gap-1 text-sm w-full text-left">
-        <span className="flex-1 truncate" style={{ color: hasValue ? '#0b2545' : '#94a3b8', fontWeight: hasValue ? 700 : 400 }}>{label}</span>
+        <span className="flex-1 min-w-0 truncate" style={{ color: hasValue ? '#0b2545' : '#94a3b8', fontWeight: hasValue ? 700 : 400 }}>{label}</span>
         <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
           style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
           <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
