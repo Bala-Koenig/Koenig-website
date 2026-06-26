@@ -14102,7 +14102,7 @@ function LearningFormatsSection({ onCTA }) {
             <h3 style={{ fontSize:15, fontWeight:600, color:"#fff", marginBottom:8, lineHeight:1.3 }}>{f.name}</h3>
             <p style={{ fontSize:13, color:"rgba(255,255,255,0.6)", lineHeight:1.65, flex:1, fontWeight:300 }}>{f.desc}</p>
             <div style={{ paddingBottom:20, paddingTop:20 }}>
-              <button className="lfr-btn-glow" onClick={onCTA} style={{ display:"block", width:"100%", padding:"10px 0", borderRadius:12, border:"none", background:"linear-gradient(135deg,#0694d1,#076d9d)", color:"#fff", fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Learn More →</button>
+              <button className="lfr-btn-glow" onClick={onCTA} style={{ display:"block", width:"100%", padding:"10px 0", borderRadius:12, border:"none", background:"linear-gradient(135deg,#0694d1,#076d9d)", color:"#fff", fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Request More Info</button>
             </div>
           </div>
         </div>
@@ -14119,7 +14119,7 @@ function LearningFormatsSection({ onCTA }) {
               </li>
             ))}
           </ul>
-          <button className="lfr-btn-glow" onClick={onCTA} style={{ marginTop:20, display:"block", width:"100%", padding:"10px 0", borderRadius:12, border:"none", background:"linear-gradient(135deg,#0694d1,#076d9d)", color:"#fff", fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Learn More →</button>
+          <button className="lfr-btn-glow" onClick={onCTA} style={{ marginTop:20, display:"block", width:"100%", padding:"10px 0", borderRadius:12, border:"none", background:"linear-gradient(135deg,#0694d1,#076d9d)", color:"#fff", fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>Request More Info</button>
         </div>
       </div>
     </div>
@@ -14241,7 +14241,7 @@ function LearningFormatsSection({ onCTA }) {
                         <div style={{ display:"flex", flexDirection:"column", flex:1, padding:"10px 10px 12px" }}>
                           <h3 style={{ fontSize:11, fontWeight:700, color:"#fff", marginBottom:5, lineHeight:1.3 }}>{f.name}</h3>
                           <p style={{ fontSize:10, color:"rgba(255,255,255,0.6)", lineHeight:1.5, flex:1 }}>{f.desc}</p>
-                          <button className="lfr-btn-glow" onClick={onCTA} style={{ marginTop:10, width:"100%", borderRadius:9, padding:7, fontSize:10, fontWeight:700, color:"#fff", background:"linear-gradient(135deg,#0694d1,#076d9d)", border:"none", cursor:"pointer", fontFamily:"inherit" }}>Learn More →</button>
+                          <button className="lfr-btn-glow" onClick={onCTA} style={{ marginTop:10, width:"100%", borderRadius:9, padding:7, fontSize:10, fontWeight:700, color:"#fff", background:"linear-gradient(135deg,#0694d1,#076d9d)", border:"none", cursor:"pointer", fontFamily:"inherit" }}>Request More Info</button>
                         </div>
                       </div>
                     );
