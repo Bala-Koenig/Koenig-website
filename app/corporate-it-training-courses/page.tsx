@@ -717,7 +717,7 @@ function BudgetSelect({ value, onChange }: { value: string; onChange: (v: string
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
+        <div className="cit-dropdown absolute z-50 mt-2 rounded-xl overflow-hidden"
           style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '220px', top: '100%', left: 0 }}>
           {/* Header */}
           <div className="px-4 pt-3 pb-2.5" style={{ borderBottom: '1px solid #EEF3F9' }}>
@@ -1410,7 +1410,7 @@ export default function CorporateITTrainingPage() {
           .cit-badge.fund { background: linear-gradient(135deg,#4DBFEF,#0694D1); color: #fff; box-shadow: 0 2px 8px rgba(6,148,209,0.25); }
           .cit-badge.assoc { background: linear-gradient(135deg,#0694D1,#076D9D); color: #fff; box-shadow: 0 2px 8px rgba(6,108,157,0.3); }
           .cit-badge.expert { background: linear-gradient(135deg,#076D9D,#062238); color: #fff; box-shadow: 0 2px 8px rgba(6,34,56,0.35); }
-          .cit-cert-name { font-size: 14px; font-weight: 800; color: #071e2e; line-height: 1.4; flex: 1; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 59px; margin-top: 10px; margin-bottom: 0; }
+          .cit-cert-name { font-size: 15px; font-weight: 800; color: #071e2e; line-height: 1.4; flex: 1; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 59px; margin-top: 10px; margin-bottom: 0; }
           .cit-code-row { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; margin-top: 8px; }
           .cit-code { display: inline-block; font-size: 11px; font-family: 'SFMono-Regular','Consolas',monospace; color: #0694D1; background: rgba(6,148,209,0.1); border: 1px solid rgba(6,148,209,0.28); padding: 2px 7px; border-radius: 4px; font-weight: 700; letter-spacing: 0.4px; }
           .cit-hours { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-family: 'SFMono-Regular','Consolas',monospace; color: #5a7a90; background: rgba(6,148,209,0.05); border: 1px solid rgba(6,148,209,0.14); padding: 2px 7px; border-radius: 4px; font-weight: 600; letter-spacing: 0.3px; }
@@ -1422,9 +1422,9 @@ export default function CorporateITTrainingPage() {
           .cit-price-amount { font-size: 15px; font-weight: 700; color: #0694D1; letter-spacing: -0.3px; line-height: 1; }
           .cit-price-curr { font-size: 10px; font-weight: 600; color: #0694D1; margin-right: 1px; opacity: 0.8; }
           .cit-actions { display: flex; gap: 7px; }
-          .cit-btn-syllabus { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; background: transparent; color: #0694D1; border: 1.5px solid #0694D1; cursor: pointer; transition: background 0.18s; white-space: nowrap; font-family: inherit; }
+          .cit-btn-syllabus { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 7px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; background: transparent; color: #0694D1; border: 1.5px solid #0694D1; cursor: pointer; transition: background 0.18s; white-space: nowrap; font-family: inherit; }
           .cit-btn-syllabus:hover { background: rgba(6,148,209,0.07); }
-          .cit-btn-view { flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px 8px; border-radius: 8px; font-size: 10.5px; font-weight: 700; background: linear-gradient(135deg,#093148 0%,#0d5280 100%); color: #fff; border: none; cursor: pointer; white-space: nowrap; font-family: inherit; text-decoration: none; box-shadow: 0 2px 8px rgba(9,49,72,0.3); transition: filter 0.22s; }
+          .cit-btn-view { flex: 1; display: flex; align-items: center; justify-content: center; padding: 7px 8px; border-radius: 8px; font-size: 11.5px; font-weight: 700; background: linear-gradient(135deg,#093148 0%,#0d5280 100%); color: #fff; border: none; cursor: pointer; white-space: nowrap; font-family: inherit; text-decoration: none; box-shadow: 0 2px 8px rgba(9,49,72,0.3); transition: filter 0.22s; }
           .cit-btn-view:hover { filter: brightness(1.25); }
           @media (max-width: 1280px) { .cit-cert-grid { grid-template-columns: repeat(3,1fr); } }
           @media (max-width: 1024px) { .cit-cert-grid { grid-template-columns: repeat(2,1fr); } }
@@ -1432,11 +1432,11 @@ export default function CorporateITTrainingPage() {
           @media (max-width: 480px) { .cit-cert-grid { grid-template-columns: 1fr; } }
           @media (max-width: 640px) {
             .cit-cert-card { padding: 12px 12px 10px; min-height: 200px; }
-            .cit-cert-name { font-size: 13px; min-height: 50px; }
+            .cit-cert-name { font-size: 14px; min-height: 50px; }
             .cit-modal-box { padding: 20px 16px; border-radius: 16px; }
             .cit-modal-overlay { padding: 16px 12px; }
             .cit-price-amount { font-size: 13px; }
-            .cit-btn-syllabus, .cit-btn-view { font-size: 9.5px; padding: 5px 6px; }
+            .cit-btn-syllabus, .cit-btn-view { font-size: 11px; padding: 6px 7px; }
             .cit-dropdown {
               position: fixed !important;
               left: 50% !important;
