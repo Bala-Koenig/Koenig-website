@@ -1679,10 +1679,10 @@ export default function CorporateITTrainingPage() {
                             )}
                           </span>
                         </div>
-                        <div style={{ textAlign: 'center', marginBottom: 4 }}>
+                        <div className="cit-cert-name">{c.name.replace(/exam prep:\s*/gi, '').trim()}</div>
+                        <div style={{ textAlign: 'center', marginBottom: 4, marginTop: 6 }}>
                           <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 999, background: 'rgba(6,148,209,0.1)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>{c.vendor}</span>
                         </div>
-                        <div className="cit-cert-name">{c.name.replace(/exam prep:\s*/gi, '').trim()}</div>
                         <div className="cit-code-row">
                           <span className="cit-code">{c.code}</span>
                           <span className="cit-hours">
