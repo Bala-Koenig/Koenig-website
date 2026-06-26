@@ -1668,7 +1668,7 @@ export default function CorporateITTrainingPage() {
                             Popular
                           </span>
                         )}
-                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 6 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
                           <span className={`cit-badge ${c.level}`}>
                             {c.level === 'fund' ? (
                               <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>Fundamentals</>
@@ -1678,7 +1678,9 @@ export default function CorporateITTrainingPage() {
                               <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7l4 9h12l4-9-6 4-4-6-4 6z"/></svg>Expert</>
                             )}
                           </span>
-                          <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: `${c.color}14`, color: c.color }}>{c.vendor}</span>
+                        </div>
+                        <div style={{ textAlign: 'center', marginBottom: 4 }}>
+                          <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 999, background: 'rgba(6,148,209,0.1)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.2)' }}>{c.vendor}</span>
                         </div>
                         <div className="cit-cert-name">{c.name.replace(/exam prep:\s*/gi, '').trim()}</div>
                         <div className="cit-code-row">
