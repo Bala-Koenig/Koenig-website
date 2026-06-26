@@ -1382,7 +1382,7 @@ export default function CorporateITTrainingPage() {
             {(() => {
               const card = (active: boolean) => ({
                 background: '#fff',
-                border: `1.5px solid ${active ? '#0694D1' : '#E2EBF6'}`,
+                border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
                 boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : '0 4px 18px rgba(0,0,0,0.08)',
                 transition: 'border-color 0.2s, box-shadow 0.2s',
               })
@@ -1441,7 +1441,7 @@ export default function CorporateITTrainingPage() {
           </div>
 
           {/* YOUR SELECTION */}
-          <div className="rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #E2EBF6', boxShadow: '0 1px 4px rgba(6,148,209,0.04)' }}>
+          <div className="rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #D1D5DB', boxShadow: '0 1px 4px rgba(6,148,209,0.04)' }}>
             <div className="flex items-center gap-2 mb-2.5">
               <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -1522,7 +1522,7 @@ export default function CorporateITTrainingPage() {
                   <button key={key} onClick={() => !disabled && toggleMode(key)}
                     className="relative flex flex-col p-5 rounded-2xl text-left transition-all duration-200 select-none"
                     style={{
-                      border: `1.5px solid ${active ? '#0694D1' : '#E2EBF6'}`,
+                      border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
                       background: '#fff',
                       boxShadow: active ? '0 4px 18px rgba(6,148,209,0.22)' : '0 4px 14px rgba(0,0,0,0.07)',
                       opacity: disabled ? 0.42 : 1,
@@ -1554,7 +1554,7 @@ export default function CorporateITTrainingPage() {
                   acc.push(
                     <div key="city-card" className="flex flex-col p-4 rounded-2xl"
                       style={{
-                        border: `1.5px solid ${classroomCity ? '#0694D1' : '#E2EBF6'}`,
+                        border: `1.5px solid ${classroomCity ? '#0694D1' : '#D1D5DB'}`,
                         background: '#fff',
                         boxShadow: classroomCity ? '0 4px 18px rgba(6,148,209,0.18)' : '0 4px 14px rgba(0,0,0,0.07)',
                         transition: 'border-color 0.2s, background 0.2s',
