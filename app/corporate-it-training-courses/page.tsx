@@ -1563,7 +1563,7 @@ export default function CorporateITTrainingPage() {
         <div className="rounded-3xl p-6" style={{ background: '#F2F4F7', border: '1.5px solid rgba(6,148,209,0.45)', boxShadow: '0 4px 24px rgba(6,148,209,0.12)' }}>
 
           {/* Row 1: 5 individual filter cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 mb-3">
 
             {(() => {
               const card = (active: boolean) => ({
@@ -1578,7 +1578,7 @@ export default function CorporateITTrainingPage() {
               return (
                 <>
                   {/* Date Range */}
-                  <div className="col-span-2 sm:col-span-1 rounded-2xl p-4" style={{ ...card(!!(startDate || endDate)), cursor: 'pointer' }}
+                  <div className="rounded-2xl p-4" style={{ ...card(!!(startDate || endDate)), cursor: 'pointer' }}
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
