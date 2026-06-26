@@ -1174,6 +1174,168 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
   )
 }
 
+/* ─── Lead Form ─────────────────────────────────────────── */
+const CORP_COURSES = [
+  'Select Course Name',
+  'Microsoft Azure Administrator (AZ-104)',
+  'AWS Solutions Architect',
+  'Cisco CCNA / CCNP',
+  'Oracle Database Administration',
+  'CompTIA Security+',
+  'VMware vSphere',
+  'Red Hat Linux Administration',
+  'Salesforce Administrator',
+  'ServiceNow Administration',
+  'PMP / Project Management',
+  'Other Course',
+];
+const CORP_HEAR_OPTIONS = ['Select Option','Google Search','Social Media','LinkedIn','Colleague / Referral','Email Newsletter','Corporate Event','Other'];
+
+function EnterpriseLeadForm({ onClose }: { onClose: () => void }) {
+  const [tab, setTab] = useState<'individual'|'enterprise'>('individual');
+  const [form, setForm] = useState({ name:'', email:'', phone:'', course:'', trainees:'', hear:'', message:'' });
+  const [submitted, setSubmitted] = useState(false);
+  const [captcha, setCaptcha] = useState(false);
+
+  const reset = () => { setSubmitted(false); setForm({ name:'', email:'', phone:'', course:'', trainees:'', hear:'', message:'' }); setCaptcha(false); };
+  const isEnt = tab === 'enterprise';
+
+  if (submitted) {
+    return (
+      <div style={{ textAlign:'center', padding:'32px 0' }}>
+        <div style={{ display:'inline-flex', alignItems:'center', justifyContent:'center', width:56, height:56, borderRadius:'50%', background:'rgba(6,148,209,0.18)', border:'1px solid rgba(6,148,209,0.4)', marginBottom:16 }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 style={{ color:'#fff', fontSize:18, fontWeight:700, marginBottom:8 }}>Request Received!</h3>
+        <p style={{ color:'rgba(255,255,255,0.55)', fontSize:14, marginBottom:24, lineHeight:1.6 }}>
+          {isEnt ? "Our enterprise team will reach out within 1 business day." : "Your certification advisor will be in touch within 2 hours."}
+        </p>
+        <button onClick={() => { onClose(); reset(); }} style={{ background:'rgba(6,148,209,0.25)', border:'1px solid rgba(6,148,209,0.4)', borderRadius:12, padding:'8px 24px', fontSize:13, fontWeight:600, color:'#fff', cursor:'pointer', fontFamily:'inherit' }}>Close</button>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <style>{`
+        .clf-input { background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.14); border-radius: 10px; padding: 11px 16px; font-size: 13.5px; color: #fff; width: 100%; outline: none; font-family: inherit; transition: border-color .2s, box-shadow .2s; box-sizing: border-box; }
+        .clf-input:focus { border-color: #0694D1; box-shadow: 0 0 0 3px rgba(6,148,209,0.15); outline: none; }
+        .clf-input::placeholder { color: rgba(255,255,255,0.25); }
+        .clf-label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.65); margin-bottom: 5px; }
+        .clf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 480px) { .clf-row { grid-template-columns: 1fr; } }
+      `}</style>
+
+      <div style={{ textAlign:'center', marginBottom:12 }}>
+        <span style={{ display:'inline-block', padding:'5px 18px', borderRadius:999, border:'1.5px solid rgba(6,148,209,0.5)', fontSize:11, fontWeight:700, letterSpacing:'0.14em', color:'#4DBFEF', textTransform:'uppercase' as const }}>
+          Let&apos;s Talk
+        </span>
+      </div>
+
+      <h2 style={{ color:'#fff', fontSize:22, fontWeight:800, textAlign:'center', margin:'0 0 6px', lineHeight:1.3 }}>
+        Request for more{' '}
+        <span style={{ color:'#0694D1' }}>information</span>
+      </h2>
+      <p style={{ textAlign:'center', color:'rgba(255,255,255,0.45)', fontSize:13, marginBottom:16 }}>
+        Corporate IT Training with Koenig Solutions
+      </p>
+
+      <div style={{ display:'flex', gap:10, justifyContent:'center', marginBottom:18 }}>
+        <button type="button" style={{ display:'flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:10, border:'1.5px solid rgba(255,255,255,0.15)', background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.85)', fontSize:13, fontWeight:600, cursor:'pointer', fontFamily:'inherit' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style={{ color:'#25D366' }}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.535 5.847L0 24l6.335-1.508A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.825 9.825 0 01-5.027-1.381l-.36-.214-3.735.889.927-3.647-.235-.374A9.774 9.774 0 012.182 12C2.182 6.567 6.567 2.182 12 2.182S21.818 6.567 21.818 12 17.433 21.818 12 21.818z"/></svg>
+          WhatsApp us
+        </button>
+        <button type="button" style={{ display:'flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:10, border:'1.5px solid rgba(255,255,255,0.15)', background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.85)', fontSize:13, fontWeight:600, cursor:'pointer', fontFamily:'inherit' }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email us
+        </button>
+      </div>
+
+      <div style={{ display:'flex', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.10)', borderRadius:10, padding:4, gap:4, marginBottom:20 }}>
+        {(['individual','enterprise'] as const).map(t => (
+          <button key={t} type="button" onClick={() => setTab(t)} style={{
+            flex:1, padding:'10px 0', border:'none', borderRadius:8, fontSize:14, fontWeight:600, cursor:'pointer', fontFamily:'inherit', transition:'all .2s',
+            background: tab===t ? '#0694D1' : 'transparent',
+            color: tab===t ? '#fff' : 'rgba(255,255,255,0.45)',
+            display:'flex', alignItems:'center', justifyContent:'center', gap:7,
+          }}>
+            {t === 'individual'
+              ? <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Individual</>
+              : <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Enterprise</>
+            }
+          </button>
+        ))}
+      </div>
+
+      <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }} style={{ display:'flex', flexDirection:'column', gap:14 }}>
+        <div className="clf-row">
+          <div>
+            <label className="clf-label">Full Name <span style={{ color:'#ef4444' }}>*</span></label>
+            <input required type="text" placeholder="John Smith" className="clf-input" value={form.name} onChange={e=>setForm(p=>({...p,name:e.target.value}))} />
+          </div>
+          <div>
+            <label className="clf-label">{isEnt ? 'Business Email' : 'Email'} <span style={{ color:'#ef4444' }}>*</span></label>
+            <input required type="email" placeholder={isEnt ? 'john@company.com' : 'john@example.com'} className="clf-input" value={form.email} onChange={e=>setForm(p=>({...p,email:e.target.value}))} />
+          </div>
+        </div>
+        <div className="clf-row">
+          <div>
+            <label className="clf-label">Phone</label>
+            <input type="tel" placeholder="+1 (555) 000-0000" className="clf-input" value={form.phone} onChange={e=>setForm(p=>({...p,phone:e.target.value}))} />
+          </div>
+          <div>
+            {isEnt ? (
+              <>
+                <label className="clf-label">Number of Trainees</label>
+                <input type="number" min="1" placeholder="e.g. 25" className="clf-input" value={form.trainees} onChange={e=>setForm(p=>({...p,trainees:e.target.value}))} />
+              </>
+            ) : (
+              <>
+                <label className="clf-label">Select Course Name</label>
+                <select className="clf-input" style={{ color: form.course ? '#fff' : 'rgba(255,255,255,0.25)' }} value={form.course} onChange={e=>setForm(p=>({...p,course:e.target.value}))}>
+                  {CORP_COURSES.map(c=><option key={c} value={c==='Select Course Name'?'':c} style={{ background:'#0a2d45', color:'#fff' }}>{c}</option>)}
+                </select>
+              </>
+            )}
+          </div>
+        </div>
+        <div>
+          <label className="clf-label">How did you hear about us?</label>
+          <select className="clf-input" style={{ color: form.hear ? '#fff' : 'rgba(255,255,255,0.25)' }} value={form.hear} onChange={e=>setForm(p=>({...p,hear:e.target.value}))}>
+            {CORP_HEAR_OPTIONS.map(o=><option key={o} value={o==='Select Option'?'':o} style={{ background:'#0a2d45', color:'#fff' }}>{o}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="clf-label">Tell us more about your Training Request</label>
+          <textarea rows={3} placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..." className="clf-input" style={{ resize:'vertical', minHeight:80 }} value={form.message} onChange={e=>setForm(p=>({...p,message:e.target.value}))} />
+        </div>
+        <div style={{ display:'flex', justifyContent:'center' }}>
+          <div onClick={()=>setCaptcha(c=>!c)} style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 10px', borderRadius:4, border:'1.5px solid rgba(255,255,255,0.18)', background:'rgba(255,255,255,0.04)', width:220, height:44, cursor:'pointer' }}>
+            <div style={{ width:18, height:18, borderRadius:3, border:`2px solid ${captcha ? '#0694D1' : 'rgba(255,255,255,0.55)'}`, background: captcha ? '#0694D1' : 'transparent', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', transition:'all .2s' }}>
+              {captcha && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+            </div>
+            <span style={{ fontSize:13, color:'rgba(255,255,255,0.85)', fontWeight:500, flex:1 }}>I&apos;m not a robot</span>
+            <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:1, flexShrink:0 }}>
+              <img decoding="async" loading="lazy" src="https://www.gstatic.com/recaptcha/api2/logo_48.png" width="24" height="24" alt="reCAPTCHA" style={{ display:'block' }} />
+              <span style={{ fontSize:7, color:'rgba(255,255,255,0.4)', letterSpacing:'0.03em', lineHeight:1 }}>reCAPTCHA</span>
+              <span style={{ fontSize:6, color:'rgba(255,255,255,0.25)', lineHeight:1 }}>Privacy - Terms</span>
+            </div>
+          </div>
+        </div>
+        <button type="submit" style={{ width:'100%', padding:'14px 0', borderRadius:12, fontSize:14, fontWeight:700, color:'#fff', background:'linear-gradient(135deg,#0694D1,#076D9D)', border:'none', cursor:'pointer', fontFamily:'inherit', boxShadow:'0 4px 20px rgba(6,148,209,0.40)', transition:'opacity .2s, transform .15s' }}
+          onMouseEnter={e=>{e.currentTarget.style.opacity='0.9'; e.currentTarget.style.transform='translateY(-1px)';}}
+          onMouseLeave={e=>{e.currentTarget.style.opacity='1'; e.currentTarget.style.transform='translateY(0)';}}
+        >
+          Submit — Get a Free Consultation
+        </button>
+        <p style={{ textAlign:'center', fontSize:12, color:'rgba(255,255,255,0.30)', margin:0 }}>
+          We&apos;ll respond within 1 business day · No spam, ever.
+        </p>
+      </form>
+    </>
+  );
+}
+
 /* ─── Page ──────────────────────────────────────────────── */
 export default function CorporateITTrainingPage() {
   const [search, setSearch] = useState('')
@@ -1188,6 +1350,7 @@ export default function CorporateITTrainingPage() {
   const [endDate, setEndDate] = useState('')
   const [sortBy, setSortBy] = useState('Popularity')
   const [currency, setCurrency] = useState('INR')
+  const [modal, setModal] = useState(false)
 
   function toggleMode(m: string) {
     if (m === 'Only Classroom' && modes.includes('Only Classroom')) setClassroomCity('')
@@ -1236,6 +1399,12 @@ export default function CorporateITTrainingPage() {
 
         <style>{`
           .cit-stat:hover .cit-glow { opacity: 1 !important; }
+          .cit-modal-overlay { position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: flex; align-items: flex-start; justify-content: center; padding: 24px 20px; overflow-y: auto; animation: citFadeIn 0.2s ease; }
+          @keyframes citFadeIn { from { opacity:0; } to { opacity:1; } }
+          @keyframes citScaleIn { from { opacity:0; transform:scale(0.96) translateY(8px); } to { opacity:1; transform:scale(1) translateY(0); } }
+          .cit-modal-box { background: linear-gradient(160deg,#091e30 0%,#071525 100%); border: 1px solid rgba(6,148,209,0.25); border-radius: 24px; padding: 28px 32px; max-width: 640px; width: 100%; position: relative; animation: citScaleIn 0.25s ease; margin: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.6); }
+          .cit-modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.06); border: none; color: rgba(255,255,255,0.5); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+          .cit-modal-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
           .cit-cert-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
           .cit-cert-card { background: #fff; border: 1.5px solid rgba(6,148,209,0.12); border-radius: 14px; padding: 16px 16px 14px; cursor: pointer; transition: all 0.25s; display: flex; flex-direction: column; position: relative; overflow: visible; min-height: 250px; box-shadow: 0 2px 10px rgba(6,148,209,0.07); }
           .cit-cert-card:hover { box-shadow: 0 8px 32px rgba(6,148,209,0.18), 0 2px 8px rgba(0,0,0,0.06); border-color: rgba(6,148,209,0.3); }
@@ -1285,11 +1454,11 @@ export default function CorporateITTrainingPage() {
                 Vendor-authorized corporate IT certification training across Microsoft, AWS, Cisco, Oracle, and 13+ more partners. Guaranteed batch schedules, group discounts, and 1-on-1 options available.
               </p>
               <div className="flex flex-col sm:flex-row flex-wrap gap-3">
-                <a href="https://www.koenig-solutions.com/contact" target="_blank" rel="noopener noreferrer"
+                <button onClick={() => setModal(true)}
                   className="inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #0694D1)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
-                  Request Corporate Quote
-                </a>
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #0694D1)', boxShadow: '0 0 20px rgba(6,148,209,0.35)', border:'none', cursor:'pointer', fontFamily:'inherit' }}>
+                  Request More Info
+                </button>
                 <a href="#courses"
                   className="inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
                   style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
@@ -1734,6 +1903,14 @@ export default function CorporateITTrainingPage() {
         })()}
       </section>
 
+      {modal && (
+        <div className="cit-modal-overlay" onClick={e=>{ if(e.target===e.currentTarget) setModal(false); }}>
+          <div className="cit-modal-box">
+            <button className="cit-modal-close" onClick={()=>setModal(false)}>✕</button>
+            <EnterpriseLeadForm onClose={()=>setModal(false)}/>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
