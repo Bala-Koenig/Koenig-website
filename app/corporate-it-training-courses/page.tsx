@@ -1396,7 +1396,7 @@ export default function CorporateITTrainingPage() {
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Date Range</span>
+                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Date Range</span>
                     </div>
                     <DateRangeSelect startDate={startDate} endDate={endDate} onChange={(s, e) => { setStartDate(s); setEndDate(e) }} />
                   </div>
@@ -1406,7 +1406,7 @@ export default function CorporateITTrainingPage() {
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Partner</span>
+                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Partner</span>
                     </div>
                     <InlineSelect value={oem} options={ALL_OEMS} onChange={setOem} placeholder="Any partner" searchable />
                   </div>
@@ -1416,7 +1416,7 @@ export default function CorporateITTrainingPage() {
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Technology</span>
+                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Technology</span>
                     </div>
                     <InlineSelect value={technology} options={ALL_TECHNOLOGIES} onChange={setTechnology} placeholder="Any technology" searchable />
                   </div>
@@ -1426,7 +1426,7 @@ export default function CorporateITTrainingPage() {
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Duration</span>
+                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Duration</span>
                     </div>
                     <DurationSelect values={durations} onChange={setDurations} />
                   </div>
@@ -1436,7 +1436,7 @@ export default function CorporateITTrainingPage() {
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Price Range</span>
+                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Price Range</span>
                     </div>
                     <BudgetSelect value={budget} onChange={setBudget} />
                   </div>
@@ -1451,7 +1451,7 @@ export default function CorporateITTrainingPage() {
               <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
               </div>
-              <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Your Selection</span>
+              <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Your Selection</span>
             </div>
             {!(startDate || endDate || durations.length > 0 || oem !== 'All OEMs' || technology !== 'All Technologies' || budget || modes.length > 0) ? (
               <p className="text-sm" style={{ color: '#c8d6e5', fontFamily: "'Courier New', monospace" }}>nothing selected yet</p>
@@ -1509,7 +1509,7 @@ export default function CorporateITTrainingPage() {
               <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               </div>
-              <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>How You Want To Learn</span>
+              <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>How You Want To Learn</span>
             </div>
             <div className={`grid grid-cols-2 gap-3 ${modes.includes('Only Classroom') ? 'sm:grid-cols-5' : 'sm:grid-cols-4'}`}>
               {[
@@ -1550,7 +1550,7 @@ export default function CorporateITTrainingPage() {
                       </div>
                     </div>
                     {badge && <span className="absolute top-4 left-16 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: '#d1fae5', color: '#065f46' }}>{badge}</span>}
-                    <p className="text-sm font-bold mb-0.5" style={{ color: active ? '#0b2545' : '#374151' }}>{label}</p>
+                    <p className="text-sm font-bold mb-0.5" style={{ color: '#0b2545' }}>{label}</p>
                     <p className="text-xs" style={{ color: '#94a3b8' }}>{sub}</p>
                   </button>
                 )
@@ -1568,7 +1568,7 @@ export default function CorporateITTrainingPage() {
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                         </svg>
-                        <span className="text-xs font-bold uppercase tracking-wide" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>City</span>
+                        <span className="text-xs font-bold uppercase tracking-wide" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>City</span>
                       </div>
                       <CitySelect value={classroomCity} onChange={setClassroomCity} />
                     </div>
