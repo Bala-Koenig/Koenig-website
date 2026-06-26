@@ -1233,7 +1233,7 @@ export default function CorporateITTrainingPage() {
 
         <style>{`
           .cit-stat:hover .cit-glow { opacity: 1 !important; }
-          .cit-cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+          .cit-cert-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
           .cit-cert-card { background: #fff; border: 1.5px solid rgba(6,148,209,0.12); border-radius: 14px; padding: 16px 16px 14px; cursor: pointer; transition: all 0.25s; display: flex; flex-direction: column; position: relative; overflow: visible; min-height: 250px; box-shadow: 0 2px 10px rgba(6,148,209,0.07); }
           .cit-cert-card:hover { box-shadow: 0 8px 32px rgba(6,148,209,0.18), 0 2px 8px rgba(0,0,0,0.06); border-color: rgba(6,148,209,0.3); }
           .cit-hot-badge { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: 4px; height: 20px; font-size: 9px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; padding: 0 10px 0 8px; border-radius: 0 14px 0 10px; background: linear-gradient(135deg,#0694D1,#22d3ee); color: #fff; box-shadow: -2px 2px 8px rgba(6,148,209,0.28); z-index: 2; }
@@ -1257,6 +1257,7 @@ export default function CorporateITTrainingPage() {
           .cit-btn-syllabus:hover { background: rgba(6,148,209,0.07); }
           .cit-btn-view { flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px 8px; border-radius: 8px; font-size: 10.5px; font-weight: 700; background: linear-gradient(135deg,#093148 0%,#0d5280 100%); color: #fff; border: none; cursor: pointer; white-space: nowrap; font-family: inherit; text-decoration: none; box-shadow: 0 2px 8px rgba(9,49,72,0.3); transition: filter 0.22s; }
           .cit-btn-view:hover { filter: brightness(1.25); }
+          @media (max-width: 1280px) { .cit-cert-grid { grid-template-columns: repeat(3,1fr); } }
           @media (max-width: 1024px) { .cit-cert-grid { grid-template-columns: repeat(2,1fr); } }
           @media (max-width: 640px) { .cit-cert-grid { grid-template-columns: 1fr; } }
         `}</style>
