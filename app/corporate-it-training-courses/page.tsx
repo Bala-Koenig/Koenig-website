@@ -1487,9 +1487,6 @@ export default function CorporateITTrainingPage() {
               <button onClick={() => setSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-base leading-none">✕</button>
             )}
           </div>
-          <div className="text-sm font-medium px-4 py-2.5 rounded-xl flex-shrink-0" style={{ background: '#fff', color: '#5a7a99', border: '1.5px solid #D0E8F5', whiteSpace: 'nowrap' }}>
-            {search || oem !== 'All OEMs' ? `${visibleCount} vendor${visibleCount !== 1 ? 's' : ''} found` : `${VENDORS.length} vendors · ${totalCourses.toLocaleString()}+ courses`}
-          </div>
           <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Lowest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} />
           <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} />
         </div>
