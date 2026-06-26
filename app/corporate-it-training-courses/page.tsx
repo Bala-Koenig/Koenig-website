@@ -663,11 +663,16 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
               )
             })}
           </div>
-          {hasValue && (
-            <div className="px-4 py-2" style={{ borderTop: '1px solid #EEF3F9' }}>
-              <button onClick={() => onChange([])} className="text-xs font-semibold" style={{ color: '#0694D1' }}>Clear</button>
-            </div>
-          )}
+          <div className="px-4 py-2 flex items-center justify-between" style={{ borderTop: '1px solid #EEF3F9' }}>
+            {hasValue
+              ? <button onClick={() => onChange([])} className="text-xs font-semibold" style={{ color: '#0694D1' }}>Clear</button>
+              : <span />}
+            <button
+              onClick={() => setOpen(false)}
+              className="block sm:hidden text-xs font-bold px-4 py-1.5 rounded-lg"
+              style={{ background: '#0694D1', color: '#fff' }}
+            >Apply</button>
+          </div>
         </div>
       )}
     </div>
