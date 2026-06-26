@@ -1428,7 +1428,16 @@ export default function CorporateITTrainingPage() {
           .cit-btn-view:hover { filter: brightness(1.25); }
           @media (max-width: 1280px) { .cit-cert-grid { grid-template-columns: repeat(3,1fr); } }
           @media (max-width: 1024px) { .cit-cert-grid { grid-template-columns: repeat(2,1fr); } }
-          @media (max-width: 640px) { .cit-cert-grid { grid-template-columns: 1fr; } }
+          @media (max-width: 640px) { .cit-cert-grid { grid-template-columns: repeat(2,1fr); gap: 10px; } }
+          @media (max-width: 480px) { .cit-cert-grid { grid-template-columns: 1fr; } }
+          @media (max-width: 640px) {
+            .cit-cert-card { padding: 12px 12px 10px; min-height: 200px; }
+            .cit-cert-name { font-size: 13px; min-height: 50px; }
+            .cit-modal-box { padding: 20px 16px; border-radius: 16px; }
+            .cit-modal-overlay { padding: 16px 12px; }
+            .cit-price-amount { font-size: 13px; }
+            .cit-btn-syllabus, .cit-btn-view { font-size: 9.5px; padding: 5px 6px; }
+          }
         `}</style>
 
         <div className="relative mx-auto max-w-7xl py-[35px]">
@@ -1531,7 +1540,7 @@ export default function CorporateITTrainingPage() {
       </section>
 
       {/* ── FIND YOUR COURSE ─────────────────────────────────── */}
-      <section id="courses" className="max-w-7xl mx-auto px-4 lg:px-[50px] py-10" style={{ background: 'radial-gradient(ellipse 90% 500px at 50% 0%, rgba(6,148,209,0.09) 0%, transparent 70%)' }}>
+      <section id="courses" className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-[50px] py-6 sm:py-10" style={{ background: 'radial-gradient(ellipse 90% 500px at 50% 0%, rgba(6,148,209,0.09) 0%, transparent 70%)' }}>
 
         {/* Section header */}
         <div className="text-center mb-8">
@@ -1543,7 +1552,7 @@ export default function CorporateITTrainingPage() {
         <div className="rounded-3xl p-6" style={{ background: '#F2F4F7', border: '1.5px solid rgba(6,148,209,0.45)', boxShadow: '0 4px 24px rgba(6,148,209,0.12)' }}>
 
           {/* Row 1: 5 individual filter cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
 
             {(() => {
               const card = (active: boolean) => ({
@@ -1558,7 +1567,7 @@ export default function CorporateITTrainingPage() {
               return (
                 <>
                   {/* Date Range */}
-                  <div className="col-span-2 lg:col-span-1 rounded-2xl p-4" style={{ ...card(!!(startDate || endDate)), cursor: 'pointer' }}
+                  <div className="col-span-2 sm:col-span-1 rounded-2xl p-4" style={{ ...card(!!(startDate || endDate)), cursor: 'pointer' }}
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
@@ -1677,7 +1686,7 @@ export default function CorporateITTrainingPage() {
               </div>
               <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>How You Want To Learn</span>
             </div>
-            <div className={`grid grid-cols-2 gap-3 ${modes.includes('Only Classroom') ? 'sm:grid-cols-5' : 'sm:grid-cols-4'}`}>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${modes.includes('Only Classroom') ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
               {[
                 { key: 'Only GTR', icon: <><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>, label: 'Guaranteed to Run', sub: 'Confirmed dates', badge: 'GTR' },
                 { key: 'Only Live Online', icon: <><rect x="2" y="2" width="20" height="15" rx="2"/><polyline points="8 21 12 17 16 21"/></>, label: 'Online', sub: 'Live virtual' },
@@ -1747,7 +1756,7 @@ export default function CorporateITTrainingPage() {
           </div>
 
           {/* Bottom bar */}
-          <div className="flex items-center justify-center gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
             <button
               onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
@@ -1888,8 +1897,8 @@ export default function CorporateITTrainingPage() {
       </section>
 
       {/* Inline lead form below courses */}
-      <section style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', padding: '60px 20px' }}>
-        <div style={{ maxWidth: 640, margin: '0 auto', background: 'linear-gradient(160deg,#091e30 0%,#071525 100%)', border: '1px solid rgba(6,148,209,0.25)', borderRadius: 24, padding: '28px 32px', boxShadow: '0 24px 80px rgba(0,0,0,0.6)' }}>
+      <section className="px-4 sm:px-6 py-10 sm:py-16" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)' }}>
+        <div className="mx-auto px-4 sm:px-8" style={{ maxWidth: 640, background: 'linear-gradient(160deg,#091e30 0%,#071525 100%)', border: '1px solid rgba(6,148,209,0.25)', borderRadius: 20, padding: '24px 20px', boxShadow: '0 24px 80px rgba(0,0,0,0.6)' }}>
           <EnterpriseLeadForm onClose={() => {}} />
         </div>
       </section>
