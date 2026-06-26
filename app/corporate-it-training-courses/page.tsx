@@ -1198,10 +1198,10 @@ export default function CorporateITTrainingPage() {
 
             {(() => {
               const card = (active: boolean) => ({
-                background: active ? '#EFF8FF' : '#fff',
+                background: '#fff',
                 border: `1.5px solid ${active ? '#0694D1' : '#E2EBF6'}`,
                 boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : '0 4px 18px rgba(0,0,0,0.08)',
-                transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
               })
               const iconBox = (svg: React.ReactNode) => (
                 <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>{svg}</div>
@@ -1336,7 +1336,7 @@ export default function CorporateITTrainingPage() {
                     className="relative flex flex-col p-5 rounded-2xl text-left transition-all duration-200 select-none"
                     style={{
                       border: `1.5px solid ${active ? '#0694D1' : '#E2EBF6'}`,
-                      background: active ? 'linear-gradient(145deg,#EDF7FF,#e0f2fe)' : '#fff',
+                      background: '#fff',
                       boxShadow: active ? '0 4px 18px rgba(6,148,209,0.22)' : '0 4px 14px rgba(0,0,0,0.07)',
                     }}
                   >
@@ -1359,7 +1359,7 @@ export default function CorporateITTrainingPage() {
                     <div key="city-card" className="flex flex-col p-4 rounded-2xl"
                       style={{
                         border: `1.5px solid ${classroomCity ? '#0694D1' : '#E2EBF6'}`,
-                        background: classroomCity ? '#EFF8FF' : '#FAFCFF',
+                        background: '#fff',
                         boxShadow: classroomCity ? '0 4px 18px rgba(6,148,209,0.18)' : '0 4px 14px rgba(0,0,0,0.07)',
                         transition: 'border-color 0.2s, background 0.2s',
                       }}>
