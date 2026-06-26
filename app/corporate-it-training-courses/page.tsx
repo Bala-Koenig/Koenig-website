@@ -1108,6 +1108,7 @@ export default function CorporateITTrainingPage() {
     if (sortBy === 'Shortest Duration') return arr.sort((a, b) => a.courses - b.courses)
     if (sortBy === 'Longest Duration') return arr.sort((a, b) => b.courses - a.courses)
     if (sortBy === 'Lowest Fees') return arr.sort((a, b) => a.name.localeCompare(b.name))
+    if (sortBy === 'Highest Fees') return arr.sort((a, b) => b.name.localeCompare(a.name))
     return arr
   }, [sortBy])
 
@@ -1487,7 +1488,7 @@ export default function CorporateITTrainingPage() {
               <button onClick={() => setSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-base leading-none">✕</button>
             )}
           </div>
-          <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Lowest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} />
+          <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Lowest Fees', 'Highest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} />
           <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} />
         </div>
 
