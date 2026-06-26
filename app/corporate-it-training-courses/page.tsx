@@ -431,7 +431,7 @@ function SelectDropdown({ value, options, onChange }: { value: string; options: 
       </button>
       {open && (
         <div
-          className="absolute z-50 mt-1 py-1 rounded-xl overflow-hidden"
+          className="cit-dropdown absolute z-50 mt-1 py-1 rounded-xl overflow-hidden"
           style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '160px', top: '100%', left: 0 }}
         >
           {options.map(opt => (
@@ -487,7 +487,7 @@ function InlineSelect({ value, options, onChange, placeholder, searchable }: { v
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-2 rounded-xl overflow-hidden" style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '200px', top: '100%', left: 0 }}>
+        <div className="cit-dropdown absolute z-50 mt-2 rounded-xl overflow-hidden" style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '200px', top: '100%', left: 0 }}>
           {searchable && (
             <div className="px-3 pt-2.5 pb-2" style={{ borderBottom: '1px solid #EEF3F9' }}>
               <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: '#F1F5F9' }}>
@@ -564,7 +564,7 @@ function CitySelect({ value, onChange }: { value: string; onChange: (v: string) 
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-1.5 rounded-xl overflow-hidden"
+        <div className="cit-dropdown absolute z-50 mt-1.5 rounded-xl overflow-hidden"
           style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '200px', top: '100%', left: 0 }}>
           <div className="px-3 pt-2.5 pb-2" style={{ borderBottom: '1px solid #EEF3F9' }}>
             <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: '#F1F5F9' }}>
@@ -632,7 +632,7 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
+        <div className="cit-dropdown absolute z-50 mt-2 rounded-xl overflow-hidden"
           style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '210px', top: '100%', left: 0 }}>
           <div className="px-3 py-2" style={{ borderBottom: '1px solid #EEF3F9' }}>
             <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Duration</p>
@@ -908,7 +908,7 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
+        <div className="cit-dropdown absolute z-50 mt-2 rounded-xl overflow-hidden"
           style={{ background: '#fff', border: '1px solid #E2EBF6', boxShadow: '0 4px 24px rgba(6,148,209,0.13)', top: '100%', left: 0, width: 'max-content', maxWidth: '100vw' }}>
           <div className="grid grid-cols-1 sm:grid-cols-2 sm:divide-x divide-[#E2EBF6]">
             {/* Month 1 */}
@@ -1437,6 +1437,17 @@ export default function CorporateITTrainingPage() {
             .cit-modal-overlay { padding: 16px 12px; }
             .cit-price-amount { font-size: 13px; }
             .cit-btn-syllabus, .cit-btn-view { font-size: 9.5px; padding: 5px 6px; }
+            .cit-dropdown {
+              position: fixed !important;
+              left: 50% !important;
+              top: 50% !important;
+              transform: translate(-50%, -50%) !important;
+              width: calc(100vw - 32px) !important;
+              max-width: 360px !important;
+              max-height: 75vh;
+              overflow-y: auto;
+              z-index: 9999 !important;
+            }
           }
         `}</style>
 
@@ -1781,8 +1792,8 @@ export default function CorporateITTrainingPage() {
         </div>
 
         {/* ── Search bar + expand controls ── */}
-        <div className="mt-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-          <div className="relative flex-1">
+        <div className="mt-6 flex flex-col gap-3">
+          <div className="relative">
             <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
@@ -1800,8 +1811,10 @@ export default function CorporateITTrainingPage() {
               <button onClick={() => setSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-base leading-none">✕</button>
             )}
           </div>
-          <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Lowest Fees', 'Highest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} />
-          <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} />
+          <div className="flex gap-3">
+            <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Lowest Fees', 'Highest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} />
+            <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} />
+          </div>
         </div>
 
         {/* ── Popular Courses Grid ── */}
