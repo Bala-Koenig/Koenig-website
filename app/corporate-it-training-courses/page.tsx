@@ -356,6 +356,34 @@ const VENDORS = [
   },
 ]
 
+/* ─── Popular courses (flat list, not vendor-grouped) ────── */
+const POPULAR_COURSES = [
+  { name: 'AZ-104T00-A: Microsoft Azure Administrator', code: 'AZ-104', dur: '5 days', level: 'assoc' as const, vendor: 'Microsoft', color: '#0078D4', hot: true },
+  { name: 'AZ-900T00: Microsoft Azure Fundamentals', code: 'AZ-900', dur: '1 day', level: 'fund' as const, vendor: 'Microsoft', color: '#0078D4', hot: false },
+  { name: 'PL-300T00: Microsoft Power BI Data Analyst', code: 'PL-300', dur: '5 days', level: 'assoc' as const, vendor: 'Microsoft', color: '#0078D4', hot: true },
+  { name: 'AZ-305T00: Designing Microsoft Azure Infrastructure Solutions', code: 'AZ-305', dur: '4 days', level: 'expert' as const, vendor: 'Microsoft', color: '#0078D4', hot: false },
+  { name: 'AWS Certified Cloud Practitioner', code: 'CLF-C02', dur: '1 day', level: 'fund' as const, vendor: 'AWS', color: '#FF9900', hot: true },
+  { name: 'AWS Certified Solutions Architect – Associate', code: 'SAA-C03', dur: '3 days', level: 'assoc' as const, vendor: 'AWS', color: '#FF9900', hot: true },
+  { name: 'AWS Certified Security – Specialty', code: 'SCS-C02', dur: '3 days', level: 'expert' as const, vendor: 'AWS', color: '#FF9900', hot: false },
+  { name: 'Implementing and Administering Cisco Solutions (CCNA) v2.1', code: 'CCNA', dur: '5 days', level: 'assoc' as const, vendor: 'Cisco', color: '#1BA0D7', hot: true },
+  { name: 'Implementing Cisco Enterprise Network Core Technologies (ENCOR) v1.3', code: 'ENCOR', dur: '5 days', level: 'expert' as const, vendor: 'Cisco', color: '#1BA0D7', hot: false },
+  { name: 'Certified Ethical Hacker v13 AI (CEH)', code: 'CEH', dur: '5 days', level: 'expert' as const, vendor: 'EC-Council', color: '#E31E25', hot: true },
+  { name: 'CompTIA Security+ SY0-701', code: 'SY0-701', dur: '5 days', level: 'assoc' as const, vendor: 'CompTIA', color: '#C8002F', hot: true },
+  { name: 'CompTIA Network+ (N10-009)', code: 'N10-009', dur: '5 days', level: 'assoc' as const, vendor: 'CompTIA', color: '#C8002F', hot: false },
+  { name: 'Certified Information Systems Security Professional (CISSP)', code: 'CISSP', dur: '5 days', level: 'expert' as const, vendor: 'ISC2', color: '#2E4057', hot: true },
+  { name: 'Certified Cloud Security Professional (CCSP)', code: 'CCSP', dur: '4 days', level: 'expert' as const, vendor: 'ISC2', color: '#2E4057', hot: false },
+  { name: 'Project Management Professional (PMP®) Certification Training', code: 'PMP', dur: '4 days', level: 'expert' as const, vendor: 'PMI', color: '#00507F', hot: true },
+  { name: 'ITIL® 4 Foundation', code: 'ITIL-4', dur: '2 days', level: 'fund' as const, vendor: 'PeopleCert', color: '#6B2FA0', hot: true },
+  { name: 'Certified Information Security Manager (CISM)', code: 'CISM', dur: '5 days', level: 'expert' as const, vendor: 'ISACA', color: '#003366', hot: false },
+  { name: 'ISO/IEC 27001 Lead Implementer', code: 'ISO-27001', dur: '5 days', level: 'expert' as const, vendor: 'PECB', color: '#1A5276', hot: false },
+  { name: 'VMware vSphere: Install, Configure, Manage [V8]', code: 'VCP-DCV', dur: '5 days', level: 'assoc' as const, vendor: 'VMware', color: '#607078', hot: false },
+  { name: 'Red Hat System Administration I (RH124) – RHEL 9', code: 'RHCSA', dur: '5 days', level: 'assoc' as const, vendor: 'Red Hat', color: '#CC0000', hot: false },
+  { name: 'SAP S/4HANA Overview (S4H00)', code: 'S4H00', dur: '3 days', level: 'fund' as const, vendor: 'SAP', color: '#007DB8', hot: false },
+  { name: 'Oracle Database 19c: Administration Workshop', code: 'OCA', dur: '5 days', level: 'assoc' as const, vendor: 'Oracle', color: '#C74634', hot: false },
+  { name: 'AI-102T00: Designing and Implementing a Microsoft Azure AI Solution', code: 'AI-102', dur: '4 days', level: 'assoc' as const, vendor: 'Microsoft', color: '#0078D4', hot: false },
+  { name: 'Generative AI Specialty', code: 'GEN-AI', dur: '3 days', level: 'expert' as const, vendor: 'Koenig', color: '#0694D1', hot: true },
+]
+
 const ALL_OEMS = ['All OEMs', ...VENDORS.map(v => v.name).sort((a, b) => a.localeCompare(b))]
 const ALL_TECHNOLOGIES = ['All Technologies', ...['Cloud', 'Cybersecurity', 'Data & AI', 'Database', 'DevOps', 'ERP', 'Linux', 'Networking', 'Project Management'].sort((a, b) => a.localeCompare(b))]
 const DURATION_ITEMS = [
@@ -1205,6 +1233,32 @@ export default function CorporateITTrainingPage() {
 
         <style>{`
           .cit-stat:hover .cit-glow { opacity: 1 !important; }
+          .cit-cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+          .cit-cert-card { background: #fff; border: 1.5px solid rgba(6,148,209,0.12); border-radius: 14px; padding: 16px 16px 14px; cursor: pointer; transition: all 0.25s; display: flex; flex-direction: column; position: relative; overflow: visible; min-height: 250px; box-shadow: 0 2px 10px rgba(6,148,209,0.07); }
+          .cit-cert-card:hover { box-shadow: 0 8px 32px rgba(6,148,209,0.18), 0 2px 8px rgba(0,0,0,0.06); border-color: rgba(6,148,209,0.3); }
+          .cit-hot-badge { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: 4px; height: 20px; font-size: 9px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; padding: 0 10px 0 8px; border-radius: 0 14px 0 10px; background: linear-gradient(135deg,#0694D1,#22d3ee); color: #fff; box-shadow: -2px 2px 8px rgba(6,148,209,0.28); z-index: 2; }
+          .cit-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 9px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; padding: 3px 9px 3px 7px; border-radius: 20px; width: fit-content; line-height: 1; }
+          .cit-badge.fund { background: linear-gradient(135deg,#4DBFEF,#0694D1); color: #fff; box-shadow: 0 2px 8px rgba(6,148,209,0.25); }
+          .cit-badge.assoc { background: linear-gradient(135deg,#0694D1,#076D9D); color: #fff; box-shadow: 0 2px 8px rgba(6,108,157,0.3); }
+          .cit-badge.expert { background: linear-gradient(135deg,#076D9D,#062238); color: #fff; box-shadow: 0 2px 8px rgba(6,34,56,0.35); }
+          .cit-cert-name { font-size: 14px; font-weight: 800; color: #071e2e; line-height: 1.4; flex: 1; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: 59px; margin-top: 10px; margin-bottom: 0; }
+          .cit-code-row { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; margin-top: 8px; }
+          .cit-code { display: inline-block; font-size: 11px; font-family: 'SFMono-Regular','Consolas',monospace; color: #0694D1; background: rgba(6,148,209,0.1); border: 1px solid rgba(6,148,209,0.28); padding: 2px 7px; border-radius: 4px; font-weight: 700; letter-spacing: 0.4px; }
+          .cit-hours { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-family: 'SFMono-Regular','Consolas',monospace; color: #5a7a90; background: rgba(6,148,209,0.05); border: 1px solid rgba(6,148,209,0.14); padding: 2px 7px; border-radius: 4px; font-weight: 600; letter-spacing: 0.3px; }
+          .cit-cert-footer { display: flex; flex-direction: column; gap: 8px; margin-top: auto; border-top: 1px solid rgba(6,148,209,0.08); padding-top: 10px; }
+          .cit-price-row { display: flex; align-items: center; gap: 6px; }
+          .cit-enrolled { font-size: 10px; color: #5a7a90; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+          .cit-rating { display: flex; align-items: center; gap: 2px; font-size: 10px; font-weight: 700; color: #d97706; }
+          .cit-price { display: flex; align-items: baseline; gap: 1px; margin-left: auto; }
+          .cit-price-amount { font-size: 15px; font-weight: 700; color: #0694D1; letter-spacing: -0.3px; line-height: 1; }
+          .cit-price-curr { font-size: 10px; font-weight: 600; color: #0694D1; margin-right: 1px; opacity: 0.8; }
+          .cit-actions { display: flex; gap: 7px; }
+          .cit-btn-syllabus { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; background: transparent; color: #0694D1; border: 1.5px solid #0694D1; cursor: pointer; transition: background 0.18s; white-space: nowrap; font-family: inherit; }
+          .cit-btn-syllabus:hover { background: rgba(6,148,209,0.07); }
+          .cit-btn-view { flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px 8px; border-radius: 8px; font-size: 10.5px; font-weight: 700; background: linear-gradient(135deg,#093148 0%,#0d5280 100%); color: #fff; border: none; cursor: pointer; white-space: nowrap; font-family: inherit; text-decoration: none; box-shadow: 0 2px 8px rgba(9,49,72,0.3); transition: filter 0.22s; }
+          .cit-btn-view:hover { filter: brightness(1.25); }
+          @media (max-width: 1024px) { .cit-cert-grid { grid-template-columns: repeat(2,1fr); } }
+          @media (max-width: 640px) { .cit-cert-grid { grid-template-columns: 1fr; } }
         `}</style>
 
         <div className="relative mx-auto max-w-7xl py-[35px]">
@@ -1568,12 +1622,107 @@ export default function CorporateITTrainingPage() {
           <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} />
         </div>
 
-        {/* ── Vendor accordion list ── */}
-        <div className="mt-5 flex flex-col gap-3">
-          {sortedVendors.map(v => (
-            <VendorCard key={v.id} vendor={v} forceOpen={expandAll} searchQuery={activeSearch} />
-          ))}
-        </div>
+        {/* ── Popular Courses Grid ── */}
+        {(() => {
+          const q = search.toLowerCase()
+          const displayed = q
+            ? POPULAR_COURSES.filter(c =>
+                c.name.toLowerCase().includes(q) ||
+                c.code.toLowerCase().includes(q) ||
+                c.vendor.toLowerCase().includes(q)
+              )
+            : POPULAR_COURSES
+          const vendorCount = new Set(displayed.map(c => c.vendor)).size
+          return (
+            <div className="mt-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-base font-bold" style={{ color: '#0b2545' }}>Popular Courses</h3>
+                  <p className="text-xs mt-0.5" style={{ color: '#64748b' }}>{displayed.length} courses · {vendorCount} vendor{vendorCount !== 1 ? 's' : ''}</p>
+                </div>
+              </div>
+              {displayed.length === 0 ? (
+                <div className="text-center py-16">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 12, display: 'inline-block', opacity: 0.25, color: '#94a3b8' }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                  <p className="font-semibold text-sm" style={{ color: '#64748b' }}>No courses found</p>
+                  <button className="mt-3 text-xs font-semibold" style={{ color: '#0694D1' }} onClick={() => setSearch('')}>Clear search</button>
+                </div>
+              ) : (
+                <div className="cit-cert-grid">
+                  {displayed.map((c, i) => {
+                    const enrolled = stableNum(c.name, 1100, 5200).toLocaleString()
+                    const rating = (4.5 + stableNum(c.name + 'r', 0, 6) * 0.1).toFixed(1)
+                    const days = parseInt(c.dur) || 1
+                    return (
+                      <div key={i} className="cit-cert-card">
+                        {c.hot && (
+                          <span className="cit-hot-badge">
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z"/></svg>
+                            Popular
+                          </span>
+                        )}
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 6 }}>
+                          <span className={`cit-badge ${c.level}`}>
+                            {c.level === 'fund' ? (
+                              <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>Fundamentals</>
+                            ) : c.level === 'assoc' ? (
+                              <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Associate</>
+                            ) : (
+                              <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7l4 9h12l4-9-6 4-4-6-4 6z"/></svg>Expert</>
+                            )}
+                          </span>
+                          <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: `${c.color}14`, color: c.color }}>{c.vendor}</span>
+                        </div>
+                        <div className="cit-cert-name">{c.name.replace(/exam prep:\s*/gi, '').trim()}</div>
+                        <div className="cit-code-row">
+                          <span className="cit-code">{c.code}</span>
+                          <span className="cit-hours">
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            {c.dur} · {days * 8}hrs
+                          </span>
+                        </div>
+                        <div className="cit-cert-footer">
+                          <div className="cit-price-row">
+                            <span className="cit-enrolled">
+                              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                              {enrolled}
+                            </span>
+                            <span className="cit-rating">
+                              <span>★</span>{rating}
+                            </span>
+                            <span className="cit-price">
+                              <span className="cit-price-curr">₹</span>
+                              <span className="cit-price-amount">33,000</span>
+                            </span>
+                          </div>
+                          <div className="cit-actions">
+                            <button className="cit-btn-syllabus">
+                              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                              Download Syllabus
+                            </button>
+                            <a className="cit-btn-view" href="https://www.koenig-solutions.com/" target="_blank" rel="noopener noreferrer">
+                              View Course
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+              {!search && (
+                <div className="mt-8 text-center">
+                  <a href="https://www.koenig-solutions.com" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold text-white hover:opacity-90 transition-opacity"
+                    style={{ background: '#0694D1', boxShadow: '0 4px 14px rgba(6,148,209,0.3)' }}>
+                    Browse All 5,000+ Courses
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </a>
+                </div>
+              )}
+            </div>
+          )
+        })()}
       </section>
 
       {/* ── BOTTOM CTA ───────────────────────────────────────── */}
