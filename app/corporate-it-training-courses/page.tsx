@@ -933,6 +933,46 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
   )
 }
 
+/* ─── Pill dropdown (sort / currency) ───────────────────── */
+function PillDropdown({ label, value, options, onChange }: { label?: string; value: string; options: string[]; onChange: (v: string) => void }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+  return (
+    <div ref={ref} className="relative flex-shrink-0">
+      <button onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-medium"
+        style={{ border: '1.5px solid #D0E8F5', background: '#fff', color: '#374151', whiteSpace: 'nowrap' }}>
+        {label ? <span style={{ color: '#64748b' }}>{label}</span> : null}
+        <span style={{ fontWeight: 600, color: '#0b2545' }}>{value}</span>
+        <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8"
+          style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+          <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute z-50 mt-1 rounded-xl overflow-hidden"
+          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '170px', top: '100%', right: 0 }}>
+          {options.map(opt => (
+            <button key={opt} onClick={() => { onChange(opt); setOpen(false) }}
+              className="w-full text-left px-4 py-2.5 text-sm"
+              style={{ background: value === opt ? '#EDF7FF' : 'transparent', color: value === opt ? '#0694D1' : '#374151', fontWeight: value === opt ? 600 : 400 }}
+              onMouseEnter={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
+              onMouseLeave={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
+            >{opt}</button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ─── Chevron ───────────────────────────────────────────── */
 function ChevronIcon({ open }: { open: boolean }) {
   return (
@@ -1039,6 +1079,8 @@ export default function CorporateITTrainingPage() {
   const [classroomCity, setClassroomCity] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
+  const [sortBy, setSortBy] = useState('Popularity')
+  const [currency, setCurrency] = useState('INR')
 
   function toggleMode(m: string) {
     if (m === 'Only Classroom' && modes.includes('Only Classroom')) setClassroomCity('')
@@ -1060,6 +1102,14 @@ export default function CorporateITTrainingPage() {
   }, [activeSearch])
 
   const totalCourses = VENDORS.reduce((s, v) => s + v.courses, 0)
+
+  const sortedVendors = useMemo(() => {
+    const arr = [...VENDORS]
+    if (sortBy === 'Shortest Duration') return arr.sort((a, b) => a.courses - b.courses)
+    if (sortBy === 'Longest Duration') return arr.sort((a, b) => b.courses - a.courses)
+    if (sortBy === 'Lowest Fees') return arr.sort((a, b) => a.name.localeCompare(b.name))
+    return arr
+  }, [sortBy])
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif", background: '#f5f9fc', minHeight: '100vh' }}>
@@ -1437,15 +1487,17 @@ export default function CorporateITTrainingPage() {
               <button onClick={() => setSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-base leading-none">✕</button>
             )}
           </div>
-          <div className="text-sm font-medium px-4 py-3 rounded-xl flex-shrink-0" style={{ background: '#fff', color: '#5a7a99', border: '1.5px solid #D0E8F5' }}>
+          <div className="text-sm font-medium px-4 py-2.5 rounded-xl flex-shrink-0" style={{ background: '#fff', color: '#5a7a99', border: '1.5px solid #D0E8F5', whiteSpace: 'nowrap' }}>
             {search || oem !== 'All OEMs' ? `${visibleCount} vendor${visibleCount !== 1 ? 's' : ''} found` : `${VENDORS.length} vendors · ${totalCourses.toLocaleString()}+ courses`}
           </div>
+          <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Lowest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} />
+          <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} />
           {!search && (
             <>
-              <button onClick={() => setExpandAll(true)} className="text-sm font-semibold px-4 py-3 rounded-xl text-white flex-shrink-0" style={{ background: '#0694D1' }}>
+              <button onClick={() => setExpandAll(true)} className="text-sm font-semibold px-4 py-2.5 rounded-xl text-white flex-shrink-0" style={{ background: '#0694D1' }}>
                 Expand All
               </button>
-              <button onClick={() => setExpandAll(false)} className="text-sm font-semibold px-4 py-3 rounded-xl flex-shrink-0" style={{ background: '#fff', color: '#0694D1', border: '1.5px solid #D0E8F5' }}>
+              <button onClick={() => setExpandAll(false)} className="text-sm font-semibold px-4 py-2.5 rounded-xl flex-shrink-0" style={{ background: '#fff', color: '#0694D1', border: '1.5px solid #D0E8F5' }}>
                 Collapse All
               </button>
             </>
@@ -1454,7 +1506,7 @@ export default function CorporateITTrainingPage() {
 
         {/* ── Vendor accordion list ── */}
         <div className="mt-5 flex flex-col gap-3">
-          {VENDORS.map(v => (
+          {sortedVendors.map(v => (
             <VendorCard key={v.id} vendor={v} forceOpen={expandAll} searchQuery={activeSearch} />
           ))}
         </div>
