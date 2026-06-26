@@ -358,7 +358,14 @@ const VENDORS = [
 
 const ALL_OEMS = ['All OEMs', ...VENDORS.map(v => v.name).sort((a, b) => a.localeCompare(b))]
 const ALL_TECHNOLOGIES = ['All Technologies', ...['Cloud', 'Cybersecurity', 'Data & AI', 'Database', 'DevOps', 'ERP', 'Linux', 'Networking', 'Project Management'].sort((a, b) => a.localeCompare(b))]
-const DURATION_OPTIONS = ['Duration (Days)', '1 day', '2–3 days', '4–5 days', '6–10 days', '10+ days']
+const DURATION_ITEMS = [
+  { label: '4 hrs',  days: '½ day'  },
+  { label: '8 hrs',  days: '1 day'  },
+  { label: '16 hrs', days: '2 days' },
+  { label: '24 hrs', days: '3 days' },
+  { label: '32 hrs', days: '4 days' },
+  { label: 'More',   days: '5+ days'},
+]
 const TRAINING_MODES = ['Only GTR', 'Only Live Online', 'Only Classroom', 'Self-Paced']
 
 /* ─── Dropdown component ────────────────────────────────── */
@@ -488,6 +495,74 @@ function InlineSelect({ value, options, onChange, placeholder, searchable }: { v
               ))
             )}
           </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ─── Duration multi-select checkbox dropdown ───────────── */
+function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: string[]) => void }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+  const toggle = (label: string) => {
+    onChange(values.includes(label) ? values.filter(v => v !== label) : [...values, label])
+  }
+  const label = values.length === 0 ? 'Any length' : values.length === 1 ? values[0] : `${values.length} selected`
+  const hasValue = values.length > 0
+  return (
+    <div ref={ref} className="relative">
+      <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
+        <span className="flex-1 truncate" style={{ color: hasValue ? '#0b2545' : '#94a3b8', fontWeight: hasValue ? 500 : 400 }}>{label}</span>
+        <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8"
+          style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
+          <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
+          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '210px', top: '100%', left: 0 }}>
+          <div className="px-3 py-2" style={{ borderBottom: '1px solid #EEF3F9' }}>
+            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#076D9D' }}>Duration</p>
+          </div>
+          <div className="py-1">
+            {DURATION_ITEMS.map(({ label: lbl, days }) => {
+              const checked = values.includes(lbl)
+              return (
+                <button key={lbl} onClick={() => toggle(lbl)}
+                  className="w-full flex items-center justify-between px-4 py-2.5 transition-colors"
+                  style={{ background: checked ? '#EDF7FF' : 'transparent' }}
+                  onMouseEnter={e => { if (!checked) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
+                  onMouseLeave={e => { if (!checked) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center justify-center rounded flex-shrink-0"
+                      style={{ width: 16, height: 16, border: `2px solid ${checked ? '#076D9D' : '#CBD5E1'}`, background: checked ? '#076D9D' : '#fff' }}>
+                      {checked && (
+                        <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                          <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </div>
+                    <span className="text-sm" style={{ color: checked ? '#076D9D' : '#374151', fontWeight: checked ? 600 : 400 }}>{lbl}</span>
+                  </div>
+                  <span className="text-xs" style={{ color: '#94a3b8' }}>{days}</span>
+                </button>
+              )
+            })}
+          </div>
+          {hasValue && (
+            <div className="px-4 py-2" style={{ borderTop: '1px solid #EEF3F9' }}>
+              <button onClick={() => onChange([])} className="text-xs font-semibold" style={{ color: '#076D9D' }}>Clear</button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -833,7 +908,7 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
 export default function CorporateITTrainingPage() {
   const [search, setSearch] = useState('')
   const [expandAll, setExpandAll] = useState(false)
-  const [duration, setDuration] = useState('Duration (Days)')
+  const [durations, setDurations] = useState<string[]>([])
   const [oem, setOem] = useState('All OEMs')
   const [technology, setTechnology] = useState('All Technologies')
   const [budget, setBudget] = useState('')
@@ -1036,7 +1111,7 @@ export default function CorporateITTrainingPage() {
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Duration</span>
                     </div>
-                    <InlineSelect value={duration} options={DURATION_OPTIONS} onChange={setDuration} placeholder="Any length" />
+                    <DurationSelect values={durations} onChange={setDurations} />
                   </div>
 
                   {/* Price Range */}
@@ -1060,7 +1135,7 @@ export default function CorporateITTrainingPage() {
               </div>
               <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Your Selection</span>
             </div>
-            {!(startDate || endDate || duration !== 'Duration (Days)' || oem !== 'All OEMs' || technology !== 'All Technologies' || budget || modes.length > 0) ? (
+            {!(startDate || endDate || durations.length > 0 || oem !== 'All OEMs' || technology !== 'All Technologies' || budget || modes.length > 0) ? (
               <p className="text-sm" style={{ color: '#c8d6e5', fontFamily: "'Courier New', monospace" }}>nothing selected yet</p>
             ) : (
               <div className="flex flex-wrap gap-2">
@@ -1082,12 +1157,12 @@ export default function CorporateITTrainingPage() {
                     <button onClick={() => setTechnology('All Technologies')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 )}
-                {duration !== 'Duration (Days)' && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
-                    {duration}
-                    <button onClick={() => setDuration('Duration (Days)')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
+                {durations.map(d => (
+                  <span key={d} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
+                    {d}
+                    <button onClick={() => setDurations(durations.filter(x => x !== d))} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
-                )}
+                ))}
                 {budget && (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
                     Budget: ${budget}
@@ -1158,7 +1233,7 @@ export default function CorporateITTrainingPage() {
             </div>
             <div className="flex items-center gap-3">
               <button
-                onClick={() => { setDuration('Duration (Days)'); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setStartDate(''); setEndDate('') }}
+                onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setStartDate(''); setEndDate('') }}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors"
                 style={{ border: '1.5px solid #E2EBF6', color: '#64748b', background: '#fff' }}
                 onMouseEnter={e => (e.currentTarget.style.background = '#F8FAFC')}
