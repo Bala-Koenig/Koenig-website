@@ -1041,8 +1041,12 @@ export default function CorporateITTrainingPage() {
   const [endDate, setEndDate] = useState('')
 
   function toggleMode(m: string) {
-    setModes(prev => prev.includes(m) ? prev.filter(x => x !== m) : [...prev, m])
     if (m === 'Only Classroom' && modes.includes('Only Classroom')) setClassroomCity('')
+    setModes(prev => {
+      if (m === 'Self-Paced') return prev.includes(m) ? [] : ['Self-Paced']
+      const withoutSP = prev.filter(x => x !== 'Self-Paced')
+      return withoutSP.includes(m) ? withoutSP.filter(x => x !== m) : [...withoutSP, m]
+    })
   }
 
   const activeSearch = search || (oem !== 'All OEMs' ? oem : '')
@@ -1325,27 +1329,40 @@ export default function CorporateITTrainingPage() {
             </div>
             <div className={`grid grid-cols-2 gap-3 ${modes.includes('Only Classroom') ? 'sm:grid-cols-5' : 'sm:grid-cols-4'}`}>
               {[
-                { key: 'Only GTR', icon: <><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>, label: 'Guaranteed', sub: 'Confirmed dates', badge: 'GTR' },
+                { key: 'Only GTR', icon: <><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>, label: 'Guaranteed to Run', sub: 'Confirmed dates', badge: 'GTR' },
                 { key: 'Only Live Online', icon: <><rect x="2" y="2" width="20" height="15" rx="2"/><polyline points="8 21 12 17 16 21"/></>, label: 'Online', sub: 'Live virtual' },
                 { key: 'Only Classroom', icon: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>, label: 'Classroom', sub: 'In person' },
                 { key: 'Self-Paced', icon: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>, label: 'Self-Paced', sub: 'Flexi anytime' },
               ].reduce<React.ReactNode[]>((acc, { key, icon, label, sub, badge }) => {
                 const active = modes.includes(key)
+                const isSelfPaced = key === 'Self-Paced'
+                const selfPacedOn = modes.includes('Self-Paced')
+                const othersOn = modes.some(m => m !== 'Self-Paced')
+                const disabled = isSelfPaced ? othersOn : selfPacedOn
                 acc.push(
-                  <button key={key} onClick={() => toggleMode(key)}
+                  <button key={key} onClick={() => !disabled && toggleMode(key)}
                     className="relative flex flex-col p-5 rounded-2xl text-left transition-all duration-200 select-none"
                     style={{
                       border: `1.5px solid ${active ? '#0694D1' : '#E2EBF6'}`,
                       background: '#fff',
                       boxShadow: active ? '0 4px 18px rgba(6,148,209,0.22)' : '0 4px 14px rgba(0,0,0,0.07)',
+                      opacity: disabled ? 0.42 : 1,
+                      cursor: disabled ? 'not-allowed' : 'pointer',
+                      transition: 'border-color 0.2s, box-shadow 0.2s, opacity 0.2s',
                     }}
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: active ? '#0694D1' : '#EEF4FA' }}>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={active ? '#fff' : '#476D8D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
                       </div>
-                      <div className="w-10 h-5 rounded-full relative flex-shrink-0" style={{ background: active ? '#0694D1' : '#E2EBF6', transition: 'background 0.2s' }}>
-                        <div className="absolute top-0.5 w-4 h-4 rounded-full bg-white" style={{ transform: active ? 'translateX(20px)' : 'translateX(2px)', transition: 'transform 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
+                      {/* Checkbox */}
+                      <div className="flex items-center justify-center flex-shrink-0"
+                        style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${active ? '#0694D1' : '#CBD5E1'}`, background: active ? '#0694D1' : '#fff', transition: 'background 0.15s, border-color 0.15s' }}>
+                        {active && (
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                            <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
                       </div>
                     </div>
                     {badge && <span className="absolute top-4 left-16 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: '#d1fae5', color: '#065f46' }}>{badge}</span>}
