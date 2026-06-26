@@ -1374,7 +1374,7 @@ export default function CorporateITTrainingPage() {
         </div>
 
         {/* ── Filter section ── */}
-        <div className="rounded-3xl p-6" style={{ background: '#ECEEF2', border: '1.5px solid #D6D9DF', boxShadow: '0 4px 32px rgba(0,0,0,0.06)' }}>
+        <div className="rounded-3xl p-6" style={{ background: '#ECEEF2', border: '2px solid #0694D1', boxShadow: '0 4px 24px rgba(6,148,209,0.12)' }}>
 
           {/* Row 1: 5 individual filter cards */}
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
