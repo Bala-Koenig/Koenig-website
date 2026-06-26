@@ -1197,14 +1197,19 @@ export default function CorporateITTrainingPage() {
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
 
             {(() => {
-              const cardStyle = { background: '#fff', border: '1.5px solid #E2EBF6', boxShadow: '0 4px 18px rgba(0,0,0,0.08)' }
+              const card = (active: boolean) => ({
+                background: active ? '#EFF8FF' : '#fff',
+                border: `1.5px solid ${active ? '#0694D1' : '#E2EBF6'}`,
+                boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : '0 4px 18px rgba(0,0,0,0.08)',
+                transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s',
+              })
               const iconBox = (svg: React.ReactNode) => (
                 <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>{svg}</div>
               )
               return (
                 <>
                   {/* Date Range */}
-                  <div className="col-span-2 lg:col-span-1 rounded-2xl p-4" style={cardStyle}>
+                  <div className="col-span-2 lg:col-span-1 rounded-2xl p-4" style={card(!!(startDate || endDate))}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Date Range</span>
@@ -1213,7 +1218,7 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Partner */}
-                  <div className="rounded-2xl p-4" style={cardStyle}>
+                  <div className="rounded-2xl p-4" style={card(oem !== 'All OEMs')}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Partner</span>
@@ -1222,7 +1227,7 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Technology */}
-                  <div className="rounded-2xl p-4" style={cardStyle}>
+                  <div className="rounded-2xl p-4" style={card(technology !== 'All Technologies')}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Technology</span>
@@ -1231,7 +1236,7 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Duration */}
-                  <div className="rounded-2xl p-4" style={cardStyle}>
+                  <div className="rounded-2xl p-4" style={card(durations.length > 0)}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Duration</span>
@@ -1240,7 +1245,7 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Price Range */}
-                  <div className="rounded-2xl p-4" style={cardStyle}>
+                  <div className="rounded-2xl p-4" style={card(!!budget)}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Price Range</span>
@@ -1318,15 +1323,15 @@ export default function CorporateITTrainingPage() {
               </div>
               <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>How You Want To Learn</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className={`grid grid-cols-2 gap-3 ${modes.includes('Only Classroom') ? 'sm:grid-cols-5' : 'sm:grid-cols-4'}`}>
               {[
                 { key: 'Only GTR', icon: <><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>, label: 'Guaranteed', sub: 'Confirmed dates', badge: 'GTR' },
                 { key: 'Only Live Online', icon: <><rect x="2" y="2" width="20" height="15" rx="2"/><polyline points="8 21 12 17 16 21"/></>, label: 'Online', sub: 'Live virtual' },
                 { key: 'Only Classroom', icon: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>, label: 'Classroom', sub: 'In person' },
                 { key: 'Self-Paced', icon: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>, label: 'Self-Paced', sub: 'Flexi anytime' },
-              ].map(({ key, icon, label, sub, badge }) => {
+              ].reduce<React.ReactNode[]>((acc, { key, icon, label, sub, badge }) => {
                 const active = modes.includes(key)
-                return (
+                acc.push(
                   <button key={key} onClick={() => toggleMode(key)}
                     className="relative flex flex-col p-5 rounded-2xl text-left transition-all duration-200 select-none"
                     style={{
@@ -1335,38 +1340,42 @@ export default function CorporateITTrainingPage() {
                       boxShadow: active ? '0 4px 18px rgba(6,148,209,0.22)' : '0 4px 14px rgba(0,0,0,0.07)',
                     }}
                   >
-                    {/* Icon + toggle row */}
                     <div className="flex items-start justify-between mb-4">
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: active ? '#0694D1' : '#EEF4FA' }}>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={active ? '#fff' : '#476D8D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
                       </div>
-                      {/* Toggle switch */}
                       <div className="w-10 h-5 rounded-full relative flex-shrink-0" style={{ background: active ? '#0694D1' : '#E2EBF6', transition: 'background 0.2s' }}>
                         <div className="absolute top-0.5 w-4 h-4 rounded-full bg-white" style={{ transform: active ? 'translateX(20px)' : 'translateX(2px)', transition: 'transform 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
                       </div>
                     </div>
-                    {/* GTR badge */}
                     {badge && <span className="absolute top-4 left-16 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: '#d1fae5', color: '#065f46' }}>{badge}</span>}
-                    {/* Label */}
                     <p className="text-sm font-bold mb-0.5" style={{ color: active ? '#0b2545' : '#374151' }}>{label}</p>
                     <p className="text-xs" style={{ color: '#94a3b8' }}>{sub}</p>
                   </button>
                 )
-              })}
+                {/* City card — injected right after Classroom card */ }
+                if (key === 'Only Classroom' && modes.includes('Only Classroom')) {
+                  acc.push(
+                    <div key="city-card" className="flex flex-col p-4 rounded-2xl"
+                      style={{
+                        border: `1.5px solid ${classroomCity ? '#0694D1' : '#E2EBF6'}`,
+                        background: classroomCity ? '#EFF8FF' : '#FAFCFF',
+                        boxShadow: classroomCity ? '0 4px 18px rgba(6,148,209,0.18)' : '0 4px 14px rgba(0,0,0,0.07)',
+                        transition: 'border-color 0.2s, background 0.2s',
+                      }}>
+                      <div className="flex items-center gap-2 mb-3">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <span className="text-xs font-bold uppercase tracking-wide" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>City</span>
+                      </div>
+                      <CitySelect value={classroomCity} onChange={setClassroomCity} />
+                    </div>
+                  )
+                }
+                return acc
+              }, [])}
             </div>
-
-            {/* City selector — shown when Classroom is active */}
-            {modes.includes('Only Classroom') && (
-              <div className="mt-3 flex items-center gap-3 px-1">
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                  </svg>
-                  <span className="text-xs font-bold uppercase tracking-wide" style={{ color: '#64748b' }}>City</span>
-                </div>
-                <CitySelect value={classroomCity} onChange={setClassroomCity} />
-              </div>
-            )}
           </div>
 
           {/* Bottom bar */}
