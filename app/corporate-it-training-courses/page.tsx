@@ -626,7 +626,7 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
         <span className="flex-1 truncate" style={{ color: hasValue ? '#0b2545' : '#94a3b8', fontWeight: hasValue ? 700 : 400 }}>{label}</span>
-        <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8"
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
           style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
           <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
         </svg>
@@ -711,7 +711,7 @@ function BudgetSelect({ value, onChange }: { value: string; onChange: (v: string
         <span className="flex-1 truncate" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 700 : 400 }}>
           {value || 'Select Range'}
         </span>
-        <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8"
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
           style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
           <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
         </svg>
@@ -902,7 +902,7 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
     <div ref={ref} className="relative">
       <button onClick={handleOpen} className="flex items-center gap-1 text-sm w-full text-left">
         <span className="flex-1 truncate" style={{ color: hasValue ? '#0b2545' : '#94a3b8', fontWeight: hasValue ? 700 : 400 }}>{label}</span>
-        <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8"
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
           style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
           <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
         </svg>
