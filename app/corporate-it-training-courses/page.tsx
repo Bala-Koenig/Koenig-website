@@ -588,25 +588,31 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
     const inRange = !!(a && b && iso > a && iso < b)
     const isEndpoint = isStart || isEnd || (picking === 'end' && hoverDate && iso === hoverDate)
 
-    if (!inMonth) return <div key={iso} className="py-1.5" />
+    if (!inMonth) return <div key={iso} style={{ height: 36 }} />
     return (
-      <button key={iso} disabled={isPast}
-        onClick={() => !isPast && handleDayClick(iso)}
-        onMouseEnter={() => picking === 'end' && startDate && setHoverDate(iso)}
-        onMouseLeave={() => setHoverDate('')}
-        className={`py-1.5 w-full text-center text-xs font-semibold rounded-full transition-colors select-none
-          ${isPast ? 'text-slate-300 cursor-not-allowed' : ''}
-          ${!isPast && !isEndpoint && !inRange ? 'hover:bg-[#EDF7FF] cursor-pointer' : ''}
-        `}
-        style={{
-          background: isEndpoint ? '#076D9D' : inRange ? '#DAEEF9' : undefined,
-          color: isPast ? '#CBD5E1' : isEndpoint ? '#fff' : inRange ? '#0b2545' : isToday ? '#076D9D' : '#374151',
-          fontWeight: isEndpoint || isToday ? 700 : 500,
-          boxShadow: isToday && !isEndpoint ? 'inset 0 0 0 2px rgba(7,109,157,0.35)' : undefined,
-        }}
-      >
-        {d.getDate()}
-      </button>
+      <div key={iso} className="flex items-center justify-center"
+        style={{ height: 36, background: inRange ? '#EBF5FB' : undefined }}>
+        <button
+          onClick={() => !isPast && handleDayClick(iso)}
+          onMouseEnter={() => picking === 'end' && startDate && setHoverDate(iso)}
+          onMouseLeave={() => setHoverDate('')}
+          className={`flex items-center justify-center rounded-full select-none transition-colors
+            ${!isPast && !isEndpoint ? 'hover:bg-[#EDF7FF]' : ''}
+          `}
+          style={{
+            width: 34, height: 34,
+            background: isEndpoint ? '#076D9D' : undefined,
+            color: isPast ? '#b0bec5' : isEndpoint ? '#fff' : isToday ? '#076D9D' : '#1a2e44',
+            fontWeight: isEndpoint || isToday ? 700 : 400,
+            fontSize: 14,
+            cursor: isPast ? 'default' : 'pointer',
+            outline: isToday && !isEndpoint ? '2px solid #076D9D' : undefined,
+            outlineOffset: '-1px',
+          }}
+        >
+          {d.getDate()}
+        </button>
+      </div>
     )
   }
 
@@ -614,6 +620,21 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
   const month2Days = getCalDays(year2, month2)
   const lbl1 = new Date(calYear, calMonth, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
   const lbl2 = new Date(year2, month2, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+
+  const NavArrow = ({ dir }: { dir: 'left' | 'right' }) => (
+    <button
+      onClick={dir === 'left' ? prevMonth : nextMonth}
+      className="flex items-center justify-center rounded-full transition-colors hover:bg-slate-100"
+      style={{ width: 28, height: 28, flexShrink: 0, color: '#076D9D' }}
+    >
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+        {dir === 'left'
+          ? <path fillRule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0z" clipRule="evenodd" />
+          : <path fillRule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
+        }
+      </svg>
+    </button>
+  )
 
   return (
     <div ref={ref} className="relative">
@@ -625,72 +646,53 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
         </svg>
       </button>
       {open && (
-        <div className="absolute z-50 mt-2 rounded-2xl overflow-hidden"
-          style={{ background: '#fff', border: '1.5px solid #E2EBF6', boxShadow: '0 8px 32px rgba(7,109,157,0.15)', top: '100%', left: 0, minWidth: '540px' }}>
-          {/* From / To header */}
-          <div className="flex items-center justify-between px-5 py-3" style={{ borderBottom: '1.5px solid #EEF3F9' }}>
-            <div className="flex items-center gap-5">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: '#076D9D' }}>From</p>
-                <p className="text-sm font-bold" style={{ color: startDate ? '#0b2545' : '#94a3b8' }}>{fmt(startDate) || '—'}</p>
-              </div>
-              <svg width="20" height="2" viewBox="0 0 20 2"><rect width="20" height="2" rx="1" fill="#E2EBF6" /></svg>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: '#076D9D' }}>To</p>
-                <p className="text-sm font-bold" style={{ color: endDate ? '#0b2545' : '#94a3b8' }}>{fmt(endDate) || '—'}</p>
-              </div>
-            </div>
-            {hasValue && (
-              <button onClick={() => { onChange('', ''); setPicking('start') }}
-                className="text-xs font-semibold px-3 py-1.5 rounded-lg"
-                style={{ color: '#CC0000', background: '#FFF5F5', border: '1px solid #FFCDD2' }}>
-                Clear
-              </button>
-            )}
-          </div>
-          {/* Two months */}
-          <div className="flex">
+        <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
+          style={{ background: '#fff', border: '1px solid #E2EBF6', boxShadow: '0 4px 24px rgba(7,109,157,0.13)', top: '100%', left: 0, minWidth: '560px' }}>
+          <div className="grid grid-cols-2 divide-x divide-[#E2EBF6]">
             {/* Month 1 */}
-            <div className="flex-1 p-4" style={{ borderRight: '1px solid #EEF3F9' }}>
-              <div className="flex items-center justify-between mb-2">
-                <button onClick={prevMonth} className="p-1 rounded-lg hover:bg-slate-100 transition-colors">
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="#076D9D">
-                    <path fillRule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                <span className="text-xs font-bold" style={{ color: '#0b2545' }}>{lbl1}</span>
-                <div className="w-6" />
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <NavArrow dir="left" />
+                <span className="font-bold text-sm" style={{ color: '#0b2545' }}>{lbl1}</span>
+                <span className="w-6" />
               </div>
-              <div className="grid grid-cols-7">
-                {DAY_LABELS.map(l => <div key={l} className="text-center text-[10px] font-bold py-1" style={{ color: '#94a3b8' }}>{l}</div>)}
+              <div className="grid grid-cols-7 mb-1">
+                {DAY_LABELS.map((l, i) => (
+                  <div key={l} className="flex items-center justify-center text-[11px] font-bold py-1"
+                    style={{ color: i === 0 || i === 6 ? '#78909C' : '#90a4ae' }}>{l}</div>
+                ))}
               </div>
               <div className="grid grid-cols-7">
                 {month1Days.map(d => renderDay(d, calMonth))}
               </div>
             </div>
             {/* Month 2 */}
-            <div className="flex-1 p-4">
-              <div className="flex items-center justify-between mb-2">
-                <div className="w-6" />
-                <span className="text-xs font-bold" style={{ color: '#0b2545' }}>{lbl2}</span>
-                <button onClick={nextMonth} className="p-1 rounded-lg hover:bg-slate-100 transition-colors">
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="#076D9D">
-                    <path fillRule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
-                  </svg>
-                </button>
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="w-6" />
+                <span className="font-bold text-sm" style={{ color: '#0b2545' }}>{lbl2}</span>
+                <NavArrow dir="right" />
               </div>
-              <div className="grid grid-cols-7">
-                {DAY_LABELS.map(l => <div key={l} className="text-center text-[10px] font-bold py-1" style={{ color: '#94a3b8' }}>{l}</div>)}
+              <div className="grid grid-cols-7 mb-1">
+                {DAY_LABELS.map((l, i) => (
+                  <div key={l} className="flex items-center justify-center text-[11px] font-bold py-1"
+                    style={{ color: i === 0 || i === 6 ? '#78909C' : '#90a4ae' }}>{l}</div>
+                ))}
               </div>
               <div className="grid grid-cols-7">
                 {month2Days.map(d => renderDay(d, month2))}
               </div>
             </div>
           </div>
-          {/* Hint */}
-          <div className="px-5 py-2.5 text-xs" style={{ borderTop: '1px solid #EEF3F9', color: '#94a3b8' }}>
-            {picking === 'start' ? '► Click a start date' : '► Now click an end date'}
-          </div>
+          {hasValue && (
+            <div className="flex justify-end px-4 py-2" style={{ borderTop: '1px solid #EEF3F9' }}>
+              <button onClick={() => { onChange('', ''); setPicking('start') }}
+                className="text-xs font-semibold"
+                style={{ color: '#076D9D' }}>
+                Clear dates
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
