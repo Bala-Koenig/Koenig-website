@@ -1356,190 +1356,135 @@ function FilterDrawer({
   budget: string; setBudget: (v: string) => void;
   onClearAll: () => void;
 }) {
-  const [tab, setTab] = useState('Partner')
-  const [accordionOpen, setAccordionOpen] = useState<string | null>(null)
-
-  const TABS = ['Date Range', 'Partner', 'Technology', 'Duration', 'Price Range']
-
   const toggleDuration = (lbl: string) =>
     setDurations(durations.includes(lbl) ? durations.filter(x => x !== lbl) : [...durations, lbl])
 
   const activeCount = [
-    !!(startDate || endDate),
-    oem !== 'All OEMs',
-    technology !== 'All Technologies',
-    durations.length > 0,
-    !!budget,
+    !!(startDate || endDate), oem !== 'All OEMs',
+    technology !== 'All Technologies', durations.length > 0, !!budget,
   ].filter(Boolean).length
 
-  function renderContent(id: string) {
-    if (id === 'Date Range') {
-      return (
-        <div className="p-4">
-          <DateRangeSelect startDate={startDate} endDate={endDate} onChange={onDateChange} />
-        </div>
-      )
-    }
-    if (id === 'Partner') {
-      return (
-        <div className="py-2">
-          {ALL_OEMS.filter(o => o !== 'All OEMs').map(o => (
-            <button key={o} onClick={() => setOem(oem === o ? 'All OEMs' : o)}
-              className="w-full flex items-center justify-between px-5 py-3 text-sm transition-colors"
-              style={{ background: oem === o ? '#EDF7FF' : 'transparent' }}>
-              <span style={{ color: oem === o ? '#0694D1' : '#374151', fontWeight: oem === o ? 700 : 400 }}>{o}</span>
-              <div className="flex items-center justify-center rounded-full flex-shrink-0"
-                style={{ width: 16, height: 16, border: `2px solid ${oem === o ? '#0694D1' : '#CBD5E1'}`, background: oem === o ? '#0694D1' : '#fff' }}>
-                {oem === o && <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-              </div>
-            </button>
-          ))}
-        </div>
-      )
-    }
-    if (id === 'Technology') {
-      return (
-        <div className="py-2">
-          {ALL_TECHNOLOGIES.filter(t => t !== 'All Technologies').map(t => (
-            <button key={t} onClick={() => setTechnology(technology === t ? 'All Technologies' : t)}
-              className="w-full flex items-center justify-between px-5 py-3 text-sm transition-colors"
-              style={{ background: technology === t ? '#EDF7FF' : 'transparent' }}>
-              <span style={{ color: technology === t ? '#0694D1' : '#374151', fontWeight: technology === t ? 700 : 400 }}>{t}</span>
-              <div className="flex items-center justify-center rounded-full flex-shrink-0"
-                style={{ width: 16, height: 16, border: `2px solid ${technology === t ? '#0694D1' : '#CBD5E1'}`, background: technology === t ? '#0694D1' : '#fff' }}>
-                {technology === t && <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-              </div>
-            </button>
-          ))}
-        </div>
-      )
-    }
-    if (id === 'Duration') {
-      return (
-        <div className="py-2">
-          {DURATION_ITEMS.map(({ label: lbl, days }) => {
-            const checked = durations.includes(lbl)
-            return (
-              <button key={lbl} onClick={() => toggleDuration(lbl)}
-                className="w-full flex items-center justify-between px-5 py-3 text-sm transition-colors"
-                style={{ background: checked ? '#EDF7FF' : 'transparent' }}>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center rounded flex-shrink-0"
-                    style={{ width: 16, height: 16, border: `2px solid ${checked ? '#0694D1' : '#CBD5E1'}`, background: checked ? '#0694D1' : '#fff', borderRadius: 4 }}>
-                    {checked && <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                  </div>
-                  <span style={{ color: checked ? '#0694D1' : '#374151', fontWeight: checked ? 700 : 400 }}>{lbl}</span>
-                </div>
-                <span className="text-xs" style={{ color: '#94a3b8' }}>{days}</span>
-              </button>
-            )
-          })}
-        </div>
-      )
-    }
-    if (id === 'Price Range') {
-      return (
-        <div className="py-2">
-          {PRICE_RANGES.map(r => (
-            <button key={r} onClick={() => setBudget(budget === r ? '' : r)}
-              className="w-full flex items-center justify-between px-5 py-3 text-sm transition-colors"
-              style={{ background: budget === r ? '#EDF7FF' : 'transparent' }}>
-              <span style={{ color: budget === r ? '#0694D1' : '#374151', fontWeight: budget === r ? 700 : 400 }}>{r}</span>
-              <div className="flex items-center justify-center rounded-full flex-shrink-0"
-                style={{ width: 16, height: 16, border: `2px solid ${budget === r ? '#0694D1' : '#CBD5E1'}`, background: budget === r ? '#0694D1' : '#fff' }}>
-                {budget === r && <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-              </div>
-            </button>
-          ))}
-        </div>
-      )
-    }
-    return null
-  }
+  const chip = (selected: boolean) => ({
+    display: 'inline-flex' as const, alignItems: 'center' as const, gap: 5,
+    padding: '7px 14px', borderRadius: 99, fontSize: 13, fontWeight: selected ? 700 : 500,
+    border: `1.5px solid ${selected ? '#0694D1' : '#D1D5DB'}`,
+    background: selected ? '#0694D1' : '#fff',
+    color: selected ? '#fff' : '#374151',
+    cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap' as const,
+  })
 
-  const tabActive = (id: string) => {
-    if (id === 'Date Range') return !!(startDate || endDate)
-    if (id === 'Partner') return oem !== 'All OEMs'
-    if (id === 'Technology') return technology !== 'All Technologies'
-    if (id === 'Duration') return durations.length > 0
-    if (id === 'Price Range') return !!budget
-    return false
-  }
+  const sectionHead = (label: string, count?: number) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+      <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: '#0b2545' }}>{label}</span>
+      {count !== undefined && count > 0 && (
+        <span style={{ background: '#0694D1', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: 99, padding: '1px 6px' }}>{count}</span>
+      )}
+    </div>
+  )
 
   if (!open) return null
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 1200 }}>
-      {/* Backdrop */}
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)' }} onClick={onClose} />
-      {/* Sheet */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, maxHeight: '88vh', borderRadius: '20px 20px 0 0', background: '#fff', display: 'flex', flexDirection: 'column', zIndex: 1 }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }} onClick={onClose} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, maxHeight: '90vh', borderRadius: '24px 24px 0 0', background: '#fff', display: 'flex', flexDirection: 'column', zIndex: 1 }}>
+
         {/* Header */}
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid #EEF3F9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <div className="flex items-center gap-2">
-            <span style={{ fontWeight: 800, fontSize: 16, color: '#0b2545' }}>Filter</span>
-            {activeCount > 0 && (
-              <span style={{ background: '#0694D1', color: '#fff', fontSize: 11, fontWeight: 700, borderRadius: 99, padding: '2px 8px' }}>{activeCount}</span>
-            )}
+        <div style={{ padding: '18px 20px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, borderBottom: '1px solid #F0F4F8' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            <span style={{ fontWeight: 800, fontSize: 17, color: '#0b2545' }}>Filters</span>
+            {activeCount > 0 && <span style={{ background: '#0694D1', color: '#fff', fontSize: 11, fontWeight: 700, borderRadius: 99, padding: '2px 8px' }}>{activeCount} active</span>}
           </div>
-          <button onClick={onClose} style={{ width: 28, height: 28, borderRadius: '50%', border: '1.5px solid #E5E7EB', background: '#F9FAFB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: '#374151', cursor: 'pointer' }}>✕</button>
+          <button onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', border: '1.5px solid #E5E7EB', background: '#F9FAFB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: '#374151', cursor: 'pointer', flexShrink: 0 }}>✕</button>
         </div>
 
-        {/* Body */}
-        <div style={{ flex: 1, overflow: 'hidden', display: 'flex', minHeight: 0 }}>
-          {/* LEFT SIDEBAR — tablet only (sm+) */}
-          <div className="hidden sm:flex flex-col" style={{ width: 130, borderRight: '1px solid #EEF3F9', overflowY: 'auto', flexShrink: 0 }}>
-            {TABS.map(id => (
-              <button key={id} onClick={() => setTab(id)}
-                className="text-left px-4 py-3.5 text-sm font-semibold transition-colors"
-                style={{
-                  background: tab === id ? '#EDF7FF' : 'transparent',
-                  color: tab === id ? '#0694D1' : '#374151',
-                  borderLeft: `3px solid ${tab === id ? '#0694D1' : 'transparent'}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                }}>
-                {id}
-                {tabActive(id) && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', flexShrink: 0 }} />}
-              </button>
-            ))}
-          </div>
+        {/* Scrollable body — all sections visible at once */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 8px' }}>
 
-          {/* RIGHT PANEL — tablet: active tab, mobile: all as accordion */}
-          <div style={{ flex: 1, overflowY: 'auto' }}>
-            {/* MOBILE accordion */}
-            <div className="block sm:hidden">
-              {TABS.map(id => (
-                <div key={id} style={{ borderBottom: '1px solid #EEF3F9' }}>
-                  <button onClick={() => setAccordionOpen(accordionOpen === id ? null : id)}
-                    className="w-full flex items-center justify-between px-5 py-4 text-sm font-bold"
-                    style={{ color: '#0b2545' }}>
-                    <div className="flex items-center gap-2">
-                      {id}
-                      {tabActive(id) && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1' }} />}
-                    </div>
-                    <svg width="14" height="14" viewBox="0 0 20 20" fill="#94a3b8" style={{ transform: accordionOpen === id ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
-                      <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                  {accordionOpen === id && renderContent(id)}
-                </div>
+          {/* Technology */}
+          <div style={{ marginBottom: 24 }}>
+            {sectionHead('Technology', technology !== 'All Technologies' ? 1 : 0)}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {ALL_TECHNOLOGIES.filter(t => t !== 'All Technologies').map(t => (
+                <button key={t} onClick={() => setTechnology(technology === t ? 'All Technologies' : t)} style={chip(technology === t)}>
+                  {technology === t && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  {t}
+                </button>
               ))}
             </div>
-            {/* TABLET panel */}
-            <div className="hidden sm:block">
-              {renderContent(tab)}
+          </div>
+
+          {/* Duration */}
+          <div style={{ marginBottom: 24 }}>
+            {sectionHead('Duration', durations.length)}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {DURATION_ITEMS.map(({ label: lbl, days }) => {
+                const on = durations.includes(lbl)
+                return (
+                  <button key={lbl} onClick={() => toggleDuration(lbl)} style={chip(on)}>
+                    {on && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                    {lbl}
+                    <span style={{ opacity: on ? 0.75 : 0.55, fontSize: 11 }}>· {days}</span>
+                  </button>
+                )
+              })}
             </div>
           </div>
+
+          {/* Price Range */}
+          <div style={{ marginBottom: 24 }}>
+            {sectionHead('Price Range', budget ? 1 : 0)}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {PRICE_RANGES.map(r => (
+                <button key={r} onClick={() => setBudget(budget === r ? '' : r)} style={chip(budget === r)}>
+                  {budget === r && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  {r}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Partner */}
+          <div style={{ marginBottom: 24 }}>
+            {sectionHead('Partner', oem !== 'All OEMs' ? 1 : 0)}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {ALL_OEMS.filter(o => o !== 'All OEMs').map(o => (
+                <button key={o} onClick={() => setOem(oem === o ? 'All OEMs' : o)} style={chip(oem === o)}>
+                  {oem === o && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  {o}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Date Range */}
+          <div style={{ marginBottom: 8 }}>
+            {sectionHead('Date Range', (startDate || endDate) ? 1 : 0)}
+            <div style={{ display: 'flex', gap: 10 }}>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 11, fontWeight: 600, color: '#94a3b8', marginBottom: 4 }}>From</p>
+                <input type="date" value={startDate} onChange={e => onDateChange(e.target.value, endDate)}
+                  style={{ width: '100%', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${startDate ? '#0694D1' : '#D1D5DB'}`, fontSize: 13, color: '#0b2545', outline: 'none', background: startDate ? '#EDF7FF' : '#fff', boxSizing: 'border-box' }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 11, fontWeight: 600, color: '#94a3b8', marginBottom: 4 }}>To</p>
+                <input type="date" value={endDate} onChange={e => onDateChange(startDate, e.target.value)}
+                  style={{ width: '100%', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${endDate ? '#0694D1' : '#D1D5DB'}`, fontSize: 13, color: '#0b2545', outline: 'none', background: endDate ? '#EDF7FF' : '#fff', boxSizing: 'border-box' }} />
+              </div>
+            </div>
+          </div>
+
         </div>
 
         {/* Footer */}
-        <div style={{ padding: '12px 20px', borderTop: '1px solid #EEF3F9', display: 'flex', gap: 12, flexShrink: 0 }}>
+        <div style={{ padding: '14px 20px 20px', borderTop: '1px solid #F0F4F8', display: 'flex', gap: 12, flexShrink: 0 }}>
           <button onClick={onClearAll}
-            style={{ flex: 1, padding: '11px 0', borderRadius: 12, border: '1.5px solid #D1D5DB', background: '#fff', fontSize: 14, fontWeight: 700, color: '#374151', cursor: 'pointer' }}>
+            style={{ flex: 1, padding: '13px 0', borderRadius: 14, border: '1.5px solid #D1D5DB', background: '#fff', fontSize: 14, fontWeight: 700, color: '#374151', cursor: 'pointer' }}>
             Clear All
           </button>
           <button onClick={onClose}
-            style={{ flex: 1, padding: '11px 0', borderRadius: 12, border: 'none', background: '#0694D1', fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer', boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }}>
-            Apply
+            style={{ flex: 2, padding: '13px 0', borderRadius: 14, border: 'none', background: 'linear-gradient(135deg,#0694D1,#0578b0)', fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer', boxShadow: '0 4px 16px rgba(6,148,209,0.4)' }}>
+            {activeCount > 0 ? `Apply (${activeCount} filter${activeCount > 1 ? 's' : ''})` : 'Apply'}
           </button>
         </div>
       </div>
