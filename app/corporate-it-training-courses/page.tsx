@@ -1888,16 +1888,6 @@ export default function CorporateITTrainingPage() {
                   })}
                 </div>
               )}
-              {!search && (
-                <div className="mt-8 text-center">
-                  <a href="https://www.koenig-solutions.com" target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold text-white hover:opacity-90 transition-opacity"
-                    style={{ background: '#0694D1', boxShadow: '0 4px 14px rgba(6,148,209,0.3)' }}>
-                    Browse All 5,000+ Courses
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                  </a>
-                </div>
-              )}
             </div>
           )
         })()}
