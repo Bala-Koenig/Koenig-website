@@ -1160,16 +1160,13 @@ export default function CorporateITTrainingPage() {
                     </div>
                   </div>
                 ))}
-              </div>
-
-              {/* Partners card */}
-              <div style={{ borderRadius: 20, border: '1px solid rgba(6,148,209,0.15)', background: 'rgba(255,255,255,0.02)', padding: '20px 22px', position: 'relative' }}>
-                <div style={{ position: 'absolute', inset: 0, borderRadius: 20, background: 'linear-gradient(135deg, rgba(6,148,209,0.06) 0%, transparent 60%)', pointerEvents: 'none' }} />
-                <div style={{ position: 'relative' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-                    <div style={{ fontSize: 26, fontWeight: 800, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>17+</div>
-                    <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', marginLeft: 4 }}>Authorised Vendor Partners</div>
+                {/* Partners — merged into stats card */}
+                <div style={{ height: 1, background: 'rgba(6,148,209,0.12)' }} />
+                <div style={{ padding: '16px 18px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                    <div style={{ fontSize: 20, fontWeight: 800, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>17+</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginLeft: 2 }}>Authorised Vendor Partners</div>
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     {['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'Oracle', 'Red Hat', 'VMware', 'SAP'].map(p => (
