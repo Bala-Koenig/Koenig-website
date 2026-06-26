@@ -311,7 +311,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
 
   // Desktop mega menus
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
-  const [megaMenuVendor, setMegaMenuVendor] = useState('Microsoft')
+  const [megaMenuVendor, setMegaMenuVendor] = useState('All Courses')
   const megaMenuRef = useRef<HTMLDivElement>(null)
   const [techMenuOpen, setTechMenuOpen] = useState(false)
   const [techMenuCategory, setTechMenuCategory] = useState('Cloud Computing')
@@ -812,6 +812,23 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
             {/* Left — vendor list */}
             <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
               <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
+              {/* All Courses entry */}
+              <div className="group/vendor relative flex items-center" style={{ borderLeft: megaMenuVendor === 'All Courses' ? '2px solid #0694D1' : '2px solid transparent', background: megaMenuVendor === 'All Courses' ? 'rgba(6,148,209,0.12)' : 'transparent' }}>
+                <button
+                  onMouseEnter={() => setMegaMenuVendor('All Courses')}
+                  onClick={() => setMegaMenuVendor('All Courses')}
+                  className="flex flex-1 items-center gap-3 px-4 py-2.5 text-left transition-all"
+                  style={{ color: megaMenuVendor === 'All Courses' ? '#ffffff' : 'rgba(255,255,255,0.65)' }}
+                >
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md" style={{ background: 'rgba(6,148,209,0.2)', border: '1px solid rgba(6,148,209,0.3)' }}>
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-medium leading-tight">All Courses</div>
+                    <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>5,000+ Courses</div>
+                  </div>
+                </button>
+              </div>
               {MEGA_MENU_VENDORS.map(v => (
                 <div key={v.name} className="group/vendor relative flex items-center" style={{ borderLeft: megaMenuVendor === v.name ? '2px solid #0694D1' : '2px solid transparent', background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.12)' : 'transparent' }}>
                   <button
@@ -845,6 +862,43 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
             </div>
             {/* Right — courses panel */}
             <div className="flex flex-1 flex-col overflow-y-auto p-6">
+              {megaMenuVendor === 'All Courses' ? (
+                <>
+                  <div className="mb-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold text-white">All IT Training Courses</h3>
+                      <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>5,000+ courses across 20 top vendors</p>
+                    </div>
+                    <a href="/corporate-it-training-courses" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                      Browse All Courses
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 xl:grid-cols-4">
+                    {MEGA_MENU_VENDORS.map(v => (
+                      <a key={v.name} href={VENDOR_HREFS[v.name] ?? '#'}
+                        className="flex items-center gap-2 rounded-xl p-2.5 transition-all hover:-translate-y-0.5"
+                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)' }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)' }}
+                      >
+                        <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded bg-white p-0.5">
+                          {v.img ? (
+                            <img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" />
+                          ) : (
+                            <span className="text-xs font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="truncate text-xs font-semibold text-white">{v.name}</div>
+                          <div className="text-xs" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses}</div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </>
+              ) : (
+              <>
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-base font-bold text-white">{megaMenuVendor} Courses</h3>
@@ -887,6 +941,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                   Browse All {megaMenuVendor} Courses →
                 </a>
               </div>
+              </>
+              )}
             </div>
           </div>
         )}
