@@ -1062,7 +1062,7 @@ export default function CorporateITTrainingPage() {
   const totalCourses = VENDORS.reduce((s, v) => s + v.courses, 0)
 
   return (
-    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif", background: '#f5f9fc', minHeight: '100vh' }}>
+    <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif", background: 'radial-gradient(ellipse 100% 500px at 50% 0%, rgba(6,148,209,0.13) 0%, #f5f9fc 65%)', minHeight: '100vh' }}>
       <Navbar />
 
       {/* ── HERO (ILO style) ──────────────────────────────── */}
