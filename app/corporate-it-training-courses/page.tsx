@@ -909,14 +909,14 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
       </button>
       {open && (
         <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
-          style={{ background: '#fff', border: '1px solid #E2EBF6', boxShadow: '0 4px 24px rgba(6,148,209,0.13)', top: '100%', left: 0, minWidth: '560px' }}>
-          <div className="grid grid-cols-2 divide-x divide-[#E2EBF6]">
+          style={{ background: '#fff', border: '1px solid #E2EBF6', boxShadow: '0 4px 24px rgba(6,148,209,0.13)', top: '100%', left: 0, width: 'max-content', maxWidth: '100vw' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 sm:divide-x divide-[#E2EBF6]">
             {/* Month 1 */}
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
                 <NavArrow dir="left" />
                 <span className="font-bold text-sm" style={{ color: '#0b2545' }}>{lbl1}</span>
-                <span className="w-6" />
+                <NavArrow dir="right" />
               </div>
               <div className="grid grid-cols-7 mb-1">
                 {DAY_LABELS.map((l, i) => (
@@ -928,8 +928,8 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
                 {month1Days.map(d => renderDay(d, calMonth))}
               </div>
             </div>
-            {/* Month 2 */}
-            <div className="p-4">
+            {/* Month 2 — hidden on mobile */}
+            <div className="hidden sm:block p-4">
               <div className="flex items-center justify-between mb-3">
                 <span className="w-6" />
                 <span className="font-bold text-sm" style={{ color: '#0b2545' }}>{lbl2}</span>
