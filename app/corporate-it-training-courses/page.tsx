@@ -1492,16 +1492,6 @@ export default function CorporateITTrainingPage() {
           </div>
           <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Lowest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} />
           <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} />
-          {!search && (
-            <>
-              <button onClick={() => setExpandAll(true)} className="text-sm font-semibold px-4 py-2.5 rounded-xl text-white flex-shrink-0" style={{ background: '#0694D1' }}>
-                Expand All
-              </button>
-              <button onClick={() => setExpandAll(false)} className="text-sm font-semibold px-4 py-2.5 rounded-xl flex-shrink-0" style={{ background: '#fff', color: '#0694D1', border: '1.5px solid #D0E8F5' }}>
-                Collapse All
-              </button>
-            </>
-          )}
         </div>
 
         {/* ── Vendor accordion list ── */}
