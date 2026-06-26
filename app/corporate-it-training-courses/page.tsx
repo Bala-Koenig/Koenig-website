@@ -983,6 +983,34 @@ function ChevronIcon({ open }: { open: boolean }) {
   )
 }
 
+/* ─── Course card helpers ───────────────────────────────── */
+function getCourseLevel(name: string): string {
+  const n = name.toLowerCase()
+  if (n.includes('fundamentals') || n.includes('foundation') || n.includes('essentials') || n.includes('basic') || n.includes('intro')) return 'FUNDAMENTALS'
+  if (n.includes('expert') || n.includes('advanced') || n.includes('architect') || n.includes('cissp') || n.includes('cciso') || n.includes('cism')) return 'EXPERT'
+  if (n.includes('professional') || n.includes('practitioner')) return 'PROFESSIONAL'
+  if (n.includes('specialist') || n.includes('specialty') || n.includes('engineer')) return 'SPECIALIST'
+  return 'ASSOCIATE'
+}
+
+function getCourseCode(name: string): string {
+  const m = name.match(/\b([A-Z]{1,4}-\d{3,4}[A-Z0-9]*)\b/)
+  if (m) return m[1]
+  const map: Record<string, string> = {
+    CISSP: 'CISSP', CCSP: 'CCSP', SSCP: 'SSCP', CEH: 'CEH', CPENT: 'CPENT', CHFI: 'CHFI', CCNA: 'CCNA',
+    CCNP: 'CCNP', CISA: 'CISA', CISM: 'CISM', CRISC: 'CRISC', CGEIT: 'CGEIT', CAPM: 'CAPM',
+    'PMP': 'PMP', ITIL: 'ITIL4', PRINCE2: 'P2', RHCSA: 'RHCSA', RHCE: 'RHCE', COBIT: 'COBIT',
+  }
+  for (const [k, v] of Object.entries(map)) { if (name.includes(k)) return v }
+  return ''
+}
+
+function stableNum(s: string, min: number, max: number): number {
+  let h = 0
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0
+  return min + (Math.abs(h) % (max - min))
+}
+
 /* ─── Vendor Accordion Card ─────────────────────────────── */
 function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS[0]; forceOpen: boolean; searchQuery: string }) {
   const [open, setOpen] = useState(false)
@@ -1033,23 +1061,71 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
         </div>
       </button>
 
-      {/* Course list */}
-      <div style={{ maxHeight: effective ? '9999px' : '0px', overflow: 'hidden', transition: 'max-height 0.35s ease' }}>
-        <div className="px-5 pb-5 pt-3 bg-white">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {displayList.map((course, i) => (
-              <div key={i}
-                className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer transition-colors duration-150"
-                style={{ background: '#f8fafc' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = vendor.bg }}
-                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = '#f8fafc' }}
-              >
-                <span className="flex-shrink-0 rounded-full mt-[5px]" style={{ width: 7, height: 7, background: vendor.color }} />
-                <span className="text-sm leading-snug" style={{ color: '#1e3a5f' }}>{course}</span>
-              </div>
-            ))}
+      {/* Course cards */}
+      <div style={{ maxHeight: effective ? '9999px' : '0px', overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
+        <div className="px-5 pb-5 pt-4" style={{ background: '#F8FAFC' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {displayList.map((course, i) => {
+              const level = getCourseLevel(course)
+              const code = getCourseCode(course)
+              const students = stableNum(course, 1100, 5200).toLocaleString()
+              const rating = (4.5 + (stableNum(course + 'r', 0, 6) * 0.1)).toFixed(1)
+              const popular = i < 3
+              return (
+                <div key={i} className="flex flex-col rounded-2xl p-4"
+                  style={{ background: '#fff', border: '1.5px solid #E8F0FA', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                  {/* Level + Popular badges */}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
+                      style={{ background: `${vendor.color}14`, color: vendor.color, border: `1px solid ${vendor.color}28` }}>
+                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      {level}
+                    </span>
+                    {popular && (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
+                        style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="#0694D1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        POPULAR
+                      </span>
+                    )}
+                  </div>
+                  {/* Title */}
+                  <h4 className="text-sm font-bold leading-snug mb-4 flex-1" style={{ color: '#0b2545' }}>{course}</h4>
+                  {/* Code + duration */}
+                  <div className="flex items-center gap-2 mb-3 flex-wrap">
+                    {code && (
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-md" style={{ background: `${vendor.color}12`, color: vendor.color, border: `1px solid ${vendor.color}25` }}>{code}</span>
+                    )}
+                    <span className="flex items-center gap-1 text-xs" style={{ color: '#64748b' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      1 day · 8hrs
+                    </span>
+                  </div>
+                  {/* Students + price */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs" style={{ color: '#64748b' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline', marginRight: 3 }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                      {students}+ <span style={{ color: '#f59e0b' }}>★</span> <span style={{ fontWeight: 600, color: '#374151' }}>{rating}</span>
+                    </span>
+                    <span className="text-sm font-bold" style={{ color: vendor.color }}>₹33,000</span>
+                  </div>
+                  {/* Buttons */}
+                  <div className="flex gap-2">
+                    <button className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
+                      style={{ border: `1.5px solid ${vendor.color}40`, color: vendor.color, background: '#fff' }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      Download Syllabus
+                    </button>
+                    <button className="flex-1 py-2 rounded-lg text-xs font-bold text-white transition-opacity hover:opacity-80"
+                      style={{ background: '#0b2545' }}>
+                      View Course
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
           </div>
-          <div className="mt-4 flex gap-2 flex-wrap">
+          <div className="mt-5 flex gap-2 flex-wrap">
             <a href="https://www.koenig-solutions.com/" target="_blank" rel="noopener noreferrer"
               className="text-xs font-bold px-4 py-2 rounded-lg text-white transition-opacity hover:opacity-80"
               style={{ background: vendor.color }}>
