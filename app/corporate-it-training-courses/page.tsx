@@ -1887,6 +1887,13 @@ export default function CorporateITTrainingPage() {
         })()}
       </section>
 
+      {/* Inline lead form below courses */}
+      <section style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', padding: '60px 20px' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+          <EnterpriseLeadForm onClose={() => {}} />
+        </div>
+      </section>
+
       {modal && (
         <div className="cit-modal-overlay" onClick={e=>{ if(e.target===e.currentTarget) setModal(false); }}>
           <div className="cit-modal-box">
