@@ -1067,10 +1067,7 @@ export default function CorporateITTrainingPage() {
 
       {/* ── HERO (ILO style) ──────────────────────────────── */}
       <section className="relative overflow-hidden px-4 lg:px-[50px]"
-        style={{
-          background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)',
-          boxShadow: '0 8px 40px rgba(6,148,209,0.35), 0 24px 80px rgba(6,148,209,0.18)',
-        }}>
+        style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)' }}>
 
         {/* Glow blobs */}
         <div className="pointer-events-none absolute inset-0">
@@ -1078,9 +1075,6 @@ export default function CorporateITTrainingPage() {
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 blur-[100px]" style={{ background: '#38bdf8' }} />
           <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full opacity-[0.08] blur-[80px]" style={{ background: '#0694D1' }} />
         </div>
-
-        {/* Bottom edge glow gradient */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: 70, background: 'linear-gradient(to bottom, transparent, rgba(6,148,209,0.22))', zIndex: 1 }} />
 
         <style>{`
           .cit-stat:hover .cit-glow { opacity: 1 !important; }
