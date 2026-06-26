@@ -1525,7 +1525,7 @@ export default function CorporateITTrainingPage() {
                 const disabled = isSelfPaced ? othersOn : selfPacedOn
                 acc.push(
                   <button key={key} onClick={() => !disabled && toggleMode(key)}
-                    className="relative flex flex-col p-5 rounded-2xl text-left transition-all duration-200 select-none"
+                    className="relative flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition-all duration-200 select-none"
                     style={{
                       border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
                       background: '#fff',
@@ -1535,23 +1535,25 @@ export default function CorporateITTrainingPage() {
                       transition: 'border-color 0.2s, box-shadow 0.2s, opacity 0.2s',
                     }}
                   >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: active ? '#0694D1' : '#EEF4FA' }}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={active ? '#fff' : '#476D8D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
-                      </div>
-                      {/* Checkbox */}
-                      <div className="flex items-center justify-center flex-shrink-0"
-                        style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${active ? '#0694D1' : '#CBD5E1'}`, background: active ? '#0694D1' : '#fff', transition: 'background 0.15s, border-color 0.15s' }}>
-                        {active && (
-                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                            <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        )}
-                      </div>
+                    {/* Icon */}
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: active ? '#0694D1' : '#EEF4FA' }}>
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={active ? '#fff' : '#476D8D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
                     </div>
-                    {badge && <span className="absolute top-4 left-16 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: '#d1fae5', color: '#065f46' }}>{badge}</span>}
-                    <p className="text-sm font-bold mb-0.5" style={{ color: '#0b2545' }}>{label}</p>
-                    <p className="text-xs" style={{ color: '#94a3b8' }}>{sub}</p>
+                    {/* Title + subtitle */}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold leading-tight" style={{ color: '#0b2545' }}>{label}</p>
+                      <p className="text-xs mt-0.5" style={{ color: '#94a3b8' }}>{sub}</p>
+                    </div>
+                    {/* Checkbox */}
+                    <div className="flex items-center justify-center flex-shrink-0"
+                      style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${active ? '#0694D1' : '#CBD5E1'}`, background: active ? '#0694D1' : '#fff', transition: 'background 0.15s, border-color 0.15s' }}>
+                      {active && (
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                          <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </div>
+                    {badge && <span className="absolute top-2 left-12 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: '#d1fae5', color: '#065f46' }}>{badge}</span>}
                   </button>
                 )
                 {/* City card — injected right after Classroom card */ }
