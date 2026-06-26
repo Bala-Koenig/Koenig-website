@@ -1889,7 +1889,7 @@ export default function CorporateITTrainingPage() {
 
       {/* Inline lead form below courses */}
       <section style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', padding: '60px 20px' }}>
-        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto', background: 'linear-gradient(160deg,#091e30 0%,#071525 100%)', border: '1px solid rgba(6,148,209,0.25)', borderRadius: 24, padding: '28px 32px', boxShadow: '0 24px 80px rgba(0,0,0,0.6)' }}>
           <EnterpriseLeadForm onClose={() => {}} />
         </div>
       </section>
