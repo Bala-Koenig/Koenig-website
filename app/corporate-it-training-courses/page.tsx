@@ -1233,7 +1233,7 @@ export default function CorporateITTrainingPage() {
       </section>
 
       {/* ── FIND YOUR COURSE ─────────────────────────────────── */}
-      <section id="courses" className="max-w-7xl mx-auto px-4 lg:px-[50px] py-10">
+      <section id="courses" className="max-w-7xl mx-auto px-4 lg:px-[50px] py-10" style={{ background: 'radial-gradient(ellipse 90% 500px at 50% 0%, rgba(6,148,209,0.09) 0%, transparent 70%)' }}>
 
         {/* Section header */}
         <div className="text-center mb-8">
@@ -1455,7 +1455,7 @@ export default function CorporateITTrainingPage() {
               Reset
             </button>
             <button
-              className="flex items-center gap-2 px-7 py-2.5 rounded-xl text-sm font-bold text-white"
+              className="flex items-center gap-2 px-9 py-3 rounded-xl text-sm font-bold text-white"
               style={{ background: '#0694D1', boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }}
               onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
               onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
