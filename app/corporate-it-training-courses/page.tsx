@@ -332,7 +332,7 @@ const VENDORS = [
     ],
   },
   {
-    id: 'koenig-original', name: 'Koenig Original', tier: 'Proprietary Curriculum', color: '#076D9D', bg: '#EDF7FF',
+    id: 'koenig-original', name: 'Koenig Original', tier: 'Proprietary Curriculum', color: '#0694D1', bg: '#EDF7FF',
     courses: 45,
     desc: 'Exclusive Koenig-developed programs in AI, Data Science, DevOps, Finance, and emerging tech.',
     icon: 'KO',
@@ -367,6 +367,7 @@ const DURATION_ITEMS = [
   { label: 'More',   days: '5+ days'},
 ]
 const TRAINING_MODES = ['Only GTR', 'Only Live Online', 'Only Classroom', 'Self-Paced']
+const CLASSROOM_CITIES = ['Bangalore', 'Chennai', 'Delhi / NCR', 'Dubai', 'Hyderabad', 'Jaipur', 'Kolkata', 'London', 'Mumbai', 'New York', 'Pune', 'Singapore']
 
 /* ─── Dropdown component ────────────────────────────────── */
 function SelectDropdown({ value, options, onChange }: { value: string; options: string[]; onChange: (v: string) => void }) {
@@ -389,8 +390,8 @@ function SelectDropdown({ value, options, onChange }: { value: string; options: 
         onClick={() => setOpen(o => !o)}
         className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all"
         style={{
-          border: `1.5px solid ${isDefault ? '#D1D5DB' : '#076D9D'}`,
-          color: isDefault ? '#374151' : '#076D9D',
+          border: `1.5px solid ${isDefault ? '#D1D5DB' : '#0694D1'}`,
+          color: isDefault ? '#374151' : '#0694D1',
           background: isDefault ? '#fff' : '#EDF7FF',
           whiteSpace: 'nowrap',
         }}
@@ -412,7 +413,7 @@ function SelectDropdown({ value, options, onChange }: { value: string; options: 
               className="w-full text-left px-4 py-2 text-sm transition-colors"
               style={{
                 background: value === opt ? '#EDF7FF' : 'transparent',
-                color: value === opt ? '#076D9D' : '#374151',
+                color: value === opt ? '#0694D1' : '#374151',
                 fontWeight: value === opt ? 600 : 400,
               }}
               onMouseEnter={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
@@ -472,7 +473,7 @@ function InlineSelect({ value, options, onChange, placeholder, searchable }: { v
                   onChange={e => setQuery(e.target.value)}
                   placeholder="Search partner…"
                   className="flex-1 bg-transparent outline-none text-xs"
-                  style={{ color: '#374151', caretColor: '#076D9D' }}
+                  style={{ color: '#374151', caretColor: '#0694D1' }}
                   onKeyDown={e => e.key === 'Escape' && (setOpen(false), setQuery(''))}
                 />
                 {query && (
@@ -488,12 +489,88 @@ function InlineSelect({ value, options, onChange, placeholder, searchable }: { v
               filtered.map(opt => (
                 <button key={opt} onClick={() => { onChange(opt); setOpen(false); setQuery('') }}
                   className="w-full text-left px-4 py-2 text-sm"
-                  style={{ background: value === opt ? '#EDF7FF' : 'transparent', color: value === opt ? '#076D9D' : '#374151', fontWeight: value === opt ? 600 : 400 }}
+                  style={{ background: value === opt ? '#EDF7FF' : 'transparent', color: value === opt ? '#0694D1' : '#374151', fontWeight: value === opt ? 600 : 400 }}
                   onMouseEnter={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
                   onMouseLeave={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
                 >{opt}</button>
               ))
             )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ─── City searchable dropdown (for Classroom mode) ─────── */
+function CitySelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const ref = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) { setOpen(false); setQuery('') }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+  useEffect(() => {
+    if (open) { setQuery(''); setTimeout(() => inputRef.current?.focus(), 50) }
+  }, [open])
+  const filtered = query ? CLASSROOM_CITIES.filter(c => c.toLowerCase().includes(query.toLowerCase())) : CLASSROOM_CITIES
+  return (
+    <div ref={ref} className="relative">
+      <button onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm transition-colors"
+        style={{
+          border: `1.5px solid ${value ? '#0694D1' : '#E2EBF6'}`,
+          background: value ? '#EDF7FF' : '#F8FAFC',
+          color: value ? '#0694D1' : '#64748b',
+          fontWeight: value ? 600 : 400,
+        }}>
+        <span>{value || 'Select city'}</span>
+        <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor"
+          style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0, opacity: 0.6 }}>
+          <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute z-50 mt-1.5 rounded-xl overflow-hidden"
+          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '200px', top: '100%', left: 0 }}>
+          <div className="px-3 pt-2.5 pb-2" style={{ borderBottom: '1px solid #EEF3F9' }}>
+            <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: '#F1F5F9' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+              <input ref={inputRef} type="text" value={query} onChange={e => setQuery(e.target.value)}
+                placeholder="Search city…"
+                className="flex-1 bg-transparent outline-none text-xs"
+                style={{ color: '#374151', caretColor: '#0694D1' }}
+                onKeyDown={e => e.key === 'Escape' && (setOpen(false), setQuery(''))}
+              />
+              {query && <button onClick={() => setQuery('')} className="leading-none text-sm" style={{ color: '#94a3b8' }}>×</button>}
+            </div>
+          </div>
+          <div style={{ maxHeight: '220px', overflowY: 'auto' }}>
+            {filtered.length === 0 ? (
+              <p className="px-4 py-3 text-xs" style={{ color: '#94a3b8' }}>No city found</p>
+            ) : filtered.map(city => {
+              const sel = value === city
+              return (
+                <button key={city} onClick={() => { onChange(sel ? '' : city); setOpen(false); setQuery('') }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors text-left"
+                  style={{ background: sel ? '#EDF7FF' : 'transparent', color: sel ? '#0694D1' : '#374151', fontWeight: sel ? 600 : 400 }}
+                  onMouseEnter={e => { if (!sel) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
+                  onMouseLeave={e => { if (!sel) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5, flexShrink: 0 }}>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  {city}
+                </button>
+              )
+            })}
           </div>
         </div>
       )}
@@ -530,7 +607,7 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
         <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
           style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '210px', top: '100%', left: 0 }}>
           <div className="px-3 py-2" style={{ borderBottom: '1px solid #EEF3F9' }}>
-            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#076D9D' }}>Duration</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#0694D1' }}>Duration</p>
           </div>
           <div className="py-1">
             {DURATION_ITEMS.map(({ label: lbl, days }) => {
@@ -544,14 +621,14 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
                 >
                   <div className="flex items-center gap-2.5">
                     <div className="flex items-center justify-center rounded flex-shrink-0"
-                      style={{ width: 16, height: 16, border: `2px solid ${checked ? '#076D9D' : '#CBD5E1'}`, background: checked ? '#076D9D' : '#fff' }}>
+                      style={{ width: 16, height: 16, border: `2px solid ${checked ? '#0694D1' : '#CBD5E1'}`, background: checked ? '#0694D1' : '#fff' }}>
                       {checked && (
                         <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
                           <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
                     </div>
-                    <span className="text-sm" style={{ color: checked ? '#076D9D' : '#374151', fontWeight: checked ? 600 : 400 }}>{lbl}</span>
+                    <span className="text-sm" style={{ color: checked ? '#0694D1' : '#374151', fontWeight: checked ? 600 : 400 }}>{lbl}</span>
                   </div>
                   <span className="text-xs" style={{ color: '#94a3b8' }}>{days}</span>
                 </button>
@@ -560,7 +637,7 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
           </div>
           {hasValue && (
             <div className="px-4 py-2" style={{ borderTop: '1px solid #EEF3F9' }}>
-              <button onClick={() => onChange([])} className="text-xs font-semibold" style={{ color: '#076D9D' }}>Clear</button>
+              <button onClick={() => onChange([])} className="text-xs font-semibold" style={{ color: '#0694D1' }}>Clear</button>
             </div>
           )}
         </div>
@@ -624,7 +701,7 @@ function BudgetSelect({ value, onChange }: { value: string; onChange: (v: string
               <input ref={inputRef} type="text" value={query} onChange={e => setQuery(e.target.value)}
                 placeholder="Search range…"
                 className="flex-1 bg-transparent outline-none text-xs"
-                style={{ color: '#374151', caretColor: '#076D9D' }}
+                style={{ color: '#374151', caretColor: '#0694D1' }}
                 onKeyDown={e => e.key === 'Escape' && (setOpen(false), setQuery(''))}
               />
               {query && <button onClick={() => setQuery('')} className="leading-none text-sm" style={{ color: '#94a3b8' }}>×</button>}
@@ -646,17 +723,17 @@ function BudgetSelect({ value, onChange }: { value: string; onChange: (v: string
                 >
                   {/* Radio circle */}
                   <div className="flex items-center justify-center rounded-full flex-shrink-0"
-                    style={{ width: 18, height: 18, border: `2px solid ${selected ? '#076D9D' : '#CBD5E1'}` }}>
-                    {selected && <div className="rounded-full" style={{ width: 8, height: 8, background: '#076D9D' }} />}
+                    style={{ width: 18, height: 18, border: `2px solid ${selected ? '#0694D1' : '#CBD5E1'}` }}>
+                    {selected && <div className="rounded-full" style={{ width: 8, height: 8, background: '#0694D1' }} />}
                   </div>
-                  <span className="text-sm" style={{ color: selected ? '#076D9D' : '#374151', fontWeight: selected ? 600 : 400 }}>{range}</span>
+                  <span className="text-sm" style={{ color: selected ? '#0694D1' : '#374151', fontWeight: selected ? 600 : 400 }}>{range}</span>
                 </button>
               )
             })}
           </div>
           {value && (
             <div className="px-4 py-2" style={{ borderTop: '1px solid #EEF3F9' }}>
-              <button onClick={() => { onChange(''); setQuery('') }} className="text-xs font-semibold" style={{ color: '#076D9D' }}>Clear</button>
+              <button onClick={() => { onChange(''); setQuery('') }} className="text-xs font-semibold" style={{ color: '#0694D1' }}>Clear</button>
             </div>
           )}
         </div>
@@ -758,12 +835,12 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
           `}
           style={{
             width: 34, height: 34,
-            background: isEndpoint ? '#076D9D' : undefined,
-            color: isPast ? '#b0bec5' : isEndpoint ? '#fff' : isToday ? '#076D9D' : '#1a2e44',
+            background: isEndpoint ? '#0694D1' : undefined,
+            color: isPast ? '#b0bec5' : isEndpoint ? '#fff' : isToday ? '#0694D1' : '#1a2e44',
             fontWeight: isEndpoint || isToday ? 700 : 400,
             fontSize: 14,
             cursor: isPast ? 'default' : 'pointer',
-            outline: isToday && !isEndpoint ? '2px solid #076D9D' : undefined,
+            outline: isToday && !isEndpoint ? '2px solid #0694D1' : undefined,
             outlineOffset: '-1px',
           }}
         >
@@ -782,7 +859,7 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
     <button
       onClick={dir === 'left' ? prevMonth : nextMonth}
       className="flex items-center justify-center rounded-full transition-colors hover:bg-slate-100"
-      style={{ width: 28, height: 28, flexShrink: 0, color: '#076D9D' }}
+      style={{ width: 28, height: 28, flexShrink: 0, color: '#0694D1' }}
     >
       <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
         {dir === 'left'
@@ -804,7 +881,7 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
       </button>
       {open && (
         <div className="absolute z-50 mt-2 rounded-xl overflow-hidden"
-          style={{ background: '#fff', border: '1px solid #E2EBF6', boxShadow: '0 4px 24px rgba(7,109,157,0.13)', top: '100%', left: 0, minWidth: '560px' }}>
+          style={{ background: '#fff', border: '1px solid #E2EBF6', boxShadow: '0 4px 24px rgba(6,148,209,0.13)', top: '100%', left: 0, minWidth: '560px' }}>
           <div className="grid grid-cols-2 divide-x divide-[#E2EBF6]">
             {/* Month 1 */}
             <div className="p-4">
@@ -845,7 +922,7 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
             <div className="flex justify-end px-4 py-2" style={{ borderTop: '1px solid #EEF3F9' }}>
               <button onClick={() => { onChange('', ''); setPicking('start') }}
                 className="text-xs font-semibold"
-                style={{ color: '#076D9D' }}>
+                style={{ color: '#0694D1' }}>
                 Clear dates
               </button>
             </div>
@@ -959,11 +1036,13 @@ export default function CorporateITTrainingPage() {
   const [technology, setTechnology] = useState('All Technologies')
   const [budget, setBudget] = useState('')
   const [modes, setModes] = useState<string[]>([])
+  const [classroomCity, setClassroomCity] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
 
   function toggleMode(m: string) {
     setModes(prev => prev.includes(m) ? prev.filter(x => x !== m) : [...prev, m])
+    if (m === 'Only Classroom' && modes.includes('Only Classroom')) setClassroomCity('')
   }
 
   const activeSearch = search || (oem !== 'All OEMs' ? oem : '')
@@ -990,7 +1069,7 @@ export default function CorporateITTrainingPage() {
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-40 right-1/3 w-[600px] h-[600px] rounded-full opacity-15 blur-[120px]" style={{ background: '#0694D1' }} />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-10 blur-[100px]" style={{ background: '#38bdf8' }} />
-          <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full opacity-[0.08] blur-[80px]" style={{ background: '#076D9D' }} />
+          <div className="absolute top-1/2 right-0 w-[300px] h-[300px] rounded-full opacity-[0.08] blur-[80px]" style={{ background: '#0694D1' }} />
         </div>
 
         <style>{`
@@ -1019,7 +1098,7 @@ export default function CorporateITTrainingPage() {
               <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                 <a href="https://www.koenig-solutions.com/contact" target="_blank" rel="noopener noreferrer"
                   className="inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5"
-                  style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
+                  style={{ background: 'linear-gradient(135deg, #0694D1, #0694D1)', boxShadow: '0 0 20px rgba(6,148,209,0.35)' }}>
                   Request Corporate Quote
                 </a>
                 <a href="#courses"
@@ -1118,7 +1197,7 @@ export default function CorporateITTrainingPage() {
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-3">
 
             {(() => {
-              const cardStyle = { background: '#fff', border: '1.5px solid #E2EBF6', boxShadow: '0 1px 6px rgba(7,109,157,0.06)' }
+              const cardStyle = { background: '#fff', border: '1.5px solid #E2EBF6', boxShadow: '0 4px 18px rgba(0,0,0,0.08)' }
               const iconBox = (svg: React.ReactNode) => (
                 <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>{svg}</div>
               )
@@ -1127,7 +1206,7 @@ export default function CorporateITTrainingPage() {
                   {/* Date Range */}
                   <div className="col-span-2 lg:col-span-1 rounded-2xl p-4" style={cardStyle}>
                     <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
+                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Date Range</span>
                     </div>
                     <DateRangeSelect startDate={startDate} endDate={endDate} onChange={(s, e) => { setStartDate(s); setEndDate(e) }} />
@@ -1136,7 +1215,7 @@ export default function CorporateITTrainingPage() {
                   {/* Partner */}
                   <div className="rounded-2xl p-4" style={cardStyle}>
                     <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>)}
+                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Partner</span>
                     </div>
                     <InlineSelect value={oem} options={ALL_OEMS} onChange={setOem} placeholder="Any partner" searchable />
@@ -1145,7 +1224,7 @@ export default function CorporateITTrainingPage() {
                   {/* Technology */}
                   <div className="rounded-2xl p-4" style={cardStyle}>
                     <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
+                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Technology</span>
                     </div>
                     <InlineSelect value={technology} options={ALL_TECHNOLOGIES} onChange={setTechnology} placeholder="Any technology" searchable />
@@ -1154,7 +1233,7 @@ export default function CorporateITTrainingPage() {
                   {/* Duration */}
                   <div className="rounded-2xl p-4" style={cardStyle}>
                     <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>)}
+                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Duration</span>
                     </div>
                     <DurationSelect values={durations} onChange={setDurations} />
@@ -1163,7 +1242,7 @@ export default function CorporateITTrainingPage() {
                   {/* Price Range */}
                   <div className="rounded-2xl p-4" style={cardStyle}>
                     <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg>)}
+                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Price Range</span>
                     </div>
                     <BudgetSelect value={budget} onChange={setBudget} />
@@ -1174,10 +1253,10 @@ export default function CorporateITTrainingPage() {
           </div>
 
           {/* YOUR SELECTION */}
-          <div className="rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #E2EBF6', boxShadow: '0 1px 4px rgba(7,109,157,0.04)' }}>
+          <div className="rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #E2EBF6', boxShadow: '0 1px 4px rgba(6,148,209,0.04)' }}>
             <div className="flex items-center gap-2 mb-2.5">
               <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
               </div>
               <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>Your Selection</span>
             </div>
@@ -1186,41 +1265,47 @@ export default function CorporateITTrainingPage() {
             ) : (
               <div className="flex flex-wrap gap-2">
                 {(startDate || endDate) && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
                     {startDate || '…'} → {endDate || '…'}
                     <button onClick={() => { setStartDate(''); setEndDate('') }} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 )}
                 {oem !== 'All OEMs' && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
                     Partner: {oem}
                     <button onClick={() => setOem('All OEMs')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 )}
                 {technology !== 'All Technologies' && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
                     Tech: {technology}
                     <button onClick={() => setTechnology('All Technologies')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 )}
                 {durations.map(d => (
-                  <span key={d} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
+                  <span key={d} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
                     {d}
                     <button onClick={() => setDurations(durations.filter(x => x !== d))} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 ))}
                 {budget && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
                     {budget}
                     <button onClick={() => setBudget('')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 )}
                 {modes.map(m => (
-                  <span key={m} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#076D9D', border: '1px solid #C8DFF0' }}>
+                  <span key={m} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
                     {m.replace('Only ', '')}
                     <button onClick={() => toggleMode(m)} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 ))}
+                {classroomCity && (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
+                    📍 {classroomCity}
+                    <button onClick={() => setClassroomCity('')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -1229,7 +1314,7 @@ export default function CorporateITTrainingPage() {
           <div className="mb-5">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#076D9D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               </div>
               <span className="text-xs font-bold uppercase" style={{ color: '#94a3b8', letterSpacing: '0.09em' }}>How You Want To Learn</span>
             </div>
@@ -1245,18 +1330,18 @@ export default function CorporateITTrainingPage() {
                   <button key={key} onClick={() => toggleMode(key)}
                     className="relative flex flex-col p-5 rounded-2xl text-left transition-all duration-200 select-none"
                     style={{
-                      border: `1.5px solid ${active ? '#076D9D' : '#E2EBF6'}`,
+                      border: `1.5px solid ${active ? '#0694D1' : '#E2EBF6'}`,
                       background: active ? 'linear-gradient(145deg,#EDF7FF,#e0f2fe)' : '#fff',
-                      boxShadow: active ? '0 4px 16px rgba(7,109,157,0.15)' : '0 1px 5px rgba(0,0,0,0.04)',
+                      boxShadow: active ? '0 4px 18px rgba(6,148,209,0.22)' : '0 4px 14px rgba(0,0,0,0.07)',
                     }}
                   >
                     {/* Icon + toggle row */}
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: active ? '#076D9D' : '#EEF4FA' }}>
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: active ? '#0694D1' : '#EEF4FA' }}>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={active ? '#fff' : '#476D8D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
                       </div>
                       {/* Toggle switch */}
-                      <div className="w-10 h-5 rounded-full relative flex-shrink-0" style={{ background: active ? '#076D9D' : '#E2EBF6', transition: 'background 0.2s' }}>
+                      <div className="w-10 h-5 rounded-full relative flex-shrink-0" style={{ background: active ? '#0694D1' : '#E2EBF6', transition: 'background 0.2s' }}>
                         <div className="absolute top-0.5 w-4 h-4 rounded-full bg-white" style={{ transform: active ? 'translateX(20px)' : 'translateX(2px)', transition: 'transform 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
                       </div>
                     </div>
@@ -1269,6 +1354,19 @@ export default function CorporateITTrainingPage() {
                 )
               })}
             </div>
+
+            {/* City selector — shown when Classroom is active */}
+            {modes.includes('Only Classroom') && (
+              <div className="mt-3 flex items-center gap-3 px-1">
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span className="text-xs font-bold uppercase tracking-wide" style={{ color: '#64748b' }}>City</span>
+                </div>
+                <CitySelect value={classroomCity} onChange={setClassroomCity} />
+              </div>
+            )}
           </div>
 
           {/* Bottom bar */}
@@ -1279,7 +1377,7 @@ export default function CorporateITTrainingPage() {
             </div>
             <div className="flex items-center gap-3">
               <button
-                onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setStartDate(''); setEndDate('') }}
+                onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors"
                 style={{ border: '1.5px solid #E2EBF6', color: '#64748b', background: '#fff' }}
                 onMouseEnter={e => (e.currentTarget.style.background = '#F8FAFC')}
@@ -1315,7 +1413,7 @@ export default function CorporateITTrainingPage() {
               onChange={e => setSearch(e.target.value)}
               className="w-full pl-10 pr-10 py-3 rounded-xl text-sm outline-none"
               style={{ background: '#fff', border: '1.5px solid #D0E8F5', color: '#0b2545', boxShadow: '0 1px 6px rgba(0,0,0,0.05)' }}
-              onFocus={e => { e.currentTarget.style.borderColor = '#076D9D'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(7,109,157,0.1)' }}
+              onFocus={e => { e.currentTarget.style.borderColor = '#0694D1'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(6,148,209,0.1)' }}
               onBlur={e => { e.currentTarget.style.borderColor = '#D0E8F5'; e.currentTarget.style.boxShadow = '0 1px 6px rgba(0,0,0,0.05)' }}
             />
             {search && (
@@ -1327,10 +1425,10 @@ export default function CorporateITTrainingPage() {
           </div>
           {!search && (
             <>
-              <button onClick={() => setExpandAll(true)} className="text-sm font-semibold px-4 py-3 rounded-xl text-white flex-shrink-0" style={{ background: '#076D9D' }}>
+              <button onClick={() => setExpandAll(true)} className="text-sm font-semibold px-4 py-3 rounded-xl text-white flex-shrink-0" style={{ background: '#0694D1' }}>
                 Expand All
               </button>
-              <button onClick={() => setExpandAll(false)} className="text-sm font-semibold px-4 py-3 rounded-xl flex-shrink-0" style={{ background: '#fff', color: '#076D9D', border: '1.5px solid #D0E8F5' }}>
+              <button onClick={() => setExpandAll(false)} className="text-sm font-semibold px-4 py-3 rounded-xl flex-shrink-0" style={{ background: '#fff', color: '#0694D1', border: '1.5px solid #D0E8F5' }}>
                 Collapse All
               </button>
             </>
@@ -1346,7 +1444,7 @@ export default function CorporateITTrainingPage() {
       </section>
 
       {/* ── BOTTOM CTA ───────────────────────────────────────── */}
-      <section className="py-16 text-center px-4" style={{ background: 'linear-gradient(135deg, #061624 0%, #076D9D 100%)' }}>
+      <section className="py-16 text-center px-4" style={{ background: 'linear-gradient(135deg, #061624 0%, #0694D1 100%)' }}>
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Need a Custom Training Plan?</h2>
           <p className="mb-8" style={{ color: 'rgba(255,255,255,0.65)' }}>
@@ -1355,7 +1453,7 @@ export default function CorporateITTrainingPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href="https://www.koenig-solutions.com/contact" target="_blank" rel="noopener noreferrer"
               className="px-8 py-3.5 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity"
-              style={{ background: '#fff', color: '#076D9D' }}>
+              style={{ background: '#fff', color: '#0694D1' }}>
               Talk to a Training Advisor
             </a>
             <a href="https://www.koenig-solutions.com/corporate-it-training-courses" target="_blank" rel="noopener noreferrer"
