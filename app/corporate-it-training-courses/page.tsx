@@ -1109,8 +1109,7 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
                       <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                       {level}
                     </span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: `${vendor.color}12`, color: vendor.color, border: `1px solid ${vendor.color}25` }}>{vendor.name}</span>
+                    <div className="flex flex-col items-end" style={{ gap: 5 }}>
                       {popular && (
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
                           style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
@@ -1118,6 +1117,7 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
                           POPULAR
                         </span>
                       )}
+                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: `${vendor.color}12`, color: vendor.color, border: `1px solid ${vendor.color}25` }}>{vendor.name}</span>
                     </div>
                   </div>
                   {/* Title */}
