@@ -814,9 +814,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
               <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
               {/* All Courses entry */}
               <div className="group/vendor relative flex items-center" style={{ borderLeft: megaMenuVendor === 'All Courses' ? '2px solid #0694D1' : '2px solid transparent', background: megaMenuVendor === 'All Courses' ? 'rgba(6,148,209,0.12)' : 'transparent' }}>
-                <button
+                <a href="/corporate-it-training-courses"
                   onMouseEnter={() => setMegaMenuVendor('All Courses')}
-                  onClick={() => setMegaMenuVendor('All Courses')}
                   className="flex flex-1 items-center gap-3 px-4 py-2.5 text-left transition-all"
                   style={{ color: megaMenuVendor === 'All Courses' ? '#ffffff' : 'rgba(255,255,255,0.65)' }}
                 >
@@ -827,7 +826,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                     <div className="truncate text-sm font-medium leading-tight">All Courses</div>
                     <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>5,000+ Courses</div>
                   </div>
-                </button>
+                </a>
               </div>
               {MEGA_MENU_VENDORS.map(v => (
                 <div key={v.name} className="group/vendor relative flex items-center" style={{ borderLeft: megaMenuVendor === v.name ? '2px solid #0694D1' : '2px solid transparent', background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.12)' : 'transparent' }}>
