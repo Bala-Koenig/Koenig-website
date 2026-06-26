@@ -15787,13 +15787,6 @@ export default function App() {
         </div>
       </section>}
 
-      {/* INLINE LEAD FORM — below courses */}
-      <section style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', padding: '60px 20px' }}>
-        <div style={{ maxWidth: 640, margin: '0 auto' }}>
-          <EnterpriseLeadForm onClose={() => {}} />
-        </div>
-      </section>
-
       {/* ENROLLMENT DATA + SAMPLE CERTIFICATE */}
       <EnrollmentCombinedSection onCTA={() => setCertModal(true)} />
 
