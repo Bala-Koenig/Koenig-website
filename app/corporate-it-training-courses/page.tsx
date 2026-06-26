@@ -1102,13 +1102,17 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
               return (
                 <div key={i} className="flex flex-col rounded-2xl p-4"
                   style={{ background: '#fff', border: '1.5px solid #E8F0FA', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-                  {/* Level + Popular badges */}
-                  <div className="flex items-center justify-between mb-3">
+                  {/* Level badge */}
+                  <div className="flex items-center mb-2">
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
                       style={{ background: `${vendor.color}14`, color: vendor.color, border: `1px solid ${vendor.color}28` }}>
                       <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                       {level}
                     </span>
+                  </div>
+                  {/* Vendor + Popular */}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: `${vendor.color}12`, color: vendor.color, border: `1px solid ${vendor.color}25` }}>{vendor.name}</span>
                     {popular && (
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide"
                         style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid rgba(6,148,209,0.25)' }}>
@@ -1325,18 +1329,15 @@ export default function CorporateITTrainingPage() {
                 ].map((row, ri) => (
                   <div key={ri}>
                     {ri > 0 && <div style={{ height: 1, background: 'rgba(6,148,209,0.12)' }} />}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                       {row.map((s, ci) => (
-                        <div key={ci}>
-                          {ci > 0 && <div style={{ background: 'rgba(6,148,209,0.12)', width: 1, height: '100%' }} />}
-                          <div className="cit-stat" style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 6, position: 'relative', overflow: 'hidden', cursor: 'default' }}>
-                            <div className="cit-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>{s.icon}</svg>
-                              <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s.val}</div>
-                            </div>
-                            <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>{s.label}</div>
+                        <div key={ci} className="cit-stat" style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 6, position: 'relative', overflow: 'hidden', cursor: 'default', borderLeft: ci > 0 ? '1px solid rgba(6,148,209,0.12)' : 'none' }}>
+                          <div className="cit-glow" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, rgba(6,148,209,0.5), transparent)', opacity: 0, transition: 'opacity 0.3s', pointerEvents: 'none' }} />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>{s.icon}</svg>
+                            <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s.val}</div>
                           </div>
+                          <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>{s.label}</div>
                         </div>
                       ))}
                     </div>
