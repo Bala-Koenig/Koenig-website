@@ -2376,9 +2376,9 @@ export default function CorporateITTrainingPage() {
         </div>
 
         {/* ── Search bar + sort controls ── */}
-        <div className="my-2 flex flex-col gap-2">
-          {/* Row 1: Search */}
-          <div className="relative w-full">
+        <div className="my-2 flex flex-col lg:flex-row gap-2 lg:items-center">
+          {/* Search — grows to fill available space on desktop */}
+          <div className="relative w-full lg:flex-1">
             <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
@@ -2396,8 +2396,8 @@ export default function CorporateITTrainingPage() {
               <button onClick={() => setSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-base leading-none">✕</button>
             )}
           </div>
-          {/* Row 2: Sort by & Currency */}
-          <div className="flex gap-3 justify-center">
+          {/* Sort by & Currency — centered on mobile, inline on desktop */}
+          <div className="flex gap-3 justify-center lg:justify-end lg:shrink-0">
             <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Highest Fees', 'Lowest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} minWidth={160} />
             <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} minWidth={80} />
           </div>
