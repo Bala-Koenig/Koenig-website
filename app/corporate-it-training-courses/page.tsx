@@ -395,7 +395,15 @@ const DURATION_ITEMS = [
   { label: 'More',   days: '5+ days'},
 ]
 const TRAINING_MODES = ['Only GTR', 'Only Live Online', 'Only Classroom', 'Self-Paced']
-const CLASSROOM_CITIES = ['Bangalore', 'Chennai', 'Delhi / NCR', 'Dubai', 'Hyderabad', 'Jaipur', 'Kolkata', 'London', 'Mumbai', 'New York', 'Pune', 'Singapore']
+const CITY_DATA = [
+  'Abu Dhabi', 'Ahmedabad', 'Amsterdam', 'Bahrain', 'Bangalore', 'Bangkok',
+  'Boston', 'Brussels', 'Chennai', 'Chicago', 'Dallas', 'Delhi / NCR',
+  'Doha', 'Dubai', 'Frankfurt', 'Hong Kong', 'Houston', 'Hyderabad',
+  'Jaipur', 'Jakarta', 'Kochi', 'Kolkata', 'Kuala Lumpur', 'London',
+  'Los Angeles', 'Melbourne', 'Miami', 'Mumbai', 'Muscat', 'Nairobi',
+  'New York', 'Paris', 'Pune', 'Riyadh', 'San Francisco', 'Seattle',
+  'Seoul', 'Singapore', 'Sydney', 'Tokyo', 'Toronto', 'Washington DC', 'Zurich',
+]
 
 /* ─── Dropdown component ────────────────────────────────── */
 function SelectDropdown({ value, options, onChange }: { value: string; options: string[]; onChange: (v: string) => void }) {
@@ -530,6 +538,7 @@ function InlineSelect({ value, options, onChange, placeholder, searchable }: { v
   )
 }
 
+
 /* ─── City searchable dropdown (for Classroom mode) ─────── */
 function CitySelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [open, setOpen] = useState(false)
@@ -546,7 +555,7 @@ function CitySelect({ value, onChange }: { value: string; onChange: (v: string) 
   useEffect(() => {
     if (open) { setQuery(''); setTimeout(() => inputRef.current?.focus(), 50) }
   }, [open])
-  const filtered = query ? CLASSROOM_CITIES.filter(c => c.toLowerCase().includes(query.toLowerCase())) : CLASSROOM_CITIES
+  const filtered = query ? CITY_DATA.filter(c => c.toLowerCase().includes(query.toLowerCase())) : CITY_DATA
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(o => !o)}
@@ -565,7 +574,7 @@ function CitySelect({ value, onChange }: { value: string; onChange: (v: string) 
       </button>
       {open && (
         <div className="cit-dropdown absolute z-50 mt-1.5 rounded-xl overflow-hidden"
-          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '200px', top: '100%', left: 0 }}>
+          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '220px', top: '100%', left: 0 }}>
           <div className="px-3 pt-2.5 pb-2" style={{ borderBottom: '1px solid #EEF3F9' }}>
             <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: '#F1F5F9' }}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -580,7 +589,7 @@ function CitySelect({ value, onChange }: { value: string; onChange: (v: string) 
               {query && <button onClick={() => setQuery('')} className="leading-none text-sm" style={{ color: '#94a3b8' }}>×</button>}
             </div>
           </div>
-          <div style={{ maxHeight: '220px', overflowY: 'auto' }}>
+          <div style={{ maxHeight: '260px', overflowY: 'auto' }}>
             {filtered.length === 0 ? (
               <p className="px-4 py-3 text-xs" style={{ color: '#94a3b8' }}>No city found</p>
             ) : filtered.map(city => {
@@ -967,7 +976,7 @@ function DateRangeSelect({ startDate, endDate, onChange }: { startDate: string; 
 }
 
 /* ─── Pill dropdown (sort / currency) ───────────────────── */
-function PillDropdown({ label, value, options, onChange }: { label?: string; value: string; options: string[]; onChange: (v: string) => void }) {
+function PillDropdown({ label, value, options, onChange, minWidth }: { label?: string; value: string; options: string[]; onChange: (v: string) => void; minWidth?: number }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -981,7 +990,7 @@ function PillDropdown({ label, value, options, onChange }: { label?: string; val
     <div ref={ref} className="relative flex-shrink-0">
       <button onClick={() => setOpen(o => !o)}
         className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-sm font-medium"
-        style={{ border: '1.5px solid #D0E8F5', background: '#fff', color: '#374151', whiteSpace: 'nowrap' }}>
+        style={{ border: '1.5px solid #D0E8F5', background: '#fff', color: '#374151', whiteSpace: 'nowrap', ...(minWidth ? { minWidth } : {}) }}>
         {label ? <span style={{ color: '#64748b' }}>{label}</span> : null}
         <span style={{ fontWeight: 600, color: '#0b2545' }}>{value}</span>
         <svg width="12" height="12" viewBox="0 0 20 20" fill="#94a3b8"
@@ -1145,7 +1154,8 @@ function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS
                   {/* Buttons */}
                   <div className="flex gap-2">
                     <button className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-opacity hover:opacity-80"
-                      style={{ border: `1.5px solid ${vendor.color}40`, color: vendor.color, background: '#fff' }}>
+                      style={{ border: `1.5px solid ${vendor.color}40`, color: vendor.color, background: '#fff' }}
+                      onClick={() => { setSyllabusCourse(course); setSyllabusOpen(true) }}>
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                       Download Syllabus
                     </button>
@@ -1338,157 +1348,493 @@ function EnterpriseLeadForm({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* ─── Mobile / Tablet Filter Drawer ─────────────────────── */
+/* ─── Mobile inline calendar ────────────────────────────── */
+function MobileCalendar({ startDate, endDate, onChange, onApply }: { startDate: string; endDate: string; onChange: (s: string, e: string) => void; onApply: () => void }) {
+  const todayIso = toCalIso(new Date())
+  const base = startDate || todayIso
+  const [viewYear, setViewYear] = useState(() => parseInt(base.split('-')[0]))
+  const [viewMonth, setViewMonth] = useState(() => parseInt(base.split('-')[1]) - 1)
+
+  const monthLabel = new Date(viewYear, viewMonth, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' })
+  const firstDow = new Date(viewYear, viewMonth, 1).getDay()
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate()
+  const cells: (number | null)[] = [...Array(firstDow).fill(null), ...Array.from({ length: daysInMonth }, (_, i) => i + 1)]
+
+  function iso(d: number) {
+    return `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
+  }
+
+  function handleDay(d: number) {
+    const clicked = iso(d)
+    if (!startDate || (startDate && endDate)) {
+      onChange(clicked, '')
+    } else {
+      if (clicked >= startDate) onChange(startDate, clicked)
+      else onChange(clicked, startDate)
+    }
+  }
+
+  function prevMonth() {
+    if (viewMonth === 0) { setViewYear(y => y - 1); setViewMonth(11) }
+    else setViewMonth(m => m - 1)
+  }
+  function nextMonth() {
+    if (viewMonth === 11) { setViewYear(y => y + 1); setViewMonth(0) }
+    else setViewMonth(m => m + 1)
+  }
+
+  const fmtShort = (s: string) => s ? new Date(s + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '–'
+
+  return (
+    <div>
+
+      {/* Month navigation */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+        <button onClick={prevMonth} style={{ width: 30, height: 30, borderRadius: '50%', background: '#F1F5F9', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="12" height="12" viewBox="0 0 20 20" fill="#64748b"><path fillRule="evenodd" d="M12.79 5.23a.75.75 0 0 1 0 1.06L9.06 10l3.73 3.71a.75.75 0 1 1-1.06 1.06l-4.25-4.24a.75.75 0 0 1 0-1.06l4.25-4.24a.75.75 0 0 1 1.06 0z" clipRule="evenodd"/></svg>
+        </button>
+        <span style={{ fontSize: 13, fontWeight: 700, color: '#0b2545' }}>{monthLabel}</span>
+        <button onClick={nextMonth} style={{ width: 30, height: 30, borderRadius: '50%', background: '#F1F5F9', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="12" height="12" viewBox="0 0 20 20" fill="#64748b"><path fillRule="evenodd" d="M7.21 14.77a.75.75 0 0 1 0-1.06L10.94 10 7.21 6.29a.75.75 0 1 1 1.06-1.06l4.25 4.24a.75.75 0 0 1 0 1.06l-4.25 4.24a.75.75 0 0 1-1.06 0z" clipRule="evenodd"/></svg>
+        </button>
+      </div>
+
+      {/* Weekday headers */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: 2 }}>
+        {['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => (
+          <div key={d} style={{ textAlign: 'center', fontSize: 10, fontWeight: 700, color: '#94a3b8', paddingBottom: 4 }}>{d}</div>
+        ))}
+      </div>
+
+      {/* Day cells */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
+        {cells.map((d, i) => {
+          if (!d) return <div key={`e${i}`} style={{ height: 34 }} />
+          const cellIso = iso(d)
+          const isStart = cellIso === startDate
+          const isEnd = cellIso === endDate
+          const inRange = !!(startDate && endDate && cellIso > startDate && cellIso < endDate)
+          const isToday = cellIso === todayIso
+          const dotted = isStart && !endDate
+
+          let rangeBg = 'transparent'
+          let rangeBr = '0'
+          if (inRange) { rangeBg = '#DBEAFE'; rangeBr = '0' }
+          else if (isStart && endDate) { rangeBg = '#DBEAFE'; rangeBr = '50% 0 0 50%' }
+          else if (isEnd) { rangeBg = '#DBEAFE'; rangeBr = '0 50% 50% 0' }
+
+          return (
+            <div key={d} onClick={() => handleDay(d)}
+              style={{ height: 34, background: rangeBg, borderRadius: rangeBr, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: isStart || isEnd ? '#0694D1' : 'transparent',
+                border: (isToday && !isStart && !isEnd) ? '1.5px solid #0694D1' : dotted ? '2px dashed #0694D1' : 'none',
+                fontSize: 12,
+                fontWeight: isStart || isEnd || isToday ? 700 : 400,
+                color: isStart || isEnd ? '#fff' : isToday ? '#0694D1' : '#1e293b',
+              }}>{d}</div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Actions row */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 14 }}>
+        <button onClick={() => onChange('', '')}
+          style={{ flex: 1, padding: '10px 0', borderRadius: 20, background: 'transparent', border: `1.5px solid ${(startDate || endDate) ? '#94a3b8' : '#E2E8F0'}`, cursor: (startDate || endDate) ? 'pointer' : 'default', color: (startDate || endDate) ? '#64748b' : '#CBD5E1', fontSize: 13, fontWeight: 700, transition: 'border-color 0.2s, color 0.2s' }}>
+          Clear
+        </button>
+        <button onClick={onApply} disabled={!startDate || !endDate}
+          style={{ flex: 1, padding: '10px 0', borderRadius: 20, background: startDate && endDate ? '#0694D1' : '#E2E8F0', border: 'none', cursor: startDate && endDate ? 'pointer' : 'default', color: startDate && endDate ? '#fff' : '#94a3b8', fontSize: 13, fontWeight: 700, transition: 'background 0.2s' }}>
+          Apply
+        </button>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Mode options for filter modal ─────────────────────── */
+const MODE_OPTIONS = [
+  { key: 'Only GTR',        label: 'Guaranteed to Run', sub: 'Confirmed dates',
+    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg> },
+  { key: 'Only Live Online', label: 'Online',            sub: 'Live virtual',
+    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> },
+  { key: 'Only Classroom',  label: 'Classroom',         sub: 'In person',
+    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
+  { key: 'Self-Paced',      label: 'Self-Paced',        sub: 'Flexi anytime',
+    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> },
+]
+
+/* ─── Mobile date card (matches desktop card style) ─────── */
+function MobileDateDropdown({ startDate, endDate, onChange }: { startDate: string; endDate: string; onChange: (s: string, e: string) => void }) {
+  const [open, setOpen] = useState(false)
+  const hasDate = !!(startDate || endDate)
+  const fmtShort = (d: string) => d ? new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : ''
+  return (
+    <div className="w-full rounded-2xl overflow-hidden"
+      style={{ background: '#fff', border: `1.5px solid ${hasDate ? '#0694D1' : '#D1D5DB'}`, boxShadow: hasDate ? '0 4px 18px rgba(6,148,209,0.18)' : 'none', transition: 'border-color 0.2s, box-shadow 0.2s' }}>
+      <button onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-2">
+          <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <div className="flex flex-col items-start">
+            <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Date Range</span>
+            {hasDate && (
+              <span className="text-xs font-semibold" style={{ color: '#0694D1' }}>
+                {fmtShort(startDate) || '…'} – {fmtShort(endDate) || '…'}
+              </span>
+            )}
+          </div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="#94a3b8"
+          style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s', flexShrink: 0 }}>
+          <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
+        </svg>
+      </button>
+      {open && (
+        <div className="px-4 pb-4" style={{ borderTop: '1px solid #EEF3F9' }}>
+          <div className="pt-3">
+            <MobileCalendar startDate={startDate} endDate={endDate} onChange={onChange} onApply={() => setOpen(false)} />
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function FilterDrawer({
   open, onClose,
-  startDate, endDate, onDateChange,
   oem, setOem,
   technology, setTechnology,
   durations, setDurations,
   budget, setBudget,
+  modes, toggleMode,
+  classroomCity, setClassroomCity,
+  initialTab,
   onClearAll,
 }: {
   open: boolean; onClose: () => void;
-  startDate: string; endDate: string; onDateChange: (s: string, e: string) => void;
   oem: string; setOem: (v: string) => void;
   technology: string; setTechnology: (v: string) => void;
   durations: string[]; setDurations: (v: string[]) => void;
   budget: string; setBudget: (v: string) => void;
+  modes: string[]; toggleMode: (m: string) => void;
+  classroomCity: string; setClassroomCity: (v: string) => void;
+  initialTab?: string;
   onClearAll: () => void;
 }) {
-  const toggleDuration = (lbl: string) =>
-    setDurations(durations.includes(lbl) ? durations.filter(x => x !== lbl) : [...durations, lbl])
+  const [activeTab, setActiveTab] = useState(initialTab || 'Vendor')
+  const [search, setSearch] = useState('')
 
-  const activeCount = [
-    !!(startDate || endDate), oem !== 'All OEMs',
-    technology !== 'All Technologies', durations.length > 0, !!budget,
-  ].filter(Boolean).length
+  useEffect(() => { if (open) setActiveTab(initialTab || 'Vendor') }, [open])
+  useEffect(() => { setSearch('') }, [activeTab])
 
-  const chip = (selected: boolean) => ({
-    display: 'inline-flex' as const, alignItems: 'center' as const, gap: 5,
-    padding: '7px 14px', borderRadius: 99, fontSize: 13, fontWeight: selected ? 700 : 500,
-    border: `1.5px solid ${selected ? '#0694D1' : '#D1D5DB'}`,
-    background: selected ? '#0694D1' : '#fff',
-    color: selected ? '#fff' : '#374151',
-    cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap' as const,
-  })
+  const categories = [
+    { key: 'Vendor',     active: oem !== 'All OEMs',               count: oem !== 'All OEMs' ? 1 : 0 },
+    { key: 'Technology', active: technology !== 'All Technologies', count: technology !== 'All Technologies' ? 1 : 0 },
+    { key: 'Duration',   active: durations.length > 0,             count: durations.length },
+    { key: 'Budget',     active: !!budget,                         count: budget ? 1 : 0 },
+    { key: 'Mode',       active: modes.length > 0,                 count: modes.length },
+  ]
 
-  const sectionHead = (label: string, count?: number) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-      <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: '#0b2545' }}>{label}</span>
-      {count !== undefined && count > 0 && (
-        <span style={{ background: '#0694D1', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: 99, padding: '1px 6px' }}>{count}</span>
-      )}
-    </div>
+  const activeCount = categories.filter(c => c.active).length
+
+  const allOptions: Record<string, string[]> = {
+    Vendor:     ALL_OEMS.filter(o => o !== 'All OEMs'),
+    Technology: ALL_TECHNOLOGIES.filter(t => t !== 'All Technologies'),
+    Duration:   DURATION_ITEMS.map(d => d.label),
+    Budget:     PRICE_RANGES,
+  }
+
+  const filtered = (allOptions[activeTab] || []).filter(o =>
+    !search || o.toLowerCase().includes(search.toLowerCase())
   )
+
+  function isSelected(opt: string) {
+    if (activeTab === 'Vendor')     return oem === opt
+    if (activeTab === 'Technology') return technology === opt
+    if (activeTab === 'Duration')   return durations.includes(opt)
+    if (activeTab === 'Budget')     return budget === opt
+    return false
+  }
+
+  function toggle(opt: string) {
+    if (activeTab === 'Vendor')     setOem(oem === opt ? 'All OEMs' : opt)
+    if (activeTab === 'Technology') setTechnology(technology === opt ? 'All Technologies' : opt)
+    if (activeTab === 'Duration')   setDurations(durations.includes(opt) ? durations.filter(x => x !== opt) : [...durations, opt])
+    if (activeTab === 'Budget')     setBudget(budget === opt ? '' : opt)
+  }
 
   if (!open) return null
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 1200 }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }} onClick={onClose} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, maxHeight: '90vh', borderRadius: '24px 24px 0 0', background: '#fff', display: 'flex', flexDirection: 'column', zIndex: 1 }}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 1200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px' }}>
+      {/* Backdrop */}
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)' }} onClick={onClose} />
+
+      {/* Modal */}
+      <div style={{ position: 'relative', width: '100%', maxWidth: 420, height: '88vh', borderRadius: 16, background: '#fff', display: 'flex', flexDirection: 'column', zIndex: 1, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
 
         {/* Header */}
-        <div style={{ padding: '18px 20px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, borderBottom: '1px solid #F0F4F8' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-            <span style={{ fontWeight: 800, fontSize: 17, color: '#0b2545' }}>Filters</span>
-            {activeCount > 0 && <span style={{ background: '#0694D1', color: '#fff', fontSize: 11, fontWeight: 700, borderRadius: 99, padding: '2px 8px' }}>{activeCount} active</span>}
-          </div>
-          <button onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', border: '1.5px solid #E5E7EB', background: '#F9FAFB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: '#374151', cursor: 'pointer', flexShrink: 0 }}>✕</button>
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #F0F4F8', flexShrink: 0 }}>
+          <span style={{ fontSize: 17, fontWeight: 800, color: '#0b2545' }}>Filter</span>
         </div>
 
-        {/* Scrollable body — all sections visible at once */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 8px' }}>
+        {/* Two-panel body */}
+        <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
 
-          {/* Technology */}
-          <div style={{ marginBottom: 24 }}>
-            {sectionHead('Technology', technology !== 'All Technologies' ? 1 : 0)}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {ALL_TECHNOLOGIES.filter(t => t !== 'All Technologies').map(t => (
-                <button key={t} onClick={() => setTechnology(technology === t ? 'All Technologies' : t)} style={chip(technology === t)}>
-                  {technology === t && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                  {t}
+          {/* Left — category list */}
+          <div style={{ width: 130, borderRight: '1px solid #F0F4F8', overflowY: 'auto', flexShrink: 0, background: '#FAFBFC' }}>
+            {categories.map(cat => {
+              const isActive = activeTab === cat.key
+              const color = cat.active ? '#0694D1' : isActive ? '#0b2545' : '#64748b'
+              return (
+                <button key={cat.key} onClick={() => setActiveTab(cat.key)}
+                  style={{
+                    width: '100%', padding: '14px 12px', textAlign: 'left' as const,
+                    background: isActive ? '#fff' : 'transparent',
+                    borderLeft: `3px solid ${isActive ? '#0694D1' : 'transparent'}`,
+                    borderTop: 'none', borderRight: 'none', borderBottom: '1px solid #F0F4F8',
+                    cursor: 'pointer', display: 'flex', flexDirection: 'column' as const, gap: 6,
+                  }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ color, display: 'flex', alignItems: 'center' }}>{cat.icon}</span>
+                    {cat.count > 0 && (
+                      <span style={{ background: '#0694D1', color: '#fff', fontSize: 10, fontWeight: 800, borderRadius: 4, padding: '1px 5px', lineHeight: 1.5 }}>{cat.count}</span>
+                    )}
+                  </div>
+                  <span style={{ fontSize: 12, fontWeight: cat.active ? 700 : isActive ? 600 : 400, color, lineHeight: 1.3, wordBreak: 'break-word' as const }}>{cat.key}</span>
                 </button>
-              ))}
-            </div>
+              )
+            })}
           </div>
 
-          {/* Duration */}
-          <div style={{ marginBottom: 24 }}>
-            {sectionHead('Duration', durations.length)}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {DURATION_ITEMS.map(({ label: lbl, days }) => {
-                const on = durations.includes(lbl)
-                return (
-                  <button key={lbl} onClick={() => toggleDuration(lbl)} style={chip(on)}>
-                    {on && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                    {lbl}
-                    <span style={{ opacity: on ? 0.75 : 0.55, fontSize: 11 }}>· {days}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Price Range */}
-          <div style={{ marginBottom: 24 }}>
-            {sectionHead('Price Range', budget ? 1 : 0)}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {PRICE_RANGES.map(r => (
-                <button key={r} onClick={() => setBudget(budget === r ? '' : r)} style={chip(budget === r)}>
-                  {budget === r && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                  {r}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Partner */}
-          <div style={{ marginBottom: 24 }}>
-            {sectionHead('Partner', oem !== 'All OEMs' ? 1 : 0)}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {ALL_OEMS.filter(o => o !== 'All OEMs').map(o => (
-                <button key={o} onClick={() => setOem(oem === o ? 'All OEMs' : o)} style={chip(oem === o)}>
-                  {oem === o && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                  {o}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Date Range */}
-          <div style={{ marginBottom: 8 }}>
-            {sectionHead('Date Range', (startDate || endDate) ? 1 : 0)}
-            <div style={{ display: 'flex', gap: 10 }}>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#94a3b8', marginBottom: 4 }}>From</p>
-                <input type="date" value={startDate} onChange={e => onDateChange(e.target.value, endDate)}
-                  style={{ width: '100%', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${startDate ? '#0694D1' : '#D1D5DB'}`, fontSize: 13, color: '#0b2545', outline: 'none', background: startDate ? '#EDF7FF' : '#fff', boxSizing: 'border-box' }} />
+          {/* Right — search + list */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' as const, overflow: 'hidden' }}>
+            {/* Search — hidden for Mode tab */}
+            {activeTab !== 'Mode' && (
+              <div style={{ padding: '10px 14px', borderBottom: '1px solid #F0F4F8', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#F1F5F9', borderRadius: 8, padding: '7px 10px' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                  <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search"
+                    style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 13, color: '#0b2545' }} />
+                </div>
               </div>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#94a3b8', marginBottom: 4 }}>To</p>
-                <input type="date" value={endDate} onChange={e => onDateChange(startDate, e.target.value)}
-                  style={{ width: '100%', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${endDate ? '#0694D1' : '#D1D5DB'}`, fontSize: 13, color: '#0b2545', outline: 'none', background: endDate ? '#EDF7FF' : '#fff', boxSizing: 'border-box' }} />
-              </div>
+            )}
+
+            {/* Options */}
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+              {activeTab === 'Mode' ? (
+                MODE_OPTIONS.map(m => {
+                  const sel = modes.includes(m.key)
+                  const isSelfPaced = m.key === 'Self-Paced'
+                  const selfPacedOn = modes.includes('Self-Paced')
+                  const othersOn = modes.some(x => x !== 'Self-Paced')
+                  const liveOnlineOn = modes.includes('Only Live Online')
+                  const classroomOn = modes.includes('Only Classroom')
+                  const disabled = isSelfPaced ? othersOn
+                    : selfPacedOn
+                    || (m.key === 'Only Classroom' && liveOnlineOn)
+                    || (m.key === 'Only Live Online' && classroomOn)
+                  return (
+                    <div key={m.key}>
+                      <button onClick={() => !disabled && toggleMode(m.key)}
+                        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 14px', background: sel ? '#F0F9FF' : 'transparent', border: 'none', borderBottom: '1px solid #F0F4F8', cursor: disabled ? 'not-allowed' : 'pointer', textAlign: 'left' as const, opacity: disabled ? 0.42 : 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                          <div style={{ width: 34, height: 34, borderRadius: 10, background: sel ? '#DBEAFE' : '#F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                            {m.icon}
+                          </div>
+                          <div>
+                            <div style={{ fontSize: 13, fontWeight: sel ? 700 : 500, color: sel ? '#0694D1' : '#0b2545' }}>{m.label}</div>
+                            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 1 }}>{m.sub}</div>
+                          </div>
+                        </div>
+                        <div style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${sel ? '#0694D1' : '#D1D5DB'}`, background: sel ? '#0694D1' : '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {sel && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                        </div>
+                      </button>
+                      {m.key === 'Only Classroom' && sel && (
+                        <div style={{ padding: '12px 14px', borderBottom: '1px solid #F0F4F8', background: '#F8FBFF' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: '#0b2545', textTransform: 'uppercase', letterSpacing: '0.08em' }}>City</span>
+                          </div>
+                          <CitySelect value={classroomCity} onChange={setClassroomCity} />
+                        </div>
+                      )}
+                    </div>
+                  )
+                })
+              ) : (
+                filtered.map(opt => {
+                  const sel = isSelected(opt)
+                  return (
+                    <button key={opt} onClick={() => toggle(opt)}
+                      style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: sel ? '#F0F9FF' : 'transparent', border: 'none', borderBottom: '1px solid #F8FAFC', cursor: 'pointer', textAlign: 'left' as const }}>
+                      <span style={{ fontSize: 13, color: sel ? '#0694D1' : '#374151', fontWeight: sel ? 600 : 400, paddingRight: 8 }}>{opt}</span>
+                      <div style={{ width: 18, height: 18, borderRadius: '50%', border: `2px solid ${sel ? '#0694D1' : '#D1D5DB'}`, background: '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {sel && <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#0694D1' }} />}
+                      </div>
+                    </button>
+                  )
+                })
+              )}
             </div>
           </div>
-
         </div>
 
         {/* Footer */}
-        <div style={{ padding: '14px 20px 20px', borderTop: '1px solid #F0F4F8', display: 'flex', gap: 12, flexShrink: 0 }}>
-          <button onClick={onClearAll}
-            style={{ flex: 1, padding: '13px 0', borderRadius: 14, border: '1.5px solid #D1D5DB', background: '#fff', fontSize: 14, fontWeight: 700, color: '#374151', cursor: 'pointer' }}>
-            Clear All
+        <div style={{ padding: '14px 20px 18px', borderTop: '1px solid #F0F4F8', display: 'flex', gap: 12, flexShrink: 0 }}>
+          <button onClick={() => { onClearAll(); onClose() }}
+            style={{ flex: 1, padding: '12px 0', borderRadius: 12, border: '1.5px solid #D1D5DB', background: '#fff', fontSize: 14, fontWeight: 700, color: '#374151', cursor: 'pointer' }}>
+            Close
           </button>
           <button onClick={onClose}
-            style={{ flex: 2, padding: '13px 0', borderRadius: 14, border: 'none', background: 'linear-gradient(135deg,#0694D1,#0578b0)', fontSize: 14, fontWeight: 700, color: '#fff', cursor: 'pointer', boxShadow: '0 4px 16px rgba(6,148,209,0.4)' }}>
-            {activeCount > 0 ? `Apply (${activeCount} filter${activeCount > 1 ? 's' : ''})` : 'Apply'}
+            style={{ flex: 1, padding: '12px 0', borderRadius: 12, border: 'none', background: activeCount > 0 ? '#0694D1' : '#E2E8F0', fontSize: 14, fontWeight: 700, color: activeCount > 0 ? '#fff' : '#94a3b8', cursor: 'pointer', transition: 'background 0.2s' }}>
+            Apply
           </button>
         </div>
       </div>
     </div>
+  )
+}
+
+/* ─── Syllabus Modal (matches tech page ContactForm style) ── */
+const HEAR_OPTIONS = ['Select Option','Google Search','Social Media','LinkedIn','Colleague / Referral','Email Newsletter','Other']
+
+const CIT_COUNTRIES = [
+  'Afghanistan','Albania','Algeria','Argentina','Australia','Austria','Bahrain','Bangladesh',
+  'Belgium','Brazil','Canada','Chile','China','Colombia','Croatia','Czech Republic','Denmark',
+  'Egypt','Ethiopia','Finland','France','Germany','Ghana','Greece','Hong Kong','Hungary',
+  'India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Japan','Jordan','Kazakhstan',
+  'Kenya','Kuwait','Lebanon','Malaysia','Mexico','Morocco','Netherlands','New Zealand',
+  'Nigeria','Norway','Oman','Pakistan','Peru','Philippines','Poland','Portugal','Qatar',
+  'Romania','Russia','Saudi Arabia','Singapore','South Africa','South Korea','Spain','Sri Lanka',
+  'Sweden','Switzerland','Taiwan','Thailand','Turkey','Ukraine','United Arab Emirates',
+  'United Kingdom','United States','Venezuela','Vietnam','Zimbabwe',
+]
+
+function SyllabusModal({ courseName, onClose }: { courseName: string; onClose: () => void }) {
+  const [sylName, setSylName]           = useState('')
+  const [sylEmail, setSylEmail]         = useState('')
+  const [sylCountry, setSylCountry]     = useState('')
+  const [sylCountryOpen, setSylCountryOpen] = useState(false)
+  const [submitted, setSubmitted]       = useState(false)
+  const countryRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (countryRef.current && !countryRef.current.contains(e.target as Node)) setSylCountryOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const close = () => { onClose(); setSylName(''); setSylEmail(''); setSylCountry(''); setSylCountryOpen(false); setSubmitted(false) }
+
+  const inp: React.CSSProperties = { width: '100%', boxSizing: 'border-box', background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)', borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s' }
+  const lbl: React.CSSProperties = { fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }
+
+  return (
+    <>
+      <style>{`@keyframes citSylSlideIn{from{opacity:0;transform:translate(-50%,-54%)}to{opacity:1;transform:translate(-50%,-50%)}}`}</style>
+      <div style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(5px)' }}
+        onClick={e => { if (e.target === e.currentTarget) close() }} />
+      <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 2001, width: '100%', maxWidth: 440, background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius: 20, padding: '32px 28px 28px', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit', animation: 'citSylSlideIn 0.3s cubic-bezier(0.25,1,0.5,1)' }}>
+        {/* Close */}
+        <button onClick={close} style={{ position: 'absolute', top: 14, right: 14, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+
+        {submitted ? (
+          <div style={{ textAlign: 'center', padding: '12px 0 4px' }}>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', border: '1.5px solid rgba(6,148,209,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.25 }}>You&apos;re all set, {sylName.split(' ')[0]}!</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20 }}>
+              The course content for <strong style={{ color: '#0694D1' }}>{courseName || 'this course'}</strong> will be sent to <strong style={{ color: '#fff' }}>{sylEmail}</strong> shortly.
+            </div>
+            <div style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.2)', borderRadius: 10, padding: '10px 14px', fontSize: 12, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center', marginBottom: 16 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Check your inbox — usually arrives within 2 minutes
+            </div>
+            <button onClick={close} style={{ width: '100%', padding: 11, borderRadius: 10, border: '1px solid rgba(6,148,209,0.35)', background: 'transparent', color: '#0694D1', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Close</button>
+          </div>
+        ) : (
+          <>
+            {/* Badge */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: '#0694D1', textTransform: 'uppercase' }}>Download Syllabus</span>
+            </div>
+            {/* Course name box */}
+            {courseName && (
+              <div style={{ border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 14px', marginBottom: 18, background: 'rgba(255,255,255,0.05)' }}>
+                <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', marginBottom: 5 }}>Course</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0694D1', lineHeight: 1.4 }}>{courseName}</div>
+              </div>
+            )}
+            <div style={{ marginBottom: 6 }}><div style={{ fontSize: 22, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>Get the Course Content</div></div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 22 }}>Fill in your details and we&apos;ll send it straight to your inbox.</div>
+
+            <form onSubmit={e => { e.preventDefault(); if (!sylCountry) return; setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <label style={lbl}>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required placeholder="John" value={sylName} onChange={e => setSylName(e.target.value)} style={inp}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={lbl}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required type="email" placeholder="john@example.com" value={sylEmail} onChange={e => setSylEmail(e.target.value)} style={inp}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={lbl}>Country <span style={{ color: '#ef4444' }}>*</span></label>
+                <div ref={countryRef} style={{ position: 'relative' }}>
+                  <button type="button" onClick={() => setSylCountryOpen(o => !o)}
+                    style={{ width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(6,148,209,0.08)', border: `1.5px solid ${sylCountryOpen ? '#0694D1' : 'rgba(6,148,209,0.3)'}`, borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: sylCountry ? '#fff' : 'rgba(255,255,255,0.4)', cursor: 'pointer', fontFamily: 'inherit', outline: 'none' }}>
+                    {sylCountry || 'Select your country'}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: sylCountryOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  {sylCountryOpen && (
+                    <div style={{ position: 'absolute', bottom: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 10000, background: '#0d2535', border: '1.5px solid rgba(6,148,209,0.35)', borderRadius: 10, maxHeight: 220, overflowY: 'auto', overscrollBehavior: 'contain', boxShadow: '0 -8px 32px rgba(0,0,0,0.6)' }}>
+                      <div style={{ padding: '9px 14px', fontSize: 13.5, color: 'rgba(255,255,255,0.35)', cursor: 'default', borderBottom: '1px solid rgba(6,148,209,0.15)' }}>Select your country</div>
+                      {CIT_COUNTRIES.map(c => (
+                        <div key={c} onClick={() => { setSylCountry(c); setSylCountryOpen(false) }}
+                          style={{ padding: '9px 14px', fontSize: 13.5, cursor: 'pointer', color: sylCountry === c ? '#fff' : '#c8dce9', background: sylCountry === c ? '#1a5fa8' : 'transparent', transition: 'background 0.12s' }}
+                          onMouseEnter={e => { if (sylCountry !== c) e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                          onMouseLeave={e => { if (sylCountry !== c) e.currentTarget.style.background = 'transparent' }}>
+                          {c}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Course content will be sent to your email ID</span>
+              </div>
+              <button type="submit" onClick={e => { if (!sylCountry) { e.preventDefault(); setSylCountryOpen(true) } }}
+                style={{ width: '100%', padding: 13, borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: 0.2, boxShadow: '0 4px 18px rgba(6,148,209,0.4)', marginTop: 2, transition: 'filter 0.18s' }}
+                onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')} onMouseLeave={e => (e.currentTarget.style.filter = 'none')}>
+                Send Course Content →
+              </button>
+              <div style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                No spam, ever. Unsubscribe anytime.
+              </div>
+            </form>
+          </>
+        )}
+      </div>
+    </>
   )
 }
 
@@ -1504,17 +1850,36 @@ export default function CorporateITTrainingPage() {
   const [classroomCity, setClassroomCity] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      const today = new Date()
+      const next = new Date(today)
+      next.setMonth(next.getMonth() + 1)
+      setStartDate(toCalIso(today))
+      setEndDate(toCalIso(next))
+    }
+  }, [])
+
   const [sortBy, setSortBy] = useState('Popularity')
   const [currency, setCurrency] = useState('INR')
   const [modal, setModal] = useState(false)
+  const [syllabusOpen, setSyllabusOpen] = useState(false)
+  const [syllabusCourse, setSyllabusCourse] = useState('')
   const [filterOpen, setFilterOpen] = useState(false)
+  const [filterInitialTab, setFilterInitialTab] = useState('Vendor')
+  function openFilter(tab = 'Vendor') { setFilterInitialTab(tab); setFilterOpen(true) }
 
   function toggleMode(m: string) {
     if (m === 'Only Classroom' && modes.includes('Only Classroom')) setClassroomCity('')
+    if (m === 'Only Live Online' && modes.includes('Only Classroom')) setClassroomCity('')
     setModes(prev => {
       if (m === 'Self-Paced') return prev.includes(m) ? [] : ['Self-Paced']
       const withoutSP = prev.filter(x => x !== 'Self-Paced')
-      return withoutSP.includes(m) ? withoutSP.filter(x => x !== m) : [...withoutSP, m]
+      if (withoutSP.includes(m)) return withoutSP.filter(x => x !== m)
+      if (m === 'Only Live Online') return [...withoutSP.filter(x => x !== 'Only Classroom'), m]
+      if (m === 'Only Classroom') return [...withoutSP.filter(x => x !== 'Only Live Online'), m]
+      return [...withoutSP, m]
     })
   }
 
@@ -1611,7 +1976,7 @@ export default function CorporateITTrainingPage() {
           }
         `}</style>
 
-        <div className="relative mx-auto max-w-7xl py-[35px]">
+        <div className="relative mx-auto max-w-7xl py-5 lg:py-[35px]">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left */}
@@ -1621,13 +1986,13 @@ export default function CorporateITTrainingPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
                 Corporate IT Training — 17 Vendor Categories
               </div>
-              <h1 className="text-2xl sm:text-3xl lg:text-[2.4rem] font-bold leading-tight mb-4 text-white">
+              <h1 className="text-[22px] lg:text-3xl xl:text-[2.4rem] font-bold leading-tight mb-[15px] text-white">
                 <span className="block">Train Your Team.</span>
                 <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                   5,000+ Certified Courses.
                 </span>
               </h1>
-              <p className="text-base sm:text-lg leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.65)' }}>
+              <p className="text-[14px] lg:text-lg leading-relaxed mb-[15px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
                 Vendor-authorized corporate IT certification training across Microsoft, AWS, Cisco, Oracle, and 13+ more partners. Guaranteed batch schedules, group discounts, and 1-on-1 options available.
               </p>
               <div className="flex flex-col sm:flex-row flex-wrap gap-3">
@@ -1645,7 +2010,7 @@ export default function CorporateITTrainingPage() {
               </div>
 
               {/* Mobile stat grid */}
-              <div className="lg:hidden mt-8 grid grid-cols-2"
+              <div className="lg:hidden mt-[15px] grid grid-cols-2"
                 style={{ borderRadius: 16, border: '1px solid rgba(6,148,209,0.18)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
                 {[
                   { val: '5,000+', label: 'Courses available' },
@@ -1653,9 +2018,9 @@ export default function CorporateITTrainingPage() {
                   { val: '195+',   label: 'Countries served' },
                   { val: '95%',    label: 'First-attempt pass rate' },
                 ].map(({ val, label }, i) => (
-                  <div key={val} style={{ padding: '20px 18px', display: 'flex', flexDirection: 'column', gap: 4, borderRight: i % 2 === 0 ? '1px solid rgba(6,148,209,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(6,148,209,0.12)' : 'none' }}>
-                    <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{val}</div>
-                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</div>
+                  <div key={val} style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 3, borderRight: i % 2 === 0 ? '1px solid rgba(6,148,209,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(6,148,209,0.12)' : 'none' }}>
+                    <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{val}</div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</div>
                   </div>
                 ))}
               </div>
@@ -1714,7 +2079,7 @@ export default function CorporateITTrainingPage() {
       <section id="courses" className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-[50px] py-6 sm:py-10" style={{ background: 'radial-gradient(ellipse 90% 500px at 50% 0%, rgba(6,148,209,0.09) 0%, transparent 70%)' }}>
 
         {/* Section header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-[15px]">
           <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#0b2545' }}>Find Your Course</h2>
           <p className="text-sm" style={{ color: '#64748b' }}>Use the filters below to narrow down from 5,000+ courses across 17 vendors</p>
         </div>
@@ -1723,37 +2088,57 @@ export default function CorporateITTrainingPage() {
         <div className="rounded-3xl p-6" style={{ background: '#F2F4F7', border: '1.5px solid rgba(6,148,209,0.45)', boxShadow: '0 4px 24px rgba(6,148,209,0.12)' }}>
 
           {/* Row 1: Filter button on mobile/tablet, cards on desktop */}
-          {/* Mobile/tablet filter trigger */}
-          <div className="block lg:hidden mb-3">
-            {(() => {
-              const activeCount = [
-                !!(startDate || endDate), oem !== 'All OEMs', technology !== 'All Technologies', durations.length > 0, !!budget
-              ].filter(Boolean).length
-              const previews: string[] = []
-              if (oem !== 'All OEMs') previews.push(oem)
-              if (technology !== 'All Technologies') previews.push(technology)
-              if (durations.length > 0) previews.push(durations.length === 1 ? durations[0] : `${durations.length} durations`)
-              if (budget) previews.push(budget)
-              if (startDate || endDate) previews.push('Date range')
-              return (
-                <button onClick={() => setFilterOpen(true)}
-                  className="w-full flex items-center justify-between px-5 py-4 rounded-2xl"
-                  style={{ background: '#fff', border: `1.5px solid ${activeCount > 0 ? '#0694D1' : '#D1D5DB'}`, boxShadow: activeCount > 0 ? '0 4px 18px rgba(6,148,209,0.18)' : 'none', cursor: 'pointer' }}>
-                  <div className="flex flex-col items-start gap-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                      <span style={{ fontWeight: 800, fontSize: 14, color: '#0b2545' }}>Filters</span>
-                      {activeCount > 0 && <span style={{ background: '#0694D1', color: '#fff', fontSize: 11, fontWeight: 700, borderRadius: 99, padding: '1px 7px' }}>{activeCount}</span>}
-                    </div>
-                    {previews.length > 0
-                      ? <span className="text-xs truncate max-w-full" style={{ color: '#0694D1', fontWeight: 600 }}>{previews.join(' · ')}</span>
-                      : <span className="text-xs" style={{ color: '#94a3b8' }}>Tap to set Date Range, Partner, Technology…</span>
-                    }
+          {/* Mobile/tablet filter trigger — filters top, date below */}
+          <div className="block lg:hidden">
+            <div className="flex flex-col gap-3">
+              <MobileDateDropdown
+                startDate={startDate} endDate={endDate}
+                onChange={(s, e) => { setStartDate(s); setEndDate(e) }}
+              />
+              {(() => {
+                const activeCount = [
+                  oem !== 'All OEMs', technology !== 'All Technologies', durations.length > 0, !!budget, modes.length > 0
+                ].filter(Boolean).length
+                const chips = [
+                  { label: 'Vendor',     active: oem !== 'All OEMs',                  count: oem !== 'All OEMs' ? 1 : 0 },
+                  { label: 'Technology', active: technology !== 'All Technologies',    count: technology !== 'All Technologies' ? 1 : 0 },
+                  { label: 'Duration',   active: durations.length > 0,                count: durations.length },
+                  { label: 'Budget',     active: !!budget,                            count: budget ? 1 : 0 },
+                  { label: 'Mode',       active: modes.length > 0,                    count: modes.length },
+                ]
+                return (
+                  <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 2, scrollbarWidth: 'none' }}>
+                    {/* Main filter button */}
+                    <button onClick={() => openFilter('Vendor')}
+                      style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, padding: '8px 14px', borderRadius: 6, background: '#fff', border: `1.5px solid ${activeCount > 0 ? '#0694D1' : '#D1D5DB'}`, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                      {activeCount > 0 && (
+                        <span style={{ background: '#0694D1', color: '#fff', fontSize: 11, fontWeight: 800, borderRadius: 5, padding: '1px 6px', lineHeight: 1.4 }}>{activeCount}</span>
+                      )}
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#0b2545' }}>Filter</span>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0b2545" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="3" y1="7" x2="21" y2="7"/><circle cx="8" cy="7" r="2.5" fill="#0b2545" stroke="none"/>
+                        <line x1="3" y1="17" x2="21" y2="17"/><circle cx="16" cy="17" r="2.5" fill="#0b2545" stroke="none"/>
+                      </svg>
+                    </button>
+                    {/* Individual filter chips */}
+                    {chips.map(chip => (
+                      <button key={chip.label} onClick={() => openFilter(chip.label)}
+                        style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0, padding: '8px 12px', borderRadius: 6, background: '#fff', border: `1.5px solid ${chip.active ? '#0694D1' : '#D1D5DB'}`, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                        {chip.count > 0 && (
+                          <span style={{ background: '#0694D1', color: '#fff', fontSize: 11, fontWeight: 800, borderRadius: 5, padding: '1px 6px', lineHeight: 1.4 }}>{chip.count}</span>
+                        )}
+                        <span style={{ fontSize: 13, fontWeight: chip.active ? 700 : 500, color: chip.active ? '#0694D1' : '#374151' }}>
+                          {chip.label}
+                        </span>
+                        <svg width="11" height="11" viewBox="0 0 20 20" fill={chip.active ? '#0694D1' : '#9CA3AF'}>
+                          <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd"/>
+                        </svg>
+                      </button>
+                    ))}
                   </div>
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="#94a3b8"><path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" /></svg>
-                </button>
-              )
-            })()}
+                )
+              })()}
+            </div>
           </div>
 
           {/* Desktop 5-column filter cards */}
@@ -1826,7 +2211,7 @@ export default function CorporateITTrainingPage() {
           </div>
 
           {/* YOUR SELECTION */}
-          <div className="rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #D1D5DB' }}>
+          <div className="hidden lg:block rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #D1D5DB' }}>
             <div className="flex items-center gap-2 mb-2.5">
               <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -1883,8 +2268,8 @@ export default function CorporateITTrainingPage() {
             )}
           </div>
 
-          {/* HOW YOU WANT TO LEARN */}
-          <div className="mb-5">
+          {/* HOW YOU WANT TO LEARN — desktop only; mobile uses Mode tab in FilterDrawer */}
+          <div className="hidden lg:block mb-5">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
@@ -1902,7 +2287,12 @@ export default function CorporateITTrainingPage() {
                 const isSelfPaced = key === 'Self-Paced'
                 const selfPacedOn = modes.includes('Self-Paced')
                 const othersOn = modes.some(m => m !== 'Self-Paced')
-                const disabled = isSelfPaced ? othersOn : selfPacedOn
+                const liveOnlineOn = modes.includes('Only Live Online')
+                const classroomOn = modes.includes('Only Classroom')
+                const disabled = isSelfPaced ? othersOn
+                  : selfPacedOn
+                  || (key === 'Only Classroom' && liveOnlineOn)
+                  || (key === 'Only Live Online' && classroomOn)
                 acc.push(
                   <button key={key} onClick={() => !disabled && toggleMode(key)}
                     className="relative flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition-all duration-200 select-none"
@@ -1960,8 +2350,8 @@ export default function CorporateITTrainingPage() {
             </div>
           </div>
 
-          {/* Bottom bar */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
+          {/* Bottom bar — desktop only */}
+          <div className="hidden lg:flex flex-wrap items-center justify-center gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
             <button
               onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
@@ -1985,9 +2375,10 @@ export default function CorporateITTrainingPage() {
 
         </div>
 
-        {/* ── Search bar + expand controls ── */}
-        <div className="mt-6 flex flex-col gap-3">
-          <div className="relative">
+        {/* ── Search bar + sort controls ── */}
+        <div className="my-2 flex flex-col gap-2">
+          {/* Row 1: Search */}
+          <div className="relative w-full">
             <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
@@ -2005,9 +2396,10 @@ export default function CorporateITTrainingPage() {
               <button onClick={() => setSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-base leading-none">✕</button>
             )}
           </div>
-          <div className="flex gap-3">
-            <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Lowest Fees', 'Highest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} />
-            <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} />
+          {/* Row 2: Sort by & Currency */}
+          <div className="flex gap-3 justify-center">
+            <PillDropdown label="Sort by  " value={sortBy} options={['Popularity', 'Highest Fees', 'Lowest Fees', 'Longest Duration', 'Shortest Duration']} onChange={setSortBy} minWidth={160} />
+            <PillDropdown value={currency} options={['INR', 'USD', 'AED', 'GBP']} onChange={setCurrency} minWidth={80} />
           </div>
         </div>
 
@@ -2025,10 +2417,7 @@ export default function CorporateITTrainingPage() {
           return (
             <div className="mt-6">
               <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-base font-bold" style={{ color: '#0b2545' }}>Popular Courses</h3>
-                  <p className="text-xs mt-0.5" style={{ color: '#64748b' }}>{displayed.length} courses · {vendorCount} vendor{vendorCount !== 1 ? 's' : ''}</p>
-                </div>
+                <p className="text-sm font-semibold" style={{ color: '#64748b' }}>{displayed.length} course{displayed.length !== 1 ? 's' : ''} found</p>
               </div>
               {displayed.length === 0 ? (
                 <div className="text-center py-16">
@@ -2084,7 +2473,7 @@ export default function CorporateITTrainingPage() {
                             </span>
                           </div>
                           <div className="cit-actions">
-                            <button className="cit-btn-syllabus">
+                            <button className="cit-btn-syllabus" onClick={() => { setSyllabusCourse(c.name); setSyllabusOpen(true) }}>
                               <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                               Download Syllabus
                             </button>
@@ -2119,14 +2508,20 @@ export default function CorporateITTrainingPage() {
         </div>
       )}
 
+      {syllabusOpen && (
+        <SyllabusModal courseName={syllabusCourse} onClose={() => setSyllabusOpen(false)} />
+      )}
+
       <FilterDrawer
         open={filterOpen} onClose={() => setFilterOpen(false)}
-        startDate={startDate} endDate={endDate} onDateChange={(s, e) => { setStartDate(s); setEndDate(e) }}
         oem={oem} setOem={setOem}
         technology={technology} setTechnology={setTechnology}
         durations={durations} setDurations={setDurations}
         budget={budget} setBudget={setBudget}
-        onClearAll={() => { setStartDate(''); setEndDate(''); setOem('All OEMs'); setTechnology('All Technologies'); setDurations([]); setBudget('') }}
+        modes={modes} toggleMode={toggleMode}
+        classroomCity={classroomCity} setClassroomCity={setClassroomCity}
+        initialTab={filterInitialTab}
+        onClearAll={() => { setOem('All OEMs'); setTechnology('All Technologies'); setDurations([]); setBudget(''); setModes([]); setClassroomCity('') }}
       />
     </div>
   )
