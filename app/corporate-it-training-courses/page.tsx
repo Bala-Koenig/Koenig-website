@@ -2219,7 +2219,7 @@ export default function CorporateITTrainingPage() {
               <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Your Selection</span>
             </div>
             {!(startDate || endDate || durations.length > 0 || oem !== 'All OEMs' || technology !== 'All Technologies' || budget || modes.length > 0) ? (
-              <p className="text-sm" style={{ color: '#c8d6e5', fontFamily: "'Courier New', monospace" }}>nothing selected yet</p>
+              <p className="text-sm italic" style={{ color: '#c8d6e5', fontFamily: "'GT Walsheim Pro', sans-serif" }}>nothing selected yet</p>
             ) : (
               <div className="flex flex-wrap gap-2">
                 {(startDate || endDate) && (
