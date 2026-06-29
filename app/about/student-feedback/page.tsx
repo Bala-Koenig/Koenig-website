@@ -338,7 +338,7 @@ export default function StudentFeedbackPage() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(56,189,248,0.12)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.25)' }}>
                 <span className="text-yellow-400">★</span> Trusted by 5M+ Learners Worldwide
               </div>
-              <h1 className="text-[22px] sm:text-[36px] font-bold leading-tight mb-[18px] sm:mb-4 text-white">
+              <h1 className="text-[22px] sm:text-[36px] font-bold leading-tight mb-[15px] sm:mb-4 text-white">
                 Real Learners. <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Stories.</span>
               </h1>
               <p className="text-[15px] sm:text-base leading-relaxed mb-6 max-w-lg text-white/65">
