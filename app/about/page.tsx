@@ -80,7 +80,7 @@ export default function AboutPage() {
           <div className="kglass-banner py-5 px-8 sm:py-10 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[18px]">
+                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[15px]">
                   About <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Koenig Solutions</span>
                 </h1>
                 <p className="text-[15px] sm:text-base text-white/80 mb-3 leading-relaxed">
@@ -121,11 +121,11 @@ export default function AboutPage() {
               </div>
 
               <div className="kglass-dark rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
-                <div className="aspect-video">
+                <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
                   <iframe
                     src="https://www.youtube.com/embed/z_6FnQE7-LA"
                     title="Koenig Solutions — Your Trusted IT Training Partner"
-                    className="w-full h-full"
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />

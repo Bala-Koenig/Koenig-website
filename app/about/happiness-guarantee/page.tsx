@@ -274,7 +274,7 @@ export default function HappinessGuaranteePage() {
           <div className="kglass-banner py-5 px-5 sm:py-7 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
               <div>
-                <h1 className="text-[22px] sm:text-[32px] font-bold text-white leading-tight mb-[18px] sm:mb-4">
+                <h1 className="text-[22px] sm:text-[32px] font-bold text-white leading-tight mb-[15px] sm:mb-4">
                   Learn with <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Confidence:</span> Koenig Solutions' Happiness Guarantee
                 </h1>
                 <p className="text-[15px] text-white/70 leading-relaxed">

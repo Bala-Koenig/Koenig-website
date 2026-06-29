@@ -309,7 +309,7 @@ export default function AwardsPage() {
           <div className="kglass-banner py-5 px-4 sm:py-10 sm:px-8 lg:px-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[18px] sm:mb-6">
+                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[15px] sm:mb-6">
                   Awards &amp; <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Achievements</span>
                 </h1>
                 <p className="text-[15px] sm:text-base text-white/80 mb-3 sm:mb-4 leading-relaxed">
