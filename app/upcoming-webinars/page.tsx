@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 
@@ -453,6 +453,10 @@ const FAQS = [
   },
 ]
 
+function parseWebinarMs(date: string, time: string): number {
+  return new Date(`${date} ${time.replace(' IST', '')} GMT+0530`).getTime()
+}
+
 /* ─────────────────────────────────────────────────────────────── */
 export default function UpcomingWebinarsPage() {
   const [openFaq, setOpenFaq]           = useState<number | null>(null)
@@ -478,6 +482,12 @@ export default function UpcomingWebinarsPage() {
   const [wbFilterCat, setWbFilterCat]     = useState<'tech'|'partner'>('tech')
   const [pendingTechs, setPendingTechs]       = useState<Set<string>>(new Set())
   const [pendingPartners, setPendingPartners] = useState<Set<string>>(new Set())
+  const [now, setNow] = useState<number>(0)
+  useEffect(() => {
+    setNow(Date.now())
+    const id = setInterval(() => setNow(Date.now()), 60000)
+    return () => clearInterval(id)
+  }, [])
 
   const allTechs    = ['All', ...Array.from(new Set(WEBINARS.map(w => w.technology))).filter(t => t !== 'Microsoft').sort((a, b) => a.localeCompare(b))]
   const allPartners = ['All', ...Array.from(new Set(WEBINARS.map(w => w.partner))).sort((a, b) => a.localeCompare(b))]
@@ -936,6 +946,18 @@ export default function UpcomingWebinarsPage() {
                         Live Now
                       </span>
                     )}
+                    {!w.live && now > 0 && (() => {
+                      const ms = parseWebinarMs(w.date, w.time) - now
+                      if (ms <= 0) return null
+                      const h = Math.floor(ms / 3600000)
+                      const m = Math.floor((ms % 3600000) / 60000)
+                      return (
+                        <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-bold z-10 whitespace-nowrap"
+                          style={{ background: '#0694D1', color: '#fff', boxShadow: '0 2px 10px rgba(6,148,209,0.45)', border: '2px solid #fff' }}>
+                          Starts In: {String(h).padStart(2, '0')}hr {String(m).padStart(2, '0')}min
+                        </span>
+                      )
+                    })()}
 
                     <div className="flex-1 flex flex-col p-[15px] sm:p-5 relative">
                       {/* Speaker row */}
