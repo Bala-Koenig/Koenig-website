@@ -25,9 +25,9 @@ function TestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0]; onE
     <div className="kglass-dark flex flex-col overflow-hidden rounded-2xl h-full">
       <div className="flex-1 p-5">
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
-        <p className="mb-3 text-sm leading-relaxed text-white/75">{t.quote}</p>
+        <p className="mb-3 text-sm leading-relaxed text-white">{t.quote}</p>
         <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: expanded ? '200px' : '0px', opacity: expanded ? 1 : 0 }}>
-          <p className="mb-3 text-sm leading-relaxed text-white/50">{extra}</p>
+          <p className="mb-3 text-sm leading-relaxed text-white">{extra}</p>
         </div>
         {showMore && (
           <button onClick={() => { const n = !expanded; setExpanded(n); onExpandChange?.(n) }}
@@ -271,13 +271,13 @@ export default function HappinessGuaranteePage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] bg-[#0694D1] opacity-[0.04] blur-[80px] rounded-full" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-6 px-5 sm:py-7 sm:px-10">
+          <div className="kglass-banner py-5 px-5 sm:py-7 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
               <div>
-                <h1 className="text-[24px] sm:text-[32px] font-bold text-white leading-tight mb-3 sm:mb-4">
+                <h1 className="text-[22px] sm:text-[32px] font-bold text-white leading-tight mb-[18px] sm:mb-4">
                   Learn with <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Confidence:</span> Koenig Solutions' Happiness Guarantee
                 </h1>
-                <p className="text-sm text-white/70 leading-relaxed">
+                <p className="text-[15px] text-white/70 leading-relaxed">
                   Happiness is achieved when expectations are met. We set clear expectations and then we exceed them — every single time.
                 </p>
               </div>
@@ -500,7 +500,7 @@ export default function HappinessGuaranteePage() {
             </div>
             <div className="shrink-0">
               <Link
-                href="/courses"
+                href="https://www.koenig-solutions.com/corporate-it-training-courses"
                 className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg whitespace-nowrap"
                 style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
                 Explore Our Courses →

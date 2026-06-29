@@ -200,13 +200,13 @@ export default function LeadershipPage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-10 px-8 sm:px-10">
+          <div className="kglass-banner py-5 px-8 sm:py-10 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-[36px] font-bold text-white leading-tight mb-6">
+                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[18px] sm:mb-6">
                   Leadership <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Team</span>
                 </h1>
-                <p className="text-base text-white/80 leading-relaxed">
+                <p className="text-[15px] sm:text-base text-white/80 leading-relaxed">
                   The people behind 33 years of innovation, resilience, and customer obsession. Each leader brings deep domain expertise and a shared commitment to student outcomes.
                 </p>
                 <DownloadPptButton />
@@ -229,7 +229,7 @@ export default function LeadershipPage() {
 
       {/* CEO spotlight — Koenig tab only */}
       {activeTab === 'koenig' && (
-      <section className="bg-white py-5 sm:py-[50px]">
+      <section className="hidden sm:block bg-white py-5 sm:py-[50px]">
         <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
           <div className="max-w-4xl mx-auto">
             <div className="kglass-light rounded-3xl py-10 px-8 sm:px-12 transition-all">
@@ -322,6 +322,29 @@ export default function LeadershipPage() {
           {/* Koenig grid */}
           {activeTab === 'koenig' && (
             <div className="flex flex-wrap justify-center gap-5">
+
+              {/* CEO card — mobile only */}
+              <div className="sm:hidden kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group w-full">
+                <img src={CEO.image!} alt={CEO.name} className="w-full h-52 object-cover object-top flex-shrink-0" />
+                <div className="p-5 flex flex-col flex-1">
+                  <div className="font-semibold text-white text-sm group-hover:text-[#38bdf8] transition-colors leading-snug mb-1">{CEO.name}</div>
+                  <p className="text-white/50 text-xs leading-relaxed mb-4">{CEO.title}</p>
+                  <div className="mt-auto">
+                    <div className="h-px mb-3" style={{ background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.3), rgba(6,148,209,0.4), rgba(56,189,248,0.3), transparent)' }} />
+                    <div className="flex items-center justify-between">
+                      <button
+                        onClick={() => setBioModal({ ...CEO, color: '#0694D1' })}
+                        className="text-[#38bdf8] text-xs font-semibold hover:text-white transition-colors cursor-pointer">
+                        View Bio +
+                      </button>
+                      <a href={CEO.linkedin} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-[#38bdf8] transition-colors" aria-label={`${CEO.name} LinkedIn`}>
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {TEAM.slice(0, 7).map(m => (
                 <div key={m.name} className="kglass-dark rounded-2xl overflow-hidden flex flex-col transition-all group w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] xl:w-[calc(25%-15px)]">
 

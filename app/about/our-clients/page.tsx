@@ -54,13 +54,13 @@ export default function OurClientsPage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-10 px-4 sm:px-10">
+          <div className="kglass-banner py-5 px-4 sm:py-10 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-[36px] font-bold text-white leading-tight mb-6">
+                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[18px] sm:mb-6">
                   Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Clients</span>
                 </h1>
-                <p className="text-base text-white/80 mb-4 leading-relaxed">
+                <p className="text-[15px] sm:text-base text-white/80 mb-4 leading-relaxed">
                   From Fortune-500 multinationals to government agencies and fast-growing startups — over 1 million professionals across 195 countries have trusted Koenig to upskill their teams.
                 </p>
                 <div className="grid grid-cols-3 mt-8 rounded-xl overflow-hidden" style={{ border: '1px solid rgba(56,189,248,0.25)' }}>
@@ -236,7 +236,9 @@ export default function OurClientsPage() {
                   style={{ background: 'linear-gradient(135deg, #0694D1, #08A8EC)', boxShadow: '0 4px 20px rgba(6,148,209,0.30)' }}>
                   Talk to Enterprise Sales
                 </button>
-                <a href="/about/happiness-guarantee"
+                <a href="https://www.koenig-solutions.com/happiness"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-block border border-[#0694D1] text-[#0694D1] hover:bg-[#0694D1] hover:text-white font-semibold px-7 py-3 rounded-xl transition-colors text-sm">
                   Our Happiness Guarantee
                 </a>

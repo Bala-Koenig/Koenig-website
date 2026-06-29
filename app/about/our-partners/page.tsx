@@ -28,11 +28,11 @@ const PARTNERS = [
   { name: 'ISTQB',                        img: 'ISTQB.png',                                                tier: 'Authorized Partner',  courses: '40+',  verify: BASE + 'KoenigCTFLVer.4.016May202530June2026.pdf' },
   { name: 'Check Point',                  img: 'Checkpoint ATC 2026 PLATINUM Badge.png',                   tier: 'Platinum Partner',    courses: '55+',  verify: BASE + 'CheckpointATCCertificate2026.pdf' },
   { name: 'Python Institute',             img: 'Python-logo.png',                                          tier: 'Authorized Partner',  courses: '35+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
-  { name: 'Omnissa',                      img: 'Omnissa.png',                                              tier: 'Partner',             courses: '30+',  verify: null },
+  { name: 'Omnissa',                      img: 'OMN_Partner_Auth-Training-Partner_2026 (1).png',                                              tier: 'Training Partner',    courses: '30+',  verify: 'https://partnerlocator.omnissa.com/#q=koenig&sort=relevancy' },
   { name: 'Broadcom',                     img: 'Broadcom.png',                                             tier: 'Partner',             courses: '70+',  verify: BASE + 'BroadcomEducationDeliveryCertificateKoenigSolutions.pdf' },
   { name: 'Linux Foundation',             img: 'Linux-Foundation.png',                                     tier: 'Training Partner',    courses: '60+',  verify: BASE + 'Linuxfoundationletterofauthorizationtill16thJul2026.pdf' },
   { name: 'Autodesk',                     img: 'AutodeskCertification.png',                                tier: 'Authorized Partner',  courses: '45+',  verify: BASE + 'AutodeskATCSiteauthorizationvalidtill1stfeb2027.pdf' },
-  { name: 'DevOps Institute',             img: 'Linux-Foundation.png',                                     tier: 'Authorized Partner',  courses: '30+',  verify: BASE + '2025320429PeopleCertDevOpsvalidtillApril2026.pdf' },
+  { name: 'DevOps Institute',             img: 'DOI REGISTER PARTNERS 2023 BADGE RGB.jpg',                 tier: 'Authorized Partner',  courses: '30+',  verify: BASE + '2025320429PeopleCertDevOpsvalidtillApril2026.pdf' },
   { name: 'IIBA',                         img: 'iiba.png',                                                  tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'IIBA.pdf' },
   { name: 'JS Institute',                 img: 'JS-Institute.png',                                          tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
   { name: 'ServiceNow',                   img: 'ServiceNow.png',                                           tier: 'Training Partner',    courses: '40+',  verify: BASE + 'KoenigSolutionsATDstatusconfirmation270624.pdf' },
@@ -41,6 +41,7 @@ const PARTNERS = [
   { name: 'Android ATC',                  img: 'Android ATC Authorized Training Center.jpg',               tier: 'Authorized Partner',  courses: '30+',  verify: BASE + 'AndroidATCKoenigSolutionsCertificatevalidtill13thOct2026.pdf' },
   { name: 'TÜV SÜD',                     img: 'Web-TS_Cobranding_Cooperation_partner_RGB_TS_Blue.png',    tier: 'Authorized Partner',  courses: '35+',  verify: BASE + 'KoeningSolutionsConditionalCertificateREP16092025.pdf' },
   { name: 'AI CERTs',                     img: 'AICerts (1).png',                                          tier: 'Authorized Partner',  courses: '30+',  verify: BASE + 'CertificationAI33948AiCertATP3April2026.pdf' },
+  { name: 'Figma',                        img: null,                                                       tier: 'Authorized Partner',  courses: '10+',  verify: null },
   { name: 'GSDC',                         img: 'ATP badge.png',                                            tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'ATPCertificateKoenigSolutions.pdf' },
   { name: 'Dell EMC',                     img: 'emc.png',                                                  tier: 'Training Partner',    courses: '50+',  verify: BASE + 'DELLEMC2023824391DTLetterhead2020KonMRSigned1.pdf' },
   { name: 'SCRUMstudy',                   img: 'scrumstudy.png',                                           tier: 'Authorized Partner',  courses: '25+',  verify: BASE + 'SCRUMStudymerged.pdf' },
@@ -52,12 +53,12 @@ const PARTNERS = [
   { name: 'Mirantis',                     img: 'mirantistraining.png',                                      tier: 'Training Partner',    courses: '15+',  verify: BASE + 'MirantisATPlettertillDec2027.pdf' },
   { name: 'Cloudera',                     img: 'cloudera (1).png',                                         tier: 'Training Partner',    courses: '30+',  verify: BASE + 'FindaClouderapartner.pdf' },
   { name: 'OffSec Training',              img: 'OffSecLearningPartnerDarkPNG (1).png',                     tier: 'Learning Partner',    courses: '20+',  verify: BASE + 'OffSecFindaPartner.pdf' },
-  { name: 'DevOps Agile Skills (DASA)',   img: 'Vendor-Dasa.png',                                           tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'DASAATPcertificatevalidtill31stDec2026.pdf' },
+  { name: 'DevOps Agile Skills Association (DASA)',   img: 'Vendor-Dasa.png',                                           tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'DASAATPcertificatevalidtill31stDec2026.pdf' },
   { name: 'Cloud Credential Council',     img: 'CCC_Logo.png',                                             tier: 'Authorized Partner',  courses: '20+',  verify: BASE + 'CCCTrainingPartnerCertificateissuedate30thDec2025.pdf' },
   { name: 'C++ Institute',               img: 'c-plus-2-logo.png',                                        tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'OpenEDGEducationpartnerCertificatetillApril2027.pdf' },
   { name: 'LPI',                          img: 'Linux.png',                                                tier: 'Authorized Partner',  courses: '15+',  verify: BASE + 'LPIPartnerCertKoenigSolutionsPvt.Ltdsince2025.pdf' },
   { name: 'Symantec',                     img: 'Symantec.png',                                              tier: 'Training Partner',    courses: '20+',  verify: null },
-  { name: 'Global Assoc. for Quality Mgmt', img: 'EC-Council-logo.png',                                    tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'GAQMAuthorizedTrainingCentresinceJan2026.pdf' },
+  { name: 'Global Association for Quality Management (GAQM)', img: 'ATCLogo.png',                                    tier: 'Authorized Partner',  courses: '10+',  verify: BASE + 'GAQMAuthorizedTrainingCentresinceJan2026.pdf' },
 ]
 
 
@@ -74,16 +75,16 @@ export default function OurPartnersPage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-6 px-4 sm:py-10 sm:px-10">
+          <div className="kglass-banner py-5 px-4 sm:py-10 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h1 className="text-[24px] sm:text-[36px] font-bold text-white leading-tight mb-4 sm:mb-6">
+                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[18px] sm:mb-6">
                   Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Partners</span>
                 </h1>
-                <p className="text-base text-white/80 mb-4 leading-relaxed">
+                <p className="text-[15px] sm:text-base text-white/80 mb-4 leading-relaxed">
                   Koenig is an authorized training partner of the world's leading technology vendors. This isn't a badge we buy — it's an authorization we earn through rigorous assessment, certified instructors, and verified delivery.
                 </p>
-                <p className="text-sm text-white/60 leading-relaxed">
+                <p className="text-[15px] text-white/60 leading-relaxed">
                   When you train with Koenig, you train with the source — the same curricula, the same standards, the same recognition that the vendor itself demands.
                 </p>
                 <DownloadPptButton />
@@ -149,7 +150,7 @@ export default function OurPartnersPage() {
 
                 {/* Name + courses */}
                 <div className="flex flex-col items-center gap-1 border-t px-3 pt-2.5 pb-2" style={{ borderColor: 'rgba(6,148,209,0.20)' }}>
-                  <p className="truncate w-full text-center text-[11px] font-bold text-[#0b2545]">{p.name}</p>
+                  <p className="line-clamp-2 w-full text-center text-[11px] font-bold text-[#0b2545] leading-tight">{p.name}</p>
                   <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-semibold"
                     style={{ background: 'rgba(6,148,209,0.08)', color: '#0694D1' }}>
                     {p.courses} Courses

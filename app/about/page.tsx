@@ -77,13 +77,13 @@ export default function AboutPage() {
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
 
-          <div className="kglass-banner py-10 px-8 sm:px-10">
+          <div className="kglass-banner py-5 px-8 sm:py-10 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-[24px] sm:text-[36px] font-bold text-white leading-tight mb-3">
+                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[18px]">
                   About <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Koenig Solutions</span>
                 </h1>
-                <p className="text-base text-white/80 mb-3 leading-relaxed">
+                <p className="text-[15px] sm:text-base text-white/80 mb-3 leading-relaxed">
                   A global leader in IT training. Just tell us
                 </p>
                 <div className="flex flex-wrap gap-3 mb-3">

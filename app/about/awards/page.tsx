@@ -306,13 +306,13 @@ export default function AwardsPage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-7 px-4 sm:py-10 sm:px-8 lg:px-10">
+          <div className="kglass-banner py-5 px-4 sm:py-10 sm:px-8 lg:px-10">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
-                <h1 className="text-[24px] sm:text-[36px] font-bold text-white leading-tight mb-4 sm:mb-6">
+                <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[18px] sm:mb-6">
                   Awards &amp; <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Achievements</span>
                 </h1>
-                <p className="text-sm sm:text-base text-white/80 mb-3 sm:mb-4 leading-relaxed">
+                <p className="text-[15px] sm:text-base text-white/80 mb-3 sm:mb-4 leading-relaxed">
                   Recognized by the world's leading technology vendors and workplace authorities since 1993. Our awards reflect one thing: consistently excellent training outcomes.
                 </p>
                 <p className="text-xs sm:text-sm text-white/60 leading-relaxed">

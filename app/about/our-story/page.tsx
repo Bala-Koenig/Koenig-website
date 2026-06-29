@@ -101,16 +101,16 @@ export default function OurStoryPage() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-[#38bdf8] opacity-[0.05] blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 lg:px-[50px]">
-          <div className="kglass-banner py-10 px-8 sm:px-10">
+          <div className="kglass-banner py-5 px-8 sm:py-10 sm:px-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-[36px] font-bold text-white leading-tight mb-6">
+              <h1 className="text-[22px] sm:text-[36px] font-bold text-white leading-tight mb-[18px] sm:mb-6">
                 Our <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Story</span>
               </h1>
-              <p className="text-base text-white/80 mb-4 leading-relaxed">
+              <p className="text-[15px] sm:text-base text-white/80 mb-4 leading-relaxed">
                 Thirty years ago, a young entrepreneur started a training company in a small Delhi office with a dream to make world-class IT education accessible to everyone.
               </p>
-              <p className="text-sm text-white/60 leading-relaxed">
+              <p className="text-[15px] text-white/60 leading-relaxed">
                 Three near-death experiences. Three pivots. One unstoppable mission — to help people earn Money, Respect, and Peace of Mind through technology skills.
               </p>
               <DownloadPptButton />
@@ -254,7 +254,7 @@ export default function OurStoryPage() {
               <p className="text-sm text-[#475569] mb-6">We&apos;re always looking for passionate educators, tech experts, and professionals to join our team.</p>
               <div>
                 <a
-                  href="https://www.koenig-solutions.com/koenig-careers"
+                  href="https://www.koenig-solutions.com/career"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block text-white font-semibold px-7 py-3 rounded-xl transition-all text-sm hover:opacity-90 hover:shadow-lg"

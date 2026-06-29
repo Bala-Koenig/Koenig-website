@@ -338,11 +338,11 @@ export default function StudentFeedbackPage() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold" style={{ background: 'rgba(56,189,248,0.12)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.25)' }}>
                 <span className="text-yellow-400">★</span> Trusted by 5M+ Learners Worldwide
               </div>
-              <h1 className="text-[24px] sm:text-[36px] font-bold leading-tight mb-4 text-white">
+              <h1 className="text-[22px] sm:text-[36px] font-bold leading-tight mb-[18px] sm:mb-4 text-white">
                 Real Learners.<br />
                 <span style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Stories.</span>
               </h1>
-              <p className="text-base leading-relaxed mb-6 max-w-lg text-white/65">
+              <p className="text-[15px] sm:text-base leading-relaxed mb-6 max-w-lg text-white/65">
                 From first certifications to career breakthroughs — read how learners worldwide transformed their careers with Koenig Solutions.
               </p>
               {/* Infographic stats — single row, icon left + text right */}
@@ -657,8 +657,8 @@ export default function StudentFeedbackPage() {
               }}
             >
               <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg, #0694D1, #38bdf8)' }} />
-              <div className="text-yellow-400 text-sm mb-3">★★★★★</div>
-              <div className="text-5xl font-serif leading-none mb-2" style={{ color: '#DCEEFB' }}>&ldquo;</div>
+              <div className="text-yellow-400 text-sm mb-1">★★★★★</div>
+              <div className="text-3xl font-serif leading-none mb-1" style={{ color: '#DCEEFB' }}>&ldquo;</div>
               <p className="text-sm leading-relaxed mb-6" style={{ color: '#2d4a6a' }}>{REVISION_TESTIMONIALS[revIdx].quote}</p>
               <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: '#E8F4FA' }}>
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#093148)' }}>
@@ -809,12 +809,12 @@ export default function StudentFeedbackPage() {
             </button>
           </div>
 
-          {/* Desktop: show all courses button */}
-          <div className="hidden sm:flex justify-center">
-            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+          {/* Show all courses button */}
+          <div className="flex justify-center">
+            <a href="https://www.koenig-solutions.com/corporate-it-training-courses" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Show All Course
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </button>
+            </a>
           </div>
         </div>
       </section>
