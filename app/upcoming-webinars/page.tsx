@@ -999,20 +999,42 @@ export default function UpcomingWebinarsPage() {
 
                       {/* Meta */}
                       <div className="space-y-2">
-                        <div className="flex items-center justify-between text-sm" style={{ color: '#465058' }}>
-                          <span className="flex items-center gap-1.5">
-                            <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            {w.date} | {w.time}
-                          </span>
-                          <span className="flex items-center gap-1" style={{ color: '#0694D1' }}>
-                            <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <circle cx="12" cy="12" r="10"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2"/>
-                            </svg>
-                            {w.duration}
-                          </span>
-                        </div>
+                        {(() => {
+                          const ms = !w.live && now > 0 ? parseWebinarMs(w.date, w.time) - now : 0
+                          const isSoon = ms > 0
+                          const h = Math.floor(ms / 3600000)
+                          const m = Math.floor((ms % 3600000) / 60000)
+                          const boxBg = w.live ? 'rgba(22,163,74,.07)' : isSoon ? 'rgba(6,148,209,.07)' : '#F8FCFF'
+                          const boxBorder = w.live ? 'rgba(22,163,74,.25)' : isSoon ? 'rgba(6,148,209,.25)' : '#CAEFFF'
+                          return (
+                            <div style={{ background: boxBg, border: `1px solid ${boxBorder}`, borderRadius: '9px', padding: '10px 12px' }}>
+                              <div className="flex items-center justify-between text-sm" style={{ color: '#465058' }}>
+                                <span className="flex items-center gap-1.5">
+                                  <svg className="h-3.5 w-3.5 shrink-0" style={{ color: w.live ? '#16a34a' : '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                  </svg>
+                                  {w.date} | {w.time}
+                                </span>
+                                <span className="flex items-center gap-1" style={{ color: '#0694D1', fontSize: '11.5px', fontWeight: 600 }}>
+                                  <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <circle cx="12" cy="12" r="10"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2"/>
+                                  </svg>
+                                  {w.duration}
+                                </span>
+                              </div>
+                              {(w.live || isSoon) && (
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '7px', borderTop: '1px solid rgba(6,148,209,.12)', marginTop: '7px' }}>
+                                  <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 500 }}>
+                                    {w.live ? 'Session in progress' : 'Starts in'}
+                                  </span>
+                                  <span style={{ fontSize: '13px', fontWeight: 800, fontVariantNumeric: 'tabular-nums', letterSpacing: '-.01em', color: w.live ? '#16a34a' : '#0694D1' }}>
+                                    {w.live ? '● Live' : `${String(h).padStart(2, '0')}hr ${String(m).padStart(2, '0')}min`}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        })()}
                         <div className="flex items-center gap-1.5 text-sm" style={{ color: '#64748b' }}>
                           <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
