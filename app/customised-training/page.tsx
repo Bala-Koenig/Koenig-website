@@ -298,7 +298,7 @@ export default function CustomisedTrainingPage() {
 
 
       {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
-      <section style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 30%, rgba(6,148,209,0.14) 0%, rgba(6,148,209,0.05) 50%, transparent 70%), linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px' }}>
+      <section style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 30%, rgba(56,189,248,0.09) 0%, rgba(56,189,248,0.03) 55%, transparent 75%), linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
