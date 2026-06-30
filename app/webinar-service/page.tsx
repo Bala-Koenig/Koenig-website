@@ -641,7 +641,7 @@ export default function WebinarServicePage() {
 
       {/* ── TOP SESSIONS ─────────────────────────────────────────── */}
       <section id="sessions" style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f0f8ff 100%)', padding: '56px 24px' }}>
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-5xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
               Our Top Custom Learning Sessions
@@ -652,7 +652,7 @@ export default function WebinarServicePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {TOP_SESSIONS.map((s, i) => (
               <div key={i} className="waas-session-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                <div style={{ width: '100%', height: 160, overflow: 'hidden' }}>
+                <div style={{ width: '100%', height: 210, overflow: 'hidden' }}>
                   <img src={s.img} alt={s.title} className="waas-session-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.35s ease' }} />
                 </div>
                 <div style={{ padding: '14px 14px 18px', textAlign: 'center' }}>
