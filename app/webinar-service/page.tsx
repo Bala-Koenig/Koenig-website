@@ -216,12 +216,14 @@ function WaasRequestForm() {
             <div>
               <label style={lbl}>Preferred Date</label>
               <input type="date" value={form.date} onChange={e => set('date', e.target.value)}
-                style={{ ...inp, colorScheme: 'dark' }} />
+                onClick={e => { try { (e.target as HTMLInputElement).showPicker() } catch {} }}
+                style={{ ...inp, colorScheme: 'dark', cursor: 'pointer' }} />
             </div>
             <div>
               <label style={lbl}>Preferred Time</label>
               <input type="time" value={form.time} onChange={e => set('time', e.target.value)}
-                style={{ ...inp, colorScheme: 'dark' }} />
+                onClick={e => { try { (e.target as HTMLInputElement).showPicker() } catch {} }}
+                style={{ ...inp, colorScheme: 'dark', cursor: 'pointer' }} />
             </div>
           </div>
 
@@ -282,6 +284,15 @@ function WaasRequestForm() {
           @media(max-width:600px){
             .waas-grid { grid-template-columns: 1fr !important; }
             .waas-form { padding: 20px 16px !important; }
+          }
+          .waas-form input[type="date"],
+          .waas-form input[type="time"] {
+            color-scheme: dark;
+          }
+          .waas-form input[type="date"]::-webkit-calendar-picker-indicator,
+          .waas-form input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
           }
         `}</style>
       </div>
