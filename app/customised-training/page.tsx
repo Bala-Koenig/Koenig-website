@@ -489,7 +489,7 @@ export default function CustomisedTrainingPage() {
         {/* Radial glow */}
         <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 700, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 65%)' }} />
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30, position: 'relative' }}>
-          <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <div style={{ textAlign: 'center', marginBottom: 30 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999, background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
               Our Process
             </span>
