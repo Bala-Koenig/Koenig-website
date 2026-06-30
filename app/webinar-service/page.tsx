@@ -652,14 +652,14 @@ export default function WebinarServicePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {TOP_SESSIONS.map((s, i) => (
               <div key={i} className="waas-session-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                <div style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+                <div style={{ width: '100%', height: 160, overflow: 'hidden' }}>
                   <img src={s.img} alt={s.title} className="waas-session-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.35s ease' }} />
                 </div>
-                <div style={{ padding: '16px', textAlign: 'center' }}>
-                  <div style={{ background: '#e8f5fb', borderRadius: 8, padding: '8px 12px', marginBottom: 12 }}>
+                <div style={{ padding: '14px 14px 18px', textAlign: 'center' }}>
+                  <div style={{ background: '#e8f5fb', borderRadius: 8, padding: '8px 12px', marginBottom: 10 }}>
                     <h3 style={{ fontSize: 18, fontWeight: 600, color: '#0694D1', margin: 0, lineHeight: 1.35, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.title}</h3>
                   </div>
-                  <p style={{ fontSize: 16, color: '#0d1b2a', lineHeight: 1.65, margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.desc}</p>
+                  <p style={{ fontSize: 16, color: '#0d1b2a', lineHeight: 1.6, margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.desc}</p>
                 </div>
               </div>
             ))}
