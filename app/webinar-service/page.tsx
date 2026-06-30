@@ -4,47 +4,36 @@ import Navbar from '@/components/Navbar'
 
 /* ── Data ─────────────────────────────────────────────────────── */
 
-const HERO_STATS = [
-  { value: '$10',       label: 'Per Engaged Attendee',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/> },
-  { value: '500+',      label: 'Enterprise Clients',
-    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></> },
-  { value: '50+',       label: 'Countries Reached',
-    icon: <><circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round"/><line x1="2" y1="12" x2="22" y2="12" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></> },
-  { value: '4.8★',      label: 'Avg Session Rating',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/> },
-]
-
 const FEATURES = [
   {
     title: 'Accelerated AI Adoption',
     desc: 'Quickly upskill your teams through targeted, regular AI learning sessions that boost innovation and keep your enterprise competitive.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>,
+    img: '/images/webinar-service/was-icon1.png',
   },
   {
     title: 'Tailored, Contextual Learning',
     desc: 'Sessions customized to align precisely with your specific industry challenges, goals, and immediate priorities for maximum relevance.',
-    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></>,
+    img: '/images/webinar-service/was-icon2.png',
   },
   {
     title: 'Global Accessibility & Flexibility',
     desc: 'Sessions conveniently scheduled across your global teams\' time zones, ensuring optimal participation and eliminating scheduling conflicts.',
-    icon: <><circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round"/><line x1="2" y1="12" x2="22" y2="12" strokeLinecap="round" strokeLinejoin="round"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></>,
+    img: '/images/webinar-service/was-icon5.png',
   },
   {
     title: 'Streamlined Administration',
     desc: 'Effortless management through a dedicated platform for session requests, registrations, attendance tracking, and insightful feedback.',
-    icon: <><rect x="3" y="3" width="7" height="7" strokeLinecap="round" strokeLinejoin="round"/><rect x="14" y="3" width="7" height="7" strokeLinecap="round" strokeLinejoin="round"/><rect x="14" y="14" width="7" height="7" strokeLinecap="round" strokeLinejoin="round"/><rect x="3" y="14" width="7" height="7" strokeLinecap="round" strokeLinejoin="round"/></>,
+    img: '/images/webinar-service/was-icon3.png',
   },
   {
     title: 'Employee-Driven Engagement',
     desc: 'Foster a learner-first culture by organizing exclusive learning sessions based directly on employee requests and feedback.',
-    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></>,
+    img: '/images/webinar-service/was-icon4.png',
   },
   {
     title: 'Performance-Based Pricing',
     desc: 'Pay only for attendees who remain engaged and provide high-quality feedback, ensuring guaranteed ROI and accountability.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>,
+    img: '/images/webinar-service/was-icon6.png',
   },
 ]
 
@@ -364,20 +353,6 @@ export default function WebinarServicePage() {
               <p style={{ fontSize: 14, color: '#4a6580', lineHeight: 1.75, margin: '0 0 20px' }}>
                 A flat rate of <span style={{ color: '#0694D1', fontWeight: 600 }}>$10 per attendee</span> who stays engaged for more than <span style={{ color: '#0694D1', fontWeight: 600 }}>50 minutes</span> and provides a high rating <span style={{ color: '#0694D1', fontWeight: 600 }}>(above 4.4)</span>.
               </p>
-              {/* Stats grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                {HERO_STATS.map(s => (
-                  <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#e8f5fb', borderRadius: 8, padding: '9px 10px' }}>
-                    <div style={{ width: 28, height: 28, borderRadius: 6, background: 'rgba(6,148,209,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={1.8}>{s.icon}</svg>
-                    </div>
-                    <div>
-                      <p style={{ fontSize: 13, fontWeight: 800, color: '#0694D1', lineHeight: 1, margin: 0 }}>{s.value}</p>
-                      <p style={{ fontSize: 10, color: '#4a6580', marginTop: 2, lineHeight: 1.3 }}>{s.label}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
 
           </div>
@@ -406,7 +381,7 @@ export default function WebinarServicePage() {
             {FEATURES.map((f, i) => (
               <div key={i} className="rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: 'rgba(6,148,209,0.10)' }}>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={1.8}>{f.icon}</svg>
+                  <img src={f.img} alt={f.title} style={{ width: 24, height: 24, objectFit: 'contain' }} />
                 </div>
                 <h3 className="font-bold text-sm mb-1.5" style={{ color: '#0d1b2a' }}>{f.title}</h3>
                 <p className="text-xs leading-relaxed" style={{ color: '#4a6580' }}>{f.desc}</p>
