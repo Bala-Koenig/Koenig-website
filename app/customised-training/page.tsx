@@ -124,6 +124,9 @@ const INITIAL_VISIBLE = 8
 export default function CustomisedTrainingPage() {
   const [showAll, setShowAll]         = useState(false)
   const [requirement, setRequirement] = useState('')
+  const [name, setName]               = useState('')
+  const [email, setEmail]             = useState('')
+  const [robotChecked, setRobotChecked] = useState(false)
   const [generating, setGenerating]   = useState(false)
   const [generated, setGenerated]     = useState(false)
   const [emailSent, setEmailSent]     = useState(false)
@@ -524,44 +527,84 @@ export default function CustomisedTrainingPage() {
       </section>
 
       {/* ── CUSTOM COURSE GENERATOR ─────────────────────────────── */}
-      <section id="generator" style={{ background: '#fff', padding: '64px 20px', borderTop: '1px solid #E2E8F0' }}>
-        <div style={{ maxWidth: 860, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
-              background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12,
-              fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
-              AI-Powered
-            </span>
-            <h2 style={{ fontSize: 'clamp(20px, 3vw, 30px)', fontWeight: 800, color: '#06111E', marginBottom: 12, letterSpacing: '-0.015em' }}>
-              Need Customised Training?
+      <section id="generator" style={{ background: '#e8f5fb', padding: '48px 20px' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <div style={{ background: '#e8f5fb', border: '1.5px solid #b3dff0', borderRadius: 28, padding: '40px 36px', boxShadow: 'none' }}>
+
+            {/* Heading */}
+            <h2 style={{ fontSize: 'clamp(22px,3vw,30px)', fontWeight: 800, color: '#0d1b2a', marginBottom: 28, lineHeight: 1.3, textAlign: 'center' }}>
+              Need Customized Training - Share your<br />Requirement below and Generate a course.
             </h2>
-            <p style={{ fontSize: 15, color: '#7a8c96', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
-              Share your requirement below and generate a custom course table of contents.
-            </p>
-          </div>
 
-          <div style={{ background: '#f8fafc', border: '1.5px solid #CAEFFF', borderRadius: 20, padding: '36px 32px',
-            boxShadow: '0 4px 24px rgba(6,148,209,0.07)' }}>
-            <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#06111E', marginBottom: 10 }}>
-              Describe Your Training Requirement
-            </label>
-            <textarea
-              value={requirement}
-              onChange={e => setRequirement(e.target.value)}
-              rows={5}
-              placeholder="E.g. We need Azure Administrator training for 25 engineers, blended with AI/ML fundamentals, over 5 days onsite in Dubai."
-              style={{ width: '100%', boxSizing: 'border-box', background: '#fff',
-                border: '1.5px solid #CAEFFF', borderRadius: 12, padding: '14px 16px',
-                fontSize: 14, color: '#06111E', outline: 'none', fontFamily: 'inherit',
-                resize: 'vertical', minHeight: 120, transition: 'border-color 0.2s' }}
-              onFocus={e => (e.target.style.borderColor = '#0694D1')}
-              onBlur={e => (e.target.style.borderColor = '#CAEFFF')}
-            />
+            {/* Name + Email row */}
+            <div className="ct-gen-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type="text" required value={name} onChange={e => setName(e.target.value)}
+                  placeholder=" "
+                  style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1.5px solid #0694D1', borderRadius: 8, padding: '14px 14px', fontSize: 14, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit' }}
+                />
+                <label style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 14, color: '#4a6580', pointerEvents: 'none', transition: 'all 0.2s', background: '#fff', padding: '0 4px' }}>
+                  Name <span style={{ color: '#e53e3e' }}>*</span>
+                </label>
+              </div>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type="email" required value={email} onChange={e => setEmail(e.target.value)}
+                  placeholder=" "
+                  style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1.5px solid #0694D1', borderRadius: 8, padding: '14px 14px', fontSize: 14, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit' }}
+                />
+                <label style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 14, color: '#4a6580', pointerEvents: 'none', transition: 'all 0.2s', background: '#fff', padding: '0 4px' }}>
+                  Email <span style={{ color: '#e53e3e' }}>*</span>
+                </label>
+              </div>
+            </div>
 
+            {/* Your requirement textarea — fieldset/legend floating label */}
+            <fieldset style={{ border: '1.5px solid #0694D1', borderRadius: 8, padding: '0 14px 14px', margin: '0 0 20px', background: '#fff' }}>
+              <legend style={{ fontSize: 13, color: '#0694D1', padding: '0 6px', marginLeft: 4, fontWeight: 500 }}>Your requirement</legend>
+              <textarea
+                value={requirement}
+                onChange={e => setRequirement(e.target.value)}
+                rows={5}
+                placeholder="E.g. We need Azure Administrator training for 25 engineers, blended with AI/ML fundamentals, over 5 days onsite in Dubai."
+                style={{ width: '100%', boxSizing: 'border-box', background: 'transparent', border: 'none', outline: 'none', fontFamily: 'inherit', fontSize: 14, color: '#0d1b2a', resize: 'vertical', minHeight: 100, paddingTop: 8 }}
+              />
+            </fieldset>
+
+            {/* reCAPTCHA mock */}
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#fff', border: '1px solid #d1d5db', borderRadius: 4, padding: '10px 16px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
+                <input type="checkbox" checked={robotChecked} onChange={e => setRobotChecked(e.target.checked)} style={{ width: 18, height: 18, cursor: 'pointer', accentColor: '#0694D1' }} />
+                <span style={{ fontSize: 13, color: '#374151' }}>I&apos;m not a robot</span>
+                <div style={{ marginLeft: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+                    <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#4A90D9"/>
+                    <path d="M32 14c-9.941 0-18 8.059-18 18s8.059 18 18 18 18-8.059 18-18-8.059-18-18-18z" fill="white"/>
+                    <path d="M32 20c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" fill="#4A90D9"/>
+                    <path d="M32 26a6 6 0 100 12 6 6 0 000-12z" fill="white"/>
+                  </svg>
+                  <span style={{ fontSize: 8, color: '#9ca3af', lineHeight: 1.2 }}>reCAPTCHA</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Generate button — pill, centered */}
+            <div style={{ textAlign: 'center' }}>
+              <button onClick={handleGenerate} disabled={!requirement.trim() || generating}
+                style={{ padding: '14px 48px', borderRadius: 999, border: 'none',
+                  cursor: requirement.trim() && !generating ? 'pointer' : 'not-allowed',
+                  background: requirement.trim() && !generating ? '#0694D1' : '#93c5d8',
+                  color: '#fff', fontSize: 16, fontWeight: 700, fontFamily: 'inherit',
+                  letterSpacing: 0.2, transition: 'all 0.2s' }}>
+                {generated ? 'Re-Generate Course' : 'Generate Course'}
+              </button>
+            </div>
+
+            {/* Generating spinner */}
             {generating && (
-              <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 10,
-                background: 'linear-gradient(135deg,#f0f7fc,#e8f4fb)', border: '1.5px solid #CAEFFF',
-                borderRadius: 12, padding: '16px 20px' }}>
+              <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', gap: 10,
+                background: '#fff', border: '1.5px solid #CAEFFF', borderRadius: 12, padding: '16px 20px' }}>
                 <style>{`@keyframes ctSpin{to{transform:rotate(360deg)}}`}</style>
                 <div style={{ width: 16, height: 16, border: '2px solid #0694D1', borderTopColor: 'transparent',
                   borderRadius: '50%', animation: 'ctSpin 0.7s linear infinite', flexShrink: 0 }} />
@@ -569,49 +612,36 @@ export default function CustomisedTrainingPage() {
               </div>
             )}
 
+            {/* Generated TOC */}
             {generated && (
-              <div style={{ marginTop: 16, background: 'linear-gradient(135deg,#f0f7fc,#e8f4fb)',
-                border: '1.5px solid #CAEFFF', borderRadius: 12, padding: '20px 22px' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#06111E', marginBottom: 12 }}>
-                  Generated Table of Contents
-                </div>
+              <div style={{ marginTop: 20, background: '#fff', border: '1.5px solid #CAEFFF', borderRadius: 12, padding: '20px 22px' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#06111E', marginBottom: 12 }}>Generated Table of Contents</div>
                 {['Introduction & Business Context', 'Core Technical Concepts', 'Hands-on Lab Sessions', 'Role-Based Scenario Workshops', 'Assessment & Knowledge Check', 'Certification Preparation'].map((item, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 8 }}>
-                    <span style={{ minWidth: 22, height: 22, borderRadius: 6, background: 'rgba(6,148,209,0.1)',
-                      color: '#0694D1', fontSize: 11, fontWeight: 800, display: 'inline-flex',
-                      alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{i + 1}</span>
+                    <span style={{ minWidth: 22, height: 22, borderRadius: 6, background: 'rgba(6,148,209,0.1)', color: '#0694D1', fontSize: 11, fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{i + 1}</span>
                     <span style={{ fontSize: 13.5, color: '#374151', lineHeight: 1.55 }}>{item}</span>
                   </div>
                 ))}
-                <div style={{ fontSize: 12, color: 'rgba(6,148,209,0.7)', marginTop: 12, paddingTop: 12,
-                  borderTop: '1px solid #CAEFFF' }}>
+                <div style={{ fontSize: 12, color: 'rgba(6,148,209,0.7)', marginTop: 12, paddingTop: 12, borderTop: '1px solid #CAEFFF' }}>
                   Review the above TOC. If any change is required, mention below and click Re-Generate.
+                </div>
+                <div style={{ textAlign: 'center', marginTop: 16 }}>
+                  <button onClick={() => { setEmailSent(true); setTimeout(() => setEmailSent(false), 3000) }}
+                    style={{ padding: '10px 28px', borderRadius: 999, border: '1.5px solid #0694D1',
+                      background: emailSent ? '#0694D1' : 'transparent', color: emailSent ? '#fff' : '#0694D1',
+                      fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
+                    {emailSent ? '✓ TOC Sent to Your Inbox!' : 'Email Me the TOC'}
+                  </button>
                 </div>
               </div>
             )}
-
-            <div style={{ display: 'flex', gap: 12, marginTop: 20, flexWrap: 'wrap' }}>
-              <button onClick={handleGenerate} disabled={!requirement.trim() || generating}
-                style={{ padding: '12px 26px', borderRadius: 12, border: 'none',
-                  cursor: requirement.trim() && !generating ? 'pointer' : 'not-allowed',
-                  background: requirement.trim() && !generating
-                    ? 'linear-gradient(135deg,#0694D1,#0577ab)' : '#cbd5e1',
-                  color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit',
-                  boxShadow: requirement.trim() && !generating ? '0 4px 14px rgba(6,148,209,0.35)' : 'none',
-                  transition: 'all 0.2s' }}>
-                {generated ? 'Re-Generate Course' : 'Generate Course'}
-              </button>
-              {generated && (
-                <button onClick={() => { setEmailSent(true); setTimeout(() => setEmailSent(false), 3000) }}
-                  style={{ padding: '12px 26px', borderRadius: 12,
-                    border: '1.5px solid #0694D1', background: emailSent ? '#0694D1' : 'transparent',
-                    color: emailSent ? '#fff' : '#0694D1', fontSize: 14, fontWeight: 700,
-                    cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
-                  {emailSent ? '✓ TOC Sent to Your Inbox!' : 'Email Me the TOC'}
-                </button>
-              )}
-            </div>
           </div>
+
+          <style>{`
+            @media(max-width:600px){
+              .ct-gen-row { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
         </div>
       </section>
 
