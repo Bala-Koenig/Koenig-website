@@ -378,21 +378,6 @@ export default function WebinarServicePage() {
               <p style={{ fontSize: 14, color: '#4a6580', lineHeight: 1.75, margin: '0 0 20px' }}>
                 A flat rate of <span style={{ color: '#0694D1', fontWeight: 600 }}>$10 per attendee</span> who stays engaged for more than <span style={{ color: '#0694D1', fontWeight: 600 }}>50 minutes</span> and provides a high rating <span style={{ color: '#0694D1', fontWeight: 600 }}>(above 4.4)</span>.
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {[
-                  { label: 'Price per engaged attendee', value: '$10' },
-                  { label: 'Minimum engagement time',    value: '50 min' },
-                  { label: 'Minimum session rating',     value: '≥ 4.4 / 5' },
-                ].map(row => (
-                  <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f0f8ff', borderRadius: 8, padding: '10px 14px' }}>
-                    <span style={{ fontSize: 13, color: '#4a6580' }}>{row.label}</span>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: '#0694D1' }}>{row.value}</span>
-                  </div>
-                ))}
-              </div>
-              <a href="#request" style={{ display: 'block', marginTop: 20, textAlign: 'center', background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '12px 0', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
-                Request a Session →
-              </a>
             </div>
 
           </div>
