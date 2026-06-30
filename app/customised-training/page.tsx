@@ -191,7 +191,8 @@ export default function CustomisedTrainingPage() {
             .ct-pdf-sidebar { width: 14px !important; }
             .ct-gen-btn-wrap{ text-align: unset !important; }
             .ct-gen-btn-wrap button { width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
-            .ct-hero-btns { flex-direction: column !important; }
+            .ct-hero-desc  { margin-bottom: 18px !important; }
+            .ct-hero-btns  { flex-direction: column !important; margin-bottom: 18px !important; }
             .ct-hero-btns a { width: 100% !important; justify-content: center !important; box-sizing: border-box !important; }
           }
 
@@ -230,7 +231,7 @@ export default function CustomisedTrainingPage() {
                 </span>
               </h1>
 
-              <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: 28, maxWidth: 520 }}>
+              <p className="ct-hero-desc" style={{ fontSize: 16, color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, marginBottom: 28, maxWidth: 520 }}>
                 Tailored programmes designed around your business goals — blending expert-led live training, AI tools, custom LMS, and multilingual content delivery.
               </p>
 
