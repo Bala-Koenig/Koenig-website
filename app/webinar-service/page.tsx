@@ -593,31 +593,31 @@ export default function WebinarServicePage() {
             </p>
           </div>
 
-          <div className="waas-pricing-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 520px', gap: 40, alignItems: 'center' }}>
-            {/* Left: photo */}
-            <div className="waas-pricing-img" style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.10)', maxHeight: 400 }}>
+          <div className="waas-pricing-grid" style={{ display: 'grid', gridTemplateColumns: '42% 1fr', gap: 40, alignItems: 'stretch' }}>
+            {/* Left: photo — stretches to match card height */}
+            <div className="waas-pricing-img" style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}>
               <img src="/images/webinar-service/waas3.png" alt="Webinar as a Service" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
 
             {/* Right: steps card */}
-            <div style={{ background: '#e8f5fb', borderRadius: 20, padding: '32px 28px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24, justifyContent: 'center' }}>
-                <img src="/images/webinar-service/was-icon6.png" alt="" style={{ width: 30, height: 30, objectFit: 'contain' }} />
-                <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0d1b2a', margin: 0 }}>Simple Steps to Get Started</h3>
+            <div style={{ background: '#e8f5fb', borderRadius: 24, padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28, justifyContent: 'center' }}>
+                <img src="/images/webinar-service/was-icon6.png" alt="" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+                <h3 style={{ fontSize: 22, fontWeight: 700, color: '#0d1b2a', margin: 0 }}>Simple Steps to Get Started</h3>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
                   { icon: '/images/webinar-service/was-icon7.png',  title: 'Submit Your Request',  desc: 'Provide learning session details using our quick request form.' },
                   { icon: '/images/webinar-service/was-icon8.png',  title: 'Session Setup',         desc: 'We schedule and tailor the learning session based on your preferences.' },
                   { icon: '/images/webinar-service/was-icon10.png', title: 'Delivery & Reporting',  desc: 'Sessions are delivered seamlessly, and you receive detailed performance metrics and attendee feedback.' },
                 ].map((step, i) => (
-                  <div key={i} style={{ background: '#fff', borderRadius: 60, padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 16, border: '1px solid #DCEEFB' }}>
-                    <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#e8f5fb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <img src={step.icon} alt="" style={{ width: 26, height: 26, objectFit: 'contain' }} />
+                  <div key={i} style={{ background: '#fff', borderRadius: 999, padding: '16px 22px', display: 'flex', alignItems: 'center', gap: 16, border: '1px solid #DCEEFB', boxShadow: '0 1px 6px rgba(6,148,209,0.06)' }}>
+                    <div style={{ width: 50, height: 50, borderRadius: '50%', background: '#e8f5fb', border: '1.5px solid #DCEEFB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <img src={step.icon} alt="" style={{ width: 28, height: 28, objectFit: 'contain' }} />
                     </div>
                     <div>
-                      <p style={{ fontSize: 15, fontWeight: 700, color: '#0d1b2a', margin: '0 0 3px' }}>{step.title}</p>
+                      <p style={{ fontSize: 15, fontWeight: 700, color: '#0d1b2a', margin: '0 0 4px' }}>{step.title}</p>
                       <p style={{ fontSize: 13.5, color: '#4a6580', margin: 0, lineHeight: 1.55 }}>{step.desc}</p>
                     </div>
                   </div>
@@ -629,11 +629,11 @@ export default function WebinarServicePage() {
           <style>{`
             @media (max-width: 767px) {
               .waas-pricing-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
-              .waas-pricing-img { order: 2; max-height: 260px !important; }
+              .waas-pricing-img { order: 2; height: 260px !important; }
             }
             @media (min-width: 768px) and (max-width: 1023px) {
               .waas-pricing-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
-              .waas-pricing-img { order: 2; max-height: 320px !important; }
+              .waas-pricing-img { order: 2; height: 320px !important; }
             }
           `}</style>
         </div>
