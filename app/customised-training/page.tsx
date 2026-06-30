@@ -711,7 +711,7 @@ export default function CustomisedTrainingPage() {
                     </button>
                     <button onClick={handleEmailTOC}
                       style={{ padding: '13px 0', borderRadius: 8, border: '1.5px solid #0694D1', background: emailSent ? '#0694D1' : '#fff', color: emailSent ? '#fff' : '#0694D1', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
-                      {emailSent ? '✓ Sent!' : 'Email Me the TOC'}
+                      {emailSent ? `✓ Sent to ${email}` : 'Email Me the TOC'}
                     </button>
                   </div>
                 </div>
