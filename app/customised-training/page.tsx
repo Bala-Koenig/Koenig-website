@@ -561,17 +561,21 @@ export default function CustomisedTrainingPage() {
               </div>
             </div>
 
-            {/* Your requirement textarea — fieldset/legend floating label */}
-            <fieldset style={{ border: '1.5px solid #0694D1', borderRadius: 8, padding: '0 14px 14px', margin: '0 0 20px', background: '#fff' }}>
-              <legend style={{ fontSize: 13, color: '#0694D1', padding: '0 6px', marginLeft: 4, fontWeight: 500 }}>Your requirement</legend>
+            {/* Your requirement textarea — div-based floating label */}
+            <div style={{ position: 'relative', marginBottom: 20 }}>
+              <span style={{ position: 'absolute', top: -9, left: 12, background: '#fff', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
+                Your requirement
+              </span>
               <textarea
                 value={requirement}
                 onChange={e => setRequirement(e.target.value)}
                 rows={5}
                 placeholder="E.g. We need Azure Administrator training for 25 engineers, blended with AI/ML fundamentals, over 5 days onsite in Dubai."
-                style={{ width: '100%', boxSizing: 'border-box', background: 'transparent', border: 'none', outline: 'none', fontFamily: 'inherit', fontSize: 14, color: '#0d1b2a', resize: 'vertical', minHeight: 100, paddingTop: 8 }}
+                style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1.5px solid #0694D1', borderRadius: 8, padding: '14px', fontSize: 14, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit', resize: 'vertical', minHeight: 120, display: 'block' }}
+                onFocus={e => (e.target.style.borderColor = '#0569a8')}
+                onBlur={e => (e.target.style.borderColor = '#0694D1')}
               />
-            </fieldset>
+            </div>
 
             {/* reCAPTCHA mock */}
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
