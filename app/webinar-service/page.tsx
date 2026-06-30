@@ -593,14 +593,14 @@ export default function WebinarServicePage() {
             </p>
           </div>
 
-          <div className="waas-pricing-grid" style={{ display: 'grid', gridTemplateColumns: '42% 1fr', gap: 40, alignItems: 'stretch' }}>
-            {/* Left: photo — stretches to match card height */}
-            <div className="waas-pricing-img" style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}>
+          <div className="waas-pricing-grid" style={{ display: 'flex', alignItems: 'center' }}>
+            {/* Left: photo — smaller, sits behind card */}
+            <div className="waas-pricing-img" style={{ flexShrink: 0, width: 260, height: 360, borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)', position: 'relative', zIndex: 0 }}>
               <img src="/images/webinar-service/waas3.png" alt="Webinar as a Service" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
 
-            {/* Right: steps card */}
-            <div style={{ background: '#e8f5fb', borderRadius: 24, padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {/* Right: steps card — overlaps image */}
+            <div style={{ background: '#e8f5fb', borderRadius: 24, padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1, marginLeft: -48, position: 'relative', zIndex: 1, boxShadow: '-4px 0 20px rgba(6,148,209,0.08)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28, justifyContent: 'center' }}>
                 <img src="/images/webinar-service/was-icon6.png" alt="" style={{ width: 32, height: 32, objectFit: 'contain' }} />
                 <h3 style={{ fontSize: 22, fontWeight: 700, color: '#0d1b2a', margin: 0 }}>Simple Steps to Get Started</h3>
@@ -628,12 +628,12 @@ export default function WebinarServicePage() {
 
           <style>{`
             @media (max-width: 767px) {
-              .waas-pricing-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
-              .waas-pricing-img { order: 2; height: 260px !important; }
+              .waas-pricing-grid { flex-direction: column !important; }
+              .waas-pricing-img { width: 100% !important; height: 220px !important; margin-left: 0 !important; order: 2; }
+              .waas-pricing-grid > div:last-child { margin-left: 0 !important; margin-top: -24px; }
             }
             @media (min-width: 768px) and (max-width: 1023px) {
-              .waas-pricing-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
-              .waas-pricing-img { order: 2; height: 320px !important; }
+              .waas-pricing-img { width: 220px !important; height: 300px !important; }
             }
           `}</style>
         </div>
