@@ -657,9 +657,9 @@ export default function WebinarServicePage() {
                 </div>
                 <div style={{ padding: '16px', textAlign: 'center' }}>
                   <div style={{ background: '#e8f5fb', borderRadius: 8, padding: '8px 12px', marginBottom: 12 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 600, color: '#0694D1', margin: 0, lineHeight: 1.35, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.title}</h3>
+                    <h3 style={{ fontSize: 18, fontWeight: 600, color: '#0694D1', margin: 0, lineHeight: 1.35, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.title}</h3>
                   </div>
-                  <p style={{ fontSize: 14, color: '#0d1b2a', lineHeight: 1.65, margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.desc}</p>
+                  <p style={{ fontSize: 16, color: '#0d1b2a', lineHeight: 1.65, margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.desc}</p>
                 </div>
               </div>
             ))}
