@@ -12,12 +12,12 @@ const FEATURES = [
   },
   {
     title: 'Tailored, Contextual Learning',
-    desc: 'Sessions customized to align precisely with your specific industry challenges, goals, and immediate priorities for maximum relevance.',
+    desc: 'Learning sessions customized to align precisely with your specific industry challenges, goals, and immediate priorities for maximum relevance.',
     img: '/images/webinar-service/was-icon2.png',
   },
   {
-    title: 'Global Accessibility & Flexibility',
-    desc: 'Sessions conveniently scheduled across your global teams\' time zones, ensuring optimal participation and eliminating scheduling conflicts.',
+    title: 'Global Accessibility and Flexibility',
+    desc: 'Sessions conveniently scheduled according to your global teams\' time zones, ensuring optimal participation and eliminating scheduling conflicts.',
     img: '/images/webinar-service/was-icon5.png',
   },
   {
@@ -27,7 +27,7 @@ const FEATURES = [
   },
   {
     title: 'Employee-Driven Engagement',
-    desc: 'Foster a learner-first culture by organizing exclusive learning sessions based directly on employee requests and feedback.',
+    desc: 'Foster a learner-first culture by organizing exclusive learning sessions based directly on employee requests and feedback, driving engagement and morale.',
     img: '/images/webinar-service/was-icon4.png',
   },
   {
@@ -369,12 +369,12 @@ export default function WebinarServicePage() {
       <section style={{ background: '#f8fcff', padding: '48px 24px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-8">
-            <span className="inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-widest mb-3" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.20)' }}>
-              What is WaaS?
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#0d1b2a' }}>
-              Six Reasons Enterprises Choose <span style={{ color: '#0694D1' }}>Webinar as a Service</span>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
+              What is Webinar as a Service?
             </h2>
+            <p className="mt-3 text-sm" style={{ color: '#0694D1' }}>
+              Structured, flexible learning sessions customized to meet your enterprise&apos;s unique learning objectives via:
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
