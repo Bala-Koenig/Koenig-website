@@ -114,6 +114,57 @@ const COUNTRIES = [
   'Ukraine','United Kingdom','United States','Uruguay','Uzbekistan','Venezuela','Vietnam','Zimbabwe',
 ]
 
+/* ── Custom Time Picker ───────────────────────────────────────── */
+function CustomTimePicker({ value, onChange, inputStyle }: { value: string, onChange: (v: string) => void, inputStyle: React.CSSProperties }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const [h, m] = value ? value.split(':') : ['', '']
+
+  useEffect(() => {
+    if (!open) return
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [open])
+
+  const setH = (hh: string) => onChange(`${hh}:${m || '00'}`)
+  const setM = (mm: string) => onChange(`${h || '00'}:${mm}`)
+
+  const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'))
+  const minutes = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'))
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      <div onClick={() => setOpen(o => !o)} style={{ ...inputStyle, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ color: value ? '#fff' : 'rgba(255,255,255,0.3)', fontSize: 13.5 }}>{value || '--:--'}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      {open && (
+        <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, background: '#0a1929', border: '1px solid rgba(6,148,209,0.30)', borderRadius: 10, zIndex: 200, display: 'flex', overflow: 'hidden', boxShadow: '0 8px 28px rgba(0,0,0,0.50)' }}>
+          <div style={{ flex: 1, overflowY: 'auto', maxHeight: 200, borderRight: '1px solid rgba(255,255,255,0.07)' }}>
+            {hours.map(hh => (
+              <div key={hh} onClick={() => setH(hh)}
+                style={{ padding: '8px 0', textAlign: 'center', fontSize: 13.5, cursor: 'pointer', color: hh === h ? '#38bdf8' : 'rgba(255,255,255,0.70)', background: hh === h ? 'rgba(6,148,209,0.18)' : 'transparent' }}>
+                {hh}
+              </div>
+            ))}
+          </div>
+          <div style={{ flex: 1, overflowY: 'auto', maxHeight: 200 }}>
+            {minutes.map(mm => (
+              <div key={mm} onClick={() => setM(mm)}
+                style={{ padding: '8px 0', textAlign: 'center', fontSize: 13.5, cursor: 'pointer', color: mm === m ? '#38bdf8' : 'rgba(255,255,255,0.70)', background: mm === m ? 'rgba(6,148,209,0.18)' : 'transparent' }}>
+                {mm}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ── Request Form ─────────────────────────────────────────────── */
 function WaasRequestForm() {
   const [submitted, setSubmitted] = useState(false)
@@ -221,9 +272,7 @@ function WaasRequestForm() {
             </div>
             <div>
               <label style={lbl}>Preferred Time</label>
-              <input type="time" value={form.time} onChange={e => set('time', e.target.value)}
-                onClick={e => { try { (e.target as HTMLInputElement).showPicker() } catch {} }}
-                style={{ ...inp, colorScheme: 'dark', cursor: 'pointer' }} />
+              <CustomTimePicker value={form.time} onChange={v => set('time', v)} inputStyle={inp} />
             </div>
           </div>
 
