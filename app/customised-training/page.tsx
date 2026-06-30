@@ -174,7 +174,9 @@ export default function CustomisedTrainingPage() {
             .ct-sec-inner   { padding-left: 0   !important; padding-right: 0   !important; }
             /* 15px between section elements */
             .ct-sec-head    { margin-bottom: 15px !important; }
-            .ct-features-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
+            .ct-features-grid { display: flex !important; flex-direction: row !important; overflow-x: auto !important; scroll-snap-type: x mandatory !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; gap: 12px !important; padding-bottom: 4px !important; }
+            .ct-features-grid::-webkit-scrollbar { display: none !important; }
+            .ct-feature-card  { flex: 0 0 82% !important; scroll-snap-align: start !important; min-width: 0 !important; }
             .ct-how-grid    { grid-template-columns: 1fr !important; gap: 15px !important; }
             .ct-cs-grid     { gap: 15px !important; }
             .ct-hero-grid   { grid-template-columns: 1fr !important; gap: 20px !important; }
@@ -364,7 +366,7 @@ export default function CustomisedTrainingPage() {
 
           <div className="ct-features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
             {FEATURES.map((f, i) => (
-              <div key={i}
+              <div key={i} className="ct-feature-card"
                 style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 12, padding: '24px 22px',
                   borderRadius: 20, cursor: 'default', overflow: 'hidden', transition: 'all 0.3s',
                   background: '#fff', border: '1px solid #CAEFFF',
