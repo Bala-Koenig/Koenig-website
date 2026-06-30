@@ -566,7 +566,7 @@ export default function WebinarServicePage() {
                 </div>
                 <div style={{ padding: '16px 16px 20px', textAlign: 'center' }}>
                   <div style={{ background: '#e8f5fb', borderRadius: 8, padding: '8px 12px', marginBottom: 10 }}>
-                    <h3 style={{ fontSize: 18, fontWeight: 700, color: '#0694D1', lineHeight: 1.35, margin: 0 }}>{b.title}</h3>
+                    <h3 style={{ fontSize: 18, fontWeight: 600, color: '#0694D1', lineHeight: 1.35, margin: 0 }}>{b.title}</h3>
                   </div>
                   <p style={{ fontSize: 16, color: '#06111E', lineHeight: 1.7, margin: 0 }}>{b.desc}</p>
                 </div>
@@ -575,7 +575,7 @@ export default function WebinarServicePage() {
           </div>
           <style>{`
             .waas-ben-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
-            .waas-ben-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(6,148,209,0.14) !important; }
+            .waas-ben-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(6,148,209,0.18), 0 0 0 1px rgba(6,148,209,0.20), 0 16px 40px rgba(6,148,209,0.12) !important; }
             .waas-ben-card:hover .waas-ben-img { transform: scale(1.05); }
           `}</style>
         </div>
