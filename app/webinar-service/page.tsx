@@ -565,8 +565,8 @@ export default function WebinarServicePage() {
                   <img src={b.img} alt={b.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.35s ease' }} className="waas-ben-img" />
                 </div>
                 <div style={{ padding: '16px 16px 20px', textAlign: 'center' }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0694D1', lineHeight: 1.35, marginBottom: 10 }}>{b.title}</h3>
-                  <p style={{ fontSize: 13.5, color: '#4a6580', lineHeight: 1.7, margin: 0 }}>{b.desc}</p>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: '#06111E', lineHeight: 1.35, marginBottom: 10 }}>{b.title}</h3>
+                  <p style={{ fontSize: 16, color: '#06111E', lineHeight: 1.7, margin: 0 }}>{b.desc}</p>
                 </div>
               </div>
             ))}
