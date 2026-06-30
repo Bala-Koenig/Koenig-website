@@ -130,6 +130,7 @@ export default function CustomisedTrainingPage() {
   const [generating, setGenerating]   = useState(false)
   const [generated, setGenerated]     = useState(false)
   const [emailSent, setEmailSent]     = useState(false)
+  const [tocChanges, setTocChanges]   = useState('')
 
   const visibleStudies = showAll ? CASE_STUDIES : CASE_STUDIES.slice(0, INITIAL_VISIBLE)
 
@@ -612,27 +613,90 @@ export default function CustomisedTrainingPage() {
               </div>
             )}
 
-            {/* Generated TOC */}
+            {/* Generated — PDF viewer + feedback card */}
             {generated && (
-              <div style={{ marginTop: 20, background: '#fff', border: '1.5px solid #CAEFFF', borderRadius: 12, padding: '20px 22px' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#06111E', marginBottom: 12 }}>Generated Table of Contents</div>
-                {['Introduction & Business Context', 'Core Technical Concepts', 'Hands-on Lab Sessions', 'Role-Based Scenario Workshops', 'Assessment & Knowledge Check', 'Certification Preparation'].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 8 }}>
-                    <span style={{ minWidth: 22, height: 22, borderRadius: 6, background: 'rgba(6,148,209,0.1)', color: '#0694D1', fontSize: 11, fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{i + 1}</span>
-                    <span style={{ fontSize: 13.5, color: '#374151', lineHeight: 1.55 }}>{item}</span>
+              <div style={{ marginTop: 24 }}>
+
+                {/* PDF viewer */}
+                <div style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid #d1d5db', boxShadow: '0 4px 20px rgba(0,0,0,0.12)', position: 'relative' }}>
+                  {/* Top bar */}
+                  <div style={{ background: '#3c3c3c', padding: '6px 12px', display: 'flex', justifyContent: 'flex-end' }}>
+                    <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#fff', padding: 4 }}>
+                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </button>
                   </div>
-                ))}
-                <div style={{ fontSize: 12, color: 'rgba(6,148,209,0.7)', marginTop: 12, paddingTop: 12, borderTop: '1px solid #CAEFFF' }}>
-                  Review the above TOC. If any change is required, mention below and click Re-Generate.
+
+                  {/* Viewer body — sidebars + document */}
+                  <div style={{ display: 'flex', background: '#525659', minHeight: 520 }}>
+                    {/* Left sidebar */}
+                    <div style={{ width: 40, flexShrink: 0, background: '#3c3c3c' }} />
+
+                    {/* White document */}
+                    <div style={{ flex: 1, padding: '32px 40px', background: '#fff', overflowY: 'auto', maxHeight: 520 }}>
+                      <p style={{ textAlign: 'center', fontSize: 20, fontWeight: 700, color: '#1a3a5c', marginBottom: 24, lineHeight: 1.4 }}>
+                        &ldquo;{requirement.trim() ? requirement.slice(0, 60) + (requirement.length > 60 ? '…' : '') : 'Your Custom Course'}&rdquo;
+                      </p>
+
+                      <p style={{ fontSize: 13, fontWeight: 700, color: '#0d1b2a', marginBottom: 4 }}>Course Introduction:</p>
+                      <p style={{ fontSize: 12.5, color: '#374151', lineHeight: 1.7, marginBottom: 16 }}>
+                        This course is designed to equip learners with the foundational and advanced skills necessary to effectively meet your business goals. The curriculum addresses your specific requirements, helping professionals leverage knowledge for informed decision-making.
+                      </p>
+
+                      {[
+                        { title: 'Module 1: Business Context & Foundations', points: ['Overview: Understand the purpose, components, and key benefits', 'Core Concepts: Distinguish between approaches and their use cases', 'Setup & Onboarding: Step-by-step guidance on getting started'] },
+                        { title: 'Module 2: Core Technical Skills', points: ['Data & Tools: Explore key resources and platforms relevant to your goals', 'Connecting the Dots: Learn how to integrate knowledge across domains', 'Transformation Techniques: Apply best practices for your use case'] },
+                        { title: 'Module 3: Hands-on Application', points: ['Introduction to real-world scenarios and their impact', 'Relationships & Dependencies: Learn to build connections between concepts', 'Practical Exercises: Apply skills in guided lab sessions'] },
+                        { title: 'Module 4: Assessment & Certification Prep', points: ['Knowledge Check: Review & quiz on all modules', 'Role-Based Scenarios: Apply learning in context-specific workshops', 'Certification Readiness: Prepare for relevant industry certifications'] },
+                      ].map((mod, i) => (
+                        <div key={i} style={{ marginBottom: 16 }}>
+                          <p style={{ fontSize: 13, fontWeight: 800, color: '#0d1b2a', marginBottom: 6 }}>{mod.title}</p>
+                          {mod.points.map((pt, j) => (
+                            <p key={j} style={{ fontSize: 12.5, color: '#374151', lineHeight: 1.65, margin: '0 0 3px', paddingLeft: 2 }}>- {pt}</p>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Right sidebar */}
+                    <div style={{ width: 40, flexShrink: 0, background: '#3c3c3c' }} />
+                  </div>
+
+                  {/* Bottom controls */}
+                  <div style={{ background: '#525659', padding: '8px 16px', display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#3c3c3c', borderRadius: 999, padding: '5px 16px' }}>
+                      <button style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', fontSize: 16, lineHeight: 1, padding: '0 2px' }}>−</button>
+                      <span style={{ fontSize: 12, color: '#fff', whiteSpace: 'nowrap' }}>Page 1 of 2</span>
+                      <button style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', fontSize: 16, lineHeight: 1, padding: '0 2px' }}>+</button>
+                    </div>
+                  </div>
                 </div>
-                <div style={{ textAlign: 'center', marginTop: 16 }}>
-                  <button onClick={() => { setEmailSent(true); setTimeout(() => setEmailSent(false), 3000) }}
-                    style={{ padding: '10px 28px', borderRadius: 999, border: '1.5px solid #0694D1',
-                      background: emailSent ? '#0694D1' : 'transparent', color: emailSent ? '#fff' : '#0694D1',
-                      fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
-                    {emailSent ? '✓ TOC Sent to Your Inbox!' : 'Email Me the TOC'}
-                  </button>
+
+                {/* Feedback card */}
+                <div style={{ marginTop: 16, background: '#f5f6f7', border: '1px solid #e2e8f0', borderRadius: 12, padding: '24px 24px 20px' }}>
+                  <p style={{ fontSize: 14, color: '#0d1b2a', textAlign: 'center', marginBottom: 16, lineHeight: 1.6 }}>
+                    Review the above <span style={{ color: '#0694D1', textDecoration: 'underline', cursor: 'pointer' }}>TOC</span>, if any change required, mention below &amp; click on Re-Generate course
+                  </p>
+                  <textarea
+                    value={tocChanges}
+                    onChange={e => setTocChanges(e.target.value)}
+                    rows={4}
+                    placeholder="Change Required in TOC"
+                    style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1px solid #d1d5db', borderRadius: 6, padding: '12px 14px', fontSize: 13.5, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit', resize: 'vertical', marginBottom: 16 }}
+                    onFocus={e => (e.target.style.borderColor = '#0694D1')}
+                    onBlur={e => (e.target.style.borderColor = '#d1d5db')}
+                  />
+                  <div className="ct-gen-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    <button onClick={handleGenerate}
+                      style={{ padding: '13px 0', borderRadius: 8, border: 'none', cursor: 'pointer', background: '#0694D1', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', transition: 'opacity 0.2s' }}>
+                      Regenerate Course
+                    </button>
+                    <button onClick={() => { setEmailSent(true); setTimeout(() => setEmailSent(false), 3000) }}
+                      style={{ padding: '13px 0', borderRadius: 8, border: '1.5px solid #0694D1', background: emailSent ? '#0694D1' : '#fff', color: emailSent ? '#fff' : '#0694D1', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
+                      {emailSent ? '✓ Sent!' : 'Email Me the TOC'}
+                    </button>
+                  </div>
                 </div>
+
               </div>
             )}
           </div>
