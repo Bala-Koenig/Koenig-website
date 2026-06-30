@@ -641,7 +641,7 @@ export default function WebinarServicePage() {
 
       {/* ── TOP SESSIONS ─────────────────────────────────────────── */}
       <section id="sessions" style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f0f8ff 100%)', padding: '56px 24px' }}>
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
               Our Top Custom Learning Sessions
