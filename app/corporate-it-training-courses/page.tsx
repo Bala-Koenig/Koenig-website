@@ -688,96 +688,157 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
   )
 }
 
-/* ─── Price range radio dropdown ────────────────────────── */
-const PRICE_RANGES = [
-  'INR 0 to 10,000',
-  'INR 10,000 to 20,000',
-  'INR 20,000 to 30,000',
-  'INR 30,000 to 40,000',
-  'INR 40,000 to 50,000',
-  'INR 50,000 to 60,000',
-  'INR 60,000 to 70,000',
-  'INR 70,000 to 80,000',
-  'INR 80,000 to 90,000',
-  'INR 90,000 to 1,00,000',
-  'Above 1 lakh',
+/* ─── Price Range Slider ─────────────────────────────────── */
+const PRICE_MIN = 0
+const PRICE_MAX = 100000
+const PRICE_STEP = 1000
+const PRICE_PRESETS: { label: string; range: [number, number] }[] = [
+  { label: 'Under 10k', range: [0, 10000] },
+  { label: '10k–30k',   range: [10000, 30000] },
+  { label: '30k+',      range: [30000, 100000] },
 ]
 
-function BudgetSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function PriceRangeSlider({
+  value, onChange,
+}: {
+  value: [number, number] | null
+  onChange: (v: [number, number] | null) => void
+}) {
   const [open, setOpen] = useState(false)
-  const [query, setQuery] = useState('')
+  const [lo, hi] = value ?? [PRICE_MIN, PRICE_MAX]
+  const [activePreset, setActivePreset] = useState<string | null>(null)
+  const [inputVal, setInputVal] = useState(String(hi))
   const ref = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const dragging = useRef<'lo' | 'hi' | null>(null)
+
+  useEffect(() => { setInputVal(String(hi)) }, [hi])
+
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) { setOpen(false); setQuery('') }
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
-  useEffect(() => {
-    if (open) { setQuery(''); setTimeout(() => inputRef.current?.focus(), 50) }
-  }, [open])
-  const filtered = query ? PRICE_RANGES.filter(r => r.toLowerCase().includes(query.toLowerCase())) : PRICE_RANGES
+  useEffect(() => { if (value === null) setActivePreset(null) }, [value])
+
+  const loPct = (lo / PRICE_MAX) * 100
+  const hiPct = (hi / PRICE_MAX) * 100
+  const fmtINR = (n: number) => 'INR ' + n.toLocaleString('en-IN')
+
+  const getValFromX = (clientX: number): number => {
+    if (!trackRef.current) return 0
+    const { left, width } = trackRef.current.getBoundingClientRect()
+    const pct = Math.max(0, Math.min(1, (clientX - left) / width))
+    return Math.round((pct * PRICE_MAX) / PRICE_STEP) * PRICE_STEP
+  }
+
+  const handlePointerDown = (which: 'lo' | 'hi') => (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    dragging.current = which
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragging.current) return
+    const v = getValFromX(e.clientX)
+    if (dragging.current === 'lo') onChange([Math.min(v, hi - PRICE_STEP), hi])
+    else onChange([lo, Math.max(v, lo + PRICE_STEP)])
+    setActivePreset(null)
+  }
+
+  const handlePointerUp = () => { dragging.current = null }
+
   return (
     <div ref={ref} className="relative">
+      {/* Trigger — same height as other filter dropdowns */}
       <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
-        <span className="flex-1 min-w-0 truncate" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 700 : 400 }}>
-          {value || 'Select Range'}
+        <span className="flex-1 min-w-0 truncate" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 700 : 400, fontSize: value ? 11 : undefined }}>
+          {value ? `${fmtINR(lo)} – ${fmtINR(hi)}${hi >= PRICE_MAX ? '+' : ''}` : 'Select Range'}
         </span>
         <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
           style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
           <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
         </svg>
       </button>
+
+      {/* Dropdown panel with slider */}
       {open && (
         <div className="cit-dropdown absolute z-50 mt-2 rounded-xl overflow-hidden"
-          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', minWidth: '220px', top: '100%', left: 0 }}>
-          {/* Header */}
-          <div className="px-4 pt-3 pb-2.5" style={{ borderBottom: '1px solid #EEF3F9' }}>
-            <p className="text-xs font-bold text-center mb-2" style={{ color: '#64748b' }}>Price Range</p>
-            <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg" style={{ background: '#F1F5F9' }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-              </svg>
-              <input ref={inputRef} type="text" value={query} onChange={e => setQuery(e.target.value)}
-                placeholder="Search range…"
-                className="flex-1 bg-transparent outline-none text-xs"
-                style={{ color: '#374151', caretColor: '#0694D1' }}
-                onKeyDown={e => e.key === 'Escape' && (setOpen(false), setQuery(''))}
-              />
-              {query && <button onClick={() => setQuery('')} className="leading-none text-sm" style={{ color: '#94a3b8' }}>×</button>}
-            </div>
+          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', width: '280px', top: '100%', left: 0, padding: '14px 16px', fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+
+          {/* Readout */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+            <span style={{ fontSize: 14, fontWeight: 800, color: '#0b2545' }}>{fmtINR(lo)}</span>
+            <span style={{ color: '#94a3b8', fontSize: 12 }}>–</span>
+            <span style={{ fontSize: 14, fontWeight: 800, color: '#0b2545' }}>{fmtINR(hi)}{hi >= PRICE_MAX ? '+' : ''}</span>
+            {value !== null && (
+              <button onClick={() => { onChange(null); setActivePreset(null) }}
+                style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 600, color: '#0694D1', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                Clear
+              </button>
+            )}
           </div>
-          {/* Radio list */}
-          <div style={{ maxHeight: '260px', overflowY: 'auto' }}>
-            {filtered.length === 0 ? (
-              <p className="px-4 py-3 text-xs" style={{ color: '#94a3b8' }}>No results for "{query}"</p>
-            ) : filtered.map(range => {
-              const selected = value === range
+
+          {/* Track */}
+          <div ref={trackRef} style={{ position: 'relative', height: 24, userSelect: 'none', marginBottom: 4 }}>
+            <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 4, transform: 'translateY(-50%)', borderRadius: 99, background: '#E2E8F0', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', top: '50%', left: `${loPct}%`, width: `${Math.max(0, hiPct - loPct)}%`, height: 4, transform: 'translateY(-50%)', borderRadius: 99, background: 'linear-gradient(90deg, #0694D1 0%, #38bdf8 100%)', pointerEvents: 'none' }} />
+            <div onPointerDown={handlePointerDown('lo')} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp}
+              style={{ position: 'absolute', top: '50%', left: `${loPct}%`, width: 18, height: 18, borderRadius: '50%', background: '#fff', border: '2.5px solid #0694D1', boxShadow: '0 1px 6px rgba(6,148,209,0.28)', transform: 'translate(-50%, -50%)', cursor: 'grab', zIndex: 2, touchAction: 'none' }} />
+            <div onPointerDown={handlePointerDown('hi')} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp}
+              style={{ position: 'absolute', top: '50%', left: `${hiPct}%`, width: 18, height: 18, borderRadius: '50%', background: '#fff', border: '2.5px solid #0694D1', boxShadow: '0 1px 6px rgba(6,148,209,0.28)', transform: 'translate(-50%, -50%)', cursor: 'grab', zIndex: 2, touchAction: 'none' }} />
+          </div>
+
+          {/* Min/Max labels */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+            <span style={{ fontSize: 10, color: '#94a3b8' }}>INR 0</span>
+            <span style={{ fontSize: 10, color: '#94a3b8' }}>INR 1,00,000+</span>
+          </div>
+
+          {/* Price input */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, border: '1.5px solid #E2E8F0', borderRadius: 10, padding: '7px 10px', marginBottom: 10, background: '#fff' }}>
+            <input
+              type="number"
+              min={0}
+              value={inputVal}
+              onChange={e => {
+                const raw = Number(e.target.value)
+                const clamped = Math.min(raw, PRICE_MAX)
+                setInputVal(String(clamped))
+                if (!isNaN(raw) && raw > 0) {
+                  onChange([lo, Math.max(lo + PRICE_STEP, clamped)])
+                  setActivePreset(null)
+                }
+              }}
+              onBlur={e => {
+                const v = Math.min(Math.max(lo + PRICE_STEP, Number(e.target.value) || hi), PRICE_MAX)
+                onChange([lo, v])
+                setInputVal(String(v))
+                setActivePreset(null)
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter') (e.target as HTMLInputElement).blur()
+              }}
+              style={{ flex: 1, border: 'none', outline: 'none', fontSize: 13, fontWeight: 600, color: '#0b2545', background: 'transparent', minWidth: 0, textAlign: 'left', fontFamily: "'GT Walsheim Pro', sans-serif" }}
+            />
+            {hi >= PRICE_MAX && <span style={{ fontSize: 13, fontWeight: 700, color: '#0b2545', flexShrink: 0 }}>+</span>}
+            <span style={{ fontSize: 12, color: '#0694D1', fontWeight: 700, flexShrink: 0 }}>INR</span>
+          </div>
+
+          {/* Preset chips */}
+          <div style={{ display: 'flex', gap: 5 }}>
+            {PRICE_PRESETS.map(p => {
+              const active = activePreset === p.label
               return (
-                <button key={range}
-                  onClick={() => { onChange(selected ? '' : range); setOpen(false); setQuery('') }}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 transition-colors text-left"
-                  style={{ background: selected ? '#EDF7FF' : 'transparent' }}
-                  onMouseEnter={e => { if (!selected) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
-                  onMouseLeave={e => { if (!selected) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
-                >
-                  {/* Radio circle */}
-                  <div className="flex items-center justify-center rounded-full flex-shrink-0"
-                    style={{ width: 18, height: 18, border: `2px solid ${selected ? '#0694D1' : '#CBD5E1'}` }}>
-                    {selected && <div className="rounded-full" style={{ width: 8, height: 8, background: '#0694D1' }} />}
-                  </div>
-                  <span className="text-sm" style={{ color: selected ? '#0694D1' : '#374151', fontWeight: selected ? 600 : 400 }}>{range}</span>
+                <button key={p.label} onClick={() => { onChange(p.range); setActivePreset(p.label) }}
+                  style={{ flex: 1, padding: '4px 0', borderRadius: 999, fontSize: 10, fontWeight: 600, border: `1.5px solid ${active ? '#0694D1' : '#E2E8F0'}`, background: active ? '#0694D1' : '#fff', color: active ? '#fff' : '#64748b', cursor: 'pointer' }}>
+                  {p.label}
                 </button>
               )
             })}
           </div>
-          {value && (
-            <div className="px-4 py-2" style={{ borderTop: '1px solid #EEF3F9' }}>
-              <button onClick={() => { onChange(''); setQuery('') }} className="text-xs font-semibold" style={{ color: '#0694D1' }}>Clear</button>
-            </div>
-          )}
         </div>
       )}
     </div>
@@ -1513,7 +1574,7 @@ function FilterDrawer({
   oem, setOem,
   technology, setTechnology,
   durations, setDurations,
-  budget, setBudget,
+  priceRange, setPriceRange,
   modes, toggleMode,
   classroomCity, setClassroomCity,
   initialTab,
@@ -1523,7 +1584,7 @@ function FilterDrawer({
   oem: string; setOem: (v: string) => void;
   technology: string; setTechnology: (v: string) => void;
   durations: string[]; setDurations: (v: string[]) => void;
-  budget: string; setBudget: (v: string) => void;
+  priceRange: [number, number] | null; setPriceRange: (v: [number, number] | null) => void;
   modes: string[]; toggleMode: (m: string) => void;
   classroomCity: string; setClassroomCity: (v: string) => void;
   initialTab?: string;
@@ -1539,7 +1600,7 @@ function FilterDrawer({
     { key: 'Vendor',     active: oem !== 'All OEMs',               count: oem !== 'All OEMs' ? 1 : 0 },
     { key: 'Technology', active: technology !== 'All Technologies', count: technology !== 'All Technologies' ? 1 : 0 },
     { key: 'Duration',   active: durations.length > 0,             count: durations.length },
-    { key: 'Budget',     active: !!budget,                         count: budget ? 1 : 0 },
+    { key: 'Budget',     active: !!priceRange,                     count: priceRange ? 1 : 0 },
     { key: 'Mode',       active: modes.length > 0,                 count: modes.length },
   ]
 
@@ -1549,7 +1610,7 @@ function FilterDrawer({
     Vendor:     ALL_OEMS.filter(o => o !== 'All OEMs'),
     Technology: ALL_TECHNOLOGIES.filter(t => t !== 'All Technologies'),
     Duration:   DURATION_ITEMS.map(d => d.label),
-    Budget:     PRICE_RANGES,
+    Budget:     [],
   }
 
   const filtered = (allOptions[activeTab] || []).filter(o =>
@@ -1560,7 +1621,7 @@ function FilterDrawer({
     if (activeTab === 'Vendor')     return oem === opt
     if (activeTab === 'Technology') return technology === opt
     if (activeTab === 'Duration')   return durations.includes(opt)
-    if (activeTab === 'Budget')     return budget === opt
+    if (activeTab === 'Budget')     return false
     return false
   }
 
@@ -1568,7 +1629,7 @@ function FilterDrawer({
     if (activeTab === 'Vendor')     setOem(oem === opt ? 'All OEMs' : opt)
     if (activeTab === 'Technology') setTechnology(technology === opt ? 'All Technologies' : opt)
     if (activeTab === 'Duration')   setDurations(durations.includes(opt) ? durations.filter(x => x !== opt) : [...durations, opt])
-    if (activeTab === 'Budget')     setBudget(budget === opt ? '' : opt)
+    // Budget handled by PriceRangeSlider directly
   }
 
   if (!open) return null
@@ -1616,8 +1677,8 @@ function FilterDrawer({
 
           {/* Right — search + list */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column' as const, overflow: 'hidden' }}>
-            {/* Search — hidden for Mode tab */}
-            {activeTab !== 'Mode' && (
+            {/* Search — hidden for Mode and Budget tabs */}
+            {activeTab !== 'Mode' && activeTab !== 'Budget' && (
               <div style={{ padding: '10px 14px', borderBottom: '1px solid #F0F4F8', flexShrink: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#F1F5F9', borderRadius: 8, padding: '7px 10px' }}>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -1629,7 +1690,11 @@ function FilterDrawer({
 
             {/* Options */}
             <div style={{ flex: 1, overflowY: 'auto' }}>
-              {activeTab === 'Mode' ? (
+              {activeTab === 'Budget' ? (
+                <div style={{ padding: '16px 14px' }}>
+                  <PriceRangeSlider value={priceRange} onChange={setPriceRange} />
+                </div>
+              ) : activeTab === 'Mode' ? (
                 MODE_OPTIONS.map(m => {
                   const sel = modes.includes(m.key)
                   const isSelfPaced = m.key === 'Self-Paced'
@@ -1845,7 +1910,7 @@ export default function CorporateITTrainingPage() {
   const [durations, setDurations] = useState<string[]>([])
   const [oem, setOem] = useState('All OEMs')
   const [technology, setTechnology] = useState('All Technologies')
-  const [budget, setBudget] = useState('')
+  const [priceRange, setPriceRange] = useState<[number, number] | null>(null)
   const [modes, setModes] = useState<string[]>([])
   const [classroomCity, setClassroomCity] = useState('')
   const [startDate, setStartDate] = useState('')
@@ -1984,7 +2049,7 @@ export default function CorporateITTrainingPage() {
               <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
                 style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                Corporate IT Training — 17 Vendor Categories
+                Corporate IT Training — 40+ Vendor Categories
               </div>
               <h1 className="text-[22px] lg:text-3xl xl:text-[2.4rem] font-bold leading-tight mb-[15px] text-white">
                 <span className="block">Train Your Team.</span>
@@ -1993,7 +2058,7 @@ export default function CorporateITTrainingPage() {
                 </span>
               </h1>
               <p className="text-[14px] lg:text-lg leading-relaxed mb-[15px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                Vendor-authorized corporate IT certification training across Microsoft, AWS, Cisco, Oracle, and 13+ more partners. Guaranteed batch schedules, group discounts, and 1-on-1 options available.
+                Vendor-authorized corporate IT certification training across Microsoft, AWS, Cisco, Oracle, and 40+ more partners. Guaranteed batch schedules, group discounts, and 1-on-1 options available.
               </p>
               <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                 <button onClick={() => setModal(true)}
@@ -2058,14 +2123,14 @@ export default function CorporateITTrainingPage() {
                 <div style={{ padding: '16px 18px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-                    <div style={{ fontSize: 20, fontWeight: 800, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>17+</div>
+                    <div style={{ fontSize: 20, fontWeight: 800, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>40+</div>
                     <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginLeft: 2 }}>Authorised Vendor Partners</div>
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     {['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'Oracle', 'Red Hat', 'VMware', 'SAP'].map(p => (
                       <span key={p} style={{ fontSize: 10, fontWeight: 600, padding: '3px 9px', borderRadius: 999, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.5)' }}>{p}</span>
                     ))}
-                    <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 999, background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>+7 more</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 999, background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>+30 more</span>
                   </div>
                 </div>
               </div>
@@ -2097,13 +2162,13 @@ export default function CorporateITTrainingPage() {
               />
               {(() => {
                 const activeCount = [
-                  oem !== 'All OEMs', technology !== 'All Technologies', durations.length > 0, !!budget, modes.length > 0
+                  oem !== 'All OEMs', technology !== 'All Technologies', durations.length > 0, !!priceRange, modes.length > 0
                 ].filter(Boolean).length
                 const chips = [
                   { label: 'Vendor',     active: oem !== 'All OEMs',                  count: oem !== 'All OEMs' ? 1 : 0 },
                   { label: 'Technology', active: technology !== 'All Technologies',    count: technology !== 'All Technologies' ? 1 : 0 },
                   { label: 'Duration',   active: durations.length > 0,                count: durations.length },
-                  { label: 'Budget',     active: !!budget,                            count: budget ? 1 : 0 },
+                  { label: 'Budget',     active: !!priceRange,                            count: priceRange ? 1 : 0 },
                   { label: 'Mode',       active: modes.length > 0,                    count: modes.length },
                 ]
                 return (
@@ -2197,13 +2262,13 @@ export default function CorporateITTrainingPage() {
                   </div>
 
                   {/* Price Range */}
-                  <div className="rounded-2xl p-4" style={{ ...card(!!budget), cursor: 'pointer' }}
+                  <div className="rounded-2xl p-4" style={{ ...card(!!priceRange), cursor: 'pointer' }}
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
                     <div className="flex items-center gap-2 mb-3">
                       {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg>)}
                       <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Price Range</span>
                     </div>
-                    <BudgetSelect value={budget} onChange={setBudget} />
+                    <PriceRangeSlider value={priceRange} onChange={setPriceRange} />
                   </div>
                 </>
               )
@@ -2218,7 +2283,7 @@ export default function CorporateITTrainingPage() {
               </div>
               <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Your Selection</span>
             </div>
-            {!(startDate || endDate || durations.length > 0 || oem !== 'All OEMs' || technology !== 'All Technologies' || budget || modes.length > 0) ? (
+            {!(startDate || endDate || durations.length > 0 || oem !== 'All OEMs' || technology !== 'All Technologies' || priceRange || modes.length > 0) ? (
               <p className="text-sm italic" style={{ color: '#c8d6e5', fontFamily: "'GT Walsheim Pro', sans-serif" }}>nothing selected yet</p>
             ) : (
               <div className="flex flex-wrap gap-2">
@@ -2246,10 +2311,10 @@ export default function CorporateITTrainingPage() {
                     <button onClick={() => setDurations(durations.filter(x => x !== d))} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 ))}
-                {budget && (
+                {priceRange && (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
-                    {budget}
-                    <button onClick={() => setBudget('')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
+                    {'INR ' + priceRange[0].toLocaleString('en-IN') + ' – INR ' + priceRange[1].toLocaleString('en-IN')}
+                    <button onClick={() => setPriceRange(null)} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
                   </span>
                 )}
                 {modes.map(m => (
@@ -2353,7 +2418,7 @@ export default function CorporateITTrainingPage() {
           {/* Bottom bar — desktop only */}
           <div className="hidden lg:flex flex-wrap items-center justify-center gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
             <button
-              onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setBudget(''); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
+              onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setPriceRange(null); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
               style={{ border: '1.5px solid #E2EBF6', color: '#64748b', background: '#fff' }}
               onMouseEnter={e => (e.currentTarget.style.background = '#F8FAFC')}
@@ -2492,6 +2557,47 @@ export default function CorporateITTrainingPage() {
         })()}
       </section>
 
+      {/* ── Webinar as a Service cross-sell ─────────────────────────── */}
+      <section style={{ background: '#06111E', padding: '40px 24px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', borderRadius: 20, padding: '32px 28px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.22)', position: 'relative', overflow: 'hidden' }}>
+          {/* glow */}
+          <div style={{ pointerEvents: 'none', position: 'absolute', top: -60, right: -60, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle,rgba(6,148,209,0.18) 0%,transparent 70%)' }} />
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
+            {/* Left */}
+            <div style={{ flex: '1 1 300px' }}>
+              <span style={{ display: 'inline-block', borderRadius: 999, padding: '3px 14px', fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 10, background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.30)' }}>
+                Webinar as a Service
+              </span>
+              <h2 style={{ color: '#fff', fontWeight: 800, fontSize: 'clamp(18px,2.4vw,24px)', margin: '0 0 8px', lineHeight: 1.3 }}>
+                Need live learning sessions for your team?
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.50)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.65, maxWidth: 480 }}>
+                Koenig&apos;s WaaS delivers tailored, instructor-led sessions on any topic — scheduled to your team&apos;s time zone. Pay only <strong style={{ color: '#38bdf8' }}>$10 per engaged attendee</strong> who stays 50+ min and rates ≥ 4.4.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {['Expert Instructors', 'Live Q&A', 'Detailed Reports', 'Global Scheduling'].map(tag => (
+                  <span key={tag} style={{ borderRadius: 999, padding: '4px 12px', fontSize: 11.5, fontWeight: 600, background: 'rgba(6,148,209,0.12)', color: '#7dd3fc', border: '1px solid rgba(6,148,209,0.22)' }}>{tag}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Right — CTA */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+              <a href="/webinar-service"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '13px 24px', fontWeight: 700, fontSize: 14, textDecoration: 'none', boxShadow: '0 0 24px rgba(6,148,209,0.40)', whiteSpace: 'nowrap' }}>
+                Request a Session
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </a>
+              <a href="/webinar-service"
+                style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.40)', textDecoration: 'none', textAlign: 'center', width: '100%' }}>
+                Learn more about WaaS →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Inline lead form below courses */}
       <section className="px-4 sm:px-6 py-10 sm:py-16" style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)' }}>
         <div className="mx-auto px-4 sm:px-8" style={{ maxWidth: 640, background: 'linear-gradient(160deg,#091e30 0%,#071525 100%)', border: '1px solid rgba(6,148,209,0.25)', borderRadius: 20, padding: '24px 20px', boxShadow: '0 24px 80px rgba(0,0,0,0.6)' }}>
@@ -2517,11 +2623,11 @@ export default function CorporateITTrainingPage() {
         oem={oem} setOem={setOem}
         technology={technology} setTechnology={setTechnology}
         durations={durations} setDurations={setDurations}
-        budget={budget} setBudget={setBudget}
+        priceRange={priceRange} setPriceRange={setPriceRange}
         modes={modes} toggleMode={toggleMode}
         classroomCity={classroomCity} setClassroomCity={setClassroomCity}
         initialTab={filterInitialTab}
-        onClearAll={() => { setOem('All OEMs'); setTechnology('All Technologies'); setDurations([]); setBudget(''); setModes([]); setClassroomCity('') }}
+        onClearAll={() => { setOem('All OEMs'); setTechnology('All Technologies'); setDurations([]); setPriceRange(null); setModes([]); setClassroomCity('') }}
       />
     </div>
   )
