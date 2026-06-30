@@ -367,13 +367,13 @@ export default function WebinarServicePage() {
               {/* Stats grid */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                 {HERO_STATS.map(s => (
-                  <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#06111E', borderRadius: 10, padding: '12px 14px' }}>
-                    <div style={{ width: 34, height: 34, borderRadius: 8, background: 'rgba(6,148,209,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#38bdf8" strokeWidth={1.8}>{s.icon}</svg>
+                  <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#e8f5fb', borderRadius: 8, padding: '9px 10px' }}>
+                    <div style={{ width: 28, height: 28, borderRadius: 6, background: 'rgba(6,148,209,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={1.8}>{s.icon}</svg>
                     </div>
                     <div>
-                      <p style={{ fontSize: 15, fontWeight: 800, color: '#fff', lineHeight: 1, margin: 0 }}>{s.value}</p>
-                      <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.50)', marginTop: 3, lineHeight: 1.3 }}>{s.label}</p>
+                      <p style={{ fontSize: 13, fontWeight: 800, color: '#0694D1', lineHeight: 1, margin: 0 }}>{s.value}</p>
+                      <p style={{ fontSize: 10, color: '#4a6580', marginTop: 2, lineHeight: 1.3 }}>{s.label}</p>
                     </div>
                   </div>
                 ))}
