@@ -200,7 +200,7 @@ export default function CustomisedTrainingPage() {
           }
         `}</style>
 
-        <div className="ct-hero-inner" style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '35px 50px' }}>
+        <div className="ct-hero-inner" style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '35px 50px 35px' }}>
           <div className="ct-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
 
             {/* ── Left: text ─────────────────────────────────── */}
@@ -332,7 +332,7 @@ export default function CustomisedTrainingPage() {
 
 
       {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
-      <section className="ct-sec" style={{ background: '#e8f5fb', padding: '64px 20px' }}>
+      <section className="ct-sec" style={{ background: '#e8f5fb', padding: '35px 20px' }}>
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30 }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
@@ -396,7 +396,7 @@ export default function CustomisedTrainingPage() {
       </section>
 
       {/* ── CASE STUDIES ───────────────────────────────────────── */}
-      <section id="case-studies" className="ct-sec" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.13) 0%, rgba(6,148,209,0.04) 50%, #f0f7fc 100%)', padding: '64px 20px', borderTop: '1px solid #CAEFFF', boxShadow: 'inset 0 8px 48px rgba(6,148,209,0.10)' }}>
+      <section id="case-studies" className="ct-sec" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.13) 0%, rgba(6,148,209,0.04) 50%, #f0f7fc 100%)', padding: '35px 20px', borderTop: '1px solid #CAEFFF', boxShadow: 'inset 0 8px 48px rgba(6,148,209,0.10)' }}>
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30 }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
@@ -485,7 +485,7 @@ export default function CustomisedTrainingPage() {
       </section>
 
       {/* ── HOW IT WORKS ───────────────────────────────────────── */}
-      <section className="ct-sec" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px', position: 'relative', overflow: 'hidden' }}>
+      <section className="ct-sec" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '35px 20px', position: 'relative', overflow: 'hidden' }}>
         {/* Radial glow */}
         <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 700, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 65%)' }} />
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30, position: 'relative' }}>
@@ -548,7 +548,7 @@ export default function CustomisedTrainingPage() {
       </section>
 
       {/* ── CUSTOM COURSE GENERATOR ─────────────────────────────── */}
-      <section id="generator" className="ct-sec" style={{ background: '#fff', padding: '48px 20px' }}>
+      <section id="generator" className="ct-sec" style={{ background: '#fff', padding: '35px 20px' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
           <div className="ct-generator-card" style={{ background: '#e8f5fb', border: '1.5px solid #b3dff0', borderRadius: 28, padding: '40px 36px', boxShadow: 'none' }}>
 
