@@ -588,7 +588,7 @@ export default function WebinarServicePage() {
             <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
               Pricing &amp; How it Works
             </h2>
-            <p className="mt-3 text-sm" style={{ color: '#0694D1' }}>
+            <p className="mt-3" style={{ color: '#0694D1', fontSize: 16 }}>
               Koenig ensures you pay only for real engagement, keeping the pricing clear and effective:
             </p>
           </div>
