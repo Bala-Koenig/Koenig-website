@@ -204,7 +204,7 @@ export default function CustomisedTrainingPage() {
             .ct-cs-more       { margin-top: 15px !important; }
             .ct-how-grid    { display: flex !important; flex-direction: row !important; overflow-x: auto !important; scroll-snap-type: x mandatory !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; gap: 12px !important; padding-bottom: 4px !important; }
             .ct-how-grid::-webkit-scrollbar { display: none !important; }
-            .ct-how-card    { flex: 0 0 82% !important; scroll-snap-align: start !important; min-width: 0 !important; padding: 0 12px !important; }
+            .ct-how-card    { flex: 0 0 82% !important; scroll-snap-align: start !important; min-width: 0 !important; padding: 12px 12px 0 !important; }
             .ct-how-dots    { display: flex  !important; }
             .ct-cs-grid     { gap: 15px !important; }
             .ct-hero-grid   { grid-template-columns: 1fr !important; gap: 20px !important; }
