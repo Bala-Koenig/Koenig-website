@@ -211,7 +211,7 @@ export default function CustomisedTrainingPage() {
             .ct-gen-row     { grid-template-columns: 1fr !important; gap: 18px !important; margin-bottom: 15px !important; }
             .ct-gen-field   { margin-bottom: 24px !important; }
             .ct-gen-captcha { margin-bottom: 24px !important; }
-            .ct-generator-card h2 { font-size: 20px !important; margin-bottom: 24px !important; }
+            .ct-generator-card h2 { font-size: 18px !important; margin-bottom: 24px !important; line-height: 1.4 !important; }
             .ct-gen-row     { margin-bottom: 24px !important; }
             /* Other layout */
             .ct-stats-card  { display: none  !important; }
@@ -599,7 +599,7 @@ export default function CustomisedTrainingPage() {
 
             {/* Heading */}
             <h2 style={{ fontSize: 'clamp(22px,3vw,30px)', fontWeight: 800, color: '#0d1b2a', marginBottom: 28, lineHeight: 1.3, textAlign: 'center' }}>
-              Need Customized Training - Share your<br />Requirement below and Generate a course.
+              Need Customized Training - Share your Requirement below and Generate a course.
             </h2>
 
             {/* Name + Email row */}
