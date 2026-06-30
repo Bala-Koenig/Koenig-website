@@ -527,9 +527,9 @@ export default function CustomisedTrainingPage() {
       </section>
 
       {/* ── CUSTOM COURSE GENERATOR ─────────────────────────────── */}
-      <section id="generator" style={{ background: '#e8f5fb', padding: '48px 20px' }}>
+      <section id="generator" style={{ background: '#fff', padding: '48px 20px' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ background: '#e8f5fb', border: '1.5px solid #b3dff0', borderRadius: 28, padding: '40px 36px', boxShadow: 'none' }}>
+          <div style={{ background: '#fff', border: '1.5px solid #b3dff0', borderRadius: 28, padding: '40px 36px', boxShadow: 'none' }}>
 
             {/* Heading */}
             <h2 style={{ fontSize: 'clamp(22px,3vw,30px)', fontWeight: 800, color: '#0d1b2a', marginBottom: 28, lineHeight: 1.3, textAlign: 'center' }}>
