@@ -165,20 +165,42 @@ export default function CustomisedTrainingPage() {
         <style>{`
           .ct-stat-item:hover .ct-stat-glow { opacity: 1 !important; }
           .ct-features-grid { grid-template-columns: repeat(3, 1fr) !important; }
+
+          /* ── Mobile ≤767px ── */
           @media (max-width: 767px) {
+            .ct-hero-inner  { padding-left: 16px !important; padding-right: 16px !important; }
+            .ct-sec         { padding-left: 16px !important; padding-right: 16px !important; }
+            .ct-sec-inner   { padding-left: 0   !important; padding-right: 0   !important; }
             .ct-features-grid { grid-template-columns: 1fr !important; }
+            .ct-hero-grid   { grid-template-columns: 1fr !important; }
+            .ct-stats-card  { display: none  !important; }
+            .ct-mobile-stats{ display: grid  !important; }
+            .ct-how-grid    { grid-template-columns: 1fr !important; gap: 32px !important; }
+            .ct-how-line    { display: none  !important; }
+            .ct-gen-row     { grid-template-columns: 1fr !important; }
+            .ct-generator-card { padding: 24px 16px !important; border-radius: 16px !important; }
+            .ct-pdf-doc     { padding: 16px 14px !important; }
+            .ct-pdf-sidebar { width: 14px !important; }
+            .ct-gen-btn-wrap{ text-align: unset !important; }
+            .ct-gen-btn-wrap button { width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
           }
+
+          /* ── Tablet 768–1023px ── */
           @media (min-width: 768px) and (max-width: 1023px) {
+            .ct-hero-inner  { padding-left: 16px !important; padding-right: 16px !important; }
+            .ct-sec         { padding-left: 16px !important; padding-right: 16px !important; }
+            .ct-sec-inner   { padding-left: 0   !important; padding-right: 0   !important; }
             .ct-features-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          }
-          @media (max-width: 1023px) {
-            .ct-hero-grid { grid-template-columns: 1fr !important; }
-            .ct-stats-card { display: none !important; }
-            .ct-mobile-stats { display: grid !important; }
+            .ct-hero-grid   { grid-template-columns: 1fr !important; }
+            .ct-stats-card  { display: none  !important; }
+            .ct-mobile-stats{ display: grid  !important; }
+            .ct-how-grid    { grid-template-columns: repeat(2, 1fr) !important; gap: 32px !important; }
+            .ct-how-line    { display: none  !important; }
+            .ct-generator-card { padding: 32px 24px !important; }
           }
         `}</style>
 
-        <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '35px 20px 35px', paddingLeft: 'max(20px, 50px)', paddingRight: 'max(20px, 50px)' }}>
+        <div className="ct-hero-inner" style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', padding: '35px 50px' }}>
           <div className="ct-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
 
             {/* ── Left: text ─────────────────────────────────── */}
@@ -310,8 +332,8 @@ export default function CustomisedTrainingPage() {
 
 
       {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
-      <section style={{ background: '#e8f5fb', padding: '64px 20px' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)' }}>
+      <section className="ct-sec" style={{ background: '#e8f5fb', padding: '64px 20px' }}>
+        <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30 }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
               background: 'rgba(6,148,209,0.12)', padding: '6px 18px', fontSize: 12,
@@ -374,8 +396,8 @@ export default function CustomisedTrainingPage() {
       </section>
 
       {/* ── CASE STUDIES ───────────────────────────────────────── */}
-      <section id="case-studies" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.13) 0%, rgba(6,148,209,0.04) 50%, #f0f7fc 100%)', padding: '64px 20px', borderTop: '1px solid #CAEFFF', boxShadow: 'inset 0 8px 48px rgba(6,148,209,0.10)' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)' }}>
+      <section id="case-studies" className="ct-sec" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.13) 0%, rgba(6,148,209,0.04) 50%, #f0f7fc 100%)', padding: '64px 20px', borderTop: '1px solid #CAEFFF', boxShadow: 'inset 0 8px 48px rgba(6,148,209,0.10)' }}>
+        <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30 }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
               background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12,
@@ -463,10 +485,10 @@ export default function CustomisedTrainingPage() {
       </section>
 
       {/* ── HOW IT WORKS ───────────────────────────────────────── */}
-      <section style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px', position: 'relative', overflow: 'hidden' }}>
+      <section className="ct-sec" style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px', position: 'relative', overflow: 'hidden' }}>
         {/* Radial glow */}
         <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 700, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 65%)' }} />
-        <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)', position: 'relative' }}>
+        <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30, position: 'relative' }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999, background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
               Our Process
@@ -522,23 +544,13 @@ export default function CustomisedTrainingPage() {
             ))}
           </div>
 
-          <style>{`
-            @media (max-width: 767px) {
-              .ct-how-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-              .ct-how-line { display: none !important; }
-            }
-            @media (min-width: 768px) and (max-width: 1023px) {
-              .ct-how-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 32px !important; }
-              .ct-how-line { display: none !important; }
-            }
-          `}</style>
         </div>
       </section>
 
       {/* ── CUSTOM COURSE GENERATOR ─────────────────────────────── */}
-      <section id="generator" style={{ background: '#fff', padding: '48px 20px' }}>
+      <section id="generator" className="ct-sec" style={{ background: '#fff', padding: '48px 20px' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ background: '#e8f5fb', border: '1.5px solid #b3dff0', borderRadius: 28, padding: '40px 36px', boxShadow: 'none' }}>
+          <div className="ct-generator-card" style={{ background: '#e8f5fb', border: '1.5px solid #b3dff0', borderRadius: 28, padding: '40px 36px', boxShadow: 'none' }}>
 
             {/* Heading */}
             <h2 style={{ fontSize: 'clamp(22px,3vw,30px)', fontWeight: 800, color: '#0d1b2a', marginBottom: 28, lineHeight: 1.3, textAlign: 'center' }}>
@@ -603,7 +615,7 @@ export default function CustomisedTrainingPage() {
             </div>
 
             {/* Generate button — pill, centered */}
-            <div style={{ textAlign: 'center' }}>
+            <div className="ct-gen-btn-wrap" style={{ textAlign: 'center' }}>
               <button onClick={handleGenerate} disabled={!requirement.trim() || generating}
                 style={{ padding: '14px 48px', borderRadius: 10, border: 'none',
                   cursor: requirement.trim() && !generating ? 'pointer' : 'not-allowed',
@@ -641,10 +653,10 @@ export default function CustomisedTrainingPage() {
                   {/* Viewer body — sidebars + document */}
                   <div style={{ display: 'flex', background: '#525659', minHeight: 520 }}>
                     {/* Left sidebar */}
-                    <div style={{ width: 40, flexShrink: 0, background: '#3c3c3c' }} />
+                    <div className="ct-pdf-sidebar" style={{ width: 40, flexShrink: 0, background: '#3c3c3c' }} />
 
                     {/* White document */}
-                    <div style={{ flex: 1, padding: '32px 40px', background: '#fff', overflowY: 'auto', maxHeight: 520 }}>
+                    <div className="ct-pdf-doc" style={{ flex: 1, padding: '32px 40px', background: '#fff', overflowY: 'auto', maxHeight: 520 }}>
                       <p style={{ textAlign: 'center', fontSize: 20, fontWeight: 700, color: '#1a3a5c', marginBottom: 24, lineHeight: 1.4 }}>
                         &ldquo;{requirement.trim() ? requirement.slice(0, 60) + (requirement.length > 60 ? '…' : '') : 'Your Custom Course'}&rdquo;
                       </p>
@@ -670,7 +682,7 @@ export default function CustomisedTrainingPage() {
                     </div>
 
                     {/* Right sidebar */}
-                    <div style={{ width: 40, flexShrink: 0, background: '#3c3c3c' }} />
+                    <div className="ct-pdf-sidebar" style={{ width: 40, flexShrink: 0, background: '#3c3c3c' }} />
                   </div>
 
                   {/* Bottom controls */}
@@ -721,11 +733,6 @@ export default function CustomisedTrainingPage() {
             )}
           </div>
 
-          <style>{`
-            @media(max-width:600px){
-              .ct-gen-row { grid-template-columns: 1fr !important; }
-            }
-          `}</style>
         </div>
       </section>
 
