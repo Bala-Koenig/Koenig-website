@@ -114,6 +114,95 @@ const COUNTRIES = [
   'Ukraine','United Kingdom','United States','Uruguay','Uzbekistan','Venezuela','Vietnam','Zimbabwe',
 ]
 
+/* ── Custom Date Picker ───────────────────────────────────────── */
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December']
+const WEEK_DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa']
+
+function CustomDatePicker({ value, onChange, inputStyle }: { value: string, onChange: (v: string) => void, inputStyle: React.CSSProperties }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const today = new Date()
+  const sel = value ? new Date(value + 'T00:00:00') : null
+  const [viewYear, setViewYear] = useState(sel ? sel.getFullYear() : today.getFullYear())
+  const [viewMonth, setViewMonth] = useState(sel ? sel.getMonth() : today.getMonth())
+
+  useEffect(() => {
+    if (value) { const d = new Date(value + 'T00:00:00'); setViewYear(d.getFullYear()); setViewMonth(d.getMonth()) }
+  }, [value])
+
+  useEffect(() => {
+    if (!open) return
+    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false) }
+    document.addEventListener('mousedown', h)
+    return () => document.removeEventListener('mousedown', h)
+  }, [open])
+
+  const prevMonth = () => { if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1) } else setViewMonth(m => m - 1) }
+  const nextMonth = () => { if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1) } else setViewMonth(m => m + 1) }
+
+  const firstDay = new Date(viewYear, viewMonth, 1).getDay()
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate()
+  const daysInPrev = new Date(viewYear, viewMonth, 0).getDate()
+  const cells: { day: number; kind: 'prev' | 'cur' | 'next' }[] = []
+  for (let i = firstDay - 1; i >= 0; i--) cells.push({ day: daysInPrev - i, kind: 'prev' })
+  for (let i = 1; i <= daysInMonth; i++) cells.push({ day: i, kind: 'cur' })
+  for (let i = 1; cells.length < 42; i++) cells.push({ day: i, kind: 'next' })
+
+  const pick = (day: number, kind: 'prev' | 'cur' | 'next') => {
+    let y = viewYear, mo = viewMonth
+    if (kind === 'prev') { mo--; if (mo < 0) { mo = 11; y-- } }
+    if (kind === 'next') { mo++; if (mo > 11) { mo = 0; y++ } }
+    onChange(`${y}-${String(mo + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`)
+    setOpen(false)
+  }
+
+  const displayValue = value ? value.split('-').reverse().join('-') : ''
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      <div onClick={() => setOpen(o => !o)} style={{ ...inputStyle, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ color: value ? '#fff' : 'rgba(255,255,255,0.3)', fontSize: 13.5 }}>{displayValue || 'dd-mm-yyyy'}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      {open && (
+        <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, background: '#0a1929', border: '1px solid rgba(6,148,209,0.30)', borderRadius: 12, zIndex: 200, boxShadow: '0 8px 28px rgba(0,0,0,0.50)', padding: '14px', minWidth: 280 }}>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <span style={{ color: '#fff', fontWeight: 600, fontSize: 14 }}>{MONTHS[viewMonth]}, {viewYear}</span>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button onClick={prevMonth} type="button" style={{ background: 'rgba(255,255,255,0.08)', border: 'none', color: '#fff', borderRadius: 6, width: 28, height: 28, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+              </button>
+              <button onClick={nextMonth} type="button" style={{ background: 'rgba(255,255,255,0.08)', border: 'none', color: '#fff', borderRadius: 6, width: 28, height: 28, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+            </div>
+          </div>
+          {/* Weekday headers */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: 4 }}>
+            {WEEK_DAYS.map(d => <div key={d} style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.35)', padding: '3px 0', fontWeight: 600 }}>{d}</div>)}
+          </div>
+          {/* Days grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2 }}>
+            {cells.map((c, idx) => {
+              const isSel = c.kind === 'cur' && sel && sel.getFullYear() === viewYear && sel.getMonth() === viewMonth && sel.getDate() === c.day
+              const isTod = c.kind === 'cur' && today.getFullYear() === viewYear && today.getMonth() === viewMonth && today.getDate() === c.day
+              return (
+                <div key={idx} onClick={() => pick(c.day, c.kind)} style={{ textAlign: 'center', padding: '6px 0', fontSize: 13, borderRadius: 6, cursor: 'pointer', fontWeight: isSel || isTod ? 700 : 400, color: isSel ? '#fff' : c.kind !== 'cur' ? 'rgba(255,255,255,0.20)' : isTod ? '#38bdf8' : 'rgba(255,255,255,0.80)', background: isSel ? '#0694D1' : isTod ? 'rgba(6,148,209,0.15)' : 'transparent', border: isTod && !isSel ? '1px solid rgba(6,148,209,0.40)' : '1px solid transparent' }}>{c.day}</div>
+              )
+            })}
+          </div>
+          {/* Footer */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10, paddingTop: 8, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            <button type="button" onClick={() => { onChange(''); setOpen(false) }} style={{ background: 'none', border: 'none', color: '#38bdf8', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Clear</button>
+            <button type="button" onClick={() => { const d = today; onChange(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`); setOpen(false) }} style={{ background: 'none', border: 'none', color: '#38bdf8', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>Today</button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ── Custom Time Picker ───────────────────────────────────────── */
 function CustomTimePicker({ value, onChange, inputStyle }: { value: string, onChange: (v: string) => void, inputStyle: React.CSSProperties }) {
   const [open, setOpen] = useState(false)
@@ -266,9 +355,7 @@ function WaasRequestForm() {
           <div className="waas-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
             <div>
               <label style={lbl}>Preferred Date</label>
-              <input type="date" value={form.date} onChange={e => set('date', e.target.value)}
-                onClick={e => { try { (e.target as HTMLInputElement).showPicker() } catch {} }}
-                style={{ ...inp, colorScheme: 'dark', cursor: 'pointer' }} />
+              <CustomDatePicker value={form.date} onChange={v => set('date', v)} inputStyle={inp} />
             </div>
             <div>
               <label style={lbl}>Preferred Time</label>
