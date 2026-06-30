@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Navbar from '@/components/Navbar'
 
 /* ── Feature cards ──────────────────────────────────────────────── */
@@ -132,6 +132,15 @@ export default function CustomisedTrainingPage() {
   const [emailSent, setEmailSent]     = useState(false)
   const [showToast, setShowToast]     = useState(false)
   const [tocChanges, setTocChanges]   = useState('')
+  const [featureDot, setFeatureDot]   = useState(0)
+  const featuresRef = useRef<HTMLDivElement>(null)
+
+  const handleFeatureScroll = () => {
+    const el = featuresRef.current
+    if (!el) return
+    const idx = Math.round(el.scrollLeft / (el.scrollWidth / FEATURES.length))
+    setFeatureDot(Math.min(idx, FEATURES.length - 1))
+  }
 
   const handleEmailTOC = () => {
     setEmailSent(true)
@@ -177,6 +186,7 @@ export default function CustomisedTrainingPage() {
             .ct-features-grid { display: flex !important; flex-direction: row !important; overflow-x: auto !important; scroll-snap-type: x mandatory !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; gap: 12px !important; padding-bottom: 4px !important; }
             .ct-features-grid::-webkit-scrollbar { display: none !important; }
             .ct-feature-card  { flex: 0 0 82% !important; scroll-snap-align: start !important; min-width: 0 !important; }
+            .ct-feature-dots  { display: flex !important; }
             .ct-how-grid    { grid-template-columns: 1fr !important; gap: 15px !important; }
             .ct-cs-grid     { gap: 15px !important; }
             .ct-hero-grid   { grid-template-columns: 1fr !important; gap: 20px !important; }
@@ -364,7 +374,7 @@ export default function CustomisedTrainingPage() {
             </p>
           </div>
 
-          <div className="ct-features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+          <div ref={featuresRef} className="ct-features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }} onScroll={handleFeatureScroll}>
             {FEATURES.map((f, i) => (
               <div key={i} className="ct-feature-card"
                 style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 12, padding: '24px 22px',
@@ -403,6 +413,18 @@ export default function CustomisedTrainingPage() {
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0d1b2a', lineHeight: 1.4, margin: 0 }}>{f.title}</h3>
                 <p style={{ fontSize: 13.5, color: '#4a6580', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
               </div>
+            ))}
+          </div>
+
+          {/* Dots — mobile only */}
+          <div className="ct-feature-dots" style={{ display: 'none', justifyContent: 'center', gap: 6, marginTop: 14 }}>
+            {FEATURES.map((_, i) => (
+              <button key={i} onClick={() => {
+                const el = featuresRef.current
+                if (!el) return
+                el.scrollTo({ left: (el.scrollWidth / FEATURES.length) * i, behavior: 'smooth' })
+                setFeatureDot(i)
+              }} style={{ width: featureDot === i ? 20 : 8, height: 8, borderRadius: 999, border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.3s', background: featureDot === i ? '#0694D1' : '#b3dff0' }} />
             ))}
           </div>
         </div>
