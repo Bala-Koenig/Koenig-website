@@ -593,7 +593,7 @@ export default function WebinarServicePage() {
             </p>
           </div>
 
-          <div className="waas-pricing-grid" style={{ display: 'flex', alignItems: 'stretch' }}>
+          <div className="waas-pricing-grid" style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center' }}>
             {/* Left: photo — sits behind card right edge */}
             <div className="waas-pricing-img" style={{ flexShrink: 0, width: 380, borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)', position: 'relative', zIndex: 0 }}>
               <img src="/images/webinar-service/waas3.png" alt="Webinar as a Service" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
