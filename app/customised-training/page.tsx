@@ -187,6 +187,7 @@ export default function CustomisedTrainingPage() {
             .ct-features-grid::-webkit-scrollbar { display: none !important; }
             .ct-feature-card  { flex: 0 0 82% !important; scroll-snap-align: start !important; min-width: 0 !important; }
             .ct-feature-dots  { display: flex !important; }
+            .ct-cs-more       { margin-top: 15px !important; }
             .ct-how-grid    { grid-template-columns: 1fr !important; gap: 15px !important; }
             .ct-cs-grid     { gap: 15px !important; }
             .ct-hero-grid   { grid-template-columns: 1fr !important; gap: 20px !important; }
@@ -504,7 +505,7 @@ export default function CustomisedTrainingPage() {
           </div>
 
           {CASE_STUDIES.length > INITIAL_VISIBLE && (
-            <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <div className="ct-cs-more" style={{ textAlign: 'center', marginTop: 40 }}>
               <button
                 onClick={() => setShowAll(s => !s)}
                 style={{ padding: '12px 32px', borderRadius: 12, border: '2px solid #0694D1',
