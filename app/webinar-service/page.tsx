@@ -649,7 +649,7 @@ export default function WebinarServicePage() {
             <p className="mt-3" style={{ fontSize: 18, color: '#0d1b2a' }}>Pick from our proven favorites-or tell us your own goal</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TOP_SESSIONS.map((s, i) => (
               <div key={i} className="waas-session-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
                 <div style={{ width: '100%', height: 210, overflow: 'hidden' }}>
