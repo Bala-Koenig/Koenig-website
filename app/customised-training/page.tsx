@@ -706,7 +706,7 @@ export default function CustomisedTrainingPage() {
                       {showToast && (
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '9px 12px', fontSize: 13, fontWeight: 600, color: '#0d1b2a', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
                           <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#22c55e" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                          <span>Sent to <strong>{email}</strong></span>
+                          <span style={{ color: '#22c55e', fontWeight: 400 }}>Sent to {email}</span>
                         </div>
                       )}
                       <button onClick={handleEmailTOC}
