@@ -597,11 +597,11 @@ export default function CustomisedTrainingPage() {
             {/* Generate button — pill, centered */}
             <div style={{ textAlign: 'center' }}>
               <button onClick={handleGenerate} disabled={!requirement.trim() || generating}
-                style={{ padding: '14px 48px', borderRadius: 999, border: 'none',
+                style={{ padding: '14px 48px', borderRadius: 10, border: 'none',
                   cursor: requirement.trim() && !generating ? 'pointer' : 'not-allowed',
-                  background: requirement.trim() && !generating ? '#0694D1' : '#93c5d8',
+                  background: requirement.trim() && !generating ? 'linear-gradient(135deg,#0694D1,#076D9D)' : '#93c5d8',
                   color: '#fff', fontSize: 16, fontWeight: 700, fontFamily: 'inherit',
-                  letterSpacing: 0.2, transition: 'all 0.2s' }}>
+                  letterSpacing: 0.2, transition: 'all 0.2s', boxShadow: requirement.trim() && !generating ? '0 4px 14px rgba(6,148,209,0.35)' : 'none' }}>
                 {generated ? 'Re-Generate Course' : 'Generate Course'}
               </button>
             </div>
