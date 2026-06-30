@@ -729,43 +729,6 @@ export default function CustomisedTrainingPage() {
         </div>
       </section>
 
-      {/* ── Webinar as a Service cross-sell ─────────────────────────── */}
-      <section style={{ background: '#06111E', padding: '40px 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', borderRadius: 20, padding: '32px 28px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.22)', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ pointerEvents: 'none', position: 'absolute', top: -60, right: -60, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle,rgba(6,148,209,0.18) 0%,transparent 70%)' }} />
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
-            <div style={{ flex: '1 1 300px' }}>
-              <span style={{ display: 'inline-block', borderRadius: 999, padding: '3px 14px', fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 10, background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.30)' }}>
-                Webinar as a Service
-              </span>
-              <h2 style={{ color: '#fff', fontWeight: 800, fontSize: 36, margin: '0 0 8px', lineHeight: 1.3 }}>
-                Need live learning sessions for your team?
-              </h2>
-              <p style={{ color: 'rgba(255,255,255,0.50)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.65, maxWidth: 480 }}>
-                Koenig&apos;s WaaS delivers tailored, instructor-led sessions on any topic — scheduled to your team&apos;s time zone. Pay only <strong style={{ color: '#38bdf8' }}>$10 per engaged attendee</strong> who stays 50+ min and rates ≥ 4.4.
-              </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {['Expert Instructors', 'Live Q&A', 'Detailed Reports', 'Global Scheduling'].map(tag => (
-                  <span key={tag} style={{ borderRadius: 999, padding: '4px 12px', fontSize: 11.5, fontWeight: 600, background: 'rgba(6,148,209,0.12)', color: '#7dd3fc', border: '1px solid rgba(6,148,209,0.22)' }}>{tag}</span>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
-              <a href="/webinar-service"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '13px 24px', fontWeight: 700, fontSize: 14, textDecoration: 'none', boxShadow: '0 0 24px rgba(6,148,209,0.40)', whiteSpace: 'nowrap' }}>
-                Request a Session
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
-              </a>
-              <a href="/webinar-service"
-                style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.40)', textDecoration: 'none', textAlign: 'center', width: '100%' }}>
-                Learn more about WaaS →
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }
