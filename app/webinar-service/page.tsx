@@ -581,6 +581,59 @@ export default function WebinarServicePage() {
         </div>
       </section>
 
+      {/* ── PRICING & HOW IT WORKS ───────────────────────────────── */}
+      <section style={{ background: '#fff', padding: '56px 24px' }}>
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
+              Pricing &amp; How it Works
+            </h2>
+            <p className="mt-3 text-sm" style={{ color: '#0694D1' }}>
+              Koenig ensures you pay only for real engagement, keeping the pricing clear and effective:
+            </p>
+          </div>
+
+          <div className="waas-pricing-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
+            {/* Left: photo */}
+            <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.10)' }}>
+              <img src="/images/webinar-service/waas3.png" alt="Webinar as a Service" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            </div>
+
+            {/* Right: steps card */}
+            <div style={{ background: '#e8f5fb', borderRadius: 20, padding: '32px 28px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24, justifyContent: 'center' }}>
+                <img src="/images/webinar-service/was-icon6.png" alt="" style={{ width: 30, height: 30, objectFit: 'contain' }} />
+                <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0d1b2a', margin: 0 }}>Simple Steps to Get Started</h3>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {[
+                  { icon: '/images/webinar-service/was-icon7.png',  title: 'Submit Your Request',  desc: 'Provide learning session details using our quick request form.' },
+                  { icon: '/images/webinar-service/was-icon8.png',  title: 'Session Setup',         desc: 'We schedule and tailor the learning session based on your preferences.' },
+                  { icon: '/images/webinar-service/was-icon10.png', title: 'Delivery & Reporting',  desc: 'Sessions are delivered seamlessly, and you receive detailed performance metrics and attendee feedback.' },
+                ].map((step, i) => (
+                  <div key={i} style={{ background: '#fff', borderRadius: 60, padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 16, border: '1px solid #DCEEFB' }}>
+                    <div style={{ width: 46, height: 46, borderRadius: '50%', background: '#e8f5fb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <img src={step.icon} alt="" style={{ width: 26, height: 26, objectFit: 'contain' }} />
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 15, fontWeight: 700, color: '#0d1b2a', margin: '0 0 3px' }}>{step.title}</p>
+                      <p style={{ fontSize: 13.5, color: '#4a6580', margin: 0, lineHeight: 1.55 }}>{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <style>{`
+            @media (max-width: 767px) {
+              .waas-pricing-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+            }
+          `}</style>
+        </div>
+      </section>
+
       {/* ── TOP SESSIONS ─────────────────────────────────────────── */}
       <section id="sessions" style={{ background: '#06111E', padding: '48px 24px' }}>
         <div className="mx-auto max-w-7xl">
