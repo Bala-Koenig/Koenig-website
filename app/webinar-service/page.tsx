@@ -672,55 +672,6 @@ export default function WebinarServicePage() {
         </div>
       </section>
 
-      {/* ── FAQ ──────────────────────────────────────────────────── */}
-      <section style={{ background: '#f8fcff', padding: '48px 24px' }}>
-        <div className="mx-auto max-w-3xl">
-          <div className="text-center mb-8">
-            <span className="inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-widest mb-3" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.20)' }}>
-              FAQ
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#0d1b2a' }}>Frequently Asked Questions</h2>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            {FAQS.map((f, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden" style={{ border: '1px solid #DCEEFB', background: '#fff' }}>
-                <button
-                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
-                  <span className="font-semibold text-sm" style={{ color: '#0d1b2a' }}>{f.q}</span>
-                  <svg className="w-4 h-4 shrink-0 transition-transform" style={{ color: '#0694D1', transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                {openFaq === i && (
-                  <div className="px-5 pb-4 text-xs leading-relaxed" style={{ color: '#4a6580', borderTop: '1px solid #DCEEFB' }}>
-                    <div className="pt-3">{f.a}</div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── BOTTOM CTA ───────────────────────────────────────────── */}
-      <section style={{ background: 'linear-gradient(135deg,#06111E 0%,#071828 100%)', padding: '48px 24px', textAlign: 'center' }}>
-        <div className="mx-auto max-w-2xl">
-          <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
-            Ready to upskill your team with <span style={{ color: '#38bdf8' }}>zero risk?</span>
-          </h2>
-          <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.50)' }}>
-            Pay only for engaged learners. No upfront commitment. Sessions delivered by certified experts.
-          </p>
-          <a href="#request"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '14px 32px', fontWeight: 700, fontSize: 15, textDecoration: 'none', boxShadow: '0 0 32px rgba(6,148,209,0.50)' }}>
-            Request Your First Session →
-          </a>
-          <p className="text-xs mt-4" style={{ color: 'rgba(255,255,255,0.30)' }}>
-            info@koenig-solutions.com · +91-984-072-2417 (WhatsApp)
-          </p>
-        </div>
-      </section>
     </div>
   )
 }
