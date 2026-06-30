@@ -626,7 +626,7 @@ export default function CustomisedTrainingPage() {
               <span style={{ display: 'inline-block', borderRadius: 999, padding: '3px 14px', fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 10, background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.30)' }}>
                 Webinar as a Service
               </span>
-              <h2 style={{ color: '#fff', fontWeight: 800, fontSize: 'clamp(18px,2.4vw,24px)', margin: '0 0 8px', lineHeight: 1.3 }}>
+              <h2 style={{ color: '#fff', fontWeight: 800, fontSize: 36, margin: '0 0 8px', lineHeight: 1.3 }}>
                 Need live learning sessions for your team?
               </h2>
               <p style={{ color: 'rgba(255,255,255,0.50)', fontSize: 13, margin: '0 0 16px', lineHeight: 1.65, maxWidth: 480 }}>
