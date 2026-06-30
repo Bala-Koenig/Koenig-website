@@ -340,18 +340,18 @@ export default function WebinarServicePage() {
             </div>
 
             {/* ── Right: pricing info card ── */}
-            <div style={{ background: '#fff', borderRadius: 16, padding: '28px 24px', borderLeft: '4px solid #0694D1', boxShadow: '0 8px 32px rgba(6,148,209,0.18)' }}>
+            <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, padding: '28px 24px', borderLeft: '4px solid #0694D1', border: '1px solid rgba(6,148,209,0.25)', borderLeftWidth: 4, boxShadow: '0 8px 32px rgba(0,0,0,0.30)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(6,148,209,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(6,148,209,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#38bdf8" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                   </svg>
                 </div>
-                <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0d1b2a', lineHeight: 1.3, margin: 0 }}>Pay Only for Engaged Attendees</h3>
+                <h3 style={{ fontSize: 17, fontWeight: 800, color: '#fff', lineHeight: 1.3, margin: 0 }}>Pay Only for Engaged Attendees</h3>
               </div>
-              <p style={{ fontSize: 14, color: '#4a6580', lineHeight: 1.75, margin: '0 0 20px' }}>
-                A flat rate of <span style={{ color: '#0694D1', fontWeight: 600 }}>$10 per attendee</span> who stays engaged for more than <span style={{ color: '#0694D1', fontWeight: 600 }}>50 minutes</span> and provides a high rating <span style={{ color: '#0694D1', fontWeight: 600 }}>(above 4.4)</span>.
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: 0 }}>
+                A flat rate of <span style={{ color: '#38bdf8', fontWeight: 600 }}>$10 per attendee</span> who stays engaged for more than <span style={{ color: '#38bdf8', fontWeight: 600 }}>50 minutes</span> and provides a high rating <span style={{ color: '#38bdf8', fontWeight: 600 }}>(above 4.4)</span>.
               </p>
             </div>
 
