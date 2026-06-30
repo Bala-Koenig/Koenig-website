@@ -208,7 +208,7 @@ export default function CustomisedTrainingPage() {
             .ct-how-dots    { display: flex  !important; }
             .ct-cs-grid     { gap: 15px !important; }
             .ct-hero-grid   { grid-template-columns: 1fr !important; gap: 20px !important; }
-            .ct-gen-row     { grid-template-columns: 1fr !important; gap: 12px !important; margin-bottom: 15px !important; }
+            .ct-gen-row     { grid-template-columns: 1fr !important; gap: 18px !important; margin-bottom: 15px !important; }
             .ct-gen-field   { margin-bottom: 24px !important; }
             .ct-gen-captcha { margin-bottom: 24px !important; }
             .ct-generator-card h2 { font-size: 20px !important; margin-bottom: 24px !important; }
