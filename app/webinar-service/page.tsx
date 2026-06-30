@@ -316,54 +316,92 @@ export default function WebinarServicePage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8" style={{ paddingTop: 40, paddingBottom: 40 }}>
-          {/* Badge */}
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)', color: '#38bdf8' }}>
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-            Webinar as a Service (WaaS)
-          </div>
+          <div className="waas-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: 40, alignItems: 'center' }}>
 
-          {/* Headline */}
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white mb-3 max-w-3xl">
-            Empower Your Teams with<br />
-            <span style={{ color: '#38bdf8' }}>Tailored, Flexible Learning Sessions</span>
-          </h1>
-          <p className="text-sm sm:text-base mb-2 max-w-2xl" style={{ color: 'rgba(255,255,255,0.60)', lineHeight: 1.7 }}>
-            Enable Continuous Learning, Accelerate AI Adoption, and Simplify Team Upskilling
-          </p>
-
-          {/* Pricing callout */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm" style={{ background: 'rgba(56,189,248,0.10)', border: '1px solid rgba(56,189,248,0.25)', color: '#7dd3fc' }}>
-            <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span><strong className="text-white">$10 per engaged attendee</strong> — pay only for attendees who stay 50+ min &amp; rate ≥ 4.4</span>
-          </div>
-
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-3 mb-8">
-            <a href="#request"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '12px 24px', fontWeight: 700, fontSize: 14, textDecoration: 'none', boxShadow: '0 0 24px rgba(6,148,209,0.45)' }}>
-              Request Session
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
-            </a>
-            <a href="#sessions"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.06)', color: '#fff', borderRadius: 10, padding: '12px 24px', fontWeight: 600, fontSize: 14, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)' }}>
-              Explore Top Sessions
-            </a>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {HERO_STATS.map(s => (
-              <div key={s.label} className="rounded-xl p-3 flex items-center gap-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <div className="shrink-0 rounded-lg flex items-center justify-center w-9 h-9" style={{ background: 'rgba(6,148,209,0.15)' }}>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#38bdf8" strokeWidth={1.8}>{s.icon}</svg>
-                </div>
-                <div>
-                  <p className="text-base font-bold text-white leading-none">{s.value}</p>
-                  <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>{s.label}</p>
-                </div>
+            {/* ── Left: text ── */}
+            <div>
+              {/* Badge */}
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)', color: '#38bdf8' }}>
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+                Webinar as a Service (WaaS)
               </div>
-            ))}
+
+              {/* Headline */}
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white mb-3">
+                Empower Your Teams with<br />
+                <span style={{ color: '#38bdf8' }}>Tailored, Flexible Learning Sessions</span>
+              </h1>
+              <p className="text-sm sm:text-base mb-6" style={{ color: 'rgba(255,255,255,0.60)', lineHeight: 1.7 }}>
+                Enable Continuous Learning, Accelerate AI Adoption, and Simplify Team Upskilling
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap gap-3 mb-8">
+                <a href="#request"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '12px 24px', fontWeight: 700, fontSize: 14, textDecoration: 'none', boxShadow: '0 0 24px rgba(6,148,209,0.45)' }}>
+                  Request Session
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#sessions"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.06)', color: '#fff', borderRadius: 10, padding: '12px 24px', fontWeight: 600, fontSize: 14, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)' }}>
+                  Explore Top Sessions
+                </a>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {HERO_STATS.map(s => (
+                  <div key={s.label} className="rounded-xl p-3 flex items-center gap-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div className="shrink-0 rounded-lg flex items-center justify-center w-9 h-9" style={{ background: 'rgba(6,148,209,0.15)' }}>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#38bdf8" strokeWidth={1.8}>{s.icon}</svg>
+                    </div>
+                    <div>
+                      <p className="text-base font-bold text-white leading-none">{s.value}</p>
+                      <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>{s.label}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Right: pricing info card ── */}
+            <div style={{ background: '#fff', borderRadius: 16, padding: '28px 24px', borderLeft: '4px solid #0694D1', boxShadow: '0 8px 32px rgba(6,148,209,0.18)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(6,148,209,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                </div>
+                <h3 style={{ fontSize: 17, fontWeight: 800, color: '#0d1b2a', lineHeight: 1.3, margin: 0 }}>Pay Only for Engaged Attendees</h3>
+              </div>
+              <p style={{ fontSize: 14, color: '#4a6580', lineHeight: 1.75, margin: '0 0 20px' }}>
+                A flat rate of <span style={{ color: '#0694D1', fontWeight: 600 }}>$10 per attendee</span> who stays engaged for more than <span style={{ color: '#0694D1', fontWeight: 600 }}>50 minutes</span> and provides a high rating <span style={{ color: '#0694D1', fontWeight: 600 }}>(above 4.4)</span>.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[
+                  { label: 'Price per engaged attendee', value: '$10' },
+                  { label: 'Minimum engagement time',    value: '50 min' },
+                  { label: 'Minimum session rating',     value: '≥ 4.4 / 5' },
+                ].map(row => (
+                  <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f0f8ff', borderRadius: 8, padding: '10px 14px' }}>
+                    <span style={{ fontSize: 13, color: '#4a6580' }}>{row.label}</span>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: '#0694D1' }}>{row.value}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="#request" style={{ display: 'block', marginTop: 20, textAlign: 'center', background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '12px 0', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
+                Request a Session →
+              </a>
+            </div>
+
           </div>
+
+          <style>{`
+            @media (max-width: 1023px) {
+              .waas-hero-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
         </div>
       </section>
 
