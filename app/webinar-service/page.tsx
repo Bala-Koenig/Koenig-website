@@ -379,15 +379,23 @@ export default function WebinarServicePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map((f, i) => (
-              <div key={i} className="rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: 'rgba(6,148,209,0.10)' }}>
-                  <img src={f.img} alt={f.title} style={{ width: 24, height: 24, objectFit: 'contain' }} />
+              <div key={i} className="waas-feat-card rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
+                  <div className="waas-feat-icon" style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(6,148,209,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <img src={f.img} alt={f.title} style={{ width: 36, height: 36, objectFit: 'contain' }} />
+                  </div>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: '#0d1b2a', lineHeight: 1.3, margin: 0 }}>{f.title}</h3>
                 </div>
-                <h3 className="font-bold text-sm mb-1.5" style={{ color: '#0d1b2a' }}>{f.title}</h3>
-                <p className="text-xs leading-relaxed" style={{ color: '#4a6580' }}>{f.desc}</p>
+                <p style={{ fontSize: 16, lineHeight: 1.65, color: '#4a6580', margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
+          <style>{`
+            .waas-feat-card { transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: default; }
+            .waas-feat-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(6,148,209,0.15) !important; }
+            .waas-feat-icon { transition: transform 0.25s ease; }
+            .waas-feat-card:hover .waas-feat-icon { transform: scale(1.12); }
+          `}</style>
         </div>
       </section>
 
