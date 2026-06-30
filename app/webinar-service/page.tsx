@@ -399,38 +399,6 @@ export default function WebinarServicePage() {
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ─────────────────────────────────────────── */}
-      <section style={{ background: '#06111E', padding: '48px 24px' }}>
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-8">
-            <span className="inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-widest mb-3" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.30)' }}>
-              How It Works
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold text-white">
-              Koenig ensures you pay only for <span style={{ color: '#38bdf8' }}>real engagement</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {HOW_STEPS.map((s, i) => (
-              <div key={i} className="rounded-2xl p-5 relative" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.20)' }}>
-                <div className="text-4xl font-black mb-3 leading-none" style={{ color: 'rgba(6,148,209,0.15)', letterSpacing: -2 }}>{s.step}</div>
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style={{ background: 'rgba(6,148,209,0.15)' }}>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="#38bdf8" strokeWidth={1.8}>{s.icon}</svg>
-                </div>
-                <h3 className="font-bold text-sm text-white mb-1.5">{s.title}</h3>
-                <p className="text-xs leading-relaxed mb-3" style={{ color: 'rgba(255,255,255,0.50)' }}>{s.desc}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {s.tags.map(t => (
-                    <span key={t} className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.25)' }}>{t}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── REQUEST FORM ─────────────────────────────────────────── */}
       <WaasRequestForm />
 
