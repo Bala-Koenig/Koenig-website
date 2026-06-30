@@ -334,7 +334,7 @@ export default function CustomisedTrainingPage() {
       {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
       <section className="ct-sec" style={{ background: '#e8f5fb', padding: '35px 20px' }}>
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30 }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{ textAlign: 'center', marginBottom: 30 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
               background: 'rgba(6,148,209,0.12)', padding: '6px 18px', fontSize: 12,
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
@@ -398,7 +398,7 @@ export default function CustomisedTrainingPage() {
       {/* ── CASE STUDIES ───────────────────────────────────────── */}
       <section id="case-studies" className="ct-sec" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.13) 0%, rgba(6,148,209,0.04) 50%, #f0f7fc 100%)', padding: '35px 20px', borderTop: '1px solid #CAEFFF', boxShadow: 'inset 0 8px 48px rgba(6,148,209,0.10)' }}>
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30 }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{ textAlign: 'center', marginBottom: 30 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
               background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12,
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
