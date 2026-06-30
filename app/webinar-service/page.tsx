@@ -348,20 +348,6 @@ export default function WebinarServicePage() {
                 </a>
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {HERO_STATS.map(s => (
-                  <div key={s.label} className="rounded-xl p-3 flex items-center gap-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    <div className="shrink-0 rounded-lg flex items-center justify-center w-9 h-9" style={{ background: 'rgba(6,148,209,0.15)' }}>
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#38bdf8" strokeWidth={1.8}>{s.icon}</svg>
-                    </div>
-                    <div>
-                      <p className="text-base font-bold text-white leading-none">{s.value}</p>
-                      <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>{s.label}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
 
             {/* ── Right: pricing info card ── */}
