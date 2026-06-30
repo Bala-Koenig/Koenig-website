@@ -64,23 +64,23 @@ const HOW_STEPS = [
 const BENEFITS = [
   {
     title: 'Expert, Certified Instructors',
-    desc: 'Sessions delivered by professional, certified instructors ensuring your teams receive high-quality, accurate, and expert knowledge.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>,
+    desc: 'Learning sessions delivered by professional, certified instructors, ensuring your teams receive high-quality, accurate, and expert knowledge.',
+    img: '/images/webinar-service/wass1.png',
   },
   {
     title: 'Live Interactive Q&A',
-    desc: 'Attendees get their specific questions answered in real-time, enhancing understanding and practical application.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>,
+    desc: 'Attendees can get their specific questions answered immediately, enhancing understanding and practical application.',
+    img: '/images/webinar-service/wass2.png',
   },
   {
-    title: 'Scalable & Cost-Effective',
-    desc: 'Flexible, scalable training initiatives without upfront risk — costs linked directly to measurable engagement and value.',
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>,
+    title: 'Scalable and Cost-Effective Training',
+    desc: 'Enjoy flexible, scalable training initiatives without upfront risk, with costs linked directly to measurable engagement and value delivered.',
+    img: '/images/webinar-service/waas7.png',
   },
   {
-    title: 'Talent Attraction & Retention',
-    desc: 'Position your enterprise as an attractive employer by providing consistent learning opportunities that attract and retain top talent.',
-    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></>,
+    title: 'Enhanced Talent Attraction & Retention',
+    desc: 'Position your enterprise as an attractive employer by providing consistent learning opportunities, attracting and retaining top-tier talent.',
+    img: '/images/webinar-service/was5.png',
   },
 ]
 
@@ -550,30 +550,32 @@ export default function WebinarServicePage() {
       <WaasRequestForm />
 
       {/* ── WHY ENTERPRISES CHOOSE WaaS ──────────────────────────── */}
-      <section style={{ background: '#f8fcff', padding: '48px 24px' }}>
+      <section style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f8fcff 100%)', padding: '56px 24px' }}>
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-8">
-            <span className="inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-widest mb-3" style={{ background: 'rgba(6,148,209,0.10)', color: '#0694D1', border: '1px solid rgba(6,148,209,0.20)' }}>
-              Why Choose WaaS
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#0d1b2a' }}>
-              Why Enterprises Choose <span style={{ color: '#0694D1' }}>Koenig WaaS</span>
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
+              Why Enterprises Choose WaaS?
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {BENEFITS.map((b, i) => (
-              <div key={i} className="rounded-2xl p-5 flex gap-4" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(6,148,209,0.10)' }}>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={1.8}>{b.icon}</svg>
+              <div key={i} className="waas-ben-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 16px rgba(6,148,209,0.08)' }}>
+                <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
+                  <img src={b.img} alt={b.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.35s ease' }} className="waas-ben-img" />
                 </div>
-                <div>
-                  <h3 className="font-bold text-sm mb-1" style={{ color: '#0d1b2a' }}>{b.title}</h3>
-                  <p className="text-xs leading-relaxed" style={{ color: '#4a6580' }}>{b.desc}</p>
+                <div style={{ padding: '16px 16px 20px', textAlign: 'center' }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0694D1', lineHeight: 1.35, marginBottom: 10 }}>{b.title}</h3>
+                  <p style={{ fontSize: 13.5, color: '#4a6580', lineHeight: 1.7, margin: 0 }}>{b.desc}</p>
                 </div>
               </div>
             ))}
           </div>
+          <style>{`
+            .waas-ben-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+            .waas-ben-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(6,148,209,0.14) !important; }
+            .waas-ben-card:hover .waas-ben-img { transform: scale(1.05); }
+          `}</style>
         </div>
       </section>
 
