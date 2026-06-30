@@ -570,7 +570,7 @@ export default function CustomisedTrainingPage() {
                 value={requirement}
                 onChange={e => setRequirement(e.target.value)}
                 rows={5}
-                placeholder="E.g. We need Azure Administrator training for 25 engineers, blended with AI/ML fundamentals, over 5 days onsite in Dubai."
+                placeholder="Enter your requirements"
                 style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1.5px solid #0694D1', borderRadius: 8, padding: '14px', fontSize: 14, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit', resize: 'vertical', minHeight: 120, display: 'block' }}
                 onFocus={e => (e.target.style.borderColor = '#0569a8')}
                 onBlur={e => (e.target.style.borderColor = '#0694D1')}
