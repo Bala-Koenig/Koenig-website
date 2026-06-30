@@ -697,21 +697,23 @@ export default function CustomisedTrainingPage() {
                     onFocus={e => (e.target.style.borderColor = '#0694D1')}
                     onBlur={e => (e.target.style.borderColor = '#d1d5db')}
                   />
-                  {showToast && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '12px 18px', marginBottom: 12, fontSize: 13.5, fontWeight: 600 }}>
-                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                      TOC sent to <span style={{ fontWeight: 800, marginLeft: 4 }}>{email}</span>
-                    </div>
-                  )}
                   <div className="ct-gen-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                     <button onClick={handleGenerate}
                       style={{ padding: '13px 0', borderRadius: 8, border: 'none', cursor: 'pointer', background: '#0694D1', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', transition: 'opacity 0.2s' }}>
                       Regenerate Course
                     </button>
-                    <button onClick={handleEmailTOC}
-                      style={{ padding: '13px 0', borderRadius: 8, border: '1.5px solid #0694D1', background: emailSent ? '#0694D1' : '#fff', color: emailSent ? '#fff' : '#0694D1', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
-                      {emailSent ? `✓ Sent to ${email}` : 'Email Me the TOC'}
-                    </button>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      {showToast && (
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '9px 12px', fontSize: 13, fontWeight: 600, color: '#0d1b2a', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+                          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#22c55e" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                          <span>Sent to <strong>{email}</strong></span>
+                        </div>
+                      )}
+                      <button onClick={handleEmailTOC}
+                        style={{ width: '100%', padding: '13px 0', borderRadius: 8, border: '1.5px solid #0694D1', background: emailSent ? '#0694D1' : '#fff', color: emailSent ? '#fff' : '#0694D1', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
+                        {emailSent ? `✓ Sent to ${email}` : 'Email Me the TOC'}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
