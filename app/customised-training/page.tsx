@@ -298,21 +298,21 @@ export default function CustomisedTrainingPage() {
 
 
       {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
-      <section style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 30%, rgba(56,189,248,0.09) 0%, rgba(56,189,248,0.03) 55%, transparent 75%), linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px' }}>
+      <section style={{ background: '#e8f5fb', padding: '64px 20px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
-              background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12,
+              background: 'rgba(6,148,209,0.12)', padding: '6px 18px', fontSize: 12,
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
               What Makes Us Different
             </span>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#fff', marginBottom: 14, lineHeight: 1.25, letterSpacing: '-0.015em' }}>
+            <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#0d1b2a', marginBottom: 14, lineHeight: 1.25, letterSpacing: '-0.015em' }}>
               How are Koenig&apos;s Customized Learning{' '}
               <span style={{ background: 'linear-gradient(90deg,#0694D1,#22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 Solutions different?
               </span>
             </h2>
-            <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', maxWidth: 600, margin: '0 auto', lineHeight: 1.7 }}>
+            <p style={{ fontSize: 15, color: '#4a6580', maxWidth: 600, margin: '0 auto', lineHeight: 1.7 }}>
               Koenig combines different services to meet the business outcome you need.
             </p>
           </div>
@@ -322,19 +322,18 @@ export default function CustomisedTrainingPage() {
               <div key={i}
                 style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 12, padding: '24px 22px',
                   borderRadius: 20, cursor: 'default', overflow: 'hidden', transition: 'all 0.3s',
-                  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)',
-                  backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.2)' }}
+                  background: '#fff', border: '1px solid #CAEFFF',
+                  boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLDivElement
                   el.style.borderColor = 'rgba(6,148,209,0.55)'
-                  el.style.boxShadow = '0 12px 36px rgba(0,0,0,0.35), 0 0 0 1px rgba(6,148,209,0.3), 0 0 28px rgba(6,148,209,0.15)'
+                  el.style.boxShadow = '0 12px 36px rgba(6,148,209,0.15), 0 0 0 1px rgba(6,148,209,0.3)'
                   el.style.transform = 'translateY(-3px)'
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLDivElement
-                  el.style.borderColor = 'rgba(255,255,255,0.07)'
-                  el.style.boxShadow = '0 4px 24px rgba(0,0,0,0.2)'
+                  el.style.borderColor = '#CAEFFF'
+                  el.style.boxShadow = '0 2px 12px rgba(6,148,209,0.07)'
                   el.style.transform = 'none'
                 }}>
                 {/* Top accent line on hover */}
@@ -345,7 +344,7 @@ export default function CustomisedTrainingPage() {
                 />
                 {/* Icon */}
                 <div style={{ width: 48, height: 48, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.28)' }}>
+                  background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.20)' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={f.img} alt={f.title} style={{ width: 30, height: 30, objectFit: 'contain' }}
                     onError={e => {
@@ -354,8 +353,8 @@ export default function CustomisedTrainingPage() {
                       if (img.parentElement) img.parentElement.innerHTML = `<svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0694D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${(f.icon as unknown as {props: {children: string}}).props?.children ?? ''}</svg>`
                     }} />
                 </div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#e0f2fe', lineHeight: 1.4, margin: 0 }}>{f.title}</h3>
-                <p style={{ fontSize: 13.5, color: 'rgba(186,224,248,0.70)', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0d1b2a', lineHeight: 1.4, margin: 0 }}>{f.title}</h3>
+                <p style={{ fontSize: 13.5, color: '#4a6580', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
