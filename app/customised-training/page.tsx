@@ -697,7 +697,7 @@ export default function CustomisedTrainingPage() {
                     onFocus={e => (e.target.style.borderColor = '#0694D1')}
                     onBlur={e => (e.target.style.borderColor = '#d1d5db')}
                   />
-                  <div className="ct-gen-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div className="ct-gen-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, alignItems: 'end' }}>
                     <button onClick={handleGenerate}
                       style={{ padding: '13px 0', borderRadius: 8, border: 'none', cursor: 'pointer', background: '#0694D1', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', transition: 'opacity 0.2s' }}>
                       Regenerate Course
