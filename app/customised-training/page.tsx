@@ -208,11 +208,10 @@ export default function CustomisedTrainingPage() {
             .ct-how-dots    { display: flex  !important; }
             .ct-cs-grid     { gap: 15px !important; }
             .ct-hero-grid   { grid-template-columns: 1fr !important; gap: 20px !important; }
-            .ct-gen-row     { grid-template-columns: 1fr !important; gap: 18px !important; margin-bottom: 15px !important; }
+            .ct-gen-row     { grid-template-columns: 1fr !important; gap: 18px !important; margin-bottom: 24px !important; }
             .ct-gen-field   { margin-bottom: 24px !important; }
             .ct-gen-captcha { margin-bottom: 24px !important; }
             .ct-generator-card h2 { font-size: 18px !important; margin-bottom: 24px !important; line-height: 1.4 !important; }
-            .ct-gen-row     { margin-bottom: 24px !important; }
             /* Other layout */
             .ct-stats-card  { display: none  !important; }
             .ct-mobile-stats{ display: grid  !important; }
