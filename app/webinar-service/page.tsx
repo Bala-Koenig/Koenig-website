@@ -85,12 +85,12 @@ const BENEFITS = [
 ]
 
 const TOP_SESSIONS = [
-  { title: 'Kickstart Your Copilot Studio Journey',      desc: 'Build and deploy AI copilots that integrate seamlessly into your development workflows.' },
-  { title: 'Innovate with Generative AI',                desc: 'Automate content, prototypes, and data workflows to free your team for high-value work.' },
-  { title: 'Mastering Prompt Engineering',               desc: 'Craft precise prompts to unlock the full potential of ChatGPT and large language models.' },
-  { title: 'Drive Decisions with Excel BI',              desc: 'Create dynamic dashboards and reports — turn raw data into strategic insights in minutes.' },
-  { title: 'Email Etiquette for Professionals',          desc: 'Write clear, concise emails that command attention and drive faster responses.' },
-  { title: 'Cybersecurity Made Simple',                  desc: 'Master the fundamentals: passwords, secure sharing, safeguard your org without the jargon.' },
+  { title: 'Kickstart Your Copilot Studio Journey', img: '/images/webinar-service/sessions/6.png', desc: 'Build and deploy AI copilots that integrate seamlessly into your development workflows.' },
+  { title: 'Innovate with Generative AI',           img: '/images/webinar-service/sessions/2.png', desc: 'Turn ideas into reality: automate content, prototypes, and data workflows to free your team for high-value work.' },
+  { title: 'Mastering Prompt Engineering',          img: '/images/webinar-service/sessions/3.png', desc: 'Craft precise prompts to unlock the full potential of ChatGPT and other large language models.' },
+  { title: 'Drive Decisions with Excel BI',         img: '/images/webinar-service/sessions/4.png', desc: 'Create dynamic dashboards and reports—turn raw data into strategic insights in minutes.' },
+  { title: 'Email Etiquette for Professionals',     img: '/images/webinar-service/sessions/5.png', desc: 'Write clear, concise emails that command attention and drive faster responses.' },
+  { title: 'Cybersecurity Made Simple',             img: '/images/webinar-service/sessions/1.png', desc: 'Master the fundamentals: from strong passwords to secure sharing, safeguard your organization without the jargon.' },
 ]
 
 const FAQS = [
@@ -640,36 +640,35 @@ export default function WebinarServicePage() {
       </section>
 
       {/* ── TOP SESSIONS ─────────────────────────────────────────── */}
-      <section id="sessions" style={{ background: '#06111E', padding: '48px 24px' }}>
+      <section id="sessions" style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f0f8ff 100%)', padding: '56px 24px' }}>
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-8">
-            <span className="inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-widest mb-3" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.30)' }}>
-              Popular Sessions
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold text-white">
-              Our Top Custom <span style={{ color: '#38bdf8' }}>Learning Sessions</span>
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
+              Our Top Custom Learning Sessions
             </h2>
-            <p className="text-sm mt-2" style={{ color: 'rgba(255,255,255,0.45)' }}>Pick from our proven favourites — or tell us your own goal</p>
+            <p className="mt-3" style={{ fontSize: 18, color: '#0d1b2a' }}>Pick from our proven favorites-or tell us your own goal</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {TOP_SESSIONS.map((s, i) => (
-              <div key={i} className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(6,148,209,0.20)' }}>
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-3 text-sm font-bold" style={{ background: 'rgba(6,148,209,0.15)', color: '#38bdf8' }}>
-                  {String(i + 1).padStart(2, '0')}
+              <div key={i} className="waas-session-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+                <div style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+                  <img src={s.img} alt={s.title} className="waas-session-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.35s ease' }} />
                 </div>
-                <h3 className="font-bold text-sm text-white mb-1.5">{s.title}</h3>
-                <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.50)' }}>{s.desc}</p>
+                <div style={{ padding: '16px', textAlign: 'center' }}>
+                  <div style={{ background: '#e8f5fb', borderRadius: 8, padding: '8px 12px', marginBottom: 12 }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 600, color: '#0694D1', margin: 0, lineHeight: 1.3 }}>{s.title}</h3>
+                  </div>
+                  <p style={{ fontSize: 14, color: '#0d1b2a', lineHeight: 1.65, margin: 0 }}>{s.desc}</p>
+                </div>
               </div>
             ))}
           </div>
-
-          <div className="text-center">
-            <a href="#request"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '12px 28px', fontWeight: 700, fontSize: 14, textDecoration: 'none', boxShadow: '0 0 24px rgba(6,148,209,0.40)' }}>
-              Request a Custom Session →
-            </a>
-          </div>
+          <style>{`
+            .waas-session-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+            .waas-session-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(6,148,209,0.15) !important; }
+            .waas-session-card:hover .waas-session-img { transform: scale(1.05); }
+          `}</style>
         </div>
       </section>
 
