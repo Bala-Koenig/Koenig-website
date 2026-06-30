@@ -593,9 +593,9 @@ export default function WebinarServicePage() {
             </p>
           </div>
 
-          <div className="waas-pricing-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
+          <div className="waas-pricing-grid" style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: 40, alignItems: 'center' }}>
             {/* Left: photo */}
-            <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.10)' }}>
+            <div className="waas-pricing-img" style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.10)', maxHeight: 400 }}>
               <img src="/images/webinar-service/waas3.png" alt="Webinar as a Service" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
 
@@ -628,7 +628,12 @@ export default function WebinarServicePage() {
 
           <style>{`
             @media (max-width: 767px) {
-              .waas-pricing-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+              .waas-pricing-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+              .waas-pricing-img { order: 2; max-height: 260px !important; }
+            }
+            @media (min-width: 768px) and (max-width: 1023px) {
+              .waas-pricing-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+              .waas-pricing-img { order: 2; max-height: 320px !important; }
             }
           `}</style>
         </div>
