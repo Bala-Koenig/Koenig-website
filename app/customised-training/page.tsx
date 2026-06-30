@@ -191,6 +191,8 @@ export default function CustomisedTrainingPage() {
             .ct-pdf-sidebar { width: 14px !important; }
             .ct-gen-btn-wrap{ text-align: unset !important; }
             .ct-gen-btn-wrap button { width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
+            .ct-hero-btns { flex-direction: column !important; }
+            .ct-hero-btns a { width: 100% !important; justify-content: center !important; box-sizing: border-box !important; }
           }
 
           /* ── Tablet 768–1023px ── */
@@ -232,7 +234,7 @@ export default function CustomisedTrainingPage() {
                 Tailored programmes designed around your business goals — blending expert-led live training, AI tools, custom LMS, and multilingual content delivery.
               </p>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+              <div className="ct-hero-btns" style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
                 <a href="#generator" style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   padding: '12px 24px', borderRadius: 12, border: 'none', cursor: 'pointer',
