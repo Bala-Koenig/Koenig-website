@@ -168,17 +168,25 @@ export default function CustomisedTrainingPage() {
 
           /* ── Mobile ≤767px ── */
           @media (max-width: 767px) {
-            .ct-hero-inner  { padding-left: 16px !important; padding-right: 16px !important; }
-            .ct-sec         { padding-left: 16px !important; padding-right: 16px !important; }
+            /* Section vertical padding */
+            .ct-sec         { padding-top: 20px !important; padding-bottom: 20px !important; padding-left: 16px !important; padding-right: 16px !important; }
+            .ct-hero-inner  { padding-top: 20px !important; padding-bottom: 20px !important; padding-left: 16px !important; padding-right: 16px !important; }
             .ct-sec-inner   { padding-left: 0   !important; padding-right: 0   !important; }
-            .ct-features-grid { grid-template-columns: 1fr !important; }
-            .ct-hero-grid   { grid-template-columns: 1fr !important; }
+            /* 15px between section elements */
+            .ct-sec-head    { margin-bottom: 15px !important; }
+            .ct-features-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
+            .ct-how-grid    { grid-template-columns: 1fr !important; gap: 15px !important; }
+            .ct-cs-grid     { gap: 15px !important; }
+            .ct-hero-grid   { grid-template-columns: 1fr !important; gap: 20px !important; }
+            .ct-gen-row     { grid-template-columns: 1fr !important; gap: 12px !important; margin-bottom: 15px !important; }
+            .ct-gen-field   { margin-bottom: 15px !important; }
+            .ct-gen-captcha { margin-bottom: 15px !important; }
+            .ct-generator-card h2 { margin-bottom: 15px !important; }
+            /* Other layout */
             .ct-stats-card  { display: none  !important; }
             .ct-mobile-stats{ display: grid  !important; }
-            .ct-how-grid    { grid-template-columns: 1fr !important; gap: 32px !important; }
             .ct-how-line    { display: none  !important; }
-            .ct-gen-row     { grid-template-columns: 1fr !important; }
-            .ct-generator-card { padding: 24px 16px !important; border-radius: 16px !important; }
+            .ct-generator-card { padding: 20px 16px !important; border-radius: 16px !important; }
             .ct-pdf-doc     { padding: 16px 14px !important; }
             .ct-pdf-sidebar { width: 14px !important; }
             .ct-gen-btn-wrap{ text-align: unset !important; }
@@ -334,7 +342,7 @@ export default function CustomisedTrainingPage() {
       {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
       <section className="ct-sec" style={{ background: '#e8f5fb', padding: '35px 20px' }}>
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30 }}>
-          <div style={{ textAlign: 'center', marginBottom: 30 }}>
+          <div className="ct-sec-head" style={{ textAlign: 'center', marginBottom: 30 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
               background: 'rgba(6,148,209,0.12)', padding: '6px 18px', fontSize: 12,
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
@@ -398,7 +406,7 @@ export default function CustomisedTrainingPage() {
       {/* ── CASE STUDIES ───────────────────────────────────────── */}
       <section id="case-studies" className="ct-sec" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,148,209,0.13) 0%, rgba(6,148,209,0.04) 50%, #f0f7fc 100%)', padding: '35px 20px', borderTop: '1px solid #CAEFFF', boxShadow: 'inset 0 8px 48px rgba(6,148,209,0.10)' }}>
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30 }}>
-          <div style={{ textAlign: 'center', marginBottom: 30 }}>
+          <div className="ct-sec-head" style={{ textAlign: 'center', marginBottom: 30 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
               background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12,
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
@@ -415,7 +423,7 @@ export default function CustomisedTrainingPage() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: 20 }}>
+          <div className="ct-cs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))', gap: 20 }}>
             {visibleStudies.map(cs => (
               <div key={cs.id}
                 style={{ background: '#fff', borderRadius: 16, overflow: 'hidden',
@@ -489,7 +497,7 @@ export default function CustomisedTrainingPage() {
         {/* Radial glow */}
         <div style={{ pointerEvents: 'none', position: 'absolute', left: '50%', top: 0, transform: 'translateX(-50%)', width: 700, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 65%)' }} />
         <div className="ct-sec-inner" style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 30, paddingRight: 30, position: 'relative' }}>
-          <div style={{ textAlign: 'center', marginBottom: 30 }}>
+          <div className="ct-sec-head" style={{ textAlign: 'center', marginBottom: 30 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999, background: 'rgba(6,148,209,0.10)', padding: '6px 18px', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0694D1' }}>
               Our Process
             </span>
@@ -582,7 +590,7 @@ export default function CustomisedTrainingPage() {
             </div>
 
             {/* Your requirement textarea — div-based floating label */}
-            <div style={{ position: 'relative', marginBottom: 20 }}>
+            <div className="ct-gen-field" style={{ position: 'relative', marginBottom: 20 }}>
               <span style={{ position: 'absolute', top: -9, left: 12, background: '#e8f5fb', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
                 Your requirement
               </span>
@@ -598,7 +606,7 @@ export default function CustomisedTrainingPage() {
             </div>
 
             {/* reCAPTCHA mock */}
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
+            <div className="ct-gen-captcha" style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#fff', border: '1px solid #d1d5db', borderRadius: 4, padding: '10px 16px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
                 <input type="checkbox" checked={robotChecked} onChange={e => setRobotChecked(e.target.checked)} style={{ width: 18, height: 18, cursor: 'pointer', accentColor: '#0694D1' }} />
                 <span style={{ fontSize: 13, color: '#374151' }}>I&apos;m not a robot</span>
