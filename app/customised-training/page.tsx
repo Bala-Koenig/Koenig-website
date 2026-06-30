@@ -538,7 +538,7 @@ export default function CustomisedTrainingPage() {
       {/* ── CUSTOM COURSE GENERATOR ─────────────────────────────── */}
       <section id="generator" style={{ background: '#fff', padding: '48px 20px' }}>
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ background: '#fff', border: '1.5px solid #b3dff0', borderRadius: 28, padding: '40px 36px', boxShadow: 'none' }}>
+          <div style={{ background: '#e8f5fb', border: '1.5px solid #b3dff0', borderRadius: 28, padding: '40px 36px', boxShadow: 'none' }}>
 
             {/* Heading */}
             <h2 style={{ fontSize: 'clamp(22px,3vw,30px)', fontWeight: 800, color: '#0d1b2a', marginBottom: 28, lineHeight: 1.3, textAlign: 'center' }}>
@@ -548,7 +548,7 @@ export default function CustomisedTrainingPage() {
             {/* Name + Email row */}
             <div className="ct-gen-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
               <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', top: -9, left: 12, background: '#fff', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
+                <span style={{ position: 'absolute', top: -9, left: 12, background: '#e8f5fb', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
                   Name <span style={{ color: '#e53e3e' }}>*</span>
                 </span>
                 <input
@@ -558,7 +558,7 @@ export default function CustomisedTrainingPage() {
                 />
               </div>
               <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', top: -9, left: 12, background: '#fff', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
+                <span style={{ position: 'absolute', top: -9, left: 12, background: '#e8f5fb', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
                   Email <span style={{ color: '#e53e3e' }}>*</span>
                 </span>
                 <input
@@ -571,7 +571,7 @@ export default function CustomisedTrainingPage() {
 
             {/* Your requirement textarea — div-based floating label */}
             <div style={{ position: 'relative', marginBottom: 20 }}>
-              <span style={{ position: 'absolute', top: -9, left: 12, background: '#fff', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
+              <span style={{ position: 'absolute', top: -9, left: 12, background: '#e8f5fb', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
                 Your requirement
               </span>
               <textarea
