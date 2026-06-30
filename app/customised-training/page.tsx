@@ -130,7 +130,14 @@ export default function CustomisedTrainingPage() {
   const [generating, setGenerating]   = useState(false)
   const [generated, setGenerated]     = useState(false)
   const [emailSent, setEmailSent]     = useState(false)
+  const [showToast, setShowToast]     = useState(false)
   const [tocChanges, setTocChanges]   = useState('')
+
+  const handleEmailTOC = () => {
+    setEmailSent(true)
+    setShowToast(true)
+    setTimeout(() => { setEmailSent(false); setShowToast(false) }, 4000)
+  }
 
   const visibleStudies = showAll ? CASE_STUDIES : CASE_STUDIES.slice(0, INITIAL_VISIBLE)
 
@@ -144,6 +151,14 @@ export default function CustomisedTrainingPage() {
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
+
+      {/* ── Toast ──────────────────────────────────────────────── */}
+      {showToast && (
+        <div style={{ position: 'fixed', top: 24, left: '50%', transform: 'translateX(-50%)', zIndex: 99999, display: 'flex', alignItems: 'center', gap: 10, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 12, padding: '14px 22px', boxShadow: '0 8px 32px rgba(6,148,209,0.40)', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', pointerEvents: 'none' }}>
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          TOC sent to <span style={{ fontWeight: 800, marginLeft: 4 }}>{email || 'your email'}</span>
+        </div>
+      )}
 
       {/* ── HERO ───────────────────────────────────────────────── */}
       <section style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', position: 'relative', overflow: 'hidden' }}>
@@ -694,7 +709,7 @@ export default function CustomisedTrainingPage() {
                       style={{ padding: '13px 0', borderRadius: 8, border: 'none', cursor: 'pointer', background: '#0694D1', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', transition: 'opacity 0.2s' }}>
                       Regenerate Course
                     </button>
-                    <button onClick={() => { setEmailSent(true); setTimeout(() => setEmailSent(false), 3000) }}
+                    <button onClick={handleEmailTOC}
                       style={{ padding: '13px 0', borderRadius: 8, border: '1.5px solid #0694D1', background: emailSent ? '#0694D1' : '#fff', color: emailSent ? '#fff' : '#0694D1', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}>
                       {emailSent ? '✓ Sent!' : 'Email Me the TOC'}
                     </button>
