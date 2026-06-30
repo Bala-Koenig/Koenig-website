@@ -152,13 +152,6 @@ export default function CustomisedTrainingPage() {
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
       <Navbar />
 
-      {/* ── Toast ──────────────────────────────────────────────── */}
-      {showToast && (
-        <div style={{ position: 'fixed', top: 24, left: '50%', transform: 'translateX(-50%)', zIndex: 99999, display: 'flex', alignItems: 'center', gap: 10, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 12, padding: '14px 22px', boxShadow: '0 8px 32px rgba(6,148,209,0.40)', fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap', pointerEvents: 'none' }}>
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          TOC sent to <span style={{ fontWeight: 800, marginLeft: 4 }}>{email || 'your email'}</span>
-        </div>
-      )}
 
       {/* ── HERO ───────────────────────────────────────────────── */}
       <section style={{ background: 'linear-gradient(135deg, #061624 0%, #071929 60%, #062236 100%)', position: 'relative', overflow: 'hidden' }}>
@@ -704,6 +697,12 @@ export default function CustomisedTrainingPage() {
                     onFocus={e => (e.target.style.borderColor = '#0694D1')}
                     onBlur={e => (e.target.style.borderColor = '#d1d5db')}
                   />
+                  {showToast && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '12px 18px', marginBottom: 12, fontSize: 13.5, fontWeight: 600 }}>
+                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                      TOC sent to <span style={{ fontWeight: 800, marginLeft: 4 }}>{email}</span>
+                    </div>
+                  )}
                   <div className="ct-gen-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                     <button onClick={handleGenerate}
                       style={{ padding: '13px 0', borderRadius: 8, border: 'none', cursor: 'pointer', background: '#0694D1', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', transition: 'opacity 0.2s' }}>
