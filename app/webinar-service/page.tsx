@@ -600,7 +600,7 @@ export default function WebinarServicePage() {
             </div>
 
             {/* Right: steps card — slightly overlaps image left */}
-            <div style={{ background: '#e8f5fb', borderRadius: 24, padding: '36px 32px 36px 48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', width: 560, flexShrink: 0, marginLeft: -24, position: 'relative', zIndex: 1 }}>
+            <div style={{ background: '#e8f5fb', borderRadius: 24, padding: '36px 32px 36px 48px', display: 'flex', flexDirection: 'column', justifyContent: 'center', width: 660, flexShrink: 0, marginLeft: -24, position: 'relative', zIndex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28, justifyContent: 'center' }}>
                 <img src="/images/webinar-service/was-icon6.png" alt="" style={{ width: 32, height: 32, objectFit: 'contain' }} />
                 <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0d1b2a', margin: 0 }}>Simple Steps to Get Started</h3>
