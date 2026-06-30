@@ -540,24 +540,24 @@ export default function CustomisedTrainingPage() {
             {/* Name + Email row */}
             <div className="ct-gen-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
               <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', top: -9, left: 12, background: '#fff', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
+                  Name <span style={{ color: '#e53e3e' }}>*</span>
+                </span>
                 <input
                   type="text" required value={name} onChange={e => setName(e.target.value)}
-                  placeholder=" "
-                  style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1.5px solid #0694D1', borderRadius: 8, padding: '14px 14px', fontSize: 14, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit' }}
+                  placeholder="John Smith"
+                  style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1.5px solid #0694D1', borderRadius: 8, padding: '14px', fontSize: 14, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit' }}
                 />
-                <label style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 14, color: '#4a6580', pointerEvents: 'none', transition: 'all 0.2s', background: '#fff', padding: '0 4px' }}>
-                  Name <span style={{ color: '#e53e3e' }}>*</span>
-                </label>
               </div>
               <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', top: -9, left: 12, background: '#fff', padding: '0 4px', fontSize: 13, color: '#0694D1', fontWeight: 500, zIndex: 1, lineHeight: 1, pointerEvents: 'none' }}>
+                  Email <span style={{ color: '#e53e3e' }}>*</span>
+                </span>
                 <input
                   type="email" required value={email} onChange={e => setEmail(e.target.value)}
-                  placeholder=" "
-                  style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1.5px solid #0694D1', borderRadius: 8, padding: '14px 14px', fontSize: 14, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit' }}
+                  placeholder="john@company.com"
+                  style={{ width: '100%', boxSizing: 'border-box', background: '#fff', border: '1.5px solid #0694D1', borderRadius: 8, padding: '14px', fontSize: 14, color: '#0d1b2a', outline: 'none', fontFamily: 'inherit' }}
                 />
-                <label style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 14, color: '#4a6580', pointerEvents: 'none', transition: 'all 0.2s', background: '#fff', padding: '0 4px' }}>
-                  Email <span style={{ color: '#e53e3e' }}>*</span>
-                </label>
               </div>
             </div>
 
