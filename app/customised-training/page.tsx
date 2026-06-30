@@ -298,7 +298,7 @@ export default function CustomisedTrainingPage() {
 
 
       {/* ── HOW WE ARE DIFFERENT ───────────────────────────────── */}
-      <section style={{ background: 'linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px' }}>
+      <section style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 30%, rgba(6,148,209,0.14) 0%, rgba(6,148,209,0.05) 50%, transparent 70%), linear-gradient(145deg, #06111E 0%, #081d35 60%, #06111E 100%)', padding: '64px 20px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', paddingLeft: 'max(0px, 30px)', paddingRight: 'max(0px, 30px)' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <span style={{ display: 'inline-block', marginBottom: 12, borderRadius: 999,
@@ -354,8 +354,8 @@ export default function CustomisedTrainingPage() {
                       if (img.parentElement) img.parentElement.innerHTML = `<svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#0694D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${(f.icon as unknown as {props: {children: string}}).props?.children ?? ''}</svg>`
                     }} />
                 </div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#fff', lineHeight: 1.4, margin: 0 }}>{f.title}</h3>
-                <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#e0f2fe', lineHeight: 1.4, margin: 0 }}>{f.title}</h3>
+                <p style={{ fontSize: 13.5, color: 'rgba(186,224,248,0.70)', lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
