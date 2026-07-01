@@ -510,6 +510,7 @@ export default function WebinarServicePage() {
             }
             @media (max-width: 767px) {
               .waas-hero-inner { padding-top: 20px !important; padding-bottom: 20px !important; }
+              .waas-hero-grid { gap: 18px !important; }
               .waas-hero-btns { flex-direction: column !important; gap: 18px !important; }
               .waas-hero-btn { display: flex !important; width: 100%; justify-content: center; }
             }
