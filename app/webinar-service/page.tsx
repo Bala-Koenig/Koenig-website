@@ -830,7 +830,7 @@ export default function WebinarServicePage() {
 
       <style>{`
         @media (max-width: 767px) {
-          .waas-section { padding-left: 16px !important; padding-right: 16px !important; margin-top: 20px; }
+          .waas-section { padding-left: 16px !important; padding-right: 16px !important; padding-top: 20px !important; padding-bottom: 20px !important; margin-top: 20px; }
         }
       `}</style>
 
