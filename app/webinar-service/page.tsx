@@ -441,6 +441,8 @@ export default function WebinarServicePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [featPage, setFeatPage] = useState(0)
   const featTotalPages = Math.ceil(FEATURES.length / 2)
+  const [benPage, setBenPage] = useState(0)
+  const benTotalPages = Math.ceil(BENEFITS.length / 2)
 
   return (
     <div style={{ fontFamily: 'inherit' }}>
@@ -591,7 +593,34 @@ export default function WebinarServicePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* Mobile: 2-per-slide slider */}
+          <div className="block sm:hidden">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {BENEFITS.slice(benPage * 2, benPage * 2 + 2).map((b, i) => (
+                <div key={i} className="waas-ben-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 16px rgba(6,148,209,0.08)' }}>
+                  <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
+                    <img src={b.img} alt={b.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.35s ease' }} className="waas-ben-img" />
+                  </div>
+                  <div style={{ padding: '16px 16px 20px', textAlign: 'center' }}>
+                    <div style={{ background: '#e8f5fb', borderRadius: 8, padding: '8px 12px', marginBottom: 10 }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 600, color: '#0694D1', lineHeight: 1.35, margin: 0 }}>{b.title}</h3>
+                    </div>
+                    <p style={{ fontSize: 14, color: '#06111E', lineHeight: 1.7, margin: 0 }}>{b.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Dots */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
+              {Array.from({ length: benTotalPages }).map((_, i) => (
+                <button key={i} onClick={() => setBenPage(i)}
+                  style={{ width: i === benPage ? 20 : 8, height: 8, borderRadius: 999, background: i === benPage ? '#0694D1' : 'rgba(6,148,209,0.30)', border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.3s ease' }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: existing grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {BENEFITS.map((b, i) => (
               <div key={i} className="waas-ben-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 16px rgba(6,148,209,0.08)' }}>
                 <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
