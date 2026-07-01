@@ -716,7 +716,7 @@ export default function WebinarServicePage() {
             @media (max-width: 767px) {
               .waas-pricing-grid { flex-direction: column !important; }
               .waas-pricing-img { width: 100% !important; height: 240px !important; order: 2; }
-              .waas-pricing-grid > div:last-child { margin-left: 0 !important; margin-top: -20px; padding-left: 20px !important; border-radius: 20px !important; }
+              .waas-pricing-grid > div:last-child { width: 100% !important; box-sizing: border-box !important; margin-left: 0 !important; margin-top: 0 !important; padding: 20px 16px !important; border-radius: 20px !important; }
             }
             @media (min-width: 768px) and (max-width: 1023px) {
               .waas-pricing-img { width: 280px !important; }
