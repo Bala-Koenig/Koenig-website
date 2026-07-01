@@ -448,6 +448,8 @@ export default function WebinarServicePage() {
   const [sessPage, setSessPage] = useState(0)
   const sessTotalPages = Math.ceil(TOP_SESSIONS.length / 2)
   const sessTouchX = useRef<number>(0)
+  const [stepPage, setStepPage] = useState(0)
+  const stepTouchX = useRef<number>(0)
 
   return (
     <div style={{ fontFamily: 'inherit' }}>
@@ -695,12 +697,13 @@ export default function WebinarServicePage() {
                 <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0d1b2a', margin: 0 }}>Simple Steps to Get Started</h3>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {[
+              {(() => {
+                const steps = [
                   { icon: '/images/webinar-service/was-icon7.png',  title: 'Submit Your Request',  desc: 'Provide learning session details using our quick request form.' },
                   { icon: '/images/webinar-service/was-icon8.png',  title: 'Session Setup',         desc: 'We schedule and tailor the learning session based on your preferences.' },
                   { icon: '/images/webinar-service/was-icon10.png', title: 'Delivery & Reporting',  desc: 'Sessions are delivered seamlessly, and you receive detailed performance metrics and attendee feedback.' },
-                ].map((step, i) => (
+                ]
+                const stepCard = (step: typeof steps[0], i: number) => (
                   <div key={i} style={{ background: '#fff', borderRadius: 999, padding: '14px 24px 14px 14px', display: 'flex', alignItems: 'center', gap: 16, border: '1px solid #DCEEFB', boxShadow: '0 1px 6px rgba(6,148,209,0.06)' }}>
                     <div style={{ width: 54, height: 54, borderRadius: '50%', background: '#e8f5fb', border: '1.5px solid #c8e8f8', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <img src={step.icon} alt="" style={{ width: 30, height: 30, objectFit: 'contain' }} />
@@ -710,8 +713,34 @@ export default function WebinarServicePage() {
                       <p style={{ fontSize: 13.5, color: '#4a6580', margin: 0, lineHeight: 1.55 }}>{step.desc}</p>
                     </div>
                   </div>
-                ))}
-              </div>
+                )
+                return (
+                  <>
+                    {/* Mobile: 1-per-slide with dots */}
+                    <div className="block sm:hidden">
+                      <div
+                        onTouchStart={e => { stepTouchX.current = e.touches[0].clientX }}
+                        onTouchEnd={e => {
+                          const diff = stepTouchX.current - e.changedTouches[0].clientX
+                          if (diff > 50 && stepPage < steps.length - 1) setStepPage(p => p + 1)
+                          if (diff < -50 && stepPage > 0) setStepPage(p => p - 1)
+                        }}>
+                        {stepCard(steps[stepPage], stepPage)}
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 14 }}>
+                        {steps.map((_, i) => (
+                          <button key={i} onClick={() => setStepPage(i)}
+                            style={{ width: i === stepPage ? 20 : 8, height: 8, borderRadius: 999, background: i === stepPage ? '#0694D1' : 'rgba(6,148,209,0.30)', border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.3s ease' }} />
+                        ))}
+                      </div>
+                    </div>
+                    {/* Desktop: all steps */}
+                    <div className="hidden sm:flex" style={{ flexDirection: 'column', gap: 16 }}>
+                      {steps.map((step, i) => stepCard(step, i))}
+                    </div>
+                  </>
+                )
+              })()}
             </div>
           </div>
 
