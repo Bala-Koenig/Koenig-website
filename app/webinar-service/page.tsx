@@ -451,7 +451,7 @@ export default function WebinarServicePage() {
           <div className="absolute top-1/2 right-0 h-[400px] w-[400px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle,#38bdf8 0%,transparent 70%)' }} />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 md:px-8" style={{ paddingTop: 40, paddingBottom: 40 }}>
+        <div className="waas-hero-inner relative mx-auto max-w-7xl px-4 md:px-8" style={{ paddingTop: 40, paddingBottom: 40 }}>
           <div className="waas-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: 40, alignItems: 'center' }}>
 
             {/* ── Left: text ── */}
@@ -472,13 +472,13 @@ export default function WebinarServicePage() {
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-wrap gap-3 mb-8">
-                <a href="#request"
+              <div className="waas-hero-btns flex flex-wrap gap-3 mb-8">
+                <a href="#request" className="waas-hero-btn"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff', borderRadius: 10, padding: '12px 24px', fontWeight: 700, fontSize: 14, textDecoration: 'none', boxShadow: '0 0 24px rgba(6,148,209,0.45)' }}>
                   Request Session
                   <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
                 </a>
-                <a href="#sessions"
+                <a href="#sessions" className="waas-hero-btn"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.06)', color: '#fff', borderRadius: 10, padding: '12px 24px', fontWeight: 600, fontSize: 14, textDecoration: 'none', border: '1px solid rgba(255,255,255,0.15)' }}>
                   Explore Top Sessions
                 </a>
@@ -507,6 +507,11 @@ export default function WebinarServicePage() {
           <style>{`
             @media (max-width: 1023px) {
               .waas-hero-grid { grid-template-columns: 1fr !important; }
+            }
+            @media (max-width: 767px) {
+              .waas-hero-inner { padding-top: 20px !important; padding-bottom: 20px !important; }
+              .waas-hero-btns { flex-direction: column !important; gap: 18px !important; }
+              .waas-hero-btn { display: flex !important; width: 100%; justify-content: center; }
             }
           `}</style>
         </div>
