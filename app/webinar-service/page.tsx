@@ -281,7 +281,7 @@ function WaasRequestForm() {
 
   if (submitted) {
     return (
-      <section id="request" style={{ background: 'radial-gradient(ellipse at 68% 48%,rgba(6,148,209,0.18) 0%,rgba(6,148,209,0.06) 38%,transparent 65%),#06111E', padding: '48px 24px' }}>
+      <section id="request" className="waas-section" style={{ background: 'radial-gradient(ellipse at 68% 48%,rgba(6,148,209,0.18) 0%,rgba(6,148,209,0.06) 38%,transparent 65%),#06111E', padding: '48px 24px' }}>
         <div style={{ maxWidth: 700, margin: '0 auto', background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.30)', borderRadius: 20, padding: '48px 32px', textAlign: 'center' }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
           <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 20, margin: '0 0 8px' }}>Request Received!</h3>
@@ -292,7 +292,7 @@ function WaasRequestForm() {
   }
 
   return (
-    <section id="request" style={{ background: 'radial-gradient(ellipse at 68% 48%,rgba(6,148,209,0.18) 0%,rgba(6,148,209,0.06) 38%,transparent 65%),#06111E', padding: '48px 24px' }}>
+    <section id="request" className="waas-section" style={{ background: 'radial-gradient(ellipse at 68% 48%,rgba(6,148,209,0.18) 0%,rgba(6,148,209,0.06) 38%,transparent 65%),#06111E', padding: '48px 24px' }}>
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
         <form
           onSubmit={e => { e.preventDefault(); setSubmitted(true) }}
@@ -513,7 +513,7 @@ export default function WebinarServicePage() {
       </section>
 
       {/* ── WHAT IS WaaS ─────────────────────────────────────────── */}
-      <section style={{ background: '#f8fcff', padding: '48px 24px' }}>
+      <section className="waas-section" style={{ background: '#f8fcff', padding: '48px 24px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-8">
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
@@ -550,7 +550,7 @@ export default function WebinarServicePage() {
       <WaasRequestForm />
 
       {/* ── WHY ENTERPRISES CHOOSE WaaS ──────────────────────────── */}
-      <section style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f8fcff 100%)', padding: '56px 24px' }}>
+      <section className="waas-section" style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f8fcff 100%)', padding: '56px 24px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
@@ -582,7 +582,7 @@ export default function WebinarServicePage() {
       </section>
 
       {/* ── PRICING & HOW IT WORKS ───────────────────────────────── */}
-      <section style={{ background: '#fff', padding: '56px 24px' }}>
+      <section className="waas-section" style={{ background: '#fff', padding: '56px 24px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
@@ -640,7 +640,7 @@ export default function WebinarServicePage() {
       </section>
 
       {/* ── TOP SESSIONS ─────────────────────────────────────────── */}
-      <section id="sessions" style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f0f8ff 100%)', padding: '56px 24px' }}>
+      <section id="sessions" className="waas-section" style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f0f8ff 100%)', padding: '56px 24px' }}>
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
@@ -671,6 +671,12 @@ export default function WebinarServicePage() {
           `}</style>
         </div>
       </section>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .waas-section { padding-left: 16px !important; padding-right: 16px !important; }
+        }
+      `}</style>
 
     </div>
   )
