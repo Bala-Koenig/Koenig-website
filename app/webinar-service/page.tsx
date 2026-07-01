@@ -605,7 +605,7 @@ export default function WebinarServicePage() {
       {/* ── WHY ENTERPRISES CHOOSE WaaS ──────────────────────────── */}
       <section className="waas-section" style={{ background: 'linear-gradient(180deg,#eaf6fd 0%,#f8fcff 100%)', padding: '56px 24px' }}>
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-10">
+          <div className="text-center mb-10 waas-section-head">
             <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
               Why Enterprises Choose WaaS?
             </h2>
@@ -675,7 +675,7 @@ export default function WebinarServicePage() {
       {/* ── PRICING & HOW IT WORKS ───────────────────────────────── */}
       <section className="waas-section" style={{ background: '#fff', padding: '56px 24px' }}>
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-10">
+          <div className="text-center mb-10 waas-section-head">
             <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: '#0d1b2a' }}>
               Pricing &amp; How it Works
             </h2>
@@ -831,6 +831,7 @@ export default function WebinarServicePage() {
       <style>{`
         @media (max-width: 767px) {
           .waas-section { padding-left: 16px !important; padding-right: 16px !important; padding-top: 20px !important; padding-bottom: 20px !important; margin-top: 20px; }
+          .waas-section-head { margin-bottom: 18px !important; }
         }
       `}</style>
 
