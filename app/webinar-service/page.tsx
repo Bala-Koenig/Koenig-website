@@ -445,6 +445,8 @@ export default function WebinarServicePage() {
   const [benPage, setBenPage] = useState(0)
   const benTotalPages = Math.ceil(BENEFITS.length / 2)
   const benTouchX = useRef<number>(0)
+  const [sessPage, setSessPage] = useState(0)
+  const sessTouchX = useRef<number>(0)
 
   return (
     <div style={{ fontFamily: 'inherit' }}>
@@ -735,7 +737,40 @@ export default function WebinarServicePage() {
             <p className="mt-3" style={{ fontSize: 18, color: '#0d1b2a' }}>Pick from our proven favorites-or tell us your own goal</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Mobile: 1-per-slide slider */}
+          <div className="block sm:hidden">
+            <div
+              onTouchStart={e => { sessTouchX.current = e.touches[0].clientX }}
+              onTouchEnd={e => {
+                const diff = sessTouchX.current - e.changedTouches[0].clientX
+                if (diff > 50 && sessPage < TOP_SESSIONS.length - 1) setSessPage(p => p + 1)
+                if (diff < -50 && sessPage > 0) setSessPage(p => p - 1)
+              }}>
+              {(() => { const s = TOP_SESSIONS[sessPage]; return (
+                <div className="waas-session-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+                  <div style={{ width: '100%', height: 210, overflow: 'hidden' }}>
+                    <img src={s.img} alt={s.title} className="waas-session-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  </div>
+                  <div style={{ padding: '14px 14px 18px', textAlign: 'center' }}>
+                    <div style={{ background: '#e8f5fb', borderRadius: 8, padding: '8px 12px', marginBottom: 10 }}>
+                      <h3 style={{ fontSize: 17, fontWeight: 600, color: '#0694D1', margin: 0, lineHeight: 1.35 }}>{s.title}</h3>
+                    </div>
+                    <p style={{ fontSize: 14, color: '#0d1b2a', lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
+                  </div>
+                </div>
+              )})()}
+            </div>
+            {/* Dots */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
+              {TOP_SESSIONS.map((_, i) => (
+                <button key={i} onClick={() => setSessPage(i)}
+                  style={{ width: i === sessPage ? 20 : 8, height: 8, borderRadius: 999, background: i === sessPage ? '#0694D1' : 'rgba(6,148,209,0.30)', border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.3s ease' }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: existing grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TOP_SESSIONS.map((s, i) => (
               <div key={i} className="waas-session-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
                 <div style={{ width: '100%', height: 210, overflow: 'hidden' }}>
