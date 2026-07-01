@@ -446,6 +446,7 @@ export default function WebinarServicePage() {
   const benTotalPages = Math.ceil(BENEFITS.length / 2)
   const benTouchX = useRef<number>(0)
   const [sessPage, setSessPage] = useState(0)
+  const sessTotalPages = Math.ceil(TOP_SESSIONS.length / 2)
   const sessTouchX = useRef<number>(0)
 
   return (
@@ -737,35 +738,40 @@ export default function WebinarServicePage() {
             <p className="mt-3" style={{ fontSize: 18, color: '#0d1b2a' }}>Pick from our proven favorites-or tell us your own goal</p>
           </div>
 
-          {/* Mobile: 1-per-slide slider */}
+          {/* Mobile: 2-per-slide slider */}
           <div className="block sm:hidden">
             <div
               onTouchStart={e => { sessTouchX.current = e.touches[0].clientX }}
               onTouchEnd={e => {
                 const diff = sessTouchX.current - e.changedTouches[0].clientX
-                if (diff > 50 && sessPage < TOP_SESSIONS.length - 1) setSessPage(p => p + 1)
+                if (diff > 50 && sessPage < sessTotalPages - 1) setSessPage(p => p + 1)
                 if (diff < -50 && sessPage > 0) setSessPage(p => p - 1)
-              }}>
-              {(() => { const s = TOP_SESSIONS[sessPage]; return (
-                <div className="waas-session-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                  <div style={{ width: '100%', height: 210, overflow: 'hidden' }}>
-                    <img src={s.img} alt={s.title} className="waas-session-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              }}
+              style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {TOP_SESSIONS.slice(sessPage * 2, sessPage * 2 + 2).map((s, i) => (
+                <div key={i} className="waas-session-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+                  <div style={{ width: '100%', height: 180, overflow: 'hidden' }}>
+                    <img src={s.img} alt={s.title} className="waas-session-img" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.35s ease' }} />
                   </div>
                   <div style={{ padding: '14px 14px 18px', textAlign: 'center' }}>
                     <div style={{ background: '#e8f5fb', borderRadius: 8, padding: '8px 12px', marginBottom: 10 }}>
-                      <h3 style={{ fontSize: 17, fontWeight: 600, color: '#0694D1', margin: 0, lineHeight: 1.35 }}>{s.title}</h3>
+                      <h3 style={{ fontSize: 16, fontWeight: 600, color: '#0694D1', margin: 0, lineHeight: 1.35 }}>{s.title}</h3>
                     </div>
                     <p style={{ fontSize: 14, color: '#0d1b2a', lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
                   </div>
                 </div>
-              )})()}
-            </div>
-            {/* Dots */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
-              {TOP_SESSIONS.map((_, i) => (
-                <button key={i} onClick={() => setSessPage(i)}
-                  style={{ width: i === sessPage ? 20 : 8, height: 8, borderRadius: 999, background: i === sessPage ? '#0694D1' : 'rgba(6,148,209,0.30)', border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.3s ease' }} />
               ))}
+            </div>
+            {/* Arrows */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: 16 }}>
+              <button onClick={() => setSessPage(p => Math.max(0, p - 1))}
+                style={{ width: 36, height: 36, borderRadius: '50%', border: '1.5px solid rgba(6,148,209,0.4)', background: 'rgba(6,148,209,0.08)', cursor: sessPage === 0 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: sessPage === 0 ? 0.35 : 1, transition: 'opacity 0.2s' }}>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button onClick={() => setSessPage(p => Math.min(sessTotalPages - 1, p + 1))}
+                style={{ width: 36, height: 36, borderRadius: '50%', border: '1.5px solid rgba(6,148,209,0.4)', background: 'rgba(6,148,209,0.08)', cursor: sessPage === sessTotalPages - 1 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: sessPage === sessTotalPages - 1 ? 0.35 : 1, transition: 'opacity 0.2s' }}>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </button>
             </div>
           </div>
 
