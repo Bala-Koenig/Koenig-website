@@ -441,8 +441,10 @@ export default function WebinarServicePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [featPage, setFeatPage] = useState(0)
   const featTotalPages = Math.ceil(FEATURES.length / 2)
+  const featTouchX = useRef<number>(0)
   const [benPage, setBenPage] = useState(0)
   const benTotalPages = Math.ceil(BENEFITS.length / 2)
+  const benTouchX = useRef<number>(0)
 
   return (
     <div style={{ fontFamily: 'inherit' }}>
@@ -536,7 +538,14 @@ export default function WebinarServicePage() {
 
           {/* Mobile: 2-per-slide slider */}
           <div className="block sm:hidden">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div
+              onTouchStart={e => { featTouchX.current = e.touches[0].clientX }}
+              onTouchEnd={e => {
+                const diff = featTouchX.current - e.changedTouches[0].clientX
+                if (diff > 50 && featPage < featTotalPages - 1) setFeatPage(p => p + 1)
+                if (diff < -50 && featPage > 0) setFeatPage(p => p - 1)
+              }}
+              style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {FEATURES.slice(featPage * 2, featPage * 2 + 2).map((f, i) => (
                 <div key={i} className="waas-feat-card rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
@@ -549,12 +558,16 @@ export default function WebinarServicePage() {
                 </div>
               ))}
             </div>
-            {/* Dots */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
-              {Array.from({ length: featTotalPages }).map((_, i) => (
-                <button key={i} onClick={() => setFeatPage(i)}
-                  style={{ width: i === featPage ? 20 : 8, height: 8, borderRadius: 999, background: i === featPage ? '#0694D1' : 'rgba(6,148,209,0.30)', border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.3s ease' }} />
-              ))}
+            {/* Arrows */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: 16 }}>
+              <button onClick={() => setFeatPage(p => Math.max(0, p - 1))}
+                style={{ width: 36, height: 36, borderRadius: '50%', border: '1.5px solid rgba(6,148,209,0.4)', background: 'rgba(6,148,209,0.08)', cursor: featPage === 0 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: featPage === 0 ? 0.35 : 1, transition: 'opacity 0.2s' }}>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button onClick={() => setFeatPage(p => Math.min(featTotalPages - 1, p + 1))}
+                style={{ width: 36, height: 36, borderRadius: '50%', border: '1.5px solid rgba(6,148,209,0.4)', background: 'rgba(6,148,209,0.08)', cursor: featPage === featTotalPages - 1 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: featPage === featTotalPages - 1 ? 0.35 : 1, transition: 'opacity 0.2s' }}>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </button>
             </div>
           </div>
 
@@ -595,7 +608,14 @@ export default function WebinarServicePage() {
 
           {/* Mobile: 2-per-slide slider */}
           <div className="block sm:hidden">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div
+              onTouchStart={e => { benTouchX.current = e.touches[0].clientX }}
+              onTouchEnd={e => {
+                const diff = benTouchX.current - e.changedTouches[0].clientX
+                if (diff > 50 && benPage < benTotalPages - 1) setBenPage(p => p + 1)
+                if (diff < -50 && benPage > 0) setBenPage(p => p - 1)
+              }}
+              style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {BENEFITS.slice(benPage * 2, benPage * 2 + 2).map((b, i) => (
                 <div key={i} className="waas-ben-card rounded-2xl overflow-hidden" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 16px rgba(6,148,209,0.08)' }}>
                   <div style={{ width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
@@ -610,12 +630,16 @@ export default function WebinarServicePage() {
                 </div>
               ))}
             </div>
-            {/* Dots */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
-              {Array.from({ length: benTotalPages }).map((_, i) => (
-                <button key={i} onClick={() => setBenPage(i)}
-                  style={{ width: i === benPage ? 20 : 8, height: 8, borderRadius: 999, background: i === benPage ? '#0694D1' : 'rgba(6,148,209,0.30)', border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.3s ease' }} />
-              ))}
+            {/* Arrows */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginTop: 16 }}>
+              <button onClick={() => setBenPage(p => Math.max(0, p - 1))}
+                style={{ width: 36, height: 36, borderRadius: '50%', border: '1.5px solid rgba(6,148,209,0.4)', background: 'rgba(6,148,209,0.08)', cursor: benPage === 0 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: benPage === 0 ? 0.35 : 1, transition: 'opacity 0.2s' }}>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button onClick={() => setBenPage(p => Math.min(benTotalPages - 1, p + 1))}
+                style={{ width: 36, height: 36, borderRadius: '50%', border: '1.5px solid rgba(6,148,209,0.4)', background: 'rgba(6,148,209,0.08)', cursor: benPage === benTotalPages - 1 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: benPage === benTotalPages - 1 ? 0.35 : 1, transition: 'opacity 0.2s' }}>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </button>
             </div>
           </div>
 
