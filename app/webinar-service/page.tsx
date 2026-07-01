@@ -534,16 +534,16 @@ export default function WebinarServicePage() {
 
           {/* Mobile: 2-per-slide slider */}
           <div className="block sm:hidden">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {FEATURES.slice(featPage * 2, featPage * 2 + 2).map((f, i) => (
-                <div key={i} className="waas-feat-card rounded-2xl p-3" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: 8 }}>
-                    <div className="waas-feat-icon" style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(6,148,209,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
-                      <img src={f.img} alt={f.title} style={{ width: 28, height: 28, objectFit: 'contain' }} />
+                <div key={i} className="waas-feat-card rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
+                    <div className="waas-feat-icon" style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(6,148,209,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <img src={f.img} alt={f.title} style={{ width: 36, height: 36, objectFit: 'contain' }} />
                     </div>
-                    <h3 style={{ fontSize: 13, fontWeight: 700, color: '#0d1b2a', lineHeight: 1.3, margin: 0 }}>{f.title}</h3>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0d1b2a', lineHeight: 1.3, margin: 0 }}>{f.title}</h3>
                   </div>
-                  <p style={{ fontSize: 12, lineHeight: 1.55, color: '#4a6580', margin: 0, textAlign: 'center' }}>{f.desc}</p>
+                  <p style={{ fontSize: 14, lineHeight: 1.65, color: '#4a6580', margin: 0 }}>{f.desc}</p>
                 </div>
               ))}
             </div>
