@@ -439,6 +439,8 @@ function WaasRequestForm() {
 /* ── Page ─────────────────────────────────────────────────────── */
 export default function WebinarServicePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [featPage, setFeatPage] = useState(0)
+  const featTotalPages = Math.ceil(FEATURES.length / 2)
 
   return (
     <div style={{ fontFamily: 'inherit' }}>
@@ -530,7 +532,32 @@ export default function WebinarServicePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Mobile: 2-per-slide slider */}
+          <div className="block sm:hidden">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+              {FEATURES.slice(featPage * 2, featPage * 2 + 2).map((f, i) => (
+                <div key={i} className="waas-feat-card rounded-2xl p-3" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: 8 }}>
+                    <div className="waas-feat-icon" style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(6,148,209,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                      <img src={f.img} alt={f.title} style={{ width: 28, height: 28, objectFit: 'contain' }} />
+                    </div>
+                    <h3 style={{ fontSize: 13, fontWeight: 700, color: '#0d1b2a', lineHeight: 1.3, margin: 0 }}>{f.title}</h3>
+                  </div>
+                  <p style={{ fontSize: 12, lineHeight: 1.55, color: '#4a6580', margin: 0, textAlign: 'center' }}>{f.desc}</p>
+                </div>
+              ))}
+            </div>
+            {/* Dots */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
+              {Array.from({ length: featTotalPages }).map((_, i) => (
+                <button key={i} onClick={() => setFeatPage(i)}
+                  style={{ width: i === featPage ? 20 : 8, height: 8, borderRadius: 999, background: i === featPage ? '#0694D1' : 'rgba(6,148,209,0.30)', border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.3s ease' }} />
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: existing grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map((f, i) => (
               <div key={i} className="waas-feat-card rounded-2xl p-5" style={{ background: '#fff', border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
