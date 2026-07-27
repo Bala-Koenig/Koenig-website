@@ -2520,7 +2520,8 @@ p {
 .cf-ai-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:999px; border:1.5px solid rgba(7,30,46,0.22); background:#f0f3f5; color:#071e2e; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.18s; }
 .cf-ai-chip:hover { background:#e2e8ec; border-color:#071e2e; }
 .cf-ai-chip.active { background:#e2e8ec; border-color:#071e2e; font-weight:700; box-shadow:0 0 0 2px rgba(7,30,46,0.10); }
-.cf-ai-advice { border-left:3px solid #0694D1; background:rgba(6,148,209,0.06); border-radius:0 8px 8px 0; padding:10px 14px; margin-bottom:12px; font-size:12.5px; color:#1a3a55; line-height:1.6; }
+.cf-ai-advice { border-left:3px solid #0694D1; background:rgba(6,148,209,0.06); border-radius:0 8px 8px 0; padding:10px 14px; margin-bottom:12px; font-size:12.5px; font-weight:700; color:#1a3a55; line-height:1.6; }
+.cf-ai-elaborate { font-size:12.5px; font-weight:700; color:#1a3a55; line-height:1.6; margin-top:12px; }
 .cf-ai-courses { display:flex; flex-direction:column; gap:8px; }
 .cf-ai-course-card { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; background:#fff; border:1px solid rgba(6,148,209,0.18); border-radius:10px; cursor:pointer; text-decoration:none; color:inherit; transition:all 0.18s; }
 .cf-ai-course-card:hover { border-color:#0694D1; box-shadow:0 3px 12px rgba(6,148,209,0.12); transform:translateX(2px); }
@@ -10716,7 +10717,7 @@ function classifyAiQuery(q: string) {
     ],
   };
   return {
-    advice: "Based on your interest, here are Koenig's most popular Microsoft certifications — consistently in demand across roles and industries, and a strong foundation for any Azure-focused career.",
+    advice: "Following course meets your requirement.",
     learnMore: { title: "Microsoft Certifications", overview: "Microsoft certifications are among the most recognised and respected credentials in global IT. They validate real-world skills across cloud, security, data, AI, and productivity — and are trusted by hiring managers at enterprises worldwide.", careers: ["Cloud Engineer", "Solutions Architect", "Security Analyst", "Data Engineer", "IT Administrator"], skills: ["Microsoft Azure cloud platform", "Microsoft 365 productivity & collaboration", "Security, identity, and compliance", "Data engineering & analytics", "AI and machine learning on Azure"], whyNow: "Microsoft certifications consistently rank among the highest-ROI IT investments. Azure-certified professionals earn on average 26% more than non-certified peers, and the demand for Microsoft skills continues to grow globally across all industries.", points: ["380+ Microsoft courses across all technology areas", "95% first-attempt certification pass rate", "Microsoft Gold Learning Partner — vendor-authorised", "Guaranteed batch schedules — no cancellations"] },
     courses: [
       { name: "Microsoft Azure Fundamentals", code: "AZ-900", dur: "2 days", level: "fund", url: "/courses/az-900" },
@@ -11436,6 +11437,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                                   </div>
                                 ))}
                               </div>
+                              <p className="cf-ai-elaborate">If not, please elaborate more on your requirement.</p>
                               <div style={{display:"flex",alignItems:"center",gap:10,marginTop:4}}>
                                 <div style={{flex:1,height:1,background:"linear-gradient(to right,#0694D1,transparent)"}} />
                                 <span style={{fontSize:11,fontWeight:600,color:"#0694D1",whiteSpace:"nowrap",letterSpacing:"0.04em",textTransform:"uppercase"}}>Browse all courses below</span>

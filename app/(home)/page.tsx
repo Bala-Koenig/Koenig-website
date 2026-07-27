@@ -3687,15 +3687,15 @@ export default function Design4Page() {
                       {/* Results */}
                       {!heroAiThinking && heroAiResults && (
                         <>
-                          <div className="mb-3 flex items-start justify-between gap-3 rounded-r-lg border-l-[3px] border-[#0694D1] px-3.5 py-2.5" style={{ background: 'rgba(6,148,209,0.06)' }}>
-                            <span className="text-[12.5px] leading-relaxed text-[#1a3a55]">{heroAiResults.advice}</span>
+                          <div className="mb-3 flex items-center justify-between gap-3 rounded-r-lg border-l-[3px] border-[#0694D1] px-3 py-1.5" style={{ background: 'rgba(6,148,209,0.06)' }}>
+                            <span className="text-[12px] font-bold leading-snug text-[#1a3a55]">{heroAiResults.advice}</span>
                             {heroAiResults.learnMore && (
                               <button
                                 onClick={() => setHeroAiLearnMoreOpen(true)}
-                                className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md border-[1.5px] border-[#0694D1] bg-white px-2.5 py-1 text-[11.5px] font-bold text-[#0694D1]"
+                                className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md border-[1.5px] border-[#0694D1] bg-white px-2 py-0.5 text-[11px] font-bold text-[#0694D1]"
                               >
                                 Learn more
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                               </button>
                             )}
                           </div>
@@ -3781,6 +3781,8 @@ export default function Design4Page() {
                               </div>
                             ))}
                           </div>
+
+                          <p className="mt-3 text-center text-[12.5px] font-bold leading-relaxed text-[#1a3a55]">If not, please elaborate more on your requirement.</p>
 
                           {(() => {
                             const tokens = queryTokens(heroQuery)
