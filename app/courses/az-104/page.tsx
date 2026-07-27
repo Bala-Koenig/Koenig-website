@@ -8,14 +8,15 @@ import { CourseFaq } from "./components/course-faq";
 import { CourseResources } from "./components/course-resources";
 import { RequestInfoForm } from "./components/request-info-form";
 import { RequestInfoModal } from "./components/request-info-modal";
-import { WhatsIncludedCarousel } from "./components/whats-included-carousel";
 import { CorporateQuoteModal } from "./components/corporate-quote-modal";
+import { WhatsIncludedCarousel } from "./components/whats-included-carousel";
 import { ReadMore } from "./components/read-more";
 import { CourseTestimonials } from "./components/course-testimonials";
 import { RelatedCourses } from "./components/related-courses";
 import { BannerReadMore } from "./components/banner-read-more";
 import { ScrollToTop } from "./components/scroll-to-top";
 import Link from "next/link";
+import { UserCog } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Course Data                                                        */
@@ -346,6 +347,28 @@ export default function CoursePageDesign() {
             />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 4b. Customisation CTA strip                                  */}
+      {/* ============================================================ */}
+      <section className="bg-[#EAF4FB] px-[15px] sm:px-6 py-4">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-4">
+          <p className="flex items-center gap-2 text-base font-medium text-koenig-dark">
+            <UserCog size={20} strokeWidth={1.75} className="flex-shrink-0 text-koenig-blue" />
+            <span>
+              Want this course <span className="font-bold">customised</span>? We can adjust the <span className="font-bold">schedule</span>, <span className="font-bold">content</span> and <span className="font-bold">format</span> to fit your needs.
+            </span>
+          </p>
+          <Link
+            href="/customised-training"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center whitespace-nowrap rounded-lg border-2 border-koenig-blue bg-koenig-blue px-6 py-3 text-[15px] font-medium text-white transition hover:bg-koenig-blue/90"
+          >
+            Request Customisation
+          </Link>
         </div>
       </section>
 

@@ -1,58 +1,158 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import { FallingPattern } from '@/components/ui/falling-pattern'
 import EnterpriseHeroGlobe from '@/components/EnterpriseHeroGlobe'
 import AuroraCanvas from '@/components/AuroraCanvas'
+import CourseExplorer from '@/app/enterprise/components/CourseExplorer'
+
+/* Draggable CSS-marquee helpers (same as homepage) — freeze a running keyframe animation at
+   its current visual position for manual drag, then seek it back on release so it resumes
+   with no visible jump. */
+function getTrackTranslateX(el: HTMLElement): number {
+  const transform = window.getComputedStyle(el).transform
+  if (!transform || transform === 'none') return 0
+  const match = transform.match(/matrix\(([^)]+)\)/)
+  if (!match) return 0
+  const parts = match[1].split(',').map(v => parseFloat(v.trim()))
+  return parts[4] || 0
+}
+
+function freezeTrackAnimation(el: HTMLDivElement): number {
+  const x = getTrackTranslateX(el)
+  el.style.animation = 'none'
+  el.style.transform = `translateX(${x}px)`
+  return x
+}
+
+function seekTrackAnimation(el: HTMLDivElement, durationSec: number, xPos: number) {
+  const half = el.scrollWidth / 2
+  el.style.transform = ''
+  if (half <= 0) { el.style.animation = ''; return }
+  let x = xPos % half
+  if (x > 0) x -= half
+  const progress = (-x) / half
+  const delay = -(progress * durationSec)
+  el.style.animation = 'none'
+  void el.offsetHeight
+  el.style.animation = ''
+  el.style.animationDelay = `${delay}s`
+}
+
+function useMarqueeDrag(trackRef: React.RefObject<HTMLDivElement | null>, durationSec: number, isBlocked?: () => boolean) {
+  const state = useRef({ startX: 0, startPos: 0, dragging: false, pendingX: null as number | null, raf: 0 })
+
+  const applyFrame = () => {
+    const track = trackRef.current
+    const s = state.current
+    if (track && s.pendingX !== null) track.style.transform = `translateX(${s.pendingX}px)`
+    s.pendingX = null
+    s.raf = 0
+  }
+  const scheduleX = (x: number) => {
+    state.current.pendingX = x
+    if (!state.current.raf) state.current.raf = requestAnimationFrame(applyFrame)
+  }
+  const start = (clientX: number) => {
+    const track = trackRef.current
+    if (!track) return
+    const x = freezeTrackAnimation(track)
+    state.current = { startX: clientX, startPos: x, dragging: true, pendingX: null, raf: 0 }
+    track.style.cursor = 'grabbing'
+  }
+  const move = (clientX: number) => {
+    if (!state.current.dragging) return
+    scheduleX(state.current.startPos + (clientX - state.current.startX))
+  }
+  const end = () => {
+    const track = trackRef.current
+    if (!state.current.dragging) return
+    state.current.dragging = false
+    if (state.current.raf) { cancelAnimationFrame(state.current.raf); state.current.raf = 0 }
+    if (track) {
+      track.style.cursor = 'grab'
+      if (!isBlocked || !isBlocked()) seekTrackAnimation(track, durationSec, getTrackTranslateX(track))
+    }
+  }
+
+  const onTouchStart = (e: React.TouchEvent) => start(e.touches[0].clientX)
+  const onTouchMove = (e: React.TouchEvent) => move(e.touches[0].clientX)
+  const onTouchEnd = () => end()
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault()
+    start(e.clientX)
+    const onWindowMove = (ev: MouseEvent) => move(ev.clientX)
+    const onWindowUp = () => {
+      end()
+      window.removeEventListener('mousemove', onWindowMove)
+      window.removeEventListener('mouseup', onWindowUp)
+    }
+    window.addEventListener('mousemove', onWindowMove)
+    window.addEventListener('mouseup', onWindowUp)
+  }
+
+  return { onTouchStart, onTouchMove, onTouchEnd, onTouchCancel: onTouchEnd, onMouseDown }
+}
+
+const ENT_VENDOR_MARQUEE_DURATION = 78 // seconds — mobile "Authorised Certification Partners" strip scroll speed
 
 /* ─── Vendor Partner Data ────────────────────────────────── */
 
 const ENT_VENDORS_ROW1 = [
-  { name: 'Microsoft',        tier: 'Gold Partner',        courses: '380+', initial: 'M', img: 'microsoft-cloud-t.png' },
-  { name: 'Cisco',            tier: 'Premier Partner',     courses: '210+', initial: 'C', img: 'Cisco.png' },
-  { name: 'AWS',              tier: 'Training Partner',    courses: '290+', initial: 'A', img: 'amazon-authorized.png' },
-  { name: 'VMware',           tier: 'Principal Partner',   courses: '120+', initial: 'V', img: 'VMware-Broadcom.png' },
-  { name: 'Oracle',           tier: 'Gold Partner',        courses: '160+', initial: 'O', img: 'o-prtnr-clr-rgb (1).png' },
-  { name: 'PECB',             tier: 'Authorized Partner',  courses: '80+',  initial: 'P', img: 'Authorized PECB Certification Courses Training badge.png' },
-  { name: 'ISACA',            tier: 'Authorized Partner',  courses: '60+',  initial: 'I', img: undefined },
-  { name: 'PeopleCert',       tier: 'ATO Partner',         courses: '90+',  initial: 'P', img: 'PeopleCert.png' },
-  { name: 'CompTIA',          tier: 'Platinum Partner',    courses: '180+', initial: 'C', img: 'comptia.png' },
-  { name: 'SAP',              tier: 'Gold Partner',        courses: '140+', initial: 'S', img: 'SAP.jpg' },
-  { name: 'EC-Council',       tier: 'ATC Partner',         courses: '120+', initial: 'E', img: 'EC-Council-logo.png' },
-  { name: 'ISC2',             tier: 'Official Partner',    courses: '50+',  initial: 'I', img: 'OTP-Preferred-Badge.png' },
-  { name: 'PMI',              tier: 'Premier Partner',     courses: '140+', initial: 'P', img: 'PMI1115-ATP-Badge-2024-rgb.png' },
-  { name: 'ISTQB',            tier: 'Authorized Partner',  courses: '40+',  initial: 'I', img: 'ISTQB.png' },
-  { name: 'Broadcom',         tier: 'Partner',             courses: '70+',  initial: 'B', img: 'Broadcom.png' },
-  { name: 'Check Point',      tier: 'Authorized Partner',  courses: '55+',  initial: 'C', img: 'Checkpoint ATC 2026 PLATINUM Badge.png' },
-  { name: 'Red Hat',          tier: 'Advanced Partner',    courses: '110+', initial: 'R', img: 'Redvendorlogo.png' },
-  { name: 'The Open Group',   tier: 'Authorized Partner',  courses: '45+',  initial: 'T', img: 'Vendor-OG-logo.png' },
-  { name: 'Python Institute', tier: 'Authorized Partner',  courses: '35+',  initial: 'P', img: 'Python-logo.png' },
-  { name: 'Linux Foundation', tier: 'Training Partner',    courses: '60+',  initial: 'L', img: 'Linux-Foundation.png' },
+  { name: 'Microsoft',          tier: 'Gold Partner',        courses: '380+', initial: 'M', img: 'microsoft-cloud-t.png' },
+  { name: 'Cisco',              tier: 'Premier Partner',     courses: '210+', initial: 'C', img: 'Cisco.png' },
+  { name: 'AWS',                tier: 'Training Partner',    courses: '290+', initial: 'A', img: 'amazon-authorized.png' },
+  { name: 'VMware',             tier: 'Principal Partner',   courses: '120+', initial: 'V', img: 'VMware-Broadcom.png' },
+  { name: 'Oracle',             tier: 'Gold Partner',        courses: '160+', initial: 'O', img: 'o-prtnr-clr-rgb (1).png' },
+  { name: 'PECB',               tier: 'Authorized Partner',  courses: '80+',  initial: 'P', img: 'Authorized PECB Certification Courses Training badge.png' },
+  { name: 'ISACA',              tier: 'Authorized Partner',  courses: '60+',  initial: 'I', img: 'ISACA_ChannelPartner_Logo_Elite_3.png' },
+  { name: 'PeopleCert',         tier: 'ATO Partner',         courses: '90+',  initial: 'P', img: 'PeopleCert.png' },
+  { name: 'CompTIA',            tier: 'Platinum Partner',    courses: '180+', initial: 'C', img: 'comptia.png' },
+  { name: 'SAP',                tier: 'Gold Partner',        courses: '140+', initial: 'S', img: 'SAP.jpg' },
+  { name: 'EC-Council',         tier: 'ATC Partner',         courses: '120+', initial: 'E', img: 'EC-Council-logo.png' },
+  { name: 'ISC2',               tier: 'Official Partner',    courses: '50+',  initial: 'I', img: 'OTP-Preferred-Badge.png' },
+  { name: 'PMI',                tier: 'Premier Partner',     courses: '140+', initial: 'P', img: 'PMI1115-ATP-Badge-2024-rgb.png' },
+  { name: 'ISTQB',              tier: 'Authorized Partner',  courses: '40+',  initial: 'I', img: 'ISTQB.png' },
+  { name: 'Broadcom',           tier: 'Partner',             courses: '70+',  initial: 'B', img: 'Broadcom.png' },
+  { name: 'Check Point',        tier: 'Authorized Partner',  courses: '55+',  initial: 'C', img: 'Checkpoint ATC 2026 PLATINUM Badge.png' },
+  { name: 'Red Hat',            tier: 'Advanced Partner',    courses: '110+', initial: 'R', img: 'Redvendorlogo.png' },
+  { name: 'The Open Group',     tier: 'Authorized Partner',  courses: '45+',  initial: 'T', img: 'Vendor-OG-logo.png' },
+  { name: 'Python Institute',   tier: 'Authorized Partner',  courses: '35+',  initial: 'P', img: 'Python-logo.png' },
+  { name: 'Linux Foundation',   tier: 'Training Partner',    courses: '60+',  initial: 'L', img: 'Linux-Foundation.png' },
+  { name: 'Omnissa',            tier: 'Partner',             courses: '30+',  initial: 'O', img: 'Omnissa.png' },
+  { name: 'JS Institute',       tier: 'Authorized Partner',  courses: '25+',  initial: 'J', img: 'JS-Institute.png' },
+  { name: 'IIBA',               tier: 'Endorsed Partner',    courses: '30+',  initial: 'I', img: 'iiba.png' },
+  { name: 'DevOps Institute',   tier: 'Authorized Partner',  courses: '40+',  initial: 'D', img: 'DOI REGISTER PARTNERS 2023 BADGE RGB.jpg' },
 ]
 const ENT_VENDORS_ROW2 = [
-  { name: 'Autodesk',                 tier: 'Authorized Partner',  courses: '45+',  initial: 'A', img: 'AutodeskCertification.png' },
-  { name: 'BCS',                      tier: 'ATO Partner',         courses: '35+',  initial: 'B', img: 'BCS partner logo (1).png' },
-  { name: 'ServiceNow',               tier: 'Training Partner',    courses: '40+',  initial: 'S', img: 'ServiceNow.png' },
-  { name: 'CertNexus',                tier: 'Authorized Partner',  courses: '30+',  initial: 'C', img: 'cnxatpweb-small.png' },
-  { name: 'CWNP',                     tier: 'Authorized Partner',  courses: '25+',  initial: 'C', img: 'alc-standard-Basic-Logo.jpg' },
-  { name: 'SUSE',                     tier: 'Training Partner',    courses: '20+',  initial: 'S', img: 'suse.jpg' },
-  { name: 'Android ATC',              tier: 'Authorized Partner',  courses: '30+',  initial: 'A', img: 'Android ATC Authorized Training Center.jpg' },
-  { name: 'SCRUMstudy',               tier: 'Authorized Partner',  courses: '25+',  initial: 'S', img: 'scrumstudy.png', imgLg: true },
-  { name: 'TÜV SÜD',                 tier: 'Authorized Partner',  courses: '35+',  initial: 'T', img: 'Web-TS_Cobranding_Cooperation_partner_RGB_TS_Blue.png' },
-  { name: 'GSDC',                     tier: 'Authorized Partner',  courses: '20+',  initial: 'G', img: 'ATP badge.png' },
-  { name: 'Dell EMC',                 tier: 'Training Partner',    courses: '50+',  initial: 'D', img: 'emc.png' },
-  { name: 'AI CERTs',                 tier: 'Authorized Partner',  courses: '30+',  initial: 'A', img: 'AICerts (1).png' },
-  { name: 'EXIN',                     tier: 'Authorized Partner',  courses: '40+',  initial: 'E', img: 'EXIN.png' },
-  { name: 'Cloud Security Alliance',  tier: 'Authorized Partner',  courses: '25+',  initial: 'C', img: 'cloud-security-alliance.png' },
-  { name: 'OffSec Training',          tier: 'Learning Partner',    courses: '20+',  initial: 'O', img: 'OffSecLearningPartnerDarkPNG (1).png' },
-  { name: 'Cloudera',                 tier: 'Training Partner',    courses: '30+',  initial: 'C', img: 'cloudera (1).png' },
-  { name: 'Cloud Credential Council', tier: 'Authorized Partner',  courses: '20+',  initial: 'C', img: 'CCC_Logo.png' },
-  { name: 'LPI',                      tier: 'Authorized Partner',  courses: '15+',  initial: 'L', img: 'Linux.png' },
-  { name: 'C++ Institute',            tier: 'Authorized Partner',  courses: '10+',  initial: 'C', img: 'c-plus-2-logo.png' },
-  { name: 'Omnissa',                  tier: 'Partner',             courses: '30+',  initial: 'O', img: 'Omnissa.png' },
+  { name: 'Autodesk',                    tier: 'Authorized Partner',  courses: '45+',  initial: 'A', img: 'AutodeskCertification.png' },
+  { name: 'BCS',                         tier: 'ATO Partner',         courses: '35+',  initial: 'B', img: 'BCS partner logo (1).png' },
+  { name: 'ServiceNow',                  tier: 'Training Partner',    courses: '40+',  initial: 'S', img: 'ServiceNow.png' },
+  { name: 'CertNexus',                   tier: 'Authorized Partner',  courses: '30+',  initial: 'C', img: 'cnxatpweb-small.png' },
+  { name: 'CWNP',                        tier: 'Authorized Partner',  courses: '25+',  initial: 'C', img: 'alc-standard-Basic-Logo.jpg' },
+  { name: 'SUSE',                        tier: 'Training Partner',    courses: '20+',  initial: 'S', img: 'suse.jpg' },
+  { name: 'Android ATC',                 tier: 'Authorized Partner',  courses: '30+',  initial: 'A', img: 'Android ATC Authorized Training Center.jpg' },
+  { name: 'SCRUMstudy',                  tier: 'Authorized Partner',  courses: '25+',  initial: 'S', img: 'scrumstudy.png', imgLg: true },
+  { name: 'TÜV SÜD',                    tier: 'Authorized Partner',  courses: '35+',  initial: 'T', img: 'Web-TS_Cobranding_Cooperation_partner_RGB_TS_Blue.png' },
+  { name: 'GSDC',                        tier: 'Authorized Partner',  courses: '20+',  initial: 'G', img: 'ATP badge.png' },
+  { name: 'Dell EMC',                    tier: 'Training Partner',    courses: '50+',  initial: 'D', img: 'emc.png' },
+  { name: 'AI CERTs',                    tier: 'Authorized Partner',  courses: '30+',  initial: 'A', img: 'AICerts (1).png' },
+  { name: 'Arcitura',                    tier: 'Authorized Partner',  courses: '20+',  initial: 'A', img: 'Arcituralogo.png' },
+  { name: 'Mirantis',                    tier: 'Training Partner',    courses: '15+',  initial: 'M', img: 'mirantistraining.png' },
+  { name: 'EXIN',                        tier: 'Authorized Partner',  courses: '40+',  initial: 'E', img: 'EXIN.png' },
+  { name: 'Cloud Security Alliance',     tier: 'Authorized Partner',  courses: '25+',  initial: 'C', img: 'cloud-security-alliance.png' },
+  { name: 'OffSec Training',             tier: 'Learning Partner',    courses: '20+',  initial: 'O', img: 'OffSecLearningPartnerDarkPNG (1).png' },
+  { name: 'Cloudera',                    tier: 'Training Partner',    courses: '30+',  initial: 'C', img: 'cloudera (1).png' },
+  { name: 'GAQM',                        tier: 'Authorized Partner',  courses: '25+',  initial: 'G', img: 'EC-Council-logo.png' },
+  { name: 'Cloud Credential Council',    tier: 'Authorized Partner',  courses: '20+',  initial: 'C', img: 'CCC_Logo.png' },
+  { name: 'LPI',                         tier: 'Authorized Partner',  courses: '15+',  initial: 'L', img: 'Linux.png' },
+  { name: 'Symantec',                    tier: 'Authorized Partner',  courses: '20+',  initial: 'S', img: 'Symantec.png' },
+  { name: 'DASA',                        tier: 'Authorized Partner',  courses: '15+',  initial: 'D', img: 'Vendor-Dasa.png' },
+  { name: 'C++ Institute',               tier: 'Authorized Partner',  courses: '10+',  initial: 'C', img: 'c-plus-2-logo.png' },
 ]
 
 function EntVendorCard({ v }: { v: { name: string; tier: string; courses: string; initial: string; img?: string; imgLg?: boolean } }) {
@@ -63,6 +163,7 @@ function EntVendorCard({ v }: { v: { name: string; tier: string; courses: string
       onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 4px 14px rgba(6,148,209,0.14)'; e.currentTarget.style.borderColor = '#A8D8F0' }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,164,239,0.07)'; e.currentTarget.style.borderColor = '#CAEFFF' }}
     >
+      {/* Logo area — white bg */}
       <div className={`flex h-28 w-full items-center justify-center bg-white ${v.imgLg ? 'p-1' : 'p-3'}`}>
         {v.img ? (
           <img
@@ -75,10 +176,66 @@ function EntVendorCard({ v }: { v: { name: string; tier: string; courses: string
           <span className="text-2xl sm:text-3xl md:text-4xl font-black transition-transform duration-300 group-hover:scale-110 inline-block" style={{ color: '#076D9D' }}>{v.initial}</span>
         )}
       </div>
-      <div className="flex flex-col gap-1 border-t border-[#EEF6FF] bg-[#FAFCFF] px-3 pb-3 pt-2.5">
-        <p className="truncate text-center text-sm font-bold" style={{ color: '#0b2545' }}>{v.name}</p>
-        <p className="truncate text-center text-xs" style={{ color: '#4a90b8' }}>{v.tier}</p>
-        <p className="text-center text-xs font-semibold" style={{ color: '#13a8d4' }}>{v.courses} Courses</p>
+      {/* Info section — full-width mild blue */}
+      <div className="flex flex-1 flex-col items-center justify-center w-full px-3 py-3 text-center" style={{ background: '#EBF8FE' }}>
+        <p className="mb-1 text-sm font-medium leading-tight" style={{ color: '#093148' }}>{v.name}</p>
+        <p className="mb-1 text-sm font-medium" style={{ color: '#076D9D' }}>{v.tier}</p>
+        <p className="text-sm font-medium" style={{ color: '#0694d1' }}>{v.courses} Courses</p>
+      </div>
+    </div>
+  )
+}
+
+function EntVendorMarqueeRow({ vendors, direction }: { vendors: typeof ENT_VENDORS_ROW1; direction: 1 | -1 }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const rafRef = useRef<number>(0)
+  const posRef = useRef(0)
+  const dragging = useRef(false)
+  const lastX = useRef(0)
+  const [cursor, setCursor] = useState<'grab' | 'grabbing'>('grab')
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const tick = () => {
+      if (!dragging.current) posRef.current -= 0.5 * direction
+      const halfWidth = track.scrollWidth / 2
+      if (halfWidth > 0) {
+        if (posRef.current <= -halfWidth) posRef.current += halfWidth
+        if (posRef.current > 0) posRef.current -= halfWidth
+      }
+      track.style.transform = `translateX(${posRef.current}px)`
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current!)
+  }, [direction])
+
+  const startDrag = (x: number) => { dragging.current = true; lastX.current = x; setCursor('grabbing') }
+  const moveDrag = (x: number) => {
+    if (!dragging.current) return
+    posRef.current += x - lastX.current
+    lastX.current = x
+  }
+  const endDrag = () => { dragging.current = false; setCursor('grab') }
+
+  const doubled = [...vendors, ...vendors]
+  return (
+    <div
+      className="relative overflow-x-hidden py-3"
+      style={{ cursor, userSelect: 'none', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+      onMouseDown={e => { startDrag(e.clientX); e.preventDefault() }}
+      onMouseMove={e => moveDrag(e.clientX)}
+      onMouseUp={endDrag}
+      onMouseLeave={endDrag}
+      onTouchStart={e => startDrag(e.touches[0].clientX)}
+      onTouchMove={e => moveDrag(e.touches[0].clientX)}
+      onTouchEnd={endDrag}
+    >
+      <div ref={trackRef} className="flex gap-4 px-2" style={{ width: 'max-content', willChange: 'transform' }}>
+        {doubled.map((v, i) => (
+          <EntVendorCard key={i} v={v} />
+        ))}
       </div>
     </div>
   )
@@ -184,261 +341,6 @@ const DOMAINS = [
   },
 ]
 
-const CAT_DOMAINS = [
-  {
-    name: 'Cloud Computing',
-    desc: 'Master multi-cloud platforms — AWS, Azure, and GCP — from core IaaS/PaaS fundamentals to advanced architecture, DevSecOps, and cost optimisation.',
-    features: ['8 Courses', 'CLF-C02 — AZ-305', 'Cloud Roles'],
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>,
-    courses: [
-      { level: 'Fundamentals', title: 'AWS Cloud Practitioner',              code: 'CLF-C02',  price: '398',   days: 2, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: '$150 USD', format: 'Multiple choice & multi-response', questions: '65 questions', passingScore: '700 / 1000', validity: '3 years', bestPractices: ['Complete AWS Cloud Practitioner Essentials course on AWS Skill Builder', 'Use the AWS Free Tier to explore core services hands-on', 'Take 2+ official practice exams before booking your date'] } },
-      { level: 'Fundamentals', title: 'Microsoft Azure Fundamentals',         code: 'AZ-900',   price: '398',   days: 2,
-        cert: { prereq: 'No prerequisites required', examFee: '$165 USD', format: 'Multiple choice & case studies', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the AZ-900 learning path on Microsoft Learn', 'Focus on cloud concepts, Azure services, and pricing', 'Take the official practice assessment before your exam'] } },
-      { level: 'Associate',    title: 'AWS Solutions Architect Associate',    code: 'SAA-C03',  price: '996',   days: 4,
-        cert: { prereq: 'Cloud practitioner experience recommended', examFee: '$300 USD', format: 'Multiple choice & multi-response', questions: '65 questions', passingScore: '720 / 1000', validity: '3 years', bestPractices: ['Study AWS Well-Architected Framework in depth', 'Practice designing resilient, cost-optimised architectures', 'Use AWS whitepapers and FAQs alongside official study materials'] } },
-      { level: 'Associate',    title: 'Microsoft Azure Administrator',        code: 'AZ-104',   price: '1,245', days: 5,
-        cert: { prereq: '6+ months cloud experience recommended', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete all Microsoft Learn modules for AZ-104', 'Lab-practice in Azure sandbox — 30–40% of exam is scenario-based', 'Review the official skills outline on learn.microsoft.com'] } },
-      { level: 'Associate',    title: 'Google Associate Cloud Engineer',      code: 'ACE',      price: '747',   days: 3,
-        cert: { prereq: '6+ months GCP experience recommended', examFee: '$200 USD', format: 'Multiple choice & multi-select', questions: '50–60 questions', passingScore: 'Scaled score (pass/fail)', validity: '3 years', bestPractices: ['Complete Google Cloud Fundamentals learning path', 'Practice with GCP free tier — focus on Compute, Storage, Networking', 'Review the exam guide and attempt practice questions'] } },
-      { level: 'Expert', title: 'AWS Solutions Architect Professional',       code: 'SAP-C02',  price: '1,495', days: 5,
-        cert: { prereq: 'AWS Solutions Architect Associate or equivalent', examFee: '$300 USD', format: 'Multiple choice & multi-response', questions: '75 questions', passingScore: '750 / 1000', validity: '3 years', bestPractices: ['Study complex multi-account and hybrid architecture patterns', 'Focus on cost optimisation and migration strategies', 'Complete AWS advanced reskilling labs'] } },
-      { level: 'Expert', title: 'Azure Solutions Architect Expert',           code: 'AZ-305',   price: '1,495', days: 5,
-        cert: { prereq: 'AZ-104 and Azure experience recommended', examFee: '$165 USD', format: 'Multiple choice & case studies', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete Microsoft Learn paths for AZ-305', 'Practice designing landing zones and governance frameworks', 'Study hybrid networking and identity architecture patterns'] } },
-      { level: 'Expert', title: 'Google Professional Cloud Architect',        code: 'PCA',      price: '1,495', days: 5,
-        cert: { prereq: '3+ years GCP experience recommended', examFee: '$200 USD', format: 'Multiple choice & case studies', questions: '50–60 questions', passingScore: 'Scaled score (pass/fail)', validity: '2 years', bestPractices: ['Review all four case studies provided by Google', 'Practice architecture decisions for scalability and reliability', 'Use Google Cloud Architecture Framework as study reference'] } },
-    ],
-  },
-  {
-    name: 'Cybersecurity',
-    desc: 'Build world-class security expertise — from ethical hacking and network defence to SOC operations, threat intelligence, and zero-trust architecture.',
-    features: ['8 Courses', 'SY0-701 — CISSP', 'Security Roles'],
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
-    courses: [
-      { level: 'Fundamentals', title: 'CompTIA Security+',                    code: 'SY0-701', price: '597',   days: 5, popular: true,
-        cert: { prereq: 'CompTIA Network+ recommended', examFee: '$392 USD', format: 'Multiple choice & performance-based', questions: '90 questions', passingScore: '750 / 900', validity: '3 years', bestPractices: ['Study all six Security+ domains with equal focus', 'Practice performance-based questions (PBQs) extensively', 'Use Professor Messer or Jason Dion study materials'] } },
-      { level: 'Fundamentals', title: 'ISC2 Certified in Cybersecurity',       code: 'CC',      price: '398',   days: 3,
-        cert: { prereq: 'No prerequisites required', examFee: '$199 USD', format: 'Multiple choice', questions: '100 questions', passingScore: '700 / 1000', validity: '3 years', bestPractices: ['Complete the free ISC2 CC self-paced course', 'Focus on the five CC domains in the exam outline', 'Join ISC2 candidate community for peer support'] } },
-      { level: 'Associate',    title: 'Cisco CyberOps Associate',              code: '200-201', price: '747',   days: 4,
-        cert: { prereq: 'Basic networking knowledge recommended', examFee: '$330 USD', format: 'Multiple choice & drag & drop', questions: '95–105 questions', passingScore: '825 / 1000', validity: '3 years', bestPractices: ['Lab-practice with Cisco Packet Tracer or GNS3', 'Study security monitoring and incident response workflows', 'Review CVSS scoring and IOC identification techniques'] } },
-      { level: 'Associate',    title: 'CompTIA CySA+',                         code: 'CS0-003', price: '747',   days: 5,
-        cert: { prereq: 'Security+ and 4 years security experience recommended', examFee: '$392 USD', format: 'Multiple choice & performance-based', questions: '85 questions', passingScore: '750 / 900', validity: '3 years', bestPractices: ['Focus on threat and vulnerability management workflows', 'Practice log analysis and SIEM tool scenarios', 'Study MITRE ATT&CK framework deeply'] } },
-      { level: 'Expert', title: 'EC-Council Certified Ethical Hacker',         code: '312-50',  price: '1,245', days: 5,
-        cert: { prereq: '2 years security experience or CEH training required', examFee: '$550 USD', format: 'Multiple choice', questions: '125 questions', passingScore: '70% (varies by form)', validity: '3 years', bestPractices: ['Complete all 20 CEH modules with hands-on labs', 'Practice on CEH iLabs or TryHackMe/HackTheBox', 'Focus on scanning, enumeration, and exploitation techniques'] } },
-      { level: 'Expert', title: 'Fortinet NSE 4 Network Security',             code: 'NSE4',    price: '996',   days: 4,
-        cert: { prereq: 'NSE 1, 2, 3 or equivalent experience', examFee: '$400 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '65%', validity: '2 years', bestPractices: ['Complete Fortinet NSE 4 training on Fortinet Network Security Academy', 'Lab-practice FortiGate configuration and policy management', 'Review firewall policy, VPN, and IPS configuration topics'] } },
-      { level: 'Expert',       title: 'ISC2 CISSP',                            code: 'CISSP',   price: '1,495', days: 5,
-        cert: { prereq: '5 years paid security experience required', examFee: '$749 USD', format: 'CAT (adaptive) or linear', questions: '100–150 (CAT)', passingScore: '700 / 1000', validity: '3 years', bestPractices: ['Study all 8 CISSP domains — focus on risk and governance', 'Read the official ISC2 CISSP study guide cover to cover', 'Think like a manager, not a technician when answering questions'] } },
-      { level: 'Expert',       title: 'Palo Alto Networks PCNSE',              code: 'PCNSE',   price: '1,245', days: 5,
-        cert: { prereq: '3+ years Palo Alto NGFW experience', examFee: '$160 USD', format: 'Multiple choice', questions: '75 questions', passingScore: 'Pass / Fail (scaled)', validity: '2 years', bestPractices: ['Study PAN-OS administration and advanced features', 'Practice GlobalProtect VPN, Panorama, and security profiles', 'Complete Palo Alto EDU-210 and EDU-220 courses'] } },
-    ],
-  },
-  {
-    name: 'Data & AI',
-    desc: 'Equip teams with data engineering, machine learning, and generative AI skills — from foundational analytics to enterprise-scale MLOps deployments.',
-    features: ['8 Courses', 'AI-900 — DP-600', 'AI & Data Roles'],
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>,
-    courses: [
-      { level: 'Fundamentals', title: 'Azure AI Fundamentals',                  code: 'AI-900',  price: '398',   days: 2, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: '$165 USD', format: 'Multiple choice & case studies', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the AI-900 learning path on Microsoft Learn', 'Explore Azure Cognitive Services and Machine Learning concepts', 'Take the official practice assessment before your exam'] } },
-      { level: 'Fundamentals', title: 'AWS Machine Learning Foundations',       code: 'MLS-C01', price: '398',   days: 2,
-        cert: { prereq: 'No prerequisites required', examFee: '$200 USD', format: 'Multiple choice & multi-response', questions: '65 questions', passingScore: '720 / 1000', validity: '3 years', bestPractices: ['Study AWS ML services: SageMaker, Rekognition, Comprehend', 'Focus on ML concepts, model evaluation, and ethical AI', 'Complete AWS ML Foundations free course on Coursera'] } },
-      { level: 'Associate',    title: 'Azure Data Engineer Associate',          code: 'DP-203',  price: '996',   days: 5,
-        cert: { prereq: 'Azure Data Fundamentals recommended', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete DP-203 learning path on Microsoft Learn', 'Lab-practice Azure Data Factory, Synapse, and Databricks', 'Focus on pipeline orchestration and data transformation patterns'] } },
-      { level: 'Associate',    title: 'AWS Certified ML Associate',             code: 'MLA-C01', price: '747',   days: 3,
-        cert: { prereq: '1 year ML experience recommended', examFee: '$250 USD', format: 'Multiple choice & multi-response', questions: '65 questions', passingScore: '720 / 1000', validity: '3 years', bestPractices: ['Study SageMaker pipelines and model deployment patterns', 'Practice feature engineering and model monitoring workflows', 'Review AWS ML Specialty guide alongside MLA prep materials'] } },
-      { level: 'Expert', title: 'Azure AI Engineer Associate',                  code: 'AI-102',  price: '1,245', days: 4,
-        cert: { prereq: 'Azure Fundamentals and development experience', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete AI-102 learning path on Microsoft Learn', 'Build solutions with Azure OpenAI, Speech, Vision, and Language services', 'Practice responsible AI implementation and governance patterns'] } },
-      { level: 'Expert', title: 'Google Professional ML Engineer',              code: 'PMLE',    price: '1,495', days: 5,
-        cert: { prereq: '3+ years ML/data experience', examFee: '$200 USD', format: 'Multiple choice & case studies', questions: '50–60 questions', passingScore: 'Scaled (pass/fail)', validity: '2 years', bestPractices: ['Study Vertex AI, BigQuery ML, and TFX pipelines deeply', 'Review ML system design patterns and scalability', 'Complete Google Cloud Professional ML Engineer study guide'] } },
-      { level: 'Expert',       title: 'Microsoft Fabric Analytics Engineer',    code: 'DP-600',  price: '1,245', days: 4,
-        cert: { prereq: 'Power BI or Azure data experience recommended', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete DP-600 learning path on Microsoft Learn', 'Lab-practice Fabric workspaces, lakehouses, and data pipelines', 'Study OneLake architecture and semantic model design'] } },
-      { level: 'Expert',       title: 'Databricks Data Engineer Professional',  code: 'DE-PRO',  price: '996',   days: 3,
-        cert: { prereq: 'Databricks Certified Associate required', examFee: '$200 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Master Delta Lake, streaming with Structured Streaming, and DLT', 'Practice complex Spark optimisation and pipeline debugging', 'Complete Databricks Academy Professional course'] } },
-    ],
-  },
-  {
-    name: 'Networking',
-    desc: 'Design and manage enterprise networks — from CCNA routing and switching to SD-WAN, CCNP enterprise architecture, and expert-level CCIE certification.',
-    features: ['8 Courses', 'N10-009 — CCIE', 'Network Roles'],
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16"/>,
-    courses: [
-      { level: 'Fundamentals', title: 'CompTIA Network+',                       code: 'N10-009', price: '597',   days: 5, popular: true,
-        cert: { prereq: 'CompTIA A+ or 9 months networking experience recommended', examFee: '$358 USD', format: 'Multiple choice & performance-based', questions: '90 questions', passingScore: '720 / 900', validity: '3 years', bestPractices: ['Study all five Network+ domains systematically', 'Practice subnetting and IP addressing extensively', 'Use Professor Messer free Network+ course and practice tests'] } },
-      { level: 'Associate',    title: 'Cisco CCNA',                             code: '200-301', price: '747',   days: 5,
-        cert: { prereq: 'Basic IT knowledge recommended', examFee: '$330 USD', format: 'Multiple choice & drag & drop', questions: '90–110 questions', passingScore: '825 / 1000', validity: '3 years', bestPractices: ['Complete Cisco NetAcad CCNA courses (SRWE + ENSA)', 'Lab extensively with Cisco Packet Tracer or GNS3', 'Master subnetting, OSPF, VLANs, and STP thoroughly'] } },
-      { level: 'Associate',    title: 'Juniper JNCIA-Junos',                    code: 'JN0-104', price: '597',   days: 3,
-        cert: { prereq: 'Basic networking knowledge', examFee: '$200 USD', format: 'Multiple choice', questions: '65 questions', passingScore: 'Pass / Fail (scaled)', validity: '3 years', bestPractices: ['Study Junos OS architecture and CLI navigation', 'Practice routing policy and firewall filter configuration', 'Complete free Juniper Open Learning JNCIA course'] } },
-      { level: 'Associate',    title: 'CompTIA Network Specialist',             code: 'CAS-005', price: '747',   days: 4,
-        cert: { prereq: 'Network+ and 5 years experience recommended', examFee: '$480 USD', format: 'Multiple choice & scenario-based', questions: '90 questions', passingScore: '750 / 900', validity: '3 years', bestPractices: ['Study enterprise network security architecture', 'Focus on SD-WAN, cloud networking, and network automation', 'Review CompTIA advanced network infrastructure design patterns'] } },
-      { level: 'Expert', title: 'Cisco CCNP Enterprise',                       code: 'ENCOR',   price: '1,245', days: 5,
-        cert: { prereq: 'CCNA or 3+ years enterprise networking', examFee: '$400 USD', format: 'Multiple choice & drag & drop', questions: '90–110 questions', passingScore: '825 / 1000', validity: '3 years', bestPractices: ['Study dual-stack architectures, SD-WAN, and wireless deeply', 'Practice advanced OSPF, BGP, and EIGRP configurations', 'Complete Cisco ENCOR official cert guide cover to cover'] } },
-      { level: 'Expert', title: 'Cisco CCNP Security',                         code: 'SCOR',    price: '1,245', days: 5,
-        cert: { prereq: 'CCNA Security or 3+ years network security', examFee: '$400 USD', format: 'Multiple choice & drag & drop', questions: '90–110 questions', passingScore: '825 / 1000', validity: '3 years', bestPractices: ['Study Cisco Firepower, ISE, and Umbrella architecture', 'Lab-practice NGFW policies, VPN, and identity-based security', 'Review Cisco security architecture blueprints'] } },
-      { level: 'Expert',       title: 'Cisco CCIE Enterprise Infrastructure',  code: 'CCIE-E',  price: '1,995', days: 5,
-        cert: { prereq: 'CCNP Enterprise and extensive lab experience', examFee: '$1,600 USD (written + lab)', format: 'Written MCQ + 8-hour lab exam', questions: '90–110 (written)', passingScore: 'Pass / Fail (lab)', validity: '3 years', bestPractices: ['Allocate 6–12 months of dedicated study time', 'Build comprehensive home or rented lab environment', 'Focus on automation, programmability, and advanced routing'] } },
-      { level: 'Expert',       title: 'Fortinet NSE 7 Enterprise Firewall',    code: 'NSE7',    price: '1,245', days: 4,
-        cert: { prereq: 'NSE 4 or 5 and enterprise firewall experience', examFee: '$400 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '65%', validity: '2 years', bestPractices: ['Complete FortiGate advanced administration labs', 'Study VDOM, HA clustering, and SD-WAN advanced features', 'Practice FortiGate troubleshooting methodologies'] } },
-    ],
-  },
-  {
-    name: 'Project Management',
-    desc: 'Certify project leaders and agile teams — from ITIL and Scrum foundations to PMP, PRINCE2 Practitioner, and SAFe programme management.',
-    features: ['8 Courses', 'ITIL-4F — PMI-ACP', 'PM Roles'],
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>,
-    courses: [
-      { level: 'Fundamentals', title: 'ITIL 4 Foundation',                      code: 'ITIL-4F', price: '597',   days: 2, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: '$397 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '65% (26/40)', validity: 'No expiry', bestPractices: ['Study the ITIL 4 Foundation official publication', 'Focus on key concepts: value co-creation and service value chain', 'Take 3–4 practice exams using official PeopleCert sample papers'] } },
-      { level: 'Fundamentals', title: 'Project Management Fundamentals',        code: 'PMF-101', price: '398',   days: 2,
-        cert: { prereq: 'No prerequisites required', examFee: '$250 USD', format: 'Multiple choice', questions: '50 questions', passingScore: '70%', validity: '3 years', bestPractices: ['Study PMI project management process groups and knowledge areas', 'Focus on project initiation, planning, and stakeholder management', 'Complete at least one practice project lifecycle walkthrough'] } },
-      { level: 'Associate',    title: 'PRINCE2 Foundation',                     code: 'PR2-F',   price: '597',   days: 3,
-        cert: { prereq: 'No prerequisites required', examFee: '$343 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '55% (33/60)', validity: 'No expiry', bestPractices: ['Study all 7 PRINCE2 principles, themes, and processes', 'Use official PRINCE2 manual as primary reference', 'Attempt PeopleCert practice papers under timed conditions'] } },
-      { level: 'Associate',    title: 'Certified Scrum Master',                 code: 'CSM',     price: '597',   days: 2,
-        cert: { prereq: 'CSM course attendance required', examFee: 'Included in training', format: 'Multiple choice (online)', questions: '50 questions', passingScore: '74% (37/50)', validity: '2 years', bestPractices: ['Attend the 2-day live CSM training — participation is mandatory', 'Study the Scrum Guide (official, free PDF)', 'Apply Scrum concepts to a real or practice project scenario'] } },
-      { level: 'Expert', title: 'PMI Project Management Professional',          code: 'PMP',     price: '1,245', days: 5,
-        cert: { prereq: '36–60 months PM experience + 35 education hours', examFee: '$555 USD (PMI member $405)', format: 'Multiple choice, matching, hotspot, fill-in', questions: '180 questions', passingScore: 'Above Target performance', validity: '3 years', bestPractices: ['Study both predictive (waterfall) and agile PM approaches', 'Use PMI Examination Content Outline as study blueprint', 'Complete 300+ practice questions using reputable question banks'] } },
-      { level: 'Expert', title: 'PRINCE2 Practitioner',                         code: 'PR2-P',   price: '747',   days: 2,
-        cert: { prereq: 'PRINCE2 Foundation required', examFee: '$343 USD', format: 'Objective testing (scenario-based)', questions: '68 questions', passingScore: '55% (38/68)', validity: '3 years', bestPractices: ['Study how to tailor PRINCE2 principles to scenarios', 'Practice applying PRINCE2 to the Practitioner exam scenario', 'Focus on how themes interact within the scenario context'] } },
-      { level: 'Expert',       title: 'PMI Agile Certified Practitioner',       code: 'PMI-ACP', price: '747',   days: 3,
-        cert: { prereq: '2000 hours general PM + 1500 hours agile experience', examFee: '$495 USD (PMI member $435)', format: 'Multiple choice', questions: '120 questions', passingScore: 'Above Target performance', validity: '3 years', bestPractices: ['Study Agile Manifesto, Scrum, Kanban, XP, and SAFe frameworks', 'Use Mike Griffiths PMI-ACP study guide as primary resource', 'Complete 150+ practice questions from multiple question banks'] } },
-      { level: 'Expert',       title: 'SAFe 6.0 Program Consultant',            code: 'SPC',     price: '1,495', days: 4,
-        cert: { prereq: 'SAFe Agilist and 5+ years enterprise experience', examFee: 'Included in training', format: 'Multiple choice (online)', questions: '45 questions', passingScore: '77%', validity: '1 year', bestPractices: ['Complete official SAFe SPC training — attendance required', 'Study SAFe framework: ART, Solution Train, and Portfolio', 'Apply SAFe patterns to a real enterprise scenario in your answers'] } },
-    ],
-  },
-  {
-    name: 'DevOps',
-    desc: 'Train engineering teams in CI/CD pipelines, Docker, Kubernetes, Infrastructure as Code, GitOps, and Site Reliability Engineering at enterprise scale.',
-    features: ['8 Courses', 'DOF-101 — CKS', 'DevOps Roles'],
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>,
-    courses: [
-      { level: 'Fundamentals', title: 'DevOps Foundations',                     code: 'DOF-101', price: '398',   days: 2, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: '$250 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '65%', validity: '3 years', bestPractices: ['Study DevOps culture, CALMS framework, and value stream mapping', 'Understand CI/CD pipeline concepts and toolchain overview', 'Complete a hands-on mini-project implementing a basic pipeline'] } },
-      { level: 'Fundamentals', title: 'Docker for Developers',                  code: 'DCA-E',   price: '597',   days: 3,
-        cert: { prereq: 'Basic Linux and development experience', examFee: '$200 USD', format: 'Multiple choice & scenario', questions: '55 questions', passingScore: '65%', validity: '2 years', bestPractices: ['Build and run Docker containers from scratch in a lab environment', 'Study Docker networking, volumes, and multi-container orchestration', 'Complete Docker official hands-on labs on Docker Hub'] } },
-      { level: 'Associate',    title: 'HashiCorp Terraform Associate',          code: 'TA-003',  price: '747',   days: 3,
-        cert: { prereq: 'Basic cloud and IaC understanding', examFee: '$70 USD', format: 'Multiple choice & multi-select', questions: '57 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Complete HashiCorp Learn Terraform tutorials (free)', 'Practice Terraform state management, modules, and workspaces', 'Build a real IaC project on any cloud provider'] } },
-      { level: 'Associate',    title: 'Kubernetes and Cloud Native Associate',  code: 'KCNA',    price: '597',   days: 2,
-        cert: { prereq: 'Basic cloud and containers knowledge', examFee: '$250 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '75%', validity: '2 years', bestPractices: ['Complete CNCF Kubernetes Introduction course on edX', 'Study Kubernetes core concepts: Pods, Services, Deployments', 'Review the KCNA curriculum guide on CNCF website'] } },
-      { level: 'Expert', title: 'Certified Kubernetes Administrator',           code: 'CKA',     price: '996',   days: 4,
-        cert: { prereq: '6+ months Kubernetes experience', examFee: '$395 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '66%', validity: '3 years', bestPractices: ['Practice daily in a real Kubernetes cluster (kubeadm or kind)', 'Master kubectl commands and YAML manifests under time pressure', 'Complete Killer.sh CKA simulator — very close to real exam'] } },
-      { level: 'Expert', title: 'Certified Kubernetes App Developer',           code: 'CKAD',    price: '996',   days: 3,
-        cert: { prereq: 'Kubernetes development experience', examFee: '$395 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '66%', validity: '3 years', bestPractices: ['Practice building, configuring, and exposing Kubernetes applications', 'Master ConfigMaps, Secrets, Probes, and multi-container patterns', 'Use Killer.sh CKAD simulator to benchmark readiness'] } },
-      { level: 'Expert',       title: 'Certified Kubernetes Security Specialist', code: 'CKS',   price: '1,245', days: 4,
-        cert: { prereq: 'Active CKA required', examFee: '$395 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '67%', validity: '2 years', bestPractices: ['Study supply chain security, cluster hardening, and runtime security', 'Practice with Falco, OPA Gatekeeper, and network policies', 'Complete CKS-specific labs on Killer.sh'] } },
-      { level: 'Expert',       title: 'GitLab Professional Services Engineer',  code: 'GPSE',    price: '996',   days: 3,
-        cert: { prereq: '2+ years GitLab or CI/CD experience', examFee: '$300 USD', format: 'Multiple choice & scenario', questions: '50 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Study GitLab CI/CD pipelines, runners, and GitOps workflows', 'Practice GitLab project setup, merge request automation, and security scanning', 'Complete GitLab Learn certification path'] } },
-    ],
-  },
-  {
-    name: 'ERP Systems',
-    desc: 'Upskill ERP and CRM teams across SAP S/4HANA, Salesforce, ServiceNow, and Oracle — from fundamentals through advanced certified professional roles.',
-    features: ['8 Courses', 'BTP-100 — SAP-EA', 'ERP Roles'],
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>,
-    courses: [
-      { level: 'Fundamentals', title: 'SAP Business Technology Platform',       code: 'BTP-100',      price: '597',   days: 3, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: '$592 USD', format: 'Multiple choice', questions: '80 questions', passingScore: '64%', validity: 'No expiry', bestPractices: ['Complete SAP Learning Journey for BTP on SAP Learning Hub', 'Explore BTP Trial account — free sandbox for hands-on practice', 'Focus on Integration Suite, Extension Suite, and HANA Cloud services'] } },
-      { level: 'Fundamentals', title: 'Salesforce Administrator',               code: 'ADM-201',      price: '597',   days: 5,
-        cert: { prereq: 'No prerequisites required', examFee: '$200 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '65%', validity: 'No expiry (maintenance required)', bestPractices: ['Complete Salesforce Trailhead Admin Beginner and Intermediate trails', 'Lab extensively in a free Salesforce Developer org', 'Use Focus on Force or Trailhead Superbadges for exam readiness'] } },
-      { level: 'Associate',    title: 'SAP S/4HANA Fundamentals',               code: 'S4H-100',      price: '747',   days: 3,
-        cert: { prereq: 'SAP BTP Fundamentals recommended', examFee: '$592 USD', format: 'Multiple choice', questions: '80 questions', passingScore: '64%', validity: 'No expiry', bestPractices: ['Complete SAP S/4HANA Learning Journey on SAP Learning Hub', 'Study Fiori UX, Universal Journal, and S/4HANA architecture', 'Use SAP Best Practices Explorer to understand process scenarios'] } },
-      { level: 'Associate',    title: 'ServiceNow System Administrator',        code: 'CSA',          price: '747',   days: 3,
-        cert: { prereq: 'ServiceNow Fundamentals training recommended', examFee: '$300 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Complete the ServiceNow Fundamentals eLearning on Now Learning', 'Lab-practice in a free ServiceNow Personal Developer Instance (PDI)', 'Study tables, business rules, workflows, and ACL configuration'] } },
-      { level: 'Expert', title: 'SAP Certified Assoc – Financial Accounting',   code: 'C_TS4FI_2023', price: '1,245', days: 5,
-        cert: { prereq: 'SAP S/4HANA Finance experience recommended', examFee: '$592 USD', format: 'Multiple choice', questions: '80 questions', passingScore: '65%', validity: 'No expiry', bestPractices: ['Complete SAP Certified Application Associate - SAP S/4HANA training', 'Lab-practice financial document posting and period-end closing', 'Study universal journal, asset accounting, and bank accounting'] } },
-      { level: 'Expert', title: 'Salesforce Platform Developer I',              code: 'PD1',          price: '996',   days: 4,
-        cert: { prereq: 'Admin experience and Apex/SOQL knowledge', examFee: '$200 USD', format: 'Multiple choice & scenario', questions: '60 questions', passingScore: '65%', validity: 'No expiry (maintenance required)', bestPractices: ['Complete Salesforce Platform Developer Trailhead trails', 'Practice Apex, Visualforce, and Lightning Web Components in Developer org', 'Study governor limits, triggers, and test class coverage requirements'] } },
-      { level: 'Expert',       title: 'SAP Certified Professional – Solution Arch.', code: 'P_SAPEA_2023', price: '1,495', days: 5,
-        cert: { prereq: 'SAP Associate certification and 5+ years experience', examFee: '$1,197 USD', format: 'Multiple choice + case-based', questions: '80 questions', passingScore: '64%', validity: 'No expiry', bestPractices: ['Study SAP Enterprise Architecture and TOGAF integration', 'Focus on SAP Solution Manager and integration architecture patterns', 'Complete SAP Professional certification learning journey'] } },
-      { level: 'Expert',       title: 'Oracle ERP Cloud Financials Professional', code: '1Z0-1055',   price: '1,245', days: 4,
-        cert: { prereq: 'Oracle Financials Cloud experience required', examFee: '$245 USD', format: 'Multiple choice', questions: '85 questions', passingScore: '68%', validity: '1 year', bestPractices: ['Complete Oracle University financials training course', 'Lab-practice in Oracle Financials Cloud environment', 'Study period close, subledger accounting, and reporting tools'] } },
-    ],
-  },
-  {
-    name: 'Linux & Open Source',
-    desc: 'Certify Linux administrators and open source engineers — from RHEL foundations and shell scripting to advanced RHCE, Kubernetes, and OpenStack.',
-    features: ['8 Courses', 'LPI LE-1 — RHCE', 'Linux Roles'],
-    icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>,
-    courses: [
-      { level: 'Fundamentals', title: 'Linux Essentials (LPI LE-1)',            code: 'LPI LE-1', price: '398',   days: 3, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: '$120 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '500 / 800', validity: 'No expiry', bestPractices: ['Complete LPI Linux Essentials learning materials (free online)', 'Practice basic Linux commands and file navigation daily', 'Use a live Linux VM or WSL2 environment for hands-on practice'] } },
-      { level: 'Fundamentals', title: 'CompTIA Linux+',                         code: 'XK0-005',  price: '747',   days: 5,
-        cert: { prereq: 'CompTIA A+ or 12 months Linux experience', examFee: '$358 USD', format: 'Multiple choice & performance-based', questions: '90 questions', passingScore: '720 / 900', validity: '3 years', bestPractices: ['Study all four Linux+ domains: system management, security, scripting, containers', 'Lab in RHEL, Ubuntu, and CentOS environments', 'Use Professor Messer or Jason Dion Linux+ study materials'] } },
-      { level: 'Associate',    title: 'Red Hat System Administration I',        code: 'RH124',    price: '996',   days: 5,
-        cert: { prereq: 'Basic IT literacy recommended', examFee: 'Included with RHCSA exam', format: 'Performance-based (hands-on lab)', questions: '9–15 tasks', passingScore: '210 / 300', validity: '3 years', bestPractices: ['Complete RH124 official Red Hat training', 'Practice daily in a RHEL VM — no multiple choice, all hands-on', 'Master user management, filesystems, services, and SELinux'] } },
-      { level: 'Associate',    title: 'Linux Foundation LFCA',                  code: 'LFCA',     price: '597',   days: 3,
-        cert: { prereq: 'No prerequisites required', examFee: '$200 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '72%', validity: '3 years', bestPractices: ['Complete Linux Foundation\'s free Introduction to Linux course on edX', 'Study cloud and container fundamentals alongside Linux basics', 'Review the LFCA curriculum guide on Linux Foundation website'] } },
-      { level: 'Expert', title: 'Red Hat Certified System Administrator',       code: 'EX200',    price: '1,245', days: 5,
-        cert: { prereq: 'RH124 + RH134 training or equivalent', examFee: '$450 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '210 / 300', validity: '3 years', bestPractices: ['Build and rebuild a RHEL lab environment daily', 'Master systemd, firewalld, SELinux, and storage management', 'Time yourself — exam tasks must be completed within 3 hours'] } },
-      { level: 'Expert', title: 'Red Hat Certified Engineer',                   code: 'EX294',    price: '1,495', days: 5,
-        cert: { prereq: 'Active RHCSA required', examFee: '$450 USD', format: 'Performance-based (hands-on lab)', questions: '10–15 tasks', passingScore: '210 / 300', validity: '3 years', bestPractices: ['Master Ansible playbooks, roles, and Ansible Vault', 'Practice automating RHEL system configuration from scratch', 'Complete Red Hat DO294 Ansible for RHCE official training'] } },
-      { level: 'Expert',       title: 'Certified Kubernetes Administrator',     code: 'CKA',      price: '996',   days: 4,
-        cert: { prereq: '6+ months Kubernetes experience', examFee: '$395 USD', format: 'Performance-based (hands-on lab)', questions: '15–20 tasks', passingScore: '66%', validity: '3 years', bestPractices: ['Practice kubectl and YAML authoring daily in a real cluster', 'Master kubeadm cluster bootstrapping and upgrades', 'Use Killer.sh simulator — most representative CKA practice available'] } },
-      { level: 'Expert',       title: 'OpenStack Certified Administrator',      code: 'COA',      price: '1,245', days: 5,
-        cert: { prereq: '6+ months OpenStack experience', examFee: '$300 USD', format: 'Performance-based (hands-on lab)', questions: 'Scenario tasks', passingScore: 'Pass / Fail', validity: '3 years', bestPractices: ['Deploy a full OpenStack environment using DevStack for practice', 'Master Nova, Neutron, Cinder, Glance, and Keystone components', 'Complete OpenStack Foundation training and documentation'] } },
-    ],
-  },
-  {
-    name: 'Agile & Scrum',
-    desc: 'Transform teams with Agile methodologies — from Scrum and Kanban foundations to SAFe, LeSS, and scaled enterprise Agile delivery frameworks.',
-    features: ['6 Courses', 'CSM — SAFe-RTE', 'Agile Roles'],
-    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/></>,
-    courses: [
-      { level: 'Fundamentals', title: 'Scrum Fundamentals Certified (SFC)',     code: 'SFC',      price: '299',   days: 1, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: 'Free', format: 'Multiple choice (online)', questions: '40 questions', passingScore: '70%', validity: 'No expiry', bestPractices: ['Complete the free SFC course on SCRUMstudy website', 'Read the SBOK Guide chapters on Scrum fundamentals', 'Take the free SFC exam online immediately after training'] } },
-      { level: 'Fundamentals', title: 'Kanban Foundation',                      code: 'KIKF',     price: '398',   days: 2,
-        cert: { prereq: 'No prerequisites required', examFee: '$120 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '65%', validity: 'No expiry', bestPractices: ['Study Kanban core practices: visualise, limit WIP, manage flow', 'Apply Kanban to a real team workflow before the exam', 'Read David Anderson\'s Kanban book as primary study material'] } },
-      { level: 'Associate',    title: 'Certified Scrum Product Owner (CSPO)',   code: 'CSPO',     price: '597',   days: 2,
-        cert: { prereq: 'CSPO course attendance required', examFee: 'Included in training', format: 'No written exam — attendance-based', questions: 'N/A', passingScore: 'N/A (attendance required)', validity: '2 years', bestPractices: ['Attend the 2-day live CSPO training — participation is mandatory', 'Study product vision, backlog refinement, and stakeholder management', 'Join Scrum Alliance communities and explore real PO case studies'] } },
-      { level: 'Associate',    title: 'SAFe Scrum Master (SSM)',                code: 'SSM',      price: '747',   days: 2,
-        cert: { prereq: 'CSM or Scrum experience recommended', examFee: 'Included in training', format: 'Multiple choice (online)', questions: '45 questions', passingScore: '73%', validity: '1 year', bestPractices: ['Complete Scaled Agile Framework (SAFe) official SSM training', 'Study how Scrum Master role differs in SAFe vs. standalone Scrum', 'Review ART ceremonies: PI Planning, Iteration Review, and Retrospectives'] } },
-      { level: 'Expert', title: 'SAFe Release Train Engineer (RTE)',            code: 'SAFe-RTE', price: '1,245', days: 3,
-        cert: { prereq: 'SAFe Agilist and 5+ years Agile/PM experience', examFee: 'Included in training', format: 'Multiple choice (online)', questions: '45 questions', passingScore: '77%', validity: '1 year', bestPractices: ['Complete official SAFe RTE training from Scaled Agile', 'Study facilitation, coaching, and ART execution competencies', 'Practice leading PI Planning and program increment simulations'] } },
-      { level: 'Expert', title: 'PMI Agile Certified Practitioner (PMI-ACP)',   code: 'PMI-ACP',  price: '996',   days: 3,
-        cert: { prereq: '2000 hrs PM + 1500 hrs Agile experience required', examFee: '$435–495 USD', format: 'Multiple choice', questions: '120 questions', passingScore: 'Above Target performance', validity: '3 years', bestPractices: ['Study all Agile frameworks: Scrum, Kanban, XP, Lean, and SAFe', 'Use Mike Griffiths PMI-ACP exam prep book', 'Complete 150+ practice questions from at least two different sources'] } },
-    ],
-  },
-  {
-    name: 'IT Service Management',
-    desc: 'Elevate IT service delivery with ITIL, ISO 20000, COBIT, and HDI certifications — from service desk fundamentals to enterprise service governance.',
-    features: ['6 Courses', 'ITIL-4F — ITIL-MP', 'ITSM Roles'],
-    icon: <><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round"/></>,
-    courses: [
-      { level: 'Fundamentals', title: 'ITIL 4 Foundation',                      code: 'ITIL-4F',  price: '597',   days: 2, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: '$397 USD', format: 'Multiple choice', questions: '40 questions', passingScore: '65% (26/40)', validity: 'No expiry', bestPractices: ['Study the ITIL 4 Foundation official publication', 'Focus on the four dimensions and service value chain', 'Complete at least three official PeopleCert practice exams'] } },
-      { level: 'Fundamentals', title: 'HDI Support Center Analyst',             code: 'HDI-SCA',  price: '498',   days: 2,
-        cert: { prereq: 'No prerequisites required', examFee: '$195 USD', format: 'Multiple choice', questions: '65 questions', passingScore: '80%', validity: '3 years', bestPractices: ['Study IT support best practices and service desk workflows', 'Focus on incident management, escalation, and customer communication', 'Complete HDI practice exams on HDI Learning Center'] } },
-      { level: 'Associate',    title: 'ITIL 4 Specialist: CDS',                 code: 'ITIL-CDS', price: '747',   days: 3,
-        cert: { prereq: 'ITIL 4 Foundation required', examFee: '$397 USD', format: 'Multiple choice (scenario-based)', questions: '40 questions', passingScore: '70%', validity: 'No expiry', bestPractices: ['Study Create, Deliver and Support module of ITIL 4', 'Focus on value stream design and service performance management', 'Complete official Axelos ITIL 4 CDS training materials'] } },
-      { level: 'Associate',    title: 'ISO/IEC 20000 IT Service Mgmt',          code: 'ISO-20K',  price: '747',   days: 3,
-        cert: { prereq: 'ITIL Foundation or IT service management experience', examFee: '$450 USD', format: 'Multiple choice', questions: '50 questions', passingScore: '65%', validity: 'No expiry', bestPractices: ['Study ISO/IEC 20000-1 standard requirements', 'Focus on SMS planning, service design, and continual improvement', 'Complete PECB ISO 20000 Foundation training materials'] } },
-      { level: 'Expert', title: 'ITIL 4 Managing Professional (MP)',            code: 'ITIL-MP',  price: '1,495', days: 5,
-        cert: { prereq: 'ITIL 4 Foundation + 3 Specialist modules required', examFee: '$397 USD per module', format: 'Multiple choice (scenario-based)', questions: '40 questions', passingScore: '70%', validity: 'No expiry', bestPractices: ['Complete all three required ITIL 4 Specialist modules', 'Study across CDS, DSV, and HVIT modules systematically', 'Apply ITIL 4 concepts to real-world service management scenarios'] } },
-      { level: 'Expert', title: 'COBIT 2019 Foundation',                        code: 'COBIT-19', price: '996',   days: 3,
-        cert: { prereq: 'IT governance experience recommended', examFee: '$350 USD', format: 'Multiple choice', questions: '75 questions', passingScore: '65%', validity: '3 years', bestPractices: ['Study COBIT 2019 Design and Implementation guides', 'Focus on governance system design and maturity levels', 'Complete ISACA official COBIT 2019 Foundation training'] } },
-    ],
-  },
-  {
-    name: 'Business Intelligence',
-    desc: 'Build enterprise BI and analytics capabilities — from Power BI and Tableau foundations to advanced data modelling, DAX, and self-service analytics.',
-    features: ['6 Courses', 'PL-900 — DP-600', 'Analytics Roles'],
-    icon: <><polyline strokeLinecap="round" strokeLinejoin="round" points="22 12 18 12 15 21 9 3 6 12 2 12"/></>,
-    courses: [
-      { level: 'Fundamentals', title: 'Microsoft Power Platform Fundamentals',  code: 'PL-900',   price: '299',   days: 1, popular: true,
-        cert: { prereq: 'No prerequisites required', examFee: '$165 USD', format: 'Multiple choice & case studies', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete PL-900 learning path on Microsoft Learn (free)', 'Explore Power BI, Power Apps, and Power Automate in trial accounts', 'Take the official Microsoft practice assessment before booking'] } },
-      { level: 'Fundamentals', title: 'Tableau Desktop Specialist',             code: 'TDS',      price: '498',   days: 2,
-        cert: { prereq: 'No prerequisites required', examFee: '$250 USD', format: 'Multiple choice & hands-on', questions: '45 questions', passingScore: '75%', validity: '2 years', bestPractices: ['Complete Tableau free eLearning for Tableau Desktop', 'Practice building charts, dashboards, and calculated fields daily', 'Use Tableau Public for hands-on practice with public datasets'] } },
-      { level: 'Associate',    title: 'Microsoft Power BI Data Analyst',        code: 'PL-300',   price: '895',   days: 3,
-        cert: { prereq: 'Power BI experience recommended', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete PL-300 Microsoft Learn paths and hands-on labs', 'Master DAX measures, data modelling, and relationship management', 'Build 3–4 full Power BI reports from raw data to published dashboard'] } },
-      { level: 'Associate',    title: 'Google Data Analytics Certificate',      code: 'GDA',      price: '598',   days: 3,
-        cert: { prereq: 'No prerequisites required', examFee: 'Included in training', format: 'Project-based assessment', questions: 'Portfolio project', passingScore: 'Portfolio review', validity: 'No expiry', bestPractices: ['Complete all 8 courses in the Google Data Analytics Certificate path', 'Build a case study portfolio project as final deliverable', 'Practice SQL, R, and Tableau alongside the coursework'] } },
-      { level: 'Expert', title: 'Implementing Analytics Solutions – Fabric',    code: 'DP-600',   price: '1,195', days: 4,
-        cert: { prereq: 'Power BI Associate or data engineering experience', examFee: '$165 USD', format: 'Multiple choice & scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete DP-600 Microsoft Learn paths on Microsoft Fabric', 'Lab-practice Lakehouses, Notebooks, Dataflows Gen2, and semantic models', 'Study OneLake architecture and Fabric workspace governance'] } },
-      { level: 'Expert', title: 'Databricks Certified Associate Developer',     code: 'DB-ADE',   price: '996',   days: 3,
-        cert: { prereq: 'Python and basic Spark knowledge', examFee: '$200 USD', format: 'Multiple choice', questions: '60 questions', passingScore: '70%', validity: '2 years', bestPractices: ['Complete Databricks Academy Associate Developer course', 'Practice DataFrame operations, Spark SQL, and Delta Lake', 'Use Databricks Community Edition for free hands-on labs'] } },
-    ],
-  },
-]
-
 const FORMATS = [
   {
     title: 'Live Online Training', badge: 'Best Value', badgeBg: '#076D9D',
@@ -535,14 +437,14 @@ function EntTestimonialCard({ t, onExpandChange }: { t: EntTestimonial; onExpand
   }
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl bg-white h-full" style={{ border: '1px solid #DCEEFB', boxShadow: '0 2px 12px rgba(6,148,209,0.07)' }}>
-      <div className="flex-1 p-5">
+      <div className="flex flex-1 flex-col p-5">
         <div className="mb-2 text-xs text-yellow-400">★★★★★</div>
-        <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.quote}</p>
+        <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a', minHeight: '66px' }}>{t.quote}</p>
         <div
           className="overflow-hidden transition-all duration-300 ease-in-out"
           style={{ maxHeight: expanded ? '220px' : '0px', opacity: expanded ? 1 : 0 }}
         >
-          <p className="mb-3 text-sm leading-relaxed" style={{ color: '#4a7a9b' }}>{t.extra}</p>
+          <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{t.extra}</p>
         </div>
         {t.showMore && (
           <button
@@ -553,7 +455,7 @@ function EntTestimonialCard({ t, onExpandChange }: { t: EntTestimonial; onExpand
             {expanded ? 'Show Less ↑' : 'Show More ↓'}
           </button>
         )}
-        <div className="flex items-center gap-3">
+        <div className="mt-auto flex items-center gap-3">
           <img src={t.img} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" style={{ border: '2px solid #DCEEFB' }} />
           <div className="min-w-0">
             <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
@@ -820,13 +722,41 @@ const TECH_TRENDS = [
 /* ─── Footer data ───────────────────────────────────────────── */
 const FOOTER_COLS = [
   { heading: 'Company', links: ['About us','Leadership','Contact Us','Webinars','Our Clientele','All Courses','Our Partners','Our Story','Testimonials','Our Awards'] },
-  { heading: 'Learning Options', links: ['Explore All Learning Options','Live Online Training','1-on-1 Training','Classroom Training','Fly-me-a-Trainer (FMAT)','Flexi','Customized Training','Webinar as a Service','Techlabs','Learnova','AI Agent'] },
+  { heading: 'Learning Options', links: ['Explore All Learning Options','Live Online Training','1-on-1 Training','Classroom Training','Fly-me-a-Trainer (FMAT)','Flexi','Customized Training','Webinar as a Service','Techlabs','Learnova','AI Agent','Coding Using AI','AI Is a Beast','Free AI Career Compass'] },
   { heading: 'Resources', links: ['Technical Questions & Answers','Blog','Sitemap','Koenig Koshish','Qubits','Certificate Authenticator','Microsoft Products'] },
-  { heading: 'Others', links: ['Environment Policy','Payment Methods','Terms of Service','Career','Privacy Policy',"What's New",'Media Report'] },
+  { heading: 'Others', links: ['Environment Policy','Payment Methods','Terms of Service','Career','Freelancer Opportunities','Privacy Policy',"What's New",'Media Report'] },
 ]
+const FOOTER_LINK_HREFS: Record<string, string> = {
+  'AI Agent': '/build/ai-agent',
+  'Coding Using AI': '/build/vibe-coding',
+  'AI Is a Beast': '/beast-ai-skilling',
+  'Learnova': '/learnova',
+  'Qubits': '/qubits',
+  'Free AI Career Compass': '/career-compass',
+  'Environment Policy': '/environment-policy',
+}
+
 const FOOTER_BOTTOM_COLS = [
   { heading: 'Top Technologies', links: ['Cloud Computing','Artificial Intelligence','Microsoft Office','Security','Microsoft Dynamics'] },
   { heading: 'Top Partners', links: ['Microsoft','AWS','Cisco','PECB','VMware'] },
+]
+const CONTACT_FORM_COURSES = [
+  'AZ-104T00-A: Microsoft Azure Administrator',
+  'AI-102T00: Designing and Implementing a Microsoft Azure AI Solution',
+  'DP-700T00: Microsoft Fabric Data Engineer',
+  'SC-300T00: Microsoft Identity and Access Administrator',
+  'SC-200T00: Microsoft Security Operations Analyst',
+  'DP-600T00: Microsoft Fabric Analytics Engineer',
+  'AZ-204T00: Developing Solutions for Microsoft Azure',
+  'AZ-305T00: Designing Microsoft Azure Infrastructure Solutions',
+  'PMP: Project Management Professional (PMP®) Certification Training',
+  'PL-300T00: Microsoft Power BI Data Analyst',
+  'AWS-SAA-C03: AWS Certified Solutions Architect – Associate',
+  'AWS-COA-C02: AWS Certified CloudOps Engineer – Associate',
+  'CEH-v13: Certified Ethical Hacker (CEH v13)',
+  'SY0-701: CompTIA Security+ SY0-701',
+  'CCNA-200-301: Implementing and Administering Cisco Solutions (CCNA)',
+  'ISO-27001-LI: ISO/IEC 27001 Lead Implementer',
 ]
 const TOP_COURSES_COL1 = [
   'PL-300T00: Design and Manage Analytics Solutions Using Power BI',
@@ -2306,9 +2236,9 @@ const LEARNING_LINKS = [
   { label: 'Flexi',                href: '#' },
   { label: 'Customized Training',  href: '#' },
   { label: 'Webinar as a Service', href: '#' },
-  { label: 'Qubits',               href: '#' },
+  { label: 'Qubits',               href: '/qubits' },
   { label: 'Upcoming Webinars',    href: '#' },
-  { label: 'Learnova',             href: '#' },
+  { label: 'Learnova',             href: '/learnova' },
 ]
 
 const MEGA_MENU_VENDORS = [
@@ -2333,6 +2263,28 @@ const MEGA_MENU_VENDORS = [
   { name: 'Broadcom',         img: 'Broadcom.png',                                              courses: '70+'  },
   { name: 'Check Point',      img: 'Checkpoint ATC 2026 PLATINUM Badge.png',                   courses: '55+'  },
 ]
+
+const VENDOR_HREFS: Record<string, string> = {
+  'Microsoft': '/microsoft',
+}
+const COURSE_HREFS: Record<string, string> = {
+  'AZ-104: Microsoft Azure Administrator': '/courses/az-104',
+}
+const TECH_HREFS: Record<string, string> = {
+  'Power Platform': '/technologies/power-platform',
+}
+
+const SCHEDULE_LEVEL_ICON: Record<string, React.ReactNode> = {
+  fund:   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>,
+  assoc:  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>,
+  expert: <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7l4 9h12l4-9-6 4-4-6-4 6z"/></svg>,
+}
+const SCHEDULE_LEVEL_LABEL: Record<string, string> = { fund: 'Fundamentals', assoc: 'Associate', expert: 'Expert' }
+const SCHEDULE_LEVEL_BADGE: Record<string, string> = {
+  fund:   'bg-gradient-to-br from-[#4DBFEF] to-[#0694D1] text-white',
+  assoc:  'bg-gradient-to-br from-[#0694D1] to-[#076D9D] text-white',
+  expert: 'bg-gradient-to-br from-[#076D9D] to-[#062238] text-white',
+}
 
 const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: string }[]> = {
   'Microsoft': [
@@ -2468,6 +2420,7 @@ const TOP_TECHNOLOGIES = [
   { name: 'DevOps',              count: '210+', partners: ['Kubernetes', 'HashiCorp', 'AWS'] },
   { name: 'ERP Systems',         count: '180+', partners: ['SAP', 'Oracle', 'Microsoft'] },
   { name: 'Linux & Open Source', count: '110+', partners: ['Red Hat', 'Linux Foundation', 'CompTIA'] },
+  { name: 'Power Platform',      count: '60+',  partners: ['Microsoft'] },
 ]
 
 const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: number; level: string }[]> = {
@@ -2530,6 +2483,13 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'OpenShift Administration', vendor: 'Red Hat', days: 4, level: 'Advanced' },
     { name: 'Certified Kubernetes Administrator', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
   ],
+  'Power Platform': [
+    { name: 'PL-900: Microsoft Power Platform Fundamentals', vendor: 'Microsoft', days: 1, level: 'Beginner' },
+    { name: 'PL-100: Microsoft Power Platform App Maker', vendor: 'Microsoft', days: 5, level: 'Intermediate' },
+    { name: 'PL-200: Power Platform Functional Consultant', vendor: 'Microsoft', days: 5, level: 'Intermediate' },
+    { name: 'PL-300: Microsoft Power BI Data Analyst', vendor: 'Microsoft', days: 3, level: 'Intermediate' },
+    { name: 'PL-400: Microsoft Power Platform Developer', vendor: 'Microsoft', days: 5, level: 'Advanced' },
+  ],
 }
 
 const TOP_COURSES = [
@@ -2585,32 +2545,16 @@ const NEW_TRENDING = [
 const ALL_ENT_VENDORS = [...ENT_VENDORS_ROW1, ...ENT_VENDORS_ROW2]
 
 function VendorsMobileStrip() {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const pausedRef = useRef(false)
-
-  useEffect(() => {
-    let raf: number
-    const animate = () => {
-      const el = scrollRef.current
-      if (el && !pausedRef.current) {
-        el.scrollLeft += 0.6
-        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0
-      }
-      raf = requestAnimationFrame(animate)
-    }
-    raf = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(raf)
-  }, [])
+  const trackRef = useRef<HTMLDivElement>(null)
+  const drag = useMarqueeDrag(trackRef, ENT_VENDOR_MARQUEE_DURATION)
 
   return (
-    <div
-      ref={scrollRef}
-      className="sm:hidden overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden"
-      style={{ WebkitOverflowScrolling: 'touch' }}
-      onTouchStart={() => { pausedRef.current = true }}
-      onTouchEnd={() => { pausedRef.current = false }}
-    >
-      <div className="flex gap-3 px-1" style={{ width: 'max-content' }}>
+    <div className="sm:hidden overflow-x-hidden pb-3" style={{ touchAction: 'pan-y' }} {...drag}>
+      <style>{`
+        @keyframes entVendorScrollMobile { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        .ent-vendor-track-mobile { display: flex; gap: 0.75rem; padding: 0 0.25rem; width: max-content; animation: entVendorScrollMobile ${ENT_VENDOR_MARQUEE_DURATION}s linear infinite; cursor: grab; }
+      `}</style>
+      <div ref={trackRef} className="ent-vendor-track-mobile">
         {[...ALL_ENT_VENDORS, ...ALL_ENT_VENDORS].map((v, i) => (
           <EntVendorCard key={i} v={v} />
         ))}
@@ -2622,70 +2566,73 @@ function VendorsMobileStrip() {
 /* ─── Formats Mobile Carousel ───────────────────────────── */
 
 function FormatsMobileCarousel() {
-  const [page, setPage] = useState(0)
-  const touchStartX = useRef(0)
-  const CARDS_PER_PAGE = 2
-  const totalPages = Math.ceil(FORMATS.length / CARDS_PER_PAGE)
-  const pages: number[][] = Array.from({ length: totalPages }, (_, p) =>
-    FORMATS.slice(p * CARDS_PER_PAGE, (p + 1) * CARDS_PER_PAGE).map((_, i) => p * CARDS_PER_PAGE + i)
-  )
+  const [slide, setSlide] = useState(0)
+  const dragStart = useRef<number | null>(null)
+  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  useEffect(() => {
+    autoRef.current = setInterval(() => setSlide(s => (s + 1) % FORMATS.length), 3000)
+    return () => { if (autoRef.current) clearInterval(autoRef.current) }
+  }, [])
+
+  const swipeStart = (x: number) => {
+    dragStart.current = x
+    if (autoRef.current) clearInterval(autoRef.current)
+  }
+  const swipeEnd = (x: number) => {
+    if (dragStart.current === null) return
+    const diff = dragStart.current - x
+    if (Math.abs(diff) > 40) setSlide(s => diff > 0 ? Math.min(s + 1, FORMATS.length - 1) : Math.max(s - 1, 0))
+    dragStart.current = null
+    autoRef.current = setInterval(() => setSlide(s => (s + 1) % FORMATS.length), 3000)
+  }
 
   return (
     <div className="sm:hidden">
       <div
-        className="overflow-hidden"
-        onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
-        onTouchEnd={e => {
-          const dx = e.changedTouches[0].clientX - touchStartX.current
-          if (dx < -40 && page < totalPages - 1) setPage(p => p + 1)
-          if (dx > 40 && page > 0) setPage(p => p - 1)
-        }}
+        onTouchStart={e => swipeStart(e.touches[0].clientX)}
+        onTouchEnd={e => swipeEnd(e.changedTouches[0].clientX)}
+        onMouseDown={e => swipeStart(e.clientX)}
+        onMouseUp={e => swipeEnd(e.clientX)}
+        onMouseLeave={e => { if (dragStart.current !== null) swipeEnd(e.clientX) }}
+        style={{ overflow: 'hidden', userSelect: 'none', cursor: 'grab' }}
       >
-        <div
-          className="flex"
-          style={{ transform: `translateX(-${page * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
-        >
-          {pages.map((group, pageIdx) => (
-            <div key={pageIdx} className="min-w-full grid grid-cols-1 gap-4">
-              {group.map(gi => {
-                const f = FORMATS[gi]
-                return (
-                  <div key={gi} style={{ borderRadius: '14px', overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ position: 'relative', height: '140px', flexShrink: 0, overflow: 'hidden' }}>
-                      <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: (f as { objPos?: string }).objPos ?? 'center' }} />
-                      <span style={{ position: 'absolute', left: '8px', top: '8px', borderRadius: '999px', padding: '3px 10px', fontSize: '11px', fontWeight: 500, background: 'rgba(9,49,72,0.65)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '12px 14px 14px' }}>
-                      <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>{f.title}</h3>
-                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.62)', lineHeight: 1.55, flex: 1 }}>{f.desc}</p>
-                      <button className="ent-lf-btn-glow" style={{ marginTop: '12px', width: '100%', borderRadius: '10px', padding: '9px', fontSize: '12px', fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694d1,#076d9d)', border: 'none', cursor: 'pointer' }}>Learn More →</button>
-                    </div>
-                  </div>
-                )
-              })}
+        <div style={{
+          display: 'flex',
+          width: `${FORMATS.length * 100}%`,
+          transform: `translateX(-${(slide / FORMATS.length) * 100}%)`,
+          transition: 'transform 0.45s cubic-bezier(0.4,0,0.2,1)',
+          boxSizing: 'border-box',
+          pointerEvents: 'none',
+        }}>
+          {FORMATS.map((f) => (
+            <div key={f.title} style={{ width: `${100 / FORMATS.length}%`, flexShrink: 0 }}>
+              <div style={{ borderRadius: 16, overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ position: 'relative', height: 200, flexShrink: 0, overflow: 'hidden' }}>
+                  <img src={f.img} alt={f.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: (f as { objPos?: string }).objPos ?? 'center' }} />
+                  <span style={{ position: 'absolute', left: 12, top: 12, borderRadius: 999, padding: '4px 12px', fontSize: 11, fontWeight: 600, background: 'rgba(9,49,72,0.6)', backdropFilter: 'blur(6px)', color: '#fff', letterSpacing: '0.03em' }}>{f.badge}</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '16px 16px 18px' }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 8, lineHeight: 1.3 }}>{f.title}</h3>
+                  <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, flex: 1, margin: 0 }}>{f.desc}</p>
+                  <button className="ent-lf-btn-glow" style={{ marginTop: 16, width: '100%', borderRadius: 12, padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694d1,#076d9d)', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Learn More →</button>
+                </div>
+              </div>
             </div>
           ))}
         </div>
       </div>
-      {/* Dots */}
-      <div className="mt-6 flex justify-center gap-3">
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setPage(i)}
-            aria-label={`Page ${i + 1}`}
-            style={{
-              width: i === page ? 32 : 10,
-              height: 10,
-              borderRadius: 999,
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0,
-              transition: 'all 0.3s ease',
-              background: i === page ? '#0694D1' : 'rgba(255,255,255,0.25)',
-            }}
-          />
-        ))}
+      {/* Arrow nav + counter */}
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 20, marginTop: 20 }}>
+        <button className="ent-lf-nav-btn" onClick={() => setSlide(s => Math.max(s - 1, 0))} disabled={slide === 0} aria-label="Previous">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+        </button>
+        <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.75)', minWidth: 52, textAlign: 'center' }}>
+          {String(slide + 1).padStart(2, '0')} / {String(FORMATS.length).padStart(2, '0')}
+        </span>
+        <button className="ent-lf-nav-btn" onClick={() => setSlide(s => Math.min(s + 1, FORMATS.length - 1))} disabled={slide === FORMATS.length - 1} aria-label="Next">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+        </button>
       </div>
     </div>
   )
@@ -2696,7 +2643,7 @@ function FormatsMobileCarousel() {
 function HowItWorksMobileCarousel() {
   const [page, setPage] = useState(0)
   const touchStartX = useRef(0)
-  const CARDS_PER_PAGE = 2
+  const CARDS_PER_PAGE = 1
   const totalPages = Math.ceil(HOW_IT_WORKS.length / CARDS_PER_PAGE)
   const pages: number[][] = Array.from({ length: totalPages }, (_, p) =>
     HOW_IT_WORKS.slice(p * CARDS_PER_PAGE, (p + 1) * CARDS_PER_PAGE).map((_, i) => p * CARDS_PER_PAGE + i)
@@ -2774,6 +2721,73 @@ function HowItWorksMobileCarousel() {
               padding: 0,
               transition: 'all 0.3s ease',
               background: i === page ? '#076D9D' : '#CAEFFF',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ─── ADDE Framework Mobile Carousel ────────────────────── */
+
+function AddeMobileCarousel() {
+  const [slide, setSlide] = useState(0)
+  const touchStartX = useRef(0)
+
+  return (
+    <div className="lg:hidden">
+      <div
+        className="overflow-hidden"
+        onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+        onTouchEnd={e => {
+          const dx = e.changedTouches[0].clientX - touchStartX.current
+          if (dx < -40 && slide < APPROACH.length - 1) setSlide(s => s + 1)
+          if (dx > 40 && slide > 0) setSlide(s => s - 1)
+        }}
+      >
+        <div className="flex" style={{ transform: `translateX(-${slide * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}>
+          {APPROACH.map((a, i) => {
+            const letter = ['A', 'D', 'D', 'E'][i]
+            return (
+              <div key={a.step} className="min-w-full px-0.5">
+                <div className="adde-card relative overflow-hidden rounded-2xl p-6 pb-8" style={{ background: 'rgba(19,168,212,0.05)', border: '1px solid rgba(19,168,212,0.18)', backdropFilter: 'blur(6px)' }}>
+                  <div aria-hidden className="pointer-events-none absolute bottom-2 right-3 select-none font-black leading-none" style={{ fontSize: 120, color: 'rgba(19,168,212,0.07)', lineHeight: 1 }}>{letter}</div>
+                  <div className="mb-5 flex items-center gap-4 relative z-10">
+                    <div className="relative shrink-0">
+                      <div className="spin-ring" />
+                      <div className="icon-circle">
+                        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#13a8d4" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{a.icon}</svg>
+                      </div>
+                    </div>
+                    <span className="text-2xl font-black" style={{ color: 'rgba(19,168,212,0.35)' }}>{a.step}</span>
+                  </div>
+                  <h3 className="mb-1 text-lg font-bold text-white relative z-10">{a.title}</h3>
+                  <p className="mb-2 text-sm font-semibold uppercase tracking-wider relative z-10" style={{ color: '#13a8d4' }}>{a.sub}</p>
+                  <p className="text-sm leading-relaxed text-white/55 relative z-10">{a.desc}</p>
+                  <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, #13a8d4 40%, #38bdf8 60%, transparent)' }} />
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+      {/* Dots */}
+      <div className="mt-6 flex justify-center gap-3">
+        {APPROACH.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setSlide(i)}
+            aria-label={`Step ${i + 1}`}
+            style={{
+              width: i === slide ? 32 : 10,
+              height: 10,
+              borderRadius: 999,
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'all 0.3s ease',
+              background: i === slide ? '#13a8d4' : 'rgba(19,168,212,0.25)',
             }}
           />
         ))}
@@ -2977,65 +2991,27 @@ function IndustryMobileCarousel() {
 
 /* ─── Client Logo Marquee ────────────────────────────────── */
 
+const CLIENT_LOGO_MARQUEE_DURATION = 65 // seconds — "Trusted Worldwide" client logo strip scroll speed
+
 function ClientLogoMarquee({ clients }: { clients: typeof ENTERPRISE_CLIENTS }) {
   const trackRef = useRef<HTMLDivElement>(null)
-  const pos = useRef(0)
-  const paused = useRef(false)
-  const dragStartX = useRef(0)
-  const dragStartPos = useRef(0)
-
-  useEffect(() => {
-    const inner = trackRef.current
-    if (!inner) return
-    let prev = performance.now()
-    let raf: number
-    function tick(now: number) {
-      const dt = now - prev
-      prev = now
-      if (!paused.current && inner) {
-        pos.current += 0.04 * dt
-        const half = inner.scrollWidth / 2
-        if (half > 0 && pos.current >= half) pos.current -= half
-        inner.style.transform = `translateX(-${pos.current}px)`
-      }
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [])
+  const drag = useMarqueeDrag(trackRef, CLIENT_LOGO_MARQUEE_DURATION)
 
   return (
     <div
       className="relative overflow-hidden"
       style={{
+        touchAction: 'pan-y',
         maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
         WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
       }}
-      onMouseEnter={() => { paused.current = true }}
-      onMouseLeave={() => { paused.current = false }}
-      onTouchStart={e => {
-        paused.current = true
-        dragStartX.current = e.touches[0].clientX
-        dragStartPos.current = pos.current
-      }}
-      onTouchMove={e => {
-        const delta = dragStartX.current - e.touches[0].clientX
-        const inner = trackRef.current
-        if (!inner) return
-        const half = inner.scrollWidth / 2
-        let newPos = dragStartPos.current + delta
-        if (newPos < 0) newPos = 0
-        if (half > 0 && newPos >= half) newPos = half - 1
-        pos.current = newPos
-        inner.style.transform = `translateX(-${pos.current}px)`
-      }}
-      onTouchEnd={() => { paused.current = false }}
+      {...drag}
     >
-      <div
-        ref={trackRef}
-        className="flex items-center gap-2 py-2"
-        style={{ width: 'max-content' }}
-      >
+      <style>{`
+        @keyframes clientLogoScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        .client-logo-track { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; width: max-content; animation: clientLogoScroll ${CLIENT_LOGO_MARQUEE_DURATION}s linear infinite; cursor: grab; }
+      `}</style>
+      <div ref={trackRef} className="client-logo-track">
         {[...clients, ...clients].map((c, i) => (
           <div key={i} className="flex shrink-0 items-center justify-center px-2">
             <img src={`/images/trusted-logos/${encodeURIComponent(c.img)}`} alt={c.name} className="h-12 w-auto object-contain" style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }} title={c.name} />
@@ -3049,22 +3025,59 @@ function ClientLogoMarquee({ clients }: { clients: typeof ENTERPRISE_CLIENTS }) 
 /* ─── Component ──────────────────────────────────────────── */
 
 export default function EnterprisePage() {
-  const [activeDomain, setActiveDomain] = useState(0)
   const [activeHiwStep, setActiveHiwStep] = useState(0)
   const [hiwPaused, setHiwPaused] = useState(false)
-  const [formatsSlide, setFormatsSlide] = useState(0)
+  const [entLfHoveredCard, setEntLfHoveredCard] = useState<number | null>(null)
+  const [entLfStart, setEntLfStart] = useState(0)
+  const entLfSliderRef = useRef<HTMLDivElement | null>(null)
+  const entLfTrackRef = useRef<HTMLDivElement | null>(null)
+  const entLfBusyRef = useRef(false)
+  const entLfAutoRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const entLfSliderHoverRef = useRef(false)
+
+  const entLfTriggerSlide = useCallback((forward: boolean) => {
+    const track = entLfTrackRef.current
+    if (!track || entLfBusyRef.current) return
+    const card = track.children[0] as HTMLElement | undefined
+    if (!card) return
+    const amount = card.offsetWidth + 20
+    entLfBusyRef.current = true
+    setEntLfHoveredCard(null)
+    track.style.transition = 'none'
+    track.style.transform = 'translateX(0px)'
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (entLfSliderHoverRef.current) { entLfBusyRef.current = false; return }
+        track.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.2,1)'
+        track.style.transform = `translateX(${forward ? -amount : amount}px)`
+      })
+    })
+  }, [])
+
+  const entLfHandleTransitionEnd = useCallback(() => {
+    const track = entLfTrackRef.current
+    if (!track) return
+    const forward = track.style.transform.startsWith('translateX(-')
+    track.style.transition = 'none'
+    track.style.transform = 'translateX(0px)'
+    entLfBusyRef.current = false
+    setEntLfHoveredCard(null)
+    setEntLfStart(prev => forward ? (prev + 1) % FORMATS.length : (prev - 1 + FORMATS.length) % FORMATS.length)
+  }, [])
+
+  useEffect(() => {
+    entLfAutoRef.current = setInterval(() => {
+      if (entLfSliderHoverRef.current) return
+      entLfTriggerSlide(true)
+    }, 3000)
+    return () => { if (entLfAutoRef.current) clearInterval(entLfAutoRef.current) }
+  }, [entLfTriggerSlide])
   const [biSlide, setBiSlide] = useState(0)
-  const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
+  const [formType, setFormType] = useState<'individual' | 'enterprise'>('enterprise')
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', course: '', trainees: '', source: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
-  const [contactModalOpen, setContactModalOpen] = useState(false)
-  const [modalFormData, setModalFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
-  const [modalSubmitted, setModalSubmitted] = useState(false)
+  const [formCaptcha, setFormCaptcha] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const [catSearch, setCatSearch] = useState('')
-  const [catLevel, setCatLevel] = useState('All')
-  const [catSort, setCatSort] = useState('low-high')
-  const [descExpanded, setDescExpanded] = useState(false)
-  const [flippedCard, setFlippedCard] = useState<string | null>(null)
   const [entMorphIdx, setEntMorphIdx] = useState(0)
   const [entMorphExiting, setEntMorphExiting] = useState(false)
 
@@ -3103,6 +3116,33 @@ export default function EnterprisePage() {
   const techMenuRef = useRef<HTMLDivElement>(null)
   const learningMenuRef = useRef<HTMLDivElement>(null)
   const aboutMenuRef = useRef<HTMLDivElement>(null)
+  const navMenuCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const clearNavMenuCloseTimer = () => { if (navMenuCloseTimer.current) { clearTimeout(navMenuCloseTimer.current); navMenuCloseTimer.current = null } }
+  const openNavMenu = (which: 'all' | 'tech' | 'learning' | 'about') => {
+    clearNavMenuCloseTimer()
+    setMegaMenuOpen(which === 'all')
+    setTechMenuOpen(which === 'tech')
+    setLearningMenuOpen(which === 'learning')
+    setAboutMenuOpen(which === 'about')
+    if (which === 'learning' && learningTriggerRef.current) {
+      const r = learningTriggerRef.current.getBoundingClientRect()
+      setLearningDropPos({ top: r.bottom + 8, left: r.left })
+    }
+    if (which === 'about' && aboutTriggerRef.current) {
+      const r = aboutTriggerRef.current.getBoundingClientRect()
+      setAboutDropPos({ top: r.bottom + 8, left: r.left })
+    }
+  }
+  const scheduleNavMenuClose = () => {
+    clearNavMenuCloseTimer()
+    navMenuCloseTimer.current = setTimeout(() => {
+      setMegaMenuOpen(false); setTechMenuOpen(false); setLearningMenuOpen(false); setAboutMenuOpen(false)
+    }, 200)
+  }
+  function goSearch(q: string) {
+    if (q.trim()) router.push(`/search?q=${encodeURIComponent(q.trim())}`)
+    else router.push('/search')
+  }
 
   // Scroll-triggered fade-ins (same pattern as homepage)
   useEffect(() => {
@@ -3132,12 +3172,6 @@ export default function EnterprisePage() {
   // Business Impact — auto-advance image slider
   useEffect(() => {
     const t = setInterval(() => setBiSlide(s => (s + 1) % 6), 4000)
-    return () => clearInterval(t)
-  }, [])
-
-  // Learning Formats — auto-advance every 3s
-  useEffect(() => {
-    const t = setInterval(() => setFormatsSlide(s => (s + 1) % 2), 3000)
     return () => clearInterval(t)
   }, [])
 
@@ -3243,14 +3277,14 @@ export default function EnterprisePage() {
         @keyframes entMorphIn  { from { opacity:0; filter:blur(10px); transform:translateY(14px);  } to { opacity:1; filter:blur(0); transform:translateY(0); } }
         @keyframes entMorphOut { from { opacity:1; filter:blur(0);    transform:translateY(0);     } to { opacity:0; filter:blur(10px); transform:translateY(-14px); } }
         @keyframes entGradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-        /* Gradient morph text — colour stays blue gradient, glow matches homepage */
+        /* Gradient morph text — colour stays blue gradient; glow kept subtle since this hero has a light background */
         .ent-morph-gradient {
           background: linear-gradient(90deg, #38bdf8 0%, #0694d1 30%, #4DBFEF 55%, #38bdf8 80%, #0694d1 100%);
           background-size: 250% 100%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          filter: drop-shadow(0 0 28px rgba(6,148,209,0.9)) drop-shadow(0 0 55px rgba(6,148,209,0.45));
+          filter: drop-shadow(0 0 4px rgba(6,148,209,0.25));
         }
         /* Combine gradient sweep + morph animations so both run together */
         .ent-morph-in  { animation: entGradShift 3s ease infinite, entMorphIn  0.52s cubic-bezier(0.22,1,0.36,1) both; }
@@ -3292,14 +3326,6 @@ export default function EnterprisePage() {
           transform: translateY(-5px);
           animation: domain-border-spin 2s linear infinite;
         }
-
-        /* Infinite client logo marquee */
-        @keyframes ent-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @keyframes ent-marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-        .ent-marquee-track { animation: ent-marquee 38s linear infinite; display:flex; width:max-content; }
-        .ent-marquee-track-rev { animation: ent-marquee-rev 38s linear infinite; display:flex; width:max-content; }
-        .ent-marquee-track:hover, .ent-marquee-track-rev:hover { animation-play-state: paused; }
-        .ent-marquee-wrap { overflow:hidden; mask-image:linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%); -webkit-mask-image:linear-gradient(to right,transparent 0,black 80px,black calc(100% - 80px),transparent 100%); }
 
         /* Hero blob floats (same as homepage) */
         @keyframes entBlob1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-30px) scale(1.1)} 66%{transform:translate(-20px,20px) scale(0.95)} }
@@ -3421,7 +3447,7 @@ export default function EnterprisePage() {
         className={`relative z-50 px-4 md:px-8 lg:px-[50px] ${scrolled ? 'shadow-lg shadow-black/30' : ''}`}
         style={{ background: 'rgba(6,17,30,0.94)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
       >
-        <div className="mx-auto flex max-w-7xl items-center gap-6 py-2 lg:py-3">
+        <div className="mx-auto flex max-w-7xl items-center gap-2 lg:gap-6 py-2 lg:py-3">
 
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
@@ -3430,12 +3456,30 @@ export default function EnterprisePage() {
             </div>
           </Link>
 
+          {/* Mobile All Courses button — visible only on mobile, sits next to logo */}
+          <button
+            onClick={() => { setMobileAllCoursesOpen(v => !v); setMobileOpen(false); }}
+            className="flex lg:hidden items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-sm font-semibold transition-all shrink-0 ml-3"
+            style={{ color: '#ffffff', background: mobileAllCoursesOpen ? '#076D9D' : '#0694D1', border: 'none' }}
+            aria-label="All Courses"
+          >
+            <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <span className="whitespace-nowrap">All Courses</span>
+            <svg className={`h-3 w-3 transition-transform ${mobileAllCoursesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+          </button>
+
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-4 lg:flex">
-            <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
+            {/* Glassmorphism pill nav group — All Courses + nav links */}
+            <div
+              className="flex items-center"
+              style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}
+              onMouseLeave={scheduleNavMenuClose}
+            >
               {/* All Courses */}
               <button
-                onClick={() => { setMegaMenuOpen(v => !v); setTechMenuOpen(false); }}
+                onMouseEnter={() => openNavMenu('all')}
+                onClick={() => setMegaMenuOpen(v => !v)}
                 className="flex items-center whitespace-nowrap px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
                 style={{ background: megaMenuOpen ? '#076D9D' : '#0694D1', gap: '8px' }}
               >
@@ -3443,23 +3487,23 @@ export default function EnterprisePage() {
                 All Courses
                 <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </button>
-              {/* Technologies */}
+              {/* Nav links */}
               <a
                 href="#"
+                onMouseEnter={() => openNavMenu('tech')}
                 onClick={(e) => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); setAboutMenuOpen(false); setLearningMenuOpen(false); }}
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: techMenuOpen ? '#38bdf8' : '#ffffff', background: techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = techMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
               >
                 Technologies
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </a>
 
-              {/* Learning Options — portal approach */}
+              {/* Learning Options — portal approach to escape nav-pill stacking context */}
               <button
                 type="button"
                 ref={learningTriggerRef}
+                onMouseEnter={() => openNavMenu('learning')}
                 onClick={() => {
                   if (learningTriggerRef.current) {
                     const r = learningTriggerRef.current.getBoundingClientRect()
@@ -3469,17 +3513,16 @@ export default function EnterprisePage() {
                 }}
                 className="flex items-center gap-1 whitespace-nowrap px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: learningMenuOpen ? '#38bdf8' : '#ffffff', background: learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
               >
                 Learning Options
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </button>
 
-              {/* About — portal approach */}
+              {/* About — portal approach to escape nav-pill stacking context */}
               <button
                 type="button"
                 ref={aboutTriggerRef}
+                onMouseEnter={() => openNavMenu('about')}
                 onClick={() => {
                   if (aboutTriggerRef.current) {
                     const r = aboutTriggerRef.current.getBoundingClientRect()
@@ -3489,18 +3532,16 @@ export default function EnterprisePage() {
                 }}
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
               >
                 About
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </button>
 
               <a
-                href="#"
+                href="/contact"
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: '#ffffff', background: 'transparent' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                onMouseEnter={e => { clearNavMenuCloseTimer(); setMegaMenuOpen(false); setTechMenuOpen(false); setLearningMenuOpen(false); setAboutMenuOpen(false); e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = 'transparent'; }}
               >
                 Contact
@@ -3509,7 +3550,7 @@ export default function EnterprisePage() {
           </nav>
 
           {/* Right — search + hamburger */}
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-1">
             {/* Individual / Enterprise toggle — Enterprise is active on this page */}
             <div className="hidden lg:flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
               <Link
@@ -3534,6 +3575,7 @@ export default function EnterprisePage() {
                   value={navQuery}
                   onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true) }}
                   onFocus={() => setNavResultsOpen(true)}
+                  onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); goSearch(navQuery) } }}
                   placeholder="Search courses…"
                   aria-label="Search courses"
                   className="w-36 bg-transparent text-sm text-white placeholder-white/40 outline-none"
@@ -3557,23 +3599,40 @@ export default function EnterprisePage() {
                       c.vendor.toLowerCase().includes(navQuery.toLowerCase())
                     ).slice(0, 6)
                     return results.length > 0 ? results.map((c, i) => (
-                      <div key={i} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
+                      <div key={i} onClick={() => goSearch(c.name)} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
                         <div className="min-w-0 flex-1">
-                          <div className="mb-0.5 flex items-center gap-1">
-                            {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-600">New</span>}
-                            {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-amber-50 text-amber-600">Popular</span>}
+                          <div className="mb-1 flex items-center gap-1">
+                            {(c as { category?: string }).category === 'NEW' && (
+                              <span className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide text-white" style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}>New</span>
+                            )}
+                            {c.hot && (
+                              <span className="inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#22d3ee)' }}>
+                                <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z" /></svg>
+                                Popular
+                              </span>
+                            )}
                           </div>
                           <p className="truncate text-sm font-medium text-gray-800">{c.name}</p>
                           <p className="mt-0.5 text-xs text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
                         </div>
                         <div className="flex shrink-0 items-center gap-1">
-                          {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-50 text-cyan-600">Fundamentals</span>}
-                          {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-50 text-indigo-600">Associate</span>}
-                          {((c as { category?: string }).category === 'EXPERT' || (c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE')) && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-50 text-violet-600">Expert</span>}
+                          {(() => {
+                            const cat = (c as { category?: string }).category
+                            const key = cat === 'FUNDAMENTALS' ? 'fund' : cat === 'ASSOCIATE' ? 'assoc' : (cat === 'EXPERT' || c.level === 'Advanced') ? 'expert' : null
+                            return key && (
+                              <span className={`inline-flex shrink-0 items-center justify-center gap-1 rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide whitespace-nowrap ${SCHEDULE_LEVEL_BADGE[key]}`}>
+                                {SCHEDULE_LEVEL_ICON[key]}
+                                {SCHEDULE_LEVEL_LABEL[key]}
+                              </span>
+                            )
+                          })()}
                         </div>
                       </div>
                     )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for &quot;{navQuery}&quot;</div>
                   })()}
+                  <div onClick={() => goSearch(navQuery)} className="flex cursor-pointer items-center justify-center gap-1 border-t border-gray-100 px-4 py-2.5 text-xs font-semibold text-[#0694d1] hover:bg-gray-50">
+                    View all results →
+                  </div>
                 </div>
               )}
             </div>
@@ -3588,7 +3647,7 @@ export default function EnterprisePage() {
             </button>
             {/* Hamburger */}
             <button
-              onClick={() => setMobileOpen(v => !v)}
+              onClick={() => { setMobileOpen(v => !v); setMobileAllCoursesOpen(false); }}
               className="rounded-lg p-2 transition-colors hover:bg-white/10 lg:hidden"
               style={{ color: '#ffffff' }}
               aria-label="Toggle menu"
@@ -3604,7 +3663,7 @@ export default function EnterprisePage() {
 
         {/* Mobile search overlay bar */}
         {mobileSearchOpen && (
-          <div className="relative lg:hidden px-3 pb-3" style={{ background: 'rgba(6,17,30,0.98)' }}>
+          <div className="-mx-4 relative lg:hidden px-4 pb-3" style={{ background: 'rgba(6,17,30,0.98)' }}>
             <div className="flex items-center gap-2 rounded-xl border px-3 py-2" style={{ background: 'rgba(6,148,209,0.10)', borderColor: 'rgba(6,148,209,0.4)' }}>
               <svg className="h-4 w-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
               <input
@@ -3613,6 +3672,7 @@ export default function EnterprisePage() {
                 value={navQuery}
                 onChange={e => { setNavQuery(e.target.value); setNavResultsOpen(true); }}
                 onFocus={() => setNavResultsOpen(true)}
+                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); goSearch(navQuery) } }}
                 placeholder="Search 5,000+ courses…"
                 aria-label="Search courses"
                 className="flex-1 bg-transparent text-sm text-white placeholder-white/50 outline-none"
@@ -3627,7 +3687,7 @@ export default function EnterprisePage() {
               </button>
             </div>
             {navResultsOpen && navQuery.trim().length > 0 && (
-              <div className="absolute left-3 right-3 top-full z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+              <div className="absolute left-5 right-5 top-full z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
                 {(() => {
                   const results = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
                     c.name.toLowerCase().includes(navQuery.toLowerCase()) ||
@@ -3647,6 +3707,48 @@ export default function EnterprisePage() {
           </div>
         )}
 
+        {/* Mobile All Courses panel — shown when All Courses nav button is tapped */}
+        {mobileAllCoursesOpen && (
+          <div className="-mx-4 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '70vh', overflowY: 'auto' }}>
+            <div className="px-4 py-3">
+              <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
+                {/* Vendor tabs */}
+                <div className="flex overflow-x-auto gap-1 p-2 border-b" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+                  {MEGA_MENU_VENDORS.map(v => (
+                    <button
+                      key={v.name}
+                      onClick={() => setMobileMegaVendor(v.name)}
+                      className="shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
+                      style={{
+                        background: mobileMegaVendor === v.name ? '#0694D1' : 'rgba(255,255,255,0.06)',
+                        color: mobileMegaVendor === v.name ? '#fff' : 'rgba(255,255,255,0.65)',
+                      }}
+                    >
+                      {v.img && <div className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded bg-white"><img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" /></div>}
+                      {v.name}
+                    </button>
+                  ))}
+                </div>
+                {/* Courses for selected vendor */}
+                <div className="p-3 space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(6,148,209,0.8)' }}>
+                    {MEGA_MENU_VENDORS.find(v => v.name === mobileMegaVendor)?.courses} courses available
+                  </p>
+                  {(MEGA_MENU_COURSES[mobileMegaVendor] ?? []).map((c, i) => (
+                    <a key={i} href={COURSE_HREFS[c.name] ?? '#'} className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                      <span>{c.name}</span>
+                      <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{c.days}d</span>
+                    </a>
+                  ))}
+                  <a href={VENDOR_HREFS[mobileMegaVendor] ?? '#'} className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                    Browse All {mobileMegaVendor} Courses →
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Mobile drawer */}
         {mobileOpen && (
           <div className="-mx-4 border-t lg:hidden" style={{ background: '#061624', borderColor: 'rgba(6,148,209,0.2)', maxHeight: '80vh', overflowY: 'auto' }}>
@@ -3656,52 +3758,6 @@ export default function EnterprisePage() {
               <div className="mb-2 flex rounded-xl p-0.5" style={{ background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.30)' }}>
                 <Link href="/" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal transition-all" style={{ color: 'rgba(255,255,255,0.55)' }}>Individual</Link>
                 <span className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Enterprise</span>
-              </div>
-
-              {/* All Courses accordion */}
-              <div>
-                <button
-                  onClick={() => setMobileAllCoursesOpen(v => !v)}
-                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5"
-                  style={{ color: mobileAllCoursesOpen ? '#38bdf8' : '#ffffff' }}
-                >
-                  All Courses
-                  <svg className={`h-4 w-4 transition-transform ${mobileAllCoursesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
-                </button>
-                {mobileAllCoursesOpen && (
-                  <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
-                    <div className="flex overflow-x-auto gap-1 p-2 border-b" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-                      {MEGA_MENU_VENDORS.map(v => (
-                        <button
-                          key={v.name}
-                          onClick={() => setMobileMegaVendor(v.name)}
-                          className="shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
-                          style={{
-                            background: mobileMegaVendor === v.name ? '#0694D1' : 'rgba(255,255,255,0.06)',
-                            color: mobileMegaVendor === v.name ? '#fff' : 'rgba(255,255,255,0.65)',
-                          }}
-                        >
-                          {v.img && <div className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded bg-white"><img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" /></div>}
-                          {v.name}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="p-3 space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(6,148,209,0.8)' }}>
-                        {MEGA_MENU_VENDORS.find(v => v.name === mobileMegaVendor)?.courses} courses available
-                      </p>
-                      {(MEGA_MENU_COURSES[mobileMegaVendor] ?? []).map((c, i) => (
-                        <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
-                          <span>{c.name}</span>
-                          <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{c.days}d</span>
-                        </a>
-                      ))}
-                      <a href="#" className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
-                        Browse All {mobileMegaVendor} Courses →
-                      </a>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Technologies accordion */}
@@ -3716,11 +3772,12 @@ export default function EnterprisePage() {
                 </button>
                 {mobileTechOpen && (
                   <div className="mt-1 rounded-xl overflow-hidden" style={{ background: 'rgba(6,148,209,0.06)', border: '1px solid rgba(6,148,209,0.15)' }}>
+                    {/* Tech category tabs */}
                     <div className="flex overflow-x-auto gap-1 p-2 border-b" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
                       {TOP_TECHNOLOGIES.map(t => (
                         <button
                           key={t.name}
-                          onClick={() => setMobileTechCategory(t.name)}
+                          onClick={() => { if (TECH_HREFS[t.name]) { router.push(TECH_HREFS[t.name]); setMobileTechOpen(false); setMobileOpen(false) } else { setMobileTechCategory(t.name) } }}
                           className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-all"
                           style={{
                             background: mobileTechCategory === t.name ? '#0694D1' : 'rgba(255,255,255,0.06)',
@@ -3731,16 +3788,26 @@ export default function EnterprisePage() {
                         </button>
                       ))}
                     </div>
+                    {/* Courses for selected tech */}
                     <div className="p-3 space-y-2">
                       <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(6,148,209,0.8)' }}>
                         {TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)?.partners.join(', ')}
                       </p>
                       {(TECH_MENU_COURSES[mobileTechCategory] ?? []).map((course, i) => (
-                        <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                        <a key={i} href={COURSE_HREFS[course.name] ?? '#'} className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
                           <span>{course.name}</span>
                           <span className="text-xs" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.days}d</span>
                         </a>
                       ))}
+                      <a
+                        href={TECH_HREFS[mobileTechCategory] ?? '#'}
+                        onClick={() => setMobileAllCoursesOpen(false)}
+                        className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all"
+                        style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', color: '#fff' }}
+                      >
+                        View All {mobileTechCategory} Courses
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                      </a>
                     </div>
                   </div>
                 )}
@@ -3785,7 +3852,7 @@ export default function EnterprisePage() {
               </div>
 
               {/* Contact */}
-              <a href="#" className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/5">Contact</a>
+              <a href="/contact" className="block rounded-lg px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/5">Contact</a>
 
               {/* Bottom actions */}
               <div className="flex gap-2 pt-2 pb-1">
@@ -3796,22 +3863,24 @@ export default function EnterprisePage() {
             </div>
           </div>
         )}
-
         {/* ── All Courses Mega Menu ── */}
         {megaMenuOpen && (
           <div
             ref={megaMenuRef}
-            className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
+            className="absolute inset-x-0 top-full z-[200] mx-auto flex max-w-7xl overflow-hidden rounded-b-2xl"
             style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
+            onMouseEnter={clearNavMenuCloseTimer}
+            onMouseLeave={scheduleNavMenuClose}
           >
             {/* Left — vendor list */}
-            <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
+            <div className="flex min-h-0 w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
               <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
               {MEGA_MENU_VENDORS.map(v => (
                 <div key={v.name} className="group/vendor relative flex items-center" style={{ borderLeft: megaMenuVendor === v.name ? '2px solid #0694D1' : '2px solid transparent', background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.12)' : 'transparent' }}>
-                  <button
+                  <a
+                    href={VENDOR_HREFS[v.name] ?? '#'}
                     onMouseEnter={() => setMegaMenuVendor(v.name)}
-                    onClick={() => setMegaMenuVendor(v.name)}
+                    onClick={() => setMegaMenuOpen(false)}
                     className="flex flex-1 items-center gap-3 px-4 py-2.5 text-left transition-all"
                     style={{ color: megaMenuVendor === v.name ? '#ffffff' : 'rgba(255,255,255,0.65)' }}
                   >
@@ -3822,25 +3891,19 @@ export default function EnterprisePage() {
                         <span className="text-sm font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
                       )}
                     </div>
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium leading-tight">{v.name}</div>
                       <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses} Courses</div>
                     </div>
-                  </button>
-                  <a
-                    href="#"
-                    title={`View all ${v.name} courses`}
-                    className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-md opacity-0 transition-all group-hover/vendor:opacity-100 hover:!opacity-100"
-                    style={{ color: '#38bdf8', background: 'rgba(6,148,209,0.18)' }}
-                  >
-                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    <svg className="mr-1 h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/vendor:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#38bdf8"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                   </a>
                 </div>
               ))}
             </div>
 
             {/* Right — courses panel */}
-            <div className="flex flex-1 flex-col overflow-y-auto p-6">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-6">
+              {/* Header */}
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-base font-bold text-white">{megaMenuVendor} Courses</h3>
@@ -3848,43 +3911,42 @@ export default function EnterprisePage() {
                     {MEGA_MENU_VENDORS.find(v => v.name === megaMenuVendor)?.courses} courses available
                   </p>
                 </div>
-                <a href="#" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                <a href={VENDOR_HREFS[megaMenuVendor] ?? '#'} className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
                   View All {megaMenuVendor} Courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
               </div>
-              <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+              {/* Course grid */}
+              <div className="grid min-w-0 grid-cols-2 gap-2 xl:grid-cols-3">
                 {(MEGA_MENU_COURSES[megaMenuVendor] ?? []).map((course, i) => (
                   <a
                     key={i}
-                    href="#"
-                    className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
+                    href={COURSE_HREFS[course.name] ?? '#'}
+                    className="group flex min-w-0 flex-col gap-2 rounded-xl p-3 transition-all hover:-translate-y-0.5"
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
                   >
-                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2">{course.name}</p>
+                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-3">{course.name}</p>
                     <div className="flex items-center gap-2 mt-auto">
                       <span className="flex items-center gap-1 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {course.days} days
                       </span>
-                      <span className={`rounded-full px-2 py-0.5 text-sm font-semibold ${
+                      <span className={`rounded-full px-1.5 py-0.5 font-medium ${
                         course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
                         course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
                         'bg-[#076d9d] text-white'
-                      }`}>{course.level}</span>
+                      }`} style={{ fontSize: '12px' }}>{course.level}</span>
                     </div>
                   </a>
                 ))}
               </div>
-              <div className="mt-5 flex items-center justify-between gap-3 border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+              {/* Footer CTA */}
+              <div className="mt-5 flex items-center border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
                 <a href="#" className="flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7"/></svg>
                   Browse All Vendors
-                </a>
-                <a href="#" className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
-                  Browse All {megaMenuVendor} Courses →
                 </a>
               </div>
             </div>
@@ -3895,11 +3957,13 @@ export default function EnterprisePage() {
         {techMenuOpen && (
           <div
             ref={techMenuRef}
-            className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
+            className="absolute inset-x-0 top-full z-[200] mx-auto flex max-w-7xl overflow-hidden rounded-b-2xl"
             style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
+            onMouseEnter={clearNavMenuCloseTimer}
+            onMouseLeave={scheduleNavMenuClose}
           >
             {/* Left — technology categories */}
-            <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
+            <div className="flex min-h-0 w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
               <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Technologies</div>
               {([
                 { name: 'Cloud Computing',    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
@@ -3910,14 +3974,15 @@ export default function EnterprisePage() {
                 { name: 'DevOps',             icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/> },
                 { name: 'ERP Systems',        icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/> },
                 { name: 'Linux & Open Source',icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/> },
+                { name: 'Power Platform',     icon: <><rect x="3" y="3" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="13" y="3" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="3" y="13" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="13" y="13" width="8" height="8" rx="1.5" strokeWidth={1.8}/></> },
               ] as { name: string; icon: React.ReactNode }[]).map(({ name, icon }) => {
                 const t = TOP_TECHNOLOGIES.find(x => x.name === name)!
                 return (
                   <button
                     key={name}
                     onMouseEnter={() => setTechMenuCategory(name)}
-                    onClick={() => setTechMenuCategory(name)}
-                    className="flex items-center gap-3 px-4 py-2.5 text-left transition-all"
+                    onClick={() => { if (TECH_HREFS[name]) { router.push(TECH_HREFS[name]); setTechMenuOpen(false) } else { setTechMenuCategory(name) } }}
+                    className="group/tech flex items-center gap-3 px-4 py-2.5 text-left transition-all"
                     style={{
                       background: techMenuCategory === name ? 'rgba(6,148,209,0.12)' : 'transparent',
                       borderLeft: techMenuCategory === name ? '2px solid #0694D1' : '2px solid transparent',
@@ -3929,16 +3994,14 @@ export default function EnterprisePage() {
                       <div className="truncate text-sm font-medium leading-tight">{name}</div>
                       <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{t.count} Courses</div>
                     </div>
-                    {techMenuCategory === name && (
-                      <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
-                    )}
+                    <svg className="h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/tech:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#38bdf8"><title>{`Go to ${name} courses`}</title><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                   </button>
                 )
               })}
             </div>
 
             {/* Right — courses panel */}
-            <div className="flex flex-1 flex-col overflow-y-auto p-6">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-6">
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-base font-bold text-white">{techMenuCategory}</h3>
@@ -3946,22 +4009,22 @@ export default function EnterprisePage() {
                     {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.partners.join(', ')}
                   </p>
                 </div>
-                <a href="#" className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
-                  View all {techMenuCategory} courses
+                <a href={TECH_HREFS[techMenuCategory] ?? '#'} className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                  View All {techMenuCategory} Courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
               </div>
-              <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+              <div className="grid min-w-0 grid-cols-2 gap-2 xl:grid-cols-3">
                 {(TECH_MENU_COURSES[techMenuCategory] ?? []).map((course, i) => (
                   <a
                     key={i}
-                    href="#"
-                    className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
+                    href={COURSE_HREFS[course.name] ?? '#'}
+                    className="group flex min-w-0 flex-col gap-2 rounded-xl p-3 transition-all hover:-translate-y-0.5"
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
                   >
-                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2">{course.name}</p>
+                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-3">{course.name}</p>
                     <div className="flex items-center gap-2 mt-auto">
                       <span className="text-sm" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.vendor}</span>
                       <span className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
@@ -3969,16 +4032,13 @@ export default function EnterprisePage() {
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {course.days}d
                       </span>
-                      <span className={`ml-auto rounded-full px-2 py-0.5 text-sm font-semibold ${course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' : 'bg-[#076d9d] text-white'}`}>{course.level}</span>
+                      <span className={`ml-auto rounded-full px-1.5 py-0.5 font-medium ${course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' : 'bg-[#076d9d] text-white'}`} style={{ fontSize: '12px' }}>{course.level}</span>
                     </div>
                   </a>
                 ))}
               </div>
-              <div className="mt-5 flex items-center justify-between border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+              <div className="mt-5 flex items-center border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
                 <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {techMenuCategory}</span>
-                <a href="#" className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
-                  Browse All {techMenuCategory} Courses →
-                </a>
               </div>
             </div>
           </div>
@@ -4060,21 +4120,21 @@ export default function EnterprisePage() {
                 <span className="h-2 w-2 rounded-full bg-[#0694D1]" />
                 Enterprise Training Solutions
               </div>
-              <h1 className="mb-5 font-bold leading-[1.15] tracking-tight text-[clamp(1.5rem,5vw,2.5rem)] lg:text-[clamp(1.4rem,2.4vw,2.6rem)] xl:text-[clamp(2rem,3vw,3.5rem)]" style={{ color: '#093148' }}>
+              <h1 className="mb-5 font-bold leading-[1.15] tracking-tight text-[clamp(1.5rem,5vw,2.375rem)]" style={{ color: '#093148' }}>
                 <span className="block">The Training Partner</span>
                 <span className="ent-morph-gradient">Trusted by 1,000+ Global Enterprises</span>
               </h1>
-              <p className="mb-8 max-w-xl text-base lg:text-lg" style={{ color: '#4a7a99' }}>
+              <p className="mb-[15px] sm:mb-8 max-w-xl text-base lg:text-lg" style={{ color: '#4a7a99' }}>
                 Tailored IT certification programmes for enterprises across 195+ countries. From needs assessment to certified outcomes — Koenig handles everything, so your team stays focused on what matters.
               </p>
               <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
-                <button onClick={() => setContactModalOpen(true)} className="ent-cta-btn rounded-xl px-7 py-3.5 text-base font-bold text-white">
+                <button onClick={() => window.dispatchEvent(new CustomEvent('openContactModal', { detail: { type: 'enterprise' } }))} className="ent-cta-btn rounded-xl px-7 py-3.5 text-base font-bold text-white">
                   Get a Free Consultation
                 </button>
               </div>
 
               {/* Stats — all 4 in one row below the CTAs */}
-              <div className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-4 w-full">
+              <div className="mt-[15px] sm:mt-8 grid grid-cols-2 gap-2 sm:grid-cols-4 w-full">
                 {STATS.map((s, i) => (
                   <div
                     key={s.label}
@@ -4217,7 +4277,7 @@ export default function EnterprisePage() {
                   <span style={{ display:'inline-block', width:20, height:2, borderRadius:2, background:'#0694D1', flexShrink:0 }} />
                   Trusted Worldwide
                 </p>
-                <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#093148' }}>
+                <h2 className="text-2xl font-bold lg:text-[32px]" style={{ color: '#093148' }}>
                   Training <span className="ent-dark-grad-text">Fortune 500 </span><span className="ent-shimmer-text">Companies</span><span className="ent-dark-grad-text"> & Global Enterprises</span>
                 </h2>
                 <p className="mt-2 text-sm" style={{ color: '#4a7a9b' }}>From startups to multinationals — 1,000+ organisations choose Koenig for their workforce upskilling.</p>
@@ -4314,36 +4374,28 @@ export default function EnterprisePage() {
           .adde-card .icon-circle svg { transition:stroke .25s,transform .25s; }
           @keyframes arrowDot { 0%{left:2px;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{left:calc(100% - 8px);opacity:0} }
           @keyframes arrowChevron { 0%,100%{opacity:.3;transform:translateX(-3px)} 50%{opacity:1;transform:translateX(3px)} }
-          @keyframes arrowDotV { 0%{top:2px;opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{top:calc(100% - 8px);opacity:0} }
-          @keyframes arrowChevronV { 0%,100%{opacity:.3;transform:translateY(-3px)} 50%{opacity:1;transform:translateY(3px)} }
-          .adde-conn-h { display:none;align-items:center;justify-content:center;flex-direction:column;gap:4px;width:32px;flex-shrink:0;align-self:center; }
-          @media(min-width:1024px){.adde-conn-h{display:flex}}
-          .adde-conn-v { display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;height:28px;width:100%; }
-          @media(min-width:640px){.adde-conn-v{display:none}}
+          .adde-conn-h { display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;width:32px;flex-shrink:0;align-self:center; }
           .adde-tline-h { position:relative;width:100%;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(19,168,212,.1),rgba(19,168,212,.55),rgba(19,168,212,.1));overflow:hidden; }
           .adde-tline-h::after { content:'';position:absolute;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#13a8d4;box-shadow:0 0 8px #13a8d4;animation:arrowDot 1.8s ease-in-out infinite; }
           .adde-chev-row { display:flex;gap:3px;animation:arrowChevron 1.8s ease-in-out infinite; }
           .adde-chev { width:8px;height:8px;border-top:2px solid #13a8d4;border-right:2px solid #13a8d4;transform:rotate(45deg); }
           .adde-chev:nth-child(1){opacity:.3}.adde-chev:nth-child(2){opacity:.6}.adde-chev:nth-child(3){opacity:1}
-          .adde-tline-v { position:relative;height:100%;width:2px;border-radius:2px;background:linear-gradient(180deg,rgba(19,168,212,.1),rgba(19,168,212,.55),rgba(19,168,212,.1));overflow:hidden; }
-          .adde-tline-v::after { content:'';position:absolute;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:#13a8d4;box-shadow:0 0 8px #13a8d4;animation:arrowDotV 1.8s ease-in-out infinite; }
-          .adde-chev-col { display:flex;flex-direction:column;gap:3px;animation:arrowChevronV 1.8s ease-in-out infinite; }
-          .adde-chev-v { width:8px;height:8px;border-bottom:2px solid #13a8d4;border-right:2px solid #13a8d4;transform:rotate(45deg); }
-          .adde-chev-v:nth-child(1){opacity:.3}.adde-chev-v:nth-child(2){opacity:.6}.adde-chev-v:nth-child(3){opacity:1}
         `}</style>
         <canvas ref={addeCanvasRef} className="absolute inset-0 w-full h-full" style={{ display:'block' }} />
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="mb-12 text-center">
+          <div className="mb-[15px] lg:mb-12 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#13a8d4' }}>Our Methodology</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">The Koenig <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">A.D.D.E.</span> Framework</h2>
+            <h2 className="text-3xl font-bold text-white lg:text-[32px]">The Koenig <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">A.D.D.E.</span> Framework</h2>
             <p className="mt-3 text-white/50">A structured 4-step approach that ensures every enterprise training programme delivers measurable results.</p>
           </div>
-          {/* Desktop: flex row with connectors between. Mobile: flex col */}
-          <div className="flex flex-col lg:flex-row lg:items-stretch gap-0">
+          {/* Mobile: one step per slide, swipeable */}
+          <AddeMobileCarousel />
+          {/* Desktop: flex row with connectors between */}
+          <div className="hidden lg:flex lg:items-stretch gap-0">
             {APPROACH.map((a, i) => {
               const letter = ['A','D','D','E'][i]
               return (
-                <div key={a.step} className="flex flex-col lg:flex-row lg:items-stretch flex-1 min-w-0">
+                <div key={a.step} className="flex lg:items-stretch flex-1 min-w-0">
                   {/* Card */}
                   <div className="adde-card relative overflow-hidden rounded-2xl p-6 pb-8 transition-all duration-300 flex-1" style={{ background: 'rgba(19,168,212,0.05)', border: '1px solid rgba(19,168,212,0.18)', backdropFilter:'blur(6px)' }}>
                     <div aria-hidden className="pointer-events-none absolute bottom-2 right-3 select-none font-black leading-none" style={{ fontSize: 120, color: 'rgba(19,168,212,0.07)', lineHeight:1 }}>{letter}</div>
@@ -4361,24 +4413,14 @@ export default function EnterprisePage() {
                     <p className="text-sm leading-relaxed text-white/55 relative z-10">{a.desc}</p>
                     <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, #13a8d4 40%, #38bdf8 60%, transparent)' }} />
                   </div>
-                  {/* Connector — horizontal on desktop, vertical on mobile */}
+                  {/* Connector — horizontal on desktop */}
                   {i < APPROACH.length - 1 && (
-                    <>
-                      {/* Desktop horizontal */}
-                      <div className="adde-conn-h px-1" style={{ animationDelay:`${i*.4}s` }}>
-                        <div className="adde-tline-h w-full" />
-                        <div className="adde-chev-row" style={{ animationDelay:`${i*.4}s` }}>
-                          <div className="adde-chev"/><div className="adde-chev"/><div className="adde-chev"/>
-                        </div>
+                    <div className="adde-conn-h px-1" style={{ animationDelay:`${i*.4}s` }}>
+                      <div className="adde-tline-h w-full" />
+                      <div className="adde-chev-row" style={{ animationDelay:`${i*.4}s` }}>
+                        <div className="adde-chev"/><div className="adde-chev"/><div className="adde-chev"/>
                       </div>
-                      {/* Mobile vertical */}
-                      <div className="adde-conn-v py-1 lg:hidden" style={{ animationDelay:`${i*.4}s` }}>
-                        <div className="adde-tline-v h-full" />
-                        <div className="adde-chev-col" style={{ animationDelay:`${i*.4}s` }}>
-                          <div className="adde-chev-v"/><div className="adde-chev-v"/><div className="adde-chev-v"/>
-                        </div>
-                      </div>
-                    </>
+                    </div>
                   )}
                 </div>
               )
@@ -4401,7 +4443,7 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-[15px] sm:mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#38bdf8' }}>Sector Expertise</p>
-            <h2 className="text-3xl font-bold text-white lg:text-4xl">Industries We{' '}
+            <h2 className="text-3xl font-bold text-white lg:text-[32px]">Industries We{' '}
               <span className="relative inline-block">
                 <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Specialise In</span>
                 <style>{`
@@ -4528,293 +4570,191 @@ export default function EnterprisePage() {
         </div>
       </section>
 
-      {/* ── What We Train ── */}
-      <section className="relative px-4 md:px-8 lg:px-[50px] py-5 sm:py-16" style={{ background: '#e8f0f8', fontFamily: 'Segoe UI, system-ui, sans-serif' }}>
-        {(() => {
-          const d = CAT_DOMAINS[activeDomain]
-          const allCourses = d.courses
-          const allLevels = Array.from(new Set(allCourses.map(c => c.level)))
-          const LEVELS = ['All', 'Popular', ...allLevels]
-          const levelCount = (lv: string) => lv === 'All' ? allCourses.length : lv === 'Popular' ? allCourses.filter(c => (c as {popular?: boolean}).popular).length : allCourses.filter(c => c.level === lv).length
-          const searched = catSearch.trim()
-            ? allCourses.filter(c => c.title.toLowerCase().includes(catSearch.toLowerCase()) || c.code.toLowerCase().includes(catSearch.toLowerCase()))
-            : allCourses
-          const filtered = catLevel === 'All' ? searched : catLevel === 'Popular' ? searched.filter(c => (c as {popular?: boolean}).popular) : searched.filter(c => c.level === catLevel)
-          const sorted = [...filtered].sort((a, b) => {
-            const pa = parseFloat(String(a.price).replace(/[^0-9.]/g, ''))
-            const pb = parseFloat(String(b.price).replace(/[^0-9.]/g, ''))
-            return catSort === 'high-low' ? pb - pa : catSort === 'low-high' ? pa - pb : catSort === 'dur-asc' ? a.days - b.days : catSort === 'dur-desc' ? b.days - a.days : 0
-          })
-          const LCAT: Record<string, { bg: string; color: string }> = {
-            Fundamentals: { bg: '#d0f4f2', color: '#007b83' },
-            Associate:    { bg: '#dbeeff', color: '#0d87c8' },
-            Expert:       { bg: '#ffebd6', color: '#c05a00' },
-          }
-          return (
-            <div className="mx-auto max-w-7xl">
-              {/* Section heading */}
-              <div className="io-fade mb-7 text-center">
-                <span className="mb-2 inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider" style={{ background: 'rgba(13,135,200,0.10)', color: '#0d87c8' }}>Enterprise Training</span>
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold" style={{ color: '#0a1929' }}>
-                  Explore Our <span className="bg-gradient-to-r from-[#0d87c8] to-[#38bdf8] bg-clip-text text-transparent">Courses</span>
-                </h2>
+      {/* ── Explore Our Courses ── */}
+      <CourseExplorer />
+
+      {/* ── Contact Form ── */}
+      <section id="contact" className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[70px]" style={{ background: 'linear-gradient(160deg,#040f1a 0%,#061e30 50%,#051525 100%)' }}>
+        {/* Glow orbs */}
+        <div className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(6,148,209,0.14) 0%,transparent 70%)' }} />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(77,191,239,0.10) 0%,transparent 70%)' }} />
+
+        <div className="relative mx-auto max-w-3xl">
+
+          {/* Header */}
+          <div className="mb-10 text-center">
+            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)' }}>Let&apos;s Talk</span>
+            <h2 className="mt-3 text-3xl font-bold text-white lg:text-[32px]">Get Your Custom Training Plan <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">— Free</span></h2>
+            <p className="mt-3 text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.50)' }}>Tell us about your workforce goals and we&apos;ll design a programme that delivers real, measurable outcomes.</p>
+          </div>
+
+          {submitted ? (
+            <div className="rounded-2xl p-12 text-center" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.35)', boxShadow: '0 0 40px rgba(6,148,209,0.12)' }}>
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.4)' }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
-
-              {/* Main floating card */}
-              <div className="io-fade delay-1 flex overflow-hidden" style={{ borderRadius: 16, boxShadow: '0 4px 32px rgba(13,135,200,0.13)', border: '1px solid #dde8f2', background: '#fff', minHeight: 640 }}>
-
-                {/* Left Sidebar */}
-                <div className="hidden sm:flex flex-col shrink-0 bg-white" style={{ width: 'clamp(160px, 18vw, 210px)', borderRight: '1px solid #e4edf5' }}>
-                  <div className="px-4 pt-5 pb-2" style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9aabb8' }}>Technologies</div>
-                  <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d0e8f5 transparent' }}>
-                    {CAT_DOMAINS.map((cat, i) => {
-                      const active = activeDomain === i
-                      return (
-                        <button key={i}
-                          onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null); setDescExpanded(false) }}
-                          style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '9px 14px 9px 0', borderLeft: active ? '3px solid #0d87c8' : '3px solid transparent', background: active ? '#e6f4fb' : 'transparent', cursor: 'pointer', transition: 'background 0.15s' }}
-                          onMouseEnter={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = '#f2f9fd' }}
-                          onMouseLeave={e => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
-                        >
-                          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, marginLeft: 11, flexShrink: 0, color: active ? '#0d87c8' : '#5a8ba8' }}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">{cat.icon}</svg>
-                          </span>
-                          <span style={{ flex: 1, fontSize: 13, fontWeight: active ? 700 : 500, color: active ? '#0970a8' : '#1a3a4a', lineHeight: 1.3, textAlign: 'left' }}>{cat.name}</span>
-                          <span style={{ flexShrink: 0, marginRight: 10, borderRadius: 999, padding: '1px 7px', fontSize: 11, fontWeight: 700, background: active ? '#0d87c8' : '#dff0fb', color: active ? '#fff' : '#0d87c8' }}>{cat.courses.length}</span>
-                        </button>
-                      )
-                    })}
-                  </div>
-                  {/* Bottom buttons */}
-                  <div style={{ padding: 12, borderTop: '1px solid #e4edf5', display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    <a href="#contact"
-                      style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 10, border: '1.5px solid #0d87c8', padding: '9px 0', fontSize: 13, fontWeight: 600, color: '#0d87c8', background: 'transparent', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#dff0fb' }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}>
-                      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                      Download Brochure
-                    </a>
-                    <a href="#contact"
-                      style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 10, border: 'none', padding: '9px 0', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
-                      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                      Enquire Now
-                    </a>
-                  </div>
-                </div>
-
-                {/* Right panel */}
-                <div className="flex-1 flex flex-col overflow-hidden">
-
-                  {/* Mobile category scroll */}
-                  <div className="sm:hidden relative" style={{ borderBottom: '1px solid #e4edf5' }}>
-                    <div className="overflow-x-auto flex gap-2 px-4 py-3 [&::-webkit-scrollbar]:hidden">
-                      {CAT_DOMAINS.map((cat, i) => (
-                        <button key={i} onClick={() => { setActiveDomain(i); setCatLevel('All'); setFlippedCard(null); setDescExpanded(false) }}
-                          style={{ flexShrink: 0, borderRadius: 999, padding: '5px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', background: activeDomain === i ? '#0d87c8' : '#e6f4fb', color: activeDomain === i ? '#fff' : '#0d87c8', border: 'none' }}>
-                          {cat.name}
-                        </button>
-                      ))}
-                    </div>
-                    {/* Right fade + arrow hint */}
-                    <div style={{ pointerEvents: 'none', position: 'absolute', right: 0, top: 0, bottom: 0, width: 48, background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.95))', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 6 }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0d87c8" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                    </div>
-                  </div>
-
-                  {/* Tech header */}
-                  {/* Mobile layout */}
-                  <div className="sm:hidden flex flex-col gap-2 px-5 py-4" style={{ borderBottom: '1px solid #e4edf5' }}>
-                    <div className="flex items-center gap-3">
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: 10, background: '#e0f2fb', flexShrink: 0, color: '#0d87c8' }}>
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">{d.icon}</svg>
-                      </div>
-                      <div style={{ flex: 1, minWidth: 0, fontSize: 17, fontWeight: 700, color: '#0a1929', lineHeight: 1.2 }}>{d.name}</div>
-                      <a href="#contact" style={{ flexShrink: 0, borderRadius: 9, border: 'none', padding: '7px 14px', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                        Enquire Now →
-                      </a>
-                    </div>
-                    <div style={{ fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.55 }}>
-                      <span className={descExpanded ? '' : 'line-clamp-2'}>{d.desc}</span>
-                      <button onClick={() => setDescExpanded(v => !v)} style={{ marginLeft: 4, fontSize: 11, fontWeight: 600, color: '#0d87c8', background: 'none', border: 'none', padding: 0, cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                        {descExpanded ? 'less ↑' : 'more ↓'}
-                      </button>
-                    </div>
-                  </div>
-                  {/* Desktop layout: icon | name | desc | button all in one row */}
-                  <div className="hidden sm:flex items-center gap-4 px-5 py-4" style={{ borderBottom: '1px solid #e4edf5' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, borderRadius: 10, background: '#e0f2fb', flexShrink: 0, color: '#0d87c8' }}>
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">{d.icon}</svg>
-                    </div>
-                    <div style={{ fontSize: 17, fontWeight: 700, color: '#0a1929', lineHeight: 1.2, flexShrink: 0 }}>{d.name}</div>
-                    <div style={{ flex: 1, minWidth: 0, fontSize: 12.5, color: '#6b8fa8', lineHeight: 1.45 }}>{d.desc}</div>
-                    <a href="#contact"
-                      style={{ flexShrink: 0, borderRadius: 9, border: 'none', padding: '8px 18px', fontSize: 13, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.15s', whiteSpace: 'nowrap' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0970a8' }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0d87c8' }}>
-                      Enquire Now →
-                    </a>
-                  </div>
-
-                  {/* Filter bar — column on mobile, row on desktop */}
-                  <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 px-4 py-2.5" style={{ borderBottom: '1px solid #e4edf5', background: '#fff' }}>
-                    {/* Search — full width on mobile */}
-                    <div style={{ position: 'relative' }}>
-                      <svg style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', width: 13, height: 13, color: '#9aabb8' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                      <input type="text" placeholder="Search courses..."
-                        value={catSearch} onChange={e => setCatSearch(e.target.value)}
-                        style={{ width: '100%', borderRadius: 8, border: '1px solid #d1dce8', padding: '7px 26px 7px 26px', fontSize: 12, color: '#1a3a4a', outline: 'none', background: '#fff', boxSizing: 'border-box' }} />
-                      {catSearch && (
-                        <button onClick={() => setCatSearch('')} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', color: '#9aabb8' }}
-                          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#4a6278' }}
-                          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#9aabb8' }}>
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                        </button>
-                      )}
-                    </div>
-                    {/* Level pills — scrollable on mobile, wrapped on desktop */}
-                    <div className="relative min-w-0">
-                      <div className="flex items-center gap-1.5 overflow-x-auto sm:flex-wrap sm:overflow-x-visible" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch', paddingRight: 36 } as React.CSSProperties}>
-                        {LEVELS.map(lv => {
-                          const cnt = levelCount(lv)
-                          if (cnt === 0 && lv !== 'All') return null
-                          const active = catLevel === lv
-                          return (
-                            <button key={lv} onClick={() => setCatLevel(lv)}
-                              style={{ borderRadius: 999, padding: '4px 8px 4px 12px', fontSize: 12, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.15s', display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0, background: active ? '#0d87c8' : '#fff', color: active ? '#fff' : '#4a6278', border: active ? '1.5px solid #0d87c8' : '1.5px solid #ccd8e2' }}>
-                              {lv}
-                              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 20, height: 20, borderRadius: 999, padding: '0 5px', fontSize: 11, fontWeight: 700, lineHeight: 1, background: active ? 'rgba(255,255,255,0.28)' : '#dbeeff', color: active ? '#fff' : '#0d87c8' }}>{cnt}</span>
-                            </button>
-                          )
-                        })}
-                      </div>
-                      {/* Right fade + arrow hint — mobile only */}
-                      <div className="sm:hidden" style={{ pointerEvents: 'none', position: 'absolute', right: 0, top: 0, bottom: 0, width: 44, background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.97))', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 6 }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0d87c8" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                      </div>
-                    </div>
-                    {/* Sort */}
-                    <div className="sm:ml-auto flex items-center justify-center sm:justify-start gap-2">
-                      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9aabb8" strokeWidth={2}><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="9" y2="14"/><line x1="21" y1="18" x2="9" y2="18"/></svg>
-                      <select value={catSort} onChange={e => setCatSort(e.target.value)}
-                        style={{ fontSize: 12, fontWeight: 500, border: '1px solid #d1dce8', borderRadius: 7, padding: '5px 10px', background: '#fff', color: '#1a3a4a', outline: 'none', cursor: 'pointer' }}>
-                        <option value="low-high">Price: Low → High</option>
-                        <option value="high-low">Price: High → Low</option>
-                        <option value="dur-asc">Duration: Short → Long</option>
-                        <option value="dur-desc">Duration: Long → Short</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Cards grid */}
-                  {(() => {
-                    type CertType = { prereq: string; examFee: string; format: string; questions: string; passingScore: string; validity: string; bestPractices: string[] }
-                    const flippedCourse = flippedCard !== null ? sorted.find(c => `${activeDomain}-${c.code}` === flippedCard) ?? null : null
-                    const flippedCert = flippedCourse ? (flippedCourse as {cert?: CertType}).cert ?? null : null
-                    return (
-                      <div className="overflow-y-auto p-4" style={{ background: '#f4f8fc', maxHeight: 640, scrollbarWidth: 'thin', scrollbarColor: '#c8dcea transparent' }}>
-                        {sorted.length === 0 ? (
-                          <div className="flex flex-col items-center justify-center py-20" style={{ color: '#9aabb8' }}>
-                            <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} style={{ opacity: 0.3, marginBottom: 10 }}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                            <p style={{ fontSize: 13, fontWeight: 500 }}>No courses match your search.</p>
-                            <button onClick={() => { setCatSearch(''); setCatLevel('All') }} style={{ marginTop: 8, fontSize: 12, color: '#0d87c8', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>Clear filters</button>
-                          </div>
-                        ) : (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3" style={{ gap: 14 }}>
-                            {sorted.map((course, ci) => {
-                              const cardKey = `${activeDomain}-${course.code}`
-                              const isFlipped = flippedCard === cardKey
-                              const lc = LCAT[course.level] ?? { bg: '#dbeeff', color: '#0050c8' }
-                              /* ── Cert panel replaces the clicked card ── */
-                              if (isFlipped) return (
-                                <div key={ci} style={{ background: '#fff', borderRadius: 10, border: '1.5px solid #0d87c8', padding: '13px 15px', display: 'flex', flexDirection: 'column', boxShadow: '0 2px 12px rgba(13,135,200,0.13)' }}>
-                                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
-                                    <button onClick={() => setFlippedCard(null)} style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 20, padding: '3px 10px', cursor: 'pointer' }}>← Course</button>
-                                  </div>
-                                  {flippedCert ? (
-                                    <>
-                                      <div style={{ background: '#f4f8fc', borderRadius: 6, padding: '6px 10px', fontSize: 11.5, color: '#4a6a7a', marginBottom: 8 }}>{flippedCert.prereq}</div>
-                                      {([
-                                        { label: 'Exam Fee', value: flippedCert.examFee },
-                                        { label: 'Format', value: flippedCert.format },
-                                        { label: 'Questions', value: flippedCert.questions },
-                                        { label: 'Passing Score', value: flippedCert.passingScore },
-                                        { label: 'Validity', value: flippedCert.validity },
-                                      ] as {label:string;value:string}[]).map((row, ri) => (
-                                        <div key={ri} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '5px 0', borderBottom: '1px solid #f0f5fa', gap: 8 }}>
-                                          <span style={{ fontSize: 11.5, color: '#6b8fa8', flexShrink: 0 }}>{row.label}</span>
-                                          <span style={{ fontSize: 11.5, fontWeight: 700, color: '#0a1929', textAlign: 'right' }}>{row.value}</span>
-                                        </div>
-                                      ))}
-                                      <div style={{ marginTop: 10 }}>
-                                        <div style={{ fontSize: 10.5, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#0d87c8', marginBottom: 6 }}>Best Practices</div>
-                                        {flippedCert.bestPractices.map((bp, bi) => (
-                                          <div key={bi} style={{ display: 'flex', gap: 6, marginBottom: 4 }}>
-                                            <span style={{ color: '#0d87c8', fontSize: 12, flexShrink: 0 }}>•</span>
-                                            <span style={{ fontSize: 11.5, color: '#1a3a4a', lineHeight: 1.45 }}>{bp}</span>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <div style={{ fontSize: 12, color: '#9aabb8', textAlign: 'center', paddingTop: 40 }}>No cert details available</div>
-                                  )}
-                                </div>
-                              )
-                              /* ── Normal card ── */
-                              return (
-                                <div key={ci} style={{ background: '#fff', borderRadius: 10, border: '1px solid #dde8f2', padding: '14px 15px 13px', display: 'flex', flexDirection: 'column', gap: 9, boxShadow: '0 1px 4px rgba(13,135,200,0.06)' }}>
-                                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', borderRadius: 5, padding: '3px 8px', background: lc.bg, color: lc.color }}>{course.level}</span>
-                                    <button onClick={() => setFlippedCard(cardKey)} style={{ fontSize: 11, fontWeight: 600, color: '#0d87c8', background: '#e8f4fb', border: '1px solid #b8ddf0', borderRadius: 6, padding: '3px 8px', cursor: 'pointer', whiteSpace: 'nowrap' }}>Cert Details →</button>
-                                  </div>
-                                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0a1929', lineHeight: 1.35 }}>{course.title}</div>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                    <span style={{ borderRadius: 6, background: '#e8f2fa', border: '1px solid #c8dcea', padding: '2px 8px', fontSize: 11.5, fontWeight: 600, color: '#3a5f80' }}>{course.code}</span>
-                                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11.5, color: '#6b8fa8' }}>
-                                      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                      {course.days} {course.days === 1 ? 'day' : 'days'} · 8hrs
-                                    </span>
-                                  </div>
-                                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-                                      <span style={{ fontSize: 12, color: '#0d87c8' }}>$</span>
-                                      <span style={{ fontSize: 18, fontWeight: 800, color: '#0d87c8', lineHeight: 1 }}>{course.price}</span>
-                                    </div>
-                                    <span style={{ fontSize: 11, color: '#94a3b8' }}>per person · USD</span>
-                                  </div>
-                                  <div style={{ display: 'flex', gap: 7, marginTop: 'auto', paddingTop: 4 }}>
-                                    <a href="#contact" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, borderRadius: 8, border: '1.5px solid #0d87c8', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#0d87c8', background: 'transparent', textDecoration: 'none' }}
-                                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#e6f4fb' }}
-                                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}>
-                                      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                                      Brochure
-                                    </a>
-                                    <button style={{ flex: 2, borderRadius: 8, border: 'none', padding: '7px 0', fontSize: 12, fontWeight: 600, color: '#fff', background: '#0d87c8', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0970a8' }}
-                                      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#0d87c8' }}>
-                                      Enquire Now
-                                    </button>
-                                  </div>
-                                </div>
-                              )
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    )
-                  })()}
-                </div>
-              </div>
-
+              <h3 className="mb-2 text-xl font-bold text-white">Message Received!</h3>
+              <p className="text-white/55">Our enterprise team will reach out within 1 business day.</p>
             </div>
-          )
-        })()}
+          ) : (
+            <form onSubmit={e => { e.preventDefault(); if (!formCaptcha) return; setSubmitted(true) }} className="rounded-2xl p-8" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 50px rgba(6,148,209,0.10)' }}>
+              <style>{`
+                .ent-input { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.10); transition: border-color 0.2s, box-shadow 0.2s; }
+                .ent-input:focus { border-color: #0694D1; box-shadow: 0 0 0 3px rgba(6,148,209,0.15); outline: none; }
+                .ent-input::placeholder { color: rgba(255,255,255,0.25); }
+              `}</style>
+
+              {/* Contact shortcuts */}
+              <div className="mb-6 flex justify-center gap-2.5">
+                <button type="button" className="flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-3 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-white/10 sm:flex-initial sm:px-4 sm:text-sm" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366" className="shrink-0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  WhatsApp us
+                </button>
+                <button type="button" className="flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-xl px-3 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-white/10 sm:flex-initial sm:px-4 sm:text-sm" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  Email us
+                </button>
+              </div>
+
+              {/* Individual / Enterprise toggle — Enterprise selected by default on this page */}
+              <div className="mb-6 inline-flex w-full rounded-xl p-1" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                {(['individual', 'enterprise'] as const).map(t => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setFormType(t)}
+                    className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all duration-200"
+                    style={formType === t
+                      ? { background: 'linear-gradient(135deg, #0694D1, #076D9D)', color: '#fff', boxShadow: '0 2px 12px rgba(6,148,209,0.35)' }
+                      : { color: 'rgba(255,255,255,0.45)' }}
+                  >
+                    <span className="inline-flex items-center justify-center gap-2">
+                      {t === 'individual'
+                        ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                        : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/><path d="M2 12h20"/></svg>}
+                      {t.charAt(0).toUpperCase() + t.slice(1)}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Row 1 — Full Name + Business Email */}
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>Full Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="John Smith"
+                    value={formData.name}
+                    onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
+                    className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white"
+                  />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>Business Email</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="john@example.com"
+                    value={formData.email}
+                    onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
+                    className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white"
+                  />
+                </div>
+              </div>
+
+              {/* Row 2 — Phone + Course Name (individual) / Number of Trainees (enterprise) */}
+              <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>Phone</label>
+                  <input
+                    type="tel"
+                    placeholder="+1 (555) 000-0000"
+                    value={formData.phone}
+                    onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))}
+                    className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white"
+                  />
+                </div>
+                {formType === 'individual' ? (
+                  <div>
+                    <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>Select Course Name</label>
+                    <select
+                      value={formData.course}
+                      onChange={e => setFormData(p => ({ ...p, course: e.target.value }))}
+                      className="ent-input w-full rounded-xl px-4 py-3 text-sm"
+                      style={{ color: formData.course ? '#fff' : 'rgba(255,255,255,0.3)' }}
+                    >
+                      <option value="" style={{ background: '#0d2d47' }}>Select Course Name</option>
+                      {CONTACT_FORM_COURSES.map(c => (
+                        <option key={c} value={c} style={{ background: '#0d2d47', color: '#fff' }}>{c}</option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>Number of Trainees</label>
+                    <input
+                      type="number"
+                      min={1}
+                      placeholder="e.g. 25"
+                      value={formData.trainees}
+                      onChange={e => setFormData(p => ({ ...p, trainees: e.target.value }))}
+                      className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-5">
+                <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>How did you hear about us?</label>
+                <select
+                  value={formData.source}
+                  onChange={e => setFormData(p => ({ ...p, source: e.target.value }))}
+                  className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white"
+                >
+                  <option value="" style={{ background: '#0d2d47' }}>Select Option</option>
+                  {['Google Search', 'Social Media', 'LinkedIn', 'Colleague / Referral', 'Email Newsletter', 'Event', 'Other'].map(opt => (
+                    <option key={opt} value={opt} style={{ background: '#0d2d47' }}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mt-5">
+                <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>Tell us more about your Training Request</label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..."
+                  value={formData.message}
+                  onChange={e => setFormData(p => ({ ...p, message: e.target.value }))}
+                  className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white resize-none"
+                />
+              </div>
+
+              <div className="mt-5 flex justify-center">
+                <div onClick={() => setFormCaptcha(c => !c)} className="flex h-11 w-56 cursor-pointer items-center gap-2.5 rounded px-2.5" style={{ border: '1.5px solid rgba(255,255,255,0.18)', background: 'rgba(255,255,255,0.04)' }}>
+                  <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-sm transition-all" style={{ border: `2px solid ${formCaptcha ? '#0694D1' : 'rgba(255,255,255,0.55)'}`, background: formCaptcha ? '#0694D1' : 'transparent' }}>
+                    {formCaptcha && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                  </div>
+                  <span className="flex-1 text-sm font-medium text-white/85">I&apos;m not a robot</span>
+                  <div className="flex shrink-0 flex-col items-center gap-0.5">
+                    <img decoding="async" loading="lazy" src="https://www.gstatic.com/recaptcha/api2/logo_48.png" width="24" height="24" alt="reCAPTCHA" className="block" />
+                    <span style={{ fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.03em', lineHeight: 1 }}>reCAPTCHA</span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" className="mt-6 w-full rounded-xl py-4 text-base font-bold text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 24px rgba(6,148,209,0.40)', opacity: formCaptcha ? 1 : 0.6, cursor: formCaptcha ? 'pointer' : 'not-allowed' }}>
+                Submit
+              </button>
+            </form>
+          )}
+        </div>
       </section>
 
       {/* ── Business Impact ── */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-[30px] sm:py-20" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-[35px]" style={{ background: 'linear-gradient(to right, #f0f5ff 0%, #c8e4f5 45%, #7dc8e8 100%)' }}>
         {/* Floating squares — right half decorative */}
         {[
           { w: 110, h: 110, top: '12%',  left: '46%' },
@@ -4839,7 +4779,7 @@ export default function EnterprisePage() {
               </p>
 
               {/* Heading */}
-              <h2 className="mb-[15px] lg:mb-4 text-3xl font-bold leading-tight lg:text-4xl" style={{ color: '#0b2545' }}>
+              <h2 className="mb-[15px] lg:mb-4 text-3xl font-bold leading-tight lg:text-[32px]" style={{ color: '#0b2545' }}>
                 The Business Impact of{' '}
                 <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">
                   Koenig Enterprise Training
@@ -4850,14 +4790,6 @@ export default function EnterprisePage() {
               <p className="mb-[15px] lg:mb-10 text-sm leading-relaxed" style={{ color: '#3a6080' }}>
                 Trusted by 500+ enterprises worldwide to upskill teams, close certification gaps, and deliver measurable ROI across every region.
               </p>
-
-              {/* CTA */}
-              <button
-                className="rounded-xl px-8 py-3 text-sm font-bold text-white transition-all hover:opacity-90"
-                style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)', boxShadow: '0 4px 20px rgba(6,148,209,0.35)' }}
-              >
-                Learn More
-              </button>
             </div>
 
             {/* ══ RIGHT — Auto-sliding image ══ */}
@@ -4872,11 +4804,6 @@ export default function EnterprisePage() {
               ]
               return (
                 <div className="flex-1">
-                  {/* Feature title — updates per slide */}
-                  <p className="mb-3 text-sm font-bold uppercase tracking-wider" style={{ color: '#0b2545', minHeight: '20px' }}>
-                    {BI_ITEMS[biSlide].title}
-                  </p>
-
                   {/* Fixed-height image container — all slides stacked */}
                   <div
                     className="relative overflow-hidden rounded-2xl"
@@ -4895,13 +4822,22 @@ export default function EnterprisePage() {
                         style={{ opacity: biSlide === idx ? 1 : 0, pointerEvents: biSlide === idx ? 'auto' : 'none' }}
                       >
                         <img src={sl.img} alt={sl.title} className="h-full w-full object-cover" style={{ objectPosition: sl.objPos }} />
-                        {/* Stat badge — bottom-right inside image */}
+                        {/* Title — glassy pill, top-left on mobile (clear of the stat card), centered at bottom from sm+ */}
+                        <div className="absolute left-4 right-4 top-4 flex justify-start sm:inset-x-0 sm:top-auto sm:bottom-4 sm:px-4 sm:justify-center">
+                          <div
+                            className="max-w-full overflow-hidden rounded-full px-3 py-1.5 sm:px-6 sm:py-3"
+                            style={{ background: 'rgba(6,148,209,0.52)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(6,148,209,0.62)', boxShadow: '0 4px 16px rgba(11,37,69,0.25)' }}
+                          >
+                            <p className="truncate text-[10px] font-bold uppercase tracking-wide sm:text-base sm:tracking-wider sm:text-center" style={{ color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,0.35)' }}>{sl.title}</p>
+                          </div>
+                        </div>
+                        {/* Stat badge — bottom-right inside image, same place as original */}
                         <div
-                          className="absolute bottom-4 right-4 rounded-xl px-4 py-3 text-right"
+                          className="absolute bottom-4 right-4 rounded-xl px-2.5 py-1.5 text-right sm:px-4 sm:py-3"
                           style={{ background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(14px)', border: '1px solid rgba(255,255,255,0.7)', boxShadow: '0 4px 16px rgba(11,37,69,0.18)' }}
                         >
-                          <p className="text-2xl font-black leading-none" style={{ color: '#13a8d4' }}>{sl.stat}</p>
-                          <p className="mt-1 text-xs font-medium" style={{ color: '#1e4060' }}>{sl.sublabel}</p>
+                          <p className="text-base font-black leading-none sm:text-2xl" style={{ color: '#13a8d4' }}>{sl.stat}</p>
+                          <p className="mt-0.5 text-[9px] font-medium sm:mt-1 sm:text-xs" style={{ color: '#1e4060' }}>{sl.sublabel}</p>
                         </div>
                       </div>
                     ))}
@@ -4946,7 +4882,7 @@ export default function EnterprisePage() {
           {/* Heading */}
           <div className="io-fade mb-[15px] sm:mb-[35px] text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.25)', color: '#0694d1' }}>Why Enterprises Choose Us</span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">The <span className="bg-gradient-to-r from-[#0694d1] to-cyan-400 bg-clip-text text-transparent">Koenig Difference</span></h2>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold text-white">The <span className="bg-gradient-to-r from-[#0694d1] to-cyan-400 bg-clip-text text-transparent">Koenig Difference</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-white/55">What makes 1M+ professionals and global enterprises choose Koenig</p>
           </div>
 
@@ -5036,7 +4972,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-[15px] sm:mb-[35px] text-center">
             <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Simple Onboarding</span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">From Brief to Certified — <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">In 4 Simple Steps</span></h2>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold text-koenig-dark">From Brief to Certified — <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">In 4 Simple Steps</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-koenig-muted">We handle every detail so your HR and L&D teams can focus on strategy, not logistics.</p>
           </div>
 
@@ -5127,25 +5063,42 @@ export default function EnterprisePage() {
         <div className="relative mx-auto max-w-7xl">
           <div className="io-fade mb-[15px] sm:mb-[35px] text-center">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.18)' }}>Flexible Delivery</span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Training That Fits <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Your Way of Working</span></h2>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold text-white">Training That Fits <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Your Way of Working</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.55)' }}>Six formats. One quality standard. Every option comes with the same expert instructors, official courseware, and money-back guarantee.</p>
           </div>
           <style>{`
-            .ent-lf-flip-inner { transform-style:preserve-3d; transition:transform 0.65s cubic-bezier(0.4,0.2,0.2,1); }
-            .ent-lf-flip:hover .ent-lf-flip-inner { transform:rotateY(180deg); }
+            .ent-lf-flip-inner { transform-style:preserve-3d; }
             .ent-lf-face { backface-visibility:hidden; -webkit-backface-visibility:hidden; }
             .ent-lf-back { transform:rotateY(180deg); }
             @keyframes entLfBtnGlow { 0%,100%{box-shadow:0 0 0 0 rgba(6,148,209,0),0 4px 14px rgba(6,148,209,0.3)} 50%{box-shadow:0 0 22px 7px rgba(6,148,209,0.5),0 4px 14px rgba(6,148,209,0.3)} }
             .ent-lf-btn-glow { animation:entLfBtnGlow 2.8s ease-in-out infinite; }
+            .ent-lf-nav-btn { width:32px; height:32px; border-radius:50%; border:1px solid rgba(6,148,209,0.4); background:rgba(6,148,209,0.12); color:#0694d1; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; transition:background 0.2s; flex-shrink:0; }
+            .ent-lf-nav-btn:hover { background:rgba(6,148,209,0.25); }
           `}</style>
 
           <FormatsMobileCarousel />
           {/* Slide — desktop only */}
-          <div className="hidden sm:block overflow-hidden">
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {FORMATS.slice(formatsSlide * 4, formatsSlide * 4 + 4).map((f, i) => (
-                <div key={i} className="ent-lf-flip io-fade" style={{ perspective: '1000px', height: '400px' }}>
-                  <div className="ent-lf-flip-inner relative h-full w-full">
+          <div
+            ref={entLfSliderRef}
+            className="hidden sm:block"
+            style={{ overflow: 'hidden' }}
+            onMouseEnter={() => { entLfSliderHoverRef.current = true }}
+            onMouseLeave={() => { entLfSliderHoverRef.current = false; setEntLfHoveredCard(null) }}
+          >
+            <div
+              ref={entLfTrackRef}
+              style={{ display: 'flex', gap: 20 }}
+              onTransitionEnd={e => { if (e.target === e.currentTarget) entLfHandleTransitionEnd() }}
+            >
+              {Array.from({ length: 5 }, (_, i) => FORMATS[(entLfStart + i) % FORMATS.length]).map((f, i) => (
+                <div
+                  key={`${entLfStart}-${i}`}
+                  style={{ flex: '0 0 calc(25% - 15px)' }}
+                  onMouseEnter={() => setEntLfHoveredCard(i)}
+                  onMouseLeave={() => setEntLfHoveredCard(null)}
+                >
+                  <div className="ent-lf-flip" style={{ perspective: 1000, height: 400, cursor: 'pointer' }}>
+                    <div className="ent-lf-flip-inner relative h-full w-full" style={{ transform: entLfHoveredCard === i ? 'rotateY(180deg)' : 'rotateY(0deg)', transition: entLfHoveredCard === i ? 'transform 0.65s cubic-bezier(0.4,0.2,0.2,1)' : 'none' }}>
 
                     {/* FRONT */}
                     <div className="ent-lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
@@ -5185,27 +5138,20 @@ export default function EnterprisePage() {
                       <button className="ent-lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>Learn More →</button>
                     </div>
 
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Slide dots — desktop only */}
-          <div className="hidden sm:flex mt-8 items-center justify-center gap-3">
-            {[0, 1].map(idx => (
-              <button
-                key={idx}
-                onClick={() => setFormatsSlide(idx)}
-                className="rounded-full transition-all duration-300"
-                style={{
-                  width: formatsSlide === idx ? 28 : 10,
-                  height: 10,
-                  background: formatsSlide === idx ? 'linear-gradient(to right,#3AB6EB,#076D9D)' : 'rgba(255,255,255,0.25)',
-                  border: '1px solid rgba(6,148,209,0.4)',
-                }}
-              />
-            ))}
+          {/* Desktop ← counter → navigation */}
+          <div className="hidden sm:flex" style={{ justifyContent: 'center', alignItems: 'center', gap: 16, marginTop: 24 }}>
+            <button className="ent-lf-nav-btn" onClick={() => entLfTriggerSlide(false)} aria-label="Previous">←</button>
+            <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.75)', minWidth: 52, textAlign: 'center' }}>
+              {String(entLfStart + 1).padStart(2, '0')} / {String(FORMATS.length).padStart(2, '0')}
+            </span>
+            <button className="ent-lf-nav-btn" onClick={() => entLfTriggerSlide(true)} aria-label="Next">→</button>
           </div>
         </div>
       </section>
@@ -5230,7 +5176,7 @@ export default function EnterprisePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="io-fade mb-[15px] sm:mb-12 text-center">
             <p className="mb-2 text-sm font-bold uppercase tracking-widest" style={{ color: '#0694d1' }}>Official Vendor Partners</p>
-            <h2 className="text-3xl font-bold lg:text-4xl" style={{ color: '#0b2545' }}>50+ Authorised <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">Certification Partners</span></h2>
+            <h2 className="text-3xl font-bold lg:text-[32px]" style={{ color: '#0b2545' }}>50+ Authorised <span className="bg-gradient-to-r from-[#13a8d4] to-[#4dbfef] bg-clip-text text-transparent">Certification Partners</span></h2>
             <p className="mt-3 max-w-xl mx-auto text-sm" style={{ color: '#3a6080' }}>Train and certify your team on the industry's most in-demand platforms — all under one roof, with one account manager.</p>
           </div>
         </div>
@@ -5240,22 +5186,14 @@ export default function EnterprisePage() {
           <VendorsMobileStrip />
         </div>
 
-        {/* Row 1 — scrolls left (desktop only) */}
-        <div className="hidden sm:block ent-marquee-wrap relative mb-4 py-3">
-          <div className="ent-marquee-track gap-4 px-2">
-            {[...ENT_VENDORS_ROW1, ...ENT_VENDORS_ROW1].map((v, i) => (
-              <EntVendorCard key={i} v={v} />
-            ))}
-          </div>
+        {/* Row 1 — scrolls left, swipeable (desktop only) */}
+        <div className="mb-4 hidden sm:block">
+          <EntVendorMarqueeRow vendors={ENT_VENDORS_ROW1} direction={1} />
         </div>
 
-        {/* Row 2 — scrolls right (reverse — desktop only) */}
-        <div className="hidden sm:block ent-marquee-wrap relative py-3">
-          <div className="ent-marquee-track-rev gap-4 px-2">
-            {[...ENT_VENDORS_ROW2, ...ENT_VENDORS_ROW2].map((v, i) => (
-              <EntVendorCard key={i} v={v} />
-            ))}
-          </div>
+        {/* Row 2 — scrolls right, swipeable (desktop only) */}
+        <div className="hidden sm:block">
+          <EntVendorMarqueeRow vendors={ENT_VENDORS_ROW2} direction={-1} />
         </div>
 
       </section>
@@ -5266,7 +5204,7 @@ export default function EnterprisePage() {
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-[15px] sm:mb-10 text-center">
             <p className="mb-2 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Client Stories</p>
-            <h2 className="text-2xl font-bold lg:text-3xl" style={{ color: '#0d1b2a' }}>
+            <h2 className="text-2xl font-bold lg:text-[32px]" style={{ color: '#0d1b2a' }}>
               Trusted by <span style={{ color: '#0694D1' }}>Global Enterprises</span>
             </h2>
             <p className="mx-auto mt-2 max-w-xl text-sm" style={{ color: '#4a7a9b' }}>
@@ -5301,7 +5239,7 @@ export default function EnterprisePage() {
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-[15px] sm:mb-[35px] text-center">
-            <h2 className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Everything You Need to <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Know</span></h2>
+            <h2 className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-[32px] font-bold text-koenig-dark">Everything You Need to <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Know</span></h2>
             <p className="text-sm sm:text-base text-koenig-muted">Quick answers to the questions L&D leaders ask before launching enterprise training with Koenig.</p>
           </div>
           <div className="io-fade delay-1 flex flex-col gap-3 md:flex-row">
@@ -5353,101 +5291,6 @@ export default function EnterprisePage() {
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(7,109,157,0.12)' }}>→</span>
             </a>
           </div>
-        </div>
-      </section>
-
-      {/* ── Contact Form ── */}
-      <section id="contact" className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[70px]" style={{ background: 'linear-gradient(160deg,#040f1a 0%,#061e30 50%,#051525 100%)' }}>
-        {/* Glow orbs */}
-        <div className="pointer-events-none absolute -left-40 top-0 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(6,148,209,0.14) 0%,transparent 70%)' }} />
-        <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle,rgba(77,191,239,0.10) 0%,transparent 70%)' }} />
-
-        <div className="relative mx-auto max-w-3xl">
-
-          {/* Case study testimonial */}
-          <div className="mb-10 rounded-2xl px-6 py-5" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
-            <svg className="mb-3 h-6 w-6 text-[#0694D1] opacity-70" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-            <p className="text-sm sm:text-base font-medium leading-relaxed" style={{ color: 'rgba(255,255,255,0.85)' }}>
-              &ldquo;We deployed Azure certification training to 120 engineers across 4 countries in 6 weeks. Koenig handled scheduling, content, and pass-rate reporting end to end.&rdquo;
-            </p>
-            <p className="mt-3 text-xs font-semibold uppercase tracking-wider" style={{ color: '#0694D1' }}>— Global Financial Services Firm</p>
-          </div>
-
-          {/* Header */}
-          <div className="mb-10 text-center">
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)' }}>Let&apos;s Talk</span>
-            <h2 className="mt-3 text-3xl font-bold text-white lg:text-4xl">Get Your Custom Training Plan <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">— Free</span></h2>
-            <p className="mt-3 text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.50)' }}>Tell us about your workforce goals and we&apos;ll design a programme that delivers real, measurable outcomes.</p>
-            <p className="mt-2 text-sm font-medium" style={{ color: 'rgba(255,255,255,0.40)' }}>Flexible pricing for teams of any size — from 5 to 5,000.</p>
-          </div>
-
-          {submitted ? (
-            <div className="rounded-2xl p-12 text-center" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.35)', boxShadow: '0 0 40px rgba(6,148,209,0.12)' }}>
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.4)' }}>
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <h3 className="mb-2 text-xl font-bold text-white">Message Received!</h3>
-              <p className="text-white/55">Our enterprise team will reach out within 1 business day.</p>
-            </div>
-          ) : (
-            <form onSubmit={e => { e.preventDefault(); setSubmitted(true) }} className="rounded-2xl p-8" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.25)', boxShadow: '0 0 50px rgba(6,148,209,0.10)' }}>
-              <style>{`
-                .ent-input { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.10); transition: border-color 0.2s, box-shadow 0.2s; }
-                .ent-input:focus { border-color: #0694D1; box-shadow: 0 0 0 3px rgba(6,148,209,0.15); outline: none; }
-                .ent-input::placeholder { color: rgba(255,255,255,0.25); }
-              `}</style>
-
-              <div className="grid gap-5 sm:grid-cols-2">
-                {[
-                  { id: 'name',    label: 'Full Name',    type: 'text',  placeholder: 'John Smith'        },
-                  { id: 'company', label: 'Company Name', type: 'text',  placeholder: 'Acme Corporation'  },
-                  { id: 'email',   label: 'Work Email',   type: 'email', placeholder: 'john@acme.com'     },
-                  { id: 'phone',   label: 'Phone Number', type: 'tel',   placeholder: '+1 (555) 000-0000' },
-                ].map(f => (
-                  <div key={f.id}>
-                    <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>{f.label}</label>
-                    <input
-                      type={f.type}
-                      required
-                      placeholder={f.placeholder}
-                      value={formData[f.id as keyof typeof formData]}
-                      onChange={e => setFormData(p => ({ ...p, [f.id]: e.target.value }))}
-                      className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-5">
-                <label className="mb-2 block text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.65)' }}>Training Needs</label>
-                <textarea
-                  rows={4}
-                  required
-                  placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..."
-                  value={formData.message}
-                  onChange={e => setFormData(p => ({ ...p, message: e.target.value }))}
-                  className="ent-input w-full rounded-xl px-4 py-3 text-sm text-white resize-none"
-                />
-              </div>
-
-              <button type="submit" className="mt-6 w-full rounded-xl py-4 text-base font-bold text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 24px rgba(6,148,209,0.40)' }}>
-                Request My Free Consultation →
-              </button>
-              <ul className="mt-5 space-y-2">
-                {[
-                  'A dedicated enterprise account manager will reach out within 1 business day',
-                  "We'll scope your training needs and design a custom programme",
-                  'No commitment required — just a conversation',
-                ].map(item => (
-                  <li key={item} className="flex items-start gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                    <svg className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/></svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-4 text-center text-sm" style={{ color: 'rgba(255,255,255,0.30)' }}>We&apos;ll respond within 1 business day · No spam, ever.</p>
-            </form>
-          )}
         </div>
       </section>
 
@@ -5504,7 +5347,7 @@ export default function EnterprisePage() {
                   <h4 className="mb-4 text-sm font-semibold" style={{ color: '#0694D1' }}>{col.heading}</h4>
                   <ul className="space-y-2">
                     {col.links.map(link => (
-                      <li key={link}><a href="#" className="text-sm leading-snug text-white/80 transition-colors hover:text-white">{link}</a></li>
+                      <li key={link}><a href={FOOTER_LINK_HREFS[link] ?? '#'} className="text-sm leading-snug text-white/80 transition-colors hover:text-white">{link}</a></li>
                     ))}
                   </ul>
                 </div>
@@ -5562,54 +5405,6 @@ export default function EnterprisePage() {
         </div>
 
       </footer>
-
-      {/* ── Contact Modal ── */}
-      {contactModalOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" style={{ background: 'rgba(4,15,26,0.80)', backdropFilter: 'blur(6px)' }} onClick={() => setContactModalOpen(false)}>
-          <div className="relative w-full max-w-xl rounded-2xl p-8" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.30)', boxShadow: '0 0 60px rgba(6,148,209,0.15)' }} onClick={e => e.stopPropagation()}>
-            <button onClick={() => setContactModalOpen(false)} className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white">✕</button>
-            {modalSubmitted ? (
-              <div className="py-8 text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.4)' }}>
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <h3 className="mb-2 text-xl font-bold text-white">Message Received!</h3>
-                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>Our enterprise team will reach out within 1 business day.</p>
-                <button onClick={() => { setContactModalOpen(false); setModalSubmitted(false); setModalFormData({ name: '', company: '', email: '', phone: '', message: '' }) }} className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white" style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}>Close</button>
-              </div>
-            ) : (
-              <>
-                <h2 className="mb-1 text-xl font-bold text-white">Get Your Custom Training Plan</h2>
-                <p className="mb-6 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>Flexible pricing for teams of any size — from 5 to 5,000.</p>
-                <style>{`.modal-input { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.10); transition: border-color 0.2s, box-shadow 0.2s; } .modal-input:focus { border-color: #0694D1; box-shadow: 0 0 0 3px rgba(6,148,209,0.15); outline: none; } .modal-input::placeholder { color: rgba(255,255,255,0.25); }`}</style>
-                <form onSubmit={e => { e.preventDefault(); setModalSubmitted(true) }} className="space-y-4">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {[
-                      { id: 'name',    label: 'Full Name',    type: 'text',  placeholder: 'John Smith'        },
-                      { id: 'company', label: 'Company Name', type: 'text',  placeholder: 'Acme Corporation'  },
-                      { id: 'email',   label: 'Work Email',   type: 'email', placeholder: 'john@acme.com'     },
-                      { id: 'phone',   label: 'Phone Number', type: 'tel',   placeholder: '+1 (555) 000-0000' },
-                    ].map(f => (
-                      <div key={f.id}>
-                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.60)' }}>{f.label}</label>
-                        <input type={f.type} required placeholder={f.placeholder} value={modalFormData[f.id as keyof typeof modalFormData]} onChange={e => setModalFormData(p => ({ ...p, [f.id]: e.target.value }))} className="modal-input w-full rounded-xl px-4 py-3 text-sm text-white" />
-                      </div>
-                    ))}
-                  </div>
-                  <div>
-                    <label className="mb-1.5 block text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.60)' }}>Training Needs</label>
-                    <textarea rows={3} required placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..." value={modalFormData.message} onChange={e => setModalFormData(p => ({ ...p, message: e.target.value }))} className="modal-input w-full resize-none rounded-xl px-4 py-3 text-sm text-white" />
-                  </div>
-                  <button type="submit" className="w-full rounded-xl py-3.5 text-base font-bold text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 24px rgba(6,148,209,0.40)' }}>
-                    Request My Free Consultation →
-                  </button>
-                  <p className="text-center text-xs" style={{ color: 'rgba(255,255,255,0.28)' }}>We&apos;ll respond within 1 business day · No spam, ever.</p>
-                </form>
-              </>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* ── Chatbox ── */}
       <div

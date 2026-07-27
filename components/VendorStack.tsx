@@ -122,13 +122,30 @@ const MORE_BADGES = [
 ]
 
 const SIDEBAR_TABS = [
-  { icon: '🪟', label: 'Microsoft' },
-  { icon: '🌐', label: 'Cisco' },
-  { icon: '☁️', label: 'AWS' },
-  { icon: '🖥️', label: 'VMware' },
-  { icon: '🔴', label: 'Oracle' },
-  { icon: '∞', label: 'More Vendors' },
+  { label: 'Microsoft',    kind: 'dot' as const },
+  { label: 'Cisco',        kind: 'dot' as const },
+  { label: 'AWS',          kind: 'dot' as const },
+  { label: 'VMware',       kind: 'dot' as const },
+  { label: 'Oracle',       kind: 'dot' as const },
+  { label: 'More Vendors', kind: 'infinity' as const },
 ]
+
+const TAB_DOT_ACTIVE = '#4DBFEF'
+const TAB_DOT_MILD    = 'rgba(6,148,209,0.35)'
+
+/* ─── Vendor tab icon — radio-style dot, mild blue always, brighter blue when selected ── */
+function VendorTabIcon({ tab, size, active }: { tab: typeof SIDEBAR_TABS[number]; size: number; active: boolean }) {
+  const color = active ? TAB_DOT_ACTIVE : TAB_DOT_MILD
+  if (tab.kind === 'infinity') {
+    return <span style={{ fontSize: size * 0.9, lineHeight: 1, color }}>∞</span>
+  }
+  const dot = size * 0.55
+  return (
+    <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: size, height: size }}>
+      <span style={{ width: dot, height: dot, borderRadius: '50%', background: color, boxShadow: active ? `0 0 0 3px ${TAB_DOT_ACTIVE}26` : 'none' }} />
+    </span>
+  )
+}
 
 /* ─── Standard Vendor Card ──────────────────────────────────── */
 type VendorItem = {
@@ -511,7 +528,7 @@ export default function VendorStack() {
                   transition: 'background 0.2s, border-color 0.2s',
                 }}
               >
-                <span style={{ fontSize: 14 }}>{tab.icon}</span>
+                <span style={{ display: 'flex' }}><VendorTabIcon tab={tab} size={16} active={activeTab === i} /></span>
                 <span style={{ fontSize: 13, color: activeTab === i ? 'white' : 'rgba(255,255,255,0.7)', fontWeight: activeTab === i ? 600 : 400 }}>{tab.label}</span>
               </button>
             ))}
@@ -542,6 +559,7 @@ export default function VendorStack() {
           >
             <div
               style={{
+                display: 'flex', alignItems: 'center', gap: 8,
                 background: 'linear-gradient(135deg,#076D9D,#0694D1)',
                 color: 'white',
                 padding: '12px 16px',
@@ -551,7 +569,8 @@ export default function VendorStack() {
                 textTransform: 'uppercase',
               }}
             >
-              🏆 Top Vendors
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 5H4a2 2 0 0 0 2 4M17 5h3a2 2 0 0 1-2 4"/></svg>
+              Top Vendors
             </div>
 
             {SIDEBAR_TABS.map((tab, i) => (
@@ -581,13 +600,10 @@ export default function VendorStack() {
                   style={{
                     width: 32, height: 32, borderRadius: 8,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 16, flexShrink: 0,
-                    background: activeTab === i ? 'linear-gradient(135deg, #076D9D, #0694D1)' : 'transparent',
-                    color: activeTab === i ? 'white' : 'rgba(255,255,255,0.5)',
-                    transition: 'background 0.2s',
+                    flexShrink: 0,
                   }}
                 >
-                  {tab.icon}
+                  <VendorTabIcon tab={tab} size={24} active={activeTab === i} />
                 </span>
                 <span className="vs-tab-label" style={{ fontSize: 14, color: activeTab === i ? 'white' : 'rgba(255,255,255,0.55)', fontWeight: activeTab === i ? 600 : 400, whiteSpace: 'nowrap' }}>
                   {tab.label}

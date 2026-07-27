@@ -24,9 +24,11 @@ const LEARNING_LINKS: { label: string; href: string }[] = [
   { label: 'Flexi',                 href: '#' },
   { label: 'Customized Training',   href: '/customised-training' },
   { label: 'Webinar as a Service',  href: '/webinar-service' },
-  { label: 'Qubits',                href: '#' },
+  { label: 'Qubits',                href: '/qubits' },
   { label: 'Upcoming Webinars',     href: '/upcoming-webinars' },
-  { label: 'Learnova',              href: '#' },
+  { label: 'Learnova',              href: '/learnova' },
+  { label: 'AI Is a Beast',         href: '/beast-ai-skilling' },
+  { label: 'Free AI Career Compass', href: '/career-compass' },
 ]
 
 const MEGA_MENU_VENDORS = [
@@ -441,14 +443,20 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
           {/* Mobile All Courses button */}
           <button
             onClick={() => { setMobileAllCoursesOpen(v => !v); setMobileOpen(false) }}
-            className="flex lg:hidden items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-sm font-semibold transition-all shrink-0 ml-3"
+            className="nav-mobile-allcourses flex lg:hidden items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-sm font-semibold transition-all shrink-0 ml-3"
             style={{ color: '#ffffff', background: mobileAllCoursesOpen ? '#076D9D' : '#0694D1', border: 'none' }}
             aria-label="All Courses"
           >
             <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/></svg>
-            <span className="whitespace-nowrap">All Courses</span>
+            <span className="nav-mobile-allcourses-label whitespace-nowrap">All Courses</span>
             <svg className={`h-3 w-3 transition-transform ${mobileAllCoursesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
           </button>
+          <style>{`
+            @media (max-width: 359px) {
+              .nav-mobile-allcourses { margin-left: 6px; padding-left: 8px; padding-right: 8px; gap: 4px; }
+              .nav-mobile-allcourses-label { display: none; }
+            }
+          `}</style>
 
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-4 lg:flex">
@@ -1048,8 +1056,8 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
           ref={learningMenuRef}
           onMouseEnter={clearHoverTimer}
           onMouseLeave={startCloseTimer}
-          className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
-          style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+          className="fixed z-[9999] rounded-xl shadow-2xl overflow-y-auto"
+          style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px', maxHeight: `calc(100vh - ${learningDropPos.top}px - 16px)` }}
         >
           {LEARNING_LINKS.map(link => (
             <button

@@ -1,15 +1,17 @@
-'use client'
-import { useState, useEffect, useLayoutEffect, useRef } from 'react'
+﻿'use client'
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import VendorStack from '@/components/VendorStack'
 import HeroParticles from '@/components/HeroParticles'
+import { classifyAiQuery, getContextChips, queryTokens, matchesText, type AiClassifyResult } from '@/lib/aiSearch'
 
 /* ─── Data ──────────────────────────────────────────────────── */
 
 const MORPH_WORDS = [
+  'Cloud & AI Certifications',
   'IT Certification',
   'AI & Machine Learning',
   'Cloud Architecture',
@@ -22,58 +24,58 @@ const COURSE_TABS = ['Top Courses', 'Top Technologies', 'New & Trending']
 
 const TOP_COURSES = [
   {
-    vendor: 'AWS', name: 'AWS Certified Solutions Architect – Professional: Designing Resilient, High-Performance Cloud Architectures on AWS',
+    vendor: 'AWS', tech: 'Cloud Architecture', name: 'AWS Certified Solutions Architect – Professional: Designing Resilient, High-Performance Cloud Architectures on AWS',
     examCode: 'SAP-C02', category: 'ASSOCIATE',
-    days: 5, rating: 4.9, enrolled: '1,900+', price: '$1,395',
+    days: 5, rating: 4.9, enrolled: '1,900+', price: 'INR 45000',
     levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Advanced',
     cert: { prereq: '2+ years of hands-on AWS cloud experience recommended', examFee: '$300 USD', format: 'Multiple choice, multiple response', questions: '75 questions', passingScore: '750 / 1000', validity: '3 years', bestPractices: ['Complete all AWS Skill Builder courses mapped to SAP-C02', 'Study the AWS Well-Architected Framework whitepapers', 'Review the official exam guide at aws.training before exam day'] },
   },
   {
-    vendor: 'Cisco', name: 'Implementing and Operating Cisco Enterprise Network Core Technologies – ENCOR Certification Training',
+    vendor: 'Cisco', tech: 'Enterprise Networking', name: 'Implementing and Operating Cisco Enterprise Network Core Technologies – ENCOR Certification Training',
     examCode: '350-401', category: 'ASSOCIATE',
-    days: 5, rating: 4.8, enrolled: '1,100+', price: '$1,195',
+    days: 5, rating: 4.8, enrolled: '1,100+', price: 'INR 38000',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Advanced',
     cert: { prereq: '3–5 years of enterprise networking experience recommended', examFee: '$400 USD', format: 'MCQ, drag & drop, simulation', questions: '90–110 questions', passingScore: '825 / 1000', validity: '3 years, recertification required', bestPractices: ['Practice in Cisco DevNet sandboxes for hands-on tasks', 'Study the official ENCOR 350-401 exam blueprint thoroughly', 'Review Cisco SD-WAN and SD-Access documentation'] },
   },
   {
-    vendor: 'Microsoft', name: 'Configuring and Operating Microsoft Azure Virtual Desktop',
+    vendor: 'Microsoft', tech: 'Microsoft Azure', name: 'Configuring and Operating Microsoft Azure Virtual Desktop',
     examCode: 'AZ-140', category: 'ASSOCIATE',
-    days: 4, rating: 4.7, enrolled: '980+', price: '$996',
+    days: 4, rating: 4.7, enrolled: '980+', price: 'INR 32000',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
     cert: { prereq: 'Azure administrator experience recommended', examFee: '$165 USD', format: 'MCQ, drag & drop, scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete Microsoft Learn paths for AZ-140', 'Practice deploying AVD environments in a lab subscription', 'Review the skills outline on learn.microsoft.com before exam day'] },
   },
   {
-    vendor: 'Microsoft', name: 'Designing and Implementing Microsoft Azure Networking Solutions',
+    vendor: 'Microsoft', tech: 'Microsoft Azure', name: 'Designing and Implementing Microsoft Azure Networking Solutions',
     examCode: 'AZ-700', category: 'ASSOCIATE',
-    days: 3, rating: 4.8, enrolled: '1,200+', price: '$747',
+    days: 3, rating: 4.8, enrolled: '1,200+', price: 'INR 24000',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
     cert: { prereq: 'Azure networking fundamentals experience recommended', examFee: '$165 USD', format: 'MCQ, drag & drop, scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete all Microsoft Learn modules for AZ-700', 'Lab-practice VNet peering, VPN gateways, and ExpressRoute', 'Review the official skills outline on learn.microsoft.com'] },
   },
   {
-    vendor: 'Microsoft', name: 'Microsoft Azure Administrator',
+    vendor: 'Microsoft', tech: 'Microsoft Azure', name: 'Microsoft Azure Administrator',
     examCode: 'AZ-104', category: 'ASSOCIATE',
-    days: 5, rating: 4.9, enrolled: '2,100+', price: '$1,245',
+    days: 5, rating: 4.9, enrolled: '2,100+', price: 'INR 40000',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Intermediate',
     cert: { prereq: '6+ months hands-on cloud experience recommended', examFee: '$165 USD', format: 'MCQ, drag & drop, scenario tasks', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete all Microsoft Learn modules mapped to the exam skills outline', 'Practise in Azure sandbox — 30–40% of the exam is scenario-based', 'Review the official skills outline on learn.microsoft.com before exam day'] },
   },
   {
-    vendor: 'Microsoft', name: 'Microsoft Azure Fundamentals',
+    vendor: 'Microsoft', tech: 'Microsoft Azure', name: 'Microsoft Azure Fundamentals',
     examCode: 'AZ-900', category: 'FUNDAMENTALS',
-    days: 3, rating: 4.9, enrolled: '2,400+', price: '$597',
+    days: 3, rating: 4.9, enrolled: '2,400+', price: 'INR 19000',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
     cert: { prereq: 'No prerequisites — beginner-friendly', examFee: '$165 USD', format: 'MCQ, true/false, matching', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the AZ-900 learning path on Microsoft Learn', 'Focus on cloud concepts, Azure services, and pricing', 'Take the official practice assessment before your exam'] },
   },
   {
-    vendor: 'Microsoft', name: 'Microsoft Azure Data Fundamentals',
+    vendor: 'Microsoft', tech: 'Microsoft Azure', name: 'Microsoft Azure Data Fundamentals',
     examCode: 'DP-900', category: 'FUNDAMENTALS',
-    days: 2, rating: 4.8, enrolled: '1,800+', price: '$398',
+    days: 2, rating: 4.8, enrolled: '1,800+', price: 'INR 13000',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Beginner',
     cert: { prereq: 'No prerequisites — beginner-friendly', examFee: '$165 USD', format: 'MCQ, drag & drop', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the DP-900 learning path on Microsoft Learn', 'Understand relational vs. non-relational data concepts', 'Take the official practice assessment before your exam'] },
   },
   {
-    vendor: 'Microsoft', name: 'Microsoft Azure AI Fundamentals',
+    vendor: 'Microsoft', tech: 'Microsoft Azure', name: 'Microsoft Azure AI Fundamentals',
     examCode: 'AI-900', category: 'FUNDAMENTALS',
-    days: 2, rating: 4.8, enrolled: '1,600+', price: '$398',
+    days: 2, rating: 4.8, enrolled: '1,600+', price: 'INR 13000',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
     cert: { prereq: 'No prerequisites — beginner-friendly', examFee: '$165 USD', format: 'MCQ, drag & drop', questions: '40–60 questions', passingScore: '700 / 1000', validity: '1 year, free renewal', bestPractices: ['Complete the AI-900 learning path on Microsoft Learn', 'Explore Azure Cognitive Services and Machine Learning concepts', 'Take the official practice assessment before your exam'] },
   },
@@ -93,45 +95,45 @@ const TOP_TECHNOLOGIES = [
 
 const NEW_TRENDING = [
   {
-    vendor: 'Google Cloud', name: 'Google Cloud Professional Data Engineer – Building Resilient, Scalable Data Pipelines and Machine Learning Solutions on GCP',
+    vendor: 'Google Cloud', tech: 'Data Engineering', name: 'Google Cloud Professional Data Engineer – Building Resilient, Scalable Data Pipelines and Machine Learning Solutions on GCP',
     examCode: 'GPDE', category: 'EXPERT',
-    days: 4, rating: 4.8, enrolled: '1,400+', price: '$1,095',
+    days: 4, rating: 4.8, enrolled: '1,400+', price: 'INR 35000',
     levelColor: 'bg-green-100 text-green-700', hot: true, level: 'Advanced',
   },
   {
-    vendor: 'AWS', name: 'AWS Certified Machine Learning Engineer – Associate: Building and Deploying ML Models on Amazon Web Services',
+    vendor: 'AWS', tech: 'Machine Learning', name: 'AWS Certified Machine Learning Engineer – Associate: Building and Deploying ML Models on Amazon Web Services',
     examCode: 'MLA-C01', category: 'ASSOCIATE',
-    days: 4, rating: 4.9, enrolled: '1,200+', price: '$1,195',
+    days: 4, rating: 4.9, enrolled: '1,200+', price: 'INR 38000',
     levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Advanced',
   },
   {
-    vendor: 'Microsoft', name: 'Microsoft Copilot Studio – Build AI-Powered Chatbots',
+    vendor: 'Microsoft', tech: 'Microsoft Power Platform', name: 'Microsoft Copilot Studio – Build AI-Powered Chatbots',
     examCode: 'PL-100', category: 'FUNDAMENTALS',
-    days: 3, rating: 4.8, enrolled: '890+', price: '$895',
+    days: 3, rating: 4.8, enrolled: '890+', price: 'INR 29000',
     levelColor: 'bg-blue-100 text-blue-700', hot: true, level: 'Beginner',
   },
   {
-    vendor: 'Kubernetes', name: 'Certified Kubernetes Administrator (CKA) Exam Prep',
+    vendor: 'Kubernetes', tech: 'Container Orchestration', name: 'Certified Kubernetes Administrator (CKA) Exam Prep',
     examCode: 'CKA', category: 'EXPERT',
-    days: 4, rating: 4.9, enrolled: '1,600+', price: '$995',
+    days: 4, rating: 4.9, enrolled: '1,600+', price: 'INR 32000',
     levelColor: 'bg-pink-100 text-pink-700', hot: true, level: 'Advanced',
   },
   {
-    vendor: 'HashiCorp', name: 'HashiCorp Certified: Terraform Associate (003)',
+    vendor: 'HashiCorp', tech: 'Terraform', name: 'HashiCorp Certified: Terraform Associate (003)',
     examCode: 'TA-003', category: 'ASSOCIATE',
-    days: 3, rating: 4.7, enrolled: '720+', price: '$795',
+    days: 3, rating: 4.7, enrolled: '720+', price: 'INR 25000',
     levelColor: 'bg-purple-100 text-purple-700', hot: false, level: 'Intermediate',
   },
   {
-    vendor: 'AWS', name: 'AWS Certified AI Practitioner – Foundations (AIF-C01)',
+    vendor: 'AWS', tech: 'Artificial Intelligence', name: 'AWS Certified AI Practitioner – Foundations (AIF-C01)',
     examCode: 'AIF-C01', category: 'FUNDAMENTALS',
-    days: 3, rating: 4.8, enrolled: '1,100+', price: '$895',
+    days: 3, rating: 4.8, enrolled: '1,100+', price: 'INR 29000',
     levelColor: 'bg-orange-100 text-orange-700', hot: true, level: 'Beginner',
   },
   {
-    vendor: 'Microsoft', name: 'Azure AI Engineer Associate (AI-102) Certification',
+    vendor: 'Microsoft', tech: 'Microsoft Azure', name: 'Azure AI Engineer Associate (AI-102) Certification',
     examCode: 'AI-102', category: 'ASSOCIATE',
-    days: 4, rating: 4.8, enrolled: '960+', price: '$995',
+    days: 4, rating: 4.8, enrolled: '960+', price: 'INR 32000',
     levelColor: 'bg-blue-100 text-blue-700', hot: false, level: 'Intermediate',
   },
 ]
@@ -189,6 +191,9 @@ const VENDORS_ROW2 = [
   { name: 'C++ Institute',               tier: 'Authorized Partner',  courses: '10+',  initial: 'C', img: 'c-plus-2-logo.png' },
 ]
 
+const VENDOR_MARQUEE_DURATION = 78 // seconds — mobile "Authorized by" strip scroll speed (slightly slower than testimonials)
+const TESTIMONIAL_MARQUEE_DURATION = 65 // seconds — mobile testimonials strip scroll speed
+
 const TRUSTED_COMPANIES = [
   { name: 'Google',               img: 'google.png'              },
   { name: 'Microsoft',            img: 'ms.png'                  },
@@ -223,13 +228,26 @@ const TRUSTED_COMPANIES = [
 ]
 
 const SCHEDULE = [
-  { vendor: 'Microsoft', name: 'Azure Solutions Architect Expert', date: 'Mar 3, 2026', days: 5, format: 'Live Online', tz: 'IST / GST / GMT', seats: 2, seatColor: 'bg-red-50 text-red-600' },
-  { vendor: 'AWS', name: 'AWS Solutions Architect – Associate', date: 'Mar 5, 2026', days: 4, format: 'Classroom — Delhi', tz: 'IST', seats: 4, seatColor: 'bg-orange-50 text-orange-600' },
-  { vendor: 'CompTIA', name: 'CompTIA Security+ SY0-701', date: 'Mar 10, 2026', days: 5, format: 'Live Online', tz: 'EST / GMT / IST', seats: 6, seatColor: 'bg-green-50 text-green-600' },
-  { vendor: 'Cisco', name: 'CCNP Enterprise Core (ENCOR)', date: 'Mar 12, 2026', days: 5, format: 'Classroom — Dubai', tz: 'IST', seats: 3, seatColor: 'bg-red-50 text-red-600' },
-  { vendor: 'PMI', name: 'Project Management Professional (PMP)', date: 'Mar 17, 2026', days: 3, format: 'Live Online', tz: 'All timezones', seats: 8, seatColor: 'bg-green-50 text-green-600' },
-  { vendor: 'EC-Council', name: 'Certified Ethical Hacker (CEH v13)', date: 'Mar 19, 2026', days: 5, format: 'Classroom — London', tz: 'IST', seats: 2, seatColor: 'bg-red-50 text-red-600' },
+  { name: 'Azure Solutions Architect Expert', level: 'expert' as const, date: 'Jul 3, 2026', days: 5, seats: 2, hot: true, vendor: 'Microsoft', tech: 'Microsoft Azure', price: 'INR 45000', rating: 4.9, enrolled: '2,100+' },
+  { name: 'AWS Solutions Architect – Associate', level: 'assoc' as const, date: 'Jul 5, 2026', days: 4, seats: 4, vendor: 'AWS', tech: 'Cloud Architecture', price: 'INR 38000', rating: 4.8, enrolled: '1,900+' },
+  { name: 'CompTIA Security+ SY0-701', level: 'fund' as const, date: 'Jul 10, 2026', days: 5, seats: 6, vendor: 'CompTIA', tech: 'Cybersecurity', price: 'INR 19000', rating: 4.7, enrolled: '1,200+' },
+  { name: 'CCNP Enterprise Core (ENCOR)', level: 'expert' as const, date: 'Jul 12, 2026', days: 5, seats: 3, vendor: 'Cisco', tech: 'Enterprise Networking', price: 'INR 38000', rating: 4.8, enrolled: '1,100+' },
+  { name: 'Project Management Professional (PMP)', level: 'expert' as const, date: 'Jul 17, 2026', days: 3, seats: 8, vendor: 'PMI', tech: 'Project Management', price: 'INR 40000', rating: 4.9, enrolled: '1,500+' },
+  { name: 'Certified Ethical Hacker (CEH v13)', level: 'assoc' as const, date: 'Jul 19, 2026', days: 5, seats: 2, vendor: 'EC-Council', tech: 'Cybersecurity', price: 'INR 32000', rating: 4.7, enrolled: '980+' },
 ]
+
+const SCHEDULE_LEVEL_ICON: Record<string, React.ReactNode> = {
+  fund:   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>,
+  assoc:  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>,
+  expert: <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7l4 9h12l4-9-6 4-4-6-4 6z"/></svg>,
+}
+
+const SCHEDULE_LEVEL_LABEL: Record<string, string> = { fund: 'Fundamentals', assoc: 'Associate', expert: 'Expert' }
+const SCHEDULE_LEVEL_BADGE: Record<string, string> = {
+  fund:   'bg-gradient-to-br from-[#4DBFEF] to-[#0694D1] text-white',
+  assoc:  'bg-gradient-to-br from-[#0694D1] to-[#076D9D] text-white',
+  expert: 'bg-gradient-to-br from-[#076D9D] to-[#062238] text-white',
+}
 
 const COUNTRIES = [
   { flagCode: 'in', name: 'India',          cities: 'Delhi · Bangalore', hub: true  },
@@ -271,10 +289,116 @@ const WEBINARS = [
   { speaker: 'Omar Abdullah',         title: 'DevOps Pipelines with Azure DevOps',                    date: 'Mar 21, 2026', time: '6:00 PM GST', vendorImg: 'microsoft-cloud-t.png', initials: 'OA', avatarBg: 'linear-gradient(135deg,#093148,#0694d1)' },
 ]
 
+const ADVISOR_COURSES = [
+  'Select Course Name',
+  'Azure Administrator (AZ-104)',
+  'AWS Solutions Architect – Associate',
+  'PMP Certification',
+  'CISSP Certification',
+  'CCNP Enterprise (ENCOR)',
+  'CompTIA Security+ (SY0-701)',
+  'Certified Kubernetes Administrator (CKA)',
+  'Google Cloud Professional Architect',
+  'Other Course',
+]
+const ADVISOR_HEAR_OPTIONS = ['Select Option', 'Google Search', 'Social Media', 'LinkedIn', 'Colleague / Referral', 'Email Newsletter', 'Webinar / Event', 'Other']
+
 /* ─── Helpers ───────────────────────────────────────────────── */
 
 function StarsFilled({ n = 5 }: { n?: number }) {
   return <span className="text-yellow-400 text-sm">{'★'.repeat(n)}</span>
+}
+
+/* Draggable CSS-marquee helpers — freeze a running keyframe animation at its current
+   visual position for manual drag, then seek it back to that same point on release
+   (via a negative animation-delay) so it resumes with no visible jump. */
+function getTrackTranslateX(el: HTMLElement): number {
+  const transform = window.getComputedStyle(el).transform
+  if (!transform || transform === 'none') return 0
+  const match = transform.match(/matrix\(([^)]+)\)/)
+  if (!match) return 0
+  const parts = match[1].split(',').map(v => parseFloat(v.trim()))
+  return parts[4] || 0
+}
+
+function freezeTrackAnimation(el: HTMLDivElement): number {
+  const x = getTrackTranslateX(el)
+  el.style.animation = 'none'
+  el.style.transform = `translateX(${x}px)`
+  return x
+}
+
+function seekTrackAnimation(el: HTMLDivElement, durationSec: number, xPos: number) {
+  const half = el.scrollWidth / 2
+  el.style.transform = ''
+  if (half <= 0) { el.style.animation = ''; return }
+  let x = xPos % half
+  if (x > 0) x -= half
+  const progress = (-x) / half
+  const delay = -(progress * durationSec)
+  el.style.animation = 'none'
+  void el.offsetHeight
+  el.style.animation = ''
+  el.style.animationDelay = `${delay}s`
+}
+
+/* Shared drag controller for CSS-marquee tracks — rAF-batches transform writes for
+   buttery updates, and tracks mouse-drag on `window` (not the small track element) so
+   the drag keeps following the cursor even if it drifts outside the strip's bounds. */
+function useMarqueeDrag(trackRef: React.RefObject<HTMLDivElement | null>, durationSec: number, isBlocked?: () => boolean) {
+  const state = useRef({ startX: 0, startPos: 0, dragging: false, pendingX: null as number | null, raf: 0 })
+
+  const applyFrame = () => {
+    const track = trackRef.current
+    const s = state.current
+    if (track && s.pendingX !== null) track.style.transform = `translateX(${s.pendingX}px)`
+    s.pendingX = null
+    s.raf = 0
+  }
+  const scheduleX = (x: number) => {
+    state.current.pendingX = x
+    if (!state.current.raf) state.current.raf = requestAnimationFrame(applyFrame)
+  }
+  const start = (clientX: number) => {
+    const track = trackRef.current
+    if (!track) return
+    const x = freezeTrackAnimation(track)
+    state.current = { startX: clientX, startPos: x, dragging: true, pendingX: null, raf: 0 }
+    track.style.cursor = 'grabbing'
+  }
+  const move = (clientX: number) => {
+    if (!state.current.dragging) return
+    scheduleX(state.current.startPos + (clientX - state.current.startX))
+  }
+  const end = () => {
+    const track = trackRef.current
+    if (!state.current.dragging) return
+    state.current.dragging = false
+    if (state.current.raf) { cancelAnimationFrame(state.current.raf); state.current.raf = 0 }
+    if (track) {
+      track.style.cursor = 'grab'
+      if (!isBlocked || !isBlocked()) seekTrackAnimation(track, durationSec, getTrackTranslateX(track))
+    }
+  }
+
+  const onTouchStart = (e: React.TouchEvent) => start(e.touches[0].clientX)
+  const onTouchMove = (e: React.TouchEvent) => move(e.touches[0].clientX)
+  const onTouchEnd = () => end()
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault()
+    start(e.clientX)
+    const onWindowMove = (ev: MouseEvent) => move(ev.clientX)
+    const onWindowUp = () => {
+      end()
+      window.removeEventListener('mousemove', onWindowMove)
+      window.removeEventListener('mouseup', onWindowUp)
+    }
+    window.addEventListener('mousemove', onWindowMove)
+    window.addEventListener('mouseup', onWindowUp)
+  }
+
+  return { onTouchStart, onTouchMove, onTouchEnd, onTouchCancel: onTouchEnd, onMouseDown }
 }
 
 function VendorCard({ v }: { v: { name: string; tier: string; courses: string; initial: string; img?: string; imgLg?: boolean } }) {
@@ -356,10 +480,12 @@ function TestimonialCardV2({ t, delay }: { t: typeof TESTIMONIALS[0]; delay: str
         {/* Avatar row */}
         <div className="mt-auto flex items-center gap-3">
           <div
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+            className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-bold text-white"
             style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}
           >
-            {t.initials}
+            {t.avatar
+              ? <Image src={t.avatar} alt={t.name} fill sizes="40px" className="object-cover" />
+              : t.initials}
           </div>
           <div className="min-w-0">
             <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
@@ -398,7 +524,7 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
           className="overflow-hidden transition-all duration-300 ease-in-out"
           style={{ maxHeight: expanded ? '200px' : '0px', opacity: expanded ? 1 : 0 }}
         >
-          <p className="mb-3 text-xs leading-relaxed" style={{ color: '#4a7a9b' }}>{extra}</p>
+          <p className="mb-3 text-sm leading-relaxed" style={{ color: '#2d4a6a' }}>{extra}</p>
         </div>
         {showMore && (
           <button
@@ -411,10 +537,12 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
         )}
         <div className="flex items-center gap-3">
           <div
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+            className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-bold text-white"
             style={{ background: t.avatarBg, border: '2px solid #DCEEFB' }}
           >
-            {t.initials}
+            {t.avatar
+              ? <Image src={t.avatar} alt={t.name} fill sizes="40px" className="object-cover" />
+              : t.initials}
           </div>
           <div className="min-w-0">
             <p className="text-sm font-bold leading-tight" style={{ color: '#0d1b2a' }}>{t.name}</p>
@@ -435,63 +563,35 @@ function HomeTestimonialCard({ t, onExpandChange }: { t: typeof TESTIMONIALS[0];
 
 function MobileTestimonialMarquee({ items }: { items: typeof TESTIMONIALS }) {
   const trackRef = useRef<HTMLDivElement>(null)
-  const pos = useRef(0)
-  const paused = useRef(false)
   const expandedCount = useRef(0)
-  const dragStartX = useRef(0)
-  const dragStartPos = useRef(0)
+  const drag = useMarqueeDrag(trackRef, TESTIMONIAL_MARQUEE_DURATION, () => expandedCount.current > 0)
 
-  useEffect(() => {
-    const inner = trackRef.current
-    if (!inner) return
-    let prev = performance.now()
-    let raf: number
-    function tick(now: number) {
-      const dt = now - prev
-      prev = now
-      if (!paused.current && inner) {
-        pos.current += 0.04 * dt
-        const half = inner.scrollWidth / 2
-        if (half > 0 && pos.current >= half) pos.current -= half
-        inner.style.transform = `translateX(-${pos.current}px)`
-      }
-      raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [])
+  const pauseForExpand = () => {
+    const track = trackRef.current
+    if (track) freezeTrackAnimation(track)
+  }
+  const resumeFromExpand = () => {
+    const track = trackRef.current
+    if (track) seekTrackAnimation(track, TESTIMONIAL_MARQUEE_DURATION, getTrackTranslateX(track))
+  }
 
   return (
     <div
       className="sm:hidden overflow-hidden"
       style={{
+        touchAction: 'pan-y',
         maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
         WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
       }}
-      onTouchStart={e => {
-        paused.current = true
-        dragStartX.current = e.touches[0].clientX
-        dragStartPos.current = pos.current
-      }}
-      onTouchMove={e => {
-        const delta = dragStartX.current - e.touches[0].clientX
-        const inner = trackRef.current
-        if (!inner) return
-        const half = inner.scrollWidth / 2
-        let newPos = dragStartPos.current + delta
-        if (newPos < 0) newPos = 0
-        if (half > 0 && newPos >= half) newPos = half - 1
-        pos.current = newPos
-        inner.style.transform = `translateX(-${pos.current}px)`
-      }}
-      onTouchEnd={() => {
-        if (expandedCount.current === 0) paused.current = false
-      }}
+      {...drag}
     >
+      <style>{`
+        @keyframes testimonialScrollMobile { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+        .testimonial-track-mobile { display: flex; align-items: stretch; gap: 1rem; padding: 0.5rem 0; width: max-content; animation: testimonialScrollMobile ${TESTIMONIAL_MARQUEE_DURATION}s linear infinite; cursor: grab; }
+      `}</style>
       <div
         ref={trackRef}
-        className="flex items-stretch gap-4 py-2"
-        style={{ width: 'max-content' }}
+        className="testimonial-track-mobile"
       >
         {[...items, ...items].map((t, i) => (
           <div key={i} style={{ width: '280px', flexShrink: 0 }}>
@@ -500,7 +600,8 @@ function MobileTestimonialMarquee({ items }: { items: typeof TESTIMONIALS }) {
               onExpandChange={exp => {
                 expandedCount.current += exp ? 1 : -1
                 if (expandedCount.current < 0) expandedCount.current = 0
-                paused.current = expandedCount.current > 0
+                if (expandedCount.current > 0) pauseForExpand()
+                else resumeFromExpand()
               }}
             />
           </div>
@@ -604,7 +705,7 @@ function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
   )
 }
 
-const KOENIG_BADGE = 'bg-[#076D9D]/30 text-[#3AB6EB] ring-1 ring-[#0694D1]/40'
+const KOENIG_BADGE = 'bg-koenig-blue/10 text-koenig-blue ring-1 ring-koenig-blue/20'
 const VENDOR_BADGE_COLORS: Record<string, string> = {
   Microsoft:          KOENIG_BADGE,
   AWS:                KOENIG_BADGE,
@@ -714,6 +815,213 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
             Your details are safe. No spam, ever.
           </p>
         </div>
+      </div>
+    </div>
+  , document.body)
+}
+
+const SYLLABUS_COUNTRIES = [
+  'Afghanistan','Albania','Algeria','Argentina','Australia','Austria','Bahrain','Bangladesh',
+  'Belgium','Brazil','Canada','Chile','China','Colombia','Croatia','Czech Republic','Denmark',
+  'Egypt','Ethiopia','Finland','France','Germany','Ghana','Greece','Hong Kong','Hungary',
+  'India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Japan','Jordan','Kazakhstan',
+  'Kenya','Kuwait','Lebanon','Malaysia','Mexico','Morocco','Netherlands','New Zealand',
+  'Nigeria','Norway','Oman','Pakistan','Peru','Philippines','Poland','Portugal','Qatar',
+  'Romania','Russia','Saudi Arabia','Singapore','South Africa','South Korea','Spain','Sri Lanka',
+  'Sweden','Switzerland','Taiwan','Thailand','Turkey','Ukraine','United Arab Emirates',
+  'United Kingdom','United States','Venezuela','Vietnam','Zimbabwe',
+]
+
+function SyllabusModal({ course, onClose }: { course: string; onClose: () => void }) {
+  const [submitted, setSubmitted] = useState(false)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [country, setCountry] = useState('')
+  const [countryOpen, setCountryOpen] = useState(false)
+  const countryRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [])
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (countryRef.current && !countryRef.current.contains(e.target as Node)) setCountryOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  return createPortal(
+    <div onClick={e => { if (e.target === e.currentTarget) onClose() }}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(4,24,37,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+      <div style={{ background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius: 20, padding: '32px 28px 28px', width: '100%', maxWidth: 440, position: 'relative', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit' }}>
+        <button onClick={onClose} style={{ position: 'absolute', top: 14, right: 14, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+
+        {submitted ? (
+          <div style={{ textAlign: 'center', padding: '12px 0 4px' }}>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', border: '1.5px solid rgba(6,148,209,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.25 }}>You&apos;re all set, {name.split(' ')[0]}!</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20 }}>
+              The course content for <strong style={{ color: '#0694D1' }}>{course}</strong> will be sent to <strong style={{ color: '#fff' }}>{email}</strong> shortly.
+            </div>
+            <div style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.2)', borderRadius: 10, padding: '10px 14px', fontSize: 12, color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center', marginBottom: 16 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Check your inbox — usually arrives within 2 minutes
+            </div>
+            <button onClick={onClose} style={{ width: '100%', padding: 11, borderRadius: 10, border: '1px solid rgba(6,148,209,0.35)', background: 'transparent', color: '#0694D1', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Close</button>
+          </div>
+        ) : (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: '#0694D1', textTransform: 'uppercase' }}>Download Syllabus</span>
+            </div>
+            {course && (
+              <div style={{ border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 14px', marginBottom: 18, background: 'rgba(255,255,255,0.05)' }}>
+                <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', marginBottom: 5 }}>Course</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', lineHeight: 1.4 }}>{course}</div>
+              </div>
+            )}
+            <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', lineHeight: 1.2, marginBottom: 6 }}>Get the Course Content</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 22 }}>Fill in your details and we&apos;ll send it straight to your inbox.</div>
+            <form onSubmit={e => { e.preventDefault(); if (!country) return; setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>Full Name <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required placeholder="John" value={name} onChange={e => setName(e.target.value)}
+                  style={{ width: '100%', boxSizing: 'border-box', background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)', borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s' }}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>Email Address <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)}
+                  style={{ width: '100%', boxSizing: 'border-box', background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)', borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s' }}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>Country <span style={{ color: '#ef4444' }}>*</span></label>
+                <div ref={countryRef} style={{ position: 'relative' }}>
+                  <button type="button" onClick={() => setCountryOpen(o => !o)}
+                    style={{ width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(6,148,209,0.08)', border: `1.5px solid ${countryOpen ? '#0694D1' : 'rgba(6,148,209,0.3)'}`, borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: country ? '#fff' : 'rgba(255,255,255,0.4)', cursor: 'pointer', fontFamily: 'inherit', outline: 'none' }}>
+                    {country || 'Select your country'}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: countryOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', flexShrink: 0 }}><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  {countryOpen && (
+                    <div style={{ position: 'absolute', bottom: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 10000, background: '#0d2535', border: '1.5px solid rgba(6,148,209,0.35)', borderRadius: 10, maxHeight: 420, overflowY: 'auto', overscrollBehavior: 'contain', boxShadow: '0 -8px 32px rgba(0,0,0,0.6)' }}>
+                      <div style={{ padding: '9px 14px', fontSize: 13.5, color: 'rgba(255,255,255,0.35)', cursor: 'default', borderBottom: '1px solid rgba(6,148,209,0.15)' }}>Select your country</div>
+                      {SYLLABUS_COUNTRIES.map(c => (
+                        <div key={c} onClick={() => { setCountry(c); setCountryOpen(false) }}
+                          style={{ padding: '9px 14px', fontSize: 13.5, cursor: 'pointer', color: country === c ? '#fff' : '#c8dce9', background: country === c ? '#1a5fa8' : 'transparent', transition: 'background 0.12s' }}
+                          onMouseEnter={e => { if (country !== c) e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
+                          onMouseLeave={e => { if (country !== c) e.currentTarget.style.background = 'transparent' }}>
+                          {c}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>Course content will be sent to your email ID</span>
+              </div>
+              <button type="submit" style={{ width: '100%', padding: 13, borderRadius: 10, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: 0.2, boxShadow: '0 4px 18px rgba(6,148,209,0.4)', marginTop: 2, transition: 'filter 0.18s' }}
+                onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.12)')} onMouseLeave={e => (e.currentTarget.style.filter = 'none')}>
+                Submit
+              </button>
+              <div style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                No spam, ever. Unsubscribe anytime.
+              </div>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  , document.body)
+}
+
+function EnquireNowModal({ course, onClose }: { course: string; onClose: () => void }) {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [captcha, setCaptcha] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [])
+
+  return createPortal(
+    <div onClick={e => { if (e.target === e.currentTarget) onClose() }}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(4,24,37,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+      <div style={{ background: 'linear-gradient(160deg,#062238 0%,#093148 100%)', borderRadius: 20, padding: '32px 28px 28px', width: '100%', maxWidth: 440, position: 'relative', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', fontFamily: 'inherit' }}>
+        <button onClick={onClose} style={{ position: 'absolute', top: 14, right: 14, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+
+        {submitted ? (
+          <div style={{ textAlign: 'center', padding: '12px 0 4px' }}>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', border: '1.5px solid rgba(6,148,209,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style={{ fontSize: 19, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.25 }}>Thanks, {name.split(' ')[0]}!</div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, marginBottom: 20 }}>
+              A training advisor will reach out about <strong style={{ color: '#0694D1' }}>{course}</strong> within 1 business day.
+            </div>
+            <button onClick={onClose} style={{ width: '100%', padding: 11, borderRadius: 10, border: '1px solid rgba(6,148,209,0.35)', background: 'transparent', color: '#0694D1', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>Close</button>
+          </div>
+        ) : (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0694D1', display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: 1.2, color: '#0694D1', textTransform: 'uppercase' }}>Enquire Now</span>
+            </div>
+            <div className="enquire-course-name" style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1.3, marginBottom: 22 }}>{course}</div>
+            <form onSubmit={e => { e.preventDefault(); if (!captcha) return; setSubmitted(true) }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>Name <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required placeholder="John Smith" value={name} onChange={e => setName(e.target.value)}
+                  style={{ width: '100%', boxSizing: 'border-box', background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)', borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s' }}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>Email <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required type="email" placeholder="John@example.com" value={email} onChange={e => setEmail(e.target.value)}
+                  style={{ width: '100%', boxSizing: 'border-box', background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)', borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s' }}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+              <div>
+                <label style={{ fontSize: 10, fontWeight: 800, letterSpacing: 0.8, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>Phone <span style={{ color: '#ef4444' }}>*</span></label>
+                <input required type="tel" placeholder="+91 98765 43210" value={phone} onChange={e => setPhone(e.target.value)}
+                  style={{ width: '100%', boxSizing: 'border-box', background: 'rgba(6,148,209,0.08)', border: '1.5px solid rgba(6,148,209,0.3)', borderRadius: 10, padding: '11px 14px', fontSize: 13.5, color: '#fff', outline: 'none', fontFamily: 'inherit', transition: 'border-color 0.2s' }}
+                  onFocus={e => (e.target.style.borderColor = '#0694D1')} onBlur={e => (e.target.style.borderColor = 'rgba(6,148,209,0.3)')} />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div onClick={() => setCaptcha(c => !c)} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 10px', borderRadius: 4, border: '1.5px solid rgba(255,255,255,0.18)', background: 'rgba(255,255,255,0.04)', width: 220, height: 44, cursor: 'pointer' }}>
+                  <div style={{ width: 18, height: 18, borderRadius: 3, border: `2px solid ${captcha ? '#0694D1' : 'rgba(255,255,255,0.55)'}`, background: captcha ? '#0694D1' : 'transparent', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all .2s' }}>
+                    {captcha && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                  </div>
+                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', fontWeight: 500, flex: 1 }}>I&apos;m not a robot</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1, flexShrink: 0 }}>
+                    <img decoding="async" loading="lazy" src="https://www.gstatic.com/recaptcha/api2/logo_48.png" width="24" height="24" alt="reCAPTCHA" style={{ display: 'block' }} />
+                    <span style={{ fontSize: 7, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.03em', lineHeight: 1 }}>reCAPTCHA</span>
+                    <span style={{ fontSize: 6, color: 'rgba(255,255,255,0.25)', lineHeight: 1 }}>Privacy - Terms</span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" style={{ width: '100%', padding: 13, borderRadius: 10, border: 'none', cursor: captcha ? 'pointer' : 'not-allowed', background: 'linear-gradient(135deg,#0694D1,#0577ab)', color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', letterSpacing: 0.2, boxShadow: '0 4px 18px rgba(6,148,209,0.4)', opacity: captcha ? 1 : 0.6, transition: 'opacity .2s' }}>
+                Submit
+              </button>
+            </form>
+          </>
+        )}
       </div>
     </div>
   , document.body)
@@ -882,8 +1190,27 @@ function EnrollModal({ vendor, onClose }: { vendor: string; onClose: () => void 
   , document.body)
 }
 
+const CARD_CATEGORY_ICON: Record<string, React.ReactNode> = {
+  FUNDAMENTALS: <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>,
+  ASSOCIATE: <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>,
+  EXPERT: <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7l4 9h12l4-9-6 4-4-6-4 6z"/></svg>,
+  NEW: <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>,
+}
+const HIW_STEP_ICONS: React.ReactNode[] = [
+  <svg key="goal" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>,
+  <svg key="format" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+  <svg key="train" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
+  <svg key="certify" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>,
+]
+const CARD_CATEGORY_LABEL: Record<string, string> = { FUNDAMENTALS: 'Fundamentals', ASSOCIATE: 'Associate', EXPERT: 'Expert', NEW: 'New' }
+const CARD_CATEGORY_BADGE: Record<string, string> = {
+  FUNDAMENTALS: 'bg-gradient-to-br from-[#4DBFEF] to-[#0694D1] text-white',
+  ASSOCIATE:    'bg-gradient-to-br from-[#0694D1] to-[#076D9D] text-white',
+  EXPERT:       'bg-gradient-to-br from-[#076D9D] to-[#062238] text-white',
+  NEW:          'bg-gradient-to-br from-[#0694D1] to-[#22d3ee] text-white',
+}
+
 function CourseCard({ c }: { c: Omit<typeof TOP_COURSES[0], 'cert'> & { cert?: typeof TOP_COURSES[0]['cert'] } }) {
-  const badgeColor = VENDOR_BADGE_COLORS[c.vendor] ?? KOENIG_BADGE
   const nameRef = useRef<HTMLHeadingElement>(null)
   const [isClamped, setIsClamped] = useState(false)
   const [showBrochure, setShowBrochure] = useState(false)
@@ -892,46 +1219,31 @@ function CourseCard({ c }: { c: Omit<typeof TOP_COURSES[0], 'cert'> & { cert?: t
     const el = nameRef.current
     if (el) setIsClamped(el.scrollHeight > el.clientHeight)
   }, [c.name])
-  const examCode = (c as { examCode?: string }).examCode
-  const category = (c as { category?: string }).category
+  const category = (c as { category?: string }).category ?? 'ASSOCIATE'
   return (
     <div
       role="button" tabIndex={0}
-      className="group relative cursor-pointer rounded-xl p-5 transition-all duration-300 hover:-translate-y-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue"
-      style={{ background: 'rgba(8,24,42,0.60)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.20)', boxShadow: '0 4px 16px rgba(0,0,0,0.30)' }}
+      className="group relative cursor-pointer rounded-xl bg-white p-5 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue"
+      style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0, 164, 239, 0.10)' }}
     >
-      <div className="mb-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium ${badgeColor}`}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            {c.vendor}
-          </span>
-          {category === 'FUNDAMENTALS' && (
-            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-500/20 text-cyan-300">Fundamentals</span>
-          )}
-          {category === 'ASSOCIATE' && (
-            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-500/20 text-indigo-300">Associate</span>
-          )}
-          {(category === 'EXPERT' || (c.level === 'Advanced' && category !== 'FUNDAMENTALS' && category !== 'ASSOCIATE')) && (
-            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>
-          )}
-          {category === 'NEW' && (
-            <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300">New</span>
-          )}
-        </div>
-        {c.hot ? (
-          <span className="animate-pulse rounded-full bg-amber-500/20 px-2 py-0.5 text-xs font-medium text-amber-300">Popular</span>
-        ) : null}
+      {c.hot && (
+        <span className="absolute right-0 top-0 z-[1] inline-flex items-center gap-1 whitespace-nowrap rounded-bl-xl rounded-tr-xl px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wide text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#22d3ee)', boxShadow: '-2px 2px 8px rgba(6,148,209,0.28)' }}>
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z" /></svg>
+          Popular
+        </span>
+      )}
+      <div className="mb-3 flex items-center">
+        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide whitespace-nowrap ${CARD_CATEGORY_BADGE[category] ?? CARD_CATEGORY_BADGE.ASSOCIATE}`}>
+          {CARD_CATEGORY_ICON[category] ?? CARD_CATEGORY_ICON.ASSOCIATE}
+          {CARD_CATEGORY_LABEL[category] ?? CARD_CATEGORY_LABEL.ASSOCIATE}
+        </span>
       </div>
-      <div className="group/name relative mb-1.5">
+      <div className="group/name relative mb-3">
         <h3
           ref={nameRef}
-          className="text-sm font-semibold text-white transition-colors group-hover:text-[#3AB6EB] leading-5 cursor-default"
+          className="text-sm font-semibold text-koenig-navy transition-colors group-hover:text-koenig-blue leading-5 cursor-default"
           style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', textOverflow: 'ellipsis' }}
         >{c.name}</h3>
-        {examCode && (
-          <p className="mt-1 text-[11px] font-medium text-white/40">{examCode}</p>
-        )}
         {/* Tooltip — only shown when name is clamped beyond 2 lines */}
         {isClamped && (
           <div
@@ -943,37 +1255,52 @@ function CourseCard({ c }: { c: Omit<typeof TOP_COURSES[0], 'cert'> & { cert?: t
           </div>
         )}
       </div>
-      <div className="mb-3 flex items-center gap-2 text-sm text-white/50">
-        <span>{c.enrolled} enrolled</span>
-        <span>·</span>
+      <div className="mb-2 flex items-center justify-between gap-2 text-sm text-koenig-gray">
         <span className="flex items-center gap-1">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           {c.days * 8} Hrs ({c.days} days)
         </span>
+        {(c as { tech?: string }).tech && (
+          <span className="flex items-center gap-1 truncate text-koenig-gray/70">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            {(c as { tech?: string }).tech}
+          </span>
+        )}
       </div>
-      <div className="border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <button
+          onClick={(e) => { e.stopPropagation(); setShowBrochure(true) }}
+          className="flex items-center gap-1.5 text-sm font-semibold transition-colors hover:text-[#046fa3]"
+          style={{ color: '#0694D1' }}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+          Download Syllabus
+        </button>
+        <span className="flex items-center gap-1 truncate text-sm text-koenig-gray/70">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          {c.vendor}
+        </span>
+      </div>
+      <div className="border-t pt-3.5" style={{ borderColor: '#CAEFFF' }}>
         <div className="mb-2.5 flex items-baseline justify-between">
-          <div className="flex items-baseline gap-1">
-            <span className="text-sm sm:text-base font-bold text-white">{c.price}</span>
-          </div>
-          <button
-            onClick={(e) => { e.stopPropagation(); window.open('https://www.koenig-solutions.com', '_blank') }}
-            className="text-[#3AB6EB] transition-colors hover:text-[#0694d1]"
-            style={{ fontSize: '13px', fontWeight: 600 }}
-          >
-            Cert Details →
-          </button>
+          <span className="flex items-center gap-1 text-sm text-koenig-gray">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            {c.enrolled}
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="rgba(217,158,11,0.85)" className="ml-1"><path d="M12 2l2.9 6.26 6.9.6-5.2 4.53 1.58 6.76L12 16.9l-6.18 3.25 1.58-6.76-5.2-4.53 6.9-.6z"/></svg>
+            <span className="font-medium" style={{ color: 'rgba(217,158,11,0.85)' }}>{c.rating}</span>
+          </span>
+          <span className="text-sm sm:text-base font-bold" style={{ color: '#0694d1' }}>{c.price}</span>
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={(e) => { e.stopPropagation(); setShowBrochure(true) }}
-            className="flex-1 rounded-lg border py-1.5 text-sm font-semibold text-white/70 transition-all hover:bg-white/5"
-            style={{ borderColor: 'rgba(255,255,255,0.15)' }}
+            onClick={(e) => { e.stopPropagation(); window.open('https://www.koenig-solutions.com', '_blank') }}
+            className="flex-1 rounded-lg border py-1.5 text-sm font-semibold transition-all hover:bg-[#0694d1]/5"
+            style={{ borderColor: '#0694D1', color: '#0694D1' }}
           >
-            Brochure
+            View Course
           </button>
           <button
-            onClick={(e) => { e.stopPropagation() }}
+            onClick={(e) => { e.stopPropagation(); setShowEnroll(true) }}
             className="flex-1 rounded-lg py-1.5 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-lg"
             style={{ background: 'linear-gradient(135deg, #0694d1, #076D9D)' }}
           >
@@ -981,81 +1308,101 @@ function CourseCard({ c }: { c: Omit<typeof TOP_COURSES[0], 'cert'> & { cert?: t
           </button>
         </div>
       </div>
-      {showBrochure && <BrochureModal onClose={() => setShowBrochure(false)} />}
-      {showEnroll && <EnrollModal vendor={c.vendor} onClose={() => setShowEnroll(false)} />}
+      {showBrochure && <SyllabusModal course={c.name} onClose={() => setShowBrochure(false)} />}
+      {showEnroll && <EnquireNowModal course={c.name} onClose={() => setShowEnroll(false)} />}
     </div>
   )
 }
 
 function ScheduleCard({ s }: { s: typeof SCHEDULE[0] }) {
-  const badgeColor = VENDOR_BADGE_COLORS[s.vendor] ?? KOENIG_BADGE
-  const isLive = s.format === 'Live Online'
   const urgent = s.seats <= 3
+  const [showSyllabus, setShowSyllabus] = useState(false)
+  const [showEnquire, setShowEnquire] = useState(false)
   return (
     <div
       role="button" tabIndex={0}
       className="group relative cursor-pointer rounded-xl bg-white p-5 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue"
       style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0, 164, 239, 0.10)' }}
     >
-      {/* Row 1 — vendor badge + format badge | seats badge */}
-      <div className="mb-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs sm:text-sm font-bold whitespace-nowrap ${badgeColor}`}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            {s.vendor}
-          </span>
-          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs sm:text-sm font-bold whitespace-nowrap ${
-            isLive ? 'bg-[#EBF8FE] text-[#0694d1]' : 'bg-[#076d9d] text-white'
-          }`}>
-            {isLive
-              ? <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
-              : <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            }
-            {isLive ? 'Live Online' : 'Classroom'}
-          </span>
-        </div>
-        <span className={`${urgent ? 'animate-pulse' : ''} rounded-full px-2 py-0.5 text-sm font-medium whitespace-nowrap ${s.seatColor}`}>
+      {s.hot && (
+        <span className="absolute right-0 top-0 z-[1] inline-flex items-center gap-1 whitespace-nowrap rounded-bl-xl rounded-tr-xl px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wide text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#22d3ee)', boxShadow: '-2px 2px 8px rgba(6,148,209,0.28)' }}>
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z" /></svg>
+          Popular
+        </span>
+      )}
+
+      {/* Row 1 — level badge | seats left */}
+      <div className="mb-3 flex items-center gap-2">
+        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide whitespace-nowrap ${SCHEDULE_LEVEL_BADGE[s.level]}`}>
+          {SCHEDULE_LEVEL_ICON[s.level]}
+          {SCHEDULE_LEVEL_LABEL[s.level]}
+        </span>
+        <span className={`${urgent ? 'animate-pulse' : ''} rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap ${urgent ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
           {s.seats} seats left
         </span>
       </div>
 
       {/* Row 2 — course name */}
-      <h3 className="mb-1.5 text-sm sm:text-base font-semibold text-koenig-navy transition-colors group-hover:text-koenig-blue">{s.name}</h3>
+      <h3 className="mb-3 text-sm sm:text-base font-semibold text-koenig-navy transition-colors group-hover:text-koenig-blue">{s.name}</h3>
 
-      {/* Row 3 — meta: date · hrs · timezone */}
-      <div className="mb-3 flex items-center gap-2 text-sm text-koenig-gray">
-        <span className="flex items-center gap-1">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          {s.date}
-        </span>
-        <span>·</span>
+      {/* Row 3 — date · hrs | tech */}
+      <div className="mb-2 flex items-center justify-between gap-2 text-sm text-koenig-gray">
         <span className="flex items-center gap-1">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           {s.days * 8} Hrs ({s.days} days)
         </span>
-        <span>·</span>
-        <span className="flex items-center gap-1 truncate">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          {s.tz}
+        <span className="flex items-center gap-1 truncate text-koenig-gray/70">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          {s.tech}
         </span>
       </div>
 
-      {/* Row 4 — footer: location | button */}
-      <div className="flex items-center justify-between border-t border-koenig-border pt-3">
-        <div>
-          <p className="text-sm text-koenig-muted">Location</p>
-          <p className="flex items-center gap-1 text-sm sm:text-base font-bold text-koenig-dark">
-            {isLive
-              ? <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="13" rx="2"/><polyline points="8 21 12 17 16 21"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
-              : <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            }
-            {s.format}
-          </p>
-        </div>
-        <button className="rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all whitespace-nowrap group-hover:shadow-lg" style={{ background: '#093148' }}>
-          Reserve My Seat →
+      {/* Row 4 — Download Syllabus | vendor */}
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <button
+          onClick={(e) => { e.stopPropagation(); setShowSyllabus(true) }}
+          className="flex items-center gap-1.5 text-sm font-semibold transition-colors hover:text-[#046fa3]"
+          style={{ color: '#0694D1' }}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+          Download Syllabus
         </button>
+        <span className="flex items-center gap-1 truncate text-sm text-koenig-gray/70">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          {s.vendor}
+        </span>
       </div>
+
+      {/* Row 5 — enrolled/rating | price */}
+      <div className="border-t pt-3.5" style={{ borderColor: '#CAEFFF' }}>
+        <div className="mb-2.5 flex items-baseline justify-between">
+          <span className="flex items-center gap-1 text-sm text-koenig-gray">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            {s.enrolled}
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="rgba(217,158,11,0.85)" className="ml-1"><path d="M12 2l2.9 6.26 6.9.6-5.2 4.53 1.58 6.76L12 16.9l-6.18 3.25 1.58-6.76-5.2-4.53 6.9-.6z"/></svg>
+            <span className="font-medium" style={{ color: 'rgba(217,158,11,0.85)' }}>{s.rating}</span>
+          </span>
+          <span className="text-sm sm:text-base font-bold" style={{ color: '#0694d1' }}>{s.price}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={(e) => { e.stopPropagation(); window.open('https://www.koenig-solutions.com', '_blank') }}
+            className="flex-1 rounded-lg border py-1.5 text-sm font-semibold transition-all hover:bg-[#0694d1]/5"
+            style={{ borderColor: '#0694D1', color: '#0694D1' }}
+          >
+            View Course
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); setShowEnquire(true) }}
+            className="flex-1 rounded-lg py-1.5 text-sm font-semibold text-white shadow-sm transition-all hover:shadow-lg"
+            style={{ background: 'linear-gradient(135deg,#0694d1,#076D9D)' }}
+          >
+            Enquire Now
+          </button>
+        </div>
+      </div>
+      {showSyllabus && <SyllabusModal course={s.name} onClose={() => setShowSyllabus(false)} />}
+      {showEnquire && <EnquireNowModal course={s.name} onClose={() => setShowEnquire(false)} />}
     </div>
   )
 }
@@ -1079,9 +1426,9 @@ const LEARNING_LINKS = [
   { label: 'Flexi',                href: '#' },
   { label: 'Customized Training',  href: '#' },
   { label: 'Webinar as a Service', href: '#' },
-  { label: 'Qubits',               href: '#' },
+  { label: 'Qubits',               href: '/qubits' },
   { label: 'Upcoming Webinars',    href: '/upcoming-webinars' },
-  { label: 'Learnova',             href: '#' },
+  { label: 'Learnova',             href: '/learnova' },
 ]
 
 const VENDOR_HREFS: Record<string, string> = {
@@ -1127,6 +1474,10 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'AZ-400: Azure DevOps Engineer Expert', days: 5, level: 'Advanced' },
     { name: 'AZ-900: Azure Fundamentals', days: 1, level: 'Beginner' },
     { name: 'MS-900: Microsoft 365 Fundamentals', days: 1, level: 'Beginner' },
+    { name: 'SC-300: Microsoft Identity & Access Administrator', days: 4, level: 'Advanced' },
+    { name: 'SC-200: Microsoft Security Operations Analyst', days: 4, level: 'Advanced' },
+    { name: 'DP-900: Azure Data Fundamentals', days: 1, level: 'Beginner' },
+    { name: 'AZ-500: Azure Security Engineer Associate', days: 4, level: 'Advanced' },
   ],
   'AWS': [
     { name: 'AWS Solutions Architect – Associate', days: 4, level: 'Intermediate' },
@@ -1135,6 +1486,12 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'AWS Cloud Practitioner Essentials', days: 2, level: 'Beginner' },
     { name: 'AWS SysOps Administrator – Associate', days: 3, level: 'Intermediate' },
     { name: 'Advanced AWS Networking', days: 4, level: 'Advanced' },
+    { name: 'AWS Certified Developer – Associate', days: 4, level: 'Intermediate' },
+    { name: 'AWS Certified Security – Specialty', days: 3, level: 'Advanced' },
+    { name: 'AWS Certified Machine Learning – Specialty', days: 4, level: 'Advanced' },
+    { name: 'AWS Certified Database – Specialty', days: 3, level: 'Advanced' },
+    { name: 'AWS Certified Solutions Architect – Professional', days: 5, level: 'Advanced' },
+    { name: 'AWS Certified Data Engineer – Associate', days: 4, level: 'Intermediate' },
   ],
   'Cisco': [
     { name: 'CCNP Enterprise Core (ENCOR)', days: 5, level: 'Advanced' },
@@ -1142,6 +1499,13 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'Cisco CyberOps Associate', days: 5, level: 'Intermediate' },
     { name: 'Cisco DevNet Associate', days: 4, level: 'Intermediate' },
     { name: 'CCIE Enterprise Infrastructure', days: 5, level: 'Advanced' },
+    { name: 'CCNP Security', days: 5, level: 'Advanced' },
+    { name: 'CCNP Data Center', days: 5, level: 'Advanced' },
+    { name: 'CCNP Collaboration', days: 5, level: 'Advanced' },
+    { name: 'CCST Networking', days: 2, level: 'Beginner' },
+    { name: 'Cisco SD-WAN Implementation', days: 4, level: 'Advanced' },
+    { name: 'CCIE Security', days: 5, level: 'Advanced' },
+    { name: 'Cisco Certified Support Technician (CCST)', days: 2, level: 'Beginner' },
   ],
   'CompTIA': [
     { name: 'CompTIA Security+ (SY0-701)', days: 5, level: 'Intermediate' },
@@ -1149,12 +1513,27 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'CompTIA CySA+', days: 5, level: 'Intermediate' },
     { name: 'CompTIA A+ Core 1 & Core 2', days: 5, level: 'Beginner' },
     { name: 'CompTIA PenTest+', days: 5, level: 'Advanced' },
+    { name: 'CompTIA Cloud+', days: 5, level: 'Intermediate' },
+    { name: 'CompTIA Linux+', days: 5, level: 'Intermediate' },
+    { name: 'CompTIA Data+', days: 4, level: 'Intermediate' },
+    { name: 'CompTIA Project+', days: 3, level: 'Beginner' },
+    { name: 'CompTIA Server+', days: 5, level: 'Intermediate' },
+    { name: 'CompTIA CASP+', days: 5, level: 'Advanced' },
+    { name: 'CompTIA ITF+', days: 2, level: 'Beginner' },
   ],
   'Oracle': [
     { name: 'Oracle Database Administration', days: 5, level: 'Intermediate' },
     { name: 'Oracle Cloud Infrastructure Architect Associate', days: 4, level: 'Intermediate' },
     { name: 'Java SE 17 Developer', days: 5, level: 'Intermediate' },
     { name: 'Oracle Cloud Infrastructure Foundations', days: 2, level: 'Beginner' },
+    { name: 'Oracle Autonomous Database Administration', days: 3, level: 'Advanced' },
+    { name: 'Oracle Fusion Cloud Applications', days: 5, level: 'Advanced' },
+    { name: 'Oracle Cloud Infrastructure Developer Professional', days: 4, level: 'Advanced' },
+    { name: 'MySQL Database Administration', days: 4, level: 'Intermediate' },
+    { name: 'Java SE 21 Developer Professional', days: 5, level: 'Advanced' },
+    { name: 'Oracle PL/SQL Developer Certified Associate', days: 4, level: 'Intermediate' },
+    { name: 'Oracle Cloud Infrastructure Security Professional', days: 3, level: 'Advanced' },
+    { name: 'Oracle Data Integrator Certified Implementation Specialist', days: 4, level: 'Advanced' },
   ],
   'SAP': [
     { name: 'SAP S/4HANA Functional Consultant', days: 5, level: 'Advanced' },
@@ -1162,83 +1541,209 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'SAP ABAP Programming', days: 5, level: 'Intermediate' },
     { name: 'SAP BW/4HANA Data Modeling', days: 4, level: 'Advanced' },
     { name: 'SAP Certified Associate – Cloud ERP', days: 3, level: 'Intermediate' },
+    { name: 'SAP SuccessFactors Employee Central', days: 5, level: 'Advanced' },
+    { name: 'SAP Ariba Procurement', days: 4, level: 'Intermediate' },
+    { name: 'SAP Fiori System Administration', days: 3, level: 'Intermediate' },
+    { name: 'SAP HANA Cloud Modeling', days: 4, level: 'Advanced' },
+    { name: 'SAP Business Technology Platform', days: 4, level: 'Advanced' },
+    { name: 'SAP MM: Materials Management', days: 5, level: 'Intermediate' },
+    { name: 'SAP FICO: Finance & Controlling', days: 5, level: 'Intermediate' },
   ],
   'PMI': [
     { name: 'Project Management Professional (PMP)', days: 3, level: 'Advanced' },
     { name: 'CAPM: Certified Associate in PM', days: 3, level: 'Beginner' },
     { name: 'PMI-ACP: Agile Certified Practitioner', days: 3, level: 'Intermediate' },
     { name: 'PMI-RMP: Risk Management Professional', days: 3, level: 'Advanced' },
+    { name: 'PMI-PBA: Professional in Business Analysis', days: 3, level: 'Advanced' },
+    { name: 'PfMP: Portfolio Management Professional', days: 4, level: 'Advanced' },
+    { name: 'PMI-SP: Scheduling Professional', days: 3, level: 'Advanced' },
+    { name: 'DASM: Disciplined Agile Scrum Master', days: 2, level: 'Intermediate' },
+    { name: 'DASSM: Disciplined Agile Senior Scrum Master', days: 3, level: 'Advanced' },
+    { name: 'PMP Exam Prep Bootcamp', days: 2, level: 'Advanced' },
+    { name: 'Agile Project Management Fundamentals', days: 2, level: 'Beginner' },
+    { name: 'PMI Wicked Problem Solving', days: 1, level: 'Intermediate' },
   ],
   'Red Hat': [
     { name: 'RHCSA: Red Hat Certified System Administrator', days: 5, level: 'Intermediate' },
     { name: 'RHCE: Red Hat Certified Engineer', days: 5, level: 'Advanced' },
     { name: 'OpenShift Administration', days: 4, level: 'Advanced' },
     { name: 'Ansible Automation Platform', days: 4, level: 'Intermediate' },
+    { name: 'RHCA: Red Hat Certified Architect', days: 5, level: 'Advanced' },
+    { name: 'Red Hat Satellite Administration', days: 3, level: 'Advanced' },
+    { name: 'Red Hat CloudForms Administration', days: 3, level: 'Advanced' },
+    { name: 'Red Hat Ceph Storage Administration', days: 4, level: 'Advanced' },
+    { name: 'RHEL Diagnostics and Troubleshooting', days: 4, level: 'Advanced' },
+    { name: 'OpenShift Application Development', days: 4, level: 'Intermediate' },
+    { name: 'Red Hat Virtualization Administration', days: 4, level: 'Intermediate' },
+    { name: 'Red Hat Identity Management', days: 3, level: 'Advanced' },
   ],
   'EC-Council': [
     { name: 'Certified Ethical Hacker (CEH v13)', days: 5, level: 'Intermediate' },
     { name: 'CPENT: Certified Penetration Testing', days: 5, level: 'Advanced' },
     { name: 'CHFI: Computer Hacking Forensic Investigator', days: 5, level: 'Intermediate' },
     { name: 'CCSE: Certified Cloud Security Engineer', days: 3, level: 'Advanced' },
+    { name: 'ECSA: Certified Security Analyst', days: 5, level: 'Advanced' },
+    { name: 'CTIA: Certified Threat Intelligence Analyst', days: 3, level: 'Advanced' },
+    { name: 'CSA: Certified SOC Analyst', days: 3, level: 'Intermediate' },
+    { name: 'CND: Certified Network Defender', days: 5, level: 'Intermediate' },
+    { name: 'CCT: Certified Cybersecurity Technician', days: 3, level: 'Beginner' },
+    { name: 'DFE: Digital Forensics Essentials', days: 2, level: 'Beginner' },
+    { name: 'CASE JAVA: Application Security Engineer', days: 4, level: 'Advanced' },
+    { name: 'ECIH: Certified Incident Handler', days: 3, level: 'Intermediate' },
   ],
   'VMware': [
     { name: 'vSphere: Install, Configure, Manage', days: 5, level: 'Intermediate' },
     { name: 'NSX-T Data Center: Install, Configure, Manage', days: 5, level: 'Advanced' },
     { name: 'vSAN: Deploy and Manage', days: 3, level: 'Advanced' },
     { name: 'VMware Cloud Foundation: Deploy and Manage', days: 4, level: 'Advanced' },
+    { name: 'vSphere: Optimize and Scale', days: 3, level: 'Advanced' },
+    { name: 'VMware Horizon: Deploy and Manage', days: 4, level: 'Advanced' },
+    { name: 'VMware Cloud on AWS', days: 3, level: 'Advanced' },
+    { name: 'VMware Tanzu Kubernetes Operations', days: 4, level: 'Advanced' },
+    { name: 'VMware Site Recovery Manager', days: 3, level: 'Advanced' },
+    { name: 'NSX-T Advanced Troubleshooting', days: 4, level: 'Advanced' },
+    { name: 'VMware Aria Automation', days: 4, level: 'Advanced' },
+    { name: 'VMware Carbon Black Cloud Endpoint', days: 3, level: 'Intermediate' },
   ],
   'PeopleCert': [
     { name: 'ITIL® 4 Foundation', days: 3, level: 'Beginner' },
     { name: 'PRINCE2® Foundation & Practitioner', days: 5, level: 'Intermediate' },
     { name: 'ITIL 4 Specialist: Create, Deliver and Support', days: 3, level: 'Advanced' },
     { name: 'PRINCE2 Agile', days: 3, level: 'Intermediate' },
+    { name: 'ITIL 4 Specialist: Drive Stakeholder Value', days: 3, level: 'Advanced' },
+    { name: 'ITIL 4 Strategist: Direct, Plan and Improve', days: 3, level: 'Advanced' },
+    { name: 'ITIL 4 Leader: Digital and IT Strategy', days: 2, level: 'Advanced' },
+    { name: 'MSP®: Managing Successful Programmes', days: 4, level: 'Advanced' },
+    { name: 'M_o_R®: Management of Risk', days: 3, level: 'Intermediate' },
+    { name: 'AgileSHIFT®', days: 1, level: 'Beginner' },
+    { name: 'PRINCE2® Practitioner Refresher', days: 2, level: 'Intermediate' },
+    { name: 'P3O®: Portfolio, Programme and Project Offices', days: 3, level: 'Advanced' },
   ],
   'PECB': [
     { name: 'ISO 27001 Lead Implementer', days: 5, level: 'Advanced' },
     { name: 'ISO 27001 Lead Auditor', days: 5, level: 'Advanced' },
     { name: 'ISO 22301 Lead Implementer', days: 5, level: 'Intermediate' },
     { name: 'ISO 9001 Lead Auditor', days: 5, level: 'Intermediate' },
+    { name: 'ISO 27701 Lead Implementer', days: 4, level: 'Advanced' },
+    { name: 'ISO 31000 Risk Manager', days: 3, level: 'Intermediate' },
+    { name: 'ISO 22301 Lead Auditor', days: 5, level: 'Advanced' },
+    { name: 'ISO 20000 Lead Implementer', days: 4, level: 'Advanced' },
+    { name: 'ISO 42001 AI Management Lead Implementer', days: 4, level: 'Advanced' },
+    { name: 'GDPR Certified Data Protection Officer', days: 3, level: 'Intermediate' },
+    { name: 'ISO 37301 Lead Compliance Manager', days: 4, level: 'Advanced' },
+    { name: 'ISO 45001 Lead Auditor', days: 5, level: 'Advanced' },
   ],
   'Linux Foundation': [
     { name: 'Certified Kubernetes Administrator (CKA)', days: 4, level: 'Advanced' },
     { name: 'Certified Kubernetes Application Developer (CKAD)', days: 3, level: 'Intermediate' },
     { name: 'Linux Foundation Certified System Administrator', days: 5, level: 'Intermediate' },
+    { name: 'KCNA: Kubernetes and Cloud Native Associate', days: 2, level: 'Beginner' },
+    { name: 'KCSA: Kubernetes and Cloud Native Security Associate', days: 2, level: 'Intermediate' },
+    { name: 'CKS: Certified Kubernetes Security Specialist', days: 4, level: 'Advanced' },
+    { name: 'FinOps Certified Practitioner', days: 2, level: 'Intermediate' },
+    { name: 'Cloud Engineer Bootcamp', days: 5, level: 'Intermediate' },
+    { name: 'Introduction to Linux (LFS101)', days: 3, level: 'Beginner' },
+    { name: 'Istio and Envoy Fundamentals', days: 2, level: 'Advanced' },
+    { name: 'GitOps Fundamentals', days: 2, level: 'Intermediate' },
+    { name: 'Prometheus Certified Associate (PCA)', days: 2, level: 'Intermediate' },
   ],
   'ISACA': [
     { name: 'CISM: Certified Information Security Manager', days: 3, level: 'Advanced' },
     { name: 'CISA: Certified Information Systems Auditor', days: 3, level: 'Advanced' },
     { name: 'CRISC: Certified in Risk and Information Systems Control', days: 3, level: 'Advanced' },
+    { name: 'CGEIT: Certified in Governance of Enterprise IT', days: 3, level: 'Advanced' },
+    { name: 'CDPSE: Certified Data Privacy Solutions Engineer', days: 3, level: 'Advanced' },
+    { name: 'COBIT 2019 Foundation', days: 2, level: 'Beginner' },
+    { name: 'IT Risk Fundamentals', days: 2, level: 'Beginner' },
+    { name: 'CISM Exam Prep Bootcamp', days: 2, level: 'Advanced' },
+    { name: 'CISA Exam Prep Bootcamp', days: 2, level: 'Advanced' },
+    { name: 'CET: Certified in Emerging Technology', days: 2, level: 'Intermediate' },
+    { name: 'AI Fundamentals Certificate', days: 1, level: 'Beginner' },
+    { name: 'COBIT 2019 Design and Implementation', days: 3, level: 'Advanced' },
   ],
   'ISC2': [
     { name: 'CISSP Certification', days: 5, level: 'Advanced' },
     { name: 'CCSP: Certified Cloud Security Professional', days: 5, level: 'Advanced' },
     { name: 'SSCP: Systems Security Certified Practitioner', days: 5, level: 'Intermediate' },
     { name: 'CC: Certified in Cybersecurity', days: 2, level: 'Beginner' },
+    { name: 'CGRC: Governance, Risk and Compliance', days: 4, level: 'Advanced' },
+    { name: 'HCISPP: Healthcare Information Security', days: 4, level: 'Advanced' },
+    { name: 'ISSAP: Information Systems Security Architecture', days: 3, level: 'Advanced' },
+    { name: 'ISSEP: Information Systems Security Engineering', days: 3, level: 'Advanced' },
+    { name: 'ISSMP: Information Systems Security Management', days: 3, level: 'Advanced' },
+    { name: 'CISSP Exam Prep Bootcamp', days: 2, level: 'Advanced' },
+    { name: 'SSCP Exam Prep Bootcamp', days: 2, level: 'Intermediate' },
+    { name: 'CCSP Exam Prep Bootcamp', days: 2, level: 'Advanced' },
   ],
   'ISTQB': [
     { name: 'ISTQB Certified Tester Foundation Level', days: 3, level: 'Beginner' },
     { name: 'ISTQB Advanced Level Test Analyst', days: 4, level: 'Advanced' },
     { name: 'ISTQB Advanced Level Test Manager', days: 5, level: 'Advanced' },
+    { name: 'ISTQB Foundation Level Agile Tester', days: 2, level: 'Beginner' },
+    { name: 'ISTQB Advanced Level Technical Test Analyst', days: 4, level: 'Advanced' },
+    { name: 'ISTQB Advanced Level Test Automation Engineer', days: 4, level: 'Advanced' },
+    { name: 'ISTQB Specialist Performance Testing', days: 3, level: 'Intermediate' },
+    { name: 'ISTQB Specialist Security Tester', days: 3, level: 'Advanced' },
+    { name: 'ISTQB Specialist Mobile Application Testing', days: 2, level: 'Intermediate' },
+    { name: 'ISTQB Specialist Usability Testing', days: 2, level: 'Intermediate' },
+    { name: 'ISTQB Specialist AI Testing', days: 2, level: 'Advanced' },
+    { name: 'ISTQB Specialist Gherkin Test Automation', days: 2, level: 'Intermediate' },
   ],
   'The Open Group': [
     { name: 'TOGAF 10 Foundation & Practitioner', days: 5, level: 'Intermediate' },
     { name: 'TOGAF 9.2 Foundation', days: 3, level: 'Beginner' },
     { name: 'ArchiMate 3 Foundation & Practitioner', days: 4, level: 'Intermediate' },
+    { name: 'TOGAF Business Architecture', days: 3, level: 'Advanced' },
+    { name: 'IT4IT Foundation', days: 3, level: 'Intermediate' },
+    { name: 'ArchiMate 3 Practitioner Bootcamp', days: 2, level: 'Advanced' },
+    { name: 'Open FAIR Foundation', days: 2, level: 'Intermediate' },
+    { name: 'DPBoK Foundation', days: 3, level: 'Intermediate' },
+    { name: 'TOGAF Enterprise Architecture Practitioner', days: 4, level: 'Advanced' },
+    { name: 'Open CA: Certified Architect', days: 4, level: 'Advanced' },
+    { name: 'Open CITS: Certified IT Specialist', days: 4, level: 'Advanced' },
+    { name: 'SOA Foundation', days: 2, level: 'Beginner' },
   ],
   'ServiceNow': [
     { name: 'ServiceNow System Administrator', days: 3, level: 'Intermediate' },
     { name: 'ServiceNow Application Developer', days: 4, level: 'Advanced' },
     { name: 'ServiceNow ITSM Implementation', days: 3, level: 'Intermediate' },
+    { name: 'ServiceNow Certified Implementation Specialist – ITSM', days: 4, level: 'Advanced' },
+    { name: 'ServiceNow HRSD Implementation', days: 4, level: 'Advanced' },
+    { name: 'ServiceNow CSM Implementation', days: 4, level: 'Advanced' },
+    { name: 'ServiceNow Certified Technical Architect', days: 5, level: 'Advanced' },
+    { name: 'ServiceNow Flow Designer Micro-Certification', days: 1, level: 'Beginner' },
+    { name: 'ServiceNow Discovery and Service Mapping', days: 3, level: 'Advanced' },
+    { name: 'ServiceNow Performance Analytics', days: 2, level: 'Intermediate' },
+    { name: 'ServiceNow Virtual Agent Implementation', days: 2, level: 'Intermediate' },
+    { name: 'ServiceNow App Engine Studio', days: 3, level: 'Intermediate' },
   ],
   'Broadcom': [
     { name: 'Clarity PPM Administration', days: 4, level: 'Advanced' },
     { name: 'CA Service Management Administration', days: 3, level: 'Intermediate' },
     { name: 'Symantec Endpoint Security', days: 3, level: 'Intermediate' },
+    { name: 'Symantec DLP Administration', days: 3, level: 'Advanced' },
+    { name: 'CA Application Performance Management', days: 4, level: 'Advanced' },
+    { name: 'CA Automic Workload Automation', days: 4, level: 'Advanced' },
+    { name: 'Symantec Endpoint Protection Advanced', days: 3, level: 'Advanced' },
+    { name: 'CA Service Desk Manager', days: 3, level: 'Intermediate' },
+    { name: 'CA Identity Manager Administration', days: 4, level: 'Advanced' },
+    { name: 'Symantec Web Security Service', days: 3, level: 'Intermediate' },
+    { name: 'CA API Management', days: 3, level: 'Advanced' },
+    { name: 'CA Agile Central Administration', days: 2, level: 'Intermediate' },
   ],
   'Check Point': [
     { name: 'Check Point CCSA R82', days: 3, level: 'Intermediate' },
     { name: 'Check Point CCSE R82', days: 4, level: 'Advanced' },
     { name: 'Check Point Certified Cloud Specialist', days: 3, level: 'Advanced' },
+    { name: 'Check Point CCSM: Multi-Domain Security Mgmt', days: 3, level: 'Advanced' },
+    { name: 'Check Point Certified Cloud Network Security Expert', days: 4, level: 'Advanced' },
+    { name: 'Check Point Harmony Endpoint Administration', days: 2, level: 'Intermediate' },
+    { name: 'Check Point CloudGuard Administration', days: 3, level: 'Advanced' },
+    { name: 'Check Point Certified Security Master', days: 5, level: 'Advanced' },
+    { name: 'Check Point CCTE: Troubleshooting Expert', days: 4, level: 'Advanced' },
+    { name: 'Check Point Certified Automation Specialist', days: 2, level: 'Advanced' },
+    { name: 'Check Point SD-WAN Administration', days: 3, level: 'Intermediate' },
+    { name: 'Check Point Certified Threat Prevention Specialist', days: 3, level: 'Advanced' },
   ],
 }
 
@@ -1250,6 +1755,12 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'AZ-900: Azure Fundamentals', vendor: 'Microsoft', days: 1, level: 'Beginner' },
     { name: 'AWS Cloud Practitioner Essentials', vendor: 'AWS', days: 2, level: 'Beginner' },
     { name: 'Oracle Cloud Infrastructure Foundations', vendor: 'Oracle', days: 2, level: 'Beginner' },
+    { name: 'AZ-305: Azure Solutions Architect Expert', vendor: 'Microsoft', days: 4, level: 'Advanced' },
+    { name: 'AWS Certified Solutions Architect – Professional', vendor: 'AWS', days: 5, level: 'Advanced' },
+    { name: 'VMware Cloud Foundation: Deploy and Manage', vendor: 'VMware', days: 4, level: 'Advanced' },
+    { name: 'Oracle Cloud Infrastructure Architect Associate', vendor: 'Oracle', days: 4, level: 'Intermediate' },
+    { name: 'AWS SysOps Administrator – Associate', vendor: 'AWS', days: 3, level: 'Intermediate' },
+    { name: 'AZ-500: Azure Security Engineer Associate', vendor: 'Microsoft', days: 4, level: 'Advanced' },
   ],
   'Cybersecurity': [
     { name: 'Certified Ethical Hacker (CEH v13)', vendor: 'EC-Council', days: 5, level: 'Intermediate' },
@@ -1258,6 +1769,12 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'CCSP: Certified Cloud Security', vendor: 'ISC2', days: 5, level: 'Advanced' },
     { name: 'CompTIA CySA+', vendor: 'CompTIA', days: 5, level: 'Intermediate' },
     { name: 'CPENT: Certified Penetration Testing', vendor: 'EC-Council', days: 5, level: 'Advanced' },
+    { name: 'SC-200: Microsoft Security Operations Analyst', vendor: 'Microsoft', days: 4, level: 'Advanced' },
+    { name: 'CISM: Certified Information Security Manager', vendor: 'ISACA', days: 3, level: 'Advanced' },
+    { name: 'CISA: Certified Information Systems Auditor', vendor: 'ISACA', days: 3, level: 'Advanced' },
+    { name: 'Check Point CCSA R82', vendor: 'Check Point', days: 3, level: 'Intermediate' },
+    { name: 'ISO 27001 Lead Implementer', vendor: 'PECB', days: 5, level: 'Advanced' },
+    { name: 'CND: Certified Network Defender', vendor: 'EC-Council', days: 5, level: 'Intermediate' },
   ],
   'Networking': [
     { name: 'CCNP Enterprise Core (ENCOR)', vendor: 'Cisco', days: 5, level: 'Advanced' },
@@ -1265,6 +1782,13 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'CompTIA Network+', vendor: 'CompTIA', days: 5, level: 'Beginner' },
     { name: 'Cisco DevNet Associate', vendor: 'Cisco', days: 4, level: 'Intermediate' },
     { name: 'CCIE Enterprise Infrastructure', vendor: 'Cisco', days: 5, level: 'Advanced' },
+    { name: 'CCNP Security', vendor: 'Cisco', days: 5, level: 'Advanced' },
+    { name: 'CCNP Data Center', vendor: 'Cisco', days: 5, level: 'Advanced' },
+    { name: 'CCST Networking', vendor: 'Cisco', days: 2, level: 'Beginner' },
+    { name: 'Cisco SD-WAN Implementation', vendor: 'Cisco', days: 4, level: 'Advanced' },
+    { name: 'Check Point SD-WAN Administration', vendor: 'Check Point', days: 3, level: 'Intermediate' },
+    { name: 'CCIE Security', vendor: 'Cisco', days: 5, level: 'Advanced' },
+    { name: 'Cisco Certified Support Technician (CCST)', vendor: 'Cisco', days: 2, level: 'Beginner' },
   ],
   'Project Management': [
     { name: 'Project Management Professional (PMP)', vendor: 'PMI', days: 3, level: 'Advanced' },
@@ -1272,35 +1796,69 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'ITIL® 4 Foundation', vendor: 'PeopleCert', days: 3, level: 'Beginner' },
     { name: 'PMI-ACP: Agile Certified Practitioner', vendor: 'PMI', days: 3, level: 'Intermediate' },
     { name: 'CAPM: Certified Associate in PM', vendor: 'PMI', days: 3, level: 'Beginner' },
+    { name: 'PMI-RMP: Risk Management Professional', vendor: 'PMI', days: 3, level: 'Advanced' },
+    { name: 'PfMP: Portfolio Management Professional', vendor: 'PMI', days: 4, level: 'Advanced' },
+    { name: 'DASM: Disciplined Agile Scrum Master', vendor: 'PMI', days: 2, level: 'Intermediate' },
+    { name: 'PRINCE2 Agile', vendor: 'PeopleCert', days: 3, level: 'Intermediate' },
+    { name: 'MSP®: Managing Successful Programmes', vendor: 'PeopleCert', days: 4, level: 'Advanced' },
+    { name: 'M_o_R®: Management of Risk', vendor: 'PeopleCert', days: 3, level: 'Intermediate' },
+    { name: 'AgileSHIFT®', vendor: 'PeopleCert', days: 1, level: 'Beginner' },
   ],
   'Data & AI': [
     { name: 'AI-102: Azure AI Engineer Associate', vendor: 'Microsoft', days: 4, level: 'Advanced' },
     { name: 'AWS Certified AI Practitioner', vendor: 'AWS', days: 3, level: 'Beginner' },
     { name: 'Google Professional Data Engineer', vendor: 'Google Cloud', days: 4, level: 'Advanced' },
     { name: 'PL-300: Power BI Data Analyst', vendor: 'Microsoft', days: 3, level: 'Intermediate' },
-    { name: 'Azure AI Engineer Associate', vendor: 'Microsoft', days: 4, level: 'Advanced' },
+    { name: 'AWS Certified Machine Learning – Specialty', vendor: 'AWS', days: 4, level: 'Advanced' },
     { name: 'SAP BW/4HANA Data Modeling', vendor: 'SAP', days: 4, level: 'Advanced' },
+    { name: 'DP-900: Azure Data Fundamentals', vendor: 'Microsoft', days: 1, level: 'Beginner' },
+    { name: 'AWS Certified Data Engineer – Associate', vendor: 'AWS', days: 4, level: 'Intermediate' },
+    { name: 'Oracle Autonomous Database Administration', vendor: 'Oracle', days: 3, level: 'Advanced' },
+    { name: 'AI Fundamentals Certificate', vendor: 'ISACA', days: 1, level: 'Beginner' },
+    { name: 'ISTQB Specialist AI Testing', vendor: 'ISTQB', days: 2, level: 'Advanced' },
+    { name: 'ISO 42001 AI Management Lead Implementer', vendor: 'PECB', days: 4, level: 'Advanced' },
   ],
   'DevOps': [
     { name: 'AZ-400: Azure DevOps Engineer Expert', vendor: 'Microsoft', days: 5, level: 'Advanced' },
     { name: 'Certified Kubernetes Administrator (CKA)', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
     { name: 'AWS DevOps Engineer – Professional', vendor: 'AWS', days: 5, level: 'Advanced' },
     { name: 'Ansible Automation Platform', vendor: 'Red Hat', days: 4, level: 'Intermediate' },
-    { name: 'HashiCorp Certified: Terraform Associate', vendor: 'HashiCorp', days: 3, level: 'Intermediate' },
+    { name: 'Certified Kubernetes Application Developer (CKAD)', vendor: 'Linux Foundation', days: 3, level: 'Intermediate' },
+    { name: 'CKS: Certified Kubernetes Security Specialist', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
+    { name: 'OpenShift Administration', vendor: 'Red Hat', days: 4, level: 'Advanced' },
+    { name: 'GitOps Fundamentals', vendor: 'Linux Foundation', days: 2, level: 'Intermediate' },
+    { name: 'KCNA: Kubernetes and Cloud Native Associate', vendor: 'Linux Foundation', days: 2, level: 'Beginner' },
+    { name: 'VMware Tanzu Kubernetes Operations', vendor: 'VMware', days: 4, level: 'Advanced' },
+    { name: 'ServiceNow App Engine Studio', vendor: 'ServiceNow', days: 3, level: 'Intermediate' },
+    { name: 'Prometheus Certified Associate (PCA)', vendor: 'Linux Foundation', days: 2, level: 'Intermediate' },
   ],
   'ERP Systems': [
     { name: 'SAP S/4HANA Functional Consultant', vendor: 'SAP', days: 5, level: 'Advanced' },
     { name: 'SAP BASIS Administration', vendor: 'SAP', days: 5, level: 'Intermediate' },
     { name: 'Oracle Database Administration', vendor: 'Oracle', days: 5, level: 'Intermediate' },
     { name: 'SAP ABAP Programming', vendor: 'SAP', days: 5, level: 'Intermediate' },
-    { name: 'Oracle Cloud Infrastructure Architect', vendor: 'Oracle', days: 4, level: 'Intermediate' },
+    { name: 'Oracle Cloud Infrastructure Architect Associate', vendor: 'Oracle', days: 4, level: 'Intermediate' },
+    { name: 'SAP SuccessFactors Employee Central', vendor: 'SAP', days: 5, level: 'Advanced' },
+    { name: 'SAP Ariba Procurement', vendor: 'SAP', days: 4, level: 'Intermediate' },
+    { name: 'SAP Fiori System Administration', vendor: 'SAP', days: 3, level: 'Intermediate' },
+    { name: 'SAP MM: Materials Management', vendor: 'SAP', days: 5, level: 'Intermediate' },
+    { name: 'SAP FICO: Finance & Controlling', vendor: 'SAP', days: 5, level: 'Intermediate' },
+    { name: 'Oracle Fusion Cloud Applications', vendor: 'Oracle', days: 5, level: 'Advanced' },
+    { name: 'MySQL Database Administration', vendor: 'Oracle', days: 4, level: 'Intermediate' },
   ],
   'Linux & Open Source': [
     { name: 'RHCSA: Red Hat Certified System Administrator', vendor: 'Red Hat', days: 5, level: 'Intermediate' },
     { name: 'RHCE: Red Hat Certified Engineer', vendor: 'Red Hat', days: 5, level: 'Advanced' },
-    { name: 'Linux Foundation Certified Sysadmin', vendor: 'Linux Foundation', days: 5, level: 'Intermediate' },
+    { name: 'Linux Foundation Certified System Administrator', vendor: 'Linux Foundation', days: 5, level: 'Intermediate' },
     { name: 'OpenShift Administration', vendor: 'Red Hat', days: 4, level: 'Advanced' },
-    { name: 'Certified Kubernetes Administrator', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
+    { name: 'Certified Kubernetes Administrator (CKA)', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
+    { name: 'RHCA: Red Hat Certified Architect', vendor: 'Red Hat', days: 5, level: 'Advanced' },
+    { name: 'Red Hat Satellite Administration', vendor: 'Red Hat', days: 3, level: 'Advanced' },
+    { name: 'Red Hat Virtualization Administration', vendor: 'Red Hat', days: 4, level: 'Intermediate' },
+    { name: 'Introduction to Linux (LFS101)', vendor: 'Linux Foundation', days: 3, level: 'Beginner' },
+    { name: 'OpenShift Application Development', vendor: 'Red Hat', days: 4, level: 'Intermediate' },
+    { name: 'CompTIA Linux+', vendor: 'CompTIA', days: 5, level: 'Intermediate' },
+    { name: 'Istio and Envoy Fundamentals', vendor: 'Linux Foundation', days: 2, level: 'Advanced' },
   ],
   'Power Platform': [
     { name: 'PL-900: Microsoft Power Platform Fundamentals', vendor: 'Microsoft', days: 1, level: 'Beginner' },
@@ -1309,6 +1867,12 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'PL-300: Microsoft Power BI Data Analyst', vendor: 'Microsoft', days: 3, level: 'Intermediate' },
     { name: 'PL-400: Microsoft Power Platform Developer', vendor: 'Microsoft', days: 5, level: 'Advanced' },
     { name: 'PL-600: Power Platform Solution Architect', vendor: 'Microsoft', days: 5, level: 'Advanced' },
+    { name: 'PL-7005: Create Automated Processes Using Copilot Studio', vendor: 'Microsoft', days: 2, level: 'Advanced' },
+    { name: 'MS-4004: Empower Your Workforce with Copilot for M365', vendor: 'Microsoft', days: 2, level: 'Advanced' },
+    { name: 'MS-4005: Craft Effective Prompts for Copilot for M365', vendor: 'Microsoft', days: 1, level: 'Beginner' },
+    { name: 'AI-3018: Develop Generative AI Solutions with Azure OpenAI', vendor: 'Microsoft', days: 3, level: 'Advanced' },
+    { name: 'MS-700: Managing Microsoft Teams', vendor: 'Microsoft', days: 4, level: 'Intermediate' },
+    { name: 'MS-102: Microsoft 365 Administrator', vendor: 'Microsoft', days: 5, level: 'Advanced' },
   ],
 }
 
@@ -1446,10 +2010,23 @@ function EntTechIcon({ name, active }: { name: string; active: boolean }) {
 /* ─── Footer column data ─────────────────────────────────────── */
 const FOOTER_COLS = [
   { heading: 'Company', links: ['About us','Leadership','Contact Us','Webinars','Our Clientele','All Courses','Our Partners','Our Story','Testimonials','Our Awards'] },
-  { heading: 'Learning Options', links: ['Explore All Learning Options','Live Online Training','1-on-1 Training','Classroom Training','Fly-me-a-Trainer (FMAT)','Flexi','Customized Training','Webinar as a Service','Techlabs','Learnova','AI Agent'] },
+  { heading: 'Learning Options', links: ['Explore All Learning Options','Live Online Training','1-on-1 Training','Classroom Training','Fly-me-a-Trainer (FMAT)','Flexi','Customized Training','Webinar as a Service','Techlabs','Learnova','AI Agent','Coding Using AI','AI Is a Beast','Free AI Career Compass'] },
   { heading: 'Resources', links: ['Technical Questions & Answers','Blog','Sitemap','Koenig Koshish','Qubits','Certificate Authenticator','Microsoft Products'] },
-  { heading: 'Others', links: ['Environment Policy','Payment Methods','Terms of Service','Career','Privacy Policy',"What's New",'Media Report'] },
+  { heading: 'Others', links: ['Environment Policy','Payment Methods','Terms of Service','Career','Freelancer Opportunities','Privacy Policy',"What's New",'Media Report'] },
 ]
+
+const FOOTER_LINK_HREFS: Record<string, string> = {
+  'AI Agent': '/build/ai-agent',
+  'Coding Using AI': '/build/vibe-coding',
+  'AI Is a Beast': '/beast-ai-skilling',
+  'Learnova': '/learnova',
+  'Qubits': '/qubits',
+  'Free AI Career Compass': '/career-compass',
+  'Environment Policy': '/environment-policy',
+  'Terms of Service': '/terms-of-service',
+  'Payment Methods': '/terms-of-service?tab=payment',
+  'Career': '/careers',
+}
 
 const FOOTER_BOTTOM_COLS = [
   { heading: 'Top Technologies', links: ['Cloud Computing','Artificial Intelligence','Microsoft Office','Security','Microsoft Dynamics'] },
@@ -1558,19 +2135,130 @@ function AwardsMarquee({ awards }: { awards: typeof AWARDS }) {
   )
 }
 
+function VendorMarqueeRow({ vendors, direction }: { vendors: typeof VENDORS_ROW1; direction: 1 | -1 }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const rafRef = useRef<number>(0)
+  const posRef = useRef(0)
+  const dragging = useRef(false)
+  const lastX = useRef(0)
+  const [cursor, setCursor] = useState<'grab' | 'grabbing'>('grab')
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const tick = () => {
+      if (!dragging.current) posRef.current -= 0.5 * direction
+      const halfWidth = track.scrollWidth / 2
+      if (halfWidth > 0) {
+        if (posRef.current <= -halfWidth) posRef.current += halfWidth
+        if (posRef.current > 0) posRef.current -= halfWidth
+      }
+      track.style.transform = `translateX(${posRef.current}px)`
+      rafRef.current = requestAnimationFrame(tick)
+    }
+    rafRef.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafRef.current!)
+  }, [direction])
+
+  const startDrag = (x: number) => { dragging.current = true; lastX.current = x; setCursor('grabbing') }
+  const moveDrag = (x: number) => {
+    if (!dragging.current) return
+    posRef.current += x - lastX.current
+    lastX.current = x
+  }
+  const endDrag = () => { dragging.current = false; setCursor('grab') }
+
+  const doubled = [...vendors, ...vendors]
+  return (
+    <div
+      className="relative overflow-x-hidden py-3"
+      style={{ cursor, userSelect: 'none', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
+      onMouseDown={e => { startDrag(e.clientX); e.preventDefault() }}
+      onMouseMove={e => moveDrag(e.clientX)}
+      onMouseUp={endDrag}
+      onMouseLeave={endDrag}
+      onTouchStart={e => startDrag(e.touches[0].clientX)}
+      onTouchMove={e => moveDrag(e.touches[0].clientX)}
+      onTouchEnd={endDrag}
+    >
+      <div ref={trackRef} className="flex gap-4 px-2" style={{ width: 'max-content', willChange: 'transform' }}>
+        {doubled.map((v, i) => (
+          <VendorCard key={i} v={v} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function Design4Page() {
   const [tab, setTab] = useState('Top Courses')
-  const [lfSlide, setLfSlide] = useState(0)
-  useEffect(() => {
-    const t = setInterval(() => setLfSlide(s => (s + 1) % 2), 3000)
-    return () => clearInterval(t)
+  const lfSliderRef = useRef<HTMLDivElement | null>(null)
+  const lfTrackRef = useRef<HTMLDivElement | null>(null)
+  const lfBusyRef = useRef(false)
+  const lfAutoRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const lfSliderHoverRef = useRef(false)
+  const [lfStart, setLfStart] = useState(0)
+  const [lfHoveredCard, setLfHoveredCard] = useState<number | null>(null)
+  const [lfMobileSlide, setLfMobileSlide] = useState(0)
+  const lfMobileDragStart = useRef<number | null>(null)
+  const lfMobileAutoRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const lfMobileSwipeStart = (x: number) => {
+    lfMobileDragStart.current = x
+    if (lfMobileAutoRef.current) clearInterval(lfMobileAutoRef.current)
+  }
+  const lfMobileSwipeEnd = (x: number) => {
+    if (lfMobileDragStart.current === null) return
+    const diff = lfMobileDragStart.current - x
+    if (Math.abs(diff) > 40) setLfMobileSlide(s => diff > 0 ? Math.min(s + 1, lfAllFormats.length - 1) : Math.max(s - 1, 0))
+    lfMobileDragStart.current = null
+    lfMobileAutoRef.current = setInterval(() => setLfMobileSlide(s => (s + 1) % lfAllFormats.length), 3000)
+  }
+
+  const lfTriggerSlide = useCallback((forward: boolean) => {
+    const track = lfTrackRef.current
+    if (!track || lfBusyRef.current) return
+    const card = track.children[0] as HTMLElement | undefined
+    if (!card) return
+    const amount = card.offsetWidth + 20
+    lfBusyRef.current = true
+    setLfHoveredCard(null)
+    track.style.transition = 'none'
+    track.style.transform = 'translateX(0px)'
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (lfSliderHoverRef.current) { lfBusyRef.current = false; return }
+        track.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.2,1)'
+        track.style.transform = `translateX(${forward ? -amount : amount}px)`
+      })
+    })
   }, [])
-  const [lfMobilePage, setLfMobilePage] = useState(0)
-  const lfDragStartX = useRef(0)
-  const lfTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const startLfTimer = () => { lfTimerRef.current = setInterval(() => setLfMobilePage(p => (p + 1) % 4), 3500) }
-  const stopLfTimer  = () => { if (lfTimerRef.current) { clearInterval(lfTimerRef.current); lfTimerRef.current = null } }
-  useEffect(() => { startLfTimer(); return stopLfTimer }, [])
+
+  const lfHandleTransitionEnd = useCallback(() => {
+    const track = lfTrackRef.current
+    if (!track) return
+    const forward = track.style.transform.startsWith('translateX(-')
+    track.style.transition = 'none'
+    track.style.transform = 'translateX(0px)'
+    lfBusyRef.current = false
+    setLfHoveredCard(null)
+    setLfStart(prev => forward ? (prev + 1) % lfAllFormats.length : (prev - 1 + lfAllFormats.length) % lfAllFormats.length)
+  }, [])
+
+  useEffect(() => {
+    lfAutoRef.current = setInterval(() => {
+      if (lfSliderHoverRef.current) return
+      lfTriggerSlide(true)
+    }, 3000)
+    return () => { if (lfAutoRef.current) clearInterval(lfAutoRef.current) }
+  }, [lfTriggerSlide])
+
+  useEffect(() => {
+    lfMobileAutoRef.current = setInterval(() => {
+      setLfMobileSlide(s => (s + 1) % lfAllFormats.length)
+    }, 3000)
+    return () => { if (lfMobileAutoRef.current) clearInterval(lfMobileAutoRef.current) }
+  }, [])
   const [diffMobilePage, setDiffMobilePage] = useState(0)
   const diffDragStartX = useRef(0)
   const diffTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -1578,20 +2266,7 @@ export default function Design4Page() {
   const stopDiffTimer  = () => { if (diffTimerRef.current) { clearInterval(diffTimerRef.current); diffTimerRef.current = null } }
   useEffect(() => { startDiffTimer(); return stopDiffTimer }, [])
   const vendorScrollRef = useRef<HTMLDivElement>(null)
-  const vendorPausedRef = useRef(false)
-  const vendorRafRef = useRef<number | null>(null)
-  useEffect(() => {
-    const animate = () => {
-      const el = vendorScrollRef.current
-      if (el && !vendorPausedRef.current) {
-        el.scrollLeft += 0.6
-        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0
-      }
-      vendorRafRef.current = requestAnimationFrame(animate)
-    }
-    vendorRafRef.current = requestAnimationFrame(animate)
-    return () => { if (vendorRafRef.current) cancelAnimationFrame(vendorRafRef.current) }
-  }, [])
+  const vendorDrag = useMarqueeDrag(vendorScrollRef, VENDOR_MARQUEE_DURATION)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const mobileSearchInputRef = useRef<HTMLInputElement>(null)
@@ -1614,8 +2289,6 @@ export default function Design4Page() {
   const [heroPaused, setHeroPaused] = useState(false)
   const heroTouchX = useRef<number | null>(null)
   const logosScrollRef = useRef<HTMLDivElement | null>(null)
-  const logosRafRef = useRef<number | null>(null)
-  const logosState = useRef<{ paused: boolean; touchStartX: number; touchStartScroll: number }>({ paused: false, touchStartX: 0, touchStartScroll: 0 })
   const [activeStep, setActiveStep] = useState(0)
   const [stepPaused, setStepPaused] = useState(false)
   const [showAllReviews, setShowAllReviews] = useState(false)
@@ -1634,6 +2307,10 @@ export default function Design4Page() {
   const [heroQuery, setHeroQuery] = useState('')
   const [navResultsOpen, setNavResultsOpen] = useState(false)
   const [heroResultsOpen, setHeroResultsOpen] = useState(false)
+  const [heroAiThinking, setHeroAiThinking] = useState(false)
+  const [heroAiResults, setHeroAiResults] = useState<AiClassifyResult | null>(null)
+  const [heroAiLearnMoreOpen, setHeroAiLearnMoreOpen] = useState(false)
+  const heroAiDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const navSearchRef = useRef<HTMLDivElement>(null)
   const heroSearchRef = useRef<HTMLDivElement>(null)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
@@ -1650,6 +2327,32 @@ export default function Design4Page() {
   const [learningDropPos, setLearningDropPos] = useState({ top: 0, left: 0 })
   const aboutTriggerRef = useRef<HTMLButtonElement>(null)
   const [aboutDropPos, setAboutDropPos] = useState({ top: 0, left: 0 })
+  const [advisorCourseOpen, setAdvisorCourseOpen] = useState(false)
+  const [advisorCourseQuery, setAdvisorCourseQuery] = useState('')
+  const advisorCourseRef = useRef<HTMLDivElement>(null)
+  const navMenuCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const clearNavMenuCloseTimer = () => { if (navMenuCloseTimer.current) { clearTimeout(navMenuCloseTimer.current); navMenuCloseTimer.current = null } }
+  const openNavMenu = (which: 'all' | 'tech' | 'learning' | 'about') => {
+    clearNavMenuCloseTimer()
+    setMegaMenuOpen(which === 'all')
+    setTechMenuOpen(which === 'tech')
+    setLearningMenuOpen(which === 'learning')
+    setAboutMenuOpen(which === 'about')
+    if (which === 'learning' && learningTriggerRef.current) {
+      const r = learningTriggerRef.current.getBoundingClientRect()
+      setLearningDropPos({ top: r.bottom + 8, left: r.left })
+    }
+    if (which === 'about' && aboutTriggerRef.current) {
+      const r = aboutTriggerRef.current.getBoundingClientRect()
+      setAboutDropPos({ top: r.bottom + 8, left: r.left })
+    }
+  }
+  const scheduleNavMenuClose = () => {
+    clearNavMenuCloseTimer()
+    navMenuCloseTimer.current = setTimeout(() => {
+      setMegaMenuOpen(false); setTechMenuOpen(false); setLearningMenuOpen(false); setAboutMenuOpen(false)
+    }, 200)
+  }
 
   const router = useRouter()
 
@@ -1658,9 +2361,23 @@ export default function Design4Page() {
     else router.push('/search')
   }
 
+  // ── Hero AI search — thinking → advice/learn-more/courses flow, same engine as the vendor page ──
+  useEffect(() => {
+    if (!heroQuery.trim() || getContextChips(heroQuery).length === 0) { setHeroAiResults(null); setHeroAiThinking(false); setHeroAiLearnMoreOpen(false); return }
+    setHeroAiThinking(true); setHeroAiResults(null); setHeroAiLearnMoreOpen(false)
+    if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current)
+    heroAiDebounceRef.current = setTimeout(() => {
+      setHeroAiThinking(false)
+      setHeroAiResults(classifyAiQuery(heroQuery))
+    }, 600)
+    return () => { if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current) }
+  }, [heroQuery])
+
   // ── Popup modals ──
   const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
-  const [advisorForm, setAdvisorForm] = useState({ name: '', email: '', phone: '', interest: '' })
+  const [advisorTab, setAdvisorTab] = useState<'individual' | 'enterprise'>('individual')
+  const [advisorForm, setAdvisorForm] = useState({ name: '', email: '', phone: '', course: '', trainees: '', hear: '', message: '' })
+  const [advisorCaptcha, setAdvisorCaptcha] = useState(false)
   const [advisorSubmitted, setAdvisorSubmitted] = useState(false)
   const [enterpriseModalOpen, setEnterpriseModalOpen] = useState(false)
   const [enterpriseForm, setEnterpriseForm] = useState({ name: '', company: '', email: '', phone: '', message: '' })
@@ -1673,7 +2390,7 @@ export default function Design4Page() {
   useEffect(() => {
     if (heroPaused) return
     const timer = setInterval(() => {
-      setHeroSlide(s => (s + 1) % 4)
+      setHeroSlide(s => (s + 1) % 5)
     }, 4000)
     return () => clearInterval(timer)
   }, [heroPaused])
@@ -1719,7 +2436,7 @@ export default function Design4Page() {
           e.target.classList.remove('io-visible')
         }
       }),
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: '0px 0px 300px 0px' }
     )
     document.querySelectorAll('.io-fade').forEach(el => observer.observe(el))
     return () => observer.disconnect()
@@ -1741,32 +2458,17 @@ export default function Design4Page() {
 
 
 
-  // Mobile logos auto-scroll with touch-to-interrupt
-  useEffect(() => {
-    const el = logosScrollRef.current
-    if (!el) return
-    const tick = () => {
-      if (!logosState.current.paused) {
-        el.scrollLeft += 0.6
-        // Loop: when we reach halfway (duplicated list), reset to start
-        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0
-      }
-      logosRafRef.current = requestAnimationFrame(tick)
-    }
-    logosRafRef.current = requestAnimationFrame(tick)
-    return () => { if (logosRafRef.current) cancelAnimationFrame(logosRafRef.current) }
-  }, [])
-
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
-      if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) setHeroResultsOpen(false)
+      if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) { setHeroResultsOpen(false); setHeroAiLearnMoreOpen(false) }
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
       if (techMenuRef.current && !techMenuRef.current.contains(e.target as Node)) setTechMenuOpen(false)
       const insideAbout = aboutMenuRef.current?.contains(e.target as Node) || aboutTriggerRef.current?.contains(e.target as Node)
       if (!insideAbout) setAboutMenuOpen(false)
       const insideLearning = learningMenuRef.current?.contains(e.target as Node) || learningTriggerRef.current?.contains(e.target as Node)
       if (!insideLearning) setLearningMenuOpen(false)
+      if (advisorCourseRef.current && !advisorCourseRef.current.contains(e.target as Node)) setAdvisorCourseOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -1786,52 +2488,163 @@ export default function Design4Page() {
   return (
     <div className="min-h-screen overflow-x-clip bg-white" style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
 
-      {/* ── Talk to an Advisor Modal ── */}
+      {/* ── Request More Info Modal ── */}
       {advisorModalOpen && typeof window !== 'undefined' && createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" style={{ background: 'rgba(4,15,26,0.75)', backdropFilter: 'blur(6px)' }} onClick={() => setAdvisorModalOpen(false)}>
-          <div className="relative w-full max-w-lg rounded-2xl p-8" style={{ background: 'linear-gradient(145deg,#0a2d45,#072238)', border: '1px solid rgba(6,148,209,0.30)', boxShadow: '0 24px 80px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto p-4" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)' }} onClick={() => setAdvisorModalOpen(false)}>
+          <div className="relative my-auto w-full max-w-2xl rounded-2xl p-6" style={{ background: 'radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E', boxShadow: '0 24px 80px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
             {/* Close */}
-            <button onClick={() => setAdvisorModalOpen(false)} className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white">✕</button>
+            <button onClick={() => setAdvisorModalOpen(false)} className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 transition hover:bg-white/20">✕</button>
             {advisorSubmitted ? (
-              <div className="py-8 text-center">
+              <div className="py-12 text-center">
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full" style={{ background: 'rgba(6,148,209,0.18)', border: '1px solid rgba(6,148,209,0.4)' }}>
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0694d1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-white">We&apos;ll be in touch!</h3>
-                <p className="text-sm text-white/55">Our training advisor will contact you within 1 business day.</p>
-                <button onClick={() => { setAdvisorModalOpen(false); setAdvisorSubmitted(false); setAdvisorForm({ name: '', email: '', phone: '', interest: '' }) }} className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white" style={{ background: 'rgba(6,148,209,0.25)', border: '1px solid rgba(6,148,209,0.4)' }}>Close</button>
+                <h3 className="mb-2 text-xl font-bold text-white">Thank you!</h3>
+                <p className="text-white/60">Our team will reach out within 1 business day.</p>
+                <button onClick={() => { setAdvisorModalOpen(false); setAdvisorSubmitted(false); setAdvisorCaptcha(false); setAdvisorForm({ name: '', email: '', phone: '', course: '', trainees: '', hear: '', message: '' }) }} className="mt-6 rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition hover:opacity-90" style={{ background: '#0694D1' }}>Close</button>
               </div>
             ) : (
-              <>
-                <span className="mb-3 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.3)' }}>Free Consultation</span>
-                <h2 className="mb-1 text-xl font-bold text-white">Talk to a Training Advisor</h2>
-                <p className="mb-6 text-sm text-white/55">Tell us your goal — we&apos;ll match you with the right course, format, and schedule.</p>
-                <form onSubmit={e => { e.preventDefault(); setAdvisorSubmitted(true) }} className="space-y-4">
-                  <style>{`.adv-input{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.10);transition:border-color .2s,box-shadow .2s}.adv-input:focus{border-color:#0694D1;box-shadow:0 0 0 3px rgba(6,148,209,0.15);outline:none}.adv-input::placeholder{color:rgba(255,255,255,0.25)}`}</style>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                      <label className="mb-1.5 block text-xs font-semibold text-white/65">Full Name</label>
-                      <input required type="text" placeholder="John Smith" value={advisorForm.name} onChange={e => setAdvisorForm(p => ({ ...p, name: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-3 text-sm text-white" />
-                    </div>
-                    <div>
-                      <label className="mb-1.5 block text-xs font-semibold text-white/65">Email</label>
-                      <input required type="email" placeholder="john@company.com" value={advisorForm.email} onChange={e => setAdvisorForm(p => ({ ...p, email: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-3 text-sm text-white" />
-                    </div>
+              <form onSubmit={e => { e.preventDefault(); setAdvisorSubmitted(true) }}>
+                <style>{`.adv-input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;transition:border-color .2s}.adv-input:focus{border-color:#0694D1;outline:none}.adv-input::placeholder{color:rgba(255,255,255,0.3)}`}</style>
+
+                {/* Header */}
+                <div className="mb-5 text-center">
+                  <span className="mb-3 inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-widest" style={{ border: '1px solid rgba(6,148,209,0.55)', background: 'rgba(6,148,209,0.12)', color: '#38bdf8' }}>Let&apos;s Talk</span>
+                  <h2 className="text-2xl font-bold text-white">Request for more <span style={{ color: '#38bdf8' }}>information</span></h2>
+                  <p className="mt-1.5 text-sm text-white/50">Cloud &amp; AI Certification Training with Koenig Solutions</p>
+
+                  <div className="mt-4 flex justify-center gap-3">
+                    <a href="https://wa.me/918800971792" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium text-white/80 transition-colors hover:bg-white/5" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                      WhatsApp us
+                    </a>
+                    <a href="mailto:training@koenig-solutions.com" className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium text-white/80 transition-colors hover:bg-white/5" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                      Email us
+                    </a>
+                  </div>
+                </div>
+
+                {/* Individual / Enterprise toggle */}
+                <div className="mb-6 inline-flex w-full rounded-xl p-1" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  {(['individual', 'enterprise'] as const).map(t => (
+                    <button key={t} type="button" onClick={() => setAdvisorTab(t)} className="flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all duration-200"
+                      style={advisorTab === t ? { background: 'linear-gradient(135deg, #0694D1, #076D9D)', color: '#fff', boxShadow: '0 2px 12px rgba(6,148,209,0.35)' } : { color: 'rgba(255,255,255,0.45)' }}>
+                      <span className="inline-flex items-center justify-center gap-2">
+                        {t === 'individual'
+                          ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                          : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/><path d="M2 12h20"/></svg>}
+                        {t.charAt(0).toUpperCase() + t.slice(1)}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Row 1 */}
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1.5 block text-sm font-semibold text-white/70">Full Name <span className="text-red-400">*</span></label>
+                    <input required type="text" placeholder="John" value={advisorForm.name} onChange={e => setAdvisorForm(p => ({ ...p, name: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-[11px] text-sm" />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-xs font-semibold text-white/65">Phone Number</label>
-                    <input type="tel" placeholder="+1 (555) 000-0000" value={advisorForm.phone} onChange={e => setAdvisorForm(p => ({ ...p, phone: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-3 text-sm text-white" />
+                    <label className="mb-1.5 block text-sm font-semibold text-white/70">Email <span className="text-red-400">*</span></label>
+                    <input required type="email" placeholder="john@example.com" value={advisorForm.email} onChange={e => setAdvisorForm(p => ({ ...p, email: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-[11px] text-sm" />
                   </div>
+                </div>
+
+                {/* Row 2 */}
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-xs font-semibold text-white/65">What are you looking to learn?</label>
-                    <textarea required rows={3} placeholder="e.g. AWS certification, Azure fundamentals, Cybersecurity..." value={advisorForm.interest} onChange={e => setAdvisorForm(p => ({ ...p, interest: e.target.value }))} className="adv-input w-full resize-none rounded-xl px-4 py-3 text-sm text-white" />
+                    <label className="mb-1.5 block text-sm font-semibold text-white/70">Phone</label>
+                    <input type="tel" placeholder="+1 (555) 000-0000" value={advisorForm.phone} onChange={e => setAdvisorForm(p => ({ ...p, phone: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-[11px] text-sm" />
                   </div>
-                  <button type="submit" className="w-full rounded-xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.40)' }}>
-                    Submit — Talk to an Advisor
-                  </button>
-                  <p className="text-center text-xs text-white/30">We&apos;ll respond within 1 business day · No spam, ever.</p>
-                </form>
-              </>
+                  {advisorTab === 'individual' ? (
+                    <div ref={advisorCourseRef} className="relative">
+                      <label className="mb-1.5 block text-sm font-semibold text-white/70">Select Course Name</label>
+                      <button
+                        type="button"
+                        onClick={() => { setAdvisorCourseOpen(v => !v); setAdvisorCourseQuery('') }}
+                        className="adv-input flex w-full items-center justify-between rounded-xl px-4 py-[11px] text-left text-sm"
+                        style={{ color: advisorForm.course ? '#fff' : 'rgba(255,255,255,0.3)' }}
+                      >
+                        <span className="truncate">{advisorForm.course || 'Select Course Name'}</span>
+                        <svg className={`ml-2 h-3.5 w-3.5 shrink-0 transition-transform ${advisorCourseOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                      </button>
+                      {advisorCourseOpen && (
+                        <div className="absolute left-0 top-full z-20 mt-1.5 w-full overflow-hidden rounded-xl" style={{ background: '#0a1c2e', border: '1px solid rgba(255,255,255,0.15)', boxShadow: '0 12px 32px rgba(0,0,0,0.5)' }}>
+                          <div className="p-2">
+                            <input
+                              autoFocus
+                              type="text"
+                              placeholder="Search courses..."
+                              value={advisorCourseQuery}
+                              onChange={e => setAdvisorCourseQuery(e.target.value)}
+                              className="w-full rounded-lg px-3 py-2 text-sm text-white outline-none placeholder-white/30"
+                              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+                            />
+                          </div>
+                          <div className="max-h-48 overflow-y-auto pb-1">
+                            {ADVISOR_COURSES.filter(c => c !== 'Select Course Name' && c.toLowerCase().includes(advisorCourseQuery.toLowerCase())).map(c => (
+                              <button
+                                key={c}
+                                type="button"
+                                onClick={() => { setAdvisorForm(p => ({ ...p, course: c })); setAdvisorCourseOpen(false) }}
+                                className="block w-full px-3 py-2 text-left text-sm text-white/85 transition-colors hover:bg-[#0694D1] hover:text-white"
+                              >
+                                {c}
+                              </button>
+                            ))}
+                            {ADVISOR_COURSES.filter(c => c !== 'Select Course Name' && c.toLowerCase().includes(advisorCourseQuery.toLowerCase())).length === 0 && (
+                              <p className="px-3 py-2 text-sm text-white/40">No courses found</p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="mb-1.5 block text-sm font-semibold text-white/70">Number of Trainees</label>
+                      <input type="number" placeholder="e.g. 25" value={advisorForm.trainees} onChange={e => setAdvisorForm(p => ({ ...p, trainees: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-[11px] text-sm" />
+                    </div>
+                  )}
+                </div>
+
+                {/* How did you hear */}
+                <div className="mt-3">
+                  <label className="mb-1.5 block text-sm font-semibold text-white/70">How did you hear about us?</label>
+                  <select value={advisorForm.hear} onChange={e => setAdvisorForm(p => ({ ...p, hear: e.target.value }))} className="adv-input w-full rounded-xl px-4 py-[11px] text-sm" style={{ color: advisorForm.hear ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+                    {ADVISOR_HEAR_OPTIONS.map(o => <option key={o} value={o === 'Select Option' ? '' : o} style={{ background: '#06111E', color: '#fff' }}>{o}</option>)}
+                  </select>
+                </div>
+
+                {/* Message */}
+                <div className="mt-3">
+                  <label className="mb-1.5 block text-sm font-semibold text-white/70">Tell us more about your Training Request</label>
+                  <textarea rows={3} placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..." value={advisorForm.message} onChange={e => setAdvisorForm(p => ({ ...p, message: e.target.value }))} className="adv-input w-full resize-none rounded-xl px-4 py-3 text-sm" />
+                </div>
+
+                {/* reCAPTCHA */}
+                <div className="mt-3 flex justify-center">
+                  <div onClick={() => setAdvisorCaptcha(c => !c)} className="inline-flex cursor-pointer items-center gap-3 rounded px-3 py-2" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                    <input type="checkbox" readOnly checked={advisorCaptcha} className="h-4 w-4 cursor-pointer rounded" />
+                    <span className="text-xs text-white/70">I&apos;m not a robot</span>
+                    <div className="ml-2 flex flex-col items-center">
+                      <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+                        <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#4A90D9"/>
+                        <path d="M32 14c-9.941 0-18 8.059-18 18s8.059 18 18 18 18-8.059 18-18-8.059-18-18-18z" fill="white"/>
+                        <path d="M32 20c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" fill="#4A90D9"/>
+                        <path d="M32 26a6 6 0 100 12 6 6 0 000-12z" fill="white"/>
+                      </svg>
+                      <span className="text-[8px] leading-tight text-white/35">reCAPTCHA</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit */}
+                <button type="submit" disabled={!advisorCaptcha} className="mt-6 w-full rounded-xl py-4 text-base font-bold text-white transition-opacity hover:opacity-90 active:scale-[0.99] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #0694D1 0%, #076D9D 100%)', boxShadow: '0 0 28px rgba(6,148,209,0.40)' }}>
+                  Submit
+                </button>
+              </form>
             )}
           </div>
         </div>,
@@ -1885,7 +2698,7 @@ export default function Design4Page() {
                     <textarea required rows={3} placeholder="e.g. We need Azure certification for 50 engineers across 3 countries..." value={enterpriseForm.message} onChange={e => setEnterpriseForm(p => ({ ...p, message: e.target.value }))} className="ent-modal-input w-full resize-none rounded-xl px-4 py-3 text-sm text-white" />
                   </div>
                   <button type="submit" className="w-full rounded-xl py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694D1,#076D9D)', boxShadow: '0 4px 20px rgba(6,148,209,0.40)' }}>
-                    Submit — Get a Free Consultation
+                    Submit
                   </button>
                   <p className="text-center text-xs text-white/30">No commitment required · Response within 24 hours</p>
                 </form>
@@ -1902,13 +2715,13 @@ export default function Design4Page() {
         @keyframes cardFadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
 
         /* ── Morphing hero word ── */
-        @keyframes morphWordIn  { from { opacity:0; filter:blur(10px); transform:translateY(14px);  } to { opacity:1; filter:blur(0); transform:translateY(0); } }
-        @keyframes morphWordOut { from { opacity:1; filter:blur(0);    transform:translateY(0);     } to { opacity:0; filter:blur(10px); transform:translateY(-14px); } }
+        @keyframes morphWordIn  { from { opacity:0; transform:translateY(14px);  } to { opacity:1; transform:translateY(0); } }
+        @keyframes morphWordOut { from { opacity:1; transform:translateY(0);     } to { opacity:0; transform:translateY(-14px); } }
         .morph-word-in  { animation: morphWordIn  0.52s cubic-bezier(0.22,1,0.36,1) both; }
         .morph-word-out { animation: morphWordOut 0.34s ease-in both; }
 
-        /* Scroll-triggered fade-in-up */
-        .io-fade { opacity: 0; transform: translateY(10px); transition: opacity 0.18s ease-out, transform 0.18s ease-out; }
+        /* Scroll-triggered fade-in-up — visible immediately by default so content never waits on JS/IntersectionObserver to appear; adds a subtle lift only once actually revealed */
+        .io-fade { opacity: 1; transform: translateY(0); transition: opacity 0.18s ease-out, transform 0.18s ease-out; }
         .io-fade.io-visible { opacity: 1; transform: translateY(0); }
         .io-fade.delay-1 { transition-delay: 0.03s; }
         .io-fade.delay-2 { transition-delay: 0.06s; }
@@ -2109,10 +2922,15 @@ export default function Design4Page() {
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-4 lg:flex">
             {/* Glassmorphism pill nav group — All Courses + nav links */}
-            <div className="flex items-center" style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
+            <div
+              className="flex items-center"
+              style={{ background: 'linear-gradient(to right, rgba(6,148,209,0.04) 0%, rgba(255,255,255,0.01) 100%)', backdropFilter: 'blur(24px) saturate(200%)', WebkitBackdropFilter: 'blur(24px) saturate(200%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '50px', padding: '4px', boxShadow: '0 0 20px rgba(6,148,209,0.2), 0 0 40px rgba(6,148,209,0.08), 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06)' }}
+              onMouseLeave={scheduleNavMenuClose}
+            >
               {/* All Courses */}
               <button
-                onClick={() => { setMegaMenuOpen(v => !v); setTechMenuOpen(false); }}
+                onMouseEnter={() => openNavMenu('all')}
+                onClick={() => setMegaMenuOpen(v => !v)}
                 className="flex items-center whitespace-nowrap px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90 rounded-[40px]"
                 style={{ background: megaMenuOpen ? '#076D9D' : '#0694D1', gap: '8px' }}
               >
@@ -2123,11 +2941,10 @@ export default function Design4Page() {
               {/* Nav links */}
               <a
                 href="#"
+                onMouseEnter={() => openNavMenu('tech')}
                 onClick={(e) => { e.preventDefault(); setTechMenuOpen(v => !v); setMegaMenuOpen(false); setAboutMenuOpen(false); setLearningMenuOpen(false); }}
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: techMenuOpen ? '#38bdf8' : '#ffffff', background: techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = techMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
               >
                 Technologies
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
@@ -2137,6 +2954,7 @@ export default function Design4Page() {
               <button
                 type="button"
                 ref={learningTriggerRef}
+                onMouseEnter={() => openNavMenu('learning')}
                 onClick={() => {
                   if (learningTriggerRef.current) {
                     const r = learningTriggerRef.current.getBoundingClientRect()
@@ -2146,8 +2964,6 @@ export default function Design4Page() {
                 }}
                 className="flex items-center gap-1 whitespace-nowrap px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: learningMenuOpen ? '#38bdf8' : '#ffffff', background: learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = learningMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = learningMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
               >
                 Learning Options
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
@@ -2157,6 +2973,7 @@ export default function Design4Page() {
               <button
                 type="button"
                 ref={aboutTriggerRef}
+                onMouseEnter={() => openNavMenu('about')}
                 onClick={() => {
                   if (aboutTriggerRef.current) {
                     const r = aboutTriggerRef.current.getBoundingClientRect()
@@ -2166,8 +2983,6 @@ export default function Design4Page() {
                 }}
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: aboutMenuOpen ? '#38bdf8' : '#ffffff', background: aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent', border: 'none', cursor: 'pointer' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = aboutMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = aboutMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent'; }}
               >
                 About
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
@@ -2177,7 +2992,7 @@ export default function Design4Page() {
                 href="/contact"
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
                 style={{ color: '#ffffff', background: 'transparent' }}
-                onMouseEnter={e => { e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
+                onMouseEnter={e => { clearNavMenuCloseTimer(); setMegaMenuOpen(false); setTechMenuOpen(false); setLearningMenuOpen(false); setAboutMenuOpen(false); e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.background = 'transparent'; }}
               >
                 Contact
@@ -2237,17 +3052,31 @@ export default function Design4Page() {
                     return results.length > 0 ? results.map((c, i) => (
                       <div key={i} onClick={() => goSearch(c.name)} className="flex cursor-pointer items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors hover:bg-gray-50 last:border-0">
                         <div className="min-w-0 flex-1">
-                          <div className="mb-0.5 flex items-center gap-1">
-                            {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-600">New</span>}
-                            {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-amber-50 text-amber-600">Popular</span>}
+                          <div className="mb-1 flex items-center gap-1">
+                            {(c as { category?: string }).category === 'NEW' && (
+                              <span className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide text-white" style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}>New</span>
+                            )}
+                            {c.hot && (
+                              <span className="inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#22d3ee)' }}>
+                                <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z" /></svg>
+                                Popular
+                              </span>
+                            )}
                           </div>
                           <p className="truncate text-sm font-medium text-gray-800">{c.name}</p>
                           <p className="mt-0.5 text-xs text-gray-500">{c.vendor} · {c.days} days · {c.price}</p>
                         </div>
                         <div className="flex shrink-0 items-center gap-1">
-                          {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-50 text-cyan-600">Fundamentals</span>}
-                          {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-50 text-indigo-600">Associate</span>}
-                          {((c as { category?: string }).category === 'EXPERT' || (c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE')) && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-50 text-violet-600">Expert</span>}
+                          {(() => {
+                            const cat = (c as { category?: string }).category
+                            const key = cat === 'FUNDAMENTALS' ? 'fund' : cat === 'ASSOCIATE' ? 'assoc' : (cat === 'EXPERT' || c.level === 'Advanced') ? 'expert' : null
+                            return key && (
+                              <span className={`inline-flex shrink-0 items-center justify-center gap-1 rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide whitespace-nowrap ${SCHEDULE_LEVEL_BADGE[key]}`}>
+                                {SCHEDULE_LEVEL_ICON[key]}
+                                {SCHEDULE_LEVEL_LABEL[key]}
+                              </span>
+                            )
+                          })()}
                         </div>
                       </div>
                     )) : <div className="px-4 py-3 text-sm text-gray-500">No courses found for "{navQuery}"</div>
@@ -2488,17 +3317,20 @@ export default function Design4Page() {
         {megaMenuOpen && (
           <div
             ref={megaMenuRef}
-            className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
+            className="absolute inset-x-0 top-full z-[200] mx-auto flex max-w-7xl overflow-hidden rounded-b-2xl"
             style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
+            onMouseEnter={clearNavMenuCloseTimer}
+            onMouseLeave={scheduleNavMenuClose}
           >
             {/* Left — vendor list */}
-            <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
+            <div className="flex min-h-0 w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
               <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
               {MEGA_MENU_VENDORS.map(v => (
                 <div key={v.name} className="group/vendor relative flex items-center" style={{ borderLeft: megaMenuVendor === v.name ? '2px solid #0694D1' : '2px solid transparent', background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.12)' : 'transparent' }}>
-                  <button
+                  <a
+                    href={VENDOR_HREFS[v.name] ?? '#'}
                     onMouseEnter={() => setMegaMenuVendor(v.name)}
-                    onClick={() => setMegaMenuVendor(v.name)}
+                    onClick={() => setMegaMenuOpen(false)}
                     className="flex flex-1 items-center gap-3 px-4 py-2.5 text-left transition-all"
                     style={{ color: megaMenuVendor === v.name ? '#ffffff' : 'rgba(255,255,255,0.65)' }}
                   >
@@ -2509,25 +3341,18 @@ export default function Design4Page() {
                         <span className="text-sm font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
                       )}
                     </div>
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium leading-tight">{v.name}</div>
                       <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses} Courses</div>
                     </div>
-                  </button>
-                  <a
-                    href={VENDOR_HREFS[v.name] ?? '#'}
-                    title={`View all ${v.name} courses`}
-                    className="mr-2 flex h-6 w-6 shrink-0 items-center justify-center rounded-md opacity-0 transition-all group-hover/vendor:opacity-100 hover:!opacity-100"
-                    style={{ color: '#38bdf8', background: 'rgba(6,148,209,0.18)' }}
-                  >
-                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    <svg className="mr-1 h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/vendor:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#38bdf8"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                   </a>
                 </div>
               ))}
             </div>
 
             {/* Right — courses panel */}
-            <div className="flex flex-1 flex-col overflow-y-auto p-6">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-6">
               {/* Header */}
               <div className="mb-4 flex items-center justify-between">
                 <div>
@@ -2542,39 +3367,36 @@ export default function Design4Page() {
                 </a>
               </div>
               {/* Course grid */}
-              <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+              <div className="grid min-w-0 grid-cols-2 gap-2 xl:grid-cols-3">
                 {(MEGA_MENU_COURSES[megaMenuVendor] ?? []).map((course, i) => (
                   <a
                     key={i}
                     href={COURSE_HREFS[course.name] ?? '#'}
-                    className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
+                    className="group flex min-w-0 flex-col gap-2 rounded-xl p-3 transition-all hover:-translate-y-0.5"
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
                   >
-                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2">{course.name}</p>
+                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-3">{course.name}</p>
                     <div className="flex items-center gap-2 mt-auto">
                       <span className="flex items-center gap-1 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {course.days} days
                       </span>
-                      <span className={`rounded-full px-2 py-0.5 text-sm font-semibold ${
+                      <span className={`rounded-full px-1.5 py-0.5 font-medium ${
                         course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
                         course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
                         'bg-[#076d9d] text-white'
-                      }`}>{course.level}</span>
+                      }`} style={{ fontSize: '12px' }}>{course.level}</span>
                     </div>
                   </a>
                 ))}
               </div>
               {/* Footer CTA */}
-              <div className="mt-5 flex items-center justify-between gap-3 border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+              <div className="mt-5 flex items-center border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
                 <a href="#" className="flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7"/></svg>
                   Browse All Vendors
-                </a>
-                <a href={VENDOR_HREFS[megaMenuVendor] ?? '#'} className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
-                  Browse All {megaMenuVendor} Courses →
                 </a>
               </div>
             </div>
@@ -2585,11 +3407,13 @@ export default function Design4Page() {
         {techMenuOpen && (
           <div
             ref={techMenuRef}
-            className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
+            className="absolute inset-x-0 top-full z-[200] mx-auto flex max-w-7xl overflow-hidden rounded-b-2xl"
             style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
+            onMouseEnter={clearNavMenuCloseTimer}
+            onMouseLeave={scheduleNavMenuClose}
           >
             {/* Left — technology categories */}
-            <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
+            <div className="flex min-h-0 w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
               <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Technologies</div>
               {([
                 { name: 'Cloud Computing',    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
@@ -2608,7 +3432,7 @@ export default function Design4Page() {
                     key={name}
                     onMouseEnter={() => setTechMenuCategory(name)}
                     onClick={() => { if (TECH_HREFS[name]) { router.push(TECH_HREFS[name]); setTechMenuOpen(false) } else { setTechMenuCategory(name) } }}
-                    className="flex items-center gap-3 px-4 py-2.5 text-left transition-all"
+                    className="group/tech flex items-center gap-3 px-4 py-2.5 text-left transition-all"
                     style={{
                       background: techMenuCategory === name ? 'rgba(6,148,209,0.12)' : 'transparent',
                       borderLeft: techMenuCategory === name ? '2px solid #0694D1' : '2px solid transparent',
@@ -2620,16 +3444,14 @@ export default function Design4Page() {
                       <div className="truncate text-sm font-medium leading-tight">{name}</div>
                       <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{t.count} Courses</div>
                     </div>
-                    {techMenuCategory === name && (
-                      <svg className="h-3.5 w-3.5 shrink-0" style={{ color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
-                    )}
+                    <svg className="h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/tech:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#38bdf8"><title>{`Go to ${name} courses`}</title><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                   </button>
                 )
               })}
             </div>
 
             {/* Right — courses panel */}
-            <div className="flex flex-1 flex-col overflow-y-auto p-6">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-6">
               <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-base font-bold text-white">{techMenuCategory}</h3>
@@ -2637,22 +3459,22 @@ export default function Design4Page() {
                     {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.partners.join(', ')}
                   </p>
                 </div>
-                <a href={TECH_HREFS[techMenuCategory] ?? '#'} className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-white" style={{ color: '#38bdf8' }}>
-                  View all {techMenuCategory} courses
+                <a href={TECH_HREFS[techMenuCategory] ?? '#'} className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                  View All {techMenuCategory} Courses
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
               </div>
-              <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+              <div className="grid min-w-0 grid-cols-2 gap-2 xl:grid-cols-3">
                 {(TECH_MENU_COURSES[techMenuCategory] ?? []).map((course, i) => (
                   <a
                     key={i}
                     href={COURSE_HREFS[course.name] ?? '#'}
-                    className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
+                    className="group flex min-w-0 flex-col gap-2 rounded-xl p-3 transition-all hover:-translate-y-0.5"
                     style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
                   >
-                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-2">{course.name}</p>
+                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-3">{course.name}</p>
                     <div className="flex items-center gap-2 mt-auto">
                       <span className="text-sm" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.vendor}</span>
                       <span className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
@@ -2660,16 +3482,13 @@ export default function Design4Page() {
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {course.days}d
                       </span>
-                      <span className={`ml-auto rounded-full px-2 py-0.5 text-sm font-semibold ${course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' : 'bg-[#076d9d] text-white'}`}>{course.level}</span>
+                      <span className={`ml-auto rounded-full px-1.5 py-0.5 font-medium ${course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' : 'bg-[#076d9d] text-white'}`} style={{ fontSize: '12px' }}>{course.level}</span>
                     </div>
                   </a>
                 ))}
               </div>
-              <div className="mt-5 flex items-center justify-between border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
+              <div className="mt-5 flex items-center border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
                 <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {techMenuCategory}</span>
-                <a href={TECH_HREFS[techMenuCategory] ?? '#'} className="rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors hover:opacity-90" style={{ background: '#0694D1' }}>
-                  Browse All {techMenuCategory} Courses →
-                </a>
               </div>
             </div>
           </div>
@@ -2682,6 +3501,8 @@ export default function Design4Page() {
           ref={learningMenuRef}
           className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
           style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+          onMouseEnter={clearNavMenuCloseTimer}
+          onMouseLeave={scheduleNavMenuClose}
         >
           {LEARNING_LINKS.map(link => (
             <button
@@ -2705,6 +3526,8 @@ export default function Design4Page() {
           ref={aboutMenuRef}
           className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
           style={{ top: `${aboutDropPos.top}px`, left: `${aboutDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+          onMouseEnter={clearNavMenuCloseTimer}
+          onMouseLeave={scheduleNavMenuClose}
         >
           {ABOUT_LINKS.map(link => (
             <button
@@ -2724,7 +3547,7 @@ export default function Design4Page() {
       )}
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative flex items-center px-4 md:px-8 lg:px-[50px] py-5 sm:py-[25px]" style={{ background: '#06111E' }}>
+      <section className="relative flex items-center px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]" style={{ background: '#06111E' }}>
         {/* Hero keyframes */}
         <style>{`
           @keyframes heroFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
@@ -2793,19 +3616,23 @@ export default function Design4Page() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-400" />
                   </span>
-                  <span className="text-xs sm:text-sm"><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-xs sm:text-sm font-bold whitespace-nowrap" style={{ color: '#053148' }}>47 seats remaining</span></span>
+                  <span className="text-xs sm:text-sm"><span className="font-semibold text-white">New batches</span> starting this week —&nbsp;<span className="rounded-full bg-white px-2 py-0.5 text-xs sm:text-sm font-bold whitespace-nowrap" style={{ color: '#053148' }}>Seats filling fast</span></span>
                 </div>
               </div>
 
-              {/* Main headline — static */}
+              {/* Main headline — animated morph word */}
               <h1 className="h-fade-up h-d2 mb-5 font-bold leading-tight tracking-tight">
-                <span className="block text-2xl text-white sm:text-3xl md:text-4xl lg:text-5xl">
+                <span className="block text-3xl text-white sm:text-3xl md:text-4xl lg:text-[38px]">
                   Master Any{' '}
-                  <span style={{ color: '#C8EEFF', textShadow: '0 0 28px rgba(6,148,209,0.9), 0 0 55px rgba(6,148,209,0.45)' }}>
-                    Cloud &amp; AI Certifications
+                  <span
+                    key={morphIdx}
+                    className={morphExiting ? 'morph-word-out' : 'morph-word-in'}
+                    style={{ display: 'inline-block', maxWidth: '100%', color: '#C8EEFF', textShadow: '0 0 28px rgba(6,148,209,0.9), 0 0 55px rgba(6,148,209,0.45)' }}
+                  >
+                    {MORPH_WORDS[morphIdx]}
                   </span>
                 </span>
-                <span className="block text-2xl text-white sm:text-3xl md:text-4xl lg:text-5xl">in Record Time</span>
+                <span className="block text-3xl text-white sm:text-3xl md:text-4xl lg:text-[38px]">in Record Time</span>
               </h1>
 
               {/* Subtext */}
@@ -2816,74 +3643,167 @@ export default function Design4Page() {
               {/* Search bar + Enterprise toggle */}
               {/* Search bar */}
               <div className="h-fade-up h-d4 mb-5 relative w-full max-w-2xl z-[100]" ref={heroSearchRef}>
-                <div className="hero-search flex w-full items-stretch overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.35)] bg-[#071B2E]/90 p-2 shadow-xl backdrop-blur-sm transition-all duration-200">
-                  <div className="relative hidden shrink-0 sm:block">
-                    <select aria-label="Filter by domain" className="h-full appearance-none rounded-xl py-2 pl-4 pr-8 text-sm text-white/90 outline-none" style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.28)' }}>
-                      <option value="" style={{ background: '#0b1929', color: '#fff' }}>All Domains</option>
-                      <option value="cloud" style={{ background: '#0b1929', color: '#fff' }}>Cloud</option>
-                      <option value="security" style={{ background: '#0b1929', color: '#fff' }}>Security</option>
-                      <option value="networking" style={{ background: '#0b1929', color: '#fff' }}>Networking</option>
-                      <option value="ai" style={{ background: '#0b1929', color: '#fff' }}>AI &amp; ML</option>
-                    </select>
-                    <svg className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 opacity-60" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#7DD3F8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  </div>
-                  <div className="mx-2 my-1 hidden w-px bg-white/10 sm:block" />
+                <div className="flex w-full items-stretch overflow-hidden rounded-2xl border-[1.5px] border-[#B5D4F4] bg-[#F0F6FB] p-2 shadow-xl transition-all duration-200 focus-within:border-[#0078D4] focus-within:shadow-[0_0_0_3px_rgba(0,120,212,0.15)]">
                   <input
                     type="text"
                     value={heroQuery}
                     onChange={e => { setHeroQuery(e.target.value); setHeroResultsOpen(true) }}
-                    onFocus={() => setHeroResultsOpen(true)}
+                    onFocus={() => { setHeroResultsOpen(true); setHeroAiLearnMoreOpen(false) }}
                     onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); goSearch(heroQuery) } }}
-                    placeholder="Search 5,000+ courses — e.g. Azure, CISSP, AWS DevOps..."
+                    placeholder="Ask AI: e.g. I want to learn Azure security…"
                     aria-label="Search courses"
-                    className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-white placeholder-white/40 outline-none"
+                    className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm font-medium text-[#1a2d3e] placeholder-[#8baabf] outline-none"
                   />
                   {heroQuery.length > 0 && (
                     <button
                       onClick={() => { setHeroQuery(''); setHeroResultsOpen(false); }}
-                      className="shrink-0 flex items-center justify-center w-6 h-6 my-auto mr-1 rounded-full transition-colors hover:bg-white/10"
+                      className="shrink-0 flex items-center justify-center w-6 h-6 my-auto mr-1 rounded-full transition-colors hover:bg-[#0078D4]/15 hover:text-[#0078D4]"
                       aria-label="Clear search"
-                      style={{ color: 'rgba(255,255,255,0.5)' }}
+                      style={{ color: '#6b8299', background: 'rgba(0,0,0,0.08)' }}
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                   )}
-                  <button onClick={() => goSearch(heroQuery)} className="search-btn shrink-0 rounded-xl px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200">
+                  <button onClick={() => goSearch(heroQuery)} className="shrink-0 rounded-xl px-6 py-2.5 text-sm font-semibold text-white shadow-[0_0_16px_rgba(6,148,209,0.4)] transition-colors duration-200" style={{ background: 'linear-gradient(135deg,#0694d1,#076D9D)' }}>
                     Search
                   </button>
                 </div>
                 {heroResultsOpen && heroQuery.trim().length > 0 && (
-                  <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.30)] bg-[#071B2E]/98 shadow-2xl backdrop-blur-sm">
-                    {(() => {
-                      const results = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
-                        c.name.toLowerCase().includes(heroQuery.toLowerCase()) ||
-                        c.vendor.toLowerCase().includes(heroQuery.toLowerCase())
-                      ).slice(0, 6)
-                      return results.length > 0 ? (
+                  <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-[rgba(6,148,209,0.12)] bg-[#F8FCFF] shadow-2xl">
+                    <div className="p-4 sm:p-4">
+                      {/* Persistent hint until a recognisable topic is typed */}
+                      {getContextChips(heroQuery).length === 0 && (
+                        <p className="mb-2.5 text-xs text-[#9bb3c5]">Type a topic above to get AI-powered course recommendations.</p>
+                      )}
+
+                      {/* Thinking dots */}
+                      {heroAiThinking && (
+                        <div className="flex items-center gap-2 py-2">
+                          <span className="hero-ai-dot" /><span className="hero-ai-dot" /><span className="hero-ai-dot" />
+                          <span className="ml-1 text-xs text-[#6b8299]">Reading your intent…</span>
+                        </div>
+                      )}
+
+                      {/* Results */}
+                      {!heroAiThinking && heroAiResults && (
                         <>
-                          {results.map((c, i) => (
-                            <div key={i} onClick={() => goSearch(c.name)} className="flex cursor-pointer items-center gap-3 border-b border-white/5 px-4 py-3 transition-colors hover:bg-white/5 last:border-0">
-                              <div className="min-w-0 flex-1">
-                                <div className="mb-0.5 flex items-center gap-1">
-                                  {(c as { category?: string }).category === 'NEW' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300">New</span>}
-                                  {c.hot && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-amber-500/20 text-amber-300">Popular</span>}
-                                </div>
-                                <p className="truncate text-sm font-medium text-white">{c.name}</p>
-                                <p className="mt-0.5 text-xs text-white/50">{c.vendor} · {c.days} days · {c.price}</p>
-                              </div>
-                              <div className="flex shrink-0 items-center gap-1">
-                                {(c as { category?: string }).category === 'FUNDAMENTALS' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-cyan-500/20 text-cyan-300">Fundamentals</span>}
-                                {(c as { category?: string }).category === 'ASSOCIATE' && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-indigo-500/20 text-indigo-300">Associate</span>}
-                                {((c as { category?: string }).category === 'EXPERT' || (c.level === 'Advanced' && (c as { category?: string }).category !== 'FUNDAMENTALS' && (c as { category?: string }).category !== 'ASSOCIATE')) && <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300">Expert</span>}
-                              </div>
-                            </div>
-                          ))}
-                          <div onClick={() => goSearch(heroQuery)} className="flex cursor-pointer items-center justify-center gap-2 px-4 py-3 text-xs font-semibold text-[#4dbfef] hover:bg-white/5">
-                            View all results for &ldquo;{heroQuery}&rdquo; →
+                          <div className="mb-3 flex items-start justify-between gap-3 rounded-r-lg border-l-[3px] border-[#0694D1] px-3.5 py-2.5" style={{ background: 'rgba(6,148,209,0.06)' }}>
+                            <span className="text-[12.5px] leading-relaxed text-[#1a3a55]">{heroAiResults.advice}</span>
+                            {heroAiResults.learnMore && (
+                              <button
+                                onClick={() => setHeroAiLearnMoreOpen(true)}
+                                className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md border-[1.5px] border-[#0694D1] bg-white px-2.5 py-1 text-[11.5px] font-bold text-[#0694D1]"
+                              >
+                                Learn more
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                              </button>
+                            )}
                           </div>
+
+                          {/* Learn more modal — portalled to body, same layout as the vendor page */}
+                          {heroAiLearnMoreOpen && heroAiResults.learnMore && typeof document !== 'undefined' && createPortal(
+                            <div style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', background: 'rgba(7,30,46,0.6)', backdropFilter: 'blur(6px)' }} onClick={() => setHeroAiLearnMoreOpen(false)}>
+                              <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 580, maxHeight: '88vh', overflowY: 'auto', boxShadow: '0 32px 80px rgba(6,148,209,0.22)', position: 'relative' }} onClick={e => e.stopPropagation()}>
+                                <div style={{ background: 'linear-gradient(135deg,#071e2e 0%,#093148 100%)', borderRadius: '20px 20px 0 0', padding: '22px 24px 20px', position: 'relative' }}>
+                                  <button onClick={() => setHeroAiLearnMoreOpen(false)} style={{ position: 'absolute', top: 14, right: 14, width: 28, height: 28, borderRadius: '50%', border: 'none', background: 'rgba(255,255,255,0.1)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                                  </button>
+                                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(6,148,209,0.2)', border: '1px solid rgba(6,148,209,0.4)', borderRadius: 999, padding: '3px 10px', marginBottom: 10 }}>
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.88 5.47L19 9l-4.12 3-1.88 5.47L11 12 5 9l5.12-.53z" /></svg>
+                                    <span style={{ fontSize: 10, fontWeight: 700, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.08em' }}>AI Learning Guide</span>
+                                  </div>
+                                  <h2 style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1.25, margin: 0 }}>{heroAiResults.learnMore.title}</h2>
+                                </div>
+                                <div style={{ padding: '20px 24px 24px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+                                  <p style={{ fontSize: 13, color: '#4a6375', lineHeight: 1.75, margin: 0 }}>{heroAiResults.learnMore.overview}</p>
+                                  <div>
+                                    <h4 style={{ fontSize: 12, fontWeight: 800, color: '#071e2e', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>Career Paths This Opens</h4>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+                                      {heroAiResults.learnMore.careers.map((c, i) => (
+                                        <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 11px', borderRadius: 999, background: '#F0F8FF', border: '1px solid rgba(6,148,209,0.2)', fontSize: 12, fontWeight: 600, color: '#0b2840' }}>
+                                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" /></svg>
+                                          {c}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <h4 style={{ fontSize: 12, fontWeight: 800, color: '#071e2e', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>Key Skills You&apos;ll Learn</h4>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                                      {heroAiResults.learnMore.skills.map((s, i) => (
+                                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 9 }}>
+                                          <span style={{ width: 18, height: 18, borderRadius: '50%', background: 'rgba(6,148,209,0.1)', border: '1px solid rgba(6,148,209,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                                            <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                          </span>
+                                          <span style={{ fontSize: 13, color: '#2d4a6a', lineHeight: 1.5 }}>{s}</span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                  <div style={{ background: '#F8FCFF', border: '1px solid rgba(6,148,209,0.18)', borderRadius: 12, padding: '14px 16px' }}>
+                                    <h4 style={{ fontSize: 12, fontWeight: 800, color: '#071e2e', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 8 }}>Why Now?</h4>
+                                    <p style={{ fontSize: 13, color: '#4a6375', lineHeight: 1.7, margin: '0 0 12px' }}>{heroAiResults.learnMore.whyNow}</p>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 7 }}>
+                                      {heroAiResults.learnMore.points.map((pt, i) => (
+                                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 7 }}>
+                                          <span style={{ width: 14, height: 14, borderRadius: '50%', background: 'rgba(6,148,209,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+                                            <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                          </span>
+                                          <span style={{ fontSize: 11.5, color: '#071e2e', fontWeight: 600, lineHeight: 1.4 }}>{pt}</span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>,
+                            document.body
+                          )}
+
+                          {/* Recommended courses */}
+                          <div className="mb-2 flex items-center gap-1.5">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
+                            <span className="text-xs text-[#4a6375]"><strong className="font-bold text-[#071e2e]">{heroAiResults.courses.length}</strong> course{heroAiResults.courses.length !== 1 ? 's' : ''} recommended for you</span>
+                          </div>
+                          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+                            {heroAiResults.courses.map((c, i) => (
+                              <div
+                                key={i}
+                                onClick={() => goSearch(c.code)}
+                                className="cursor-pointer rounded-xl border-[1.5px] border-[rgba(6,148,209,0.12)] bg-white p-3 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-shadow hover:shadow-[0_8px_24px_rgba(6,148,209,0.16)]"
+                              >
+                                <span className={`mb-1.5 inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide ${SCHEDULE_LEVEL_BADGE[c.level] ?? SCHEDULE_LEVEL_BADGE.assoc}`}>
+                                  {SCHEDULE_LEVEL_ICON[c.level] ?? SCHEDULE_LEVEL_ICON.assoc}
+                                  {SCHEDULE_LEVEL_LABEL[c.level] ?? c.level}
+                                </span>
+                                <p className="text-xs font-bold leading-snug text-[#0b2840]">{c.name}</p>
+                                <p className="mt-1 text-[11px] text-[#6b8299]">{c.code} · {c.dur}</p>
+                              </div>
+                            ))}
+                          </div>
+
+                          {(() => {
+                            const tokens = queryTokens(heroQuery)
+                            const q = heroQuery.trim().toLowerCase()
+                            const resultCount = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
+                              matchesText(c.name, q, tokens) || matchesText(c.vendor, q, tokens)
+                            ).length
+                            return (
+                              <div className="mt-3 border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.12)' }}>
+                                <button
+                                  onClick={() => goSearch(heroQuery)}
+                                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-bold text-white shadow-[0_4px_14px_rgba(6,148,209,0.25)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(6,148,209,0.35)]"
+                                  style={{ background: '#4DBFEF' }}
+                                >
+                                  View all {resultCount}+ results for &ldquo;{heroQuery}&rdquo;
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                                </button>
+                              </div>
+                            )
+                          })()}
                         </>
-                      ) : <div className="px-4 py-4 text-sm text-white/50">No courses found for "{heroQuery}"</div>
-                    })()}
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -2899,15 +3819,15 @@ export default function Design4Page() {
                   onClick={() => setAdvisorModalOpen(true)}
                   className="flex items-center gap-1.5 text-xs font-semibold text-[#4dbfef] transition-colors hover:text-white"
                 >
-                  <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                  Talk to a Training Advisor
+                  <svg className="h-3.5 w-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  Request More Info
                 </button>
               </div>
 
               {/* Popular tags */}
               <div className="h-fade-up h-d4 mb-5 flex max-w-2xl flex-wrap items-center justify-center gap-2 lg:justify-start">
                 <span className="text-sm font-semibold text-white/80">Popular:</span>
-                {['Azure Administrator', 'AWS Solutions Architect', 'CISSP', 'PMP', 'CCNA', 'Kubernetes', 'CompTIA Security+'].map(t => (
+                {['Azure Administrator', 'AWS Solutions Architect', 'Generative AI', 'CISSP', 'PMP', 'CCNA', 'Kubernetes', 'CompTIA Security+'].map(t => (
                   <span
                     key={t}
                     onClick={() => goSearch(t)}
@@ -2992,13 +3912,13 @@ export default function Design4Page() {
                     setHeroPaused(false)
                     if (heroTouchX.current === null) return
                     const diff = heroTouchX.current - e.changedTouches[0].clientX
-                    if (Math.abs(diff) > 40) setHeroSlide(s => diff > 0 ? (s + 1) % 4 : (s + 3) % 4)
+                    if (Math.abs(diff) > 40) setHeroSlide(s => diff > 0 ? (s + 1) % 5 : (s + 4) % 5)
                     heroTouchX.current = null
                   }}
                 >
                   {/* dots */}
                   <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 py-2.5" style={{ background: 'rgba(6,40,65,0.72)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
-                    {[0,1,2,3].map(i => (
+                    {[0,1,2,3,4].map(i => (
                       <button
                         key={i}
                         onClick={() => setHeroSlide(i)}
@@ -3026,7 +3946,7 @@ export default function Design4Page() {
                   <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 1 ? 1 : 0, pointerEvents: heroSlide === 1 ? 'auto' : 'none' }}>
                     <div className="flex flex-1 flex-col items-center overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(180,0,0,0.55) 0%, rgba(5,18,35,0.92) 100%)' }}>
                       <div className="w-full overflow-hidden" style={{ height: '62%', flexShrink: 0 }}>
-                        <img src="/images/awards/RED-25-1.png" alt="RedHat Gold Partner of the Year 2025" className="w-full h-full object-contain object-top" style={{ marginTop: '5px' }} />
+                        <img src="/images/awards/RED-25.png" alt="RedHat Gold Partner of the Year 2025" className="w-full h-full object-contain object-top" style={{ marginTop: '5px' }} />
                       </div>
                       <div className="flex flex-1 w-full items-center justify-center px-4 pb-7 text-center text-white" style={{ background: 'rgba(6,40,65,0.72)' }}>
                         <p className="font-bold" style={{ fontSize: '15px', lineHeight: '1.6' }}>
@@ -3038,8 +3958,35 @@ export default function Design4Page() {
                     </div>
                   </div>
 
-                  {/* Slide 3 — Partner Stats */}
+                  {/* Slide 3 — AI-Ready Workforce */}
                   <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 2 ? 1 : 0, pointerEvents: heroSlide === 2 ? 'auto' : 'none' }}>
+                    <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
+                      <div className="font-bold text-sm leading-snug">AI-Ready Workforce Enablement — build AI fluency with certified, hands-on training</div>
+                    </div>
+                    <div className="flex flex-1 flex-col justify-evenly gap-1.5 p-2 pb-8">
+                      {[
+                        { stat: '15+',  label: 'AI & Generative AI Certification Tracks', icon: <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg> },
+                        { stat: '24/7', label: 'AI Learning Assistant Support',           icon: <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg> },
+                        { stat: '10K+', label: 'Professionals Upskilled in AI/ML',        icon: <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-1.17 2.83A4 4 0 0 1 16 13.5V16a4 4 0 0 1-4 4 4 4 0 0 1-4-4v-2.5a4 4 0 0 1 1.17-3.67A4 4 0 0 1 8 7V6a4 4 0 0 1 4-4z"/></svg> },
+                      ].map((row, i) => (
+                        <div key={i} className="flex items-center justify-between rounded-xl px-3 py-2" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                          <div className="flex flex-1 items-center gap-2">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg, #076D9D, #0C5A7F)', border: '1px solid rgba(58,182,235,0.30)' }}>
+                              {row.icon}
+                            </div>
+                            <div className="flex-1 text-left">
+                              <div className="font-bold text-white text-sm">{row.stat}</div>
+                              <div className="text-sm text-white/60">{row.label}</div>
+                            </div>
+                          </div>
+                          <span className="font-bold text-sm text-white/50">›</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Slide 4 — Partner Stats */}
+                  <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 3 ? 1 : 0, pointerEvents: heroSlide === 3 ? 'auto' : 'none' }}>
                     <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
                       <div className="font-bold text-sm leading-snug">Koenig is globally authorized by leading vendors, offering extensive courses delivered by certified trainers</div>
                     </div>
@@ -3065,8 +4012,8 @@ export default function Design4Page() {
                     </div>
                   </div>
 
-                  {/* Slide 4 — Learning Stack */}
-                  <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 3 ? 1 : 0, pointerEvents: heroSlide === 3 ? 'auto' : 'none' }}>
+                  {/* Slide 5 — Learning Stack */}
+                  <div className="absolute inset-0 flex flex-col transition-opacity duration-500" style={{ opacity: heroSlide === 4 ? 1 : 0, pointerEvents: heroSlide === 4 ? 'auto' : 'none' }}>
                     <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
                       <div className="font-bold text-sm leading-snug">Koenig&apos;s learning stack ensures structured training with hands-on labs, guided practice, and certification pathways</div>
                     </div>
@@ -3115,7 +4062,7 @@ export default function Design4Page() {
 
                 {/* shared dots — pinned to card bottom */}
                 <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 py-2.5" style={{ background: 'rgba(6,40,65,0.72)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
-                  {[0,1,2,3].map(i => (
+                  {[0,1,2,3,4].map(i => (
                     <button
                       key={i}
                       onClick={() => setHeroSlide(i)}
@@ -3160,7 +4107,7 @@ export default function Design4Page() {
                   >
                     <div className="w-full overflow-hidden" style={{ height: '62%', flexShrink: 0 }}>
                       <img
-                        src="/images/awards/RED-25-1.png"
+                        src="/images/awards/RED-25.png"
                         alt="RedHat Gold Partner of the Year 2025"
                         className="w-full h-full object-contain object-top"
                         style={{ marginTop: '5px' }}
@@ -3176,10 +4123,45 @@ export default function Design4Page() {
                   </div>
                 </div>
 
-                {/* ── Slide 3 — Partner Stats ── */}
+                {/* ── Slide 3 — AI-Ready Workforce ── */}
                 <div
                   className="absolute inset-0 flex flex-col transition-opacity duration-500"
                   style={{ opacity: heroSlide === 2 ? 1 : 0, pointerEvents: heroSlide === 2 ? 'auto' : 'none' }}
+                >
+                  <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
+                    <div className="font-bold text-sm leading-snug">
+                      AI-Ready Workforce Enablement — build AI fluency with certified, hands-on training
+                    </div>
+                  </div>
+                  <div className="flex flex-1 flex-col justify-evenly gap-1.5 p-2 pb-8" style={{ background: 'transparent' }}>
+                    {[
+                      { stat: '15+',  label: 'AI & Generative AI Certification Tracks', icon: <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg> },
+                      { stat: '24/7', label: 'AI Learning Assistant Support',           icon: <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg> },
+                      { stat: '10K+', label: 'Professionals Upskilled in AI/ML',        icon: <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-1.17 2.83A4 4 0 0 1 16 13.5V16a4 4 0 0 1-4 4 4 4 0 0 1-4-4v-2.5a4 4 0 0 1 1.17-3.67A4 4 0 0 1 8 7V6a4 4 0 0 1 4-4z"/></svg> },
+                    ].map((row, i) => (
+                      <div key={i} className="flex items-center justify-between rounded-xl px-3 py-2" style={{ background: 'rgba(6,148,209,0.08)', border: '1px solid rgba(6,148,209,0.22)' }}>
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
+                            style={{ background: 'linear-gradient(135deg, #076D9D, #0C5A7F)', border: '1px solid rgba(58,182,235,0.30)' }}
+                          >
+                            {row.icon}
+                          </div>
+                          <div>
+                            <div className="font-bold text-white text-sm">{row.stat}</div>
+                            <div className="text-sm text-white/60">{row.label}</div>
+                          </div>
+                        </div>
+                        <span className="font-bold text-sm text-white/50">›</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ── Slide 4 — Partner Stats ── */}
+                <div
+                  className="absolute inset-0 flex flex-col transition-opacity duration-500"
+                  style={{ opacity: heroSlide === 3 ? 1 : 0, pointerEvents: heroSlide === 3 ? 'auto' : 'none' }}
                 >
                   <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
                     <div className="font-bold text-sm leading-snug">
@@ -3211,10 +4193,10 @@ export default function Design4Page() {
                   </div>
                 </div>
 
-                {/* ── Slide 4 — Learning Stack ── */}
+                {/* ── Slide 5 — Learning Stack ── */}
                 <div
                   className="absolute inset-0 flex flex-col transition-opacity duration-500"
-                  style={{ opacity: heroSlide === 3 ? 1 : 0, pointerEvents: heroSlide === 3 ? 'auto' : 'none' }}
+                  style={{ opacity: heroSlide === 4 ? 1 : 0, pointerEvents: heroSlide === 4 ? 'auto' : 'none' }}
                 >
                   <div className="px-4 py-3 text-center text-white" style={{ background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.90) 100%)', borderBottom: '1px solid rgba(6,148,209,0.20)' }}>
                     <div className="font-bold text-sm leading-snug">
@@ -3253,17 +4235,18 @@ export default function Design4Page() {
       </section>
 
       {/* ── Trusted by Global Companies ───────────────────────── */}
-      <section className="bg-white overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:pt-[48px] sm:pb-[40px]">
+      <section className="bg-white overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]">
         <style>{`
           @keyframes trustedScroll { from { transform: translateX(0) } to { transform: translateX(-50%) } }
           .trusted-track { display: flex; width: max-content; animation: trustedScroll 38s linear infinite; }
           .trusted-track:hover { animation-play-state: paused; }
+          .trusted-track-mobile { display: flex; align-items: center; gap: 1rem; width: max-content; animation: trustedScroll ${TESTIMONIAL_MARQUEE_DURATION}s linear infinite; }
         `}</style>
 
         {/* Section heading */}
         <div className="mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: '16px' }}>
-            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">
+            <h2 className="font-bold text-koenig-dark" style={{ fontSize: '22px' }}>
               Trusted by <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">global companies</span> across various industries
             </h2>
           </div>
@@ -3293,34 +4276,30 @@ export default function Design4Page() {
           </div>
         </div>
 
-        {/* Mobile auto-scroll strip — swipe to interrupt, resumes after release */}
+        {/* Mobile auto-scroll strip — CSS-driven marquee (matches desktop smoothness), touch pauses/resumes */}
         <div
-          ref={logosScrollRef}
-          className="lg:hidden flex items-center gap-4 overflow-x-auto py-2 px-2 select-none"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          onTouchStart={e => {
-            logosState.current.paused = true
-            logosState.current.touchStartX = e.touches[0].pageX
-            logosState.current.touchStartScroll = logosScrollRef.current?.scrollLeft ?? 0
+          className="relative lg:hidden overflow-x-hidden py-2 px-2"
+          style={{
+            touchAction: 'pan-y',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
           }}
-          onTouchMove={e => {
-            const el = logosScrollRef.current
-            if (!el) return
-            el.scrollLeft = logosState.current.touchStartScroll - (e.touches[0].pageX - logosState.current.touchStartX)
-          }}
-          onTouchEnd={() => { logosState.current.paused = false }}
+          onTouchStart={() => { if (logosScrollRef.current) logosScrollRef.current.style.animationPlayState = 'paused' }}
+          onTouchEnd={() => { if (logosScrollRef.current) logosScrollRef.current.style.animationPlayState = 'running' }}
+          onTouchCancel={() => { if (logosScrollRef.current) logosScrollRef.current.style.animationPlayState = 'running' }}
         >
+          <div ref={logosScrollRef} className="trusted-track-mobile">
           {[...TRUSTED_COMPANIES, ...TRUSTED_COMPANIES].map((c, i) => (
             <div key={i} className="flex shrink-0 items-center justify-center">
               <img
                 src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
                 alt={c.name}
                 className="h-10 w-auto object-contain"
-                style={{ filter: 'drop-shadow(0 2px 6px rgba(6,148,209,0.12))' }}
                 title={c.name}
               />
             </div>
           ))}
+          </div>
         </div>
       </section>
 
@@ -3365,213 +4344,238 @@ export default function Design4Page() {
       </div>
 
       {/* ── Learning Formats ─────────────────────────────────── */}
-      <section className="relative px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)' }}>
+      <section className="relative overflow-hidden lfr-sec" style={{ background: 'linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%)', padding: '35px clamp(16px,4vw,50px)' }}>
+
+        <style>{`
+          .lfr-flip-inner { transform-style: preserve-3d; }
+          .lfr-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+          .lfr-back { transform: rotateY(180deg); }
+          @keyframes lfrRipple { 0%{transform:translate(-50%,-50%) scale(0.25);opacity:0.55} 100%{transform:translate(-50%,-50%) scale(2.8);opacity:0} }
+          .lfr-ring { position:absolute; border-radius:50%; pointer-events:none; border:1px solid rgba(6,148,209,0.35); animation:lfrRipple 5s ease-out infinite; }
+          .lfr-ring.d1{animation-delay:0s} .lfr-ring.d2{animation-delay:1.6s} .lfr-ring.d3{animation-delay:3.2s}
+          @keyframes lfrBtnGlow { 0%,100%{box-shadow:0 0 0 0 rgba(6,148,209,0),0 4px 14px rgba(6,148,209,0.3)} 50%{box-shadow:0 0 22px 7px rgba(6,148,209,0.5),0 4px 14px rgba(6,148,209,0.3)} }
+          .lfr-btn-glow { animation:lfrBtnGlow 2.8s ease-in-out infinite; }
+          .lfr-desktop { display:block; }
+          .lfr-mobile  { display:none; }
+          @media(max-width:992px) {
+            .lfr-desktop-track > div { flex: 0 0 calc(50% - 10px)!important; }
+          }
+          @media(max-width:700px) {
+            .lfr-sec { padding-top:24px!important; padding-bottom:24px!important; }
+          }
+          @media(max-width:640px) {
+            .lfr-desktop { display:none!important; }
+            .lfr-mobile  { display:block!important; }
+            .lfr-sec     { padding-top:20px!important; padding-bottom:20px!important; }
+          }
+          @media(min-width:641px) and (max-width:1024px) {
+            .lfr-desktop-track > div { flex: 0 0 calc(50% - 10px)!important; }
+          }
+          .lfr-nav-btn { width:32px; height:32px; border-radius:50%; border:1px solid rgba(6,148,209,0.4); background:rgba(6,148,209,0.12); color:#0694d1; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; transition:background 0.2s; flex-shrink:0; }
+          .lfr-nav-btn:hover { background:rgba(6,148,209,0.25); }
+          .lfr-nav-btn:disabled { opacity:0.35; cursor:default; }
+        `}</style>
+
         {/* Glow orbs */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 left-1/4 h-[380px] w-[380px] rounded-full opacity-25" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
-          <div className="absolute bottom-0 right-1/4 h-[320px] w-[320px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#076d9d,transparent 70%)', filter: 'blur(55px)' }} />
-          <div className="absolute top-1/2 left-10 h-[200px] w-[200px] -translate-y-1/2 rounded-full opacity-15" style={{ background: 'radial-gradient(circle,#00a4ef,transparent 70%)', filter: 'blur(45px)' }} />
-          <div className="absolute top-1/3 right-10 h-[180px] w-[180px] rounded-full opacity-15" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(40px)' }} />
-          {/* Expanding ripple rings — centred in the section */}
-          <div className="lf-ring d1" style={{ top: '50%', left: '50%', width: '420px', height: '420px' }} />
-          <div className="lf-ring d2" style={{ top: '50%', left: '50%', width: '420px', height: '420px' }} />
-          <div className="lf-ring d3" style={{ top: '50%', left: '50%', width: '420px', height: '420px' }} />
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: -80, left: '25%', width: 380, height: 380, borderRadius: '50%', opacity: 0.25, background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(60px)' }} />
+          <div style={{ position: 'absolute', bottom: 0, right: '25%', width: 320, height: 320, borderRadius: '50%', opacity: 0.2, background: 'radial-gradient(circle,#076d9d,transparent 70%)', filter: 'blur(55px)' }} />
+          <div style={{ position: 'absolute', top: '50%', left: 40, transform: 'translateY(-50%)', width: 200, height: 200, borderRadius: '50%', opacity: 0.15, background: 'radial-gradient(circle,#00a4ef,transparent 70%)', filter: 'blur(45px)' }} />
+          <div style={{ position: 'absolute', top: '33%', right: 40, width: 180, height: 180, borderRadius: '50%', opacity: 0.15, background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(40px)' }} />
+          <div className="lfr-ring d1" style={{ top: '50%', left: '50%', width: 420, height: 420 }} />
+          <div className="lfr-ring d2" style={{ top: '50%', left: '50%', width: 420, height: 420 }} />
+          <div className="lfr-ring d3" style={{ top: '50%', left: '50%', width: 420, height: 420 }} />
         </div>
-        <div className="relative mx-auto max-w-7xl">
-          <div className="io-fade text-center mb-5 sm:mb-[35px]">
-            <span className="mb-2 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.18)' }}>
+
+        <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto' }}>
+
+          {/* Header */}
+          <div className="io-fade" style={{ textAlign: 'center', marginBottom: 35 }}>
+            <span style={{ display: 'inline-block', background: 'rgba(6,148,209,0.18)', color: '#0694d1', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: 20, marginBottom: 12 }}>
               Learning Formats
             </span>
-            <h2 className="mb-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Learning That <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Fits Your Life</span></h2>
-            <p className="mx-auto max-w-xl text-sm sm:text-base" style={{ color: 'rgba(255,255,255,0.55)' }}>
+            <h2 style={{ fontSize: 'clamp(22px,3.5vw,36px)', fontWeight: 800, color: '#fff', lineHeight: 1.35, marginBottom: 12 }}>
+              Learning That{' '}
+              <span style={{ background: 'linear-gradient(90deg,#0694d1,#38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                Fits Your Life
+              </span>
+            </h2>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.65, maxWidth: 560, margin: '0 auto' }}>
               Four formats. One quality standard. Every option comes with the same expert instructors, official courseware, and money-back guarantee.
             </p>
           </div>
 
-          <style>{`
-            .lf-flip-inner { transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.4,0.2,0.2,1); }
-            .lf-flip:hover .lf-flip-inner { transform: rotateY(180deg); }
-            .lf-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-            .lf-back { transform: rotateY(180deg); }
-
-            /* Expanding ripple rings */
-            @keyframes lfRipple {
-              0%   { transform: translate(-50%,-50%) scale(0.25); opacity: 0.55; }
-              100% { transform: translate(-50%,-50%) scale(2.8);  opacity: 0; }
-            }
-            .lf-ring {
-              position: absolute; border-radius: 50%; pointer-events: none;
-              border: 1px solid rgba(6,148,209,0.35);
-              animation: lfRipple 5s ease-out infinite;
-            }
-            .lf-ring.d1 { animation-delay: 0s; }
-            .lf-ring.d2 { animation-delay: 1.6s; }
-            .lf-ring.d3 { animation-delay: 3.2s; }
-
-            /* Button pulse glow */
-            @keyframes lfBtnGlow {
-              0%,100% { box-shadow: 0 0 0 0 rgba(6,148,209,0), 0 4px 14px rgba(6,148,209,0.3); }
-              50%      { box-shadow: 0 0 22px 7px rgba(6,148,209,0.5), 0 4px 14px rgba(6,148,209,0.3); }
-            }
-            .lf-btn-glow { animation: lfBtnGlow 2.8s ease-in-out infinite; }
-            @media (hover: none) { .lf-card .lf-reveal { transform: translateY(0) !important; } }
-          `}</style>
-
-          {/* ── Mobile carousel: 2 cards per page ── */}
+          {/* ── DESKTOP slider ── */}
           <div
-            className="sm:hidden overflow-hidden"
-            onTouchStart={e => { stopLfTimer(); lfDragStartX.current = e.touches[0].clientX }}
-            onTouchEnd={e => {
-              const delta = e.changedTouches[0].clientX - lfDragStartX.current
-              if (delta < -40) setLfMobilePage(p => Math.min(p + 1, 3))
-              else if (delta > 40) setLfMobilePage(p => Math.max(p - 1, 0))
-              startLfTimer()
-            }}
+            ref={lfSliderRef}
+            className="lfr-desktop"
+            style={{ overflow: 'hidden' }}
+            onMouseEnter={() => { lfSliderHoverRef.current = true }}
+            onMouseLeave={() => { lfSliderHoverRef.current = false; setLfHoveredCard(null) }}
           >
             <div
-              className="flex"
-              style={{ transform: `translateX(-${lfMobilePage * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.4,0,0.2,1)' }}
+              ref={lfTrackRef}
+              className="lfr-desktop-track"
+              style={{ display: 'flex', gap: 20 }}
+              onTransitionEnd={e => { if (e.target === e.currentTarget) lfHandleTransitionEnd() }}
             >
-              {([[0,1],[2,3],[4,5],[6,7]] as number[][]).map((group, pageIdx) => (
-                <div key={pageIdx} className="min-w-full grid grid-cols-1 gap-3">
-                  {group.map(ci => {
-                    const f = lfAllFormats[ci]
-                    return (
-                      <div key={ci} style={{ borderRadius: '14px', overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ position: 'relative', height: '120px', flexShrink: 0, overflow: 'hidden' }}>
-                          <img src={f.img} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <span style={{ position: 'absolute', left: '7px', top: '7px', borderRadius: '999px', padding: '2px 7px', fontSize: '10px', background: 'rgba(9,49,72,0.6)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
+              {Array.from({ length: 5 }, (_, i) => lfAllFormats[(lfStart + i) % lfAllFormats.length]).map((f, i) => (
+                <div
+                  key={`${lfStart}-${i}`}
+                  style={{ flex: '0 0 calc(25% - 15px)' }}
+                  onMouseEnter={() => setLfHoveredCard(i)}
+                  onMouseLeave={() => setLfHoveredCard(null)}
+                >
+                  <div className="lfr-flip" style={{ perspective: 1000, height: 400, cursor: 'pointer' }}>
+                    <div className="lfr-flip-inner" style={{ position: 'relative', width: '100%', height: '100%', transform: lfHoveredCard === i ? 'rotateY(180deg)' : 'rotateY(0deg)', transition: lfHoveredCard === i ? 'transform 0.65s cubic-bezier(0.4,0.2,0.2,1)' : 'none' }}>
+                      {/* FRONT */}
+                      <div className="lfr-face" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden', borderRadius: 16, background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
+                        <div style={{ position: 'relative', height: 176, flexShrink: 0, overflow: 'hidden', borderRadius: '16px 16px 0 0' }}>
+                          <img src={f.img} alt={f.name} width={320} height={176} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} loading="lazy" decoding="async" />
+                          <span style={{ position: 'absolute', left: 12, top: 12, fontSize: 11, fontWeight: 600, padding: '4px 12px', borderRadius: 20, background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff', letterSpacing: '0.04em' }}>
+                            {f.badge}
+                          </span>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '10px 10px 12px' }}>
-                          <h3 style={{ fontSize: '11px', fontWeight: 700, color: '#fff', marginBottom: '5px', lineHeight: 1.3 }}>{f.name}</h3>
-                          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, flex: 1 }}>{f.desc}</p>
-                          <button className="lf-btn-glow" style={{ marginTop: '10px', width: '100%', borderRadius: '9px', padding: '7px', fontSize: '10px', fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694d1,#076d9d)', border: 'none', cursor: 'pointer' }}>{f.btnLabel}</button>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px 20px 0' }}>
+                          <h3 style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 8, lineHeight: 1.3 }}>{f.name}</h3>
+                          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, flex: 1, fontWeight: 300 }}>{f.desc}</p>
+                          <div style={{ paddingBottom: 20, paddingTop: 20 }}>
+                            <button className="lfr-btn-glow" style={{ display: 'block', width: '100%', padding: '10px 0', borderRadius: 12, border: 'none', background: 'linear-gradient(135deg,#0694d1,#076d9d)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                              {f.btnLabel}
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    )
-                  })}
+                      {/* BACK */}
+                      <div className="lfr-face lfr-back" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', borderRadius: 16, padding: 20, background: f.cardBg, border: '1px solid rgba(6,148,209,0.35)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                          <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(6,148,209,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{f.icon}</div>
+                          <h3 style={{ fontSize: 14, fontWeight: 700, color: '#fff', lineHeight: 1.3 }}>{f.name}</h3>
+                        </div>
+                        <div style={{ height: 1, background: 'rgba(6,148,209,0.25)', marginBottom: 16 }} />
+                        <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 auto', display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
+                          {f.bullets.map(b => (
+                            <li key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'rgba(255,255,255,0.78)', lineHeight: 1.4 }}>
+                              <svg width="17" height="17" viewBox="0 0 17 17" fill="none" style={{ flexShrink: 0, marginTop: 2 }}><circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1" /><path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                              {b}
+                            </li>
+                          ))}
+                        </ul>
+                        <button className="lfr-btn-glow" style={{ marginTop: 20, display: 'block', width: '100%', padding: '10px 0', borderRadius: 12, border: 'none', background: 'linear-gradient(135deg,#0694d1,#076d9d)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                          {f.btnLabel}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-          {/* Mobile dots */}
-          <div className="mt-5 flex justify-center gap-3 sm:hidden">
-            {[0,1,2,3].map(p => (
-              <button
-                key={p}
-                onClick={() => setLfMobilePage(p)}
-                className="transition-all duration-300"
-                style={{ width: lfMobilePage === p ? '32px' : '10px', height: '10px', borderRadius: '999px', background: lfMobilePage === p ? '#0694d1' : 'rgba(255,255,255,0.25)', border: 'none', cursor: 'pointer' }}
-              />
-            ))}
+
+          {/* Desktop ← counter → navigation */}
+          <div className="lfr-desktop" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16, marginTop: 24 }}>
+            <button className="lfr-nav-btn" onClick={() => lfTriggerSlide(false)} aria-label="Previous">←</button>
+            <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.75)', minWidth: 52, textAlign: 'center' }}>
+              {String(lfStart + 1).padStart(2, '0')} / {String(lfAllFormats.length).padStart(2, '0')}
+            </span>
+            <button className="lfr-nav-btn" onClick={() => lfTriggerSlide(true)} aria-label="Next">→</button>
           </div>
 
-          {/* ── Desktop grid (hidden on mobile) ── */}
-          <div className="hidden sm:block">
-          {lfSlide === 0 && <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
-            {lfAllFormats.slice(0, 4).map((f, i) => (
-              <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
-                <div className="lf-flip-inner relative h-full w-full">
-                  <div className="lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
-                    <div className="relative h-44 w-full shrink-0 overflow-hidden">
-                      <img src={f.img} alt={f.name} className="h-full w-full object-cover" />
-                      <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-sm font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
-                    </div>
-                    <div className="flex flex-1 flex-col px-5 pt-4">
-                      <div className="flex-1">
-                        <h3 className="mb-2 text-sm sm:text-base md:text-lg font-medium text-white">{f.name}</h3>
-                        <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
+          {/* ── MOBILE: 1 full-width card per slide ── */}
+          <div className="lfr-mobile">
+            <div
+              onTouchStart={e => lfMobileSwipeStart(e.touches[0].clientX)}
+              onTouchEnd={e => lfMobileSwipeEnd(e.changedTouches[0].clientX)}
+              onMouseDown={e => lfMobileSwipeStart(e.clientX)}
+              onMouseUp={e => lfMobileSwipeEnd(e.clientX)}
+              onMouseLeave={e => { if (lfMobileDragStart.current !== null) lfMobileSwipeEnd(e.clientX) }}
+              style={{ overflow: 'hidden', userSelect: 'none', cursor: 'grab' }}>
+              <div style={{
+                display: 'flex',
+                width: `${lfAllFormats.length * 100}%`,
+                transform: `translateX(-${(lfMobileSlide / lfAllFormats.length) * 100}%)`,
+                transition: 'transform 0.45s cubic-bezier(0.4,0,0.2,1)',
+                boxSizing: 'border-box',
+                pointerEvents: 'none',
+              }}>
+                {lfAllFormats.map((f) => (
+                  <div key={f.name} style={{ width: `${100 / lfAllFormats.length}%`, flexShrink: 0 }}>
+                    <div style={{ borderRadius: 16, overflow: 'hidden', background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)', display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ position: 'relative', height: 200, flexShrink: 0, overflow: 'hidden', borderRadius: '16px 16px 0 0' }}>
+                        <img src={f.img} alt={f.name} width={400} height={200} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
+                        <span style={{ position: 'absolute', left: 12, top: 12, borderRadius: 999, padding: '4px 12px', fontSize: 11, fontWeight: 600, background: 'rgba(9,49,72,0.6)', backdropFilter: 'blur(6px)', color: '#fff', letterSpacing: '0.03em' }}>{f.badge}</span>
                       </div>
-                      <div className="pb-[20px] pt-[20px]">
-                        <button className="lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
+                      <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '16px 16px 18px' }}>
+                        <h3 style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 8, lineHeight: 1.3 }}>{f.name}</h3>
+                        <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, flex: 1, margin: 0 }}>{f.desc}</p>
+                        <button className="lfr-btn-glow" style={{ marginTop: 16, width: '100%', borderRadius: 12, padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg,#0694d1,#076d9d)', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
+                          {f.btnLabel}
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div className="lf-face lf-back absolute inset-0 flex flex-col rounded-2xl p-5" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.35)' }}>
-                    <div className="mb-3 flex items-center gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>{f.icon}</div>
-                      <h3 className="text-sm sm:text-base font-bold text-white leading-tight">{f.name}</h3>
-                    </div>
-                    <ul className="flex-1 space-y-2.5">
-                      {f.bullets.map(b => (
-                        <li key={b} className="flex items-start gap-2 text-sm text-white/75">
-                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mt-0.5 shrink-0"><circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/><path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                    <button className="lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>}
-
-          {/* Slide 2 — desktop only, uses lfAllFormats */}
-          {lfSlide === 1 && <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
-            {lfAllFormats.slice(4, 8).map((f, i) => (
-              <div key={i} className="lf-flip" style={{ perspective: '1000px', height: '400px' }}>
-                <div className="lf-flip-inner relative h-full w-full">
-                  <div className="lf-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.22)' }}>
-                    <div className="relative h-44 w-full shrink-0 overflow-hidden">
-                      <img src={f.img} alt={f.name} className="h-full w-full object-cover" />
-                      <span className="absolute left-3 top-3 rounded-full px-3 py-1 text-sm font-normal" style={{ background: 'rgba(9,49,72,0.55)', backdropFilter: 'blur(6px)', color: '#fff' }}>{f.badge}</span>
-                    </div>
-                    <div className="flex flex-1 flex-col px-5 pt-4">
-                      <div className="flex-1">
-                        <h3 className="mb-2 text-sm sm:text-base md:text-lg font-medium text-white">{f.name}</h3>
-                        <p className="text-sm font-light leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{f.desc}</p>
-                      </div>
-                      <div className="pb-[20px] pt-[20px]">
-                        <button className="lf-btn-glow w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="lf-face lf-back absolute inset-0 flex flex-col rounded-2xl p-5" style={{ background: f.cardBg, border: '1px solid rgba(6,148,209,0.35)' }}>
-                    <div className="mb-3 flex items-center gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'rgba(6,148,209,0.18)' }}>{f.icon}</div>
-                      <h3 className="text-sm sm:text-base font-bold text-white leading-tight">{f.name}</h3>
-                    </div>
-                    <ul className="flex-1 space-y-2.5">
-                      {f.bullets.map(b => (
-                        <li key={b} className="flex items-start gap-2 text-sm text-white/75">
-                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mt-0.5 shrink-0"><circle cx="8.5" cy="8.5" r="8" stroke="rgba(6,148,209,0.5)" strokeWidth="1"/><path d="M5.5 8.5l2 2 4-4" stroke="#0694d1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                    <button className="lf-btn-glow mt-auto w-full rounded-xl py-2.5 text-sm font-bold text-white transition-opacity duration-200 hover:opacity-90" style={{ background: 'linear-gradient(135deg,#0694d1,#076d9d)' }}>{f.btnLabel}</button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>}
-          </div>{/* end hidden sm:block */}
-
-          {/* Desktop pagination dots */}
-          <div className="hidden sm:flex mt-8 justify-center gap-3">
-            {[0, 1].map(s => (
-              <button
-                key={s}
-                onClick={() => setLfSlide(s)}
-                className="transition-all duration-300"
-                style={{
-                  width: lfSlide === s ? '32px' : '10px',
-                  height: '10px',
-                  borderRadius: '999px',
-                  background: lfSlide === s ? '#0694d1' : 'rgba(255,255,255,0.25)',
-                  border: 'none',
-                  cursor: 'pointer',
-                }}
-              />
-            ))}
+            </div>
+            {/* Arrow nav + counter */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 20, marginTop: 20 }}>
+              <button className="lfr-nav-btn" onClick={() => setLfMobileSlide(s => Math.max(s - 1, 0))} disabled={lfMobileSlide === 0} aria-label="Previous">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+              </button>
+              <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.75)', minWidth: 52, textAlign: 'center' }}>
+                {String(lfMobileSlide + 1).padStart(2, '0')} / {String(lfAllFormats.length).padStart(2, '0')}
+              </span>
+              <button className="lfr-nav-btn" onClick={() => setLfMobileSlide(s => Math.min(s + 1, lfAllFormats.length - 1))} disabled={lfMobileSlide === lfAllFormats.length - 1} aria-label="Next">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+              </button>
+            </div>
           </div>
 
         </div>
       </section>
 
+      {/* ── Vendor Partners ──────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]">
+        <div className="pointer-events-none absolute -left-40 -top-32 h-[420px] w-[420px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -bottom-20 right-0 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
+
+        <div className="mx-auto max-w-7xl">
+          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
+            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">
+              Official Partnerships
+            </span>
+            <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-[32px] font-bold text-koenig-dark">Authorized by <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">50+ Global Vendors</span></h2>
+            <p className="text-sm sm:text-base text-koenig-muted">Official courseware. Certified instructors. Vendor-recognized credentials.</p>
+          </div>
+        </div>
+
+        {/* ── Mobile: CSS-driven auto-scrolling strip, swipeable via touch or mouse-drag (matches desktop marquee smoothness) ── */}
+        <style>{`.vendor-track-mobile { display: flex; gap: 0.75rem; padding: 0 0.25rem; width: max-content; animation: trustedScroll ${VENDOR_MARQUEE_DURATION}s linear infinite; cursor: grab; }`}</style>
+        <div
+          className="sm:hidden overflow-x-hidden pb-3"
+          style={{ touchAction: 'pan-y' }}
+          {...vendorDrag}
+        >
+          <div ref={vendorScrollRef} className="vendor-track-mobile">
+            {[...VENDORS_ROW1, ...VENDORS_ROW2, ...VENDORS_ROW1, ...VENDORS_ROW2].map((v, i) => (
+              <VendorCard key={i} v={v} />
+            ))}
+          </div>
+        </div>
+
+        {/* Row 1 — scrolls left, swipeable (desktop only) */}
+        <div className="mb-4 hidden sm:block">
+          <VendorMarqueeRow vendors={VENDORS_ROW1} direction={1} />
+        </div>
+
+        {/* Row 2 — scrolls right, swipeable (desktop only) */}
+        <div className="hidden sm:block">
+          <VendorMarqueeRow vendors={VENDORS_ROW2} direction={-1} />
+        </div>
+      </section>
+
       {/* ── Differentiators ──────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: '#061e30' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]" style={{ background: '#061e30' }}>
         {/* BG effects */}
         <div className="pointer-events-none absolute inset-0">
           <div className="diff-orb1 absolute top-0 left-1/3 h-[500px] w-[500px] -translate-x-1/2 rounded-full opacity-10" style={{ background: 'radial-gradient(circle,#0694d1,transparent 65%)', filter: 'blur(80px)' }} />
@@ -3584,7 +4588,7 @@ export default function Design4Page() {
           {/* Heading */}
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.25)' }}>Why Koenig</span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">The <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Koenig Difference</span></h2>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold text-white">The <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Koenig Difference</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-white/55">What makes 1M+ professionals choose Koenig over everyone else</p>
           </div>
 
@@ -3761,88 +4765,24 @@ export default function Design4Page() {
         </div>
       </section>
 
-      {/* ── Vendor Partners ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
-        <div className="pointer-events-none absolute -left-40 -top-32 h-[420px] w-[420px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -bottom-20 right-0 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
-        {/* Add reverse-marquee keyframe */}
-        <style>{`
-          @keyframes marqueeRev { from{transform:translateX(-50%)} to{transform:translateX(0)} }
-          .marquee-rev { animation: marqueeRev 80s linear infinite; }
-          .marquee-rev:hover { animation-play-state: paused; }
-        `}</style>
-
-        <div className="mx-auto max-w-7xl">
-          <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
-            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">
-              Official Partnerships
-            </span>
-            <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Authorized by <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">50+ Global Vendors</span></h2>
-            <p className="text-sm sm:text-base text-koenig-muted">Official courseware. Certified instructors. Vendor-recognized credentials.</p>
-          </div>
-        </div>
-
-        {/* ── Mobile: auto-scrolling draggable strip ── */}
-        <div
-          ref={vendorScrollRef}
-          className="sm:hidden overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden"
-          style={{ WebkitOverflowScrolling: 'touch' }}
-          onTouchStart={() => { vendorPausedRef.current = true }}
-          onTouchEnd={() => { vendorPausedRef.current = false }}
-        >
-          <div className="flex gap-3 px-1" style={{ width: 'max-content' }}>
-            {[...VENDORS_ROW1, ...VENDORS_ROW2, ...VENDORS_ROW1, ...VENDORS_ROW2].map((v, i) => (
-              <VendorCard key={i} v={v} />
-            ))}
-          </div>
-        </div>
-
-        {/* Row 1 — scrolls left (desktop only) */}
-        <div
-          className="relative mb-4 overflow-x-hidden py-3 hidden sm:block"
-          style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
-        >
-          <div className="marquee-track flex gap-4 px-2" style={{ width: 'max-content' }}>
-            {[...VENDORS_ROW1, ...VENDORS_ROW1].map((v, i) => (
-              <VendorCard key={i} v={v} />
-            ))}
-          </div>
-        </div>
-
-        {/* Row 2 — scrolls right (desktop only) */}
-        <div
-          className="relative overflow-x-hidden pt-3 pb-0 hidden sm:block"
-          style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
-        >
-          <div className="marquee-rev flex gap-4 px-2" style={{ width: 'max-content' }}>
-            {[...VENDORS_ROW2, ...VENDORS_ROW2].map((v, i) => (
-              <VendorCard key={i} v={v} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Course Explorer ───────────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[50px]" style={{ background: 'radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)' }}>
+      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]">
         {/* Glow orbs */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -left-20 h-[350px] w-[350px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle,#0694d1,transparent 70%)', filter: 'blur(70px)' }} />
-          <div className="absolute top-1/2 right-0 h-[280px] w-[280px] -translate-y-1/2 rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#38bdf8,transparent 70%)', filter: 'blur(60px)' }} />
-          <div className="absolute bottom-0 left-1/3 h-[240px] w-[240px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle,#076d9d,transparent 70%)', filter: 'blur(55px)' }} />
-        </div>
+        <div className="pointer-events-none absolute -right-20 -top-20 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -bottom-16 left-1/4 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="relative mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: "35px" }}>
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-white" style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.30)' }}>
+            <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">
               5,000+ Courses
             </span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">Explore Our <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Course Catalogue</span></h2>
-            <p className="mx-auto max-w-2xl text-sm sm:text-base text-white/60">
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold text-koenig-dark">Explore Our <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Course Catalogue</span></h2>
+            <p className="mx-auto max-w-2xl text-sm sm:text-base text-koenig-muted">
               Find your certification across cloud, security, networking, project management, and more.
             </p>
           </div>
 
           {/* Tab switcher */}
-          <div className="io-fade delay-1 mb-8 flex flex-nowrap overflow-x-auto justify-center gap-1 rounded-2xl p-1.5 [&::-webkit-scrollbar]:hidden sm:mx-auto sm:w-max" style={{ background: 'rgba(8,24,42,0.55)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.20)' }}>
+          <div className="io-fade delay-1 mb-8 flex flex-nowrap overflow-x-auto justify-center gap-1 rounded-2xl bg-koenig-light p-1.5 [&::-webkit-scrollbar]:hidden sm:mx-auto sm:w-max" style={{ border: '1px solid #CAEFFF' }}>
             {COURSE_TABS.map(t => (
               <button
                 key={t}
@@ -3850,7 +4790,7 @@ export default function Design4Page() {
                 className={`rounded-xl px-6 py-2.5 text-sm font-semibold transition-all duration-200 ${
                   tab === t
                     ? 'text-white shadow-md'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                    : 'text-koenig-gray hover:text-koenig-dark hover:bg-white'
                 }`}
                 style={tab === t ? { background: 'linear-gradient(135deg, #0694d1, #076d9d)', boxShadow: '0 4px 12px rgba(6,148,209,0.35)' } : {}}
               >
@@ -3870,25 +4810,25 @@ export default function Design4Page() {
               {TOP_TECHNOLOGIES.map((t, i) => (
                 <div
                   key={i} role="button" tabIndex={0}
-                  className="group cursor-pointer rounded-xl p-5 transition-all duration-300 hover:-translate-y-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue"
-                  style={{ background: 'rgba(8,24,42,0.60)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(6,148,209,0.20)', boxShadow: '0 4px 16px rgba(0,0,0,0.30)' }}
+                  className="group cursor-pointer rounded-xl bg-white p-5 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-koenig-blue"
+                  style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0, 164, 239, 0.10)' }}
                 >
                   {/* Title row */}
                   <div className="mb-1 flex items-start justify-between gap-2">
-                    <h3 className="text-sm font-bold text-white transition-colors group-hover:text-[#3AB6EB] leading-snug">{t.name}</h3>
-                    <span className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-koenig-blue/40 text-[#3AB6EB] transition-all group-hover:bg-koenig-blue group-hover:text-white group-hover:border-koenig-blue">
+                    <h3 className="text-sm font-bold text-koenig-navy transition-colors group-hover:text-koenig-blue leading-snug">{t.name}</h3>
+                    <span className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full border border-koenig-blue/40 text-koenig-blue transition-all group-hover:bg-koenig-blue group-hover:text-white group-hover:border-koenig-blue">
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
                     </span>
                   </div>
                   {/* Count */}
-                  <p className="mb-4 text-sm font-medium text-[#3AB6EB]">{t.count} Courses</p>
+                  <p className="mb-4 text-sm font-medium text-koenig-blue">{t.count} Courses</p>
                   {/* Divider */}
-                  <div className="mb-3 h-px" style={{ background: 'rgba(6,148,209,0.18)' }} />
+                  <div className="mb-3 h-px" style={{ background: '#CAEFFF' }} />
                   {/* Partners */}
-                  <p className="mb-2 text-sm font-normal text-white/40">Top Partners</p>
+                  <p className="mb-2 text-sm font-normal text-koenig-gray/70">Top Partners</p>
                   <div className="flex flex-wrap gap-1.5">
                     {t.partners.map(p => (
-                      <span key={p} className={`rounded-full px-2.5 py-1 text-sm font-semibold ${VENDOR_BADGE_COLORS[p] ?? 'bg-[#0694d1]/20 text-[#3AB6EB]'}`}>{p}</span>
+                      <span key={p} className={`rounded-full px-2.5 py-1 text-sm font-semibold ${VENDOR_BADGE_COLORS[p] ?? 'bg-koenig-blue/10 text-koenig-blue'}`}>{p}</span>
                     ))}
                   </div>
                 </div>
@@ -3902,24 +4842,24 @@ export default function Design4Page() {
           )}
 
           <div className="io-fade mt-12 flex flex-col items-center gap-3">
-            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+            <a href="https://www.koenig-solutions.com/corporate-it-training-courses" className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Browse All 5,000+ Courses
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </button>
-            <p className="text-sm text-white/50">Across 50+ global vendors · All skill levels</p>
+            </a>
+            <p className="text-sm text-koenig-muted">Across 50+ global vendors · All skill levels</p>
           </div>
         </div>
       </section>
 
       {/* ── Live Expert Webinars ─────────────────────────────── */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]" style={{ background: 'linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%)', borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
 
           {/* Header */}
           <div className="io-fade mb-10 text-center">
-            <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Join Our Live <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Expert Webinars</span></h2>
+            <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-[32px] font-bold text-koenig-dark">Join Our Live <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Expert Webinars</span></h2>
             <p className="text-sm text-koenig-muted">Free live sessions led by certified instructors — register and attend from anywhere</p>
           </div>
 
@@ -4074,17 +5014,17 @@ export default function Design4Page() {
 
           {/* View All Webinars CTA */}
           <div className="mt-6 flex justify-center">
-            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+            <a href="https://www.koenig-solutions.com/upcoming-webinars" className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               View All Webinars
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </button>
+            </a>
           </div>
 
         </div>
       </section>
 
       {/* ── How It Works ─────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]">
         <div className="pointer-events-none absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[250px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.14) 0%, transparent 70%)' }} />
@@ -4093,7 +5033,7 @@ export default function Design4Page() {
           {/* Header */}
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
             <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Simple Process</span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">How It <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Works</span></h2>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold text-koenig-dark">How It <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Works</span></h2>
             <p className="mx-auto max-w-xl text-sm sm:text-base text-koenig-muted">From choosing your path to getting certified — four steps that have worked for over a million professionals.</p>
           </div>
 
@@ -4105,10 +5045,10 @@ export default function Design4Page() {
             {/* ── Mobile: 2 steps per page ── */}
             {(() => {
               const steps = [
-                { icon: '🧭', num: '01', title: 'Tell Us Your Goal',        desc: 'Share where you are and where you want to be. Use our course finder, talk to a training advisor, or start with one of our curated career pathways.',    dots: 1 },
-                { icon: '📋', num: '02', title: 'Pick Your Format & Date',  desc: 'Choose 1-on-1, Public Batch, or Flexi. Select dates from guaranteed schedules that fit your life. Lock in your spot with flexible payment options.',     dots: 2 },
-                { icon: '🎓', num: '03', title: 'Train with a Real Expert', desc: 'A vendor-certified instructor teaches you live. Hands-on labs mirror real enterprise environments. Sessions are recorded so you can review later.',      dots: 3 },
-                { icon: '🚀', num: '04', title: 'Certify & Advance',        desc: 'Pass your exam with dedicated prep and practice tests. Join 1M+ certified professionals who used Koenig to land promotions and salary increases.',          dots: 4 },
+                { icon: HIW_STEP_ICONS[0], num: '01', title: 'Tell Us Your Goal',        desc: 'Share where you are and where you want to be. Use our course finder, talk to a training advisor, or start with one of our curated career pathways.',    dots: 1 },
+                { icon: HIW_STEP_ICONS[1], num: '02', title: 'Pick Your Format & Date',  desc: 'Choose 1-on-1, Public Batch, or Flexi. Select dates from guaranteed schedules that fit your life. Lock in your spot with flexible payment options.',     dots: 2 },
+                { icon: HIW_STEP_ICONS[2], num: '03', title: 'Train with a Real Expert', desc: 'A vendor-certified instructor teaches you live. Hands-on labs mirror real enterprise environments. Sessions are recorded so you can review later.',      dots: 3 },
+                { icon: HIW_STEP_ICONS[3], num: '04', title: 'Certify & Advance',        desc: 'Pass your exam with dedicated prep and practice tests. Join 1M+ certified professionals who used Koenig to land promotions and salary increases.',          dots: 4 },
               ]
               return (
                 <div className="sm:hidden">
@@ -4128,7 +5068,7 @@ export default function Design4Page() {
                             return (
                               <div key={si} className="flex flex-col items-center">
                                 <div className="relative z-10 mb-4">
-                                  <div className="flex h-16 w-16 items-center justify-center rounded-full text-2xl" style={{ background: 'white', border: '4px solid #f0f9ff', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>{s.icon}</div>
+                                  <div className="flex h-16 w-16 items-center justify-center rounded-full" style={{ background: 'white', border: '4px solid #f0f9ff', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', color: '#076D9D' }}>{s.icon}</div>
                                   <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: '#093148' }}>{si + 1}</span>
                                 </div>
                                 <div className="w-full rounded-2xl border-2 p-5 text-center" style={{ background: 'white', borderColor: '#e8f4fa', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
@@ -4161,10 +5101,10 @@ export default function Design4Page() {
 
             <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-stretch">
               {[
-                { icon: '🧭', num: '01', title: 'Tell Us Your Goal',        desc: 'Share where you are and where you want to be. Use our course finder, talk to a training advisor, or start with one of our curated career pathways.',              dots: 1, delay: '0.10s' },
-                { icon: '📋', num: '02', title: 'Pick Your Format & Date',  desc: 'Choose 1-on-1, Public Batch, or Flexi. Select dates from guaranteed schedules that fit your life. Lock in your spot with flexible payment options.',           dots: 2, delay: '0.25s' },
-                { icon: '🎓', num: '03', title: 'Train with a Real Expert', desc: 'A vendor-certified instructor teaches you live. Hands-on labs mirror real enterprise environments. Sessions are recorded so you can review later.',          dots: 3, delay: '0.40s' },
-                { icon: '🚀', num: '04', title: 'Certify & Advance',        desc: 'Pass your exam with dedicated prep and practice tests. Join 1M+ certified professionals who used Koenig to land promotions and salary increases.',              dots: 4, delay: '0.55s' },
+                { icon: HIW_STEP_ICONS[0], num: '01', title: 'Tell Us Your Goal',        desc: 'Share where you are and where you want to be. Use our course finder, talk to a training advisor, or start with one of our curated career pathways.',              dots: 1, delay: '0.10s' },
+                { icon: HIW_STEP_ICONS[1], num: '02', title: 'Pick Your Format & Date',  desc: 'Choose 1-on-1, Public Batch, or Flexi. Select dates from guaranteed schedules that fit your life. Lock in your spot with flexible payment options.',           dots: 2, delay: '0.25s' },
+                { icon: HIW_STEP_ICONS[2], num: '03', title: 'Train with a Real Expert', desc: 'A vendor-certified instructor teaches you live. Hands-on labs mirror real enterprise environments. Sessions are recorded so you can review later.',          dots: 3, delay: '0.40s' },
+                { icon: HIW_STEP_ICONS[3], num: '04', title: 'Certify & Advance',        desc: 'Pass your exam with dedicated prep and practice tests. Join 1M+ certified professionals who used Koenig to land promotions and salary increases.',              dots: 4, delay: '0.55s' },
               ].map((s, i) => {
                 const isActive = activeStep === i
                 return (
@@ -4178,12 +5118,13 @@ export default function Design4Page() {
                     {/* Icon circle */}
                     <div className="relative z-10 mb-6">
                       <div
-                        className="flex h-20 w-20 items-center justify-center rounded-full text-3xl transition-all duration-300"
+                        className="flex h-20 w-20 items-center justify-center rounded-full transition-all duration-300"
                         style={{
                           background: isActive ? '#076D9D' : 'white',
                           border: '4px solid #f0f9ff',
                           boxShadow: isActive ? '0 8px 30px rgba(7,109,157,0.35)' : '0 4px 20px rgba(0,0,0,0.08)',
                           transform: isActive ? 'scale(1.1) translateY(-6px)' : 'scale(1)',
+                          color: isActive ? 'white' : '#076D9D',
                         }}
                       >{s.icon}</div>
                       {/* Step number badge */}
@@ -4222,10 +5163,10 @@ export default function Design4Page() {
 
           {/* Bottom CTA */}
           <div className="io-fade mt-12 flex flex-wrap items-center justify-center gap-4">
-            <button className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+            <a href="https://www.koenig-solutions.com/corporate-it-training-courses" className="group inline-flex items-center gap-3 rounded-2xl px-8 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
               Start Your Journey
               <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </button>
+            </a>
             <button onClick={() => setAdvisorModalOpen(true)} className="hiw-outline-btn rounded-2xl border-2 border-[#076D9D] px-7 py-3 text-sm font-bold text-[#076D9D] transition-all duration-300 hover:bg-[#076D9D] hover:text-white">
               Talk to an Advisor
             </button>
@@ -4235,7 +5176,7 @@ export default function Design4Page() {
       </section>
 
       {/* ── Success Stories ───────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-[#E8F4FA] px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 65%)' }} />
         <div className="pointer-events-none absolute -right-32 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-20 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.16) 0%, transparent 70%)' }} />
@@ -4244,7 +5185,7 @@ export default function Design4Page() {
           {/* Header */}
           <div className="io-fade text-center" style={{ marginBottom: '35px' }}>
             <span className="mb-3 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Real Transformations</span>
-            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-koenig-dark">Stories That <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Speak for Themselves</span></h2>
+            <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold text-koenig-dark">Stories That <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Speak for Themselves</span></h2>
             <p className="mx-auto max-w-2xl text-sm sm:text-base text-koenig-muted">Every number is real. Every name is used with permission. These are your peers — people who were exactly where you are and made the leap.</p>
           </div>
 
@@ -4301,34 +5242,31 @@ export default function Design4Page() {
       </section>
 
       {/* ── Live Schedule ─────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]">
         <div className="pointer-events-none absolute -right-20 -top-20 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-16 left-1/4 h-[300px] w-[300px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
-          <div className="io-fade mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Guaranteed Schedules</span>
-              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Upcoming Batches — <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">March 2026</span></h2>
-              <p className="text-sm text-koenig-muted">Every batch listed here is guaranteed to run. No cancellations.</p>
-            </div>
-            <button className="group inline-flex shrink-0 items-center gap-3 rounded-2xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
-              View Full Schedule
-              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
-            </button>
+          <div className="io-fade mb-[15px]">
+            <span className="mb-1 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Guaranteed Schedules</span>
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-[32px] font-bold text-koenig-dark">Upcoming Batches — <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">July 2026</span></h2>
+            <p className="text-sm text-koenig-muted">Every batch listed here is guaranteed to run. No cancellations.</p>
           </div>
           <div className="io-fade delay-1 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
             {SCHEDULE.map((s, i) => (
               <ScheduleCard key={i} s={s} />
             ))}
           </div>
+          <div className="io-fade mt-8 flex justify-center">
+            <a href="https://www.koenig-solutions.com/corporate-it-training-courses" className="group inline-flex shrink-0 items-center gap-3 rounded-2xl px-6 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg" style={{ background: 'linear-gradient(135deg,#093148,#076D9D)' }}>
+              View Full Schedule
+              <span className="flex h-6 w-6 items-center justify-center rounded-full transition-transform group-hover:translate-x-1" style={{ background: 'rgba(255,255,255,0.18)' }}>→</span>
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* ── Vendor Stack ──────────────────────────────────────── */}
-      <VendorStack />
-
       {/* ── Awards ────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]" style={{ borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
+      <section className="relative overflow-hidden bg-white px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]" style={{ borderTop: '1px solid #CAEFFF', borderBottom: '1px solid #CAEFFF' }}>
         <div className="pointer-events-none absolute -left-32 top-0 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -right-20 bottom-0 h-[350px] w-[350px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%)' }} />
 
@@ -4336,7 +5274,7 @@ export default function Design4Page() {
         <div className="mx-auto max-w-7xl">
           <div className="io-fade mb-4 sm:mb-8 text-center">
             <span className="mb-2 inline-block rounded-full bg-koenig-blue/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-koenig-blue">Recognition</span>
-            <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Awards &amp; <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Recognition</span></h2>
+            <h2 className="mb-2 text-lg sm:text-xl md:text-2xl lg:text-[32px] font-bold text-koenig-dark">Awards &amp; <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Recognition</span></h2>
             <p className="text-sm text-koenig-muted">Recognized by global vendors and quality bodies for training excellence</p>
           </div>
 
@@ -4364,13 +5302,13 @@ export default function Design4Page() {
       </section>
 
       {/* ── FAQ ───────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-5 sm:py-[60px]">
+      <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-5 sm:py-[35px]">
         <div className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
         <div className="mx-auto max-w-7xl">
           <div className="io-fade text-center" style={{ marginBottom: "35px" }}>
-            <h2 className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">Frequently <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Asked Questions</span></h2>
+            <h2 className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-[32px] font-bold text-koenig-dark">Frequently <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Asked Questions</span></h2>
             <p className="text-sm sm:text-base text-koenig-muted">Everything you need to know before booking your training</p>
           </div>
           {(() => {
@@ -4438,6 +5376,9 @@ export default function Design4Page() {
           </div>
         </div>
       </section>
+
+      {/* ── Vendor Stack ──────────────────────────────────────── */}
+      <VendorStack />
 
       {/* ── Footer ────────────────────────────────────────────── */}
       <footer style={{ background: '#071929' }} className="text-white">
@@ -4511,7 +5452,7 @@ export default function Design4Page() {
                   <ul className="space-y-2">
                     {col.links.map(link => (
                       <li key={link}>
-                        <a href="#" className="text-sm leading-snug text-white/80 transition-colors hover:text-white">{link}</a>
+                        <a href={FOOTER_LINK_HREFS[link] ?? '#'} className="text-sm leading-snug text-white/80 transition-colors hover:text-white">{link}</a>
                       </li>
                     ))}
                   </ul>

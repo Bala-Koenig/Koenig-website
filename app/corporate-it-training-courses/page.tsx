@@ -2041,16 +2041,11 @@ export default function CorporateITTrainingPage() {
           }
         `}</style>
 
-        <div className="relative mx-auto max-w-7xl py-5 lg:py-[35px]">
+        <div className="relative mx-auto max-w-7xl pt-5 lg:pt-[35px] pb-16 sm:pb-20 lg:pb-24">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
             {/* Left */}
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
-                style={{ background: 'rgba(6,148,209,0.18)', color: '#38bdf8', border: '1px solid rgba(6,148,209,0.35)' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                Corporate IT Training — 40+ Vendor Categories
-              </div>
               <h1 className="text-[22px] lg:text-3xl xl:text-[2.4rem] font-bold leading-tight mb-[15px] text-white">
                 <span className="block">Train Your Team.</span>
                 <span className="block" style={{ background: 'linear-gradient(135deg, #0694D1, #38bdf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
@@ -2058,7 +2053,7 @@ export default function CorporateITTrainingPage() {
                 </span>
               </h1>
               <p className="text-[14px] lg:text-lg leading-relaxed mb-[15px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                Vendor-authorized corporate IT certification training across Microsoft, AWS, Cisco, Oracle, and 40+ more partners. Guaranteed batch schedules, group discounts, and 1-on-1 options available.
+                Vendor-authorized corporate IT certification training across 40+ partners.
               </p>
               <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                 <button onClick={() => setModal(true)}
@@ -2118,39 +2113,24 @@ export default function CorporateITTrainingPage() {
                     </div>
                   </div>
                 ))}
-                {/* Partners — merged into stats card */}
-                <div style={{ height: 1, background: 'rgba(6,148,209,0.12)' }} />
-                <div style={{ padding: '16px 18px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-                    <div style={{ fontSize: 20, fontWeight: 800, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>40+</div>
-                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginLeft: 2 }}>Authorised Vendor Partners</div>
-                  </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    {['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'Oracle', 'Red Hat', 'VMware', 'SAP'].map(p => (
-                      <span key={p} style={{ fontSize: 10, fontWeight: 600, padding: '3px 9px', borderRadius: 999, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.5)' }}>{p}</span>
-                    ))}
-                    <span style={{ fontSize: 10, fontWeight: 700, padding: '3px 9px', borderRadius: 999, background: 'rgba(6,148,209,0.10)', border: '1px solid rgba(6,148,209,0.25)', color: '#38bdf8' }}>+30 more</span>
-                  </div>
-                </div>
               </div>
             </div>
 
+          </div>
+
+          {/* Section header — lives inside the hero so the filter card can fold up over the banner edge */}
+          <div className="text-center mt-8 lg:mt-10">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white">Find Your Course</h2>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>Use the filters below to narrow down from 5,000+ courses across 17 vendors</p>
           </div>
         </div>
       </section>
 
       {/* ── FIND YOUR COURSE ─────────────────────────────────── */}
-      <section id="courses" className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-[50px] py-6 sm:py-10" style={{ background: 'radial-gradient(ellipse 90% 500px at 50% 0%, rgba(6,148,209,0.09) 0%, transparent 70%)' }}>
+      <section id="courses" className="relative max-w-7xl mx-auto px-3 sm:px-4 lg:px-[50px] pb-6 sm:pb-10" style={{ background: 'radial-gradient(ellipse 90% 500px at 50% 0%, rgba(6,148,209,0.09) 0%, transparent 70%)' }}>
 
-        {/* Section header */}
-        <div className="text-center mb-[15px]">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#0b2545' }}>Find Your Course</h2>
-          <p className="text-sm" style={{ color: '#64748b' }}>Use the filters below to narrow down from 5,000+ courses across 17 vendors</p>
-        </div>
-
-        {/* ── Filter section ── */}
-        <div className="rounded-3xl p-6" style={{ background: '#F2F4F7', border: '1.5px solid rgba(6,148,209,0.45)', boxShadow: '0 4px 24px rgba(6,148,209,0.12)' }}>
+        {/* ── Filter section — pulled up to fold over the bottom of the hero banner ── */}
+        <div className="relative z-10 -mt-14 sm:-mt-16 rounded-3xl p-6" style={{ background: '#fff', border: '2px solid rgba(6,148,209,0.8)', boxShadow: '0 12px 36px rgba(6,148,209,0.18)' }}>
 
           {/* Row 1: Filter button on mobile/tablet, cards on desktop */}
           {/* Mobile/tablet filter trigger — filters top, date below */}
@@ -2275,64 +2255,6 @@ export default function CorporateITTrainingPage() {
             })()}
           </div>
 
-          {/* YOUR SELECTION */}
-          <div className="hidden lg:block rounded-2xl p-4 mb-4" style={{ background: '#fff', border: '1.5px solid #D1D5DB' }}>
-            <div className="flex items-center gap-2 mb-2.5">
-              <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-              </div>
-              <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Your Selection</span>
-            </div>
-            {!(startDate || endDate || durations.length > 0 || oem !== 'All OEMs' || technology !== 'All Technologies' || priceRange || modes.length > 0) ? (
-              <p className="text-sm italic" style={{ color: '#c8d6e5', fontFamily: "'GT Walsheim Pro', sans-serif" }}>nothing selected yet</p>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {(startDate || endDate) && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
-                    {startDate || '…'} → {endDate || '…'}
-                    <button onClick={() => { setStartDate(''); setEndDate('') }} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
-                  </span>
-                )}
-                {oem !== 'All OEMs' && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
-                    Partner: {oem}
-                    <button onClick={() => setOem('All OEMs')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
-                  </span>
-                )}
-                {technology !== 'All Technologies' && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
-                    Tech: {technology}
-                    <button onClick={() => setTechnology('All Technologies')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
-                  </span>
-                )}
-                {durations.map(d => (
-                  <span key={d} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
-                    {d}
-                    <button onClick={() => setDurations(durations.filter(x => x !== d))} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
-                  </span>
-                ))}
-                {priceRange && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
-                    {'INR ' + priceRange[0].toLocaleString('en-IN') + ' – INR ' + priceRange[1].toLocaleString('en-IN')}
-                    <button onClick={() => setPriceRange(null)} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
-                  </span>
-                )}
-                {modes.map(m => (
-                  <span key={m} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
-                    {m.replace('Only ', '')}
-                    <button onClick={() => toggleMode(m)} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
-                  </span>
-                ))}
-                {classroomCity && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EDF7FF', color: '#0694D1', border: '1px solid #C8DFF0' }}>
-                    📍 {classroomCity}
-                    <button onClick={() => setClassroomCity('')} className="ml-0.5 leading-none text-sm opacity-60 hover:opacity-100">×</button>
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-
           {/* HOW YOU WANT TO LEARN — desktop only; mobile uses Mode tab in FilterDrawer */}
           <div className="hidden lg:block mb-5">
             <div className="flex items-center gap-2 mb-3">
@@ -2438,6 +2360,139 @@ export default function CorporateITTrainingPage() {
             </button>
           </div>
 
+        </div>
+
+        {/* ── CONCEPT B — compact filled-pill filter bar (comparison preview) ── */}
+        <div className="hidden lg:block mt-8">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide" style={{ background: '#0694D1', color: '#fff' }}>Concept B</span>
+            <span className="text-xs font-semibold" style={{ color: '#64748b' }}>Compact filled pills — for comparison only</span>
+          </div>
+          <div className="rounded-3xl p-6" style={{ background: '#fff', border: '1.5px solid #E2E8F0', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
+
+            {(() => {
+              const pill = (active: boolean) => ({
+                background: '#fff',
+                border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
+                boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : 'none',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+              })
+              const iconBox = (svg: React.ReactNode) => (
+                <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>{svg}</div>
+              )
+              const dateActive = !!(startDate || endDate)
+              const oemActive = oem !== 'All OEMs'
+              const techActive = technology !== 'All Technologies'
+              const durActive = durations.length > 0
+              const priceActive = !!priceRange
+              return (
+                <div className="grid grid-cols-5 gap-3 mb-5">
+                  <div className="rounded-full pl-3 pr-4 py-2 flex items-center gap-2 w-full" style={{ ...pill(dateActive), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
+                    {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
+                    <div className="flex-1 min-w-0">
+                      <DateRangeSelect startDate={startDate} endDate={endDate} onChange={(s, e) => { setStartDate(s); setEndDate(e) }} />
+                    </div>
+                  </div>
+
+                  <div className="rounded-full pl-3 pr-4 py-2 flex items-center gap-2 w-full" style={{ ...pill(oemActive), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
+                    {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>)}
+                    <div className="flex-1 min-w-0">
+                      <InlineSelect value={oem} options={ALL_OEMS} onChange={setOem} placeholder="Any partner" searchable />
+                    </div>
+                  </div>
+
+                  <div className="rounded-full pl-3 pr-4 py-2 flex items-center gap-2 w-full" style={{ ...pill(techActive), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
+                    {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
+                    <div className="flex-1 min-w-0">
+                      <InlineSelect value={technology} options={ALL_TECHNOLOGIES} onChange={setTechnology} placeholder="Any technology" searchable />
+                    </div>
+                  </div>
+
+                  <div className="rounded-full pl-3 pr-4 py-2 flex items-center gap-2 w-full" style={{ ...pill(durActive), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
+                    {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>)}
+                    <div className="flex-1 min-w-0">
+                      <DurationSelect values={durations} onChange={setDurations} />
+                    </div>
+                  </div>
+
+                  <div className="rounded-full pl-3 pr-4 py-2 flex items-center gap-2 w-full" style={{ ...pill(priceActive), cursor: 'pointer' }}
+                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
+                    {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg>)}
+                    <div className="flex-1 min-w-0">
+                      <PriceRangeSlider value={priceRange} onChange={setPriceRange} />
+                    </div>
+                  </div>
+                </div>
+              )
+            })()}
+
+            {/* How you want to learn — compact toggle chips instead of full cards */}
+            <div className="mb-5">
+              <span className="block text-xs font-bold uppercase mb-2.5" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Learning Mode</span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { key: 'Only GTR', icon: <><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>, label: 'Guaranteed to Run', sub: 'Confirmed dates' },
+                  { key: 'Only Live Online', icon: <><rect x="2" y="2" width="20" height="15" rx="2"/><polyline points="8 21 12 17 16 21"/></>, label: 'Online', sub: 'Live virtual' },
+                  { key: 'Only Classroom', icon: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>, label: 'Classroom', sub: 'In person' },
+                  { key: 'Self-Paced', icon: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>, label: 'Self-Paced', sub: 'Flexi anytime' },
+                ].map(({ key, icon, label, sub }) => {
+                  const active = modes.includes(key)
+                  return (
+                    <button key={key} onClick={() => toggleMode(key)}
+                      className="flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-left transition-colors w-full"
+                      style={{
+                        background: '#fff',
+                        border: `1.5px solid ${active ? '#0694D1' : '#E2E8F0'}`,
+                        boxShadow: active ? '0 4px 14px rgba(6,148,209,0.15)' : 'none',
+                      }}
+                    >
+                      <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: active ? '#0694D1' : '#E2E8F0' }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={active ? '#fff' : '#476D8D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
+                      </div>
+                      <div className="leading-tight min-w-0 flex-1">
+                        <p className="text-sm font-semibold truncate" style={{ color: '#374151' }}>{label}</p>
+                        <p className="text-[11px] truncate" style={{ color: '#94a3b8' }}>{sub}</p>
+                      </div>
+                      <div className="flex items-center justify-center flex-shrink-0"
+                        style={{ width: 18, height: 18, borderRadius: 5, border: `2px solid ${active ? '#0694D1' : '#CBD5E1'}`, background: active ? '#0694D1' : '#fff', transition: 'background 0.15s, border-color 0.15s' }}>
+                        {active && (
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                            <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
+              <button
+                onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setPriceRange(null); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                style={{ border: '1.5px solid #E2EBF6', color: '#64748b', background: '#fff' }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#F8FAFC')}
+                onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                Reset
+              </button>
+              <button
+                className="flex items-center gap-2 px-9 py-3 rounded-xl text-sm font-bold text-white"
+                style={{ background: '#0694D1', boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              >
+                Show results
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* ── Search bar + sort controls ── */}

@@ -2513,16 +2513,6 @@ p {
   color: #6b8299; transition: all 0.15s;
 }
 .cf-search-clear:hover { background: rgba(0,120,212,0.15); color: #0078D4; }
-/* ── AI Mode ── */
-.cf-search-wrap.ai-active { border-color:#0694D1; box-shadow:0 0 0 3px rgba(6,148,209,0.15),0 0 16px rgba(6,148,209,0.10); background:#EEF8FF; }
-@keyframes aiOutlinePulse { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
-.cf-ai-btn { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:6px; border:none; background:transparent; color:#0694D1; font-size:11.5px; font-weight:700; cursor:pointer; font-family:inherit; flex-shrink:0; white-space:nowrap; position:relative; isolation:isolate; transition:color 0.2s; }
-.cf-ai-btn::before { content:''; position:absolute; inset:-1px; border-radius:8px; background:linear-gradient(135deg, #90c8e8 0%, #0694D1 50%, #6dbde0 100%); animation:aiOutlinePulse 4s ease-in-out infinite; z-index:-2; }
-.cf-ai-btn::after { content:''; position:absolute; inset:1.5px; border-radius:5px; background:#ffffff; z-index:-1; }
-.cf-ai-btn:hover::before { opacity:1; }
-.cf-ai-btn.on::before { animation:aiOutlinePulse 1.8s ease-in-out infinite; }
-.cf-ai-btn.on::after { background:#f0f9ff; }
-.cf-ai-btn.on { font-weight:800; }
 @keyframes aiPanelIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
 .cf-ai-panel { border-left:1px solid var(--light-border); border-right:1px solid var(--light-border); border-bottom:1px solid var(--light-border); background:#F8FCFF; animation:aiPanelIn 0.25s cubic-bezier(0.22,1,0.36,1); overflow:hidden; }
 .cf-ai-inner { padding:14px 14px 16px; }
@@ -10716,6 +10706,15 @@ function classifyAiQuery(q: string) {
       { name: "Fabric Analytics Engineer Associate", code: "DP-600", dur: "4 days", level: "expert", url: "/courses/dp-600" },
     ],
   };
+  if (/cisco|ccna|ccnp|ccie|router|switch(ing)?|routing|vlan|ospf|bgp/i.test(t)) return {
+    advice: "Cisco powers most enterprise network infrastructure worldwide. To install and manage routers and switches professionally, CCNA (200-301) is the industry-standard starting certification — it covers routing, switching, and core networking fundamentals hands-on.",
+    learnMore: { title: "Cisco Networking & CCNA", overview: "Whether you're installing routers, configuring switches, or managing an enterprise network, Cisco certifications validate the exact skills employers look for. CCNA is the most widely recognised entry point into networking careers globally, while CCNP and CCIE open senior and expert-level paths.", careers: ["Network Administrator", "Network Engineer", "Systems Administrator", "IT Support Engineer", "Network Security Specialist"], skills: ["Router & switch configuration (Cisco IOS)", "Routing protocols — OSPF, BGP, EIGRP", "VLANs, switching & spanning tree", "Network security fundamentals", "Network troubleshooting & automation"], whyNow: "Every organisation with on-prem or hybrid infrastructure needs Cisco-certified staff to install, configure and maintain routers and switches. CCNA remains one of the most in-demand entry-level IT certifications globally.", points: ["CCNA 200-301 covers routing, switching, security & automation", "No strict prerequisites — ideal starting point for networking", "Koenig is a Cisco Learning Partner", "Hands-on labs on real Cisco routers & switches"] },
+    courses: [
+      { name: "Cisco Certified Network Associate (CCNA)", code: "CCNA 200-301", dur: "5 days", level: "assoc", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
+      { name: "Cisco Certified Network Professional (CCNP)", code: "CCNP", dur: "5 days", level: "expert", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
+      { name: "Cisco Certified Internetwork Expert (CCIE)", code: "CCIE", dur: "5 days", level: "expert", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
+    ],
+  };
   return {
     advice: "Based on your interest, here are Koenig's most popular Microsoft certifications — consistently in demand across roles and industries, and a strong foundation for any Azure-focused career.",
     learnMore: { title: "Microsoft Certifications", overview: "Microsoft certifications are among the most recognised and respected credentials in global IT. They validate real-world skills across cloud, security, data, AI, and productivity — and are trusted by hiring managers at enterprises worldwide.", careers: ["Cloud Engineer", "Solutions Architect", "Security Analyst", "Data Engineer", "IT Administrator"], skills: ["Microsoft Azure cloud platform", "Microsoft 365 productivity & collaboration", "Security, identity, and compliance", "Data engineering & analytics", "AI and machine learning on Azure"], whyNow: "Microsoft certifications consistently rank among the highest-ROI IT investments. Azure-certified professionals earn on average 26% more than non-certified peers, and the demand for Microsoft skills continues to grow globally across all industries.", points: ["380+ Microsoft courses across all technology areas", "95% first-attempt certification pass rate", "Microsoft Gold Learning Partner — vendor-authorised", "Guaranteed batch schedules — no cancellations"] },
@@ -10756,6 +10755,8 @@ function getContextChips(q: string): string[] {
     return ["Azure Fundamentals", "Cloud Concepts", "AZ-900", "Azure Administration"];
   if (/data|database|sql|synapse|analytics|fabric|power.?bi/i.test(t))
     return ["Azure Data Engineering", "Power BI", "Microsoft Fabric", "Azure SQL"];
+  if (/cisco|ccna|ccnp|ccie|router|switch(ing)?|routing|vlan|ospf|bgp/i.test(t))
+    return ["Cisco Networking", "CCNA Certification", "Routing & Switching", "Network Security"];
   if (/network|vpn|firewall|dns|express/i.test(t))
     return ["Azure Networking", "Virtual Networks", "Azure Firewall", "ExpressRoute"];
   if (/dev|app|code|function|api|develop/i.test(t))
@@ -10787,7 +10788,6 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
   const [examPage, setExamPage]           = useState(0);
   const [isMobile, setIsMobile]           = useState(() => typeof window !== "undefined" && window.innerWidth <= 768);
   const [sidebarOpen, setSidebarOpen]     = useState(false);
-  const [aiMode, setAiMode]               = useState(false);
   const [aiQuery, setAiQuery]             = useState("");
   const [aiChip, setAiChip]              = useState("");
   const [aiLearnMore, setAiLearnMore]     = useState(false);
@@ -10842,14 +10842,13 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
   }, []);
 
   useEffect(() => {
-    if (!aiMode) { setAiResults(null); setAiThinking(false); setAiLearnMore(false); return; }
     const term = aiChip || aiQuery;
     if (!term.trim() || getContextChips(aiQuery).length === 0) { setAiResults(null); setAiThinking(false); setAiLearnMore(false); return; }
     setAiThinking(true); setAiResults(null); setAiLearnMore(false);
     if (aiDebounceRef.current) clearTimeout(aiDebounceRef.current);
     aiDebounceRef.current = setTimeout(() => { setAiThinking(false); setAiResults(classifyAiQuery(term + " " + aiQuery)); }, 600);
     return () => { if (aiDebounceRef.current) clearTimeout(aiDebounceRef.current); };
-  }, [aiChip, aiQuery, aiMode]);
+  }, [aiChip, aiQuery]);
 
   const allCerts = activeTab
     ? (CERTS[activeTab] || [])
@@ -11223,29 +11222,21 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                     })()}
                     {/* ── Filter bar ── */}
                     <div className="cf-bar">
-                      <div className={`cf-search-wrap${aiMode ? " ai-active" : ""}`}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{color: aiMode ? "#0694D1" : "#0078D4",flexShrink:0}}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                      <div className="cf-search-wrap">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{color:"#0078D4",flexShrink:0}}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                         <input
                           className="cf-search-input"
                           type="text"
-                          placeholder={aiMode ? "Ask AI: e.g. I want to learn Azure security…" : `Search ${activeTab || "Microsoft"} courses…`}
-                          value={aiMode ? aiQuery : certSearch}
-                          onChange={e => { if (aiMode) { setAiChip(""); setAiQuery(e.target.value); } else setCertSearch(e.target.value); }}
-                          onKeyDown={e => { if (e.key==="Escape") { aiMode ? setAiQuery("") : setCertSearch(""); }}}
+                          placeholder="Ask AI: e.g. I want to learn Azure security…"
+                          value={aiQuery}
+                          onChange={e => { setAiChip(""); setAiQuery(e.target.value); }}
+                          onKeyDown={e => { if (e.key==="Escape") setAiQuery(""); }}
                         />
-                        {(aiMode ? aiQuery : certSearch) && (
-                          <button className="cf-search-clear" onClick={() => aiMode ? setAiQuery("") : setCertSearch("")} title="Clear">
+                        {aiQuery && (
+                          <button className="cf-search-clear" onClick={() => setAiQuery("")} title="Clear">
                             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
                           </button>
                         )}
-                        <button
-                          className={`cf-ai-btn${aiMode ? " on" : ""}`}
-                          onClick={() => { setAiMode(m => !m); setAiQuery(""); setAiChip(""); setAiResults(null); setAiThinking(false); }}
-                          title="Toggle AI Mode"
-                        >
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.88 5.47L19 9l-4.12 3-1.88 5.47L11 12 5 9l5.12-.53z"/><path d="M5 3l.94 2.73L8.5 6.5 5.94 7.77 5 10.5l-.94-2.73L1.5 6.5l2.56-1.27z"/></svg>
-                          AI Mode
-                        </button>
                       </div>
                       <div className="cf-bar-right">
                         <select className="cf-sort" value={certSort} onChange={e=>setCertSort(e.target.value)}>
@@ -11268,9 +11259,8 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                       </div>
                     </div>
 
-                    {/* ── AI Mode panel ── */}
-                    {aiMode && (
-                      <div className="cf-ai-panel">
+                    {/* ── AI search panel ── */}
+                    <div className="cf-ai-panel">
                         <div className="cf-ai-inner">
                           {/* Persistent hint */}
                           <p style={{fontSize:12,color:"#9bb3c5",margin:"0 0 10px"}}>Type a topic above to get AI-powered course recommendations.</p>
@@ -11455,7 +11445,6 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                           )}
                         </div>
                       </div>
-                    )}
 
                     {/* ── Active filter chips (Level + Duration only) ── */}
                     {(activeLevels.size > 0 || activeDurations.size > 0) && (

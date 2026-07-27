@@ -283,7 +283,7 @@ export default function AboutPage() {
               <div className="flex flex-col sm:flex-row items-stretch sm:w-2/3 sm:mx-auto">
 
                 {/* Card 4 — Koenig Ethos */}
-                <div className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center"
+                <div id="koenig-ethos" className="flex-1 kglass-light rounded-2xl p-6 flex flex-col items-center text-center scroll-mt-24"
                   style={{ boxShadow: '0 0 0 1px rgba(6,148,209,0.18), 0 4px 20px rgba(6,148,209,0.08)' }}>
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
                     style={{ background: 'rgba(6,148,209,0.12)', boxShadow: '0 4px 14px rgba(6,148,209,0.18)' }}>

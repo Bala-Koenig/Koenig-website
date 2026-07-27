@@ -1,7 +1,9 @@
-'use client'
+﻿'use client'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import Navbar from '@/components/Navbar'
+import { WEBINARS, PARTNER_LOGOS } from './data'
 
 /* ── Hero stats ─────────────────────────────────────────────── */
 const HERO_STATS = [
@@ -44,370 +46,6 @@ const TRUST_BADGES = [
     ),
   },
 ]
-
-/* ── Webinar data ───────────────────────────────────────────── */
-const WEBINARS = [
-  {
-    id: 1,
-    speaker: 'Nidhi Karthik Nayak',
-    initials: 'NK',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/08_Jun_2026_14_29_22_704Nidhi.jpg',
-    avatarBg: 'linear-gradient(135deg,#34A853,#076D9D)',
-    title: 'Work Smarter With Microsoft 365 Copilot',
-    description: 'Discover how AI can simplify daily tasks, boost productivity, and unlock creativity across Word, Excel, PowerPoint, Outlook, and Teams—with practical Copilot use cases for everyday work.',
-    partner: 'Microsoft',
-    technology: 'Microsoft',
-    date: '15 Jun 2026',
-    time: '01:00 PM IST',
-    duration: '1 Hour',
-    registered: 45,
-    live: true,
-  },
-  {
-    id: 2,
-    speaker: 'Lipika Sharma',
-    initials: 'LS',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/Files/EmpPhoto/2024123594-Pic2.jpg',
-    avatarBg: 'linear-gradient(135deg,#EC4899,#8B5CF6)',
-    title: 'Microsoft AI Certification Fundamentals Series: AI 900 To AI Engineer Roadmap',
-    description: 'Explore the complete Microsoft AI certification path from AI-900 fundamentals to the full AI Engineer roadmap, with exam preparation strategies and real-world AI application scenarios.',
-    partner: 'Microsoft',
-    technology: 'AI',
-    date: '15 Jun 2026',
-    time: '03:00 PM IST',
-    duration: '1 Hour',
-    registered: 79,
-    live: false,
-  },
-  {
-    id: 3,
-    speaker: 'Rashmi Sharma',
-    initials: 'RS',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Rashmi%20Sharma.png',
-    avatarBg: 'linear-gradient(135deg,#0694D1,#38bdf8)',
-    title: 'DP-603: Implement Real Time Analytics With Microsoft Fabric',
-    description: 'Learn to implement real-time analytics using Microsoft Fabric. Covers DP-603 exam topics including data streaming, pipelines, and building intelligent analytics solutions at scale.',
-    partner: 'Microsoft',
-    technology: 'Data',
-    date: '15 Jun 2026',
-    time: '04:00 PM IST',
-    duration: '1 Hour',
-    registered: 38,
-    live: false,
-  },
-  {
-    id: 4,
-    speaker: 'Bharat Singh Thakur',
-    initials: 'BT',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/19_Jan_2026_11_6_28_38WhatsApp%20Image%202026-01-14%20at%209.44.47%20AM.jpeg',
-    avatarBg: 'linear-gradient(135deg,#F59E0B,#B45309)',
-    title: 'Mastering SAP LAM & The S/4HANA 9 Phase Maintenance Model',
-    description: 'Deep dive into SAP Linear Asset Management and the structured 9-phase maintenance model in S/4HANA for enterprise-grade asset lifecycle management and operational efficiency.',
-    partner: 'SAP',
-    technology: 'ERP',
-    date: '15 Jun 2026',
-    time: '05:00 PM IST',
-    duration: '1 Hour',
-    registered: 12,
-    live: false,
-  },
-  {
-    id: 5,
-    speaker: 'K M Bilvika',
-    initials: 'KB',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/11_Nov_2022_9_59_15_824BV%20Photo.jpg',
-    avatarBg: 'linear-gradient(135deg,#065F46,#10B981)',
-    title: 'PostgreSQL Database Administration',
-    description: 'Master PostgreSQL DBA essentials—installation, configuration, backup & recovery, performance tuning, high availability, and security best practices for production environments.',
-    partner: 'PostgreSQL',
-    technology: 'Database',
-    date: '15 Jun 2026',
-    time: '06:00 PM IST',
-    duration: '1 Hour',
-    registered: 8,
-    live: false,
-  },
-  {
-    id: 6,
-    speaker: 'Vinod Kumar',
-    initials: 'VK',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/31_Oct_2019_9_51_10_591vinodkumar.jpg',
-    avatarBg: 'linear-gradient(135deg,#1D4ED8,#3B82F6)',
-    title: 'Workflow Management Using Java And Spring Boot',
-    description: 'Learn to design and implement enterprise-grade workflow management systems using Java and Spring Boot, covering state machines, process automation, and RESTful API patterns.',
-    partner: 'Java',
-    technology: 'Development',
-    date: '15 Jun 2026',
-    time: '06:00 PM IST',
-    duration: '1 Hour',
-    registered: 22,
-    live: false,
-  },
-  {
-    id: 7,
-    speaker: 'Akash Rai',
-    initials: 'AR',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/12_Mar_2026_8_45_44_158my%20pic.jpg',
-    avatarBg: 'linear-gradient(135deg,#DC2626,#F97316)',
-    title: 'AI Driven Generative Design And Smart Manufacturing With Fusion 360',
-    description: 'Explore how AI and generative design in Autodesk Fusion 360 are revolutionizing smart manufacturing—from concept generation to production-ready designs and simulation.',
-    partner: 'Autodesk',
-    technology: 'AI',
-    date: '15 Jun 2026',
-    time: '07:00 PM IST',
-    duration: '1 Hour',
-    registered: 5,
-    live: false,
-  },
-  {
-    id: 8,
-    speaker: 'Sachin Chauhan',
-    initials: 'SC',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Sachin%20Chauhan.png',
-    avatarBg: 'linear-gradient(135deg,#0694D1,#7c3aed)',
-    title: 'Designing Microsoft AI Agents With Copilot Studio – From Idea To Impact',
-    description: 'Build intelligent AI agents with Microsoft Copilot Studio—from initial concept to enterprise deployment—covering agent design, actions, connectors, and real-world integration patterns.',
-    partner: 'Microsoft',
-    technology: 'AI',
-    date: '15 Jun 2026',
-    time: '08:00 PM IST',
-    duration: '1 Hour',
-    registered: 31,
-    live: false,
-  },
-  {
-    id: 9,
-    speaker: 'Anshu Jayant Batra',
-    initials: 'AB',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Anshu%20Jayant%20Batra.png',
-    avatarBg: 'linear-gradient(135deg,#0694D1,#076D9D)',
-    title: 'Automating Legacy Systems And Desktop Applications Using Microsoft Power Automate',
-    description: 'Discover how Microsoft Power Automate desktop flows can modernize and automate legacy systems without costly rewrites, enabling seamless integration and end-to-end process automation.',
-    partner: 'Microsoft',
-    technology: 'Microsoft',
-    date: '16 Jun 2026',
-    time: '01:00 PM IST',
-    duration: '1 Hour',
-    registered: 19,
-    live: false,
-  },
-  {
-    id: 10,
-    speaker: 'Jasleen Kaur',
-    initials: 'JK',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/19_Dec_2025_7_25_2_926pp2025.jpg',
-    avatarBg: 'linear-gradient(135deg,#7c3aed,#a78bfa)',
-    title: 'DP-700 Exam Prep In 1 Hour',
-    description: 'Fast-track your DP-700 Microsoft Fabric Analytics Engineer certification with a focused 1-hour review of exam objectives, key concepts, practice patterns, and time-saving strategies.',
-    partner: 'Microsoft',
-    technology: 'Data',
-    date: '16 Jun 2026',
-    time: '03:00 PM IST',
-    duration: '1 Hour',
-    registered: 14,
-    live: false,
-  },
-  {
-    id: 11,
-    speaker: 'Bharat Singh Thakur',
-    initials: 'BT',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/19_Jan_2026_11_6_28_38WhatsApp%20Image%202026-01-14%20at%209.44.47%20AM.jpeg',
-    avatarBg: 'linear-gradient(135deg,#F59E0B,#B45309)',
-    title: 'Transitioning From SAP GUI To SAP Fiori Applications',
-    description: 'Navigate the shift from SAP GUI to the modern SAP Fiori UX—covering migration strategies, Fiori app design principles, Launchpad configuration, and deployment best practices.',
-    partner: 'SAP',
-    technology: 'ERP',
-    date: '16 Jun 2026',
-    time: '04:00 PM IST',
-    duration: '1 Hour',
-    registered: 7,
-    live: false,
-  },
-  {
-    id: 12,
-    speaker: 'Sajiyabanu Salat',
-    initials: 'SS',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/10_Nov_2025_20_24_26_537WhatsApp%20Image%202025-09-18%20at%2010.02.25%20PM.jpeg',
-    avatarBg: 'linear-gradient(135deg,#F47920,#f6a05c)',
-    title: 'GitHub Is More Than Push And Pull: Features Every Developer Should Know',
-    description: 'Unlock the full potential of GitHub beyond basic version control—explore Actions, Codespaces, Copilot, Projects, and security scanning features every modern developer should leverage.',
-    partner: 'GitHub',
-    technology: 'DevOps',
-    date: '16 Jun 2026',
-    time: '05:00 PM IST',
-    duration: '1 Hour',
-    registered: 16,
-    live: false,
-  },
-  {
-    id: 13,
-    speaker: 'Vinod Kumar',
-    initials: 'VK',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/31_Oct_2019_9_51_10_591vinodkumar.jpg',
-    avatarBg: 'linear-gradient(135deg,#1D4ED8,#3B82F6)',
-    title: 'Oracle WebLogic Administration Basics',
-    description: 'Get started with Oracle WebLogic Server administration—covering domain configuration, application deployment, clustering, monitoring, security configuration, and troubleshooting fundamentals.',
-    partner: 'Oracle',
-    technology: 'Database',
-    date: '16 Jun 2026',
-    time: '06:00 PM IST',
-    duration: '1 Hour',
-    registered: 3,
-    live: false,
-  },
-  {
-    id: 14,
-    speaker: 'Priya Nair',
-    initials: 'PN',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Priya%20Nair.png',
-    avatarBg: 'linear-gradient(135deg,#BE185D,#F472B6)',
-    title: 'AWS Solutions Architect: Key Concepts & Exam Strategy',
-    description: 'Master the core AWS architectural principles and exam strategies for the Solutions Architect Associate certification, with hands-on pattern walkthroughs and practice questions.',
-    partner: 'AWS',
-    technology: 'Cloud',
-    date: '17 Jun 2026',
-    time: '01:00 PM IST',
-    duration: '1 Hour',
-    registered: 42,
-    live: false,
-  },
-  {
-    id: 15,
-    speaker: 'Rahul Verma',
-    initials: 'RV',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Rahul%20Verma.png',
-    avatarBg: 'linear-gradient(135deg,#0369A1,#38BDF8)',
-    title: 'Zero Trust Security: Principles & Implementation',
-    description: 'Understand the Zero Trust architecture model and learn practical implementation steps for identity, device, network, and data security in modern enterprise environments.',
-    partner: 'PECB',
-    technology: 'Security',
-    date: '17 Jun 2026',
-    time: '02:00 PM IST',
-    duration: '1 Hour',
-    registered: 28,
-    live: false,
-  },
-  {
-    id: 16,
-    speaker: 'Anita Desai',
-    initials: 'AD',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Anita%20Desai.png',
-    avatarBg: 'linear-gradient(135deg,#7C3AED,#C4B5FD)',
-    title: 'Power BI: From Data to Actionable Insights',
-    description: 'Learn to transform raw data into compelling dashboards using Power BI—covering data modelling, DAX fundamentals, visual best practices, and publishing to Power BI Service.',
-    partner: 'Microsoft',
-    technology: 'Data',
-    date: '17 Jun 2026',
-    time: '03:00 PM IST',
-    duration: '1 Hour',
-    registered: 61,
-    live: false,
-  },
-  {
-    id: 17,
-    speaker: 'Suresh Pillai',
-    initials: 'SP',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Suresh%20Pillai.png',
-    avatarBg: 'linear-gradient(135deg,#D97706,#FCD34D)',
-    title: 'Kubernetes for Developers: Containers at Scale',
-    description: 'Get hands-on with Kubernetes fundamentals—pods, services, deployments, config maps, and scaling strategies—designed for developers building and deploying containerised applications.',
-    partner: 'Linux',
-    technology: 'DevOps',
-    date: '17 Jun 2026',
-    time: '04:00 PM IST',
-    duration: '1 Hour',
-    registered: 33,
-    live: false,
-  },
-  {
-    id: 18,
-    speaker: 'Meera Krishnan',
-    initials: 'MK',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Meera%20Krishnan.png',
-    avatarBg: 'linear-gradient(135deg,#047857,#34D399)',
-    title: 'ITIL 4 Foundation: Service Management Essentials',
-    description: 'A focused overview of ITIL 4 Foundation concepts—service value system, four dimensions model, guiding principles, and key practices to prepare for your certification exam.',
-    partner: 'PECB',
-    technology: 'IT Service',
-    date: '18 Jun 2026',
-    time: '01:00 PM IST',
-    duration: '1 Hour',
-    registered: 24,
-    live: false,
-  },
-  {
-    id: 19,
-    speaker: 'Deepak Joshi',
-    initials: 'DJ',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Deepak%20Joshi.png',
-    avatarBg: 'linear-gradient(135deg,#1E40AF,#60A5FA)',
-    title: 'Azure DevOps: CI/CD Pipelines from Scratch',
-    description: 'Build robust CI/CD pipelines in Azure DevOps from scratch—covering repos, build pipelines, release management, artefact feeds, and integration with GitHub and container registries.',
-    partner: 'Microsoft',
-    technology: 'DevOps',
-    date: '18 Jun 2026',
-    time: '02:00 PM IST',
-    duration: '1 Hour',
-    registered: 47,
-    live: false,
-  },
-  {
-    id: 20,
-    speaker: 'Kavitha Rajan',
-    initials: 'KR',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Kavitha%20Rajan.png',
-    avatarBg: 'linear-gradient(135deg,#9D174D,#F9A8D4)',
-    title: 'Ethical Hacking & Penetration Testing Fundamentals',
-    description: 'Learn the core methodologies of ethical hacking and penetration testing—reconnaissance, scanning, exploitation, and reporting—using industry-standard tools and frameworks.',
-    partner: 'PECB',
-    technology: 'Security',
-    date: '18 Jun 2026',
-    time: '03:00 PM IST',
-    duration: '1 Hour',
-    registered: 55,
-    live: false,
-  },
-  {
-    id: 21,
-    speaker: 'Arjun Menon',
-    initials: 'AM',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Arjun%20Menon.png',
-    avatarBg: 'linear-gradient(135deg,#0F766E,#5EEAD4)',
-    title: 'Google Cloud Professional: Data Engineer Exam Guide',
-    description: 'Prepare for the Google Cloud Professional Data Engineer exam with a structured walkthrough of BigQuery, Dataflow, Pub/Sub, and ML model deployment on GCP.',
-    partner: 'Google',
-    technology: 'Cloud',
-    date: '18 Jun 2026',
-    time: '04:00 PM IST',
-    duration: '1 Hour',
-    registered: 18,
-    live: false,
-  },
-  {
-    id: 22,
-    speaker: 'Sonal Mehta',
-    initials: 'SM',
-    photo: 'https://rms.koenig-solutions.com/Sync_data/AutoResume/imagePhoto/Sonal%20Mehta.png',
-    avatarBg: 'linear-gradient(135deg,#92400E,#F59E0B)',
-    title: 'Project Management Professional (PMP): Exam Prep Sprint',
-    description: 'An intensive 1-hour sprint covering the latest PMP exam domains—people, process, and business environment—with mnemonics, practice tips, and the most-tested concepts.',
-    partner: 'PMI',
-    technology: 'Management',
-    date: '19 Jun 2026',
-    time: '01:00 PM IST',
-    duration: '1 Hour',
-    registered: 36,
-    live: false,
-  },
-]
-
-/* ── Partner logos ───────────────────────────────────────────── */
-const PARTNER_LOGOS: Record<string, string> = {
-  'Microsoft': '/images/partners/microsoft-cloud-t.png',
-  'SAP':       '/images/partners/SAP.jpg',
-  'PECB':      '/images/partners/Authorized PECB Certification Courses Training badge.png',
-  'Autodesk':  '/images/partners/AutodeskCertification.png',
-}
 
 /* ── FAQs ────────────────────────────────────────────────────── */
 const FAQS = [
@@ -576,14 +214,6 @@ export default function UpcomingWebinarsPage() {
 
             {/* ── Left copy ── */}
             <div>
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-semibold"
-                style={{ background: 'rgba(6,148,209,0.15)', border: '1px solid rgba(6,148,209,0.35)', color: '#38bdf8' }}>
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                </svg>
-                Free · Expert-Led · Live Q&A Included
-              </div>
-
               <style>{`
                 @keyframes heroTitleSweep {
                   0%   { background-position: 0% 50% }
@@ -603,6 +233,17 @@ export default function UpcomingWebinarsPage() {
                 Join Our Free Expert Webinars<br />
                 Learn, Grow &amp; Get Certified
               </h1>
+
+              {/* Trust badges */}
+              <div className="flex flex-wrap items-center gap-2.5 mb-[15px] sm:mb-6">
+                {TRUST_BADGES.map(badge => (
+                  <span key={badge.label} className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold"
+                    style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.32)', color: '#38bdf8' }}>
+                    {badge.icon}
+                    {badge.label}
+                  </span>
+                ))}
+              </div>
 
               {/* Stats */}
               <div className="hidden sm:inline-flex items-center rounded-2xl mb-6"
@@ -626,17 +267,6 @@ export default function UpcomingWebinarsPage() {
                       <div className="h-10 w-px" style={{ background: 'rgba(6,148,209,0.35)' }} />
                     )}
                   </div>
-                ))}
-              </div>
-
-              {/* Trust badges */}
-              <div className="flex flex-wrap items-center gap-2.5 mb-[15px] sm:mb-6">
-                {TRUST_BADGES.map(badge => (
-                  <span key={badge.label} className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold"
-                    style={{ background: 'rgba(6,148,209,0.13)', border: '1px solid rgba(6,148,209,0.32)', color: '#38bdf8' }}>
-                    {badge.icon}
-                    {badge.label}
-                  </span>
                 ))}
               </div>
 
@@ -940,7 +570,7 @@ export default function UpcomingWebinarsPage() {
                     style={{ border: '1px solid #CAEFFF', boxShadow: '0 4px 16px rgba(0,164,239,0.08)' }}>
 
                     {w.live && (
-                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-bold z-10 whitespace-nowrap"
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-normal z-10 whitespace-nowrap"
                         style={{ background: '#16a34a', color: '#fff', boxShadow: '0 2px 10px rgba(22,163,74,0.45)', border: '2px solid #fff' }}>
                         <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                         Live Now
@@ -948,18 +578,18 @@ export default function UpcomingWebinarsPage() {
                     )}
                     {!w.live && now > 0 && (() => {
                       const ms = parseWebinarMs(w.date, w.time) - now
-                      if (ms <= 0) return null
+                      if (ms <= 0 || ms >= 3 * 3600000) return null
                       const h = Math.floor(ms / 3600000)
                       const m = Math.floor((ms % 3600000) / 60000)
                       return (
-                        <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-bold z-10 whitespace-nowrap"
+                        <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-normal z-10 whitespace-nowrap"
                           style={{ background: '#0694D1', color: '#fff', boxShadow: '0 2px 10px rgba(6,148,209,0.45)', border: '2px solid #fff' }}>
                           Starts In: {String(h).padStart(2, '0')}hr {String(m).padStart(2, '0')}min
                         </span>
                       )
                     })()}
 
-                    <div className="flex-1 flex flex-col p-[15px] sm:p-5 relative">
+                    <div className="flex-1 flex flex-col p-[15px] sm:p-5 relative" style={{ background: '#fff' }}>
                       {/* Speaker row */}
                       <div className="flex items-start justify-between gap-3 mb-[15px] sm:mb-4">
                         <div className="flex items-center gap-3 min-w-0">
@@ -1028,11 +658,21 @@ export default function UpcomingWebinarsPage() {
                       <button onClick={() => setModalWebinar(w)} className="text-sm font-semibold transition-colors hover:text-[#0694D1]" style={{ color: '#465058' }}>
                         Show More &rsaquo;
                       </button>
-                      <button onClick={() => { setRegWebinar(w); setRegEmail(''); setRegName(''); setRegSubmitted(false) }}
-                        className="rounded-lg px-8 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                        style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)', boxShadow: '0 2px 8px rgba(9,49,72,0.35)' }}>
-                        {w.live ? 'Join Now' : 'Register'}
-                      </button>
+                      {w.live ? (
+                        <button
+                          onClick={() => { setRegWebinar(w); setRegEmail(''); setRegName(''); setRegSubmitted(false) }}
+                          className="rounded-lg border px-16 py-2.5 text-sm font-bold transition-all hover:opacity-80 active:scale-95"
+                          style={{ background: '#fff', borderColor: '#0694D1', color: '#0694D1' }}>
+                          Join Now
+                        </button>
+                      ) : (
+                        <Link
+                          href={`/webinar-detail/${w.id}`}
+                          className="rounded-lg border px-16 py-2.5 text-sm font-bold transition-all hover:opacity-80 active:scale-95"
+                          style={{ background: '#fff', borderColor: '#0694D1', color: '#0694D1' }}>
+                          Register
+                        </Link>
+                      )}
                     </div>
                   </article>
               ))}
@@ -1131,11 +771,11 @@ export default function UpcomingWebinarsPage() {
 
       {/* ════════════════ FAQ ════════════════ */}
       <section className="relative overflow-hidden bg-koenig-light px-4 md:px-8 lg:px-[50px] py-[20px] sm:py-[35px]">
-        <div className="pointer-events-none absolute -left-24 -bottom-24 h-[400px] w-[400px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.19) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute -bottom-24 -right-24 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.20) 0%, transparent 70%)' }} />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.15) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute left-0 bottom-0 h-[450px] w-[450px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.30) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute right-0 bottom-0 h-[420px] w-[420px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.28) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[350px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(0,180,216,0.22) 0%, transparent 70%)' }} />
 
-        <div className="mx-auto max-w-7xl">
+        <div className="relative z-10 mx-auto max-w-7xl">
           <div className="text-center" style={{ marginBottom: '35px' }}>
             <h2 id="faq-heading" className="mb-3 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-koenig-dark">
               Frequently <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Asked Questions</span>
@@ -1149,7 +789,7 @@ export default function UpcomingWebinarsPage() {
               {FAQS.filter((_, i) => i % 2 === 0).map((f, j) => {
                 const i = j * 2; const isOpen = openFaq === i
                 return (
-                  <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                  <div key={i} className="rounded-xl border" style={{ background: '#ffffff', borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
                     <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left sm:px-6 sm:py-4">
                       <span className={`text-sm font-semibold leading-snug sm:text-base ${isOpen ? 'text-koenig-blue' : 'text-koenig-dark'}`} style={{ transition: 'color 0.3s' }}>{f.q}</span>
                       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
@@ -1169,7 +809,7 @@ export default function UpcomingWebinarsPage() {
               {FAQS.filter((_, i) => i % 2 !== 0).map((f, j) => {
                 const i = j * 2 + 1; const isOpen = openFaq === i
                 return (
-                  <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                  <div key={i} className="rounded-xl border" style={{ background: '#ffffff', borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
                     <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left sm:px-6 sm:py-4">
                       <span className={`text-sm font-semibold leading-snug sm:text-base ${isOpen ? 'text-koenig-blue' : 'text-koenig-dark'}`} style={{ transition: 'color 0.3s' }}>{f.q}</span>
                       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
@@ -1192,7 +832,7 @@ export default function UpcomingWebinarsPage() {
             {FAQS.slice(0, showAllFaqs ? FAQS.length : 6).map((f, i) => {
               const isOpen = openFaq === i
               return (
-                <div key={i} className="rounded-xl border bg-white" style={{ borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
+                <div key={i} className="rounded-xl border" style={{ background: '#ffffff', borderColor: isOpen ? '#0694d1' : '#CAEFFF', boxShadow: isOpen ? '0 4px 16px rgba(6,148,209,0.10)' : 'none', transition: 'border-color 0.3s, box-shadow 0.3s' }}>
                   <button onClick={() => setOpenFaq(isOpen ? null : i)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left">
                     <span className={`text-sm font-semibold leading-snug ${isOpen ? 'text-koenig-blue' : 'text-koenig-dark'}`} style={{ transition: 'color 0.3s' }}>{f.q}</span>
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full" style={{ background: isOpen ? 'linear-gradient(135deg,#0694d1,#076d9d)' : '#EBF8FE', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s' }}>
@@ -1305,7 +945,10 @@ export default function UpcomingWebinarsPage() {
             <div className="relative flex flex-1 flex-col justify-center p-5 sm:p-7 sm:pr-12">
               <h3 className="mb-3 text-base font-bold leading-snug" style={{ color: '#0F172A' }}>{modalWebinar.title}</h3>
               {modalWebinar.description && (
-                <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{modalWebinar.description}</p>
+                <>
+                  <p className="mb-1 text-xs font-bold uppercase tracking-wide" style={{ color: '#0694D1' }}>Webinar Summary</p>
+                  <p className="text-sm leading-relaxed" style={{ color: '#64748b' }}>{modalWebinar.description}</p>
+                </>
               )}
             </div>
           </div>
@@ -1324,11 +967,11 @@ export default function UpcomingWebinarsPage() {
             onClick={e => e.stopPropagation()}
           >
             {/* Header band */}
-            <div className="relative px-7" style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)', paddingTop: '15px', paddingBottom: '15px' }}>
+            <div className="relative px-7" style={{ background: 'linear-gradient(135deg,#b8ddf0 0%,#cce9f7 55%,#daf1fb 100%)', boxShadow: 'inset 0 0 50px rgba(56,189,248,0.35), inset 0 0 20px rgba(255,255,255,0.40)', paddingTop: '15px', paddingBottom: '15px' }}>
               <button onClick={() => setRegWebinar(null)}
                 className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full transition-opacity hover:opacity-70"
-                style={{ background: 'rgba(255,255,255,0.15)' }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                style={{ background: 'rgba(6,148,209,0.12)' }}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
               </button>
 
               {/* Live badge — centered at top */}
@@ -1344,21 +987,21 @@ export default function UpcomingWebinarsPage() {
               {/* Speaker row */}
               <div className="flex items-center gap-3 mb-4">
                 {regWebinar.photo ? (
-                  <Image src={regWebinar.photo} alt={regWebinar.speaker} width={44} height={44} quality={90}
-                    className="rounded-full object-cover object-top shrink-0" style={{ border: '2px solid rgba(255,255,255,0.30)' }} />
+                  <Image src={regWebinar.photo} alt={regWebinar.speaker} width={80} height={80} quality={90}
+                    className="rounded-full object-cover object-top shrink-0" style={{ width: 80, height: 80, border: '2px solid rgba(6,148,209,0.25)', marginTop: '-30px' }} />
                 ) : (
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                    style={{ background: regWebinar.avatarBg, border: '2px solid rgba(255,255,255,0.30)' }}>
+                  <div className="flex h-[80px] w-[80px] shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+                    style={{ background: regWebinar.avatarBg, border: '2px solid rgba(6,148,209,0.25)', marginTop: '-30px' }}>
                     {regWebinar.initials}
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold text-white/70 mb-0.5">Speaker</p>
-                  <p className="text-sm font-bold text-white leading-tight truncate">{regWebinar.speaker}</p>
+                  <p className="text-xs font-semibold mb-0.5" style={{ color: '#4a90b8' }}>Speaker</p>
+                  <p className="text-sm font-bold leading-tight truncate" style={{ color: '#0d2d44' }}>{regWebinar.speaker}</p>
                 </div>
               </div>
 
-              <h3 className="text-sm font-bold text-white leading-snug">{regWebinar.title}</h3>
+              <h3 className="text-sm font-bold leading-snug" style={{ color: '#0d2d44' }}>{regWebinar.title}</h3>
             </div>
 
             {/* Body */}
@@ -1373,7 +1016,7 @@ export default function UpcomingWebinarsPage() {
                 </div>
               ) : (
                 <>
-                  <p className="mb-5 text-sm" style={{ color: '#64748b' }}>Fill in your details to secure your spot for this free webinar.</p>
+                  <p className="mb-5 text-sm" style={{ color: '#64748b' }}>Join the live session now.</p>
 
                   <div>
                     <label className="mb-1.5 block text-xs font-semibold" style={{ color: '#374151' }}>
@@ -1391,14 +1034,11 @@ export default function UpcomingWebinarsPage() {
 
                   <button
                     onClick={() => { if (regEmail) setRegSubmitted(true) }}
-                    className="mt-6 w-full rounded-xl py-3 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
-                    style={{ background: 'linear-gradient(135deg,#093148 0%,#0d5280 100%)', boxShadow: '0 4px 14px rgba(9,49,72,0.35)' }}>
+                    className="mt-6 w-full rounded-xl border py-3 text-sm font-bold transition-all hover:opacity-80 active:scale-[0.98]"
+                    style={{ background: '#fff', borderColor: '#0694D1', color: '#0694D1' }}>
                     {regWebinar.live ? 'Join Now →' : 'Register for Free →'}
                   </button>
 
-                  <p className="mt-3 text-center text-xs" style={{ color: '#94a3b8' }}>
-                    Free event · No credit card required
-                  </p>
                 </>
               )}
             </div>
