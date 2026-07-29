@@ -2305,6 +2305,7 @@ export default function Design4Page() {
   const statsRef = useRef<HTMLDivElement>(null)
   const [navQuery, setNavQuery] = useState('')
   const [heroQuery, setHeroQuery] = useState('')
+  const [heroFollowUpQuery, setHeroFollowUpQuery] = useState('')
   const [navResultsOpen, setNavResultsOpen] = useState(false)
   const [heroResultsOpen, setHeroResultsOpen] = useState(false)
   const [heroAiThinking, setHeroAiThinking] = useState(false)
@@ -2372,6 +2373,16 @@ export default function Design4Page() {
     }, 600)
     return () => { if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current) }
   }, [heroQuery])
+
+  function submitHeroFollowUp(q: string) {
+    if (!q.trim() || getContextChips(q).length === 0) return
+    setHeroAiThinking(true); setHeroAiResults(null); setHeroAiLearnMoreOpen(false)
+    if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current)
+    heroAiDebounceRef.current = setTimeout(() => {
+      setHeroAiThinking(false)
+      setHeroAiResults(classifyAiQuery(q))
+    }, 600)
+  }
 
   // ── Popup modals ──
   const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
@@ -3761,10 +3772,6 @@ export default function Design4Page() {
                           )}
 
                           {/* Recommended courses */}
-                          <div className="mb-2 flex items-center gap-1.5">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>
-                            <span className="text-xs text-[#4a6375]"><strong className="font-bold text-[#071e2e]">{heroAiResults.courses.length}</strong> course{heroAiResults.courses.length !== 1 ? 's' : ''} recommended for you</span>
-                          </div>
                           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
                             {heroAiResults.courses.map((c, i) => (
                               <div
@@ -3784,25 +3791,20 @@ export default function Design4Page() {
 
                           <p className="mt-3 text-center text-[12.5px] font-bold leading-relaxed text-[#1a3a55]">If not, please elaborate more on your requirement.</p>
 
-                          {(() => {
-                            const tokens = queryTokens(heroQuery)
-                            const q = heroQuery.trim().toLowerCase()
-                            const resultCount = [...TOP_COURSES, ...NEW_TRENDING].filter(c =>
-                              matchesText(c.name, q, tokens) || matchesText(c.vendor, q, tokens)
-                            ).length
-                            return (
-                              <div className="mt-3 border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.12)' }}>
-                                <button
-                                  onClick={() => goSearch(heroQuery)}
-                                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-bold text-white shadow-[0_4px_14px_rgba(6,148,209,0.25)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(6,148,209,0.35)]"
-                                  style={{ background: '#4DBFEF' }}
-                                >
-                                  View all {resultCount}+ results for &ldquo;{heroQuery}&rdquo;
-                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                                </button>
-                              </div>
-                            )
-                          })()}
+                          <div className="mt-3 border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.12)' }}>
+                            <div className="flex w-full items-stretch overflow-hidden rounded-xl border-[1.5px] border-[rgba(6,148,209,0.18)] bg-white px-3 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-all duration-200 focus-within:border-[#0694D1] focus-within:shadow-[0_0_0_3px_rgba(6,148,209,0.15)]">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8baabf" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="my-auto shrink-0"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
+                              <input
+                                type="text"
+                                value={heroFollowUpQuery}
+                                onChange={e => setHeroFollowUpQuery(e.target.value)}
+                                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); submitHeroFollowUp(heroFollowUpQuery) } }}
+                                placeholder="Ask AI about any course or skill…"
+                                aria-label="Ask AI about any course or skill"
+                                className="min-w-0 flex-1 bg-transparent px-2.5 py-2.5 text-sm font-medium text-[#1a2d3e] placeholder-[#8baabf] outline-none"
+                              />
+                            </div>
+                          </div>
                         </>
                       )}
                     </div>

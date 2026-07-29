@@ -10717,7 +10717,7 @@ function classifyAiQuery(q: string) {
     ],
   };
   return {
-    advice: "Following course meets your requirement.",
+    advice: "Following course might meet your requirement.",
     learnMore: { title: "Microsoft Certifications", overview: "Microsoft certifications are among the most recognised and respected credentials in global IT. They validate real-world skills across cloud, security, data, AI, and productivity — and are trusted by hiring managers at enterprises worldwide.", careers: ["Cloud Engineer", "Solutions Architect", "Security Analyst", "Data Engineer", "IT Administrator"], skills: ["Microsoft Azure cloud platform", "Microsoft 365 productivity & collaboration", "Security, identity, and compliance", "Data engineering & analytics", "AI and machine learning on Azure"], whyNow: "Microsoft certifications consistently rank among the highest-ROI IT investments. Azure-certified professionals earn on average 26% more than non-certified peers, and the demand for Microsoft skills continues to grow globally across all industries.", points: ["380+ Microsoft courses across all technology areas", "95% first-attempt certification pass rate", "Microsoft Gold Learning Partner — vendor-authorised", "Guaranteed batch schedules — no cancellations"] },
     courses: [
       { name: "Microsoft Azure Fundamentals", code: "AZ-900", dur: "2 days", level: "fund", url: "/courses/az-900" },
@@ -11366,10 +11366,6 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                                 </div>,
                                 document.body
                               )}
-                              <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:10}}>
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                                <span style={{fontSize:12,color:"#4a6375"}}><strong style={{color:"#071e2e",fontWeight:700}}>{aiResults.courses.length}</strong> course{aiResults.courses.length !== 1 ? "s" : ""} recommended for you</span>
-                              </div>
                               <div className="cert-grid" style={{gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:14}}>
                                 {aiResults.courses.map((c, i) => (
                                   <div key={i} className={`cert-card ${c.level}-card`} style={{minHeight:250,cursor:"pointer"}}>

@@ -488,7 +488,7 @@ export function classifyAiQuery(q: string): AiClassifyResult {
     ],
   };
   return {
-    advice: "Following course meets your requirement.",
+    advice: "Following course might meet your requirement.",
     learnMore: { title: "Microsoft Certifications", overview: "Microsoft certifications are among the most recognised and respected credentials in global IT. They validate real-world skills across cloud, security, data, AI, and productivity — and are trusted by hiring managers at enterprises worldwide.", careers: ["Cloud Engineer", "Solutions Architect", "Security Analyst", "Data Engineer", "IT Administrator"], skills: ["Microsoft Azure cloud platform", "Microsoft 365 productivity & collaboration", "Security, identity, and compliance", "Data engineering & analytics", "AI and machine learning on Azure"], whyNow: "Microsoft certifications consistently rank among the highest-ROI IT investments. Azure-certified professionals earn on average 26% more than non-certified peers, and the demand for Microsoft skills continues to grow globally across all industries.", points: ["380+ Microsoft courses across all technology areas", "95% first-attempt certification pass rate", "Microsoft Gold Learning Partner — vendor-authorised", "Guaranteed batch schedules — no cancellations"] },
     courses: [
       { name: "Microsoft Azure Fundamentals", code: "AZ-900", dur: "2 days", level: "fund", url: "/courses/az-900" },
