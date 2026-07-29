@@ -2374,15 +2374,16 @@ export default function Design4Page() {
     return () => { if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current) }
   }, [heroQuery])
 
-  function submitHeroFollowUp(q: string) {
-    if (!q.trim() || getContextChips(q).length === 0) return
-    setHeroAiThinking(true); setHeroAiResults(null); setHeroAiLearnMoreOpen(false)
+  useEffect(() => {
+    if (!heroFollowUpQuery.trim() || getContextChips(heroFollowUpQuery).length === 0) return
+    setHeroAiThinking(true); setHeroAiLearnMoreOpen(false)
     if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current)
     heroAiDebounceRef.current = setTimeout(() => {
       setHeroAiThinking(false)
-      setHeroAiResults(classifyAiQuery(q))
+      setHeroAiResults(classifyAiQuery(heroFollowUpQuery))
     }, 600)
-  }
+    return () => { if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current) }
+  }, [heroFollowUpQuery])
 
   // ── Popup modals ──
   const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
@@ -3696,7 +3697,7 @@ export default function Design4Page() {
                       )}
 
                       {/* Results */}
-                      {!heroAiThinking && heroAiResults && (
+                      {heroAiResults && (
                         <>
                           <div className="mb-3 flex items-center justify-between gap-3 rounded-r-lg border-l-[3px] border-[#0694D1] px-3 py-1.5" style={{ background: 'rgba(6,148,209,0.06)' }}>
                             <span className="text-[12px] font-bold leading-snug text-[#1a3a55]">{heroAiResults.advice}</span>
@@ -3792,17 +3793,27 @@ export default function Design4Page() {
                           <p className="mt-3 text-center text-[12.5px] font-bold leading-relaxed text-[#1a3a55]">If not, please elaborate more on your requirement.</p>
 
                           <div className="mt-3 border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.12)' }}>
-                            <div className="flex w-full items-stretch overflow-hidden rounded-xl border-[1.5px] border-[rgba(6,148,209,0.18)] bg-white px-3 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-all duration-200 focus-within:border-[#0694D1] focus-within:shadow-[0_0_0_3px_rgba(6,148,209,0.15)]">
+                            <div className="flex w-full items-stretch overflow-hidden rounded-xl border-[1.5px] border-[rgba(6,148,209,0.18)] bg-white pl-3 pr-1 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-all duration-200 focus-within:border-[#0694D1] focus-within:shadow-[0_0_0_3px_rgba(6,148,209,0.15)]">
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8baabf" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="my-auto shrink-0"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
                               <input
                                 type="text"
                                 value={heroFollowUpQuery}
                                 onChange={e => setHeroFollowUpQuery(e.target.value)}
-                                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); submitHeroFollowUp(heroFollowUpQuery) } }}
+                                onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault() } }}
                                 placeholder="Ask AI about any course or skill…"
                                 aria-label="Ask AI about any course or skill"
                                 className="min-w-0 flex-1 bg-transparent px-2.5 py-2.5 text-sm font-medium text-[#1a2d3e] placeholder-[#8baabf] outline-none"
                               />
+                              {heroFollowUpQuery.length > 0 && (
+                                <button
+                                  onClick={() => setHeroFollowUpQuery('')}
+                                  className="shrink-0 flex items-center justify-center w-6 h-6 my-auto rounded-full transition-colors hover:bg-[#0078D4]/15 hover:text-[#0078D4]"
+                                  aria-label="Clear search"
+                                  style={{ color: '#6b8299', background: 'rgba(0,0,0,0.08)' }}
+                                >
+                                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                              )}
                             </div>
                           </div>
                         </>
