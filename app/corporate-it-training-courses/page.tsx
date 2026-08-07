@@ -386,6 +386,19 @@ const POPULAR_COURSES = [
 
 const ALL_OEMS = ['All OEMs', ...VENDORS.map(v => v.name).sort((a, b) => a.localeCompare(b))]
 const ALL_TECHNOLOGIES = ['All Technologies', ...['Cloud', 'Cybersecurity', 'Data & AI', 'Database', 'DevOps', 'ERP', 'Linux', 'Networking', 'Project Management'].sort((a, b) => a.localeCompare(b))]
+
+/* Technology category icons — monoline, one per subject area */
+const TECH_ICONS: Record<string, React.ReactNode> = {
+  'Cloud':               <><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></>,
+  'Cybersecurity':       <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></>,
+  'Data & AI':           <><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></>,
+  'Database':            <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></>,
+  'DevOps':              <><path d="M17 2.1l4 4-4 4"/><path d="M3 12.1v-2a4 4 0 0 1 4-4h14"/><path d="M7 21.9l-4-4 4-4"/><path d="M21 11.9v2a4 4 0 0 1-4 4H3"/></>,
+  'ERP':                 <><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></>,
+  'Linux':               <><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></>,
+  'Networking':          <><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></>,
+  'Project Management':  <><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 15 2 2 4-4"/></>,
+}
 const DURATION_ITEMS = [
   { label: '4 hrs',  days: '½ day'  },
   { label: '8 hrs',  days: '1 day'  },
@@ -524,7 +537,7 @@ function InlineSelect({ value, options, onChange, placeholder, searchable }: { v
             ) : (
               filtered.map(opt => (
                 <button key={opt} onClick={() => { onChange(opt); setOpen(false); setQuery('') }}
-                  className="w-full text-left px-4 py-2 text-sm"
+                  className="w-full text-left px-4 py-3 text-sm"
                   style={{ background: value === opt ? '#EDF7FF' : 'transparent', color: value === opt ? '#0694D1' : '#374151', fontWeight: value === opt ? 600 : 400 }}
                   onMouseEnter={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
                   onMouseLeave={e => { if (value !== opt) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
@@ -596,7 +609,7 @@ function CitySelect({ value, onChange }: { value: string; onChange: (v: string) 
               const sel = value === city
               return (
                 <button key={city} onClick={() => { onChange(sel ? '' : city); setOpen(false); setQuery('') }}
-                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors text-left"
+                  className="w-full flex items-center gap-2.5 px-4 py-3 text-sm transition-colors text-left"
                   style={{ background: sel ? '#EDF7FF' : 'transparent', color: sel ? '#0694D1' : '#374151', fontWeight: sel ? 600 : 400 }}
                   onMouseEnter={e => { if (!sel) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
                   onMouseLeave={e => { if (!sel) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
@@ -629,7 +642,7 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
   const toggle = (label: string) => {
     onChange(values.includes(label) ? values.filter(v => v !== label) : [...values, label])
   }
-  const label = values.length === 0 ? 'Any length' : values.length === 1 ? values[0] : `${values.length} selected`
+  const label = values.length === 0 ? 'Any length' : values.join(', ')
   const hasValue = values.length > 0
   return (
     <div ref={ref} className="relative">
@@ -651,7 +664,7 @@ function DurationSelect({ values, onChange }: { values: string[]; onChange: (v: 
               const checked = values.includes(lbl)
               return (
                 <button key={lbl} onClick={() => toggle(lbl)}
-                  className="w-full flex items-center justify-between px-4 py-2.5 transition-colors"
+                  className="w-full flex items-center justify-between px-4 py-3 transition-colors"
                   style={{ background: checked ? '#EDF7FF' : 'transparent' }}
                   onMouseEnter={e => { if (!checked) (e.currentTarget as HTMLButtonElement).style.background = '#F9FAFB' }}
                   onMouseLeave={e => { if (!checked) (e.currentTarget as HTMLButtonElement).style.background = 'transparent' }}
@@ -699,10 +712,11 @@ const PRICE_PRESETS: { label: string; range: [number, number] }[] = [
 ]
 
 function PriceRangeSlider({
-  value, onChange,
+  value, onChange, inline,
 }: {
   value: [number, number] | null
   onChange: (v: [number, number] | null) => void
+  inline?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const [lo, hi] = value ?? [PRICE_MIN, PRICE_MAX]
@@ -750,24 +764,10 @@ function PriceRangeSlider({
 
   const handlePointerUp = () => { dragging.current = null }
 
-  return (
-    <div ref={ref} className="relative">
-      {/* Trigger — same height as other filter dropdowns */}
-      <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
-        <span className="flex-1 min-w-0 truncate" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 700 : 400, fontSize: value ? 11 : undefined }}>
-          {value ? `${fmtINR(lo)} – ${fmtINR(hi)}${hi >= PRICE_MAX ? '+' : ''}` : 'Select Range'}
-        </span>
-        <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
-          style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
-          <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
-        </svg>
-      </button>
-
-      {/* Dropdown panel with slider */}
-      {open && (
-        <div className="cit-dropdown absolute z-50 mt-2 rounded-xl overflow-hidden"
-          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', width: '280px', top: '100%', left: 0, padding: '14px 16px', fontFamily: "'GT Walsheim Pro', sans-serif" }}>
-
+  /* Slider body — shared between the popup (desktop pills) and the inline
+     always-open layout (mobile filter drawer's Budget tab) */
+  const sliderBody = (
+    <>
           {/* Readout */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
             <span style={{ fontSize: 14, fontWeight: 800, color: '#0b2545' }}>{fmtINR(lo)}</span>
@@ -839,6 +839,37 @@ function PriceRangeSlider({
               )
             })}
           </div>
+    </>
+  )
+
+  /* Inline mode — used inside the mobile filter drawer's Budget tab.
+     No trigger/popup; the slider is always visible in the panel. */
+  if (inline) {
+    return (
+      <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+        {sliderBody}
+      </div>
+    )
+  }
+
+  return (
+    <div ref={ref} className="relative">
+      {/* Trigger — same height as other filter dropdowns */}
+      <button onClick={() => setOpen(o => !o)} className="flex items-center gap-1 text-sm w-full text-left">
+        <span className="flex-1 min-w-0 truncate" style={{ color: value ? '#0b2545' : '#94a3b8', fontWeight: value ? 700 : 400 }}>
+          {value ? `${fmtINR(lo)} – ${fmtINR(hi)}${hi >= PRICE_MAX ? '+' : ''}` : 'Select Range'}
+        </span>
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="#94a3b8"
+          style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
+          <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06z" clipRule="evenodd" />
+        </svg>
+      </button>
+
+      {/* Dropdown panel with slider */}
+      {open && (
+        <div className="cit-dropdown absolute z-50 mt-2 rounded-xl overflow-hidden"
+          style={{ background: '#fff', border: '1.5px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', width: '280px', top: '100%', left: 0, padding: '14px 16px', fontFamily: "'GT Walsheim Pro', sans-serif" }}>
+          {sliderBody}
         </div>
       )}
     </div>
@@ -1597,11 +1628,16 @@ function FilterDrawer({
   useEffect(() => { setSearch('') }, [activeTab])
 
   const categories = [
-    { key: 'Vendor',     active: oem !== 'All OEMs',               count: oem !== 'All OEMs' ? 1 : 0 },
-    { key: 'Technology', active: technology !== 'All Technologies', count: technology !== 'All Technologies' ? 1 : 0 },
-    { key: 'Duration',   active: durations.length > 0,             count: durations.length },
-    { key: 'Budget',     active: !!priceRange,                     count: priceRange ? 1 : 0 },
-    { key: 'Mode',       active: modes.length > 0,                 count: modes.length },
+    { key: 'Vendor',     active: oem !== 'All OEMs',               count: oem !== 'All OEMs' ? 1 : 0,
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> },
+    { key: 'Technology', active: technology !== 'All Technologies', count: technology !== 'All Technologies' ? 1 : 0,
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> },
+    { key: 'Duration',   active: durations.length > 0,             count: durations.length,
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> },
+    { key: 'Budget',     active: !!priceRange,                     count: priceRange ? 1 : 0,
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg> },
+    { key: 'Mode',       active: modes.length > 0,                 count: modes.length,
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> },
   ]
 
   const activeCount = categories.filter(c => c.active).length
@@ -1642,8 +1678,14 @@ function FilterDrawer({
       <div style={{ position: 'relative', width: '100%', maxWidth: 420, height: '88vh', borderRadius: 16, background: '#fff', display: 'flex', flexDirection: 'column', zIndex: 1, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
 
         {/* Header */}
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid #F0F4F8', flexShrink: 0 }}>
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #F0F4F8', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={{ fontSize: 17, fontWeight: 800, color: '#0b2545' }}>Filter</span>
+          <button onClick={onClose} aria-label="Close filters"
+            style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 8, border: 'none', background: '#F1F5F9', color: '#64748b', cursor: 'pointer', flexShrink: 0 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
         </div>
 
         {/* Two-panel body */}
@@ -1661,15 +1703,13 @@ function FilterDrawer({
                     background: isActive ? '#fff' : 'transparent',
                     borderLeft: `3px solid ${isActive ? '#0694D1' : 'transparent'}`,
                     borderTop: 'none', borderRight: 'none', borderBottom: '1px solid #F0F4F8',
-                    cursor: 'pointer', display: 'flex', flexDirection: 'column' as const, gap: 6,
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8,
                   }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ color, display: 'flex', alignItems: 'center' }}>{cat.icon}</span>
-                    {cat.count > 0 && (
-                      <span style={{ background: '#0694D1', color: '#fff', fontSize: 10, fontWeight: 800, borderRadius: 4, padding: '1px 5px', lineHeight: 1.5 }}>{cat.count}</span>
-                    )}
-                  </div>
-                  <span style={{ fontSize: 12, fontWeight: cat.active ? 700 : isActive ? 600 : 400, color, lineHeight: 1.3, wordBreak: 'break-word' as const }}>{cat.key}</span>
+                  <span style={{ color, display: 'flex', alignItems: 'center', flexShrink: 0 }}>{cat.icon}</span>
+                  <span style={{ fontSize: 14, fontWeight: cat.active ? 700 : isActive ? 600 : 400, color, lineHeight: 1.3, whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>{cat.key}</span>
+                  {cat.count > 0 && (
+                    <span style={{ background: '#0694D1', color: '#fff', fontSize: 10, fontWeight: 800, borderRadius: 4, padding: '1px 5px', lineHeight: 1.5, flexShrink: 0 }}>{cat.count}</span>
+                  )}
                 </button>
               )
             })}
@@ -1692,7 +1732,7 @@ function FilterDrawer({
             <div style={{ flex: 1, overflowY: 'auto' }}>
               {activeTab === 'Budget' ? (
                 <div style={{ padding: '16px 14px' }}>
-                  <PriceRangeSlider value={priceRange} onChange={setPriceRange} />
+                  <PriceRangeSlider value={priceRange} onChange={setPriceRange} inline />
                 </div>
               ) : activeTab === 'Mode' ? (
                 MODE_OPTIONS.map(m => {
@@ -1740,13 +1780,20 @@ function FilterDrawer({
               ) : (
                 filtered.map(opt => {
                   const sel = isSelected(opt)
+                  const isMulti = activeTab === 'Duration'
                   return (
                     <button key={opt} onClick={() => toggle(opt)}
                       style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: sel ? '#F0F9FF' : 'transparent', border: 'none', borderBottom: '1px solid #F8FAFC', cursor: 'pointer', textAlign: 'left' as const }}>
                       <span style={{ fontSize: 13, color: sel ? '#0694D1' : '#374151', fontWeight: sel ? 600 : 400, paddingRight: 8 }}>{opt}</span>
-                      <div style={{ width: 18, height: 18, borderRadius: '50%', border: `2px solid ${sel ? '#0694D1' : '#D1D5DB'}`, background: '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        {sel && <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#0694D1' }} />}
-                      </div>
+                      {isMulti ? (
+                        <div style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${sel ? '#0694D1' : '#D1D5DB'}`, background: sel ? '#0694D1' : '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {sel && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                        </div>
+                      ) : (
+                        <div style={{ width: 18, height: 18, borderRadius: '50%', border: `2px solid ${sel ? '#0694D1' : '#D1D5DB'}`, background: '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {sel && <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#0694D1' }} />}
+                        </div>
+                      )}
                     </button>
                   )
                 })
@@ -1763,7 +1810,7 @@ function FilterDrawer({
           </button>
           <button onClick={onClose}
             style={{ flex: 1, padding: '12px 0', borderRadius: 12, border: 'none', background: activeCount > 0 ? '#0694D1' : '#E2E8F0', fontSize: 14, fontWeight: 700, color: activeCount > 0 ? '#fff' : '#94a3b8', cursor: 'pointer', transition: 'background 0.2s' }}>
-            Apply
+            {activeCount > 0 ? `Apply (${activeCount})` : 'Apply'}
           </button>
         </div>
       </div>
@@ -1915,6 +1962,15 @@ export default function CorporateITTrainingPage() {
   const [classroomCity, setClassroomCity] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
+  const [page, setPage] = useState(1)
+  const isFirstPageRender = useRef(true)
+
+  useEffect(() => { setPage(1) }, [search])
+
+  useEffect(() => {
+    if (isFirstPageRender.current) { isFirstPageRender.current = false; return }
+    document.getElementById('course-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [page])
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
@@ -2061,28 +2117,6 @@ export default function CorporateITTrainingPage() {
                   style={{ background: 'linear-gradient(135deg, #0694D1, #0694D1)', boxShadow: '0 0 20px rgba(6,148,209,0.35)', border:'none', cursor:'pointer', fontFamily:'inherit' }}>
                   Request More Info
                 </button>
-                <a href="#courses"
-                  className="inline-flex justify-center items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all hover:bg-white/10"
-                  style={{ border: '1.5px solid rgba(6,148,209,0.6)', color: '#38bdf8', background: 'rgba(6,148,209,0.08)' }}>
-                  Browse All Courses
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-              </div>
-
-              {/* Mobile stat grid */}
-              <div className="lg:hidden mt-[15px] grid grid-cols-2"
-                style={{ borderRadius: 16, border: '1px solid rgba(6,148,209,0.18)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
-                {[
-                  { val: '5,000+', label: 'Courses available' },
-                  { val: '1M+',    label: 'Professionals trained' },
-                  { val: '195+',   label: 'Countries served' },
-                  { val: '95%',    label: 'First-attempt pass rate' },
-                ].map(({ val, label }, i) => (
-                  <div key={val} style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 3, borderRight: i % 2 === 0 ? '1px solid rgba(6,148,209,0.12)' : 'none', borderBottom: i < 2 ? '1px solid rgba(6,148,209,0.12)' : 'none' }}>
-                    <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, background: 'linear-gradient(135deg, #ffffff 0%, #50e6ff 60%, #0694D1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{val}</div>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</div>
-                  </div>
-                ))}
               </div>
             </div>
 
@@ -2119,7 +2153,7 @@ export default function CorporateITTrainingPage() {
           </div>
 
           {/* Section header — lives inside the hero so the filter card can fold up over the banner edge */}
-          <div className="text-center mt-8 lg:mt-10">
+          <div className="text-center" style={{ marginTop: '30px' }}>
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white">Find Your Course</h2>
             <p className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>Use the filters below to narrow down from 5,000+ courses across 17 vendors</p>
           </div>
@@ -2155,7 +2189,7 @@ export default function CorporateITTrainingPage() {
                   <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 2, scrollbarWidth: 'none' }}>
                     {/* Main filter button */}
                     <button onClick={() => openFilter('Vendor')}
-                      style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, padding: '8px 14px', borderRadius: 6, background: '#fff', border: `1.5px solid ${activeCount > 0 ? '#0694D1' : '#D1D5DB'}`, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                      style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, height: 44, boxSizing: 'border-box', padding: '0 14px', borderRadius: 6, background: '#fff', border: `1.5px solid ${activeCount > 0 ? '#0694D1' : '#D1D5DB'}`, cursor: 'pointer', whiteSpace: 'nowrap' }}>
                       {activeCount > 0 && (
                         <span style={{ background: '#0694D1', color: '#fff', fontSize: 11, fontWeight: 800, borderRadius: 5, padding: '1px 6px', lineHeight: 1.4 }}>{activeCount}</span>
                       )}
@@ -2168,7 +2202,7 @@ export default function CorporateITTrainingPage() {
                     {/* Individual filter chips */}
                     {chips.map(chip => (
                       <button key={chip.label} onClick={() => openFilter(chip.label)}
-                        style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0, padding: '8px 12px', borderRadius: 6, background: '#fff', border: `1.5px solid ${chip.active ? '#0694D1' : '#D1D5DB'}`, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                        style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0, height: 44, boxSizing: 'border-box', padding: '0 12px', borderRadius: 6, background: '#fff', border: `1.5px solid ${chip.active ? '#0694D1' : '#D1D5DB'}`, cursor: 'pointer', whiteSpace: 'nowrap' }}>
                         {chip.count > 0 && (
                           <span style={{ background: '#0694D1', color: '#fff', fontSize: 11, fontWeight: 800, borderRadius: 5, padding: '1px 6px', lineHeight: 1.4 }}>{chip.count}</span>
                         )}
@@ -2186,196 +2220,15 @@ export default function CorporateITTrainingPage() {
             </div>
           </div>
 
-          {/* Desktop 5-column filter cards */}
-          <div className="hidden lg:grid lg:grid-cols-5 gap-3 mb-3">
-
-            {(() => {
-              const card = (active: boolean) => ({
-                background: '#fff',
-                border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
-                boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : 'none',
-                transition: 'border-color 0.2s, box-shadow 0.2s',
-              })
-              const iconBox = (svg: React.ReactNode) => (
-                <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>{svg}</div>
-              )
-              return (
-                <>
-                  {/* Date Range */}
-                  <div className="rounded-2xl p-4" style={{ ...card(!!(startDate || endDate)), cursor: 'pointer' }}
-                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
-                    <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Date Range</span>
-                    </div>
-                    <DateRangeSelect startDate={startDate} endDate={endDate} onChange={(s, e) => { setStartDate(s); setEndDate(e) }} />
-                  </div>
-
-                  {/* Partner */}
-                  <div className="rounded-2xl p-4" style={{ ...card(oem !== 'All OEMs'), cursor: 'pointer' }}
-                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
-                    <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Partner</span>
-                    </div>
-                    <InlineSelect value={oem} options={ALL_OEMS} onChange={setOem} placeholder="Any partner" searchable />
-                  </div>
-
-                  {/* Technology */}
-                  <div className="rounded-2xl p-4" style={{ ...card(technology !== 'All Technologies'), cursor: 'pointer' }}
-                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
-                    <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Technology</span>
-                    </div>
-                    <InlineSelect value={technology} options={ALL_TECHNOLOGIES} onChange={setTechnology} placeholder="Any technology" searchable />
-                  </div>
-
-                  {/* Duration */}
-                  <div className="rounded-2xl p-4" style={{ ...card(durations.length > 0), cursor: 'pointer' }}
-                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
-                    <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Duration</span>
-                    </div>
-                    <DurationSelect values={durations} onChange={setDurations} />
-                  </div>
-
-                  {/* Price Range */}
-                  <div className="rounded-2xl p-4" style={{ ...card(!!priceRange), cursor: 'pointer' }}
-                    onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
-                    <div className="flex items-center gap-2 mb-3">
-                      {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 0 0 7H6"/></svg>)}
-                      <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Price Range</span>
-                    </div>
-                    <PriceRangeSlider value={priceRange} onChange={setPriceRange} />
-                  </div>
-                </>
-              )
-            })()}
-          </div>
-
-          {/* HOW YOU WANT TO LEARN — desktop only; mobile uses Mode tab in FilterDrawer */}
-          <div className="hidden lg:block mb-5">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-              </div>
-              <span className="text-xs font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>How You Want To Learn</span>
-            </div>
-            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${modes.includes('Only Classroom') ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
-              {[
-                { key: 'Only GTR', icon: <><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>, label: 'Guaranteed to Run', sub: 'Confirmed dates', badge: 'GTR' },
-                { key: 'Only Live Online', icon: <><rect x="2" y="2" width="20" height="15" rx="2"/><polyline points="8 21 12 17 16 21"/></>, label: 'Online', sub: 'Live virtual' },
-                { key: 'Only Classroom', icon: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>, label: 'Classroom', sub: 'In person' },
-                { key: 'Self-Paced', icon: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>, label: 'Self-Paced', sub: 'Flexi anytime' },
-              ].reduce<React.ReactNode[]>((acc, { key, icon, label, sub, badge }) => {
-                const active = modes.includes(key)
-                const isSelfPaced = key === 'Self-Paced'
-                const selfPacedOn = modes.includes('Self-Paced')
-                const othersOn = modes.some(m => m !== 'Self-Paced')
-                const liveOnlineOn = modes.includes('Only Live Online')
-                const classroomOn = modes.includes('Only Classroom')
-                const disabled = isSelfPaced ? othersOn
-                  : selfPacedOn
-                  || (key === 'Only Classroom' && liveOnlineOn)
-                  || (key === 'Only Live Online' && classroomOn)
-                acc.push(
-                  <button key={key} onClick={() => !disabled && toggleMode(key)}
-                    className="relative flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition-all duration-200 select-none"
-                    style={{
-                      border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
-                      background: '#fff',
-                      boxShadow: active ? '0 4px 18px rgba(6,148,209,0.22)' : 'none',
-                      opacity: disabled ? 0.42 : 1,
-                      cursor: disabled ? 'not-allowed' : 'pointer',
-                      transition: 'border-color 0.2s, box-shadow 0.2s, opacity 0.2s',
-                    }}
-                  >
-                    {/* Icon */}
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: active ? '#0694D1' : '#EEF4FA' }}>
-                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={active ? '#fff' : '#476D8D'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
-                    </div>
-                    {/* Title + subtitle */}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold leading-tight" style={{ color: '#0b2545' }}>{label}</p>
-                      <p className="text-xs mt-0.5" style={{ color: '#94a3b8' }}>{sub}</p>
-                    </div>
-                    {/* Checkbox */}
-                    <div className="flex items-center justify-center flex-shrink-0"
-                      style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${active ? '#0694D1' : '#CBD5E1'}`, background: active ? '#0694D1' : '#fff', transition: 'background 0.15s, border-color 0.15s' }}>
-                      {active && (
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                          <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      )}
-                    </div>
-                  </button>
-                )
-                {/* City card — injected right after Classroom card */ }
-                if (key === 'Only Classroom' && modes.includes('Only Classroom')) {
-                  acc.push(
-                    <div key="city-card" className="flex flex-col p-4 rounded-2xl"
-                      style={{
-                        border: `1.5px solid ${classroomCity ? '#0694D1' : '#D1D5DB'}`,
-                        background: '#fff',
-                        boxShadow: classroomCity ? '0 4px 18px rgba(6,148,209,0.18)' : 'none',
-                        transition: 'border-color 0.2s, background 0.2s',
-                      }}>
-                      <div className="flex items-center gap-2 mb-3">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                        </svg>
-                        <span className="text-xs font-bold uppercase tracking-wide" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>City</span>
-                      </div>
-                      <CitySelect value={classroomCity} onChange={setClassroomCity} />
-                    </div>
-                  )
-                }
-                return acc
-              }, [])}
-            </div>
-          </div>
-
-          {/* Bottom bar — desktop only */}
-          <div className="hidden lg:flex flex-wrap items-center justify-center gap-3 pt-5" style={{ borderTop: '1.5px solid #EEF3F9' }}>
-            <button
-              onClick={() => { setDurations([]); setOem('All OEMs'); setTechnology('All Technologies'); setPriceRange(null); setModes([]); setClassroomCity(''); setStartDate(''); setEndDate('') }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
-              style={{ border: '1.5px solid #E2EBF6', color: '#64748b', background: '#fff' }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#F8FAFC')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-              Reset
-            </button>
-            <button
-              className="flex items-center gap-2 px-9 py-3 rounded-xl text-sm font-bold text-white"
-              style={{ background: '#0694D1', boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-            >
-              Show results
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-          </div>
-
-        </div>
-
-        {/* ── CONCEPT B — compact filled-pill filter bar (comparison preview) ── */}
-        <div className="hidden lg:block mt-8">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide" style={{ background: '#0694D1', color: '#fff' }}>Concept B</span>
-            <span className="text-xs font-semibold" style={{ color: '#64748b' }}>Compact filled pills — for comparison only</span>
-          </div>
-          <div className="rounded-3xl p-6" style={{ background: '#fff', border: '1.5px solid #E2E8F0', boxShadow: '0 4px 24px rgba(6,148,209,0.08)' }}>
-
+          {/* Filter bar — desktop only */}
+          <div className="hidden lg:block">
             {(() => {
               const pill = (active: boolean) => ({
-                background: '#fff',
-                border: `1.5px solid ${active ? '#0694D1' : '#D1D5DB'}`,
-                boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : 'none',
-                transition: 'border-color 0.2s, box-shadow 0.2s',
+                background: active ? '#fff' : '#EFF8FF',
+                border: `1.5px solid ${active ? '#0694D1' : '#7DC5F2'}`,
+                boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : '0 2px 10px rgba(6,148,209,0.12)',
+                transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s',
+                minHeight: '44px',
               })
               const iconBox = (svg: React.ReactNode) => (
                 <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>{svg}</div>
@@ -2405,7 +2258,13 @@ export default function CorporateITTrainingPage() {
 
                   <div className="rounded-full pl-3 pr-4 py-2 flex items-center gap-2 w-full" style={{ ...pill(techActive), cursor: 'pointer' }}
                     onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
-                    {iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)}
+                    {technology !== 'All Technologies' && TECH_ICONS[technology] ? (
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#EDF4FF' }}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">{TECH_ICONS[technology]}</svg>
+                      </div>
+                    ) : (
+                      iconBox(<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>)
+                    )}
                     <div className="flex-1 min-w-0">
                       <InlineSelect value={technology} options={ALL_TECHNOLOGIES} onChange={setTechnology} placeholder="Any technology" searchable />
                     </div>
@@ -2433,21 +2292,34 @@ export default function CorporateITTrainingPage() {
             {/* How you want to learn — compact toggle chips instead of full cards */}
             <div className="mb-5">
               <span className="block text-xs font-bold uppercase mb-2.5" style={{ color: '#0b2545', letterSpacing: '0.09em' }}>Learning Mode</span>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className={`grid grid-cols-2 gap-3 ${modes.includes('Only Classroom') ? 'sm:grid-cols-5' : 'sm:grid-cols-4'}`}>
                 {[
                   { key: 'Only GTR', icon: <><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></>, label: 'Guaranteed to Run', sub: 'Confirmed dates' },
                   { key: 'Only Live Online', icon: <><rect x="2" y="2" width="20" height="15" rx="2"/><polyline points="8 21 12 17 16 21"/></>, label: 'Online', sub: 'Live virtual' },
                   { key: 'Only Classroom', icon: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>, label: 'Classroom', sub: 'In person' },
                   { key: 'Self-Paced', icon: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>, label: 'Self-Paced', sub: 'Flexi anytime' },
-                ].map(({ key, icon, label, sub }) => {
+                ].reduce<React.ReactNode[]>((acc, { key, icon, label, sub }) => {
                   const active = modes.includes(key)
-                  return (
-                    <button key={key} onClick={() => toggleMode(key)}
+                  const isSelfPaced = key === 'Self-Paced'
+                  const selfPacedOn = modes.includes('Self-Paced')
+                  const othersOn = modes.some(x => x !== 'Self-Paced')
+                  const liveOnlineOn = modes.includes('Only Live Online')
+                  const classroomOn = modes.includes('Only Classroom')
+                  const disabled = isSelfPaced ? othersOn
+                    : selfPacedOn
+                    || (key === 'Only Classroom' && liveOnlineOn)
+                    || (key === 'Only Live Online' && classroomOn)
+                  acc.push(
+                    <button key={key} onClick={() => !disabled && toggleMode(key)}
+                      disabled={disabled}
                       className="flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-left transition-colors w-full"
                       style={{
                         background: '#fff',
                         border: `1.5px solid ${active ? '#0694D1' : '#E2E8F0'}`,
                         boxShadow: active ? '0 4px 14px rgba(6,148,209,0.15)' : 'none',
+                        opacity: disabled ? 0.42 : 1,
+                        cursor: disabled ? 'not-allowed' : 'pointer',
+                        transition: 'border-color 0.2s, box-shadow 0.2s, opacity 0.2s',
                       }}
                     >
                       <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: active ? '#0694D1' : '#E2E8F0' }}>
@@ -2467,7 +2339,30 @@ export default function CorporateITTrainingPage() {
                       </div>
                     </button>
                   )
-                })}
+                  {/* City card — injected right after Classroom card, once selected */}
+                  if (key === 'Only Classroom' && classroomOn) {
+                    acc.push(
+                      <div key="city-card" className="flex flex-col rounded-2xl px-3.5 py-2.5"
+                        style={{
+                          border: `1.5px solid ${classroomCity ? '#0694D1' : '#E2E8F0'}`,
+                          background: '#fff',
+                          boxShadow: classroomCity ? '0 4px 14px rgba(6,148,209,0.15)' : 'none',
+                          transition: 'border-color 0.2s, box-shadow 0.2s',
+                          cursor: 'pointer',
+                        }}
+                        onClick={(e) => { const t = e.target as HTMLElement; if (!t.closest('button') && !t.closest('input')) { const btn = e.currentTarget.querySelector<HTMLButtonElement>('button'); if (btn) btn.click() } }}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                          </svg>
+                          <span className="text-[11px] font-bold uppercase" style={{ color: '#0b2545', letterSpacing: '0.08em' }}>City</span>
+                        </div>
+                        <CitySelect value={classroomCity} onChange={setClassroomCity} />
+                      </div>
+                    )
+                  }
+                  return acc
+                }, [])}
               </div>
             </div>
 
@@ -2483,8 +2378,9 @@ export default function CorporateITTrainingPage() {
                 Reset
               </button>
               <button
-                className="flex items-center gap-2 px-9 py-3 rounded-xl text-sm font-bold text-white"
-                style={{ background: '#0694D1', boxShadow: '0 4px 14px rgba(6,148,209,0.35)' }}
+                onClick={() => document.getElementById('course-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                className="flex items-center justify-center gap-2 px-9 py-3 rounded-xl text-sm font-bold text-white"
+                style={{ background: '#0694D1', boxShadow: '0 4px 14px rgba(6,148,209,0.35)', minWidth: '320px' }}
                 onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
                 onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
               >
@@ -2493,10 +2389,12 @@ export default function CorporateITTrainingPage() {
               </button>
             </div>
           </div>
+
         </div>
 
+
         {/* ── Search bar + sort controls ── */}
-        <div className="my-2 flex flex-col lg:flex-row gap-2 lg:items-center">
+        <div className="mt-10 mb-2 flex flex-col lg:flex-row gap-2 lg:items-center">
           {/* Search — grows to fill available space on desktop */}
           <div className="relative w-full lg:flex-1">
             <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -2525,6 +2423,7 @@ export default function CorporateITTrainingPage() {
 
         {/* ── Popular Courses Grid ── */}
         {(() => {
+          const PAGE_SIZE = 12
           const q = search.toLowerCase()
           const displayed = q
             ? POPULAR_COURSES.filter(c =>
@@ -2534,8 +2433,11 @@ export default function CorporateITTrainingPage() {
               )
             : POPULAR_COURSES
           const vendorCount = new Set(displayed.map(c => c.vendor)).size
+          const totalPages = Math.max(1, Math.ceil(displayed.length / PAGE_SIZE))
+          const safePage = Math.min(page, totalPages)
+          const pageItems = displayed.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE)
           return (
-            <div className="mt-6">
+            <div id="course-results" className="mt-6" style={{ scrollMarginTop: '90px' }}>
               <div className="flex items-center justify-between mb-4">
                 <p className="text-sm font-semibold" style={{ color: '#64748b' }}>{displayed.length} course{displayed.length !== 1 ? 's' : ''} found</p>
               </div>
@@ -2547,7 +2449,7 @@ export default function CorporateITTrainingPage() {
                 </div>
               ) : (
                 <div className="cit-cert-grid">
-                  {displayed.map((c, i) => {
+                  {pageItems.map((c, i) => {
                     const enrolled = stableNum(c.name, 1100, 5200).toLocaleString()
                     const rating = (4.5 + stableNum(c.name + 'r', 0, 6) * 0.1).toFixed(1)
                     const days = parseInt(c.dur) || 1
@@ -2605,6 +2507,54 @@ export default function CorporateITTrainingPage() {
                       </div>
                     )
                   })}
+                </div>
+              )}
+
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-8">
+                  <button
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    disabled={safePage === 1}
+                    style={{
+                      width: 36, height: 36, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      border: '1.5px solid #E2EBF6', background: '#fff', color: '#64748b',
+                      cursor: safePage === 1 ? 'not-allowed' : 'pointer', opacity: safePage === 1 ? 0.42 : 1,
+                    }}
+                    aria-label="Previous page"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+                    <button
+                      key={n}
+                      onClick={() => setPage(n)}
+                      style={{
+                        width: 36, height: 36, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 13, fontWeight: 700, cursor: 'pointer',
+                        border: `1.5px solid ${n === safePage ? '#0694D1' : '#E2EBF6'}`,
+                        background: n === safePage ? '#0694D1' : '#fff',
+                        color: n === safePage ? '#fff' : '#374151',
+                        boxShadow: n === safePage ? '0 4px 14px rgba(6,148,209,0.3)' : 'none',
+                        transition: 'background 0.15s, border-color 0.15s, box-shadow 0.15s',
+                      }}
+                    >
+                      {n}
+                    </button>
+                  ))}
+
+                  <button
+                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                    disabled={safePage === totalPages}
+                    style={{
+                      width: 36, height: 36, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      border: '1.5px solid #E2EBF6', background: '#fff', color: '#64748b',
+                      cursor: safePage === totalPages ? 'not-allowed' : 'pointer', opacity: safePage === totalPages ? 0.42 : 1,
+                    }}
+                    aria-label="Next page"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
                 </div>
               )}
             </div>

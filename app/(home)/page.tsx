@@ -1419,16 +1419,17 @@ const ABOUT_LINKS = [
   { label: 'Student Feedback',    href: '/about/student-feedback' },
 ]
 const LEARNING_LINKS = [
-  { label: 'Live Online Training', href: '/live-online-classroom' },
-  { label: 'Classroom Training',   href: '#' },
-  { label: '1-on-1 Training',      href: '/1-on-1-training' },
-  { label: 'Fly-Me-a-Trainer',     href: '#' },
-  { label: 'Flexi',                href: '#' },
-  { label: 'Customized Training',  href: '#' },
-  { label: 'Webinar as a Service', href: '#' },
-  { label: 'Qubits',               href: '/qubits' },
-  { label: 'Upcoming Webinars',    href: '/upcoming-webinars' },
-  { label: 'Learnova',             href: '/learnova' },
+  { label: 'Explore All Learning Options', href: '/learning-options' },
+  { label: 'Live Online Training',         href: '/live-online-classroom' },
+  { label: 'Classroom Training',           href: '/classroom-training' },
+  { label: '1-on-1 Training',              href: '/1-on-1-training' },
+  { label: 'Fly-Me-a-Trainer',             href: '/fly-me-a-trainer' },
+  { label: 'Flexi',                        href: '/flexi-training' },
+  { label: 'Customized Training',          href: '/customised-training' },
+  { label: 'Webinar as a Service',         href: '/webinar-service' },
+  { label: 'Qubits',                       href: '/qubits' },
+  { label: 'Upcoming Webinars',            href: '/upcoming-webinars' },
+  { label: 'Learnova',                     href: '/learnova' },
 ]
 
 const VENDOR_HREFS: Record<string, string> = {
@@ -1478,6 +1479,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'SC-200: Microsoft Security Operations Analyst', days: 4, level: 'Advanced' },
     { name: 'DP-900: Azure Data Fundamentals', days: 1, level: 'Beginner' },
     { name: 'AZ-500: Azure Security Engineer Associate', days: 4, level: 'Advanced' },
+    { name: 'MS-700: Managing Microsoft Teams', days: 4, level: 'Intermediate' },
+    { name: 'PL-400: Power Platform Developer', days: 5, level: 'Advanced' },
+    { name: 'MS-721: Teams Voice Engineer', days: 4, level: 'Advanced' },
   ],
   'AWS': [
     { name: 'AWS Solutions Architect – Associate', days: 4, level: 'Intermediate' },
@@ -1492,6 +1496,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'AWS Certified Database – Specialty', days: 3, level: 'Advanced' },
     { name: 'AWS Certified Solutions Architect – Professional', days: 5, level: 'Advanced' },
     { name: 'AWS Certified Data Engineer – Associate', days: 4, level: 'Intermediate' },
+    { name: 'AWS Certified SAP on AWS – Specialty', days: 4, level: 'Advanced' },
+    { name: 'AWS Certified Advanced Networking – Specialty', days: 4, level: 'Advanced' },
+    { name: 'AWS Well-Architected Framework Deep Dive', days: 2, level: 'Intermediate' },
   ],
   'Cisco': [
     { name: 'CCNP Enterprise Core (ENCOR)', days: 5, level: 'Advanced' },
@@ -1506,6 +1513,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'Cisco SD-WAN Implementation', days: 4, level: 'Advanced' },
     { name: 'CCIE Security', days: 5, level: 'Advanced' },
     { name: 'Cisco Certified Support Technician (CCST)', days: 2, level: 'Beginner' },
+    { name: 'CCNP Wireless', days: 4, level: 'Advanced' },
+    { name: 'Cisco Meraki Solutions Specialist', days: 2, level: 'Intermediate' },
+    { name: 'CCT Data Center', days: 3, level: 'Beginner' },
   ],
   'CompTIA': [
     { name: 'CompTIA Security+ (SY0-701)', days: 5, level: 'Intermediate' },
@@ -1520,6 +1530,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'CompTIA Server+', days: 5, level: 'Intermediate' },
     { name: 'CompTIA CASP+', days: 5, level: 'Advanced' },
     { name: 'CompTIA ITF+', days: 2, level: 'Beginner' },
+    { name: 'CompTIA CySA+ Exam Prep Bootcamp', days: 2, level: 'Advanced' },
+    { name: 'CompTIA CASP+ Exam Prep Bootcamp', days: 2, level: 'Advanced' },
+    { name: 'CompTIA ITF+ Bootcamp', days: 1, level: 'Beginner' },
   ],
   'Oracle': [
     { name: 'Oracle Database Administration', days: 5, level: 'Intermediate' },
@@ -1534,6 +1547,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'Oracle PL/SQL Developer Certified Associate', days: 4, level: 'Intermediate' },
     { name: 'Oracle Cloud Infrastructure Security Professional', days: 3, level: 'Advanced' },
     { name: 'Oracle Data Integrator Certified Implementation Specialist', days: 4, level: 'Advanced' },
+    { name: 'Oracle WebLogic Server Administration', days: 4, level: 'Advanced' },
+    { name: 'Oracle GoldenGate Fundamentals', days: 3, level: 'Advanced' },
+    { name: 'Oracle E-Business Suite R12 Administration', days: 5, level: 'Intermediate' },
   ],
   'SAP': [
     { name: 'SAP S/4HANA Functional Consultant', days: 5, level: 'Advanced' },
@@ -1548,6 +1564,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'SAP Business Technology Platform', days: 4, level: 'Advanced' },
     { name: 'SAP MM: Materials Management', days: 5, level: 'Intermediate' },
     { name: 'SAP FICO: Finance & Controlling', days: 5, level: 'Intermediate' },
+    { name: 'SAP Concur Travel & Expense', days: 3, level: 'Intermediate' },
+    { name: 'SAP Analytics Cloud', days: 4, level: 'Advanced' },
+    { name: 'SAP EWM: Extended Warehouse Management', days: 5, level: 'Advanced' },
   ],
   'PMI': [
     { name: 'Project Management Professional (PMP)', days: 3, level: 'Advanced' },
@@ -1562,6 +1581,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'PMP Exam Prep Bootcamp', days: 2, level: 'Advanced' },
     { name: 'Agile Project Management Fundamentals', days: 2, level: 'Beginner' },
     { name: 'PMI Wicked Problem Solving', days: 1, level: 'Intermediate' },
+    { name: 'PMI Citizen Developer Certification', days: 2, level: 'Beginner' },
+    { name: 'Kanban Management Professional', days: 2, level: 'Intermediate' },
+    { name: 'Risk Management Fundamentals', days: 2, level: 'Beginner' },
   ],
   'Red Hat': [
     { name: 'RHCSA: Red Hat Certified System Administrator', days: 5, level: 'Intermediate' },
@@ -1576,6 +1598,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'OpenShift Application Development', days: 4, level: 'Intermediate' },
     { name: 'Red Hat Virtualization Administration', days: 4, level: 'Intermediate' },
     { name: 'Red Hat Identity Management', days: 3, level: 'Advanced' },
+    { name: 'Red Hat OpenStack Administration', days: 4, level: 'Advanced' },
+    { name: 'Red Hat Learning Subscription Bootcamp', days: 3, level: 'Intermediate' },
+    { name: 'Red Hat Advanced Automation: Ansible Best Practices', days: 3, level: 'Advanced' },
   ],
   'EC-Council': [
     { name: 'Certified Ethical Hacker (CEH v13)', days: 5, level: 'Intermediate' },
@@ -1590,6 +1615,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'DFE: Digital Forensics Essentials', days: 2, level: 'Beginner' },
     { name: 'CASE JAVA: Application Security Engineer', days: 4, level: 'Advanced' },
     { name: 'ECIH: Certified Incident Handler', days: 3, level: 'Intermediate' },
+    { name: 'CASE .NET: Application Security Engineer', days: 4, level: 'Advanced' },
+    { name: 'CEH Practical Exam Prep', days: 2, level: 'Advanced' },
+    { name: 'OSINT: Open Source Intelligence Fundamentals', days: 2, level: 'Beginner' },
   ],
   'VMware': [
     { name: 'vSphere: Install, Configure, Manage', days: 5, level: 'Intermediate' },
@@ -1604,6 +1632,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'NSX-T Advanced Troubleshooting', days: 4, level: 'Advanced' },
     { name: 'VMware Aria Automation', days: 4, level: 'Advanced' },
     { name: 'VMware Carbon Black Cloud Endpoint', days: 3, level: 'Intermediate' },
+    { name: 'VMware NSX-T Micro-Segmentation', days: 3, level: 'Advanced' },
+    { name: 'VMware Cloud Director Administration', days: 3, level: 'Advanced' },
+    { name: 'VMware vRealize Operations Manager', days: 3, level: 'Advanced' },
   ],
   'PeopleCert': [
     { name: 'ITIL® 4 Foundation', days: 3, level: 'Beginner' },
@@ -1618,6 +1649,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'AgileSHIFT®', days: 1, level: 'Beginner' },
     { name: 'PRINCE2® Practitioner Refresher', days: 2, level: 'Intermediate' },
     { name: 'P3O®: Portfolio, Programme and Project Offices', days: 3, level: 'Advanced' },
+    { name: 'PRINCE2 Foundation Fast Track', days: 2, level: 'Beginner' },
+    { name: 'ITIL 4 Foundation Exam Prep', days: 1, level: 'Beginner' },
+    { name: 'Resilia Cyber Resilience Foundation', days: 2, level: 'Intermediate' },
   ],
   'PECB': [
     { name: 'ISO 27001 Lead Implementer', days: 5, level: 'Advanced' },
@@ -1632,6 +1666,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'GDPR Certified Data Protection Officer', days: 3, level: 'Intermediate' },
     { name: 'ISO 37301 Lead Compliance Manager', days: 4, level: 'Advanced' },
     { name: 'ISO 45001 Lead Auditor', days: 5, level: 'Advanced' },
+    { name: 'ISO 26000 Social Responsibility', days: 2, level: 'Beginner' },
+    { name: 'ISO 14001 Lead Auditor', days: 5, level: 'Advanced' },
+    { name: 'ISO 50001 Lead Implementer', days: 4, level: 'Advanced' },
   ],
   'Linux Foundation': [
     { name: 'Certified Kubernetes Administrator (CKA)', days: 4, level: 'Advanced' },
@@ -1646,6 +1683,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'Istio and Envoy Fundamentals', days: 2, level: 'Advanced' },
     { name: 'GitOps Fundamentals', days: 2, level: 'Intermediate' },
     { name: 'Prometheus Certified Associate (PCA)', days: 2, level: 'Intermediate' },
+    { name: 'OpenTelemetry Certified Associate', days: 2, level: 'Intermediate' },
+    { name: 'ArgoProj Certified Associate', days: 2, level: 'Intermediate' },
+    { name: 'Cloud Native Security Associate Bootcamp', days: 3, level: 'Advanced' },
   ],
   'ISACA': [
     { name: 'CISM: Certified Information Security Manager', days: 3, level: 'Advanced' },
@@ -1660,6 +1700,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'CET: Certified in Emerging Technology', days: 2, level: 'Intermediate' },
     { name: 'AI Fundamentals Certificate', days: 1, level: 'Beginner' },
     { name: 'COBIT 2019 Design and Implementation', days: 3, level: 'Advanced' },
+    { name: 'Advanced in AI Security Management', days: 2, level: 'Advanced' },
+    { name: 'IT Governance Fundamentals', days: 2, level: 'Beginner' },
+    { name: 'Data Privacy Fundamentals', days: 2, level: 'Beginner' },
   ],
   'ISC2': [
     { name: 'CISSP Certification', days: 5, level: 'Advanced' },
@@ -1674,6 +1717,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'CISSP Exam Prep Bootcamp', days: 2, level: 'Advanced' },
     { name: 'SSCP Exam Prep Bootcamp', days: 2, level: 'Intermediate' },
     { name: 'CCSP Exam Prep Bootcamp', days: 2, level: 'Advanced' },
+    { name: 'SSCP Bridge Course', days: 2, level: 'Intermediate' },
+    { name: 'Certified in Cybersecurity Exam Prep Bootcamp', days: 1, level: 'Beginner' },
+    { name: 'CISSP Concentration: ISSEP Deep Dive', days: 3, level: 'Advanced' },
   ],
   'ISTQB': [
     { name: 'ISTQB Certified Tester Foundation Level', days: 3, level: 'Beginner' },
@@ -1688,6 +1734,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'ISTQB Specialist Usability Testing', days: 2, level: 'Intermediate' },
     { name: 'ISTQB Specialist AI Testing', days: 2, level: 'Advanced' },
     { name: 'ISTQB Specialist Gherkin Test Automation', days: 2, level: 'Intermediate' },
+    { name: 'ISTQB Specialist Test Automation Bootcamp', days: 3, level: 'Advanced' },
+    { name: 'ISTQB Foundation Extension Model-Based Testing', days: 2, level: 'Intermediate' },
+    { name: 'ISTQB Specialist Acceptance Testing', days: 2, level: 'Intermediate' },
   ],
   'The Open Group': [
     { name: 'TOGAF 10 Foundation & Practitioner', days: 5, level: 'Intermediate' },
@@ -1702,6 +1751,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'Open CA: Certified Architect', days: 4, level: 'Advanced' },
     { name: 'Open CITS: Certified IT Specialist', days: 4, level: 'Advanced' },
     { name: 'SOA Foundation', days: 2, level: 'Beginner' },
+    { name: 'TOGAF Practitioner Refresher', days: 2, level: 'Intermediate' },
+    { name: 'Open Agile Architecture Foundation', days: 3, level: 'Advanced' },
+    { name: 'ArchiMate Modeling Bootcamp', days: 2, level: 'Intermediate' },
   ],
   'ServiceNow': [
     { name: 'ServiceNow System Administrator', days: 3, level: 'Intermediate' },
@@ -1716,6 +1768,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'ServiceNow Performance Analytics', days: 2, level: 'Intermediate' },
     { name: 'ServiceNow Virtual Agent Implementation', days: 2, level: 'Intermediate' },
     { name: 'ServiceNow App Engine Studio', days: 3, level: 'Intermediate' },
+    { name: 'ServiceNow Now Assist AI Implementation', days: 3, level: 'Advanced' },
+    { name: 'ServiceNow Integration Hub Fundamentals', days: 2, level: 'Intermediate' },
+    { name: 'ServiceNow Security Operations', days: 4, level: 'Advanced' },
   ],
   'Broadcom': [
     { name: 'Clarity PPM Administration', days: 4, level: 'Advanced' },
@@ -1730,6 +1785,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'Symantec Web Security Service', days: 3, level: 'Intermediate' },
     { name: 'CA API Management', days: 3, level: 'Advanced' },
     { name: 'CA Agile Central Administration', days: 2, level: 'Intermediate' },
+    { name: 'Symantec Data Center Security', days: 3, level: 'Advanced' },
+    { name: 'CA PPM Reporting and Analytics', days: 2, level: 'Intermediate' },
+    { name: 'VIP Access Manager Administration', days: 2, level: 'Intermediate' },
   ],
   'Check Point': [
     { name: 'Check Point CCSA R82', days: 3, level: 'Intermediate' },
@@ -1744,6 +1802,9 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
     { name: 'Check Point Certified Automation Specialist', days: 2, level: 'Advanced' },
     { name: 'Check Point SD-WAN Administration', days: 3, level: 'Intermediate' },
     { name: 'Check Point Certified Threat Prevention Specialist', days: 3, level: 'Advanced' },
+    { name: 'Check Point Quantum Spark Administration', days: 2, level: 'Intermediate' },
+    { name: 'Check Point Certified PenTesting Expert', days: 4, level: 'Advanced' },
+    { name: 'Check Point Infinity Portal Management', days: 2, level: 'Intermediate' },
   ],
 }
 
@@ -2016,6 +2077,14 @@ const FOOTER_COLS = [
 ]
 
 const FOOTER_LINK_HREFS: Record<string, string> = {
+  'Explore All Learning Options': '/learning-options',
+  'Live Online Training': '/live-online-classroom',
+  '1-on-1 Training': '/1-on-1-training',
+  'Classroom Training': '/classroom-training',
+  'Fly-me-a-Trainer (FMAT)': '/fly-me-a-trainer',
+  'Flexi': '/flexi-training',
+  'Customized Training': '/customised-training',
+  'Webinar as a Service': '/webinar-service',
   'AI Agent': '/build/ai-agent',
   'Coding Using AI': '/build/vibe-coding',
   'AI Is a Beast': '/beast-ai-skilling',
@@ -2473,7 +2542,8 @@ export default function Design4Page() {
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (navSearchRef.current && !navSearchRef.current.contains(e.target as Node)) setNavResultsOpen(false)
-      if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node)) { setHeroResultsOpen(false); setHeroAiLearnMoreOpen(false) }
+      const insideHeroLearnMore = (e.target as HTMLElement).closest?.('[data-hero-learnmore-modal]')
+      if (heroSearchRef.current && !heroSearchRef.current.contains(e.target as Node) && !insideHeroLearnMore) { setHeroResultsOpen(false); setHeroAiLearnMoreOpen(false) }
       if (megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node)) setMegaMenuOpen(false)
       if (techMenuRef.current && !techMenuRef.current.contains(e.target as Node)) setTechMenuOpen(false)
       const insideAbout = aboutMenuRef.current?.contains(e.target as Node) || aboutTriggerRef.current?.contains(e.target as Node)
@@ -3069,8 +3139,7 @@ export default function Design4Page() {
                               <span className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide text-white" style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}>New</span>
                             )}
                             {c.hot && (
-                              <span className="inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide text-white" style={{ background: 'linear-gradient(135deg,#0694D1,#22d3ee)' }}>
-                                <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z" /></svg>
+                              <span className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full px-2 py-0.5 text-center text-[9px] font-medium uppercase tracking-wide" style={{ background: 'rgba(6,148,209,0.1)', color: '#0694D1' }}>
                                 Popular
                               </span>
                             )}
@@ -3082,9 +3151,9 @@ export default function Design4Page() {
                           {(() => {
                             const cat = (c as { category?: string }).category
                             const key = cat === 'FUNDAMENTALS' ? 'fund' : cat === 'ASSOCIATE' ? 'assoc' : (cat === 'EXPERT' || c.level === 'Advanced') ? 'expert' : null
+                            const lightBadge: Record<string, string> = { fund: 'bg-[#0694d1]/10 text-[#0694D1]', assoc: 'bg-[#076d9d]/15 text-[#076D9D]', expert: 'bg-[#093148]/10 text-[#093148]' }
                             return key && (
-                              <span className={`inline-flex shrink-0 items-center justify-center gap-1 rounded-full px-2 py-0.5 text-center text-[9px] font-normal uppercase tracking-wide whitespace-nowrap ${SCHEDULE_LEVEL_BADGE[key]}`}>
-                                {SCHEDULE_LEVEL_ICON[key]}
+                              <span className={`inline-flex shrink-0 items-center justify-center rounded-full px-2 py-0.5 text-center text-[9px] font-medium uppercase tracking-wide whitespace-nowrap ${lightBadge[key]}`}>
                                 {SCHEDULE_LEVEL_LABEL[key]}
                               </span>
                             )
@@ -3187,7 +3256,6 @@ export default function Design4Page() {
                         color: mobileMegaVendor === v.name ? '#fff' : 'rgba(255,255,255,0.65)',
                       }}
                     >
-                      {v.img && <div className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded bg-white"><img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" /></div>}
                       {v.name}
                     </button>
                   ))}
@@ -3330,34 +3398,49 @@ export default function Design4Page() {
           <div
             ref={megaMenuRef}
             className="absolute inset-x-0 top-full z-[200] mx-auto flex max-w-7xl overflow-hidden rounded-b-2xl"
-            style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
+            style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.18)', maxHeight: '520px' }}
             onMouseEnter={clearNavMenuCloseTimer}
             onMouseLeave={scheduleNavMenuClose}
           >
             {/* Left — vendor list */}
-            <div className="flex min-h-0 w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
-              <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Vendors</div>
+            <div className="flex min-h-0 w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: '#F8FBFE' }}>
+              <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Vendors</div>
+              <div className="group/vendor relative flex items-center border-b" style={{ borderLeftWidth: '2px', borderLeftStyle: 'solid', borderLeftColor: megaMenuVendor === 'All Courses' ? '#0694D1' : 'transparent', borderBottomColor: 'rgba(6,148,209,0.1)', background: megaMenuVendor === 'All Courses' ? 'rgba(6,148,209,0.1)' : 'transparent' }}>
+                <a
+                  href="/corporate-it-training-courses"
+                  onMouseEnter={() => setMegaMenuVendor('All Courses')}
+                  onClick={() => setMegaMenuOpen(false)}
+                  className="flex flex-1 items-center gap-3 px-4 py-2.5 text-left transition-all"
+                  style={{ color: megaMenuVendor === 'All Courses' ? '#0694D1' : '#093148' }}
+                >
+                  <div className="flex h-9 w-[52px] shrink-0 items-center justify-center overflow-hidden rounded" style={{ background: 'rgba(6,148,209,0.12)', border: '1px solid rgba(6,148,209,0.3)' }}>
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-sm font-medium leading-tight">All Courses</div>
+                  </div>
+                </a>
+              </div>
               {MEGA_MENU_VENDORS.map(v => (
-                <div key={v.name} className="group/vendor relative flex items-center" style={{ borderLeft: megaMenuVendor === v.name ? '2px solid #0694D1' : '2px solid transparent', background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.12)' : 'transparent' }}>
+                <div key={v.name} className="group/vendor relative flex items-center border-b" style={{ borderLeftWidth: '2px', borderLeftStyle: 'solid', borderLeftColor: megaMenuVendor === v.name ? '#0694D1' : 'transparent', borderBottomColor: 'rgba(6,148,209,0.1)', background: megaMenuVendor === v.name ? 'rgba(6,148,209,0.1)' : 'transparent' }}>
                   <a
                     href={VENDOR_HREFS[v.name] ?? '#'}
                     onMouseEnter={() => setMegaMenuVendor(v.name)}
                     onClick={() => setMegaMenuOpen(false)}
                     className="flex flex-1 items-center gap-3 px-4 py-2.5 text-left transition-all"
-                    style={{ color: megaMenuVendor === v.name ? '#ffffff' : 'rgba(255,255,255,0.65)' }}
+                    style={{ color: megaMenuVendor === v.name ? '#0694D1' : '#093148' }}
                   >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white p-0.5">
+                    <div className="flex h-9 w-[52px] shrink-0 items-center justify-center overflow-hidden rounded" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)' }}>
                       {v.img ? (
-                        <img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-contain" />
+                        <img src={`/images/partners/${encodeURIComponent(v.img)}`} alt={v.name} className="h-full w-full object-cover" />
                       ) : (
                         <span className="text-sm font-black" style={{ color: '#0694D1' }}>{v.name[0]}</span>
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium leading-tight">{v.name}</div>
-                      <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{v.courses} Courses</div>
                     </div>
-                    <svg className="mr-1 h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/vendor:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#38bdf8"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    <svg className="mr-1 h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/vendor:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#0694D1"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                   </a>
                 </div>
               ))}
@@ -3365,11 +3448,47 @@ export default function Design4Page() {
 
             {/* Right — courses panel */}
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-6">
+              {megaMenuVendor === 'All Courses' ? (
+                <>
+                  <div className="mb-4 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-base font-bold" style={{ color: '#093148' }}>Popular Courses</h3>
+                      <p className="text-sm" style={{ color: '#7a8c96' }}>5,000+ courses across 20 top vendors</p>
+                    </div>
+                    <a href="/corporate-it-training-courses" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: '#0694D1' }}>
+                      Browse All Courses
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+                    {[...TOP_COURSES, ...NEW_TRENDING].slice(0, 12).map((course, i) => (
+                      <a
+                        key={i}
+                        href={COURSE_HREFS[course.name] ?? '#'}
+                        className="group flex flex-col gap-2 rounded-xl p-3.5 transition-all hover:-translate-y-0.5"
+                        style={{ background: '#F8FBFE', border: '1px solid #CAEFFF' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)' }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#F8FBFE'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF' }}
+                      >
+                        <p className="text-sm font-medium leading-snug group-hover:text-[#0694D1] transition-colors line-clamp-2" style={{ color: '#093148' }}>{course.name}</p>
+                        <div className="flex items-center gap-2 mt-auto">
+                          <span className="flex items-center gap-1 text-sm" style={{ color: '#7a8c96' }}>
+                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            {course.days * 8} hrs ({course.days} days)
+                          </span>
+                          <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-medium ${course.level === 'Beginner' ? 'bg-[#0694d1]/10 text-[#0694D1]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/15 text-[#076D9D]' : 'bg-[#093148]/10 text-[#093148]'}`}>{course.level}</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </>
+              ) : (
+              <>
               {/* Header */}
               <div className="mb-4 flex items-center justify-between">
                 <div>
-                  <h3 className="text-base font-bold text-white">{megaMenuVendor} Courses</h3>
-                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  <h3 className="text-base font-bold" style={{ color: '#093148' }}>{megaMenuVendor} Courses</h3>
+                  <p className="text-sm" style={{ color: '#7a8c96' }}>
                     {MEGA_MENU_VENDORS.find(v => v.name === megaMenuVendor)?.courses} courses available
                   </p>
                 </div>
@@ -3385,32 +3504,27 @@ export default function Design4Page() {
                     key={i}
                     href={COURSE_HREFS[course.name] ?? '#'}
                     className="group flex min-w-0 flex-col gap-2 rounded-xl p-3 transition-all hover:-translate-y-0.5"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
+                    style={{ background: '#F8FBFE', border: '1px solid #CAEFFF' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#F8FBFE'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF'; }}
                   >
-                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-3">{course.name}</p>
+                    <p className="text-sm font-medium leading-snug group-hover:text-[#0694D1] transition-colors line-clamp-3" style={{ color: '#093148' }}>{course.name}</p>
                     <div className="flex items-center gap-2 mt-auto">
-                      <span className="flex items-center gap-1 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      <span className="flex items-center gap-1 text-sm" style={{ color: '#7a8c96' }}>
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        {course.days} days
+                        {course.days * 8} hrs ({course.days} days)
                       </span>
                       <span className={`rounded-full px-1.5 py-0.5 font-medium ${
-                        course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' :
-                        course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' :
-                        'bg-[#076d9d] text-white'
-                      }`} style={{ fontSize: '12px' }}>{course.level}</span>
+                        course.level === 'Beginner' ? 'bg-[#0694d1]/10 text-[#0694D1]' :
+                        course.level === 'Intermediate' ? 'bg-[#076d9d]/15 text-[#076D9D]' :
+                        'bg-[#093148]/10 text-[#093148]'
+                      }`} style={{ fontSize: '10px' }}>{course.level}</span>
                     </div>
                   </a>
                 ))}
               </div>
-              {/* Footer CTA */}
-              <div className="mt-5 flex items-center border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-                <a href="#" className="flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7"/></svg>
-                  Browse All Vendors
-                </a>
-              </div>
+              </>
+              )}
             </div>
           </div>
         )}
@@ -3420,13 +3534,13 @@ export default function Design4Page() {
           <div
             ref={techMenuRef}
             className="absolute inset-x-0 top-full z-[200] mx-auto flex max-w-7xl overflow-hidden rounded-b-2xl"
-            style={{ background: 'rgba(4,12,24,0.98)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(6,148,209,0.2)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.6)', maxHeight: '520px' }}
+            style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.18)', maxHeight: '520px' }}
             onMouseEnter={clearNavMenuCloseTimer}
             onMouseLeave={scheduleNavMenuClose}
           >
             {/* Left — technology categories */}
-            <div className="flex min-h-0 w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: 'rgba(6,17,30,0.6)' }}>
-              <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,148,209,0.7)' }}>Technologies</div>
+            <div className="flex min-h-0 w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: '#F8FBFE' }}>
+              <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Technologies</div>
               {([
                 { name: 'Cloud Computing',    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
                 { name: 'Cybersecurity',      icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
@@ -3444,19 +3558,19 @@ export default function Design4Page() {
                     key={name}
                     onMouseEnter={() => setTechMenuCategory(name)}
                     onClick={() => { if (TECH_HREFS[name]) { router.push(TECH_HREFS[name]); setTechMenuOpen(false) } else { setTechMenuCategory(name) } }}
-                    className="group/tech flex items-center gap-3 px-4 py-2.5 text-left transition-all"
+                    className="group/tech flex items-center gap-3 px-4 py-2.5 text-left transition-all border-b"
                     style={{
-                      background: techMenuCategory === name ? 'rgba(6,148,209,0.12)' : 'transparent',
-                      borderLeft: techMenuCategory === name ? '2px solid #0694D1' : '2px solid transparent',
-                      color: techMenuCategory === name ? '#ffffff' : 'rgba(255,255,255,0.65)',
+                      background: techMenuCategory === name ? 'rgba(6,148,209,0.1)' : 'transparent',
+                      borderLeftWidth: '2px', borderLeftStyle: 'solid', borderLeftColor: techMenuCategory === name ? '#0694D1' : 'transparent',
+                      borderBottomColor: 'rgba(6,148,209,0.1)',
+                      color: techMenuCategory === name ? '#0694D1' : '#093148',
                     }}
                   >
-                    <svg className="h-4 w-4 shrink-0" style={{ color: techMenuCategory === name ? '#38bdf8' : 'rgba(6,148,209,0.6)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icon}</svg>
+                    <svg className="h-4 w-4 shrink-0" style={{ color: techMenuCategory === name ? '#0694D1' : 'rgba(6,148,209,0.6)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icon}</svg>
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium leading-tight">{name}</div>
-                      <div className="text-sm" style={{ color: 'rgba(6,148,209,0.7)' }}>{t.count} Courses</div>
                     </div>
-                    <svg className="h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/tech:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#38bdf8"><title>{`Go to ${name} courses`}</title><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    <svg className="h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/tech:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#0694D1"><title>{`Go to ${name} courses`}</title><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                   </button>
                 )
               })}
@@ -3466,8 +3580,8 @@ export default function Design4Page() {
             <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-6">
               <div className="mb-4 flex items-center justify-between">
                 <div>
-                  <h3 className="text-base font-bold text-white">{techMenuCategory}</h3>
-                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  <h3 className="text-base font-bold" style={{ color: '#093148' }}>{techMenuCategory}</h3>
+                  <p className="text-sm" style={{ color: '#7a8c96' }}>
                     {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.count} courses · Partners: {TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.partners.join(', ')}
                   </p>
                 </div>
@@ -3482,25 +3596,25 @@ export default function Design4Page() {
                     key={i}
                     href={COURSE_HREFS[course.name] ?? '#'}
                     className="group flex min-w-0 flex-col gap-2 rounded-xl p-3 transition-all hover:-translate-y-0.5"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(6,148,209,0.15)' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.35)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.15)'; }}
+                    style={{ background: '#F8FBFE', border: '1px solid #CAEFFF' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(6,148,209,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,148,209,0.4)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#F8FBFE'; (e.currentTarget as HTMLElement).style.borderColor = '#CAEFFF'; }}
                   >
-                    <p className="text-sm font-medium leading-snug text-white group-hover:text-[#38bdf8] transition-colors line-clamp-3">{course.name}</p>
+                    <p className="text-sm font-medium leading-snug group-hover:text-[#0694D1] transition-colors line-clamp-3" style={{ color: '#093148' }}>{course.name}</p>
                     <div className="flex items-center gap-2 mt-auto">
-                      <span className="text-sm" style={{ color: 'rgba(6,148,209,0.8)' }}>{course.vendor}</span>
-                      <span className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
-                      <span className="flex items-center gap-1 text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                      <span className="text-sm" style={{ color: '#0694D1' }}>{course.vendor}</span>
+                      <span className="text-sm" style={{ color: '#CBD5E1' }}>·</span>
+                      <span className="flex items-center gap-1 text-sm" style={{ color: '#7a8c96' }}>
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        {course.days}d
+                        {course.days * 8}h ({course.days}d)
                       </span>
-                      <span className={`ml-auto rounded-full px-1.5 py-0.5 font-medium ${course.level === 'Beginner' ? 'bg-[#0694d1]/20 text-[#3AB6EB]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/20 text-[#6CCFEE]' : 'bg-[#076d9d] text-white'}`} style={{ fontSize: '12px' }}>{course.level}</span>
+                      <span className={`ml-auto rounded-full px-1.5 py-0.5 font-medium ${course.level === 'Beginner' ? 'bg-[#0694d1]/10 text-[#0694D1]' : course.level === 'Intermediate' ? 'bg-[#076d9d]/15 text-[#076D9D]' : 'bg-[#093148]/10 text-[#093148]'}`} style={{ fontSize: '10px' }}>{course.level}</span>
                     </div>
                   </a>
                 ))}
               </div>
               <div className="mt-5 flex items-center border-t pt-4" style={{ borderColor: 'rgba(6,148,209,0.15)' }}>
-                <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Showing top courses for {techMenuCategory}</span>
+                <span className="text-sm" style={{ color: '#7a8c96' }}>Showing top courses for {techMenuCategory}</span>
               </div>
             </div>
           </div>
@@ -3511,24 +3625,35 @@ export default function Design4Page() {
       {typeof window !== 'undefined' && learningMenuOpen && createPortal(
         <div
           ref={learningMenuRef}
-          className="fixed z-[9999] rounded-xl shadow-2xl overflow-hidden"
-          style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', minWidth: '220px' }}
+          className="fixed z-[9999] rounded-xl shadow-2xl overflow-y-auto"
+          style={{ top: `${learningDropPos.top}px`, left: `${learningDropPos.left}px`, background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', width: '380px', maxHeight: `calc(100vh - ${learningDropPos.top}px - 16px)`, padding: '6px' }}
           onMouseEnter={clearNavMenuCloseTimer}
           onMouseLeave={scheduleNavMenuClose}
         >
-          {LEARNING_LINKS.map(link => (
-            <button
-              key={link.label}
-              type="button"
-              className="block w-full text-left px-5 py-2.5 text-sm transition-colors"
-              style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer' }}
-              onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)'; }}
-              onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent'; }}
-              onClick={() => { setLearningMenuOpen(false); if (link.href !== '#') router.push(link.href) }}
-            >
-              {link.label}
-            </button>
-          ))}
+          {(() => {
+            const linkBtn = (link: { label: string; href: string }, bold?: boolean) => (
+              <button
+                key={link.label}
+                type="button"
+                className="block w-full text-left rounded-lg px-3 py-2 text-[13px] transition-colors"
+                style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer', fontWeight: bold ? 700 : 400 }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent'; }}
+                onClick={() => { setLearningMenuOpen(false); if (link.href !== '#') router.push(link.href) }}
+              >
+                {link.label}
+              </button>
+            )
+            return (
+              <>
+                {linkBtn(LEARNING_LINKS[0], true)}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+                  <div>{LEARNING_LINKS.slice(1, 6).map(l => linkBtn(l))}</div>
+                  <div>{LEARNING_LINKS.slice(6).map(l => linkBtn(l))}</div>
+                </div>
+              </>
+            )
+          })()}
         </div>,
         document.body
       )}
@@ -3714,7 +3839,7 @@ export default function Design4Page() {
 
                           {/* Learn more modal — portalled to body, same layout as the vendor page */}
                           {heroAiLearnMoreOpen && heroAiResults.learnMore && typeof document !== 'undefined' && createPortal(
-                            <div style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', background: 'rgba(7,30,46,0.6)', backdropFilter: 'blur(6px)' }} onClick={() => setHeroAiLearnMoreOpen(false)}>
+                            <div data-hero-learnmore-modal style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', background: 'rgba(7,30,46,0.6)', backdropFilter: 'blur(6px)' }} onClick={() => setHeroAiLearnMoreOpen(false)}>
                               <div style={{ background: '#fff', borderRadius: 20, width: '100%', maxWidth: 580, maxHeight: '88vh', overflowY: 'auto', boxShadow: '0 32px 80px rgba(6,148,209,0.22)', position: 'relative' }} onClick={e => e.stopPropagation()}>
                                 <div style={{ background: 'linear-gradient(135deg,#071e2e 0%,#093148 100%)', borderRadius: '20px 20px 0 0', padding: '22px 24px 20px', position: 'relative' }}>
                                   <button onClick={() => setHeroAiLearnMoreOpen(false)} style={{ position: 'absolute', top: 14, right: 14, width: 28, height: 28, borderRadius: '50%', border: 'none', background: 'rgba(255,255,255,0.1)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
