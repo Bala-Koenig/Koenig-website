@@ -1145,6 +1145,22 @@ function stableNum(s: string, min: number, max: number): number {
   return min + (Math.abs(h) % (max - min))
 }
 
+/* Windowed page list: always shows first/last page, current ±1,
+   and collapses larger gaps into a single "…" — e.g. 1 2 3 4 … 20 */
+function getPageWindow(current: number, total: number): (number | '...')[] {
+  const keep = new Set<number>([1, total, current - 1, current, current + 1])
+  const sorted = Array.from(keep).filter(p => p >= 1 && p <= total).sort((a, b) => a - b)
+  const result: (number | '...')[] = []
+  let prev = 0
+  for (const p of sorted) {
+    if (p - prev === 2) result.push(prev + 1)
+    else if (p - prev > 2) result.push('...')
+    result.push(p)
+    prev = p
+  }
+  return result
+}
+
 /* ─── Vendor Accordion Card ─────────────────────────────── */
 function VendorCard({ vendor, forceOpen, searchQuery }: { vendor: typeof VENDORS[0]; forceOpen: boolean; searchQuery: string }) {
   const [open, setOpen] = useState(false)
@@ -2511,50 +2527,62 @@ export default function CorporateITTrainingPage() {
               )}
 
               {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-8">
-                  <button
-                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                    disabled={safePage === 1}
-                    style={{
-                      width: 36, height: 36, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      border: '1.5px solid #E2EBF6', background: '#fff', color: '#64748b',
-                      cursor: safePage === 1 ? 'not-allowed' : 'pointer', opacity: safePage === 1 ? 0.42 : 1,
-                    }}
-                    aria-label="Previous page"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                  </button>
-
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+                <div className="flex items-center justify-center mt-8">
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 2, background: '#fff', border: '1.5px solid #E2EBF6', borderRadius: 999, padding: '6px 8px', boxShadow: '0 2px 10px rgba(6,148,209,0.06)' }}>
                     <button
-                      key={n}
-                      onClick={() => setPage(n)}
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={safePage === 1}
                       style={{
-                        width: 36, height: 36, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 13, fontWeight: 700, cursor: 'pointer',
-                        border: `1.5px solid ${n === safePage ? '#0694D1' : '#E2EBF6'}`,
-                        background: n === safePage ? '#0694D1' : '#fff',
-                        color: n === safePage ? '#fff' : '#374151',
-                        boxShadow: n === safePage ? '0 4px 14px rgba(6,148,209,0.3)' : 'none',
-                        transition: 'background 0.15s, border-color 0.15s, box-shadow 0.15s',
+                        display: 'flex', alignItems: 'center', gap: 4, height: 36, padding: '0 12px', borderRadius: 999,
+                        border: 'none', background: 'transparent', fontSize: 13, fontWeight: 700, fontFamily: 'inherit',
+                        color: safePage === 1 ? '#B9C6D6' : '#0694D1',
+                        cursor: safePage === 1 ? 'not-allowed' : 'pointer',
                       }}
+                      aria-label="Previous page"
                     >
-                      {n}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                      Previous
                     </button>
-                  ))}
 
-                  <button
-                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                    disabled={safePage === totalPages}
-                    style={{
-                      width: 36, height: 36, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      border: '1.5px solid #E2EBF6', background: '#fff', color: '#64748b',
-                      cursor: safePage === totalPages ? 'not-allowed' : 'pointer', opacity: safePage === totalPages ? 0.42 : 1,
-                    }}
-                    aria-label="Next page"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                  </button>
+                    {getPageWindow(safePage, totalPages).map((p, i) =>
+                      p === '...' ? (
+                        <span key={`ellipsis-${i}`} style={{ width: 28, textAlign: 'center', fontSize: 13, fontWeight: 600, color: '#94a3b8' }}>…</span>
+                      ) : (
+                        <button
+                          key={p}
+                          onClick={() => setPage(p)}
+                          aria-current={p === safePage ? 'page' : undefined}
+                          style={{
+                            minWidth: 36, height: 36, padding: '0 4px', borderRadius: 10,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: 13, fontWeight: p === safePage ? 800 : 600, fontFamily: 'inherit',
+                            border: `1.5px solid ${p === safePage ? '#0b2545' : 'transparent'}`,
+                            background: 'transparent',
+                            color: p === safePage ? '#0b2545' : '#0694D1',
+                            cursor: 'pointer',
+                            transition: 'border-color 0.15s',
+                          }}
+                        >
+                          {p}
+                        </button>
+                      )
+                    )}
+
+                    <button
+                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                      disabled={safePage === totalPages}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 4, height: 36, padding: '0 12px', borderRadius: 999,
+                        border: 'none', background: 'transparent', fontSize: 13, fontWeight: 700, fontFamily: 'inherit',
+                        color: safePage === totalPages ? '#B9C6D6' : '#0694D1',
+                        cursor: safePage === totalPages ? 'not-allowed' : 'pointer',
+                      }}
+                      aria-label="Next page"
+                    >
+                      Next
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
