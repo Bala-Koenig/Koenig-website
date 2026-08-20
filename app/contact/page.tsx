@@ -284,7 +284,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-white mb-5">
+              <h1 className="whitespace-nowrap text-lg sm:text-2xl lg:text-4xl font-bold leading-tight tracking-tight text-white mb-4">
                 Let&apos;s build your{" "}
                 <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">
                   learning future
@@ -351,7 +351,7 @@ export default function ContactPage() {
 
           {/* Local offices — full width. Shows India for now; will switch to the
               visitor's detected country once geo-lookup is wired up. */}
-          <div className="mt-6">
+          <div className="mt-3">
             <div className="mb-4 flex items-center gap-2">
               <img src="https://flagcdn.com/24x18/in.png" width={24} height={18} alt="India" className="rounded-[2px]" />
               <span className="text-sm font-bold uppercase tracking-widest text-white/70">India</span>
