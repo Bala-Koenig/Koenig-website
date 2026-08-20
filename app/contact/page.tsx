@@ -5,16 +5,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 /* ─── types ─────────────────────────────────────────────────────── */
-type Contact = { name: string; phone: string; email?: string; languages?: string };
-type Office  = { city: string; country: string; flag: string; address: string; contacts: Contact[]; tag?: string };
+type Contact = { name: string; phone: string; whatsapp?: string; email?: string; languages?: string };
+type Office  = { city: string; country: string; flag: string; address?: string; meetingVenue?: string; contacts: Contact[]; tag?: string; moreInfo?: boolean };
 type Region  = { id: string; label: string; color: string; offices: Office[] };
 
 /* ─── data ───────────────────────────────────────────────────────── */
-const supportChannels = [
-  { icon: "mail",    title: "General Enquiries",    email: "info@koenig-solutions.com", desc: "Courses, enrollment & pricing" },
-  { icon: "hr",      title: "HR & Careers",          email: "hr@koenig-solutions.com",   desc: "Job openings & partnerships"   },
-  { icon: "support", title: "After-Course Support",  email: "asd@koenig-solutions.com",  desc: "Post-training queries & certs" },
-];
 
 const phoneRegions = [
   { label: "India",         flag: "🇮🇳", phone: "+91-80950-73333"   },
@@ -37,95 +32,113 @@ const officeRegions: Region[] = [
   {
     id: "india", label: "India", color: "#0694D1",
     offices: [
-      { city: "New Delhi",  country: "India", flag: "🇮🇳", tag: "HQ",
-        address: "DSM-640-641, 6th Floor, DLF Tower, Shivaji Marg, Moti Nagar, New Delhi – 110015",
-        contacts: [{ name: "Pooja Chauhan",   phone: "+91 88002 76665", email: "pooja.chauhan@koenig-solutions.com",   languages: "English, Hindi" }] },
-      { city: "Gurugram",   country: "India", flag: "🇮🇳",
-        address: "Unit 202, 2nd Floor, Emaar The Palm Spring Plaza, DLF Phase 5, Sector 54, Gurugram – 122022",
-        contacts: [{ name: "Nishant Yash",    phone: "+91 95601 08722", email: "nishant.yash@koenig-solutions.com",    languages: "English, Hindi" }] },
-      { city: "Bangalore",  country: "India", flag: "🇮🇳",
-        address: "12th Floor, SKAV Rockline Building C-39, Kasturba Rd, Sampangi Rama Nagar, Bengaluru – 560001",
-        contacts: [{ name: "Tamanna Alisha",  phone: "+91 98868 88455", email: "tamanna.alisha@koenig-solutions.com",  languages: "English, Hindi, Kannada, Urdu" }] },
-      { city: "Chennai",    country: "India", flag: "🇮🇳",
-        address: "5th Floor, Olympia Teknos, Plot No. 28, South Phase, SIDCO Industrial Estate, Guindy, Chennai – 600032",
-        contacts: [{ name: "Prity Bharti",    phone: "+91 85278 98333", email: "Prity.Bharti@koenig-solutions.com",   languages: "English, Hindi" }] },
-      { city: "Goa",        country: "India", flag: "🇮🇳",
-        address: "4th Floor, Nizmar Center, 401, Dr. Atmaram Borkar Road, Panaji, Goa – 403001",
-        contacts: [{ name: "Gabe Turner",     phone: "+91 95998 34249", email: "Gabe.Turner@koenig-solutions.com",     languages: "Hindi, English" }] },
-      { city: "Dehradun",   country: "India", flag: "🇮🇳",
-        address: "Plot #22, IT Park, Sahastradhara Road, Dehradun, Uttarakhand – 248001",
-        contacts: [{ name: "Simran Dewan",    phone: "+91 92894 88282", email: "Simran.Deewan@koenig-solutions.com",   languages: "English" }] },
+      { city: "Gurugram",  country: "India", flag: "🇮🇳",
+        address: "Unit 202, Second Floor, Emaar The Palm Spring Plaza, DLF Phase 5, Sector 54, Gurugram (Delhi Metropolis) Haryana - 122022 (India)",
+        contacts: [{ name: "Nishant Yash",   phone: "+91 95601 08722", email: "nishant.yash@koenig-solutions.com",   languages: "English, Hindi" }] },
+      { city: "New Delhi", country: "India", flag: "🇮🇳", tag: "HQ",
+        address: "DSM-640-641, 6th Floor, DLF Tower, Shivaji Marg, Moti Nagar, New Delhi-110015(India)",
+        contacts: [{ name: "Pooja Chauhan",  phone: "+91 88002 76665", email: "pooja.chauhan@koenig-solutions.com",  languages: "English, Hindi" }] },
+      { city: "Bangalore", country: "India", flag: "🇮🇳",
+        address: "12th floor SKAV (Rockline Seethalaxmi) Building C-39, Kasturba Rd, Shanthala Nagar, Sampangi Rama Nagar, Bengaluru, Karnataka-560001 (India)",
+        contacts: [{ name: "Tamanna Alisha", phone: "+91 98868 88455", email: "tamanna.alisha@koenig-solutions.com", languages: "English, Hindi, Kannada, Urdu" }] },
+      { city: "Chennai",   country: "India", flag: "🇮🇳", moreInfo: true,
+        address: "5th Floor, Olympia Teknos Plot No. 28, South Phase, Sidco Industrial Estate, Guindy Chennai-600032, Tamil Nadu (India)",
+        contacts: [] },
+      { city: "Goa",       country: "India", flag: "🇮🇳", moreInfo: true,
+        address: "4th Floor, Nizmar Center, 401, Dr. Atmaram Borkar Road, Near EDC House, Altinho, Panaji, Goa 403001 (India)",
+        contacts: [{ name: "Gabe Turner",    phone: "+91 95998 34249", email: "Gabe.Turner@koenig-solutions.com",   languages: "Hindi, English" }] },
+      { city: "Dehradun",  country: "India", flag: "🇮🇳", moreInfo: true,
+        address: "Plot#22, IT Park, Sahastradhara Road, Dehradun(Uttarakhand)-248001 (India)",
+        contacts: [{ name: "Simran Dewan",   phone: "+91 92894 88282", whatsapp: "+91 92894 88282", email: "Simran.Deewan@koenig-solutions.com", languages: "English" }] },
     ],
   },
   {
     id: "mea", label: "Middle East & Africa", color: "#076D9D",
     offices: [
-      { city: "Dubai",         country: "UAE",          flag: "🇦🇪",
-        address: "Mazaya Business Avenue BB1, 1st Floor, Office 107 & 108, AL Thanyah Fifth JLT, Dubai · DMCC Licence: 852564",
-        contacts: [{ name: "Ashraf Ahmed",   phone: "+971 58 633 8289", email: "ashraf.ahmed@koenig-solutions.com",    languages: "English, Arabic" }, { name: "Abdul Mohammed", phone: "+971 50 502 45" }] },
+      { city: "Dubai",         country: "United Arab Emirates", flag: "🇦🇪", moreInfo: true,
+        address: "Mazaya Business Avenue BB1, First Floor, Office no#107 & 108 Plot No. 847, AL Thanyah Fifth JLT, Dubai - United Arab Emirates DMCC Licence No: 852564",
+        contacts: [
+          { name: "Ashraf Ahmed",          phone: "+971 58 633 8289",  whatsapp: "+971 58 633 8289",  email: "ashraf.ahmed@koenig-solutions.com",   languages: "English, Arabic" },
+          { name: "Omar Mohamed Elmasry",  phone: "+971 54 431 5301",  whatsapp: "+971 54 431 5301",  email: "Omar.Elmasry@koenig-solutions.com",   languages: "English, Arabic" },
+          { name: "Halem Moubark Abdallah",phone: "+971 128 884 7708", email: "halem.moubark@koenig-solutions.com" },
+        ] },
       { city: "Johannesburg",  country: "South Africa", flag: "🇿🇦",
-        address: "FutureSpace, 61 Katherine St, Sandhurst, Sandton – 2196",
-        contacts: [{ name: "Khalil Adam",    phone: "+27 84 388 1870",  email: "Khalil.Adam@koenig-solutions.com",     languages: "English, Hindi" }, { name: "Bongiwe Fuleni", phone: "+27 83 697 7165", email: "Bongiwe.Fuleni@koenig-solutions.com", languages: "English" }] },
-      { city: "Riyadh",        country: "Saudi Arabia", flag: "🇸🇦",
-        address: "Khurais Br Rd, Ar Rawdah, Al Hassan Ibn Ali Street, Riyadh – 13211",
+        address: "FutureSpace 61 Katherine, 61 Katherine St, Sandhurst, Sandton, 2196, South Africa",
+        contacts: [
+          { name: "Khalil Adam",    phone: "+27 843 881 870", email: "Khalil.Adam@koenig-solutions.com",    languages: "English, Hindi" },
+          { name: "Ivan Mathebula", phone: "+27 825 461 186", whatsapp: "+27 825 461 186", email: "Ivan.Mathebula@koenig-solutions.com", languages: "English" },
+          { name: "Bongiwe Fuleni", phone: "+27 836 977 165", whatsapp: "+27 836 977 165", email: "Bongiwe.Fuleni@koenig-solutions.com" },
+        ] },
+      { city: "Riyadh", country: "Saudi Arabia", flag: "🇸🇦", moreInfo: true,
+        address: "Khurais Br Rd, Ar Rawdah, Al Hassan Ibn Ali Street, Riyadh 13211, Saudi Arabia",
         contacts: [] },
-      { city: "Muscat",        country: "Oman",         flag: "🇴🇲",
-        address: "Oman Office",
-        contacts: [{ name: "Shaik Arshiya",  phone: "+968 76051994",    email: "Shaik.Arshiya@koenig-solutions.com",   languages: "English, Urdu, Arabic" }] },
-      { city: "Cairo",         country: "Egypt",        flag: "🇪🇬",
-        address: "Egypt Office",
-        contacts: [{ name: "Noha Swedy",     phone: "+20 106 149 4189", email: "Noha.Swedy@koenig-solutions.com",      languages: "Arabic, English" }] },
-      { city: "Dar es Salaam", country: "Tanzania",     flag: "🇹🇿",
-        address: "Tanzania Office",
-        contacts: [{ name: "Irene Riwa",     phone: "+255 744 396 711", email: "Irene.Riwa@koenig-solutions.com",      languages: "English" }] },
-      { city: "Lagos",         country: "Nigeria",      flag: "🇳🇬",
-        address: "Nigeria Office",
-        contacts: [{ name: "Joy Ogira",      phone: "+234 813 092 2071",email: "Joy.Ogira@koenig-solutions.com",       languages: "English" }] },
+      { city: "Oman",     country: "Oman",     flag: "🇴🇲",
+        contacts: [{ name: "Shaik Arshiya", phone: "+968 760 519 94",   whatsapp: "+968 760 519 94", email: "Shaik.Arshiya@koenig-solutions.com", languages: "English, Urdu, Arabic" }] },
+      { city: "Egypt",    country: "Egypt",    flag: "🇪🇬",
+        contacts: [{ name: "Noha Swedy",    phone: "+20 106 149 4189", email: "Noha.Swedy@koenig-solutions.com", languages: "Arabic, English" }] },
+      { city: "Tanzania", country: "Tanzania", flag: "🇹🇿",
+        contacts: [] },
+      { city: "Nigeria",  country: "Nigeria",  flag: "🇳🇬",
+        contacts: [{ name: "Joy Ogira",     phone: "+234 813 092 2071", whatsapp: "+234 813 092 2071", email: "Joy.Ogira@koenig-solutions.com", languages: "English" }] },
     ],
   },
   {
     id: "europe", label: "Europe", color: "#093148",
     offices: [
-      { city: "London",    country: "United Kingdom", flag: "🇬🇧",
-        address: "Level 19, 100 Bishopsgate, London EC2N 4AG, United Kingdom",
-        contacts: [{ name: "Shkelzen Sadiku", phone: "+44 7391 233590", email: "Shkelzen.Sadiku@koenig-solutions.com" }] },
-      { city: "Amsterdam", country: "Netherlands",    flag: "🇳🇱",
-        address: "Amsterdam Queens Tower, Delflandlaan 1, 1062 EA Amsterdam · Registered: Wilhelmina van Pruisenweg 35, 2595AN Den Haag",
-        contacts: [{ name: "Imran Sheikh", phone: "+49 1512 1216902", email: "Imran.Sheikh@koenig-solutions.com", languages: "German, English, French" }] },
-      { city: "Munich",    country: "Germany",        flag: "🇩🇪",
-        address: "Regus Munich Peak, 2nd & 3rd Floor, Putzbrunner Str. 71-73, Munich – 81739",
-        contacts: [{ name: "Imran Sheikh", phone: "+49 1512 1216902", email: "Imran.Sheikh@koenig-solutions.com" }] },
+      { city: "London",    country: "United Kingdom", flag: "🇬🇧", moreInfo: true,
+        address: "Level 19,100 Bishopsgate, London EC2N 4AG, United Kingdom",
+        contacts: [{ name: "Daniel Owen Nimmo", phone: "+44 7354 352 427", email: "Daniel.Nimmo@koenig-solutions.com", languages: "English" }] },
+      { city: "Amsterdam", country: "Netherlands", flag: "🇳🇱", moreInfo: true,
+        address: "RSIN: 861730045 Wilhelmina van Pruisenweg 35, 2595AN 's-Gravenhage, Netherlands",
+        meetingVenue: "Amsterdam Queens Tower, Delflandlaan 1, 1062 EA Amsterdam, Netherlands",
+        contacts: [{ name: "Mr. Imran Sheikh", phone: "+49 151 212 169 02", whatsapp: "+49 151 212 169 02", email: "Imran.Sheikh@koenig-solutions.com", languages: "German, English, French" }] },
+      { city: "Munich",    country: "Germany", flag: "🇩🇪", moreInfo: true,
+        address: "Regus, Munich Peak 2nd & 3rd floor, Putzbrunner Str. 71-73, MUNICH, 81739 Germany",
+        contacts: [{ name: "Imran Sheikh", phone: "+49 151 212 169 02", whatsapp: "+49 151 212 169 02", email: "Imran.Sheikh@koenig-solutions.com", languages: "German, English, French" }] },
     ],
   },
   {
-    id: "americas", label: "Americas", color: "#0577A8",
+    id: "namerica", label: "North America", color: "#0577A8",
     offices: [
-      { city: "New York", country: "United States", flag: "🇺🇸",
-        address: "Regus – 57 West 57th Street, Midtown Manhattan, 3rd & 4th Floor, New York, NY 10019",
+      { city: "New York", country: "USA", flag: "🇺🇸",
+        address: "Koenig New York Regus - New York City-57 West 57th Street Midtown Manhattan, 3rd and 4th Floor, New York, NY 10019, United States",
         contacts: [] },
-      { city: "Toronto",  country: "Canada",        flag: "🇨🇦",
-        address: "612-6960 Nicholson Road, Delta BC V4E 0A9 · Business No: 736655135BC0001",
-        contacts: [{ name: "Faraz Hameed", phone: "+1 437 243 1015", email: "faraz.hameed@koenig-solutions.com", languages: "English, French, German" }] },
+      { city: "Canada",    country: "Canada", flag: "🇨🇦",
+        address: "Koenig Solutions Ltd. 612-6960 Nicholson Road Delta BC V4E 0A9 Canada Business Number : 736655135BC0001",
+        contacts: [{ name: "Faraz Hameed", phone: "+1 (437) 243-1015", email: "faraz.hameed@koenig-solutions.com", languages: "English, French, German" }] },
     ],
   },
   {
-    id: "asiapac", label: "Asia Pacific", color: "#0694D1",
+    id: "anz", label: "Australia & New Zealand", color: "#0694D1",
     offices: [
-      { city: "Sydney",       country: "Australia",   flag: "🇦🇺",
-        address: "Meeting: F1/9-13 Bronte Rd, Bondi Junction NSW 2022 · Office: 232 Unley Road, Unley SA 5061",
-        contacts: [{ name: "Kunal Singh", phone: "+61 416 190 484", email: "kunal.singh@koenig-solutions.com", languages: "English" }, { name: "Mudit Misra", phone: "+61 452 219 323", email: "mudit.misra@koenig-solutions.com", languages: "English" }] },
-      { city: "Auckland",     country: "New Zealand", flag: "🇳🇿",
-        address: "Level 11, 34-42 Manners Street, Wellington – 6011",
-        contacts: [{ name: "Danish Mahajan", phone: "+64 211 809 987", email: "danish.mahajan@koenig-solutions.com" }] },
-      { city: "Singapore",    country: "Singapore",   flag: "🇸🇬",
-        address: "2 Peck Seah St, #02-01 Air View Building, Singapore – 079305",
-        contacts: [{ name: "David Shadrach Chandra", phone: "+65 8100 7960", email: "david.shadrach@koenig-solutions.com" }] },
-      { city: "Kuala Lumpur", country: "Malaysia",    flag: "🇲🇾",
-        address: "Level 5, Guoco Tower, 6 Jalan Damanlela, Damansara City, 50490 KL · Spaces Platinum Sentral, Jalan Stesen Sentral 2, 50470 KL",
-        contacts: [{ name: "Vinay Narayanan", phone: "+60 112 312 6443", email: "Vinay.Narayanan@koenig-solutions.com" }] },
+      { city: "Sydney",      country: "Australia",   flag: "🇦🇺", moreInfo: true,
+        address: "ABNAUSTRALIA, 232 Unley Road, Unley SA 5061",
+        meetingVenue: "F1/9-13 Bronte Rd, Bondi Junction NSW 2022, Australia",
+        contacts: [
+          { name: "Chris Tzalibiras", phone: "+61 4 2305 9782", email: "chris.tzalabiras@koenig-solutions.com" },
+          { name: "Kunal Singh",      phone: "+61 4 1619 0484", email: "kunal.singh@koenig-solutions.com", languages: "English" },
+          { name: "Mudit Misra",      phone: "+61 4 5221 9323", email: "mudit.misra@koenig-solutions.com", languages: "English" },
+        ] },
+      { city: "New Zealand", country: "New Zealand", flag: "🇳🇿",
+        address: "Moore Markhams Wellington Limited, Level 11, 34-42 Manners Street, Wellington, 6011, New Zealand",
+        contacts: [{ name: "Danish Mahajan", phone: "+64 211 809 987", whatsapp: "+64 211 809 987", email: "danish.mahajan@koenig-solutions.com" }] },
+    ],
+  },
+  {
+    id: "asia", label: "Asia", color: "#076D9D",
+    offices: [
+      { city: "Singapore", country: "Singapore", flag: "🇸🇬", moreInfo: true,
+        address: "2 Peck Seah St, #02-01 Air View Building, Singapore - 079305",
+        contacts: [] },
+      { city: "Malaysia",  country: "Malaysia Training", flag: "🇲🇾",
+        address: "Level 5, Guoco Tower, 6 Jalan Damanlela, Damansara City, Bukit Damansara, 50490 Kuala Lumpur, W.P. Kuala Lumpur",
+        meetingVenue: "Spaces Platinum Sentral, LOT G02-G07 , Level 3 , Platinum Sentral Jalan Stesen Sentral 2 ,50470 Kuala Lumpur, Malaysia",
+        contacts: [] },
     ],
   },
 ];
+
+const indiaOffices = officeRegions.find((r) => r.id === "india")!.offices;
 
 /* ─── helpers ────────────────────────────────────────────────────── */
 function flagCode(emoji: string) {
@@ -143,6 +156,10 @@ const AVATAR_GRADIENTS = [
 ];
 function avatarGrad(name: string) {
   return AVATAR_GRADIENTS[name.charCodeAt(0) % AVATAR_GRADIENTS.length];
+}
+function mapsHref(office: { city: string; country: string; address?: string; meetingVenue?: string }) {
+  const query = office.address || office.meetingVenue || `${office.city}, ${office.country}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
 /* ─── channel icons ──────────────────────────────────────────────── */
@@ -167,17 +184,18 @@ function WAIcon({ cls = "w-5 h-5" }) {
     </svg>
   );
 }
-function HRIcon({ cls = "w-5 h-5" }) {
+function PinIcon({ cls = "w-3.5 h-3.5" }) {
   return (
-    <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+    <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
     </svg>
   );
 }
-function SupportIcon({ cls = "w-5 h-5" }) {
+function DocIcon({ cls = "w-3.5 h-3.5" }) {
   return (
-    <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M16.712 4.33a9.027 9.027 0 011.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 00-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 010 9.424m-4.138-5.976a3.736 3.736 0 00-.88-1.388 3.737 3.737 0 00-1.388-.88m2.268 2.268a3.765 3.765 0 010 2.528m-2.268-4.796a3.765 3.765 0 00-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 01-1.388.88m2.268-2.268l4.138 3.448m0 0a9.027 9.027 0 01-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0l-3.448-4.138m3.448 4.138a9.014 9.014 0 01-9.424 0m5.976-4.138a3.765 3.765 0 01-2.528 0m0 0a3.736 3.736 0 01-1.388-.88 3.737 3.737 0 01-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 01-1.652-1.306 9.027 9.027 0 01-1.306-1.652m0 0l4.138-3.448M4.33 16.712a9.014 9.014 0 010-9.424m4.138 5.976a3.765 3.765 0 010-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 011.388-.88m-2.268 2.268L4.33 7.288m6.406-1.364a9.027 9.027 0 00-1.652 1.306A9.025 9.025 0 007.288 8.33" />
+    <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
     </svg>
   );
 }
@@ -266,7 +284,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-white mb-5">
+              <h1 className="whitespace-nowrap text-lg sm:text-2xl lg:text-4xl font-bold leading-tight tracking-tight text-white mb-4">
                 Let&apos;s build your{" "}
                 <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">
                   learning future
@@ -278,38 +296,6 @@ export default function ContactPage() {
                 Connect with our experts across 13+ countries. Whether you&apos;re an individual
                 or an enterprise, we&apos;ll build the right training roadmap for you.
               </p>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-5">
-                {[
-                  { value: "5,000+", label: "Courses" },
-                  { value: "30+",    label: "Offices"  },
-                  { value: "50+",    label: "Vendors"  },
-                  { value: "< 24h",  label: "Response" },
-                ].map((s) => (
-                  <div key={s.label} className="rounded-2xl px-4 py-3 text-center"
-                    style={{ background: "rgba(6,148,209,0.12)", border: "1px solid rgba(6,148,209,0.25)" }}>
-                    <p className="text-xl font-bold text-white">{s.value}</p>
-                    <p className="text-xs uppercase tracking-widest font-medium mt-0.5" style={{ color: "#3AB6EB" }}>{s.label}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Action buttons */}
-              <div className="grid grid-cols-2 gap-3">
-                <a href="mailto:info@koenig-solutions.com"
-                  className="btn-shine flex items-center justify-center gap-2.5 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
-                  style={{ background: "#0694D1", boxShadow: "0 0 16px rgba(6,148,209,0.4)" }}>
-                  <MailIcon cls="w-4 h-4" />
-                  Email Us
-                </a>
-                <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5 rounded-xl px-6 py-3 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
-                  style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.22)" }}>
-                  <WAIcon cls="w-4 h-4 text-emerald-400" />
-                  WhatsApp
-                </a>
-              </div>
             </div>
 
             {/* Right — contact info card */}
@@ -336,10 +322,7 @@ export default function ContactPage() {
 
                   {[
                     { icon: <MailIcon cls="w-5 h-5" />,      label: "General",      value: "info@koenig-solutions.com", href: "mailto:info@koenig-solutions.com"  },
-                    { icon: <HRIcon cls="w-5 h-5" />,      label: "HR / Careers", value: "hr@koenig-solutions.com",   href: "mailto:hr@koenig-solutions.com"    },
-                    { icon: <SupportIcon cls="w-5 h-5" />, label: "After-Course", value: "asd@koenig-solutions.com",  href: "mailto:asd@koenig-solutions.com"   },
                     { icon: <WAIcon cls="w-4 h-4" />,     label: "WhatsApp",     value: "+91-984-072-2417",          href: "https://wa.me/919840722417"        },
-                    { icon: <PhoneIcon cls="w-4 h-4" />,  label: "India HQ",     value: "+91-80950-73333",           href: "tel:+918095073333"                 },
                   ].map((row) => (
                     <a key={row.label} href={row.href}
                       target={row.href.startsWith("http") ? "_blank" : undefined}
@@ -365,65 +348,180 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
+
+          {/* Local offices — full width. Shows India for now; will switch to the
+              visitor's detected country once geo-lookup is wired up. */}
+          <div className="mt-3">
+            <div className="mb-4 flex items-center gap-2">
+              <img src="https://flagcdn.com/24x18/in.png" width={24} height={18} alt="India" className="rounded-[2px]" />
+              <span className="text-sm font-bold uppercase tracking-widest text-white/70">India</span>
+            </div>
+            <div className="rounded-2xl p-3 sm:p-4"
+              style={{ background: "rgba(6,148,209,0.12)", border: "1px solid rgba(6,148,209,0.25)" }}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+                {indiaOffices.filter((office) => office.contacts.length > 0).map((office) => (
+                  <div key={office.city} className="rounded-xl px-2.5 py-2 text-left transition-colors duration-150"
+                    onMouseEnter={e => (e.currentTarget.style.background = "rgba(6,148,209,0.20)")}
+                    onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+                    <p className="mb-1 truncate text-xs font-medium uppercase tracking-widest" style={{ color: "#3AB6EB" }}>{office.city}</p>
+                    <a href={`tel:${office.contacts[0].phone.replace(/[\s()-]/g, "")}`}
+                      className="flex items-center gap-1.5 text-sm tabular-nums text-white transition-colors hover:text-[#3AB6EB]">
+                      <PhoneIcon cls="w-3 h-3 shrink-0" /> <span className="truncate">{office.contacts[0].phone}</span>
+                    </a>
+                    {office.contacts[0].whatsapp && (
+                      <a href={`https://wa.me/${office.contacts[0].whatsapp.replace(/[^\d]/g, "")}`} target="_blank" rel="noopener noreferrer"
+                        className="mt-0.5 flex items-center gap-1.5 text-sm tabular-nums text-emerald-400 transition-colors hover:text-emerald-300">
+                        <WAIcon cls="w-3 h-3 shrink-0" /> <span className="truncate">{office.contacts[0].whatsapp}</span>
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
       </section>
 
       {/* ══════════════════════════════════════════════
-          SUPPORT CHANNELS
+          GLOBAL OFFICES — tabbed (light, mild blue glow)
       ══════════════════════════════════════════════ */}
       <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-[30px]"
-        style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(6,148,209,0.10) 0%, rgba(6,148,209,0.03) 50%, transparent 80%), #F7FBFF" }}>
-        {/* corner glow blobs */}
-        <div className="pointer-events-none absolute -left-20 top-0 h-[260px] w-[260px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(6,148,209,0.08) 0%, transparent 70%)" }} />
-        <div className="pointer-events-none absolute -right-16 bottom-0 h-[220px] w-[220px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(77,191,239,0.07) 0%, transparent 70%)" }} />
+        style={{ background: "radial-gradient(ellipse at 25% 60%, rgba(6,148,209,0.10) 0%, rgba(6,148,209,0.03) 40%, transparent 65%), #F7FBFF" }}>
+        {/* top-edge gradient separator */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-28"
+          style={{ background: "linear-gradient(to bottom, rgba(6,148,209,0.12) 0%, transparent 100%)" }} />
+
+        {/* subtle glow blobs */}
+        <div className="pointer-events-none absolute -right-24 -top-24 h-[400px] w-[400px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(6,148,209,0.10) 0%, transparent 70%)" }} />
+        <div className="pointer-events-none absolute -left-16 bottom-0 h-[300px] w-[300px] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(77,191,239,0.08) 0%, transparent 70%)" }} />
+
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="text-center mb-5 sm:mb-8">
             <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium uppercase tracking-wider text-[#0694D1]"
-              style={{ background: "rgba(6,148,209,0.10)" }}>
-              We&apos;re here to help
+              style={{ background: "rgba(6,148,209,0.10)", border: "1px solid rgba(6,148,209,0.20)" }}>
+              Worldwide Presence
             </span>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-koenig-dark">
-              Choose how to <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">reach us</span>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-koenig-dark mb-2 sm:mb-3">
+              Our global <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">offices</span>
             </h2>
+            <p className="text-[#5b7186] text-[13px] sm:text-base md:whitespace-nowrap px-2">
+              30+ offices across 5 continents — there&apos;s always a Koenig expert near you.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {supportChannels.map((ch) => (
-              <a key={ch.email} href={`mailto:${ch.email}`}
-                className="group flex items-start gap-4 bg-white rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:-translate-y-1"
-                style={{ border: "1px solid #CAEFFF", boxShadow: "0 2px 10px rgba(0,164,239,0.07)" }}
-                onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 8px 28px rgba(6,148,209,0.14)"; e.currentTarget.style.borderColor = "#A8D8F0"; }}
-                onMouseLeave={e => { e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,164,239,0.07)"; e.currentTarget.style.borderColor = "#CAEFFF"; }}>
-                <div className="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center text-[#0694D1] transition-transform duration-200 group-hover:scale-110"
-                  style={{ background: "rgba(6,148,209,0.10)" }}>
-                  {ch.icon === "hr" ? <HRIcon cls="w-5 h-5" /> : ch.icon === "support" ? <SupportIcon cls="w-5 h-5" /> : <MailIcon cls="w-5 h-5" />}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-bold text-[#0d1b2a] text-base mb-1">{ch.title}</p>
-                  <p className="text-sm text-[#2d4a6a] mb-2">{ch.desc}</p>
-                  <p className="text-sm font-medium text-[#0694D1] truncate">{ch.email}</p>
-                </div>
-              </a>
+          {/* Region tabs */}
+          <div className="flex flex-wrap justify-center gap-2 mb-5 sm:mb-8">
+            {officeRegions.map((r) => (
+              <button key={r.id} onClick={() => setActiveRegion(r.id)}
+                className="rounded-full px-5 py-2.5 min-h-[46px] text-[15px] font-medium transition-all duration-200"
+                style={activeRegion === r.id
+                  ? { background: "#0694D1", color: "#fff", boxShadow: "0 4px 14px rgba(6,148,209,0.40)" }
+                  : { background: "rgba(6,148,209,0.06)", color: "#2d4a6a", border: "1px solid rgba(6,148,209,0.18)" }}
+                onMouseEnter={e => { if (activeRegion !== r.id) { e.currentTarget.style.background = "rgba(6,148,209,0.14)"; e.currentTarget.style.color = "#0694D1"; } }}
+                onMouseLeave={e => { if (activeRegion !== r.id) { e.currentTarget.style.background = "rgba(6,148,209,0.06)"; e.currentTarget.style.color = "#2d4a6a"; } }}>
+                {r.label}
+              </button>
             ))}
+          </div>
 
-            {/* WhatsApp */}
-            <a href="https://wa.me/919840722417" target="_blank" rel="noopener noreferrer"
-              className="group flex items-start gap-4 rounded-2xl p-4 sm:p-6 transition-all duration-300 hover:-translate-y-1"
-              style={{ background: "linear-gradient(135deg,#0694D1,#076D9D)", boxShadow: "0 2px 10px rgba(6,148,209,0.20)" }}
-              onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 12px 36px rgba(6,148,209,0.38)"; }}
-              onMouseLeave={e => { e.currentTarget.style.boxShadow = "0 2px 10px rgba(6,148,209,0.20)"; }}>
-              <div className="w-11 h-11 shrink-0 rounded-xl flex items-center justify-center text-white bg-white/20 transition-transform duration-200 group-hover:scale-110">
-                <WAIcon cls="w-5 h-5" />
+          {/* Office cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {currentRegion.offices.map((office) => (
+              <div key={office.city}
+                className="group rounded-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden flex flex-col"
+                style={{ background: "linear-gradient(160deg,#FFFFFF 0%,#F4FBFF 100%)", border: "1px solid #CAEFFF", boxShadow: "0 4px 20px rgba(6,148,209,0.08)" }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(6,148,209,0.45)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(6,148,209,0.18)"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "#CAEFFF"; e.currentTarget.style.boxShadow = "0 4px 20px rgba(6,148,209,0.08)"; }}>
+
+                {/* top accent */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: "linear-gradient(90deg,#0694D1,#3AB6EB)" }} />
+
+                {/* ── Location zone ── */}
+                <div className="px-6 pt-6 pb-5">
+                  <div className="flex items-start justify-between gap-2 mb-4">
+                    <img src={`https://flagcdn.com/40x30/${flagCode(office.flag)}.png`} width={40} height={30} alt={office.country} className="rounded-[3px]" />
+                    <div className="flex flex-col items-end gap-1.5">
+                      {office.tag && (
+                        <span className="text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full px-2.5 py-0.5 text-white"
+                          style={{ background: "#0694D1" }}>{office.tag}</span>
+                      )}
+                      <a href={mapsHref(office)} target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap transition-colors"
+                        style={{ background: "rgba(6,148,209,0.10)", border: "1px solid rgba(6,148,209,0.25)", color: "#0694D1" }}
+                        onMouseEnter={e => { e.currentTarget.style.background = "rgba(6,148,209,0.18)"; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = "rgba(6,148,209,0.10)"; }}>
+                        <PinIcon cls="w-3 h-3" /> View direction
+                      </a>
+                      {office.moreInfo && (
+                        <button type="button"
+                          className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap transition-colors"
+                          style={{ background: "rgba(6,148,209,0.06)", border: "1px solid rgba(6,148,209,0.18)", color: "#0694D1" }}
+                          onMouseEnter={e => { e.currentTarget.style.background = "rgba(6,148,209,0.14)"; }}
+                          onMouseLeave={e => { e.currentTarget.style.background = "rgba(6,148,209,0.06)"; }}>
+                          <DocIcon cls="w-3 h-3" /> More Information
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <h3 className="text-base font-bold text-koenig-dark mb-0.5">{office.city}</h3>
+                  <p className="text-sm font-bold uppercase tracking-wider text-[#0694D1] mb-3">{office.country}</p>
+                  {office.address && (
+                    <p className="text-sm text-[#2d4a6a] leading-relaxed">{office.address}</p>
+                  )}
+                  {office.meetingVenue && (
+                    <p className="text-sm text-[#2d4a6a] leading-relaxed mt-2">
+                      <span className="font-bold text-koenig-dark">(Meeting Venue)</span> {office.meetingVenue}
+                    </p>
+                  )}
+                </div>
+
+                {/* ── Contact person zone — glassy ── */}
+                {office.contacts.length > 0 && (
+                  <div className="px-6 py-4 mt-auto space-y-3"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(6,148,209,0.08) 0%, rgba(255,255,255,0.5) 100%)",
+                      borderTop: "1px solid rgba(6,148,209,0.18)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                    }}>
+                    {office.contacts.map((c) => (
+                      <div key={c.name} className="flex items-start gap-2.5">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0"
+                          style={{ background: avatarGrad(c.name) }}>
+                          {initials(c.name)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-[#0d1b2a] leading-tight">{c.name}</p>
+                          <a href={`tel:${c.phone.replace(/[\s()-]/g, "")}`}
+                            className="flex items-center gap-1.5 text-sm text-[#0694D1] hover:text-[#076D9D] transition-colors tabular-nums">
+                            <PhoneIcon cls="w-3 h-3 shrink-0" /> {c.phone}
+                          </a>
+                          {c.whatsapp && (
+                            <a href={`https://wa.me/${c.whatsapp.replace(/[^\d]/g, "")}`} target="_blank" rel="noopener noreferrer"
+                              className="flex items-center gap-1.5 text-sm text-[#16a34a] hover:text-[#15803d] transition-colors tabular-nums">
+                              <WAIcon cls="w-3 h-3 shrink-0" /> {c.whatsapp}
+                            </a>
+                          )}
+                          {c.email && (
+                            <a href={`mailto:${c.email}`}
+                              className="block text-sm text-[#5b7186] hover:text-[#0694D1] transition-colors truncate">
+                              {c.email}
+                            </a>
+                          )}
+                          {c.languages && (
+                            <p className="text-sm text-[#5b7186] mt-0.5">{c.languages}</p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-bold text-white text-base mb-1">WhatsApp Chat</p>
-                <p className="text-sm text-white/70 mb-2">Instant messaging · Chat only</p>
-                <p className="text-sm font-medium text-white/90">+91-984-072-2417</p>
-              </div>
-            </a>
+            ))}
           </div>
         </div>
       </section>
@@ -663,120 +761,6 @@ export default function ContactPage() {
               </div>
 
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          GLOBAL OFFICES — tabbed
-      ══════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden px-4 md:px-8 lg:px-[50px] py-[30px]"
-        style={{ background: "radial-gradient(ellipse at 25% 60%, rgba(6,148,209,0.14) 0%, rgba(6,148,209,0.04) 40%, transparent 65%), #06111E" }}>
-        {/* top-edge gradient separator */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-28"
-          style={{ background: "linear-gradient(to bottom, rgba(6,148,209,0.18) 0%, transparent 100%)" }} />
-
-        {/* subtle glow blobs */}
-        <div className="pointer-events-none absolute -right-24 -top-24 h-[400px] w-[400px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(6,148,209,0.10) 0%, transparent 70%)" }} />
-        <div className="pointer-events-none absolute -left-16 bottom-0 h-[300px] w-[300px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(77,191,239,0.08) 0%, transparent 70%)" }} />
-
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="text-center mb-5 sm:mb-8">
-            <span className="mb-3 inline-block rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium uppercase tracking-wider text-[#3AB6EB]"
-              style={{ background: "rgba(6,148,209,0.15)", border: "1px solid rgba(6,148,209,0.25)" }}>
-              Worldwide Presence
-            </span>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3">
-              Our global <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">offices</span>
-            </h2>
-            <p className="text-white/50 text-sm sm:text-base max-w-lg mx-auto">
-              30+ offices across 5 continents — there&apos;s always a Koenig expert near you.
-            </p>
-          </div>
-
-          {/* Region tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-5 sm:mb-8">
-            {officeRegions.map((r) => (
-              <button key={r.id} onClick={() => setActiveRegion(r.id)}
-                className="rounded-full px-4 py-2 min-h-[40px] text-[14px] font-medium transition-all duration-200"
-                style={activeRegion === r.id
-                  ? { background: "#0694D1", color: "#fff", boxShadow: "0 4px 14px rgba(6,148,209,0.40)" }
-                  : { background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.55)", border: "1px solid rgba(6,148,209,0.20)" }}
-                onMouseEnter={e => { if (activeRegion !== r.id) { e.currentTarget.style.background = "rgba(6,148,209,0.12)"; e.currentTarget.style.color = "#fff"; } }}
-                onMouseLeave={e => { if (activeRegion !== r.id) { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "rgba(255,255,255,0.55)"; } }}>
-                {r.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Office cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {currentRegion.offices.map((office) => (
-              <div key={office.city}
-                className="group rounded-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden flex flex-col"
-                style={{ background: "linear-gradient(160deg,#0D2137 0%,#081828 100%)", border: "1px solid rgba(6,148,209,0.22)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(6,148,209,0.50)"; e.currentTarget.style.boxShadow = "0 12px 40px rgba(0,0,0,0.55)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(6,148,209,0.22)"; e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.35)"; }}>
-
-                {/* top accent */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: "linear-gradient(90deg,#0694D1,#3AB6EB)" }} />
-
-                {/* ── Location zone ── */}
-                <div className="px-6 pt-6 pb-5">
-                  <div className="flex items-start justify-between mb-4">
-                    <img src={`https://flagcdn.com/40x30/${flagCode(office.flag)}.png`} width={40} height={30} alt={office.country} className="rounded-[3px]" />
-                    {office.tag && (
-                      <span className="text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full px-2.5 py-0.5 text-white"
-                        style={{ background: "#0694D1" }}>{office.tag}</span>
-                    )}
-                  </div>
-                  <h3 className="text-base font-bold text-white mb-0.5">{office.city}</h3>
-                  <p className="text-sm font-bold uppercase tracking-wider text-[#3AB6EB] mb-3">{office.country}</p>
-                  {office.address && (
-                    <p className="text-sm text-white/70 leading-relaxed line-clamp-3">{office.address}</p>
-                  )}
-                </div>
-
-                {/* ── Contact person zone — glassy ── */}
-                {office.contacts.length > 0 && (
-                  <div className="px-6 py-4 mt-auto space-y-3"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(6,148,209,0.10) 0%, rgba(255,255,255,0.04) 100%)",
-                      borderTop: "1px solid rgba(6,148,209,0.22)",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
-                    }}>
-                    {office.contacts.map((c) => (
-                      <div key={c.name} className="flex items-start gap-2.5">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0"
-                          style={{ background: avatarGrad(c.name) }}>
-                          {initials(c.name)}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-bold text-white leading-tight">{c.name}</p>
-                          <a href={`tel:${c.phone.replace(/[\s()-]/g, "")}`}
-                            className="text-sm text-[#3AB6EB] hover:text-white transition-colors tabular-nums">
-                            {c.phone}
-                          </a>
-                          {c.email && (
-                            <a href={`mailto:${c.email}`}
-                              className="block text-sm text-white/65 hover:text-[#3AB6EB] transition-colors truncate">
-                              {c.email}
-                            </a>
-                          )}
-                          {c.languages && (
-                            <p className="text-sm text-white/55 mt-0.5">{c.languages}</p>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
           </div>
         </div>
       </section>
