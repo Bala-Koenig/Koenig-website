@@ -1,5 +1,4 @@
-1
-No filter count on the Apply button — change to "Apply (3 filters)" so user knows what they've selected before applying'use client'
+'use client'
 import { useState, useRef } from 'react'
 import Navbar from '@/components/Navbar'
 
