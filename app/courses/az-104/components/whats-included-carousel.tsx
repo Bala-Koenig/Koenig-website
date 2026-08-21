@@ -43,7 +43,7 @@ function Card({ item, icon }: { item: string; icon: React.ReactNode }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-koenig-blue/10 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-koenig-blue/25 hover:shadow-[0_8px_28px_rgba(6,148,209,0.12)] flex items-center gap-3">
       <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-koenig-blue/60 via-cyan-400/80 to-koenig-blue/40 opacity-0 transition-opacity group-hover:opacity-100" />
-      <div className="flex-shrink-0 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-koenig-blue to-cyan-500 text-white shadow-md shadow-koenig-blue/25">
+      <div className="flex-shrink-0 flex h-10 w-10 items-center justify-center rounded-xl bg-koenig-blue/10 text-koenig-blue">
         {icon}
       </div>
       <p className="text-sm font-semibold leading-snug text-koenig-dark">{item}</p>

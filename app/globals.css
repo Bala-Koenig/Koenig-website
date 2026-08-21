@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+button:not(:disabled), [role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+button:disabled, [role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 @keyframes heroAiDot { 0%, 80%, 100% { transform: scale(0.4); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
 .hero-ai-dot { width: 6px; height: 6px; border-radius: 50%; background: #0694D1; display: inline-block; animation: heroAiDot 1.2s infinite; }
 .hero-ai-dot:nth-child(2) { animation-delay: 0.15s; }

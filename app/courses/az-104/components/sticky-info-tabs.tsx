@@ -84,7 +84,7 @@ const labFeatures = [
       </svg>
     ),
     stat: "Real Azure",
-    bubble: "bg-gradient-to-br from-koenig-blue to-cyan-500 shadow-koenig-blue/25",
+    bubble: "bg-koenig-blue/10 text-koenig-blue",
     accent: "from-koenig-blue/50 via-cyan-400/60 to-koenig-blue/30",
     border: "border-koenig-blue/10",
     badge: "bg-koenig-blue/8 text-koenig-blue",
@@ -98,7 +98,7 @@ const labFeatures = [
       </svg>
     ),
     stat: "30+",
-    bubble: "bg-gradient-to-br from-indigo-500 to-blue-500 shadow-indigo-500/25",
+    bubble: "bg-indigo-50 text-indigo-600",
     accent: "from-indigo-400/50 via-blue-400/60 to-indigo-400/30",
     border: "border-indigo-100",
     badge: "bg-indigo-50 text-indigo-600",
@@ -112,7 +112,7 @@ const labFeatures = [
       </svg>
     ),
     stat: "Full Guide",
-    bubble: "bg-gradient-to-br from-teal-500 to-cyan-400 shadow-teal-500/25",
+    bubble: "bg-teal-50 text-teal-600",
     accent: "from-teal-400/50 via-cyan-400/60 to-teal-400/30",
     border: "border-teal-100",
     badge: "bg-teal-50 text-teal-600",
@@ -126,7 +126,7 @@ const labFeatures = [
       </svg>
     ),
     stat: "30 Days",
-    bubble: "bg-gradient-to-br from-sky-500 to-cyan-400 shadow-sky-500/25",
+    bubble: "bg-sky-50 text-sky-600",
     accent: "from-sky-400/50 via-cyan-400/60 to-sky-400/30",
     border: "border-sky-100",
     badge: "bg-sky-50 text-sky-600",
@@ -267,7 +267,7 @@ export function StickyInfoTabs(_props: StickyInfoTabsProps = {}) {
     <div key="salary" className="relative overflow-hidden rounded-2xl border border-green-100 bg-white p-6 shadow-sm">
       <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-green-400/60 via-emerald-400/80 to-green-400/30" />
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-400 text-white shadow-md shadow-green-500/25">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-50 text-green-600">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
           </svg>
@@ -297,7 +297,7 @@ export function StickyInfoTabs(_props: StickyInfoTabsProps = {}) {
     <div key="job-roles" className="relative overflow-hidden rounded-2xl border border-koenig-blue/10 bg-white p-6 shadow-sm">
       <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-koenig-blue/60 via-cyan-400/80 to-koenig-blue/30" />
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-koenig-blue to-cyan-500 text-white shadow-md shadow-koenig-blue/25">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-koenig-blue/10 text-koenig-blue">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
           </svg>
@@ -323,7 +323,7 @@ export function StickyInfoTabs(_props: StickyInfoTabsProps = {}) {
     <div key="companies" className="relative overflow-hidden rounded-2xl border border-cyan-100 bg-white p-6 shadow-sm">
       <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-cyan-400/60 via-sky-400/80 to-cyan-400/30" />
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-sky-400 text-white shadow-md shadow-cyan-500/25">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
           </svg>
@@ -425,7 +425,7 @@ export function StickyInfoTabs(_props: StickyInfoTabsProps = {}) {
                   >
                     <div className={`absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r ${f.accent}`} />
                     <div className="flex items-start gap-4">
-                      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${f.bubble} text-white shadow-md`}>
+                      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${f.bubble}`}>
                         {f.icon}
                       </div>
                       <div className="flex-1">

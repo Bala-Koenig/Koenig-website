@@ -2240,9 +2240,9 @@ export default function CorporateITTrainingPage() {
           <div className="hidden lg:block">
             {(() => {
               const pill = (active: boolean) => ({
-                background: active ? '#fff' : '#EFF8FF',
-                border: `1.5px solid ${active ? '#0694D1' : '#7DC5F2'}`,
-                boxShadow: active ? '0 4px 18px rgba(6,148,209,0.18)' : '0 2px 10px rgba(6,148,209,0.12)',
+                background: active ? '#fff' : '#F8FAFC',
+                border: `2px solid ${active ? '#0b2545' : '#E2E8F0'}`,
+                boxShadow: active ? '0 4px 14px rgba(11,37,69,0.12)' : '0 1px 3px rgba(15,23,42,0.04)',
                 transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s',
                 minHeight: '44px',
               })
@@ -2331,7 +2331,7 @@ export default function CorporateITTrainingPage() {
                       className="flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5 text-left transition-colors w-full"
                       style={{
                         background: '#fff',
-                        border: `1.5px solid ${active ? '#0694D1' : '#E2E8F0'}`,
+                        border: `2px solid ${active ? '#0694D1' : '#E2E8F0'}`,
                         boxShadow: active ? '0 4px 14px rgba(6,148,209,0.15)' : 'none',
                         opacity: disabled ? 0.42 : 1,
                         cursor: disabled ? 'not-allowed' : 'pointer',
@@ -2360,7 +2360,7 @@ export default function CorporateITTrainingPage() {
                     acc.push(
                       <div key="city-card" className="flex flex-col rounded-2xl px-3.5 py-2.5"
                         style={{
-                          border: `1.5px solid ${classroomCity ? '#0694D1' : '#E2E8F0'}`,
+                          border: `2px solid ${classroomCity ? '#0694D1' : '#E2E8F0'}`,
                           background: '#fff',
                           boxShadow: classroomCity ? '0 4px 14px rgba(6,148,209,0.15)' : 'none',
                           transition: 'border-color 0.2s, box-shadow 0.2s',
@@ -2439,7 +2439,7 @@ export default function CorporateITTrainingPage() {
 
         {/* ── Popular Courses Grid ── */}
         {(() => {
-          const PAGE_SIZE = 12
+          const PAGE_SIZE = 2 // TEMP: shrunk from 12 to preview multi-page "…" pagination with the current 24-item mock list. Revert to 12 once real course data is wired in.
           const q = search.toLowerCase()
           const displayed = q
             ? POPULAR_COURSES.filter(c =>

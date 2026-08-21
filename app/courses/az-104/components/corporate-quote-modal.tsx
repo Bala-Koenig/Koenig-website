@@ -170,7 +170,7 @@ export function CorporateQuoteModal({ children }: { children?: React.ReactNode }
               <div className="mt-2.5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                 <div>
                   <label className={labelCls}>Phone</label>
-                  <input type="tel" placeholder="+1 (555) 000-0000"
+                  <input type="tel" placeholder="+91 98765 43210"
                     value={form.phone} onChange={(e) => set("phone", e.target.value)}
                     className={inputCls} style={inputStyle} />
                 </div>
@@ -234,11 +234,8 @@ export function CorporateQuoteModal({ children }: { children?: React.ReactNode }
                 className="mt-4 w-full rounded-xl py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 active:scale-[0.99]"
                 style={{ background: "linear-gradient(135deg, #0694D1 0%, #076D9D 100%)", boxShadow: "0 0 20px rgba(6,148,209,0.35)" }}
               >
-                Submit — Get a Free Consultation
+                Submit
               </button>
-              <p className="mt-2 text-center text-xs text-white/30">
-                We&apos;ll respond within 1 business day · No spam, ever.
-              </p>
             </form>
           )}
         </div>

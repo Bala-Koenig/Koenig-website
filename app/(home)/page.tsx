@@ -3419,6 +3419,7 @@ export default function Design4Page() {
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-medium leading-tight">All Courses</div>
                   </div>
+                  <svg className="mr-1 h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/vendor:opacity-100" fill="none" viewBox="0 0 24 24" stroke="#0694D1"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 </a>
               </div>
               {MEGA_MENU_VENDORS.map(v => (
@@ -3566,7 +3567,7 @@ export default function Design4Page() {
                       color: techMenuCategory === name ? '#0694D1' : '#093148',
                     }}
                   >
-                    <svg className="h-4 w-4 shrink-0" style={{ color: techMenuCategory === name ? '#0694D1' : 'rgba(6,148,209,0.6)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icon}</svg>
+                    <svg className="h-4 w-4 shrink-0" style={{ color: techMenuCategory === name ? '#0694D1' : '#093148' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icon}</svg>
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium leading-tight">{name}</div>
                     </div>
@@ -3635,7 +3636,7 @@ export default function Design4Page() {
               <button
                 key={link.label}
                 type="button"
-                className="block w-full text-left rounded-lg px-3 py-2 text-[13px] transition-colors"
+                className="block w-full text-left rounded-lg px-3 py-2 text-sm transition-colors"
                 style={{ color: '#374151', background: 'transparent', border: 'none', cursor: 'pointer', fontWeight: bold ? 700 : 400 }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#0694D1'; e.currentTarget.style.background = 'rgba(6,148,209,0.06)'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = '#374151'; e.currentTarget.style.background = 'transparent'; }}

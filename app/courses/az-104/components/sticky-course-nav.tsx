@@ -50,24 +50,35 @@ export function StickyCourseNav() {
 
   return (
     <div id="course-sticky-nav" className="sticky top-0 z-20 border-b border-koenig-border bg-white/95 shadow-sm backdrop-blur-sm">
-      <div
-        className="mx-auto flex max-w-7xl gap-0 overflow-x-auto scrollbar-hide px-[15px] sm:px-6"
-        style={{ WebkitOverflowScrolling: "touch" }}
-      >
-        {NAV_ITEMS.map(({ label, id }) => (
-          <button
-            key={id}
-            ref={(el) => { btnRefs.current[id] = el; }}
-            onClick={() => scrollTo(id)}
-            className={`whitespace-nowrap border-b-2 px-5 py-3.5 text-sm font-medium transition ${
-              activeId === id
-                ? "border-koenig-blue text-koenig-blue"
-                : "border-transparent text-koenig-muted hover:border-koenig-border hover:text-koenig-dark"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-[15px] sm:px-6">
+        {/* Tabs — scroll horizontally on their own; CTA stays put alongside them */}
+        <div
+          className="flex min-w-0 flex-1 gap-0 overflow-x-auto scrollbar-hide"
+          style={{ WebkitOverflowScrolling: "touch" }}
+        >
+          {NAV_ITEMS.map(({ label, id }) => (
+            <button
+              key={id}
+              ref={(el) => { btnRefs.current[id] = el; }}
+              onClick={() => scrollTo(id)}
+              className={`whitespace-nowrap border-b-2 px-5 py-3.5 text-sm font-medium transition ${
+                activeId === id
+                  ? "border-koenig-blue text-koenig-blue"
+                  : "border-transparent text-koenig-muted hover:border-koenig-border hover:text-koenig-dark"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* View Schedule CTA — always visible in the same sticky row */}
+        <button
+          onClick={() => scrollTo("schedule")}
+          className="flex-shrink-0 whitespace-nowrap rounded-full border-2 border-koenig-blue px-4 py-1.5 text-xs font-semibold text-koenig-blue transition hover:bg-koenig-blue/10 sm:px-5 sm:py-2 sm:text-sm"
+        >
+          View Schedule
+        </button>
       </div>
     </div>
   );

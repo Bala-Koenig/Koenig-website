@@ -700,8 +700,8 @@ p {
   padding: 0 var(--px);
 }
 .hero-stat-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 18px 20px;
+  display: flex; align-items: center; gap: 9px;
+  padding: 11px 14px;
   border-right: 1px solid rgba(0,120,212,0.12);
   transition: background 0.2s;
 }
@@ -720,7 +720,7 @@ p {
   50%      { box-shadow: 0 0 12px 5px rgba(7,109,157,0.60); }
 }
 .hero-stat-icon {
-  width: 40px; height: 40px; border-radius: 10px;
+  width: 30px; height: 30px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .hero-stat-icon.glow-1 { border: 1px solid rgba(58,182,235,0.40);  animation: iconGlow1 2.8s ease-in-out infinite 0.0s; }
@@ -730,19 +730,19 @@ p {
 .hero-stat-icon.glow-5 { border: 1px solid rgba(6,148,209,0.45);   animation: iconGlow2 2.8s ease-in-out infinite 2.0s; }
 .hero-stat-text { display: flex; flex-direction: column; min-width: 0; }
 .hero-stat-number {
-  font-family: var(--display); font-size: clamp(20px, 1.9vw, 26px);
+  font-family: var(--display); font-size: clamp(15px, 1.3vw, 18px);
   font-weight: 800; letter-spacing: -0.02em; line-height: 1;
   background: linear-gradient(135deg, #3AB6EB 0%, #0694D1 60%, #076D9D 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .hero-stat-label {
-  font-size: 11.5px; font-weight: 600;
-  color: rgba(255,255,255,0.65); margin-top: 3px; line-height: 1.3;
+  font-size: 10px; font-weight: 600;
+  color: rgba(255,255,255,0.65); margin-top: 2px; line-height: 1.2;
 }
 .hero-stat-src {
-  font-size: 10px; color: rgba(255,255,255,0.32);
-  margin-top: 2px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: 9px; color: rgba(255,255,255,0.32);
+  margin-top: 1px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 /* Compact variant used inside the right-col stats card */
 .hero-stat-compact .hero-stat-item { padding: 12px 10px; gap: 8px; align-items: flex-start; height: 100%; box-sizing: border-box; }
@@ -910,6 +910,10 @@ p {
 .hero-sub strong { color: #38bdf8; font-weight: 700; }
 .hero-sub-more { color: rgba(255,255,255,0.97); font-weight: 400; }
 .hero-sub-more strong { color: #38bdf8; font-weight: 700; }
+.hero-sub-clamp {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .hero-read-more {
   background: none; border: none; padding: 0; cursor: pointer;
   color: #38bdf8; font-size: 14px; font-weight: 600;
@@ -2157,6 +2161,15 @@ p {
   display: flex; align-items: center; justify-content: center;
   border-radius: 7px;
 }
+.csi-radio {
+  width: 16px; height: 16px; flex-shrink: 0; border-radius: 50%;
+  border: 1.5px solid rgba(6,148,209,0.3); background: rgba(6,148,209,0.06);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+.cert-sidebar-item:hover .csi-radio { border-color: rgba(6,148,209,0.5); background: rgba(6,148,209,0.1); }
+.cert-sidebar-item.active .csi-radio { border-color: var(--blue); background: rgba(6,148,209,0.12); }
+.csi-radio-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
 .cert-tech-search {
   display: flex; align-items: center; gap: 6px;
   margin: 0 12px 6px; padding: 5px 8px;
@@ -2710,28 +2723,30 @@ p {
 .cert-panel-scroll {
   padding: 16px 18px 24px;
 }
-/* ── Pagination ── */
+/* ── Pagination (pill, Amazon-style — matches corporate-training page) ── */
+.cert-pagination-wrap { display: flex; align-items: center; justify-content: center; padding: 16px 0 20px; }
 .cert-pagination {
-  display: flex; align-items: center; justify-content: center; gap: 5px;
-  padding: 16px 0 20px;
+  display: inline-flex; align-items: center; gap: 2px;
+  background: #fff; border: 1.5px solid #E2EBF6; border-radius: 999px;
+  padding: 6px 8px; box-shadow: 0 2px 10px rgba(6,148,209,0.06);
 }
 .cert-pg-arrow {
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1.5px solid rgba(6,148,209,0.25); background: #fff;
-  display: flex; align-items: center; justify-content: center;
-  color: #0578b3; cursor: pointer; transition: all 0.18s; font-family: inherit;
+  display: flex; align-items: center; gap: 4px; height: 36px; padding: 0 12px;
+  border-radius: 999px; border: none; background: transparent;
+  font-size: 13px; font-weight: 700; font-family: inherit;
+  color: #0694D1; cursor: pointer; transition: background 0.18s;
 }
-.cert-pg-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
-.cert-pg-arrow:not(:disabled):hover { background: #0694D1; border-color: #0694D1; color: #fff; box-shadow: 0 4px 12px rgba(6,148,209,0.3); }
+.cert-pg-arrow:disabled { color: #B9C6D6; cursor: not-allowed; }
+.cert-pg-arrow:not(:disabled):hover { background: rgba(6,148,209,0.08); }
 .cert-pg-num {
-  min-width: 34px; height: 34px; border-radius: 8px;
+  min-width: 36px; height: 36px; padding: 0 4px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
   border: 1.5px solid transparent; background: transparent;
-  font-size: 13px; font-weight: 600; color: #4a6375;
-  cursor: pointer; transition: all 0.18s; font-family: inherit; padding: 0 8px;
+  font-size: 13px; font-weight: 600; color: #0694D1;
+  cursor: pointer; transition: border-color 0.15s; font-family: inherit;
 }
-.cert-pg-num:hover { background: rgba(6,148,209,0.08); color: #0694D1; border-color: rgba(6,148,209,0.2); }
-.cert-pg-num.active { background: #0694D1; color: #fff; border-color: #0694D1; box-shadow: 0 3px 10px rgba(6,148,209,0.35); }
-.cert-pg-ellipsis { font-size: 13px; font-weight: 600; color: #94a3b8; padding: 0 4px; line-height: 34px; }
+.cert-pg-num.active { font-weight: 800; color: #0b2545; border-color: #0b2545; }
+.cert-pg-ellipsis { width: 28px; text-align: center; font-size: 13px; font-weight: 600; color: #94a3b8; }
 .cert-panel-header { display: none; }
 .cert-panel-title-block {}
 .cert-panel-icon { display: none; }
@@ -2941,7 +2956,50 @@ p {
   box-shadow: 0 2px 8px rgba(9,49,72,0.3);
 }
 .cert-btn-details:hover { filter: brightness(1.25); box-shadow: 0 4px 14px rgba(9,49,72,0.4); transform: translateY(-1px); }
+/* Download Syllabus — inline text link, sits under the course title */
+.cert-syllabus-link {
+  display: inline-flex; align-items: center; gap: 5px; align-self: flex-start;
+  margin-bottom: 10px; padding: 0; border: none; background: none;
+  color: #0694D1; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+}
+.cert-syllabus-link:hover { text-decoration: underline; }
+/* Footer actions — outline "View Course" + filled "Enquire now" */
+.cert-btn-view {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 6px 8px; border-radius: var(--r8); font-size: 10.5px; font-weight: 700;
+  background: #fff; color: #093148; border: 1.5px solid #093148; cursor: pointer;
+  transition: background 0.18s; white-space: nowrap; font-family: inherit; text-decoration: none;
+}
+.cert-btn-view:hover { background: rgba(9,49,72,0.06); }
+.cert-btn-enquire {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 6px 8px; border-radius: var(--r8); font-size: 10.5px; font-weight: 700;
+  background: linear-gradient(135deg, #093148 0%, #0d5280 100%); color: #fff;
+  border: none; cursor: pointer;
+  transition: filter 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease; white-space: nowrap; font-family: inherit;
+  box-shadow: 0 2px 8px rgba(9,49,72,0.3);
+}
+.cert-btn-enquire:hover { filter: brightness(1.25); box-shadow: 0 4px 14px rgba(9,49,72,0.4); transform: translateY(-1px); }
 
+/* ── Course card v2 preview (top accent, side-by-side pills, no description) ── */
+.cert-card-v2 { }
+.cert-card-v2 .cert-hot-badge { background: rgba(6,148,209,0.08); color: #0694D1; border: 1px solid rgba(6,148,209,0.3); box-shadow: none; }
+.cert-pill-row { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin-bottom: 6px; margin-top: -8px; }
+.cert-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; white-space: nowrap; line-height: 1; }
+.cert-pill-level { background: #F1F4F8; border: 1px solid #E1E7EE; color: #4a5568; }
+.cert-divider { height: 1px; background: rgba(6,148,209,0.1); margin: 12px 0; }
+.cert-price-rating-row { display: flex; align-items: center; justify-content: space-between; margin: 10px 0 12px; }
+.cert-price-lg { font-size: 16px; font-weight: 800; color: var(--light-text); font-family: var(--display); letter-spacing: -0.2px; }
+.cert-rating-inline { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; color: #d97706; }
+.cert-rating-inline .cert-rating-count { color: var(--light-sub); font-weight: 500; }
+.cert-card-v2 .cert-code {
+  background: #f0f4f8; border: 1px solid #dde8f0; border-radius: 6px;
+  padding: 3px 8px; font-size: 12px; font-weight: 600; color: #4a6275; font-family: monospace;
+}
+.cert-card-v2 .cert-hours {
+  background: none; border: none; padding: 0; font-family: inherit;
+  font-size: 12px; font-weight: 500; color: #7a93a8; display: flex; align-items: center; gap: 4px;
+}
 
 /* ══════════════════════════════
    CERT PATH MAPPER (CodingNinjas style)
@@ -4935,10 +4993,11 @@ p {
 .roi-inner {
   display: flex; flex-direction: row-reverse; align-items: center;
   max-width: var(--container); margin: 0 auto; padding: 0 var(--px);
-  gap: 80px;
+  gap: 56px;
 }
 .roi-left { width: 340px; flex-shrink: 0; }
-.roi-right { flex: 1; display: flex; flex-direction: column; gap: 0; }
+.roi-right { flex: 1; display: flex; justify-content: center; }
+.roi-right-list { display: flex; flex-direction: column; gap: 0; }
 .roi-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
@@ -4974,7 +5033,7 @@ p {
 .roi-stat-divider { display: none; }
 .roi-item {
   display: flex; gap: 12px; align-items: center;
-  padding: 10px 18px; border-radius: 10px; border: 1px solid transparent;
+  padding: 6px 18px; border-radius: 10px; border: 1px solid transparent;
   background: transparent;
 }
 .roi-item-desc-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.22,1,0.36,1); }
@@ -5028,7 +5087,8 @@ p {
   gap: 80px;
 }
 .edge-left { width: 340px; flex-shrink: 0; }
-.edge-right { flex: 1; display: flex; flex-direction: column; gap: 0; }
+.edge-right { flex: 1; display: flex; justify-content: center; }
+.edge-right-list { display: flex; flex-direction: column; gap: 0; }
 .edge-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
@@ -5066,7 +5126,7 @@ p {
 /* Right — scrolling items */
 .edge-item {
   display: flex; gap: 12px; align-items: center;
-  padding: 10px 18px; border-radius: 10px; border: 1px solid transparent;
+  padding: 6px 18px; border-radius: 10px; border: 1px solid transparent;
   background: transparent;
 }
 .edge-item-desc-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.22,1,0.36,1); }
@@ -10601,6 +10661,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [drawerStyle, setDrawerStyle] = useState<React.CSSProperties>({});
   const certPanelRef = useRef<HTMLDivElement>(null);
+  const scrollToPanelTop = () => certPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const [certSearch, setCertSearch]       = useState("");
   const [certSort, setCertSort]           = useState("");
   const [certView, setCertView]           = useState("grid");
@@ -10895,7 +10956,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                     className={`cert-sidebar-item${activeTab===""?" active":""}`}
                     onClick={() => setActiveTab("")}
                   >
-                    <span className="csi-icon">
+                    <span className="csi-icon" style={{color:"var(--light-text)"}}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
                         <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
@@ -10913,8 +10974,8 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                     className={`cert-sidebar-item${activeTab===t?" active":""}`}
                     onClick={() => { setActiveTab(t === activeTab ? "" : t); }}
                   >
-                    <span className="csi-icon" style={t==="GitHub"?{background:"#fff",borderRadius:7,padding:3}:{}}>
-                      {TECH_LOGOS[t]({ size: t==="GitHub"?16:20 })}
+                    <span className="csi-radio">
+                      {activeTab===t && <span className="csi-radio-dot" />}
                     </span>
                     <div className="csi-body">
                       <span className="csi-label">{t}</span>
@@ -11066,10 +11127,16 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                       </div>
                     </div>
 
-                    {/* ── Active filter chips (Level + Duration only) ── */}
-                    {(activeLevels.size > 0 || activeDurations.size > 0) && (
+                    {/* ── Active filter chips (Technology + Level + Duration) ── */}
+                    {(activeTab || activeLevels.size > 0 || activeDurations.size > 0) && (
                       <div className="cf-chips-row">
                         <span className="cf-chips-label">Active filters:</span>
+                        {activeTab && (
+                          <span className="cf-chip">
+                            {activeTab}
+                            <button className="cf-chip-x" onClick={() => setActiveTab("")}>×</button>
+                          </span>
+                        )}
                         {Array.from(activeLevels).map(k => (
                           <span key={k} className="cf-chip">
                             {levelChipLabel(k)}
@@ -11159,97 +11226,103 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                         <>
                         <div className="cert-grid">
                           {pagedCourseDisplay.map((c,i) => {
-                            return (
-                            <div key={`c-${i}`} className={`cert-card ${c.level}-card`} style={{minHeight:250}}>
-                              {/* Popular badge — absolute bottom-right tab */}
-                              {CERT_POPULAR[c.code]?.hot && (
-                                <span className="cert-hot-badge">
-                                  <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z"/></svg>
-                                  Popular
-                                </span>
-                              )}
-                              {/* Top row: Level badge left */}
-                              <div style={{display:"flex",alignItems:"center",justifyContent:"flex-start",marginBottom:6,marginTop:-8}}>
-                                <span className={`cert-badge ${c.level}`} style={{marginBottom:0}}>
-                                  {c.level==="fund" ? (
-                                    <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>Fundamentals</>
-                                  ) : c.level==="assoc" ? (
-                                    <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Associate</>
-                                  ) : (
-                                    <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7l4 9h12l4-9-6 4-4-6-4 6z"/></svg>Expert</>
-                                  )}
-                                </span>
-                              </div>
-                              {searchActive && <span className="cert-track-tag">{c.tab}</span>}
-                              <div className="cert-name-wrap"
-                                onMouseEnter={e=>{const n=e.currentTarget.querySelector('.cert-name');if(n&&n.scrollHeight>n.clientHeight)e.currentTarget.classList.add('show-tip');}}
-                                onMouseLeave={e=>e.currentTarget.classList.remove('show-tip')}
-                              >
-                                <div className="cert-name">{c.name.replace(/exam prep:\s*/gi, '').trim()}</div>
-                                <div className="cert-name-tooltip">{c.name}</div>
-                              </div>
-                              <div className="cert-code-row">
-                                <span className="cert-code">{c.code}</span>
-                                <span className="cert-hours">
-                                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                  {c.dur} · {(parseInt(c.dur) || 1) * 8}hrs
-                                </span>
-                              </div>
-                              <div className="cert-footer">
-                                <div className="cert-price-row">
-                                  {CERT_POPULAR[c.code] && (
-                                    <>
-                                      <span className="cert-enrolled" style={{fontSize:10}}>
-                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                                        {CERT_POPULAR[c.code].enrolled}
-                                      </span>
-                                      <span className="cert-rating" style={{fontSize:10}}>
-                                        <span className="cert-rating-star">★</span>
-                                        {CERT_POPULAR[c.code].rating}
-                                      </span>
-                                    </>
-                                  )}
-                                  <span className="cert-price" style={{marginLeft:'auto'}}>
-                                    <span className="cert-price-curr" style={{fontSize:12}}>₹</span>
-                                    <span className="cert-price-amount">33,000</span>
-                                  </span>
-                                </div>
-                                <div className="cert-actions">
-                                  <button className="cert-btn-brochure" onClick={() => onBrochure(c.name)} style={{flex:1,whiteSpace:"nowrap"}}>
-                                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                    Download Syllabus
-                                  </button>
-                                  <span className="cert-btn-details" style={{flex:1,display:"inline-flex",alignItems:"center",justifyContent:"center",whiteSpace:"nowrap"}}>
-                                    View Course
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
+                            const levelIcon = c.level==="fund" ? (
+                              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>
+                            ) : c.level==="assoc" ? (
+                              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+                            ) : (
+                              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7l4 9h12l4-9-6 4-4-6-4 6z"/></svg>
                             );
+                            const levelLabel = c.level==="fund" ? "Fundamentals" : c.level==="assoc" ? "Associate" : "Expert";
+
+                            return (
+                                <div key={`c-${i}`} className={`cert-card cert-card-v2 ${c.level}-card`} style={{minHeight:250}}>
+                                  {CERT_POPULAR[c.code]?.hot && (
+                                    <span className="cert-hot-badge">
+                                      <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z"/></svg>
+                                      Popular
+                                    </span>
+                                  )}
+                                  <div className="cert-pill-row">
+                                    <span className={`cert-pill cert-pill-level ${c.level}`}>{levelIcon}{levelLabel}</span>
+                                  </div>
+                                  {searchActive && <span className="cert-track-tag">{c.tab}</span>}
+                                  <div className="cert-name-wrap"
+                                    onMouseEnter={e=>{const n=e.currentTarget.querySelector('.cert-name');if(n&&n.scrollHeight>n.clientHeight)e.currentTarget.classList.add('show-tip');}}
+                                    onMouseLeave={e=>e.currentTarget.classList.remove('show-tip')}
+                                  >
+                                    <div className="cert-name">{c.name.replace(/exam prep:\s*/gi, '').trim()}</div>
+                                    <div className="cert-name-tooltip">{c.name}</div>
+                                  </div>
+                                  <button className="cert-syllabus-link" onClick={e=>{e.stopPropagation();onBrochure(c.name);}}>
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    Download syllabus
+                                  </button>
+                                  <div className="cert-code-row">
+                                    <span className="cert-code">{c.code}</span>
+                                    <span className="cert-hours">
+                                      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                      {c.dur} · {(parseInt(c.dur) || 1) * 8}hrs
+                                    </span>
+                                  </div>
+                                  <div className="cert-price-rating-row">
+                                    {CERT_POPULAR[c.code] && (
+                                      <>
+                                        <span className="cert-enrolled">
+                                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                          {CERT_POPULAR[c.code].enrolled}
+                                        </span>
+                                        <span className="cert-rating">
+                                          <span className="cert-rating-star">★</span>
+                                          {CERT_POPULAR[c.code].rating}
+                                        </span>
+                                      </>
+                                    )}
+                                    <span className="cert-price-lg" style={{marginLeft:"auto"}}>INR 33,000</span>
+                                  </div>
+                                  <div className="cert-actions">
+                                    <span className="cert-btn-view" style={{flex:1,whiteSpace:"nowrap"}}>
+                                      View course
+                                    </span>
+                                    <button className="cert-btn-enquire" onClick={e=>{e.stopPropagation();onEnroll();}} style={{flex:1,whiteSpace:"nowrap"}}>
+                                      Enquire now
+                                    </button>
+                                  </div>
+                                </div>
+                              );
                           })}
                         </div>
                         {/* ── Pagination ── */}
                         {totalPages > 1 && (() => {
                           const getRange = () => {
                             if (totalPages <= 7) return Array.from({length: totalPages}, (_,i) => i);
-                            const s = new Set([0, totalPages-1, mobilePage, mobilePage-1, mobilePage+1].filter(p => p>=0 && p<totalPages));
-                            const sorted = Array.from(s).sort((a,b)=>a-b);
+                            // Always lead with the first 5 pages, then the current page's
+                            // neighbours, then the last page — e.g. 1,2,3,4,5 … 149
+                            const lead = Math.min(5, totalPages);
+                            const s = new Set(Array.from({length: lead}, (_,i) => i));
+                            s.add(totalPages-1);
+                            s.add(mobilePage-1); s.add(mobilePage); s.add(mobilePage+1);
+                            const sorted = Array.from(s).filter(p => p>=0 && p<totalPages).sort((a,b)=>a-b);
                             const r = [];
                             for (let i=0;i<sorted.length;i++) { if(i>0&&sorted[i]-sorted[i-1]>1) r.push(-1); r.push(sorted[i]); }
                             return r;
                           };
                           return (
-                            <div className="cert-pagination">
-                              <button className="cert-pg-arrow" disabled={mobilePage===0} onClick={()=>setMobilePage(p=>p-1)}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-                              </button>
-                              {getRange().map((p,i) => p===-1
-                                ? <span key={`e${i}`} className="cert-pg-ellipsis">…</span>
-                                : <button key={p} className={`cert-pg-num${mobilePage===p?" active":""}`} onClick={()=>setMobilePage(p)}>{p+1}</button>
-                              )}
-                              <button className="cert-pg-arrow" disabled={mobilePage>=totalPages-1} onClick={()=>setMobilePage(p=>p+1)}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                              </button>
+                            <div className="cert-pagination-wrap">
+                              <div className="cert-pagination">
+                                <button className="cert-pg-arrow" disabled={mobilePage===0} onClick={()=>{setMobilePage(p=>p-1);scrollToPanelTop();}} aria-label="Previous page">
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                                  Previous
+                                </button>
+                                {getRange().map((p,i) => p===-1
+                                  ? <span key={`e${i}`} className="cert-pg-ellipsis">…</span>
+                                  : <button key={p} className={`cert-pg-num${mobilePage===p?" active":""}`} onClick={()=>{setMobilePage(p);scrollToPanelTop();}} aria-current={mobilePage===p?"page":undefined}>{p+1}</button>
+                                )}
+                                <button className="cert-pg-arrow" disabled={mobilePage>=totalPages-1} onClick={()=>{setMobilePage(p=>p+1);scrollToPanelTop();}} aria-label="Next page">
+                                  Next
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                </button>
+                              </div>
                             </div>
                           );
                         })()}
@@ -11271,7 +11344,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                   transition={{ duration:0.28, ease:[0.16,1,0.3,1] }}
                   style={{ flex:1, minHeight:0, display:"flex", flexDirection:"column" }}
                 >
-                  <div className="cert-panel">
+                  <div className="cert-panel" ref={certPanelRef}>
                     <div className="cert-panel-sticky">
                       <span style={{fontSize:13,fontWeight:700,color:"var(--light-text)"}}>{activeTab || "All Microsoft Exams"}</span>
                     </div>
@@ -11349,14 +11422,14 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                         };
                         return (
                           <div className="cert-pagination">
-                            <button className="cert-pg-arrow" disabled={examPage===0} onClick={()=>setExamPage(p=>p-1)}>
+                            <button className="cert-pg-arrow" disabled={examPage===0} onClick={()=>{setExamPage(p=>p-1);scrollToPanelTop();}}>
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
                             </button>
                             {getRange().map((p,i) => p===-1
                               ? <span key={`e${i}`} className="cert-pg-ellipsis">…</span>
-                              : <button key={p} className={`cert-pg-num${examPage===p?" active":""}`} onClick={()=>setExamPage(p)}>{p+1}</button>
+                              : <button key={p} className={`cert-pg-num${examPage===p?" active":""}`} onClick={()=>{setExamPage(p);scrollToPanelTop();}}>{p+1}</button>
                             )}
-                            <button className="cert-pg-arrow" disabled={examPage>=examTotalPages-1} onClick={()=>setExamPage(p=>p+1)}>
+                            <button className="cert-pg-arrow" disabled={examPage>=examTotalPages-1} onClick={()=>{setExamPage(p=>p+1);scrollToPanelTop();}}>
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
                             </button>
                           </div>
@@ -12664,9 +12737,11 @@ function WhyCertSection({ onCTA }) {
 
         {/* Left (order:1 via CSS) — scrolling items */}
         <div className="roi-right">
-          {ROI_ITEMS.map((item) => (
-            <RoiItem key={item.num} item={item} />
-          ))}
+          <div className="roi-right-list">
+            {ROI_ITEMS.map((item) => (
+              <RoiItem key={item.num} item={item} />
+            ))}
+          </div>
         </div>
 
       </div>
@@ -12861,9 +12936,11 @@ function EdgeSection({ onCTA }) {
 
         {/* Right — scrolling items */}
         <div className="edge-right">
-          {EDGE_ITEMS.map((item) => (
-            <EdgeItem key={item.num} item={item} />
-          ))}
+          <div className="edge-right-list">
+            {EDGE_ITEMS.map((item) => (
+              <EdgeItem key={item.num} item={item} />
+            ))}
+          </div>
         </div>
 
       </div>
@@ -14692,10 +14769,17 @@ function EnrollmentCombinedSection({ onCTA }) {
 }
 
 // ── BROCHURE FORM ──
+const BROCHURE_COUNTRIES = [
+  "United States", "United Kingdom", "India", "Canada", "Australia",
+  "United Arab Emirates", "Singapore", "Germany", "Other",
+];
+
 function BrochureForm({ onClose, courseName, mode = "syllabus" }: { onClose: () => void; courseName?: string; mode?: "syllabus" | "certificate" }) {
   const isCert = mode === "certificate";
   const [fullName, setFullName] = React.useState("");
   const [email, setEmail]       = React.useState("");
+  const [country, setCountry]   = React.useState("");
+  const [robotChecked, setRobotChecked] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
 
   const inputStyle: React.CSSProperties = {
@@ -14735,34 +14819,65 @@ function BrochureForm({ onClose, courseName, mode = "syllabus" }: { onClose: () 
 
   return (
     <form onSubmit={e=>{ e.preventDefault(); setSubmitted(true); }} style={{display:'flex',flexDirection:'column',gap:14}}>
-      {/* Full Name */}
+      {/* Name */}
       <div>
-        <label style={labelStyle}>Full Name <span style={{color:'#ef4444'}}>*</span></label>
-        <input required style={inputStyle} placeholder="Rahul Sharma" value={fullName} onChange={e=>setFullName(e.target.value)}
+        <label style={labelStyle}>Name <span style={{color:'#ef4444'}}>*</span></label>
+        <input required style={inputStyle} placeholder="John Smith" value={fullName} onChange={e=>setFullName(e.target.value)}
           onFocus={e=>(e.target.style.borderColor='#0694D1')} onBlur={e=>(e.target.style.borderColor='rgba(6,148,209,0.3)')}/>
       </div>
       {/* Email */}
       <div>
-        <label style={labelStyle}>Email Address <span style={{color:'#ef4444'}}>*</span></label>
-        <input required type="email" style={inputStyle} placeholder="you@company.com" value={email} onChange={e=>setEmail(e.target.value)}
+        <label style={labelStyle}>Email <span style={{color:'#ef4444'}}>*</span></label>
+        <input required type="email" style={inputStyle} placeholder="John@example.com" value={email} onChange={e=>setEmail(e.target.value)}
           onFocus={e=>(e.target.style.borderColor='#0694D1')} onBlur={e=>(e.target.style.borderColor='rgba(6,148,209,0.3)')}/>
+      </div>
+      {/* Country */}
+      <div>
+        <label style={labelStyle}>Country <span style={{color:'#ef4444'}}>*</span></label>
+        <div style={{position:'relative'}}>
+          <select required style={{...inputStyle, appearance:'none', color: country ? '#fff' : 'rgba(255,255,255,0.4)'}}
+            value={country} onChange={e=>setCountry(e.target.value)}
+            onFocus={e=>(e.target.style.borderColor='#0694D1')} onBlur={e=>(e.target.style.borderColor='rgba(6,148,209,0.3)')}>
+            <option value="" disabled style={{background:'#062238'}}>Select your country</option>
+            {BROCHURE_COUNTRIES.map(c => <option key={c} value={c} style={{background:'#062238',color:'#fff'}}>{c}</option>)}
+          </select>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+            style={{position:'absolute',right:14,top:'50%',transform:'translateY(-50%)',pointerEvents:'none'}}><path d="M6 9l6 6 6-6"/></svg>
+        </div>
       </div>
       {/* Email note */}
       <div style={{display:'flex',alignItems:'center',gap:6}}>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <span style={{fontSize:12,color:'rgba(255,255,255,0.45)'}}>{isCert ? "Sample certificate will be sent to your email ID" : "Course content will be sent to your email ID"}</span>
       </div>
+      {/* reCAPTCHA mock */}
+      <div style={{display:'flex',justifyContent:'center'}}>
+        <div style={{display:'inline-flex',alignItems:'center',gap:10,borderRadius:8,padding:'8px 12px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.12)'}}>
+          <input type="checkbox" checked={robotChecked} onChange={e=>setRobotChecked(e.target.checked)}
+            style={{width:16,height:16,cursor:'pointer'}}/>
+          <span style={{fontSize:12,color:'rgba(255,255,255,0.7)'}}>I&apos;m not a robot</span>
+          <div style={{display:'flex',flexDirection:'column',alignItems:'center',marginLeft:4}}>
+            <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
+              <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#4A90D9"/>
+              <path d="M32 14c-9.941 0-18 8.059-18 18s8.059 18 18 18 18-8.059 18-18-8.059-18-18-18z" fill="white"/>
+              <path d="M32 20c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" fill="#4A90D9"/>
+              <path d="M32 26a6 6 0 100 12 6 6 0 000-12z" fill="white"/>
+            </svg>
+            <span style={{fontSize:7,color:'rgba(255,255,255,0.35)',lineHeight:1.2}}>reCAPTCHA</span>
+          </div>
+        </div>
+      </div>
       {/* Submit */}
       <button type="submit" style={{
         width:'100%', padding:'13px', borderRadius:10, border:'none', cursor:'pointer',
-        background:'linear-gradient(135deg,#0694D1,#0577ab)', color:'#fff',
+        background:'#0694D1', color:'#fff',
         fontSize:14, fontWeight:700, fontFamily:'inherit', letterSpacing:0.2,
         boxShadow:'0 4px 18px rgba(6,148,209,0.4)', marginTop:2, transition:'filter 0.18s',
       }}
         onMouseEnter={e=>(e.currentTarget.style.filter='brightness(1.12)')}
         onMouseLeave={e=>(e.currentTarget.style.filter='none')}
       >
-        {isCert ? "Send My Certificate →" : "Send Course Content →"}
+        Submit
       </button>
       <div style={{textAlign:'center',fontSize:11,color:'rgba(255,255,255,0.35)',display:'flex',alignItems:'center',justifyContent:'center',gap:5}}>
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -14786,32 +14901,36 @@ const MS_TOP_TECH = [
 
 function MsTopTechSection() {
   return (
-    <section style={{ background: "radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%)", padding: "60px 24px" }}>
+    <section style={{ position:"relative", overflow:"hidden", background: "#E9F3FB", borderTop:"1px solid rgba(6,148,209,0.10)", borderBottom:"1px solid rgba(6,148,209,0.10)", padding: "35px 24px" }}>
       <style>{`
         @keyframes mttSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         .mtt-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; animation:mttSlide 0.35s ease both; }
-        .mtt-card { background:rgba(8,24,42,0.60); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(6,148,209,0.20); border-radius:14px; padding:20px; box-shadow:0 4px 16px rgba(0,0,0,0.30); cursor:pointer; transition:transform 0.25s, border-color 0.25s, box-shadow 0.25s; }
-        .mtt-card:hover { transform:translateY(-6px); border-color:rgba(6,148,209,0.50); box-shadow:0 8px 28px rgba(6,148,209,0.15); }
+        .mtt-card { background:#fff; border:1.5px solid rgba(6,148,209,0.14); border-radius:14px; padding:20px; box-shadow:0 2px 10px rgba(6,148,209,0.07); cursor:pointer; transition:transform 0.25s, border-color 0.25s, box-shadow 0.25s; }
+        .mtt-card:hover { transform:translateY(-6px); border-color:rgba(6,148,209,0.4); box-shadow:0 8px 28px rgba(6,148,209,0.16); }
         .mtt-card:hover .mtt-arrow { background:#0694D1; border-color:#0694D1; color:#fff; }
-        .mtt-card:hover .mtt-title { color:#3AB6EB; }
-        .mtt-arrow { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:1px solid rgba(6,148,209,0.40); color:#3AB6EB; display:flex; align-items:center; justify-content:center; transition:background 0.2s, border-color 0.2s, color 0.2s; }
-        .mtt-tag { display:inline-block; border-radius:999px; padding:3px 10px; font-size:11px; font-weight:600; background:rgba(6,148,209,0.18); color:#3AB6EB; border:1px solid rgba(6,148,209,0.35); }
+        .mtt-card:hover .mtt-title { color:#0694D1; }
+        .mtt-arrow { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:1px solid rgba(6,148,209,0.35); color:#0694D1; display:flex; align-items:center; justify-content:center; transition:background 0.2s, border-color 0.2s, color 0.2s; }
+        .mtt-tag { display:inline-block; border-radius:999px; padding:3px 10px; font-size:11px; font-weight:600; background:rgba(6,148,209,0.08); color:#0694D1; border:1px solid rgba(6,148,209,0.25); }
         @media(max-width:900px){ .mtt-grid { grid-template-columns:repeat(2,1fr); } }
         @media(max-width:480px){ .mtt-grid { grid-template-columns:1fr 1fr; gap:10px; } }
       `}</style>
-      <div style={{ maxWidth:1100, margin:"0 auto" }}>
+      {/* Soft blurred blue glow — differentiates section from plain neighbours */}
+      <div style={{
+        position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)",
+        width:"120%", maxWidth:1500, height:"140%",
+        background:"#0694D1", opacity:0.10, borderRadius:"50%",
+        filter:"blur(110px)", pointerEvents:"none",
+      }} />
+      <div style={{ position:"relative", maxWidth:1200, margin:"0 auto" }}>
         {/* Header */}
-        <div style={{ textAlign:"center", marginBottom:40 }}>
-          <span style={{ display:"inline-block", border:"1px solid rgba(6,148,209,0.45)", background:"rgba(6,148,209,0.12)", color:"#3AB6EB", borderRadius:999, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:14 }}>
-            Microsoft Technologies
-          </span>
-          <h2 style={{ color:"#fff", fontWeight:800, fontSize:"clamp(22px,3.5vw,34px)", margin:"0 0 10px", lineHeight:1.25 }}>
+        <div style={{ textAlign:"center", marginBottom:32 }}>
+          <h2 style={{ color:"var(--light-text)", fontWeight:800, fontSize:"clamp(22px,3.5vw,34px)", margin:"0 0 10px", lineHeight:1.25 }}>
             Top Microsoft{" "}
-            <span style={{ background:"linear-gradient(90deg,#0694D1,#50e6ff)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
+            <span style={{ color:"var(--blue)" }}>
               Technology Areas
             </span>
           </h2>
-          <p style={{ color:"rgba(255,255,255,0.45)", fontSize:14, maxWidth:500, margin:"0 auto", lineHeight:1.6 }}>
+          <p style={{ color:"var(--light-sub)", fontSize:14, maxWidth:500, margin:"0 auto", lineHeight:1.6 }}>
             Explore official Microsoft certification paths across cloud, security, data, and productivity.
           </p>
         </div>
@@ -14822,7 +14941,7 @@ function MsTopTechSection() {
             <div key={i} className="mtt-card">
               {/* Title row */}
               <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:8, marginBottom:4 }}>
-                <h3 className="mtt-title" style={{ fontSize:14, fontWeight:700, color:"#fff", lineHeight:1.3, margin:0, transition:"color 0.2s" }}>{t.name}</h3>
+                <h3 className="mtt-title" style={{ fontSize:14, fontWeight:700, color:"var(--light-text)", lineHeight:1.3, margin:0, transition:"color 0.2s" }}>{t.name}</h3>
                 <div className="mtt-arrow">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M7 17L17 7M7 7h10v10"/>
@@ -14830,11 +14949,11 @@ function MsTopTechSection() {
                 </div>
               </div>
               {/* Count */}
-              <p style={{ fontSize:13, fontWeight:600, color:"#3AB6EB", margin:"0 0 14px" }}>{t.count} Courses</p>
+              <p style={{ fontSize:13, fontWeight:700, color:"var(--blue)", margin:"0 0 14px" }}>{t.count} Courses</p>
               {/* Divider */}
-              <div style={{ height:1, background:"rgba(6,148,209,0.18)", marginBottom:12 }} />
+              <div style={{ height:1, background:"var(--light-border)", marginBottom:12 }} />
               {/* Tags label */}
-              <p style={{ fontSize:11.5, color:"rgba(255,255,255,0.38)", margin:"0 0 8px" }}>Learning Paths</p>
+              <p style={{ fontSize:11.5, color:"var(--light-sub)", margin:"0 0 8px" }}>Learning Paths</p>
               {/* Tag pills */}
               <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
                 {t.tags.map(tag => (
@@ -15010,11 +15129,8 @@ function InlineLeadFormSection() {
           {/* Submit */}
           <button type="submit"
             style={{ width:"100%", padding:"14px 0", borderRadius:12, border:"none", cursor:"pointer", fontFamily:"inherit", fontSize:15, fontWeight:700, color:"#fff", background:"linear-gradient(135deg,#0694D1 0%,#076D9D 100%)", boxShadow:"0 0 28px rgba(6,148,209,0.40)" }}>
-            Submit — Get a Free Consultation
+            Submit
           </button>
-          <p style={{ textAlign:"center", fontSize:11.5, color:"rgba(255,255,255,0.30)", marginTop:10 }}>
-            We&apos;ll respond within 1 business day · No spam, ever.
-          </p>
         </form>
 
         <style>{`
@@ -15325,40 +15441,47 @@ export default function App() {
             <TextShimmer as="span" duration={2.5} spread={2} style={{display:"block"}}>by Koenig Solutions</TextShimmer>
           </h1>
 
-          {/* Subtitle */}
-          <p className="hero-sub" style={{ marginBottom: heroExpanded ? 10 : 14 }}>
-            <strong style={{color:"#fff"}}>Official Microsoft Authorized Learning Partner.</strong> MCT-certified instructors, <strong style={{color:"#fff"}}>95% exam pass rate</strong>, 100+ courses — train online or 1-on-1 in <strong style={{color:"#fff"}}>50+ countries</strong>.
-            <span style={{ color: "rgba(255,255,255,0.85)", display: "block", marginTop: 7, fontSize: 14, fontWeight: 400 }}>Azure job postings grew <strong style={{color:"#fff"}}>40%</strong> last year. Every month without a cert is a month competitors pull ahead.</span>
+          {/* Subtitle — clamped to 3 lines until expanded, so "Read more"
+              always sits right after the same fixed amount of text instead
+              of trailing whatever the always-visible sentences wrapped to.
+              The 4 feature bullets are also gated behind the same toggle,
+              revealed together with the bonus copy. */}
+          <div style={{ marginBottom: heroExpanded ? 2 : 14 }}>
+            <p className={`hero-sub${heroExpanded ? "" : " hero-sub-clamp"}`} style={{ marginBottom: 0 }}>
+              <strong style={{color:"#fff"}}>Official Microsoft Authorized Learning Partner.</strong> MCT-certified instructors, <strong style={{color:"#fff"}}>95% exam pass rate</strong>, 100+ courses — train online or 1-on-1 in <strong style={{color:"#fff"}}>50+ countries</strong>. Azure job postings grew <strong style={{color:"#fff"}}>40%</strong> last year. Every month without a cert is a month competitors pull ahead.
+              {heroExpanded && (
+                <span className="hero-sub-more">
+                  {" "}We deliver official <strong style={{color:"#fff"}}>Microsoft Courseware (MOC)</strong> for Azure, AI, Security, M365, and Dynamics 365 role tracks. <strong style={{color:"#fff"}}>Flexi scheduling</strong> means you start any day — from <strong style={{color:"#fff"}}>AZ-900 Fundamentals</strong> through <strong style={{color:"#fff"}}>AZ-305 Expert-level</strong>. Microsoft has recognised Koenig as <strong style={{color:"#fff"}}>Partner of the Year</strong> multiple times, including FY24.
+                </span>
+              )}
+            </p>
+
             {heroExpanded && (
-              <span className="hero-sub-more">
-                {" "}We deliver official <strong style={{color:"#fff"}}>Microsoft Courseware (MOC)</strong> for Azure, AI, Security, M365, and Dynamics 365 role tracks. <strong style={{color:"#fff"}}>Flexi scheduling</strong> means you start any day — from <strong style={{color:"#fff"}}>AZ-900 Fundamentals</strong> through <strong style={{color:"#fff"}}>AZ-305 Expert-level</strong>. Microsoft has recognised Koenig as <strong style={{color:"#fff"}}>Partner of the Year</strong> multiple times, including FY24.
-              </span>
+              <div className="hero-features" style={{ marginTop: 14 }}>
+                {[
+                  [<><strong style={{color:"#fff",fontWeight:700}}>Official Microsoft ALP + ESI Partner</strong> — MOC courseware for every role track</>, <path key="a" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>],
+                  [<><strong style={{color:"#fff",fontWeight:700}}>MCT-certified trainers</strong> for Azure Admin, AI Engineer, Security, M365 &amp; more</>, <path key="b" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>],
+                  [<><strong style={{color:"#fff",fontWeight:700}}>500,000+</strong> IT professionals certified — <strong style={{color:"#fff",fontWeight:700}}>95%</strong> Microsoft exam pass rate</>, <path key="c" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>],
+                  [<><strong style={{color:"#fff",fontWeight:700}}>Flexi schedule</strong> — start any day, Fundamentals to Expert, <strong style={{color:"#fff",fontWeight:700}}>50+ countries</strong></>, <path key="d" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>],
+                ].map(([text, svgPath],i) => (
+                  <div key={i} className="hero-feat-row">
+                    <div className="hero-feat-icon">
+                      <svg viewBox="0 0 24 24" fill="none" style={{width:12,height:12}}>{svgPath}</svg>
+                    </div>
+                    <span className="hero-feat-text">{text}</span>
+                  </div>
+                ))}
+              </div>
             )}
-            {" "}
+
             <button
               className="hero-read-more"
               onClick={() => setHeroExpanded(v => !v)}
               aria-expanded={heroExpanded}
+              style={{ marginTop: heroExpanded ? 14 : 6, display: "inline-block" }}
             >
               {heroExpanded ? "Show less ↑" : "Read more ↓"}
             </button>
-          </p>
-
-          {/* Feature rows */}
-          <div className="hero-features">
-            {[
-              [<><strong style={{color:"#fff",fontWeight:700}}>Official Microsoft ALP + ESI Partner</strong> — MOC courseware for every role track</>, <path key="a" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>],
-              [<><strong style={{color:"#fff",fontWeight:700}}>MCT-certified trainers</strong> for Azure Admin, AI Engineer, Security, M365 &amp; more</>, <path key="b" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>],
-              [<><strong style={{color:"#fff",fontWeight:700}}>500,000+</strong> IT professionals certified — <strong style={{color:"#fff",fontWeight:700}}>95%</strong> Microsoft exam pass rate</>, <path key="c" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>],
-              [<><strong style={{color:"#fff",fontWeight:700}}>Flexi schedule</strong> — start any day, Fundamentals to Expert, <strong style={{color:"#fff",fontWeight:700}}>50+ countries</strong></>, <path key="d" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>],
-            ].map(([text, svgPath],i) => (
-              <div key={i} className="hero-feat-row">
-                <div className="hero-feat-icon">
-                  <svg viewBox="0 0 24 24" fill="none" style={{width:12,height:12}}>{svgPath}</svg>
-                </div>
-                <span className="hero-feat-text">{text}</span>
-              </div>
-            ))}
           </div>
 
           {/* CTAs */}
@@ -15461,62 +15584,30 @@ export default function App() {
 
           </div>
 
-          {/* ── Stats card: 3 top + 2 bottom ── */}
-          <div className="hero-stat-compact" style={{
-            marginTop: 12,
-            width: '100%',
-            background: 'rgba(6,25,45,0.52)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(6,148,209,0.25)',
-            borderRadius: 16,
-            boxShadow: '0 8px 40px rgba(6,109,157,0.18), inset 0 1px 0 rgba(58,182,235,0.08)',
-            overflow: 'hidden',
-          }}>
-            {/* Row 1 — 3 stats */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1px 1fr 1px 1fr', alignItems:'stretch' }}>
-              {[
-                {n:95,  suf:"%", label:"Exam Pass Rate",       src:"vs. 60–70% industry avg", glowCls:"glow-3", iconBg:"rgba(7,109,157,0.18)",  icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0694D1" strokeWidth="1.5"/><path d="M7.5 12l3 3 6-6" stroke="#3AB6EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>},
-                null,
-                {n:300, suf:"+", label:"MCT-Certified Trainers", src:"No contractors, ever",      glowCls:"glow-4", iconBg:"rgba(6,148,209,0.14)",    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="#0694D1"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="#3AB6EB" opacity="0.7"/></svg>},
-                null,
-                {n:100, suf:"+", label:"Microsoft Courses",      src:"Azure · AI · Security · M365", glowCls:"glow-5", iconBg:"rgba(255,255,255,0.06)", icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" fill="#f25022"/><rect x="13" y="3" width="8" height="8" rx="1" fill="#7fba00"/><rect x="3" y="13" width="8" height="8" rx="1" fill="#00a4ef"/><rect x="13" y="13" width="8" height="8" rx="1" fill="#ffb900"/></svg>},
-              ].map((s, i) =>
-                s === null
-                  ? <div key={i} style={{ background:'rgba(6,148,209,0.2)' }} />
-                  : <div key={i} className="hero-stat-item" style={{ padding:'18px 12px' }}>
-                      <div className={`hero-stat-icon ${s.glowCls}`} style={{ background:s.iconBg }}>{s.icon}</div>
-                      <div className="hero-stat-text">
-                        <div className="hero-stat-number"><Counter end={s.n} suffix={s.suf}/></div>
-                        <div className="hero-stat-label">{s.label}</div>
-                      </div>
-                    </div>
-              )}
-            </div>
-            {/* Horizontal divider */}
-            <div style={{ height:1, background:'rgba(6,148,209,0.2)' }} />
-            {/* Row 2 — 2 stats */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1px 1fr', alignItems:'stretch' }}>
-              {[
-                {n:33,     suf:"+", label:"Years of Excellence",       glowCls:"glow-1", iconBg:"rgba(58,182,235,0.14)", icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26H20.5l-5.27 3.84 2.09 6.26L12 14.52l-5.32 3.84 2.09-6.26L3.5 8.26H9.91z" fill="#3AB6EB"/></svg>},
-                null,
-                {n:500000, suf:"+", label:"IT Professionals Certified", glowCls:"glow-2", iconBg:"rgba(6,148,209,0.16)",  icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="6" r="3.5" fill="#0694D1"/><path d="M2 20c0-3.87 3.13-7 7-7s7 3.13 7 7" fill="#0694D1" opacity="0.85"/><circle cx="17" cy="7" r="2.5" fill="#3AB6EB" opacity="0.75"/><path d="M20 20c0-2.76-1.79-5.12-4.31-5.82" stroke="#3AB6EB" strokeWidth="1.5" strokeLinecap="round" opacity="0.75"/></svg>},
-              ].map((s, i) =>
-                s === null
-                  ? <div key={i} style={{ background:'rgba(6,148,209,0.2)' }} />
-                  : <div key={i} className="hero-stat-item" style={{ padding:'18px 12px' }}>
-                      <div className={`hero-stat-icon ${s.glowCls}`} style={{ background:s.iconBg }}>{s.icon}</div>
-                      <div className="hero-stat-text">
-                        <div className="hero-stat-number"><Counter end={s.n} suffix={s.suf}/></div>
-                        <div className="hero-stat-label">{s.label}</div>
-                      </div>
-                    </div>
-              )}
-            </div>
-          </div>
-
         </div>
         </div>{/* end .hero-cols */}
+
+        {/* ── Below-banner stats strip: all 5 stats in one line ── */}
+        <div className="hero-stats-bar stats-animated">
+          <div className="hero-stats-inner">
+            {[
+              {n:95,  suf:"%", label:"Exam Pass Rate",       src:"vs. 60–70% industry avg", glowCls:"glow-3", iconBg:"rgba(7,109,157,0.18)",  icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0694D1" strokeWidth="1.5"/><path d="M7.5 12l3 3 6-6" stroke="#3AB6EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>},
+              {n:300, suf:"+", label:"MCT-Certified Trainers", src:"No contractors, ever",      glowCls:"glow-4", iconBg:"rgba(6,148,209,0.14)",    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="#0694D1"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="#3AB6EB" opacity="0.7"/></svg>},
+              {n:300, suf:"+", label:"Microsoft Courses",      src:"Azure · AI · Security · M365", glowCls:"glow-5", iconBg:"rgba(255,255,255,0.06)", icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" fill="#f25022"/><rect x="13" y="3" width="8" height="8" rx="1" fill="#7fba00"/><rect x="3" y="13" width="8" height="8" rx="1" fill="#00a4ef"/><rect x="13" y="13" width="8" height="8" rx="1" fill="#ffb900"/></svg>},
+              {n:33,  suf:"+", label:"Years of Excellence",       glowCls:"glow-1", iconBg:"rgba(58,182,235,0.14)", icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26H20.5l-5.27 3.84 2.09 6.26L12 14.52l-5.32 3.84 2.09-6.26L3.5 8.26H9.91z" fill="#3AB6EB"/></svg>},
+              {n:500000, suf:"+", label:"IT Professionals Certified", glowCls:"glow-2", iconBg:"rgba(6,148,209,0.16)",  icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="6" r="3.5" fill="#0694D1"/><path d="M2 20c0-3.87 3.13-7 7-7s7 3.13 7 7" fill="#0694D1" opacity="0.85"/><circle cx="17" cy="7" r="2.5" fill="#3AB6EB" opacity="0.75"/><path d="M20 20c0-2.76-1.79-5.12-4.31-5.82" stroke="#3AB6EB" strokeWidth="1.5" strokeLinecap="round" opacity="0.75"/></svg>},
+            ].map((s, i) => (
+              <div key={i} className="hero-stat-item">
+                <div className={`hero-stat-icon ${s.glowCls}`} style={{ background:s.iconBg }}>{s.icon}</div>
+                <div className="hero-stat-text">
+                  <div className="hero-stat-number"><Counter end={s.n} suffix={s.suf}/></div>
+                  <div className="hero-stat-label">{s.label}</div>
+                  {s.src && <div className="hero-stat-src">{s.src}</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Mobile-only: quick technology selector */}
         <div className="hero-tech-menu-wrap">
@@ -16062,12 +16153,6 @@ export default function App() {
                 <div style={{fontSize:14,fontWeight:700,color:'#fff',lineHeight:1.35}}>{brochureCourse}</div>
               </div>
             )}
-
-            {/* Title */}
-            <div style={{marginBottom:6}}>
-              <div style={{fontSize:22,fontWeight:800,color:'#fff',lineHeight:1.2}}>Get the Course Content</div>
-            </div>
-            <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginBottom:22}}>Fill in your details and we'll send it straight to your inbox.</div>
 
             {/* Form */}
             <BrochureForm onClose={()=>setBrochureModal(false)} courseName={brochureCourse} />

@@ -2,6 +2,8 @@
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
+import { ClassroomBookingModal } from "./classroom-booking-modal";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -62,6 +64,7 @@ const CITY_COUNTRY: Record<string, { name: string; abbr: string }> = {
   Doha:       { name: "Qatar",                abbr: "QA"  },
   Singapore:  { name: "Singapore",            abbr: "SG"  },
 };
+const INTERNATIONAL_LOCATIONS = new Set(["Cairo", "London", "Dubai", "Madrid", "Munich", "Vancouver"]);
 function cityWithCountry(city: string): string {
   const c = CITY_COUNTRY[city];
   if (!c) return city;
@@ -332,6 +335,26 @@ function batchDotColor(batch: Batch): string {
   return "bg-koenig-blue";
 }
 
+/* Within each run of same-date batches, interleave Online/Classroom instead of clumping by format */
+function interleaveByFormat(list: Batch[]): Batch[] {
+  const result: Batch[] = [];
+  let i = 0;
+  while (i < list.length) {
+    let j = i;
+    while (j < list.length && list[j].startDate === list[i].startDate) j++;
+    const online = [];
+    const classroom = [];
+    for (const b of list.slice(i, j)) (b.format === "Classroom" ? classroom : online).push(b);
+    let oi = 0, ci = 0;
+    while (oi < online.length || ci < classroom.length) {
+      if (oi < online.length) result.push(online[oi++]);
+      if (ci < classroom.length) result.push(classroom[ci++]);
+    }
+    i = j;
+  }
+  return result;
+}
+
 /* Group batches in a calendar day cell: online shown individually, classroom grouped */
 type DayItem =
   | { type: "online"; batch: Batch; isStart: boolean }
@@ -425,7 +448,7 @@ function assignSpanLanes(batches: Batch[], weekIsos: string[]): SpanItem[][] {
 function seatStatus(batch: Batch): { label: string; text: string; color: string; dot: string } {
   if (batch.seats <= 3) return { label: `${batch.seats} left · Almost full`,   text: "Almost full",     color: "text-koenig-navy",  dot: "bg-koenig-navy"  };
   if (batch.seats <= 6) return { label: `${batch.seats} left · Limited seats`, text: "Limited seats",   color: "text-koenig-navy",  dot: "bg-koenig-navy"  };
-  return                       { label: `${batch.seats} seats available`,       text: "Seats available", color: "text-koenig-blue",  dot: "bg-koenig-blue"  };
+  return                       { label: `${batch.seats} seats available`,       text: "Seats available", color: "text-koenig-muted",  dot: "bg-koenig-muted"  };
 }
 
 function seatBarWidth(batch: Batch): string {
@@ -434,9 +457,8 @@ function seatBarWidth(batch: Batch): string {
 }
 
 function seatBarColor(batch: Batch): string {
-  if (batch.seats <= 3) return "bg-koenig-navy";
   if (batch.seats <= 6) return "bg-koenig-navy";
-  return                       "bg-koenig-blue";
+  return "bg-koenig-muted";
 }
 
 /** AZ-104 total training hours */
@@ -465,9 +487,11 @@ function calcOo1EndDate(startIso: string, hrsPerDay: 4 | 8, schedule: "weekday" 
 
 type CourseSchedulerProps = {
   initialBatches?: Batch[];
+  courseTitle?: string;
 };
 
-export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
+export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microsoft Azure Administrator" }: CourseSchedulerProps = {}) {
+  const router = useRouter();
   const activeBatches = initialBatches && initialBatches.length > 0 ? initialBatches : batches;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -516,6 +540,24 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
   const EXAM_FEE_INR = 4800;
   const GST_RATE = 0.18;
   const [selectedBatch, setSelectedBatch] = useState<Batch | null>(null);
+  // Classroom Training booking popup — opens only for Classroom-format batches
+  const [bookingBatch, setBookingBatch] = useState<Batch | null>(null);
+  function openBookingIfClassroom(b: Batch | null | undefined) {
+    if (b && b.format === "Classroom") setBookingBatch(b);
+  }
+  // Online batches skip the popup entirely and go to the full checkout page
+  function goToOnlineCheckout(b: Batch | null | undefined) {
+    if (!b || b.format !== "Online") return;
+    const params = new URLSearchParams({
+      title: courseTitle,
+      start: b.startDate,
+      end: b.endDate,
+      time: b.time,
+      price: String(b.price),
+      currency: b.currency,
+    });
+    router.push(`/courses/az-104/checkout?${params.toString()}`);
+  }
   const [activeFormat, setActiveFormat] = useState<string>("All");
   const [scheduleType, setScheduleType] = useState<"weekday" | "weekend" | "all">("all");
   const [currentWeekStart, setCurrentWeekStart] = useState(() => getMonday(today));
@@ -538,11 +580,13 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
   const [flexiBreakdownOpen, setFlexiBreakdownOpen] = useState(false);
   const [pubBreakdownOpen, setPubBreakdownOpen] = useState(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [activeFilterTab, setActiveFilterTab] = useState<"format" | "schedule" | "availability" | "timezone">("format");
   const [tzSearch, setTzSearch] = useState("");
   const [oneOnOneDuration, setOneOnOneDuration] = useState<"4h" | "8h">("8h");
   const [oneOnOneSchedule, setOneOnOneSchedule] = useState<"weekday" | "weekend">("weekday");
   const [oneOnOneDate, setOneOnOneDate] = useState("");
   const [oneOnOneBreakdownOpen, setOneOnOneBreakdownOpen] = useState(false);
+  const [oo1InlineBreakdownOpen, setOo1InlineBreakdownOpen] = useState(false);
   const [oneOnOneCert, setOneOnOneCert] = useState(false);
   const [oneOnOneTime, setOneOnOneTime] = useState("09:00 AM");
   const [oneOnOneTZ, setOneOnOneTZ] = useState("IST");
@@ -601,13 +645,14 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
 
   /* Filtered batches */
   const filtered = useMemo(() => {
-    return activeBatches.filter((b) => {
+    const sorted = activeBatches.filter((b) => {
       if (activeFormat !== "All" && b.format !== activeFormat) return false;
       if (scheduleType === "weekday" && b.isWeekend) return false;
       if (scheduleType === "weekend" && !b.isWeekend) return false;
       if (gtrOnly && !b.gtr) return false;
       return true;
-    });
+    }).sort((a, b) => a.startDate.localeCompare(b.startDate));
+    return interleaveByFormat(sorted);
   }, [activeFormat, scheduleType, gtrOnly]);
 
   /* Reset list page when filters change */
@@ -696,7 +741,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
 
   return (
     <>
-    <section id="schedule" className="relative border-t border-b border-koenig-border bg-white px-3 sm:px-6 py-8 sm:py-14">
+    <section id="schedule" className="relative overflow-hidden border-t border-b border-koenig-border bg-white px-3 sm:px-6 py-8 sm:py-14">
       {/* Top accent gradient bar */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-koenig-blue via-cyan-400 to-koenig-blue/50" />
       {/* Glow blobs */}
@@ -736,10 +781,10 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
             <div ref={tabRowRef} className="flex gap-1.5 sm:gap-2 px-3 sm:px-4 pt-3 pb-2 sm:pt-4 sm:pb-3">
               <button
                 onClick={() => setPricingTab("one-on-one")}
-                className={`flex-1 rounded-xl border py-2 sm:py-[11px] transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${pricingTab === "one-on-one" ? "bg-koenig-navy border-koenig-navy text-white shadow-md" : "border-koenig-navy/30 text-koenig-navy bg-sky-50 shadow-sm hover:bg-sky-100 hover:border-koenig-navy/60"}`}
+                className={`flex-1 rounded-xl border py-2 sm:py-[11px] transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${pricingTab === "one-on-one" ? "bg-koenig-blue border-koenig-blue text-white shadow-md" : "border-koenig-blue/30 text-koenig-blue bg-sky-50 shadow-sm hover:bg-sky-100 hover:border-koenig-blue/60"}`}
               >
                 {pricingTab === "one-on-one"
-                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#22c55e"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   : <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>
                 }
                 <span className="text-xs sm:text-sm font-extrabold"><span className="hidden sm:inline">1-on-1 Training</span><span className="sm:hidden">1-on-1</span></span>
@@ -749,17 +794,17 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                 className={`flex-1 rounded-xl border py-2 sm:py-[11px] transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${pricingTab === "public" ? "bg-koenig-blue border-koenig-blue text-white shadow-md" : "border-koenig-blue/30 text-koenig-blue bg-sky-50 shadow-sm hover:bg-sky-100 hover:border-koenig-blue/60"}`}
               >
                 {pricingTab === "public"
-                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#22c55e"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   : <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>
                 }
                 <span className="text-xs sm:text-sm font-extrabold"><span className="hidden sm:inline">Public Training</span><span className="sm:hidden">Public</span></span>
               </button>
               <button
                 onClick={() => setPricingTab("self-paced")}
-                className={`flex-1 rounded-xl border py-2 sm:py-[11px] transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${pricingTab === "self-paced" ? "bg-koenig-accent border-koenig-accent text-white shadow-md" : "border-koenig-accent/30 text-koenig-accent bg-sky-50 shadow-sm hover:bg-sky-100 hover:border-koenig-accent/60"}`}
+                className={`flex-1 rounded-xl border py-2 sm:py-[11px] transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${pricingTab === "self-paced" ? "bg-koenig-blue border-koenig-blue text-white shadow-md" : "border-koenig-blue/30 text-koenig-blue bg-sky-50 shadow-sm hover:bg-sky-100 hover:border-koenig-blue/60"}`}
               >
                 {pricingTab === "self-paced"
-                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#22c55e"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   : <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>
                 }
                 <span className="text-xs sm:text-sm font-extrabold">Flexi<span className="hidden sm:inline text-xs font-normal opacity-75"> (Self Paced)</span></span>
@@ -1040,13 +1085,18 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
               {/* Filter button with active-filter indicator */}
               <button
                 onClick={() => setMobileFilterOpen(true)}
-                className="flex items-center gap-2 rounded-full border border-koenig-dark/30 bg-white px-4 py-1.5 text-[11px] font-semibold text-koenig-dark transition hover:border-koenig-navy"
+                className="flex h-[38px] items-center gap-2 rounded-full border border-koenig-dark/20 bg-white px-6 text-sm font-semibold text-koenig-dark transition hover:border-koenig-navy hover:bg-slate-50"
               >
-                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 4h18M7 8h10M11 12h2" /></svg>
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 4h18M7 8h10M11 12h2" /></svg>
                 Filters
-                {(activeFormat !== "All" || scheduleType !== "all" || gtrOnly || timezone !== "IST") && (
-                  <span className="h-1.5 w-1.5 rounded-full bg-koenig-blue" />
-                )}
+                {(() => {
+                  const selectedCount = [activeFormat !== "All", scheduleType !== "all", gtrOnly, timezone !== "IST"].filter(Boolean).length;
+                  return selectedCount > 0 && (
+                    <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-koenig-blue/15 px-1 text-[11px] font-bold text-koenig-blue">
+                      {selectedCount}
+                    </span>
+                  );
+                })()}
               </button>
               {/* View toggle — unchanged */}
               <div className="flex items-center gap-0.5 rounded-full bg-white border border-koenig-border p-1">
@@ -1061,113 +1111,121 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
               </div>
             </div>
 
-            {/* ── MOBILE: Filter panel portal ── */}
+            {/* ── MOBILE: Filter modal portal ── */}
             {mobileFilterOpen && createPortal(
               <>
                 <div style={{ position: 'fixed', inset: 0, zIndex: 9998, background: 'rgba(7,30,46,0.5)', backdropFilter: 'blur(3px)' }} onClick={() => setMobileFilterOpen(false)} />
-                <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 9999, background: '#fff', borderRadius: '24px 24px 0 0', display: 'flex', flexDirection: 'column', maxHeight: '90vh', boxShadow: '0 -12px 48px rgba(0,0,0,0.22)' }}>
-                  {/* Drag handle */}
-                  <div style={{ padding: '12px 0 0', textAlign: 'center', flexShrink: 0 }}>
-                    <div style={{ width: 36, height: 4, background: '#dde4ed', borderRadius: 99, display: 'inline-block' }} />
-                  </div>
+                <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '92vw', maxWidth: 420, height: '85vh', maxHeight: 640, boxSizing: 'border-box', overflow: 'hidden', zIndex: 9999, background: '#fff', borderRadius: 18, display: 'flex', flexDirection: 'column', boxShadow: '0 24px 64px rgba(0,0,0,0.3)' }}>
                   {/* Header */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px 16px', borderBottom: '1px solid #f0f4f8', flexShrink: 0 }}>
-                    <div>
-                      <div style={{ fontSize: 17, fontWeight: 800, color: '#071e2e', letterSpacing: '-0.02em' }}>Filters</div>
-                      {(activeFormat !== "All" || scheduleType !== "all" || gtrOnly || timezone !== "IST") && (
-                        <div style={{ fontSize: 11, color: '#0694D1', fontWeight: 600, marginTop: 2 }}>Filters applied</div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px', borderBottom: '1px solid #f0f4f8', flexShrink: 0 }}>
+                    <div style={{ fontSize: 18, fontWeight: 800, color: '#071e2e', letterSpacing: '-0.02em' }}>Filter</div>
+                    <button onClick={() => setMobileFilterOpen(false)} style={{ background: '#f0f4f8', border: 'none', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4a6a8a', fontSize: 15, fontWeight: 700, flexShrink: 0 }}>✕</button>
+                  </div>
+
+                  {/* Body: category tabs (left) + options (right) */}
+                  <div style={{ display: 'flex', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+                    {/* Left: category tabs */}
+                    <div style={{ width: 128, flexShrink: 0, background: '#f8fafc', borderRight: '1px solid #f0f4f8', overflowY: 'auto' }}>
+                      {([
+                        { key: 'format', label: 'Format', active: activeFormat !== 'All' },
+                        { key: 'schedule', label: 'Schedule', active: scheduleType !== 'all' },
+                        { key: 'availability', label: 'Availability', active: gtrOnly },
+                        { key: 'timezone', label: 'Timezone', active: timezone !== 'IST' },
+                      ] as const).map((tab) => (
+                        <button key={tab.key} onClick={() => setActiveFilterTab(tab.key)}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: 6, width: '100%', textAlign: 'left',
+                            padding: '14px 14px', fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                            background: activeFilterTab === tab.key ? '#fff' : 'transparent',
+                            color: activeFilterTab === tab.key ? '#0694D1' : '#4a6a8a',
+                            borderLeft: activeFilterTab === tab.key ? '3px solid #0694D1' : '3px solid transparent',
+                            borderTop: 'none', borderRight: 'none', borderBottom: 'none',
+                          }}>
+                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tab.label}</span>
+                          {tab.active && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#0694D1', flexShrink: 0 }} />}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Right: options for the active category */}
+                    <div style={{ flex: 1, minWidth: 0, overflowY: 'auto', overflowX: 'hidden' }}>
+                      {activeFilterTab === 'format' && ["All", "Online", "Classroom"].map((fmt) => (
+                        <button key={fmt} onClick={() => setActiveFormat(fmt)}
+                          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', boxSizing: 'border-box', padding: '14px 18px', borderBottom: '1px solid #f6f8fa', background: 'transparent', border: 'none', borderBottomWidth: 1, cursor: 'pointer', textAlign: 'left' }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: '#071e2e' }}>{fmt}</span>
+                          <span style={{ width: 17, height: 17, borderRadius: 5, border: '2px solid', borderColor: activeFormat === fmt ? '#0694D1' : '#cbd5e1', background: activeFormat === fmt ? '#0694D1' : '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {activeFormat === fmt && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                          </span>
+                        </button>
+                      ))}
+
+                      {activeFilterTab === 'schedule' && (["all", "weekday", "weekend"] as const).map((t) => (
+                        <button key={t} onClick={() => setScheduleType(t)}
+                          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', boxSizing: 'border-box', padding: '14px 18px', borderBottom: '1px solid #f6f8fa', background: 'transparent', border: 'none', borderBottomWidth: 1, cursor: 'pointer', textAlign: 'left' }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: '#071e2e' }}>{t === "all" ? "All" : t === "weekday" ? "Weekday" : "Weekend"}</span>
+                          <span style={{ width: 17, height: 17, borderRadius: 5, border: '2px solid', borderColor: scheduleType === t ? '#0694D1' : '#cbd5e1', background: scheduleType === t ? '#0694D1' : '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {scheduleType === t && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                          </span>
+                        </button>
+                      ))}
+
+                      {activeFilterTab === 'availability' && (
+                        <button onClick={() => setGtrOnly(!gtrOnly)}
+                          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', boxSizing: 'border-box', padding: '14px 18px', borderBottom: '1px solid #f6f8fa', background: 'transparent', border: 'none', borderBottomWidth: 1, cursor: 'pointer', textAlign: 'left' }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: '#071e2e' }}>Guaranteed-to-Run (GTR) Only</span>
+                          <span style={{ width: 17, height: 17, borderRadius: 5, border: '2px solid', borderColor: gtrOnly ? '#0694D1' : '#cbd5e1', background: gtrOnly ? '#0694D1' : '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {gtrOnly && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                          </span>
+                        </button>
+                      )}
+
+                      {activeFilterTab === 'timezone' && (
+                        <div style={{ padding: '14px 18px', boxSizing: 'border-box' }}>
+                          {/* Search box */}
+                          <div style={{ position: 'relative', marginBottom: 10 }}>
+                            <svg style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', width: 13, height: 13, color: '#8a9db5' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" strokeLinecap="round"/></svg>
+                            <input
+                              type="text"
+                              placeholder="Search timezone..."
+                              value={tzSearch}
+                              onChange={(e) => setTzSearch(e.target.value)}
+                              style={{ width: '100%', boxSizing: 'border-box', padding: '9px 10px 9px 30px', borderRadius: 8, border: '1.5px solid #e2eaf2', fontSize: 14, color: '#071e2e', background: '#f8fafc', outline: 'none' }}
+                            />
+                          </div>
+                          {Object.keys(TIMEZONE_OFFSETS)
+                            .filter((tz) => tz.toLowerCase().includes(tzSearch.toLowerCase()))
+                            .map((tz) => (
+                              <button key={tz} onClick={() => setTimezone(tz)}
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', boxSizing: 'border-box', padding: '11px 4px', borderBottom: '1px solid #f6f8fa', background: 'transparent', border: 'none', borderBottomWidth: 1, cursor: 'pointer', textAlign: 'left' }}>
+                                <span style={{ fontSize: 14, fontWeight: 600, color: '#071e2e' }}>{tz}</span>
+                                <span style={{ width: 17, height: 17, borderRadius: 5, border: '2px solid', borderColor: timezone === tz ? '#0694D1' : '#cbd5e1', background: timezone === tz ? '#0694D1' : '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                  {timezone === tz && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
+                                </span>
+                              </button>
+                            ))}
+                        </div>
                       )}
                     </div>
-                    <button onClick={() => setMobileFilterOpen(false)} style={{ background: '#f0f4f8', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4a6a8a', fontSize: 16, fontWeight: 700 }}>✕</button>
-                  </div>
-
-                  {/* Scrollable body */}
-                  <div style={{ overflowY: 'auto', flex: 1, padding: '16px 20px' }}>
-
-                    {/* Format */}
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0694D1', marginBottom: 8 }}>Format</div>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
-                        {["All", "Online", "Classroom"].map(fmt => (
-                          <button key={fmt} onClick={() => setActiveFormat(fmt)} style={{ padding: '8px 0', borderRadius: 10, fontSize: 13, fontWeight: 700, border: '2px solid', cursor: 'pointer', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, background: activeFormat === fmt ? '#071e2e' : '#f8fafc', color: activeFormat === fmt ? '#fff' : '#4a6a8a', borderColor: activeFormat === fmt ? '#071e2e' : '#e2eaf2' }}>
-                            {activeFormat === fmt && <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
-                            {fmt}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div style={{ height: 1, background: '#f0f4f8', marginBottom: 14 }} />
-
-                    {/* Schedule Type */}
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0694D1', marginBottom: 8 }}>Schedule Type</div>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
-                        {(["all", "weekday", "weekend"] as const).map(t => (
-                          <button key={t} onClick={() => setScheduleType(t)} style={{ padding: '8px 0', borderRadius: 10, fontSize: 12, fontWeight: 700, border: '2px solid', cursor: 'pointer', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, background: scheduleType === t ? '#071e2e' : '#f8fafc', color: scheduleType === t ? '#fff' : '#4a6a8a', borderColor: scheduleType === t ? '#071e2e' : '#e2eaf2' }}>
-                            {scheduleType === t && <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>}
-                            {t === "all" ? "All" : t === "weekday" ? "Weekday" : "Weekend"}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div style={{ height: 1, background: '#f0f4f8', marginBottom: 14 }} />
-
-                    {/* Availability */}
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0694D1', marginBottom: 8 }}>Availability</div>
-                      <button onClick={() => setGtrOnly(!gtrOnly)} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 14px', borderRadius: 10, fontSize: 13, fontWeight: 700, border: '2px solid', cursor: 'pointer', width: '100%', transition: 'all 0.15s', background: gtrOnly ? '#dcfce7' : '#f8fafc', color: gtrOnly ? '#15803d' : '#4a6a8a', borderColor: gtrOnly ? '#86efac' : '#e2eaf2' }}>
-                        <span style={{ width: 9, height: 9, borderRadius: '50%', background: gtrOnly ? '#22c55e' : '#d1d5db', flexShrink: 0, boxShadow: gtrOnly ? '0 0 0 3px rgba(34,197,94,0.2)' : 'none', transition: 'all 0.15s' }} />
-                        Guaranteed-to-Run (GTR) Only
-                        {gtrOnly && <svg style={{ marginLeft: 'auto', width: 14, height: 14, color: '#22c55e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
-                      </button>
-                    </div>
-
-                    <div style={{ height: 1, background: '#f0f4f8', marginBottom: 14 }} />
-
-                    {/* Timezone */}
-                    <div>
-                      <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0694D1', marginBottom: 10 }}>Timezone</div>
-                      {/* Search box */}
-                      <div style={{ position: 'relative', marginBottom: 12 }}>
-                        <svg style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, color: '#8a9db5' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" strokeLinecap="round"/></svg>
-                        <input
-                          type="text"
-                          placeholder="Search timezone..."
-                          value={tzSearch}
-                          onChange={e => setTzSearch(e.target.value)}
-                          style={{ width: '100%', padding: '10px 12px 10px 34px', borderRadius: 10, border: '1.5px solid #e2eaf2', fontSize: 13, color: '#071e2e', background: '#f8fafc', outline: 'none', boxSizing: 'border-box' }}
-                        />
-                      </div>
-                      {/* Timezone list — scrollable */}
-                      <div style={{ maxHeight: 200, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 6, paddingRight: 4 }}>
-                        {Object.entries(TIMEZONE_OFFSETS)
-                          .filter(([tz, offset]) => (tz + offset).toLowerCase().includes(tzSearch.toLowerCase()))
-                          .map(([tz, offset]) => (
-                            <button key={tz} onClick={() => setTimezone(tz)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 14px', borderRadius: 10, fontSize: 13, fontWeight: 600, border: '1.5px solid', cursor: 'pointer', transition: 'all 0.15s', background: timezone === tz ? '#eff8ff' : '#f8fafc', color: timezone === tz ? '#0694D1' : '#4a6a8a', borderColor: timezone === tz ? '#0694D1' : '#e2eaf2' }}>
-                              <span>{tz}</span>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                <span style={{ fontSize: 11, color: timezone === tz ? '#0694D1' : '#8a9db5', fontWeight: 500 }}>{offset}</span>
-                                {timezone === tz && <svg style={{ width: 14, height: 14, color: '#0694D1' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
-                              </div>
-                            </button>
-                          ))}
-                      </div>
-                    </div>
-
                   </div>
 
                   {/* Footer */}
-                  <div style={{ padding: '16px 20px 28px', borderTop: '1px solid #f0f4f8', flexShrink: 0, display: 'flex', gap: 10 }}>
+                  <div style={{ padding: '16px 20px', borderTop: '1px solid #f0f4f8', flexShrink: 0, display: 'flex', gap: 10 }}>
                     <button
                       onClick={() => { setActiveFormat("All"); setScheduleType("all"); setGtrOnly(false); setTimezone("IST"); setTzSearch(""); }}
-                      style={{ flex: 1, padding: '13px 0', borderRadius: 12, background: '#f0f4f8', color: '#4a6a8a', fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
-                      Reset
+                      style={{ flex: 1, padding: '13px 0', borderRadius: 12, background: '#fff', color: '#4a6a8a', fontSize: 14, fontWeight: 700, border: '1.5px solid #e2eaf2', cursor: 'pointer' }}>
+                      Clear All
                     </button>
                     <button onClick={() => { setMobileFilterOpen(false); setTzSearch(""); }}
-                      style={{ flex: 2, padding: '13px 0', borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', color: '#fff', fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
-                      Apply Filters
+                      style={{ flex: 1, padding: '13px 0', borderRadius: 12, background: '#0694D1', color: '#fff', fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                      Apply
+                      {(() => {
+                        const selectedCount = [activeFormat !== "All", scheduleType !== "all", gtrOnly, timezone !== "IST"].filter(Boolean).length;
+                        return selectedCount > 0 && (
+                          <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 18, height: 18, padding: '0 5px', borderRadius: 9, background: 'rgba(255,255,255,0.25)', fontSize: 11, fontWeight: 800 }}>
+                            {selectedCount}
+                          </span>
+                        );
+                      })()}
                     </button>
                   </div>
                 </div>
@@ -1216,17 +1274,32 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                 <button onClick={() => setTzOpen(!tzOpen)}
                   className="flex items-center gap-1.5 rounded-lg border border-koenig-dark/30 bg-white px-3.5 py-1.5 text-[11px] font-semibold text-koenig-dark hover:border-koenig-navy transition">
                   <svg className="h-3.5 w-3.5 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span>{timezone} ({TIMEZONE_OFFSETS[timezone]})</span>
+                  <span>{timezone}</span>
                   <svg className="h-3 w-3 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </button>
                 {tzOpen && (
-                  <div className="absolute left-0 top-full z-10 mt-1 w-44 rounded-lg border border-koenig-border bg-white py-1 shadow-lg">
-                    {Object.entries(TIMEZONE_OFFSETS).map(([tz, offset]) => (
-                      <button key={tz} onClick={() => { setTimezone(tz); setTzOpen(false); }}
-                        className={`block w-full px-4 py-2 text-left text-xs transition hover:bg-koenig-light ${timezone === tz ? "font-semibold text-koenig-blue" : "text-koenig-dark"}`}>
-                        {tz} ({offset})
-                      </button>
-                    ))}
+                  <div className="absolute left-0 top-full z-10 mt-1 w-44 rounded-lg border border-koenig-border bg-white p-1.5 shadow-lg">
+                    <div className="relative mb-1.5">
+                      <svg className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="11" cy="11" r="8" /><path strokeLinecap="round" d="M21 21l-4.35-4.35" /></svg>
+                      <input
+                        type="text"
+                        autoFocus
+                        placeholder="Search timezone..."
+                        value={tzSearch}
+                        onChange={(e) => setTzSearch(e.target.value)}
+                        className="w-full rounded-md border border-koenig-border bg-koenig-light py-1.5 pl-8 pr-2 text-xs text-koenig-dark outline-none focus:border-koenig-blue"
+                      />
+                    </div>
+                    <div className="max-h-44 overflow-y-auto">
+                      {Object.keys(TIMEZONE_OFFSETS)
+                        .filter((tz) => tz.toLowerCase().includes(tzSearch.toLowerCase()))
+                        .map((tz) => (
+                          <button key={tz} onClick={() => { setTimezone(tz); setTzOpen(false); setTzSearch(""); }}
+                            className={`block w-full rounded-md px-2.5 py-2 text-left text-xs transition hover:bg-koenig-light ${timezone === tz ? "font-semibold text-koenig-blue" : "text-koenig-dark"}`}>
+                            {tz}
+                          </button>
+                        ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -1254,7 +1327,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                   <div className={`flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${certSelected.size > 0 ? "border-koenig-blue bg-koenig-blue" : "border-gray-300 bg-white"}`}>
                     {certSelected.size > 0 && <svg className="h-2 w-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
                   </div>
-                  <span className={`text-sm font-semibold ${certSelected.size > 0 ? "text-koenig-navy" : "text-koenig-dark"}`}>Add Certification Exam</span>
+                  <span className={`text-sm font-semibold ${certSelected.size > 0 ? "text-koenig-blue" : "text-koenig-dark"}`}>Add Certification Exam</span>
                 </div>
                 <span className="text-sm font-bold text-koenig-navy">+{EXAM_FEE_INR.toLocaleString("en-IN")}</span>
                 <input type="checkbox" className="sr-only" checked={certSelected.size > 0}
@@ -1288,14 +1361,14 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                       <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 border-koenig-blue bg-koenig-blue">
                         <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>
                       </div>
-                      <span className="flex items-center gap-1.5 text-xs lg:text-sm font-semibold text-koenig-navy truncate">
+                      <span className="flex items-center gap-1.5 text-xs lg:text-sm font-semibold text-koenig-blue truncate">
                         <svg className="h-3.5 w-3.5 lg:h-4 lg:w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
                         </svg>
                         Flexi Video
                       </span>
                     </div>
-                    <span className="flex-shrink-0 text-xs lg:text-sm font-bold text-koenig-navy ml-2">INR {FLEXI_VIDEO.toLocaleString("en-IN")}+</span>
+                    <span className="flex-shrink-0 text-xs lg:text-sm font-bold text-koenig-blue ml-2">INR {FLEXI_VIDEO.toLocaleString("en-IN")}+</span>
                   </div>
                   </div>
                   {/* Exam Voucher */}
@@ -1307,14 +1380,14 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                         {flexiExamSelected && <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>}
                       </div>
                       <input type="checkbox" checked={flexiExamSelected} onChange={() => setFlexiExamSelected(v => !v)} className="sr-only" />
-                      <span className={`flex items-center gap-1 lg:gap-1.5 text-xs lg:text-sm font-semibold truncate ${flexiExamSelected ? "text-koenig-navy" : "text-koenig-dark"}`}>
+                      <span className={`flex items-center gap-1 lg:gap-1.5 text-xs lg:text-sm font-semibold truncate ${flexiExamSelected ? "text-koenig-blue" : "text-koenig-dark"}`}>
                         <svg className="h-3.5 w-3.5 lg:h-4 lg:w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
                         </svg>
                         Exam Voucher <span className="text-[10px] lg:text-sm font-normal text-koenig-muted">(optional)</span>
                       </span>
                     </div>
-                    <span className={`flex-shrink-0 text-xs lg:text-sm font-bold ml-2 ${flexiExamSelected ? "text-koenig-navy" : "text-koenig-dark"}`}>INR {FLEXI_EXAM.toLocaleString("en-IN")}+</span>
+                    <span className={`flex-shrink-0 text-xs lg:text-sm font-bold ml-2 ${flexiExamSelected ? "text-koenig-blue" : "text-koenig-dark"}`}>INR {FLEXI_EXAM.toLocaleString("en-IN")}+</span>
                   </label>
                   </div>
                   {/* Hands-On-Labs */}
@@ -1326,14 +1399,14 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                         {flexiLabsSelected && <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>}
                       </div>
                       <input type="checkbox" checked={flexiLabsSelected} onChange={() => setFlexiLabsSelected(v => !v)} className="sr-only" />
-                      <span className={`flex items-center gap-1 lg:gap-1.5 text-xs lg:text-sm font-semibold truncate ${flexiLabsSelected ? "text-koenig-navy" : "text-koenig-dark"}`}>
+                      <span className={`flex items-center gap-1 lg:gap-1.5 text-xs lg:text-sm font-semibold truncate ${flexiLabsSelected ? "text-koenig-blue" : "text-koenig-dark"}`}>
                         <svg className="h-3.5 w-3.5 lg:h-4 lg:w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
                         </svg>
                         Hands-On-Labs²
                       </span>
                     </div>
-                    <span className={`flex-shrink-0 text-xs lg:text-sm font-bold ml-2 ${flexiLabsSelected ? "text-koenig-navy" : "text-koenig-dark"}`}>INR {FLEXI_LABS.toLocaleString("en-IN")}+</span>
+                    <span className={`flex-shrink-0 text-xs lg:text-sm font-bold ml-2 ${flexiLabsSelected ? "text-koenig-blue" : "text-koenig-dark"}`}>INR {FLEXI_LABS.toLocaleString("en-IN")}+</span>
                   </label>
                   </div>
                 </div>
@@ -1537,6 +1610,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
             const oo1Total = oo1Subtotal + oo1Gst;
             const oo1HrsPerDay: 4 | 8 = oneOnOneDuration === "4h" ? 4 : 8;
             const oo1EndDate = oneOnOneDate ? calcOo1EndDate(oneOnOneDate, oo1HrsPerDay, oneOnOneSchedule) : "";
+            const oo1TempEndDate = oo1TempDate ? calcOo1EndDate(oo1TempDate, oo1HrsPerDay, oneOnOneSchedule) : "";
             const oo1TotalDays = COURSE_TOTAL_HOURS / oo1HrsPerDay;
             const oo1CalDays = getMonthDays(oo1CalYear, oo1CalMonth);
             const monthName = new Date(oo1CalYear, oo1CalMonth, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
@@ -1573,12 +1647,12 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                         return (
                           <div key={d} className="relative flex-1">
                             {sel && <div className="absolute inset-x-0 bottom-0 h-full translate-y-1 rounded-xl bg-koenig-blue/25" />}
-                          <label style={sel ? { transform: 'translateY(-2px) scale(1.012)', boxShadow: '0 8px 28px 0 rgba(6,148,209,0.28)' } : {}} className={`relative flex w-full cursor-pointer items-center justify-center gap-1.5 py-2 sm:py-2.5 rounded-xl border-2 transition-all ${sel ? "border-koenig-blue bg-white ring-1 ring-koenig-blue/30" : "border-gray-200 bg-gray-100 hover:border-koenig-blue/40 hover:bg-koenig-blue/5"}`}>
+                          <label style={sel ? { transform: 'translateY(-2px) scale(1.012)', boxShadow: '0 8px 28px 0 rgba(6,148,209,0.28)' } : {}} className={`relative flex w-full cursor-pointer items-center justify-center gap-1.5 py-2 sm:py-2.5 rounded-xl border-[1.5px] transition-all ${sel ? "border-koenig-blue bg-white ring-1 ring-koenig-blue/30" : "border-gray-200 bg-gray-100 hover:border-koenig-blue/40 hover:bg-koenig-blue/5"}`}>
                             <div className={`flex h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors ${sel ? "border-koenig-blue bg-koenig-blue" : "border-gray-400 bg-white"}`}>
                               {sel && <svg className="h-2 w-2 sm:h-2.5 sm:w-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>}
                             </div>
                             <input type="radio" className="sr-only" checked={sel} onChange={() => setOneOnOneDuration(d)} />
-                            <span className={`text-xs sm:text-sm font-bold transition-colors ${sel ? "text-koenig-navy" : "text-gray-400"}`}>{d === "4h" ? "4 Hours" : "8 Hours"}</span>
+                            <span className={`text-xs sm:text-sm font-bold transition-colors ${sel ? "text-koenig-blue" : "text-gray-400"}`}>{d === "4h" ? "4 Hours" : "8 Hours"}</span>
                           </label>
                           </div>
                         );
@@ -1594,12 +1668,12 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                         return (
                           <div key={s} className="relative flex-1">
                             {sel && <div className="absolute inset-x-0 bottom-0 h-full translate-y-1 rounded-xl bg-koenig-blue/25" />}
-                          <label style={sel ? { transform: 'translateY(-2px) scale(1.012)', boxShadow: '0 8px 28px 0 rgba(6,148,209,0.28)' } : {}} className={`relative flex w-full cursor-pointer items-center justify-center gap-1.5 py-2 sm:py-2.5 rounded-xl border-2 transition-all ${sel ? "border-koenig-blue bg-white ring-1 ring-koenig-blue/30" : "border-gray-200 bg-gray-100 hover:border-koenig-blue/40 hover:bg-koenig-blue/5"}`}>
+                          <label style={sel ? { transform: 'translateY(-2px) scale(1.012)', boxShadow: '0 8px 28px 0 rgba(6,148,209,0.28)' } : {}} className={`relative flex w-full cursor-pointer items-center justify-center gap-1.5 py-2 sm:py-2.5 rounded-xl border-[1.5px] transition-all ${sel ? "border-koenig-blue bg-white ring-1 ring-koenig-blue/30" : "border-gray-200 bg-gray-100 hover:border-koenig-blue/40 hover:bg-koenig-blue/5"}`}>
                             <div className={`flex h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors ${sel ? "border-koenig-blue bg-koenig-blue" : "border-gray-400 bg-white"}`}>
                               {sel && <svg className="h-2 w-2 sm:h-2.5 sm:w-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>}
                             </div>
                             <input type="radio" className="sr-only" checked={sel} onChange={() => setOneOnOneSchedule(s)} />
-                            <span className={`text-xs sm:text-sm font-bold transition-colors ${sel ? "text-koenig-navy" : "text-gray-400"}`}>{s === "weekday" ? "Week Days" : "Weekends"}</span>
+                            <span className={`text-xs sm:text-sm font-bold transition-colors ${sel ? "text-koenig-blue" : "text-gray-400"}`}>{s === "weekday" ? "Week Days" : "Weekends"}</span>
                           </label>
                           </div>
                         );
@@ -1615,10 +1689,10 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                     <label className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-koenig-blue">Time</label>
                     <button
                       onClick={() => { setOneOnOneTimeOpen(v => !v); setOneOnOneTZOpen(false); }}
-                      className={`flex w-full items-center justify-between rounded-xl border-2 px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneTimeChosen ? "border-koenig-blue bg-koenig-blue/10 ring-1 ring-koenig-blue/30 shadow-sm hover:border-koenig-blue hover:bg-koenig-blue/10" : "border-koenig-blue/40 hover:border-koenig-blue/70 hover:bg-koenig-blue/5"}`}
+                      className={`flex w-full items-center justify-between rounded-xl border-[1.5px] px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneTimeChosen ? "border-koenig-blue bg-koenig-blue/[0.06] ring-1 ring-koenig-blue/30 shadow-sm hover:border-koenig-blue hover:bg-koenig-blue/[0.06]" : "border-koenig-blue/40 hover:border-koenig-blue/70 hover:bg-koenig-blue/5"}`}
                       style={oneOnOneTimeChosen ? undefined : { background: "rgba(6,148,209,0.06)" }}
                     >
-                      <span className={`font-bold ${oneOnOneTimeChosen ? "text-koenig-navy" : "text-koenig-dark"}`}>{oneOnOneTime}</span>
+                      <span className={`font-bold ${oneOnOneTimeChosen ? "text-koenig-blue" : "text-koenig-dark"}`}>{oneOnOneTime}</span>
                       <svg className={`h-3.5 w-3.5 ${oneOnOneTimeChosen ? "text-koenig-blue" : "text-koenig-blue"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                     </button>
                   </div>
@@ -1627,10 +1701,10 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                     <label className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-koenig-blue">Timezone</label>
                     <button
                       onClick={() => { setOneOnOneTZOpen(v => !v); setOneOnOneTimeOpen(false); }}
-                      className={`flex w-full items-center justify-between rounded-xl border-2 px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneTZChosen ? "border-koenig-blue bg-koenig-blue/10 ring-1 ring-koenig-blue/30 shadow-sm hover:border-koenig-blue hover:bg-koenig-blue/10" : "border-koenig-blue/40 hover:border-koenig-blue/70 hover:bg-koenig-blue/5"}`}
+                      className={`flex w-full items-center justify-between rounded-xl border-[1.5px] px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneTZChosen ? "border-koenig-blue bg-koenig-blue/[0.06] ring-1 ring-koenig-blue/30 shadow-sm hover:border-koenig-blue hover:bg-koenig-blue/[0.06]" : "border-koenig-blue/40 hover:border-koenig-blue/70 hover:bg-koenig-blue/5"}`}
                       style={oneOnOneTZChosen ? undefined : { background: "rgba(6,148,209,0.06)" }}
                     >
-                      <span className={`font-bold ${oneOnOneTZChosen ? "text-koenig-navy" : "text-koenig-dark"}`}>{oneOnOneTZ} ({TIMEZONE_OFFSETS[oneOnOneTZ]})</span>
+                      <span className={`font-bold ${oneOnOneTZChosen ? "text-koenig-blue" : "text-koenig-dark"}`}>{oneOnOneTZ} ({TIMEZONE_OFFSETS[oneOnOneTZ]})</span>
                       <svg className={`h-3.5 w-3.5 ${oneOnOneTZChosen ? "text-koenig-blue" : "text-koenig-blue"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                     </button>
                   </div>
@@ -1669,7 +1743,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                       <button key={iso} disabled={isPast} onClick={() => setOo1TempDate(iso)}
                         className={`py-2 text-center text-sm font-semibold rounded transition
                           ${isStart || isEnd ? "bg-koenig-blue text-white font-bold"
-                            : inRange ? "bg-koenig-blue/15 text-koenig-navy"
+                            : inRange ? "bg-koenig-blue/15 text-koenig-blue"
                             : isToday ? "text-koenig-blue font-bold ring-2 ring-koenig-blue/50 rounded-full"
                             : isPast ? "text-koenig-muted/40 cursor-not-allowed"
                             : isWeekend ? "text-koenig-navy/60 hover:bg-koenig-navy/5 cursor-pointer"
@@ -1696,7 +1770,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                       <div className="lg:hidden">
                         <button
                           onClick={() => { setOo1TempDate(oneOnOneDate); setOo1CalOpen(true); }}
-                          className={`flex w-full items-center justify-between rounded-xl border-2 px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneDate ? "border-koenig-blue bg-koenig-blue/10 ring-1 ring-koenig-blue/30 text-koenig-navy" : "border-koenig-blue/40 text-koenig-dark"}`}
+                          className={`flex w-full items-center justify-between rounded-xl border-2 px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneDate ? "border-koenig-blue bg-koenig-blue/10 ring-1 ring-koenig-blue/30 text-koenig-blue" : "border-koenig-blue/40 text-koenig-dark"}`}
                           style={oneOnOneDate ? undefined : { background: "rgba(6,148,209,0.06)" }}
                         >
                           <span className="flex items-center gap-2">
@@ -1729,8 +1803,11 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                               </div>
                               {calendarGrid(month1Days, oo1CalMonth)}
                               {oo1TempDate && (
-                                <div className="mt-3 rounded-lg bg-koenig-blue/8 border border-koenig-blue/20 px-3 py-2 text-xs font-semibold text-koenig-navy text-center">
+                                <div className="mt-3 rounded-lg bg-koenig-blue/8 border border-koenig-blue/20 px-3 py-2 text-xs font-semibold text-koenig-navy text-center whitespace-nowrap">
                                   {new Date(oo1TempDate + "T00:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}
+                                  {oo1TempEndDate && (
+                                    <> – {new Date(oo1TempEndDate + "T00:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}</>
+                                  )}
                                 </div>
                               )}
                               <div className="mt-3 flex gap-2">
@@ -1775,7 +1852,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                     <div className={`flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${oneOnOneCert ? "border-koenig-blue bg-koenig-blue" : "border-gray-300 bg-white"}`}>
                       {oneOnOneCert && <svg className="h-2 w-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
                     </div>
-                    <span className={`text-sm font-semibold ${oneOnOneCert ? "text-koenig-navy" : "text-koenig-dark"}`}>Add Certification Exam</span>
+                    <span className={`text-sm font-semibold ${oneOnOneCert ? "text-koenig-blue" : "text-koenig-dark"}`}>Add Certification Exam</span>
                   </div>
                   <span className={`text-sm font-bold text-koenig-navy`}>+{EXAM_FEE_INR.toLocaleString("en-IN")}</span>
                   <input type="checkbox" className="sr-only" checked={oneOnOneCert} onChange={(e) => setOneOnOneCert(e.target.checked)} />
@@ -1806,24 +1883,47 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                       </div>
                     </div>
 
-                    {/* Fee rows */}
+                    {/* Fee rows — same "Total (excl. GST)" + breakdown toggle
+                        treatment as the desktop price card. The breakdown
+                        expands inline right inside this card (its own
+                        state, not the fixed-bar's popup) so it's visible
+                        in place rather than needing a separate popup. */}
                     <div>
                       <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-koenig-blue">Fees Summary</div>
-                      <div className="space-y-1 text-sm">
-                        <div className="flex items-center justify-between">
-                          <span className="text-koenig-muted">1-on-1 Training</span>
-                          <span className="font-semibold text-koenig-dark">INR {oo1Price.toLocaleString("en-IN")}</span>
+                      <div className="rounded-lg border border-koenig-blue/15 bg-white overflow-hidden">
+                        <div className="px-3 py-3 text-center">
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-koenig-navy/70 mb-1">Total (excl. GST)</div>
+                          <div className="flex items-baseline justify-center gap-1">
+                            <span className="text-sm font-bold text-koenig-blue">INR</span>
+                            <span className="text-2xl font-extrabold text-koenig-blue">{oo1Subtotal.toLocaleString("en-IN")}</span>
+                            <span className="text-sm font-bold text-koenig-blue">†</span>
+                          </div>
+                          <button onClick={() => setOo1InlineBreakdownOpen(v => !v)} className="mt-1 text-xs font-semibold text-koenig-blue underline underline-offset-2 hover:text-koenig-navy transition">
+                            {oo1InlineBreakdownOpen ? "Hide Breakdown" : "View Fees Breakdown"}
+                          </button>
                         </div>
-                        {oneOnOneCert && (
-                          <div className="flex items-center justify-between">
-                            <span className="text-koenig-muted">Exam Fee</span>
-                            <span className="font-semibold text-koenig-dark">INR {EXAM_FEE_INR.toLocaleString("en-IN")}</span>
+                        {oo1InlineBreakdownOpen && (
+                          <div className="border-t border-koenig-blue/15 text-sm">
+                            <div className="flex items-center justify-between px-3 py-2 bg-koenig-blue/5">
+                              <span className="text-koenig-muted">1-on-1 Training</span>
+                              <span className="font-semibold text-koenig-dark">INR {oo1Price.toLocaleString("en-IN")}</span>
+                            </div>
+                            {oneOnOneCert && (
+                              <div className="flex items-center justify-between border-t border-koenig-blue/10 px-3 py-2 bg-koenig-blue/5">
+                                <span className="text-koenig-muted">Exam Fee</span>
+                                <span className="font-semibold text-koenig-dark">INR {EXAM_FEE_INR.toLocaleString("en-IN")}</span>
+                              </div>
+                            )}
+                            <div className="flex items-center justify-between border-t border-koenig-blue/10 px-3 py-2 bg-koenig-blue/5">
+                              <span className="text-koenig-muted">+ GST 18%</span>
+                              <span className="font-semibold text-koenig-dark">INR {oo1Gst.toLocaleString("en-IN")}</span>
+                            </div>
+                            <div className="flex items-center justify-between border-t border-koenig-blue/20 bg-koenig-navy/8 px-3 py-2">
+                              <span className="font-bold text-koenig-navy">Total (INR)</span>
+                              <span className="font-bold text-koenig-navy">INR {oo1Total.toLocaleString("en-IN")}</span>
+                            </div>
                           </div>
                         )}
-                        <div className="flex items-center justify-between border-t border-koenig-blue/15 pt-1.5 mt-1">
-                          <span className="font-bold text-koenig-dark">Subtotal</span>
-                          <span className="font-bold text-koenig-blue">INR {oo1Subtotal.toLocaleString("en-IN")} <span className="text-xs font-normal text-koenig-muted">excl. GST</span></span>
-                        </div>
                       </div>
                     </div>
 
@@ -1890,7 +1990,21 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                         <div className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${oneOnOneCert ? "border-koenig-blue bg-koenig-blue" : "border-gray-300 bg-white"}`}>
                           {oneOnOneCert && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
                         </div>
-                        <span className={`text-sm font-semibold ${oneOnOneCert ? "text-koenig-navy" : "text-koenig-dark"}`}>Add Certification</span>
+                        <span className={`text-sm font-semibold ${oneOnOneCert ? "text-koenig-blue" : "text-koenig-dark"}`}>Add Certification</span>
+                        <div className="group relative flex items-center">
+                          <button
+                            type="button"
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                            className="flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center text-koenig-muted hover:text-koenig-blue"
+                            aria-label="About the certification exam"
+                          >
+                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="11" /><circle cx="12" cy="8" r="0.5" fill="currentColor" /></svg>
+                          </button>
+                          <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 w-48 -translate-x-1/2 rounded-lg border border-koenig-border bg-white px-3 py-2 text-[11px] leading-snug text-koenig-dark opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
+                            Check this box to add the certification exam
+                            <div className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 border-b border-r border-koenig-border bg-white" />
+                          </div>
+                        </div>
                       </div>
                       <span className={`text-sm font-bold ${oneOnOneCert ? "text-koenig-navy" : "text-koenig-navy"}`}>+{EXAM_FEE_INR.toLocaleString("en-IN")}</span>
                       <input type="checkbox" className="sr-only" checked={oneOnOneCert} onChange={(e) => setOneOnOneCert(e.target.checked)} />
@@ -2416,6 +2530,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
           const selSubtotal = selCourseFee + (hasCertSel ? selExamFee : 0);
           const selGst = Math.round(selSubtotal * GST_RATE);
           const selTotal = selSubtotal + selGst;
+          const selFeeOnRequest = selBatch?.format === "Classroom" && INTERNATIONAL_LOCATIONS.has(selBatch.location);
           return (
             <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 p-2 sm:p-[18px] lg:items-start">
               {/* LEFT: batch list */}
@@ -2424,6 +2539,10 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                 <svg className="h-4 w-4 text-koenig-blue flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 <span className="text-sm font-bold text-koenig-dark">Choose Your Batch</span>
                 <span className="ml-auto text-xs text-koenig-muted font-medium">{filtered.length} available</span>
+              </div>
+              <div className="mb-4 flex items-center gap-1.5 text-xs text-koenig-muted">
+                <svg className="h-3.5 w-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>Classroom fees vary by location; some locations are fee on request</span>
               </div>
               <div className="space-y-2">
                 {pageItems.map((batch) => {
@@ -2480,16 +2599,16 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                           <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                         </svg>
                         {/* Shorter date on mobile to fit GTR on same line */}
-                        <span className={`text-sm font-bold sm:hidden ${isSel ? "text-koenig-navy" : "text-koenig-dark"}`}>
+                        <span className={`text-sm font-bold sm:hidden ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
                           {startD.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – {endD.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                         </span>
-                        <span className={`text-sm font-bold hidden sm:inline ${isSel ? "text-koenig-navy" : "text-koenig-dark"}`}>
+                        <span className={`text-sm font-bold hidden sm:inline ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
                           {startD.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} – {endD.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                         </span>
                         {batch.gtr && (
-                          <span className="flex flex-shrink-0 items-center gap-1 rounded-full border border-green-300 bg-green-50 px-2 py-0.5 text-xs text-green-700">
-                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500" />
-                            <span className="font-bold">GTR</span>
+                          <span className="flex flex-shrink-0 items-center gap-1 rounded-full border border-green-300 bg-green-50 px-2 py-0.5 text-green-700">
+                            <svg className="h-3 w-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/></svg>
+                            <span className="text-[12px] font-normal"><span className="sm:hidden">GTR</span><span className="hidden sm:inline">Guaranteed to Run</span></span>
                           </span>
                         )}
                       </div>
@@ -2500,44 +2619,51 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                           {batch.format === "Online" ? (
                             <svg className={`h-3.5 w-3.5 flex-shrink-0 ${isSel ? "text-koenig-blue" : "text-gray-400"}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                           ) : batch.format === "Classroom" ? (
-                            <svg className={`h-3.5 w-3.5 flex-shrink-0 ${isSel ? "text-koenig-blue" : "text-gray-400"}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            <svg className={`h-3.5 w-3.5 flex-shrink-0 ${isSel ? "text-koenig-blue" : "text-gray-400"}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/><path d="M6 12H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2"/><path d="M18 9h2a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-2"/><path d="M10 6h4M10 10h4M10 14h4M10 18h4"/></svg>
                           ) : (
                             <svg className={`h-3.5 w-3.5 flex-shrink-0 ${isSel ? "text-koenig-blue" : "text-gray-400"}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                           )}
                           {batch.format === "Classroom" ? (
                             <span className="flex items-baseline gap-0.5">
-                              <span className={`text-sm font-semibold ${isSel ? "text-koenig-navy" : "text-koenig-dark"}`}>{batch.location}</span>
+                              <span className={`text-sm font-semibold ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>{batch.location}</span>
                               {CITY_COUNTRY[batch.location] && (
-                                <span className={`text-sm font-normal ${isSel ? "text-koenig-navy" : "text-koenig-dark"}`}>
+                                <span className={`text-sm font-normal ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
                                   {` (${CITY_COUNTRY[batch.location].name.length > 12 ? CITY_COUNTRY[batch.location].abbr : CITY_COUNTRY[batch.location].name})`}
                                 </span>
                               )}
                             </span>
                           ) : (
-                            <span className={`text-sm font-semibold ${isSel ? "text-koenig-navy" : "text-koenig-dark"}`}>{batch.format === "Online" ? "Online" : `${batch.format} · ${batch.location}`}</span>
+                            <span className={`text-sm font-semibold ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>{batch.format === "Online" ? "Online" : `${batch.format} · ${batch.location}`}</span>
                           )}
                         </div>
                         <div className="flex items-center gap-1.5">
                           <svg className={`h-3.5 w-3.5 flex-shrink-0 ${isSel ? "text-koenig-blue" : "text-gray-400"}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                          <span className={`text-sm ${isSel ? "text-koenig-navy" : "text-koenig-dark"}`}>{batch.time} ({batch.hoursPerDay}hr)</span>
+                          <span className={`text-sm ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>{batch.time} ({batch.hoursPerDay}hr)</span>
                         </div>
                       </div>
-                      {/* Row 3: Seats — mobile only inline, desktop in right column */}
-                      <div className="sm:hidden flex items-center gap-2">
-                        <div className="flex-1 h-1 rounded-full overflow-hidden bg-gray-100">
+                      {/* Row 3: Price + Seats — mobile only inline, desktop in right column */}
+                      <div className="sm:hidden">
+                        <div className="mb-1 flex items-center justify-between">
+                          <span className={`text-sm font-bold ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
+                            {batch.format === "Classroom" && INTERNATIONAL_LOCATIONS.has(batch.location) ? "On Request" : formatCurrency(batch.price, batch.currency)}
+                          </span>
+                          <span className={`text-xs font-semibold whitespace-nowrap ${status.color}`}>{batch.seats} seats · {status.text}</span>
+                        </div>
+                        <div className="h-1 rounded-full overflow-hidden bg-gray-100">
                           <div className={`h-full rounded-full transition-all ${seatBarColor(batch)}`} style={{ width: seatBarWidth(batch) }} />
                         </div>
-                        <span className={`text-xs font-semibold whitespace-nowrap ${status.color}`}>{batch.seats} seats · {status.text}</span>
                       </div>
                       </div>
 
                       {/* Bar column — desktop only */}
                       <div className="hidden sm:flex flex-shrink-0 flex-col items-center justify-center gap-1 self-stretch pl-3 border-l border-koenig-blue/10 min-w-[150px]">
-                        <div className="w-32 h-1 rounded-full overflow-hidden bg-gray-100">
+                        <span className={`text-sm font-bold ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
+                          {batch.format === "Classroom" && INTERNATIONAL_LOCATIONS.has(batch.location) ? "On Request" : formatCurrency(batch.price, batch.currency)}
+                        </span>
+                        <div className="w-32 h-1 rounded-full overflow-hidden bg-gray-100 mt-0.5">
                           <div className={`h-full rounded-full transition-all ${seatBarColor(batch)}`} style={{ width: seatBarWidth(batch) }} />
                         </div>
-                        <span className={`text-sm font-medium ${status.color}`}>{batch.seats} Seats</span>
-                        <span className={`text-xs font-normal text-center leading-tight ${status.color}`}>{status.text}</span>
+                        <span className={`text-[12px] font-medium whitespace-nowrap ${status.color}`}>{batch.seats} Seats · {status.text}</span>
                       </div>
                     </div>
                     </div>
@@ -2596,22 +2722,32 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
               )}
               </div>
 
-              {/* Mobile fixed bottom Enroll bar — public batch */}
+              {/* Mobile fixed bottom Enroll bar — public batch. Mirrors the
+                  desktop price card's "Fee on Request" handling: no
+                  numeric price/breakdown, and CTA reads "Request More
+                  Info" instead of "Enroll Now" for on-request classroom
+                  batches (e.g. international locations). */}
               {scheduleInView && tabsFloating && selBatch && (
                 <div className="lg:hidden" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40, background: '#fff', borderTop: '1px solid rgba(6,148,209,0.2)', boxShadow: '0 -4px 20px rgba(0,0,0,0.10)', padding: '8px 16px 12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
                     <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                        <span style={{ fontSize: 14, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>INR {selSubtotal.toLocaleString("en-IN")}</span>
-                        <span style={{ fontSize: 10, color: '#8a9db5', whiteSpace: 'nowrap' }}>excl. GST</span>
-                      </div>
-                      <button
-                        onClick={() => setPubBreakdownOpen(true)}
-                        style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer', textAlign: 'left' }}
-                      >View Fees Breakdown</button>
+                      {selFeeOnRequest ? (
+                        <span style={{ fontSize: 13, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>Fee on Request</span>
+                      ) : (
+                        <>
+                          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                            <span style={{ fontSize: 14, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>INR {selSubtotal.toLocaleString("en-IN")}</span>
+                            <span style={{ fontSize: 10, color: '#8a9db5', whiteSpace: 'nowrap' }}>excl. GST</span>
+                          </div>
+                          <button
+                            onClick={() => setPubBreakdownOpen(true)}
+                            style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer', textAlign: 'left' }}
+                          >View Fees Breakdown</button>
+                        </>
+                      )}
                     </div>
-                    <button style={{ flex: 1, minWidth: 0, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                      <span>Enroll Now</span>
+                    <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} style={{ flex: 1, minWidth: 0, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                      <span>{selFeeOnRequest ? "Request More Info" : "Enroll Now"}</span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </button>
                   </div>
@@ -2665,7 +2801,21 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                         <div className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${hasCertSel ? "border-koenig-blue bg-koenig-blue" : "border-gray-300 bg-white"}`}>
                           {hasCertSel && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
                         </div>
-                        <span className={`text-sm font-semibold ${hasCertSel ? "text-koenig-navy" : "text-koenig-dark"}`}>Add Certification</span>
+                        <span className={`text-sm font-semibold ${hasCertSel ? "text-koenig-blue" : "text-koenig-dark"}`}>Add Certification</span>
+                        <div className="group relative flex items-center">
+                          <button
+                            type="button"
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                            className="flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center text-koenig-muted hover:text-koenig-blue"
+                            aria-label="About the certification exam"
+                          >
+                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="11" /><circle cx="12" cy="8" r="0.5" fill="currentColor" /></svg>
+                          </button>
+                          <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 w-48 -translate-x-1/2 rounded-lg border border-koenig-border bg-white px-3 py-2 text-[11px] leading-snug text-koenig-dark opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
+                            Check this box to add the certification exam
+                            <div className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 border-b border-r border-koenig-border bg-white" />
+                          </div>
+                        </div>
                       </div>
                       <span className={`text-sm font-bold ${hasCertSel ? "text-koenig-navy" : "text-koenig-navy"}`}>+{EXAM_FEE_INR.toLocaleString("en-IN")}</span>
                       <input type="checkbox" className="sr-only" checked={hasCertSel} onChange={() => {
@@ -2675,19 +2825,26 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                     </label>
                   </div>
                   {/* Price */}
-                  <div className="bg-gradient-to-b from-koenig-blue/8 to-koenig-blue/3 px-4 py-4 text-center border-t border-koenig-blue/15 mt-3">
-                    <div className="text-sm font-bold uppercase tracking-widest text-koenig-navy/70 mb-1">Total (excl. GST)</div>
-                    <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-sm font-bold text-koenig-blue">INR</span>
-                      <span className="text-3xl font-extrabold text-koenig-blue">{selSubtotal.toLocaleString("en-IN")}</span>
-                      <span className="text-sm font-bold text-koenig-blue">†</span>
+                  {selFeeOnRequest ? (
+                    <div className="bg-gradient-to-b from-koenig-blue/8 to-koenig-blue/3 px-4 py-4 text-center border-t border-koenig-blue/15 mt-3">
+                      <div className="text-sm font-bold uppercase tracking-widest text-koenig-navy/70 mb-1">Classroom Fee</div>
+                      <div className="text-xl font-extrabold text-koenig-blue">Fee on Request</div>
                     </div>
-                    <button onClick={() => setPubBreakdownOpen(v => !v)} className="mt-1.5 text-sm font-semibold text-koenig-blue underline underline-offset-2 hover:text-koenig-navy transition">
-                      {pubBreakdownOpen ? "Hide Breakdown" : "View Fees Breakdown"}
-                    </button>
-                  </div>
+                  ) : (
+                    <div className="bg-gradient-to-b from-koenig-blue/8 to-koenig-blue/3 px-4 py-4 text-center border-t border-koenig-blue/15 mt-3">
+                      <div className="text-sm font-bold uppercase tracking-widest text-koenig-navy/70 mb-1">Total (excl. GST)</div>
+                      <div className="flex items-baseline justify-center gap-1">
+                        <span className="text-sm font-bold text-koenig-blue">INR</span>
+                        <span className="text-3xl font-extrabold text-koenig-blue">{selSubtotal.toLocaleString("en-IN")}</span>
+                        <span className="text-sm font-bold text-koenig-blue">†</span>
+                      </div>
+                      <button onClick={() => setPubBreakdownOpen(v => !v)} className="mt-1.5 text-sm font-semibold text-koenig-blue underline underline-offset-2 hover:text-koenig-navy transition">
+                        {pubBreakdownOpen ? "Hide Breakdown" : "View Fees Breakdown"}
+                      </button>
+                    </div>
+                  )}
                   {/* Breakdown */}
-                  {pubBreakdownOpen && selBatch && (
+                  {!selFeeOnRequest && pubBreakdownOpen && selBatch && (
                     <div className="border-y border-koenig-navy/20 text-sm">
                       <div className="flex items-center justify-between bg-koenig-navy px-3 py-2">
                         <span className="text-sm font-bold uppercase tracking-wide text-white">Fees Breakdown</span>
@@ -2699,15 +2856,15 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                       <div className="flex items-center justify-between border-t border-koenig-navy/20 bg-koenig-navy/8 px-3 py-2"><span className="font-bold text-koenig-navy">Total (INR)</span><span className="font-bold text-koenig-navy">{selTotal.toLocaleString("en-IN")}</span></div>
                     </div>
                   )}
-                  {/* Enroll Now */}
+                  {/* Enroll Now / Request More Info */}
                   <div className="px-4 py-3">
-                    <button className="group w-full rounded-lg bg-gradient-to-r from-koenig-blue to-cyan-500 py-3 text-sm font-bold text-white shadow-md shadow-koenig-blue/25 hover:shadow-lg hover:shadow-koenig-blue/40 hover:brightness-105 transition-all active:scale-95 flex items-center justify-center gap-2 overflow-hidden">
-                      <span>Enroll Now</span>
+                    <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} className="group w-full rounded-lg bg-gradient-to-r from-koenig-blue to-cyan-500 py-3 text-sm font-bold text-white shadow-md shadow-koenig-blue/25 hover:shadow-lg hover:shadow-koenig-blue/40 hover:brightness-105 transition-all active:scale-95 flex items-center justify-center gap-2 overflow-hidden">
+                      <span>{selFeeOnRequest ? "Request More Info" : "Enroll Now"}</span>
                       <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6"/>
                       </svg>
                     </button>
-                    <p className="mt-2 text-center text-[10px] text-koenig-muted">Secure payment</p>
+                    <p className="mt-2 text-center text-[10px] text-koenig-muted">{selFeeOnRequest ? "Our team will get back to you shortly" : "Secure payment"}</p>
                   </div>
                 </div>
               </div>
@@ -2732,24 +2889,36 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                       </div>
                     </div>
 
-                    {/* Fee rows — only visible when cert is added */}
-                    {hasCertSel && (
-                      <div className="space-y-1 text-sm mb-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-koenig-muted">Course Fee</span>
-                          <span className="font-semibold text-koenig-dark">INR {selCourseFee.toLocaleString("en-IN")}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-koenig-muted">Exam Fee</span>
-                          <span className="font-semibold text-koenig-dark">INR {selExamFee.toLocaleString("en-IN")}</span>
-                        </div>
+                    {selFeeOnRequest ? (
+                      /* On-request classroom batches (e.g. international
+                         locations) have no fixed price — match desktop's
+                         "Fee on Request" treatment instead of a subtotal. */
+                      <div className="text-center py-1">
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-koenig-navy/70 mb-0.5">Classroom Fee</div>
+                        <div className="text-base font-extrabold text-koenig-blue">Fee on Request</div>
                       </div>
+                    ) : (
+                      <>
+                        {/* Fee rows — only visible when cert is added */}
+                        {hasCertSel && (
+                          <div className="space-y-1 text-sm mb-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-koenig-muted">Course Fee</span>
+                              <span className="font-semibold text-koenig-dark">INR {selCourseFee.toLocaleString("en-IN")}</span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-koenig-muted">Exam Fee</span>
+                              <span className="font-semibold text-koenig-dark">INR {selExamFee.toLocaleString("en-IN")}</span>
+                            </div>
+                          </div>
+                        )}
+                        {/* Subtotal */}
+                        <div className={`flex items-center justify-between text-sm ${hasCertSel ? "border-t border-koenig-blue/15 pt-2" : ""}`}>
+                          <span className="font-bold text-koenig-dark">Subtotal</span>
+                          <span className="font-bold text-koenig-blue">INR {selSubtotal.toLocaleString("en-IN")} <span className="text-xs font-normal text-koenig-muted">excl. GST</span></span>
+                        </div>
+                      </>
                     )}
-                    {/* Subtotal */}
-                    <div className={`flex items-center justify-between text-sm ${hasCertSel ? "border-t border-koenig-blue/15 pt-2" : ""}`}>
-                      <span className="font-bold text-koenig-dark">Subtotal</span>
-                      <span className="font-bold text-koenig-blue">INR {selSubtotal.toLocaleString("en-IN")} <span className="text-xs font-normal text-koenig-muted">excl. GST</span></span>
-                    </div>
                   </div>
                 </div>
               )}
@@ -3118,7 +3287,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                           <span className="rounded-full bg-orange-100 px-2.5 py-0.5 text-[10px] font-semibold text-orange-700">Filling Fast</span>
                         )}
                       </div>
-                      <div className={`mt-1 text-sm font-bold ${seatStatus(selectedBatch).color}`}>
+                      <div className={`mt-1 text-[12px] font-bold ${seatStatus(selectedBatch).color}`}>
                         {selectedBatch.seats} seats left
                       </div>
                       <div className="mt-2 relative h-2 w-full overflow-hidden rounded-full bg-koenig-border">
@@ -3172,7 +3341,7 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
               const enrollBg = "bg-gradient-to-r from-koenig-blue to-cyan-500 shadow-koenig-blue/25 hover:shadow-koenig-blue/40 hover:brightness-105";
               return (
             <div className="mt-[18px] flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-t border-koenig-border pt-[18px]">
-              <button className={`group w-full sm:w-auto rounded-lg px-8 py-3 text-sm font-bold text-white shadow-lg transition flex items-center justify-center gap-2 ${enrollBg}`}>
+              <button onClick={() => { if (detailTab === "public") { openBookingIfClassroom(selectedBatch); goToOnlineCheckout(selectedBatch); } }} className={`group w-full sm:w-auto rounded-lg px-8 py-3 text-sm font-bold text-white shadow-lg transition flex items-center justify-center gap-2 ${enrollBg}`}>
                 <span>Enroll Now</span>
                 <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M13 6l6 6-6 6"/>
@@ -3396,10 +3565,10 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
             <div className="flex gap-1.5">
               <button
                 onClick={() => setPricingTab("one-on-one")}
-                className={`flex-1 rounded-xl border py-2 transition-all flex items-center justify-center gap-1.5 ${pricingTab === "one-on-one" ? "bg-koenig-navy border-koenig-navy text-white shadow-sm" : "border-koenig-navy/30 text-koenig-navy bg-white"}`}
+                className={`flex-1 rounded-xl border py-2 transition-all flex items-center justify-center gap-1.5 ${pricingTab === "one-on-one" ? "bg-koenig-blue border-koenig-blue text-white shadow-sm" : "border-koenig-blue/30 text-koenig-blue bg-white"}`}
               >
                 {pricingTab === "one-on-one"
-                  ? <svg width="12" height="12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#22c55e"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  ? <svg width="12" height="12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   : <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>}
                 <span className="text-[11px] font-extrabold">1-on-1</span>
               </button>
@@ -3408,16 +3577,16 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
                 className={`flex-1 rounded-xl border py-2 transition-all flex items-center justify-center gap-1.5 ${pricingTab === "public" ? "bg-koenig-blue border-koenig-blue text-white shadow-sm" : "border-koenig-blue/30 text-koenig-blue bg-white"}`}
               >
                 {pricingTab === "public"
-                  ? <svg width="12" height="12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#22c55e"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  ? <svg width="12" height="12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   : <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>}
                 <span className="text-[11px] font-extrabold">Public</span>
               </button>
               <button
                 onClick={() => setPricingTab("self-paced")}
-                className={`flex-1 rounded-xl border py-2 transition-all flex items-center justify-center gap-1.5 ${pricingTab === "self-paced" ? "bg-koenig-accent border-koenig-accent text-white shadow-sm" : "border-koenig-accent/30 text-koenig-accent bg-white"}`}
+                className={`flex-1 rounded-xl border py-2 transition-all flex items-center justify-center gap-1.5 ${pricingTab === "self-paced" ? "bg-koenig-blue border-koenig-blue text-white shadow-sm" : "border-koenig-blue/30 text-koenig-blue bg-white"}`}
               >
                 {pricingTab === "self-paced"
-                  ? <svg width="12" height="12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#22c55e"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  ? <svg width="12" height="12" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   : <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>}
                 <span className="text-[11px] font-extrabold">Flexi</span>
               </button>
@@ -3426,6 +3595,21 @@ export function CourseScheduler({ initialBatches }: CourseSchedulerProps = {}) {
           navEl
         );
       })()}
+
+      {/* Classroom Training booking popup — only ever opened for Classroom-format batches */}
+      <ClassroomBookingModal
+        open={!!bookingBatch}
+        onClose={() => setBookingBatch(null)}
+        courseTitle={courseTitle}
+        batch={bookingBatch ? {
+          startDate: bookingBatch.startDate,
+          endDate: bookingBatch.endDate,
+          time: bookingBatch.time,
+          location: bookingBatch.location,
+          price: bookingBatch.price,
+          currency: bookingBatch.currency,
+        } : null}
+      />
     </>
   );
 }

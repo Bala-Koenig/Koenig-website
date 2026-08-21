@@ -1,13 +1,14 @@
 import { Nav } from "./components/nav";
 import { Footer } from "./components/footer";
 import { CourseScheduler } from "./components/course-scheduler";
-import { PricingCard } from "./components/pricing-card";
+import { TrainingFormatsCard } from "./components/training-formats-card";
 import { StickyInfoTabs } from "./components/sticky-info-tabs";
 import { StickyCourseNav } from "./components/sticky-course-nav";
 import { CourseFaq } from "./components/course-faq";
 import { CourseResources } from "./components/course-resources";
 import { RequestInfoForm } from "./components/request-info-form";
 import { RequestInfoModal } from "./components/request-info-modal";
+import { DownloadSyllabusModal } from "./components/download-syllabus-modal";
 import { CorporateQuoteModal } from "./components/corporate-quote-modal";
 import { WhatsIncludedCarousel } from "./components/whats-included-carousel";
 import { ReadMore } from "./components/read-more";
@@ -15,8 +16,16 @@ import { CourseTestimonials } from "./components/course-testimonials";
 import { RelatedCourses } from "./components/related-courses";
 import { BannerReadMore } from "./components/banner-read-more";
 import { ScrollToTop } from "./components/scroll-to-top";
+import { BreadcrumbTechDropdown } from "./components/breadcrumb-tech-dropdown";
 import Link from "next/link";
-import { UserCog } from "lucide-react";
+import { UserCog, User, Users, Clock } from "lucide-react";
+
+/* Formats "Mar 3 - Mar 7, 2026" -> "Mar 3, 2026" for a compact next-batch label */
+function formatNextBatchDate(dateRange: string): string {
+  const [start, end] = dateRange.split(" - ");
+  const year = end?.split(", ")[1];
+  return year ? `${start}, ${year}` : dateRange;
+}
 
 /* ------------------------------------------------------------------ */
 /*  Course Data                                                        */
@@ -25,6 +34,7 @@ import { UserCog } from "lucide-react";
 const course = {
   title: "AZ-104: Microsoft Azure Administrator",
   vendor: "Microsoft",
+  relatedTechnologies: [] as string[],
   technology: "Cloud Computing",
   level: "Associate",
   duration: "32 Hours (4 Days)",
@@ -244,7 +254,7 @@ export default function CoursePageDesign() {
           <span className="mx-2">/</span>
           <Link href="#" className="hover:text-koenig-blue">Cloud Computing</Link>
           <span className="mx-2">/</span>
-          <Link href="#" className="hover:text-koenig-blue">Microsoft</Link>
+          <BreadcrumbTechDropdown primary={course.vendor} related={course.relatedTechnologies} />
           <span className="mx-2">/</span>
           <span className="font-medium text-koenig-dark">{course.code}</span>
         </div>
@@ -293,7 +303,7 @@ export default function CoursePageDesign() {
                   infrastructure, configure virtual networking, connect Azure and on-premises sites,
                   manage network traffic, implement storage solutions, and create and scale virtual machines.
                 </p>
-                <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/50">
+                <p className="mb-6 max-w-2xl text-base leading-relaxed text-white/70">
                   This official Microsoft course prepares you for the AZ-104 certification exam and is
                   designed for IT professionals looking to specialize in Azure administration. Gain
                   hands-on experience with real-world lab environments guided by a Microsoft Certified Trainer.
@@ -302,13 +312,17 @@ export default function CoursePageDesign() {
 
               {/* Meta Row */}
               <div className="mb-6 mt-[18px] sm:mt-0 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/50">
-                <div className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span className="text-white">{course.duration}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                  <span className="text-white">{course.format}</span>
+                {/* Grouped so duration + format stay on one line together
+                    (as their own row) instead of each wrapping separately */}
+                <div className="flex items-center gap-x-4">
+                  <div className="flex items-center gap-2 whitespace-nowrap">
+                    <svg className="h-4 w-4 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span className="text-white">{course.duration}</span>
+                  </div>
+                  <div className="flex items-center gap-2 whitespace-nowrap">
+                    <svg className="h-4 w-4 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    <span className="text-white">{course.format}</span>
+                  </div>
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="text-yellow-400">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
@@ -321,28 +335,51 @@ export default function CoursePageDesign() {
                 </div>
               </div>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
-                <RequestInfoModal courseTitle={course.title} courseCode={course.code} />
-                <button className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-white/10">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <path d="M12 13v5m-2.5-2.5L12 18l2.5-2.5"/>
-                  </svg>
-                  Download Syllabus
-                </button>
+              {/* CTA Buttons — side by side even on mobile. Tighter mobile
+                  padding + whitespace-nowrap keeps each label on one line
+                  instead of wrapping inside its half of the row. */}
+              <div className="flex flex-row gap-3">
+                <RequestInfoModal
+                  courseTitle={course.title}
+                  courseCode={course.code}
+                  triggerClassName="flex-1 sm:flex-none whitespace-nowrap rounded-lg bg-koenig-blue px-3 sm:px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-koenig-blue/30 transition hover:bg-koenig-accent"
+                />
+                <DownloadSyllabusModal
+                  courseTitle={course.title}
+                  courseCode={course.code}
+                  triggerClassName="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border border-white/20 bg-white/5 px-3 sm:px-6 py-3.5 text-sm font-medium text-white transition hover:bg-white/10"
+                />
               </div>
             </div>
 
             {/* Right: Pricing Card — desktop only */}
-            <div className="hidden lg:block">
-            <PricingCard
-              defaultSelected="Public Batch"
+            <div className="hidden lg:flex lg:items-center">
+            <TrainingFormatsCard
               formats={[
-                { mode: "1-on-1", price: course.oneOnOnePrice, desc: "Dedicated instructor, your schedule", badge: "Fastest", badgeColor: "bg-sky-500/15 text-sky-300 border border-sky-500/25" },
-                { mode: "Public Batch", price: course.price, desc: "Group class, fixed schedule", badge: "Most Popular", badgeColor: "bg-koenig-blue/20 text-koenig-blue border border-koenig-blue/30" },
-                { mode: "Self-Paced", price: course.selfPacedPrice, desc: "Recorded sessions, learn anytime", badge: "Best Value", badgeColor: "bg-cyan-500/15 text-cyan-300 border border-cyan-500/25" },
+                {
+                  mode: "1-on-1",
+                  icon: <User size={16} />,
+                  badge: "Fastest",
+                  badgeColor: "bg-sky-500/15 text-sky-300 border border-sky-500/25",
+                  points: ["Dedicated instructor", "Flexible schedule · Fastest path"],
+                },
+                {
+                  mode: "Public Batch",
+                  icon: <Users size={16} />,
+                  badge: "Most Popular",
+                  badgeColor: "bg-koenig-blue/20 text-koenig-blue border border-koenig-blue/30",
+                  points: [
+                    "Group class · GTR assured",
+                    `Next batch: ${formatNextBatchDate(course.nextDates.find((d) => d.mode === "Public Batch")!.date)}`,
+                  ],
+                },
+                {
+                  mode: "Self-Paced",
+                  icon: <Clock size={16} />,
+                  badge: "Best Value",
+                  badgeColor: "bg-cyan-500/15 text-cyan-300 border border-cyan-500/25",
+                  points: ["Recorded sessions", "Start anytime · Learn at your pace"],
+                },
               ]}
             />
             </div>
@@ -353,7 +390,11 @@ export default function CoursePageDesign() {
       {/* ============================================================ */}
       {/* 4b. Customisation CTA strip                                  */}
       {/* ============================================================ */}
-      <section className="bg-[#EAF4FB] px-[15px] sm:px-6 py-4">
+      {/* !mt-0 overrides the site-wide ".vc-page section + section"
+          mobile spacing rule — both this strip and the hero above it are
+          full-bleed color bands, so that generic 20px gap just leaves an
+          awkward blank white seam between them instead of a flush edge. */}
+      <section className="!mt-0 bg-[#EAF4FB] px-[15px] sm:px-6 py-4">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-4">
           <p className="flex items-center gap-2 text-base font-medium text-koenig-dark">
             <UserCog size={20} strokeWidth={1.75} className="flex-shrink-0 text-koenig-blue" />
@@ -380,7 +421,7 @@ export default function CoursePageDesign() {
       {/* ============================================================ */}
       {/* 6. Course Overview                                           */}
       {/* ============================================================ */}
-      <section id="overview" className="relative overflow-hidden px-[15px] sm:px-6 py-[15px] sm:py-10">
+      <section id="overview" className="!mt-[15px] relative overflow-hidden px-[15px] sm:px-6 py-[15px] sm:py-10">
         {/* Glow blobs — same pattern as homepage white sections */}
         <div className="pointer-events-none absolute -right-24 -top-24 h-[450px] w-[450px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.13) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-16 bottom-0 h-[380px] w-[380px] rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.13) 0%, transparent 70%)' }} />
@@ -391,7 +432,7 @@ export default function CoursePageDesign() {
             <h2 className="mb-3 text-2xl font-bold text-koenig-dark">
               Course <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Overview</span>
             </h2>
-            <ReadMore lines={6}><div className="space-y-4 text-sm leading-relaxed text-koenig-gray">
+            <ReadMore lines={3}><div className="space-y-4 text-sm leading-relaxed text-koenig-gray">
               <p>
                 This course teaches IT Professionals how to manage their Azure subscriptions, secure
                 identities, administer the infrastructure, configure virtual networking, connect Azure
@@ -522,7 +563,7 @@ export default function CoursePageDesign() {
       {/* ============================================================ */}
       {/* 7. Certification Details                                     */}
       {/* ============================================================ */}
-      <section className="relative overflow-hidden border-t border-koenig-border bg-koenig-light px-[15px] sm:px-6 py-[15px] sm:py-10">
+      <section className="!mt-[15px] relative overflow-hidden border-t border-koenig-border bg-koenig-light px-[15px] sm:px-6 py-[15px] sm:py-10">
         {/* Section glow blobs */}
         <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.10) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-16 bottom-0 h-60 w-60 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.08) 0%, transparent 70%)' }} />
@@ -574,8 +615,12 @@ export default function CoursePageDesign() {
       {/* ============================================================ */}
       {/* 8. Schedule & Pricing — Interactive Scheduler                */}
       {/* ============================================================ */}
-      <CourseScheduler />
+      <CourseScheduler courseTitle={course.title} />
 
+      {/* ============================================================ */}
+      {/* 8b. Request for More Information Form                        */}
+      {/* ============================================================ */}
+      <RequestInfoForm courseTitle={course.title} courseCode="AZ-104T00-A" />
 
       {/* ============================================================ */}
       {/* 9. Detailed Curriculum                                       */}
@@ -661,7 +706,7 @@ export default function CoursePageDesign() {
       {/* ============================================================ */}
       <section className="relative overflow-hidden border-t border-koenig-border bg-[#f4f8fc] px-[15px] sm:px-6 py-[15px] sm:py-10">
         {/* Glow blobs */}
-        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 70%)' }} />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full" style={{ background: 'radial-gradient(circle, rgba(77,191,239,0.10) 0%, transparent 70%)' }} />
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[280px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: 'radial-gradient(ellipse, rgba(6,148,209,0.06) 0%, transparent 70%)' }} />
 
@@ -698,120 +743,6 @@ export default function CoursePageDesign() {
       {/* 16. Resources                                                */}
       {/* ============================================================ */}
       <CourseResources />
-
-      {/* ============================================================ */}
-      {/* 17. Request for More Information Form                        */}
-      {/* ============================================================ */}
-      <RequestInfoForm courseTitle={course.title} courseCode="AZ-104T00-A" />
-
-      {/* ============================================================ */}
-      {/* 17. Money-Back Guarantee                                     */}
-      {/* ============================================================ */}
-      <section className="relative overflow-hidden px-[15px] sm:px-6 py-[15px] sm:py-14" style={{ background: "radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 55%, #040C18 100%)" }}>
-        {/* Glow blobs */}
-        <div className="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle, rgba(34,197,94,0.14) 0%, transparent 70%)" }} />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%)" }} />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(ellipse, rgba(34,197,94,0.06) 0%, transparent 70%)" }} />
-
-        <div className="relative mx-auto max-w-5xl">
-          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
-
-            {/* Left — icon + headline */}
-            <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-              {/* Smiley icon bubble */}
-              <div className="relative mb-6">
-                <div className="absolute inset-0 rounded-full blur-xl" style={{ background: "rgba(34,197,94,0.40)" }} />
-                <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-500/40">
-                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M8 13s1.5 2.5 4 2.5 4-2.5 4-2.5"/>
-                    <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="3"/>
-                    <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="3"/>
-                  </svg>
-                </div>
-              </div>
-
-              {/* Big stat */}
-              <div className="mb-1 bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-5xl sm:text-6xl font-black text-transparent leading-none">
-                100%
-              </div>
-              <h2 className="mb-3 text-2xl font-bold text-white">
-                Happiness <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">Guarantee</span>
-              </h2>
-              <p className="max-w-sm text-sm leading-relaxed text-white/55">
-                We are so confident in the quality of our training that we offer a full money-back guarantee. Not satisfied? Contact us within 24 hours of your first session — we&apos;ll refund you completely, no questions asked.
-              </p>
-            </div>
-
-            {/* Right — 2×2 feature cards */}
-            <div className="grid w-full grid-cols-2 gap-3 lg:max-w-sm">
-              {[
-                {
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                  ),
-                  label: "Full Refund",
-                  sub: "Within 24 hours",
-                  color: "from-koenig-blue to-cyan-500",
-                  shadow: "shadow-koenig-blue/30",
-                  glow: "rgba(6,148,209,0.12)",
-                },
-                {
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
-                  ),
-                  label: "No Questions",
-                  sub: "Asked ever",
-                  color: "from-indigo-500 to-blue-500",
-                  shadow: "shadow-indigo-500/30",
-                  glow: "rgba(99,102,241,0.12)",
-                },
-                {
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    </svg>
-                  ),
-                  label: "Secure Payment",
-                  sub: "Encrypted checkout",
-                  color: "from-teal-500 to-cyan-400",
-                  shadow: "shadow-teal-500/30",
-                  glow: "rgba(20,184,166,0.12)",
-                },
-                {
-                  icon: (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
-                    </svg>
-                  ),
-                  label: "PCI DSS",
-                  sub: "Compliant",
-                  color: "from-sky-500 to-cyan-400",
-                  shadow: "shadow-sky-500/30",
-                  glow: "rgba(14,165,233,0.12)",
-                },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="relative overflow-hidden rounded-2xl border border-white/8 p-4"
-                  style={{ background: `radial-gradient(circle at 30% 30%, ${item.glow} 0%, rgba(255,255,255,0.03) 100%)` }}
-                >
-                  <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br ${item.color} text-white shadow-md ${item.shadow}`}>
-                    {item.icon}
-                  </div>
-                  <div className="text-sm font-bold text-white">{item.label}</div>
-                  <div className="text-[11px] text-white/45">{item.sub}</div>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* ============================================================ */}
       {/* 18. Related Courses                                          */}
@@ -927,6 +858,109 @@ export default function CoursePageDesign() {
         </div>
       </section>
 
+      {/* ============================================================ */}
+      {/* 21. Money-Back Guarantee                                     */}
+      {/* ============================================================ */}
+      <section className="relative overflow-hidden px-[15px] sm:px-6 py-[15px] sm:py-14" style={{ background: "#EAF4FB" }}>
+        {/* Glow blobs */}
+        <div className="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle, rgba(34,197,94,0.16) 0%, transparent 70%)" }} />
+        <div className="pointer-events-none absolute -bottom-20 -right-20 h-80 w-80 rounded-full" style={{ background: "radial-gradient(circle, rgba(6,148,209,0.20) 0%, transparent 70%)" }} />
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(ellipse, rgba(6,148,209,0.10) 0%, transparent 70%)" }} />
+
+        <div className="relative mx-auto max-w-5xl">
+          <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-16">
+
+            {/* Left — icon + headline */}
+            <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+              {/* Smiley icon bubble */}
+              <div className="relative mb-6">
+                <div className="absolute inset-0 rounded-full blur-xl" style={{ background: "rgba(34,197,94,0.40)" }} />
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-500/40">
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M8 13s1.5 2.5 4 2.5 4-2.5 4-2.5"/>
+                    <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="3"/>
+                    <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="3"/>
+                  </svg>
+                </div>
+              </div>
+
+              {/* Big stat */}
+              <div className="mb-1 bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-5xl sm:text-6xl font-black text-transparent leading-none">
+                100%
+              </div>
+              <h2 className="mb-3 text-2xl font-bold text-koenig-dark">
+                Happiness <span className="bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">Guarantee</span>
+              </h2>
+              <p className="max-w-sm text-sm leading-relaxed text-koenig-gray">
+                We are so confident in the quality of our training that we offer a full money-back guarantee. Not satisfied? Contact us within 24 hours of your first session — we&apos;ll refund you completely, no questions asked.
+              </p>
+            </div>
+
+            {/* Right — 2×2 feature cards */}
+            <div className="grid w-full grid-cols-2 gap-3 lg:max-w-sm">
+              {[
+                {
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  ),
+                  label: "Full Refund",
+                  sub: "Within 24 hours",
+                  bubble: "bg-koenig-blue/10 text-koenig-blue/70",
+                  glow: "rgba(6,148,209,0.18)",
+                },
+                {
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  ),
+                  label: "No Questions",
+                  sub: "Asked ever",
+                  bubble: "bg-indigo-50 text-indigo-400",
+                  glow: "rgba(99,102,241,0.18)",
+                },
+                {
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                  ),
+                  label: "Secure Payment",
+                  sub: "Encrypted checkout",
+                  bubble: "bg-teal-50 text-teal-400",
+                  glow: "rgba(20,184,166,0.18)",
+                },
+                {
+                  icon: (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+                    </svg>
+                  ),
+                  label: "PCI DSS",
+                  sub: "Compliant",
+                  bubble: "bg-sky-50 text-sky-400",
+                  glow: "rgba(14,165,233,0.18)",
+                },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="relative overflow-hidden rounded-2xl border border-koenig-border bg-white p-4 shadow-sm"
+                >
+                  <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${item.bubble}`}>
+                    {item.icon}
+                  </div>
+                  <div className="text-sm font-bold text-koenig-dark">{item.label}</div>
+                  <div className="text-[11px] text-koenig-muted">{item.sub}</div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
 
       </div>{/* end .page-sections */}
 

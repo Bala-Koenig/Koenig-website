@@ -35,6 +35,7 @@ export function RequestInfoForm({ courseTitle, courseCode }: RequestInfoFormProp
     trainees:   "",
     hearAbout:  "",
     message:    "",
+    promoCode:  "",
   });
 
   function set(key: string, val: string) {
@@ -197,7 +198,7 @@ export function RequestInfoForm({ courseTitle, courseCode }: RequestInfoFormProp
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <div>
               <label className={labelCls}>Phone</label>
-              <input type="tel" placeholder="+1 (555) 000-0000"
+              <input type="tel" placeholder="+91 98765 43210"
                 value={form.phone} onChange={(e) => set("phone", e.target.value)}
                 className={inputCls} style={inputStyle}
               />
@@ -221,31 +222,44 @@ export function RequestInfoForm({ courseTitle, courseCode }: RequestInfoFormProp
             )}
           </div>
 
-          {/* How did you hear about us */}
-          <div className="mt-3">
-            <label className={labelCls}>How did you hear about us?</label>
-            <div className="relative">
-              <select
-                value={form.hearAbout}
-                onChange={(e) => set("hearAbout", e.target.value)}
-                className="w-full appearance-none rounded-xl px-4 py-[11px] text-sm outline-none transition-colors focus:border-[#0694D1]"
-                style={{
-                  ...inputStyle,
-                  color: form.hearAbout ? "#fff" : "rgba(255,255,255,0.3)",
-                }}
-              >
-                <option value="" style={{ background: "#0a1929" }}>Select Option</option>
-                {hearOptions.filter(Boolean).map((o) => (
-                  <option key={o} value={o} style={{ background: "#0a1929", color: "#fff" }}>{o}</option>
-                ))}
-              </select>
-              <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-                width="14" height="14" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 9l6 6 6-6"/>
-              </svg>
+          {/* How did you hear about us / Promo Code */}
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className={labelCls}>How did you hear about us?</label>
+              <div className="relative">
+                <select
+                  value={form.hearAbout}
+                  onChange={(e) => set("hearAbout", e.target.value)}
+                  className="w-full appearance-none rounded-xl px-4 py-[11px] text-sm outline-none transition-colors focus:border-[#0694D1]"
+                  style={{
+                    ...inputStyle,
+                    color: form.hearAbout ? "#fff" : "rgba(255,255,255,0.3)",
+                  }}
+                >
+                  <option value="" style={{ background: "#0a1929" }}>Select Option</option>
+                  {hearOptions.filter(Boolean).map((o) => (
+                    <option key={o} value={o} style={{ background: "#0a1929", color: "#fff" }}>{o}</option>
+                  ))}
+                </select>
+                <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+                  style={{ color: "rgba(255,255,255,0.4)" }}
+                  width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </div>
             </div>
+
+            {/* Promo Code — individual applicants only */}
+            {tab === "individual" && (
+              <div>
+                <label className={labelCls}>Promo Code <span className="font-normal text-white/40">(optional)</span></label>
+                <input type="text" placeholder="Enter promo code"
+                  value={form.promoCode} onChange={(e) => set("promoCode", e.target.value)}
+                  className={inputCls} style={inputStyle}
+                />
+              </div>
+            )}
           </div>
 
           {/* Tell us more */}
@@ -291,11 +305,8 @@ export function RequestInfoForm({ courseTitle, courseCode }: RequestInfoFormProp
               boxShadow:   "0 0 28px rgba(6,148,209,0.40)",
             }}
           >
-            Submit — Get a Free Consultation
+            Submit
           </button>
-          <p className="mt-3 text-center text-xs text-white/30">
-            We&apos;ll respond within 1 business day · No spam, ever.
-          </p>
         </form>
       </div>
     </section>

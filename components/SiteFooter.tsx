@@ -9,6 +9,13 @@ const FOOTER_COLS = [
 ]
 
 const FOOTER_LINK_HREFS: Record<string, string> = {
+  'Explore All Learning Options': '/learning-options',
+  'Live Online Training': '/live-online-classroom',
+  '1-on-1 Training': '/1-on-1-training',
+  'Classroom Training': '/classroom-training',
+  'Fly-me-a-Trainer (FMAT)': '/fly-me-a-trainer',
+  'Flexi': '/flexi-training',
+  'Customized Training': '/customised-training',
   'AI Agent': '/build/ai-agent',
   'Coding Using AI': '/build/vibe-coding',
   'AI Is a Beast': '/beast-ai-skilling',

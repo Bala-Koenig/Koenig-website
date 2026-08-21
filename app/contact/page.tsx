@@ -268,34 +268,44 @@ export default function ContactPage() {
         </div>
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-[2.2fr_1fr] gap-6 lg:gap-14 items-end">
 
             {/* Left */}
             <div className="io-up">
-              {/* Pill badge */}
-              <div className="mb-5 flex">
-                <div className="flex items-center gap-2.5 rounded-full px-5 py-2 text-sm font-medium text-white"
-                  style={{ background: "rgba(255,255,255,0.10)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.25)", boxShadow: "0 0 0 1px rgba(255,255,255,0.06) inset" }}>
-                  <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-green-400" />
-                  </span>
-                  <span className="text-xs sm:text-sm font-medium">Global Training Leader Since 1993</span>
+              {/* India offices — quick city/phone grid, in place of the old badge + title + description */}
+              <div className="mb-4 flex items-center gap-2">
+                <img src="https://flagcdn.com/24x18/in.png" width={24} height={18} alt="India" className="rounded-[2px]" />
+                <span className="text-sm font-bold uppercase tracking-widest text-white/70">India</span>
+              </div>
+              <div className="rounded-2xl p-3 sm:p-4"
+                style={{ background: "rgba(6,148,209,0.12)", border: "1px solid rgba(6,148,209,0.25)" }}>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+                  {indiaOffices.filter((office) => office.contacts.length > 0).map((office) => (
+                    <div key={office.city} className="rounded-xl px-2.5 py-2 text-left transition-colors duration-150 border-b border-white/10"
+                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(6,148,209,0.20)")}
+                      onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+                      <p className="mb-1 truncate text-xs font-medium uppercase tracking-widest" style={{ color: "#3AB6EB" }}>{office.city}</p>
+                      <p className="mb-1 truncate text-xs font-medium text-white/70">{office.contacts[0].name}</p>
+                      <a href={`tel:${office.contacts[0].phone.replace(/[\s()-]/g, "")}`}
+                        className="flex items-center gap-1.5 text-sm tabular-nums text-white transition-colors hover:text-[#3AB6EB]">
+                        <PhoneIcon cls="w-3 h-3 shrink-0" /> <span className="whitespace-nowrap">{office.contacts[0].phone}</span>
+                      </a>
+                      {office.contacts[0].whatsapp && (
+                        <a href={`https://wa.me/${office.contacts[0].whatsapp.replace(/[^\d]/g, "")}`} target="_blank" rel="noopener noreferrer"
+                          className="mt-0.5 flex items-center gap-1.5 text-sm tabular-nums text-emerald-400 transition-colors hover:text-emerald-300">
+                          <WAIcon cls="w-3 h-3 shrink-0" /> <span className="whitespace-nowrap">{office.contacts[0].whatsapp}</span>
+                        </a>
+                      )}
+                      {office.contacts[0].email && (
+                        <a href={`mailto:${office.contacts[0].email}`}
+                          className="mt-0.5 flex items-center gap-1.5 text-xs text-white/50 transition-colors hover:text-[#3AB6EB]">
+                          <MailIcon cls="w-3 h-3 shrink-0" /> <span className="whitespace-nowrap">{office.contacts[0].email}</span>
+                        </a>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-
-              <h1 className="whitespace-nowrap text-lg sm:text-2xl lg:text-4xl font-bold leading-tight tracking-tight text-white mb-4">
-                Let&apos;s build your{" "}
-                <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">
-                  learning future
-                </span>{" "}
-                together.
-              </h1>
-
-              <p className="text-sm sm:text-base text-white/60 max-w-lg mb-5 leading-relaxed">
-                Connect with our experts across 13+ countries. Whether you&apos;re an individual
-                or an enterprise, we&apos;ll build the right training roadmap for you.
-              </p>
             </div>
 
             {/* Right — contact info card */}
@@ -345,37 +355,6 @@ export default function ContactPage() {
                     </a>
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Local offices — full width. Shows India for now; will switch to the
-              visitor's detected country once geo-lookup is wired up. */}
-          <div className="mt-3">
-            <div className="mb-4 flex items-center gap-2">
-              <img src="https://flagcdn.com/24x18/in.png" width={24} height={18} alt="India" className="rounded-[2px]" />
-              <span className="text-sm font-bold uppercase tracking-widest text-white/70">India</span>
-            </div>
-            <div className="rounded-2xl p-3 sm:p-4"
-              style={{ background: "rgba(6,148,209,0.12)", border: "1px solid rgba(6,148,209,0.25)" }}>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
-                {indiaOffices.filter((office) => office.contacts.length > 0).map((office) => (
-                  <div key={office.city} className="rounded-xl px-2.5 py-2 text-left transition-colors duration-150"
-                    onMouseEnter={e => (e.currentTarget.style.background = "rgba(6,148,209,0.20)")}
-                    onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
-                    <p className="mb-1 truncate text-xs font-medium uppercase tracking-widest" style={{ color: "#3AB6EB" }}>{office.city}</p>
-                    <a href={`tel:${office.contacts[0].phone.replace(/[\s()-]/g, "")}`}
-                      className="flex items-center gap-1.5 text-sm tabular-nums text-white transition-colors hover:text-[#3AB6EB]">
-                      <PhoneIcon cls="w-3 h-3 shrink-0" /> <span className="truncate">{office.contacts[0].phone}</span>
-                    </a>
-                    {office.contacts[0].whatsapp && (
-                      <a href={`https://wa.me/${office.contacts[0].whatsapp.replace(/[^\d]/g, "")}`} target="_blank" rel="noopener noreferrer"
-                        className="mt-0.5 flex items-center gap-1.5 text-sm tabular-nums text-emerald-400 transition-colors hover:text-emerald-300">
-                        <WAIcon cls="w-3 h-3 shrink-0" /> <span className="truncate">{office.contacts[0].whatsapp}</span>
-                      </a>
-                    )}
-                  </div>
-                ))}
               </div>
             </div>
           </div>
