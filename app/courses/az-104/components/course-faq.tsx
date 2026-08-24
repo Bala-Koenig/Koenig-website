@@ -38,7 +38,7 @@ function FaqItem({
         className="flex w-full items-center justify-between gap-2 px-3 py-2.5 sm:px-5 sm:py-4 text-left"
       >
         <span
-          className="text-sm sm:text-base font-semibold leading-snug"
+          className="text-sm sm:text-base font-normal leading-snug"
           style={{ color: isOpen ? "#0694d1" : "#22262a", transition: "color 0.3s" }}
         >
           {faq.q}

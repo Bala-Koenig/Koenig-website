@@ -139,7 +139,15 @@ const CSS = `
   .hero { padding-left: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; }
   .hero-cols { padding: 20px 16px !important; width: 100% !important; box-sizing: border-box !important; }
   .hero-left { width: 100% !important; max-width: 100% !important; padding-right: 0 !important; box-sizing: border-box !important; min-width: 0; }
+  /* hero-left uses align-items:flex-start, so children shrink-wrap by default — stretch the CTA row explicitly */
+  .hero-ctas { width: 100% !important; }
+  /* Social proof: avatars + stars share row 1; "500K+ certified professionals" gets its own full-width row so it stays on one line */
+  .sp-row { flex-wrap: wrap; row-gap: 4px; }
+  .sp-text { flex: 1 1 100%; }
   .hero-h1, .hero-sub, .hero-features, .hero-proof { max-width: 100%; overflow-wrap: break-word; word-break: break-word; }
+  /* Title: keep to exactly 2 lines (1 per span) — shrink so "Microsoft
+     Certification Training" never wraps onto its own second line */
+  .hero-h1 .h1-plain { font-size: clamp(15px, 5vw, 22px); white-space: nowrap; }
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1917,6 +1925,7 @@ p {
 .certs-header .sec-label { color: var(--blue); }
 .certs-header .sec-title { color: var(--light-text); }
 .certs-header-sub { font-size: 15px; color: var(--light-sub); margin-top: 10px; max-width: 620px; line-height: 1.6; }
+.cert-hero-sub { max-width: 700px; }
 
 /* ── Mode Toggle Row ── */
 .cert-section-top-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
@@ -5209,6 +5218,30 @@ p {
   .hero-cols { padding: 40px 20px; }
   .hero-stats-inner { grid-template-columns: repeat(3, 1fr); }
   .lead-form { padding: 24px 20px; }
+  /* Banner award slider — text only on mobile: no image, no card chrome */
+  .ms-award-box {
+    height: 74px !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .ms-award-slide {
+    inset: 0 0 20px 0 !important;
+    background: none !important;
+    justify-content: center !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    gap: 6px !important;
+  }
+  .ms-award-img { display: none; }
+  .ms-award-dots {
+    height: 20px !important;
+    background: none !important;
+    border-top: none !important;
+  }
   .stats-inner { grid-template-columns: 1fr 1fr; }
   .stat-item::before { display: none; }
   .stat-item { border-bottom: 1px solid rgba(6,148,209,0.15); }
@@ -5283,6 +5316,9 @@ p {
 
 /* ── 768px : tablet portrait ── */
 @media (max-width: 768px) {
+  /* Hero: tighten gap below social proof (was 32px) */
+  .hero-cols { gap: 17px; }
+
   /* Stats */
   .stat-number { font-size: 34px; }
   .stat-number .unit { font-size: 22px; }
@@ -5329,8 +5365,8 @@ p {
   /* Testimonials */
   .test-sec { padding: 40px 20px; }
 
-  /* Companies */
-  .companies-headline-wrap { margin-bottom: 32px; padding: 0 16px; }
+  /* Companies: no side padding here — .companies-sec already applies 16px edge padding on mobile; doubling it up narrowed the content */
+  .companies-headline-wrap { margin-bottom: 32px; padding: 0; }
   .company-logo-item { min-width: 100px; padding: 0 14px; }
   .company-logo-item svg { height: 20px; }
 
@@ -5405,7 +5441,8 @@ p {
   .stats-slider-dot.active { width: 18px; border-radius: 3px; background: #0694D1; }
   .hero-h1 { font-size: clamp(20px, 7.5vw, 28px); }
   .hero-sub { font-size: 14px; }
-  .hero-ctas { gap: 10px; }
+  .hero-ctas { gap: 10px; flex-wrap: nowrap; }
+  .hero-btn-primary, .hero-btn-ghost { flex: 1; min-width: 0; justify-content: center; white-space: nowrap; }
 
   /* Stats strip */
   .stats-inner { grid-template-columns: 1fr 1fr; }
@@ -5585,8 +5622,8 @@ p {
   .hero-feat-row strong { white-space: normal; }
   .hero-feat-icon { margin-top: 2px; flex-shrink: 0; }
   .hero-ctas { flex-direction: row; align-items: center; gap: 8px; flex-wrap: nowrap; }
-  .hero-btn-primary { flex: 1; justify-content: center; font-size: 12px; padding: 10px 8px; white-space: nowrap; }
-  .hero-btn-ghost { flex: 0 0 auto; justify-content: center; font-size: 12px; padding: 10px 12px; white-space: nowrap; }
+  .hero-btn-primary { flex: 1; min-width: 0; justify-content: center; font-size: 12px; padding: 10px 8px; white-space: nowrap; }
+  .hero-btn-ghost { flex: 1; min-width: 0; justify-content: center; font-size: 12px; padding: 10px 12px; white-space: nowrap; }
 
   /* Hero right col (video + quick form) — hidden on small phones; FAB handles CTA */
   .hero-form-col { display: none; }
@@ -5659,10 +5696,10 @@ p {
   .hero-h1 { font-size: clamp(17px, 9vw, 24px); }
   .hero-sub { font-size: 12.5px; }
   .hero-feat-row { font-size: 12px; }
-  /* CTA buttons: primary stretches to fill remaining space, ghost stays natural width */
+  /* CTA buttons: both split evenly to fill the row */
   .hero-ctas { gap: 8px; flex-wrap: nowrap; }
-  .hero-btn-primary { flex: 1; justify-content: center; font-size: 11px; padding: 10px 8px; white-space: nowrap; }
-  .hero-btn-ghost { flex: 0 0 auto; justify-content: center; font-size: 11px; padding: 10px 12px; white-space: nowrap; }
+  .hero-btn-primary { flex: 1; min-width: 0; justify-content: center; font-size: 11px; padding: 10px 8px; white-space: nowrap; }
+  .hero-btn-ghost { flex: 1; min-width: 0; justify-content: center; font-size: 11px; padding: 10px 12px; white-space: nowrap; }
 
   /* Hero stats bar: compact sizing on very small phones */
   .hero-stat-item { padding: 10px 12px; }
@@ -6841,6 +6878,68 @@ p {
 /* ── CTA buttons row: keep inline at tablet ── */
 @media (min-width: 769px) and (max-width: 960px) {
   .hiw2-cta-row { gap: 12px; }
+}
+
+/* ── Mobile: uniform 20px section title size (overrides every clamp() above) ── */
+@media (max-width: 768px) {
+  .sec-title,
+  .cert-showcase-title,
+  .certpath-title,
+  .cta-title,
+  .compare-title,
+  .enroll-title,
+  .lgm-title,
+  .companies-headline,
+  .roi-left-heading,
+  .edge-left-heading,
+  .preview-title,
+  .hiw2-h2,
+  .batches-h2,
+  .webinars-h2 {
+    font-size: 20px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 12px !important;
+    white-space: normal !important;
+  }
+
+  /* Hero title: same 20px, but tighter line spacing between the two lines */
+  .hero-h1,
+  .hero-h1 .h1-plain {
+    font-size: 20px !important;
+    line-height: 1.15 !important;
+    margin-bottom: 12px !important;
+    white-space: normal !important;
+  }
+
+  /* ── Mobile: course card text — 14px minimum everywhere inside .cert-card ── */
+  .cert-hot-badge,
+  .cert-badge,
+  .cert-enrolled,
+  .cert-rating,
+  .cert-rating-star,
+  .cert-name-tooltip,
+  .cert-code,
+  .cert-hours,
+  .cert-card-toggle,
+  .cert-back-row,
+  .cert-back-tips-label,
+  .cert-back-tip,
+  .cert-back-prereq,
+  .cert-price-curr,
+  .cert-price-label,
+  .cert-inr-price,
+  .cert-dur,
+  .cert-btn-brochure,
+  .cert-btn-details,
+  .cert-syllabus-link,
+  .cert-btn-view,
+  .cert-btn-enquire,
+  .cert-pill,
+  .cert-rating-inline,
+  .cert-card-v2 .cert-code,
+  .cert-card-v2 .cert-hours {
+    font-size: 14px !important;
+  }
 }
 `;
 
@@ -10816,9 +10915,8 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
         <div className="certs-header reveal">
           <div className="cert-section-top-row">
             <div>
-              <div className="sec-label">Microsoft Training</div>
               <h2 className="sec-title">Find Your <em>Microsoft Certification</em></h2>
-              <p className="sec-sub">
+              <p className="sec-sub cert-hero-sub">
                 Browse 100+ official Microsoft courses across Azure, AI, Security, Power Platform, M365 and more — or dive into exam details, skills breakdown and certification paths.
               </p>
             </div>
@@ -15497,7 +15595,7 @@ export default function App() {
           {/* Social proof + Microsoft awards */}
           <div className="hero-proof" style={{ alignItems:"center", gap:16, flexWrap:"wrap" }}>
             {/* Avatars + stars */}
-            <div style={{display:'flex',alignItems:'center',gap:10}}>
+            <div className="sp-row" style={{display:'flex',alignItems:'center',gap:10}}>
               <div className="sp-avatars">
                 {[
                   "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face&auto=format",
@@ -15509,8 +15607,8 @@ export default function App() {
                   <img decoding="async" loading="lazy" key={i} className="sp-avatar" src={src} alt={`Koenig Solutions Microsoft certified professional ${i+1}`}/>
                 ))}
               </div>
+              <div className="stars">★★★★★</div>
               <div className="sp-text">
-                <div className="stars">★★★★★</div>
                 <div><TextShimmer as="strong" duration={2.5} spread={2}>500K+</TextShimmer> certified professionals</div>
               </div>
             </div>
@@ -15524,7 +15622,7 @@ export default function App() {
 
           {/* MS Awards Slider */}
           <div
-            className="relative overflow-hidden rounded-2xl cursor-pointer"
+            className="relative overflow-hidden rounded-2xl cursor-pointer ms-award-box"
             style={{
               height: '260px',
               width: '100%',
@@ -15539,10 +15637,10 @@ export default function App() {
           >
             {/* Slide 1 — MS Award */}
             <div
-              className="absolute transition-opacity duration-500"
+              className="absolute transition-opacity duration-500 ms-award-slide"
               style={{ opacity: msSlide === 0 ? 1 : 0, pointerEvents: msSlide === 0 ? 'auto' : 'none', background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.88) 100%)', inset: '0 0 36px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', paddingTop: '19px', paddingBottom: '19px' }}
             >
-              <img decoding="async" loading="lazy" src="/images/MS-award-banner.png" alt="Microsoft 2025 Partner of the Year" className="object-contain" style={{ maxHeight: '135px', width: 'auto' }} />
+              <img decoding="async" loading="lazy" src="/images/MS-award-banner.png" alt="Microsoft 2025 Partner of the Year" className="object-contain ms-award-img" style={{ maxHeight: '135px', width: 'auto' }} />
               <div className="px-4 text-center text-white" style={{ fontSize: '15px', fontWeight: 600, lineHeight: '1.4' }}>
                 Winner of Microsoft Training Services<br/>Partner of the Year 2025
               </div>
@@ -15550,10 +15648,10 @@ export default function App() {
 
             {/* Slide 2 — ANZ Superstar 2024 */}
             <div
-              className="absolute transition-opacity duration-500"
+              className="absolute transition-opacity duration-500 ms-award-slide"
               style={{ opacity: msSlide === 1 ? 1 : 0, pointerEvents: msSlide === 1 ? 'auto' : 'none', background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.88) 100%)', inset: '0 0 36px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', paddingTop: '19px', paddingBottom: '19px' }}
             >
-              <img decoding="async" loading="lazy" src="/images/awards/Microsoft-FY2024-Superstar-Award.webp" alt="Microsoft ANZ Superstar Campaign 2024" className="object-contain" style={{ maxHeight: '135px', width: 'auto' }} />
+              <img decoding="async" loading="lazy" src="/images/awards/Microsoft-FY2024-Superstar-Award.webp" alt="Microsoft ANZ Superstar Campaign 2024" className="object-contain ms-award-img" style={{ maxHeight: '135px', width: 'auto' }} />
               <div className="px-4 text-center text-white" style={{ fontSize: '15px', fontWeight: 600, lineHeight: '1.4' }}>
                 Winner of Microsoft&apos;s ANZ Superstar<br/>Campaign 2024
               </div>
@@ -15561,17 +15659,17 @@ export default function App() {
 
             {/* Slide 3 — Asia Superstar 2022 */}
             <div
-              className="absolute transition-opacity duration-500"
+              className="absolute transition-opacity duration-500 ms-award-slide"
               style={{ opacity: msSlide === 2 ? 1 : 0, pointerEvents: msSlide === 2 ? 'auto' : 'none', background: 'linear-gradient(135deg, rgba(7,109,157,0.78) 0%, rgba(5,18,35,0.88) 100%)', inset: '0 0 36px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', paddingTop: '19px', paddingBottom: '19px' }}
             >
-              <img decoding="async" loading="lazy" src="/images/awards/Microsoft-Superstar-Award-2022.webp" alt="Microsoft Asia Superstar Campaign 2022" className="object-contain" style={{ maxHeight: '135px', width: 'auto' }} />
+              <img decoding="async" loading="lazy" src="/images/awards/Microsoft-Superstar-Award-2022.webp" alt="Microsoft Asia Superstar Campaign 2022" className="object-contain ms-award-img" style={{ maxHeight: '135px', width: 'auto' }} />
               <div className="px-4 text-center text-white" style={{ fontSize: '15px', fontWeight: 600, lineHeight: '1.4' }}>
                 Winner of Microsoft&apos;s Asia Superstar<br/>Campaign 2022
               </div>
             </div>
 
             {/* dots bar */}
-            <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5" style={{ height: '36px', background: 'rgba(6,40,65,0.85)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
+            <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-center gap-1.5 ms-award-dots" style={{ height: '36px', background: 'rgba(6,40,65,0.85)', borderTop: '1px solid rgba(6,148,209,0.18)' }}>
               {[0,1,2].map(i => (
                 <button
                   key={i}
