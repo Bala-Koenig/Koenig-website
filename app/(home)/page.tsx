@@ -248,6 +248,8 @@ const SCHEDULE_LEVEL_BADGE: Record<string, string> = {
   assoc:  'bg-gradient-to-br from-[#0694D1] to-[#076D9D] text-white',
   expert: 'bg-gradient-to-br from-[#076D9D] to-[#062238] text-white',
 }
+// Mild blue fill + dark navy text, used only for the hero AI search recommended-course cards
+const CARD_LEVEL_BADGE = 'bg-[#dbeeff] text-[#093148]'
 
 const COUNTRIES = [
   { flagCode: 'in', name: 'India',          cities: 'Delhi · Bangalore', hub: true  },
@@ -2379,7 +2381,11 @@ export default function Design4Page() {
   const [heroResultsOpen, setHeroResultsOpen] = useState(false)
   const [heroAiThinking, setHeroAiThinking] = useState(false)
   const [heroAiResults, setHeroAiResults] = useState<AiClassifyResult | null>(null)
+  const [heroRefinedQuery, setHeroRefinedQuery] = useState<string | null>(null)
   const [heroAiLearnMoreOpen, setHeroAiLearnMoreOpen] = useState(false)
+  const [heroCourseSlide, setHeroCourseSlide] = useState(0)
+  const [heroCoursePage, setHeroCoursePage] = useState(0)
+  const [heroDetailsEmail, setHeroDetailsEmail] = useState('')
   const heroAiDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const navSearchRef = useRef<HTMLDivElement>(null)
   const heroSearchRef = useRef<HTMLDivElement>(null)
@@ -2431,10 +2437,16 @@ export default function Design4Page() {
     else router.push('/search')
   }
 
+  function durWithHours(dur: string) {
+    const days = parseInt(dur, 10)
+    if (Number.isNaN(days)) return dur
+    return `${dur} (${days * 8} hrs)`
+  }
+
   // ── Hero AI search — thinking → advice/learn-more/courses flow, same engine as the vendor page ──
   useEffect(() => {
     if (!heroQuery.trim() || getContextChips(heroQuery).length === 0) { setHeroAiResults(null); setHeroAiThinking(false); setHeroAiLearnMoreOpen(false); return }
-    setHeroAiThinking(true); setHeroAiResults(null); setHeroAiLearnMoreOpen(false)
+    setHeroAiThinking(true); setHeroAiResults(null); setHeroAiLearnMoreOpen(false); setHeroRefinedQuery(null)
     if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current)
     heroAiDebounceRef.current = setTimeout(() => {
       setHeroAiThinking(false)
@@ -2450,9 +2462,12 @@ export default function Design4Page() {
     heroAiDebounceRef.current = setTimeout(() => {
       setHeroAiThinking(false)
       setHeroAiResults(classifyAiQuery(heroFollowUpQuery))
+      setHeroRefinedQuery(heroFollowUpQuery.trim())
     }, 600)
     return () => { if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current) }
   }, [heroFollowUpQuery])
+
+  useEffect(() => { setHeroCourseSlide(0); setHeroCoursePage(0) }, [heroAiResults])
 
   // ── Popup modals ──
   const [advisorModalOpen, setAdvisorModalOpen] = useState(false)
@@ -3826,11 +3841,11 @@ export default function Design4Page() {
                       {heroAiResults && (
                         <>
                           <div className="mb-3 flex items-center justify-between gap-3 rounded-r-lg border-l-[3px] border-[#0694D1] px-3 py-1.5" style={{ background: 'rgba(6,148,209,0.06)' }}>
-                            <span className="text-[12px] font-bold leading-snug text-[#1a3a55]">{heroAiResults.advice}</span>
+                            <span className="text-[12px] font-semibold leading-snug text-[#1a3a55]">{heroAiResults.advice}</span>
                             {heroAiResults.learnMore && (
                               <button
                                 onClick={() => setHeroAiLearnMoreOpen(true)}
-                                className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md border-[1.5px] border-[#0694D1] bg-white px-2 py-0.5 text-[11px] font-bold text-[#0694D1]"
+                                className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-[#bfe0f0] bg-white px-2 py-0.5 text-[11px] font-medium text-[#093148]"
                               >
                                 Learn more
                                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
@@ -3898,29 +3913,128 @@ export default function Design4Page() {
                             document.body
                           )}
 
-                          {/* Recommended courses */}
-                          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
-                            {heroAiResults.courses.map((c, i) => (
-                              <div
-                                key={i}
-                                onClick={() => goSearch(c.code)}
-                                className="cursor-pointer rounded-xl border-[1.5px] border-[rgba(6,148,209,0.12)] bg-white p-3 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-shadow hover:shadow-[0_8px_24px_rgba(6,148,209,0.16)]"
-                              >
-                                <span className={`mb-1.5 inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide ${SCHEDULE_LEVEL_BADGE[c.level] ?? SCHEDULE_LEVEL_BADGE.assoc}`}>
-                                  {SCHEDULE_LEVEL_ICON[c.level] ?? SCHEDULE_LEVEL_ICON.assoc}
-                                  {SCHEDULE_LEVEL_LABEL[c.level] ?? c.level}
-                                </span>
-                                <p className="text-xs font-bold leading-snug text-[#0b2840]">{c.name}</p>
-                                <p className="mt-1 text-[11px] text-[#6b8299]">{c.code} · {c.dur}</p>
-                              </div>
-                            ))}
-                          </div>
+                          {heroRefinedQuery && (
+                            <p className="mb-2 text-[11px] font-semibold text-[#0694D1]">Refined for: &quot;{heroRefinedQuery}&quot;</p>
+                          )}
 
-                          <p className="mt-3 text-center text-[12.5px] font-bold leading-relaxed text-[#1a3a55]">If not, please elaborate more on your requirement.</p>
+                          {/* Recommended courses — mobile: 1 card per slide; desktop: 3 cards per slide. Both: side arrows + dots. */}
+                          <div className="relative px-7 sm:hidden">
+                            <div className="overflow-hidden rounded-xl">
+                              <div
+                                className="flex transition-transform duration-300 ease-out"
+                                style={{ width: `${heroAiResults.courses.length * 100}%`, transform: `translateX(-${heroCourseSlide * (100 / heroAiResults.courses.length)}%)` }}
+                              >
+                                {heroAiResults.courses.map((c, i) => (
+                                  <div key={i} style={{ width: `${100 / heroAiResults.courses.length}%` }} className="shrink-0">
+                                    <div
+                                      onClick={() => goSearch(c.code)}
+                                      className="flex h-full cursor-pointer flex-col rounded-xl border-[1.5px] border-[rgba(6,148,209,0.28)] bg-[#EAF5FD] p-3 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-shadow hover:shadow-[0_8px_24px_rgba(6,148,209,0.16)]"
+                                    >
+                                      <span className={`-mt-[5px] mb-1.5 inline-flex self-start items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide ${CARD_LEVEL_BADGE}`}>
+                                        {SCHEDULE_LEVEL_ICON[c.level] ?? SCHEDULE_LEVEL_ICON.assoc}
+                                        {SCHEDULE_LEVEL_LABEL[c.level] ?? c.level}
+                                      </span>
+                                      <p className="text-xs font-bold leading-snug text-[#0694D1]">{c.name}</p>
+                                      <p className="mt-auto flex items-center gap-1 pt-1 text-[11px] text-[#6b8299]"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{durWithHours(c.dur)}</p>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => setHeroCourseSlide(s => Math.max(s - 1, 0))}
+                              disabled={heroCourseSlide === 0}
+                              aria-label="Previous course"
+                              className="absolute -left-[9px] top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#076D9D] shadow-[0_2px_8px_rgba(6,148,209,0.25)] disabled:opacity-30"
+                            >
+                              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                            </button>
+                            <button
+                              onClick={() => setHeroCourseSlide(s => Math.min(s + 1, heroAiResults.courses.length - 1))}
+                              disabled={heroCourseSlide === heroAiResults.courses.length - 1}
+                              aria-label="Next course"
+                              className="absolute -right-[9px] top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#076D9D] shadow-[0_2px_8px_rgba(6,148,209,0.25)] disabled:opacity-30"
+                            >
+                              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                            </button>
+                            <div className="mt-2.5 flex items-center justify-center gap-1.5">
+                              {heroAiResults.courses.map((_, i) => (
+                                <button
+                                  key={i}
+                                  onClick={() => setHeroCourseSlide(i)}
+                                  aria-label={`Go to course ${i + 1}`}
+                                  className={`rounded-full transition-all duration-300 ${i === heroCourseSlide ? 'h-2 w-5 bg-[#0694D1]' : 'h-2 w-2 bg-[#0694D1]/25'}`}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                          {(() => {
+                            const perPage = 3
+                            const totalPages = Math.ceil(heroAiResults.courses.length / perPage)
+                            return (
+                              <div className="relative hidden px-8 sm:block">
+                                <div className="overflow-hidden rounded-xl">
+                                  <div
+                                    className="flex transition-transform duration-300 ease-out"
+                                    style={{ width: `${totalPages * 100}%`, transform: `translateX(-${heroCoursePage * (100 / totalPages)}%)` }}
+                                  >
+                                    {Array.from({ length: totalPages }, (_, p) => (
+                                      <div key={p} style={{ width: `${100 / totalPages}%` }} className="grid shrink-0 grid-cols-3 gap-2.5">
+                                        {heroAiResults.courses.slice(p * perPage, p * perPage + perPage).map((c, i) => (
+                                          <div
+                                            key={i}
+                                            onClick={() => goSearch(c.code)}
+                                            className="flex h-full cursor-pointer flex-col rounded-xl border-[1.5px] border-[rgba(6,148,209,0.28)] bg-[#EAF5FD] p-3 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-shadow hover:shadow-[0_8px_24px_rgba(6,148,209,0.16)]"
+                                          >
+                                            <span className={`-mt-[5px] mb-1.5 inline-flex self-start items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide ${CARD_LEVEL_BADGE}`}>
+                                              {SCHEDULE_LEVEL_ICON[c.level] ?? SCHEDULE_LEVEL_ICON.assoc}
+                                              {SCHEDULE_LEVEL_LABEL[c.level] ?? c.level}
+                                            </span>
+                                            <p className="text-xs font-bold leading-snug text-[#0694D1]">{c.name}</p>
+                                            <p className="mt-auto flex items-center gap-1 pt-1 text-[11px] text-[#6b8299]"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{durWithHours(c.dur)}</p>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => setHeroCoursePage(p => Math.max(p - 1, 0))}
+                                  disabled={heroCoursePage === 0}
+                                  aria-label="Previous courses"
+                                  className="absolute -left-[9px] top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#076D9D] shadow-[0_2px_8px_rgba(6,148,209,0.25)] disabled:opacity-30"
+                                >
+                                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                                </button>
+                                <button
+                                  onClick={() => setHeroCoursePage(p => Math.min(p + 1, totalPages - 1))}
+                                  disabled={heroCoursePage === totalPages - 1}
+                                  aria-label="Next courses"
+                                  className="absolute -right-[9px] top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#076D9D] shadow-[0_2px_8px_rgba(6,148,209,0.25)] disabled:opacity-30"
+                                >
+                                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                                </button>
+                                {totalPages > 1 && (
+                                  <div className="mt-2.5 flex items-center justify-center gap-1.5">
+                                    {Array.from({ length: totalPages }, (_, p) => (
+                                      <button
+                                        key={p}
+                                        onClick={() => setHeroCoursePage(p)}
+                                        aria-label={`Go to courses page ${p + 1}`}
+                                        className={`rounded-full transition-all duration-300 ${p === heroCoursePage ? 'h-2 w-5 bg-[#0694D1]' : 'h-2 w-2 bg-[#0694D1]/25'}`}
+                                      />
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          })()}
+
+                          <p className="mt-3 text-center text-[12.5px] font-semibold leading-relaxed text-[#1a3a55]">If not, please elaborate more on your requirement.</p>
 
                           <div className="mt-3 border-t pt-3" style={{ borderColor: 'rgba(6,148,209,0.12)' }}>
-                            <div className="flex w-full items-stretch overflow-hidden rounded-xl border-[1.5px] border-[rgba(6,148,209,0.18)] bg-white p-1 pl-3 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-all duration-200 focus-within:border-[#0694D1] focus-within:shadow-[0_0_0_3px_rgba(6,148,209,0.15)]">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8baabf" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="my-auto shrink-0"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
+                            <div className="flex w-full items-stretch overflow-hidden rounded-lg border-2 border-[rgba(6,148,209,0.3)] bg-white p-1 pl-2 shadow-[0_2px_10px_rgba(6,148,209,0.07)] transition-all duration-200 focus-within:border-[#0694D1] focus-within:shadow-[0_0_0_4px_rgba(6,148,209,0.25)]">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="#8baabf" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="my-auto h-2.5 w-2.5 shrink-0"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
                               <input
                                 type="text"
                                 value={heroFollowUpQuery}
@@ -3928,7 +4042,7 @@ export default function Design4Page() {
                                 onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault() } }}
                                 placeholder="Elaborate more on your requirement…"
                                 aria-label="Elaborate more on your requirement"
-                                className="min-w-0 flex-1 bg-transparent px-2.5 py-2.5 text-sm font-medium text-[#1a2d3e] placeholder-[#8baabf] outline-none"
+                                className="min-w-0 flex-1 bg-transparent px-2 py-2.5 text-[11px] font-medium text-[#1a2d3e] placeholder-[#8baabf] outline-none"
                               />
                               {heroFollowUpQuery.length > 0 && (
                                 <button
@@ -3946,11 +4060,37 @@ export default function Design4Page() {
                                   if (getContextChips(heroFollowUpQuery).length === 0) return
                                   setHeroAiThinking(false)
                                   setHeroAiResults(classifyAiQuery(heroFollowUpQuery))
+                                  setHeroRefinedQuery(heroFollowUpQuery.trim())
                                 }}
-                                className="shrink-0 rounded-lg px-4 py-2 text-xs font-semibold text-white transition-colors duration-200"
+                                className="shrink-0 rounded-md px-3 py-2.5 text-[12px] font-semibold text-white transition-colors duration-200"
                                 style={{ background: 'linear-gradient(135deg,#0694d1,#076D9D)' }}
                               >
                                 Search Again
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="mt-3 flex flex-col gap-3 rounded-2xl px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between" style={{ background: '#D6ECFB', border: '1px solid #A9CFEF' }}>
+                            <div className="flex items-center gap-2.5">
+                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: '#FFFFFF', border: '1px solid #D9E4F2' }}>
+                                <svg className="h-4 w-4 text-[#087FD1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-[#093148]">Require more details?</p>
+                                <p className="text-xs text-[#093148]/70">These courses + the full learning guide,<br />in your inbox.</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1 rounded-lg p-1 sm:w-80" style={{ background: '#FFFFFF', border: '1px solid #D9E4F2' }}>
+                              <input
+                                type="email"
+                                value={heroDetailsEmail}
+                                onChange={e => setHeroDetailsEmail(e.target.value)}
+                                placeholder="Enter your email address..."
+                                aria-label="Email address"
+                                className="min-w-0 flex-1 bg-transparent px-2 py-1.5 text-[13px] text-[#093148] placeholder-[#94a3b8] outline-none"
+                              />
+                              <button className="shrink-0 rounded-md border px-3 py-1.5 text-[12px] font-medium text-[#093148] transition-colors" style={{ background: 'rgba(77,191,239,0.4)', borderColor: '#0694D1' }}>
+                                Email Me Details
                               </button>
                             </div>
                           </div>
