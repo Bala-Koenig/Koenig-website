@@ -2456,7 +2456,7 @@ export default function Design4Page() {
   }, [heroQuery])
 
   useEffect(() => {
-    if (!heroFollowUpQuery.trim() || getContextChips(heroFollowUpQuery).length === 0) return
+    if (!heroFollowUpQuery.trim()) return
     setHeroAiThinking(true); setHeroAiLearnMoreOpen(false)
     if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current)
     heroAiDebounceRef.current = setTimeout(() => {
@@ -4057,7 +4057,7 @@ export default function Design4Page() {
                               <button
                                 onClick={() => {
                                   if (heroAiDebounceRef.current) clearTimeout(heroAiDebounceRef.current)
-                                  if (getContextChips(heroFollowUpQuery).length === 0) return
+                                  if (!heroFollowUpQuery.trim()) return
                                   setHeroAiThinking(false)
                                   setHeroAiResults(classifyAiQuery(heroFollowUpQuery))
                                   setHeroRefinedQuery(heroFollowUpQuery.trim())
