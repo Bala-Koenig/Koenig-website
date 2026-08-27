@@ -345,7 +345,7 @@ export default function CourseOverview() {
           </div>
 
           {/* Hero stat banner */}
-          <div style={{ position: "relative", overflow: "hidden", borderRadius: 18, padding: "32px", textAlign: "center", marginBottom: 24, background: "radial-gradient(ellipse at 55% 40%, #F2FAFF 0%, #E4F7FF 55%, #D5EFFC 100%)", border: "1px solid rgba(6,148,209,0.15)" }}>
+          <div style={{ position: "relative", overflow: "hidden", borderRadius: 18, padding: "32px", textAlign: "center", marginBottom: 24, background: "#ffffff", border: "1px solid rgba(6,148,209,0.15)", boxShadow: "0 2px 10px rgba(6,148,209,0.07)" }}>
             <div style={{ pointerEvents: "none", position: "absolute", right: -32, top: -32, width: 160, height: 160, borderRadius: "50%", background: "radial-gradient(circle, rgba(6,148,209,0.16) 0%, transparent 70%)" }} />
             <div style={{ pointerEvents: "none", position: "absolute", left: -32, bottom: 0, width: 130, height: 130, borderRadius: "50%", background: "radial-gradient(circle, rgba(77,191,239,0.12) 0%, transparent 70%)" }} />
             <div style={{ position: "relative" }}>
