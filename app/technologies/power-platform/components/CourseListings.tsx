@@ -623,7 +623,7 @@ export default function CourseListings() {
                     {/* Popular badge */}
                     {course.enrolled && (
                       <span className="cert-hot-badge">
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2z"/></svg>
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c0 0-5.5 6-5.5 10.5a5.5 5.5 0 0 0 11 0C17.5 8 12 2 12 2zm0 14a3 3 0 0 1-3-3c0-2.5 3-6 3-6s3 3.5 3 6a3 3 0 0 1-3 3z"/></svg>
                         Popular
                       </span>
                     )}
@@ -1242,7 +1242,7 @@ export default function CourseListings() {
         .cert-card:hover { box-shadow: 0 8px 32px rgba(6,148,209,0.18),0 2px 8px rgba(0,0,0,0.06); }
 
         /* popular badge */
-        .cert-hot-badge { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: 4px; height: 20px; font-size: 9px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; padding: 0 10px 0 8px; border-radius: 0 14px 0 10px; background: linear-gradient(135deg,#0694D1,#22d3ee); color: #fff; box-shadow: -2px 2px 8px rgba(6,148,209,0.28); z-index: 2; }
+        .cert-hot-badge { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: 4px; height: 20px; font-size: 9px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; padding: 0 10px 0 8px; border-radius: 0 14px 0 10px; background: rgba(6,148,209,0.08); color: #0694D1; border: 1px solid rgba(6,148,209,0.3); box-shadow: none; z-index: 2; }
 
         /* level pill */
         .cert-pill-row { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin-bottom: 6px; margin-top: -8px; }
