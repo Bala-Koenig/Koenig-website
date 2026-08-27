@@ -169,6 +169,12 @@ const technologies = [
   },
 ];
 
+/* Repeat each vendor's real course list 3x (same courses, no fabricated
+   entries) so the catalogue is large enough for pagination to show its
+   truncated "1 2 3 4 5 … N" view at the normal ITEMS_PER_PAGE — owner
+   wants 14+ pages without shrinking the per-page card count. */
+technologies.forEach(t => { t.courses = [...t.courses, ...t.courses, ...t.courses]; });
+
 const DURATION_OPTS = [
   { key: "4hrs",  label: "4 hrs",  sub: "½ day"   },
   { key: "8hrs",  label: "8 hrs",  sub: "1 day"   },
@@ -191,7 +197,7 @@ const RELEVANT_TECHNOLOGIES = [
   { label: "Virtualisation", prefixes: ["VCP-"] },
 ];
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 12;
 
 const MODE_BTNS = [
   {
