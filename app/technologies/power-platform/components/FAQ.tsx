@@ -74,7 +74,7 @@ export default function FAQ() {
         .faq-pp-accordion-col { display: flex; flex-direction: column; gap: 15px; }
         .faq-pp-cta-bottom {
           display: flex; align-items: center; justify-content: space-between;
-          flex-wrap: wrap; gap: 18px;
+          flex-wrap: wrap; gap: 20px;
           background: linear-gradient(135deg,#071e2e 0%,#093148 100%);
           border-radius: 20px; padding: 28px 36px;
           box-shadow: 0 8px 32px rgba(6,148,209,0.15);
