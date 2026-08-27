@@ -120,16 +120,6 @@ export default function FAQ() {
 
           {/* Header */}
           <div className="animate-on-scroll" style={{ textAlign: "center", marginBottom: 15 }}>
-            <span style={{
-              display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 15,
-              fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
-              textTransform: "uppercase", color: "#0694D1",
-              background: "#EBF8FE", border: "1px solid #CAEFFF",
-              padding: "6px 14px", borderRadius: 20,
-            }}>
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#0694D1", display: "inline-block" }} />
-              FAQs
-            </span>
             <h2 style={{ fontSize: "clamp(22px, 2.8vw, 36px)", fontWeight: 800, color: "#071e2e", margin: "0 0 15px", letterSpacing: "-0.02em", lineHeight: 1.25, fontFamily: "'GTWalsheimPro', sans-serif" }}>
               Got Questions?{" "}
               <span style={{
