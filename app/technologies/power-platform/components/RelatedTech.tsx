@@ -117,10 +117,6 @@ export default function RelatedTech() {
 
         {/* Header */}
         <div className="animate-on-scroll text-center mb-[36px]">
-          <span className="inline-flex items-center gap-[6px] text-[12px] font-heading font-medium uppercase tracking-[0.1em] px-[14px] py-[5px] rounded-full mb-[14px]"
-            style={{ backgroundColor: "rgba(6,148,209,0.08)", color: "#0694D1", border: "1px solid rgba(6,148,209,0.25)" }}>
-            Microsoft Technologies
-          </span>
           <h2 id="related-tech-heading" className="font-heading font-medium leading-tight mb-[12px]" style={{ color: "#0f1f3d", fontSize: "clamp(22px, 2.8vw, 36px)" }}>
             Top Microsoft <span style={{ color: C.accent }}>Technology Areas</span>
           </h2>
