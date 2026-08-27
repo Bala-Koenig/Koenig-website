@@ -138,7 +138,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Left — headline + CTA */}
-          <div className="space-y-8">
+          <div className="space-y-[18px]">
 
 
             <div className="animate-on-scroll" style={{ transitionDelay: "0.1s" }}>
@@ -147,7 +147,7 @@ export default function Hero() {
               </h1>
             </div>
 
-            <p className="animate-on-scroll font-body leading-relaxed max-w-xl" style={{ color: "rgba(228,247,255,0.6)", transitionDelay: "0.2s", fontSize: "15px", fontWeight: 500, marginTop: 12 }}>
+            <p className="animate-on-scroll font-body leading-relaxed max-w-xl" style={{ color: "rgba(228,247,255,0.6)", transitionDelay: "0.2s", fontSize: "15px", fontWeight: 500 }}>
               Build powerful business applications, automate workflows, and unlock deep data insights.
               Get certified by Microsoft-authorized trainers with hands-on labs and real-world projects.
             </p>
@@ -173,7 +173,7 @@ export default function Hero() {
               </a>
             </div>
             <style suppressHydrationWarning>{`
-              .hero-cta-row { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px; }
+              .hero-cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
               @media (max-width: 700px) {
                 .hero-cta-row { flex-direction: column; gap: 10px; }
                 .hero-cta-btn { width: 100% !important; text-align: center; justify-content: center; }
@@ -181,7 +181,7 @@ export default function Hero() {
             `}</style>
 
             {/* Social proof */}
-            <div className="animate-on-scroll flex items-center gap-3 pt-1" style={{ transitionDelay: "0.3s" }}>
+            <div className="animate-on-scroll flex items-center gap-3" style={{ transitionDelay: "0.3s" }}>
               {/* Overlapping avatars */}
               <div style={{ display: "flex" }}>
                 {[
