@@ -392,10 +392,6 @@ export default function CourseListings() {
         <div style={{ marginBottom: 20 }}>
           <div className="certs-header-row">
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                <span style={{ color: "#0694D1", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", lineHeight: 1 }}>MICROSOFT TRAINING</span>
-                <span style={{ flex: "0 0 60px", height: 1.5, background: "linear-gradient(to right,#0694D1,transparent)", borderRadius: 2 }} />
-              </div>
               <h2 id="cert-explorer-heading" style={{ fontSize: "clamp(22px, 2.8vw, 36px)", fontWeight: 800, color: "#0f1f3d", margin: "0 0 8px", lineHeight: 1.3 }}>
                 Microsoft{" "}
                 <em style={{ fontStyle: "normal", background: "linear-gradient(to right,#0694d1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
