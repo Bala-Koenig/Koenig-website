@@ -10298,8 +10298,9 @@ function MarqueeRow({ items, reverse = false }) {
 }
 
 function CompaniesSection({ onCTA }) {
-  const row1 = [...CompanyLogos.slice(0, 10), ...CompanyLogos.slice(0, 10)];
-  const row2 = [...CompanyLogos.slice(10), ...CompanyLogos.slice(10)];
+  // Single continuous strip with every logo, on every breakpoint — desktop
+  // previously showed two stacked marquee rows; now matches the mobile layout.
+  const singleRow = [...CompanyLogos, ...CompanyLogos];
 
   return (
     <section className="companies-sec">
@@ -10315,8 +10316,7 @@ function CompaniesSection({ onCTA }) {
           </div>
         </div>
 
-        <MarqueeRow items={row1} />
-        <MarqueeRow items={row2} reverse />
+        <MarqueeRow items={singleRow} />
 
       </div>
     </section>
