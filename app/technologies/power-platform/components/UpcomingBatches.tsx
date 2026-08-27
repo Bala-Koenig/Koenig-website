@@ -141,12 +141,9 @@ export default function UpcomingBatches() {
         .ub-batch-card-row1 { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
         .ub-batch-badges { display:flex; align-items:center; gap:8px; }
 
-        .ub-cert-hot-badge { position:absolute; top:0; right:0; display:inline-flex; align-items:center; gap:4px; height:20px; font-size:9px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; padding:0 10px 0 8px; border-radius:0 12px 0 10px; background:linear-gradient(135deg,#0694D1,#22d3ee); color:#fff; border:none; flex-shrink:0; box-shadow:-2px 2px 8px rgba(6,148,209,0.28); z-index:2; }
+        .ub-cert-hot-badge { position:absolute; top:0; right:0; display:inline-flex; align-items:center; gap:4px; height:20px; font-size:9px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; padding:0 10px 0 8px; border-radius:0 12px 0 10px; background:rgba(6,148,209,0.08); color:#0694D1; border:1px solid rgba(6,148,209,0.3); flex-shrink:0; box-shadow:none; z-index:2; }
 
-        .ub-cert-badge { display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:800; letter-spacing:0.6px; text-transform:uppercase; padding:3px 9px 3px 7px; border-radius:20px; width:fit-content; border:none; line-height:1; }
-        .ub-cert-badge.fund   { background:linear-gradient(135deg,#4DBFEF,#0694D1); color:#fff; box-shadow:0 2px 8px rgba(6,148,209,0.25); }
-        .ub-cert-badge.assoc  { background:linear-gradient(135deg,#0694D1,#076D9D); color:#fff; box-shadow:0 2px 8px rgba(6,108,157,0.3); }
-        .ub-cert-badge.expert { background:linear-gradient(135deg,#076D9D,#062238); color:#fff; box-shadow:0 2px 8px rgba(6,34,56,0.35); }
+        .ub-cert-badge { display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:800; letter-spacing:0.6px; text-transform:uppercase; padding:4px 10px; border-radius:20px; width:fit-content; line-height:1; background:#F1F4F8; border:1px solid #E1E7EE; color:#4a5568; }
 
         .ub-batch-seats { font-size:11px; font-weight:500; padding:2px 8px; border-radius:20px; }
         .ub-batch-seats-low { background:rgba(239,68,68,0.06); color:#dc2626; }
