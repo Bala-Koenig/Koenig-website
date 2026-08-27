@@ -628,9 +628,9 @@ export default function CourseListings() {
                       </span>
                     )}
 
-                    {/* Level badge */}
-                    <div style={{ display: "flex", alignItems: "center", marginBottom: 6, marginTop: -8 }}>
-                      <span className={`cert-badge ${course.level}`}>
+                    {/* Level pill */}
+                    <div className="cert-pill-row">
+                      <span className={`cert-pill cert-pill-level ${course.level}`}>
                         {course.level === "fund" ? (
                           <><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12"/><path d="M5 3a7 7 0 0 0 7 7 7 7 0 0 0 7-7"/></svg>Fundamentals</>
                         ) : course.level === "assoc" ? (
@@ -651,6 +651,12 @@ export default function CourseListings() {
                       <div className="cert-name-tooltip">{course.title}</div>
                     </div>
 
+                    {/* Download syllabus — text link */}
+                    <button className="cert-syllabus-link" onClick={() => { setSylCourse(course.title); setSyllabusOpen(true); }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      Download syllabus
+                    </button>
+
                     {/* Code + duration */}
                     <div className="cert-code-row">
                       <span className="cert-code">{course.code}</span>
@@ -660,30 +666,29 @@ export default function CourseListings() {
                       </span>
                     </div>
 
-                    {/* Footer */}
-                    <div className="cert-footer">
-                      <div className="cert-price-row">
-                        {course.enrolled && (
+                    {/* Price + rating row */}
+                    <div className="cert-price-rating-row">
+                      {course.enrolled && (
+                        <>
                           <span className="cert-enrolled">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             {course.enrolled}
-                            {(course as { rating?: number }).rating && (
-                              <><span className="cert-star">★</span><span className="cert-rating-num">{(course as { rating?: number }).rating}</span></>
-                            )}
                           </span>
-                        )}
-                        <div className="cert-price">
-                          <span className="cert-price-curr">₹</span>
-                          <span className="cert-price-amount">{course.price.toLocaleString("en-IN")}</span>
-                        </div>
-                      </div>
-                      <div className="cert-actions">
-                        <button className="cert-btn-brochure" onClick={() => { setSylCourse(course.title); setSyllabusOpen(true); }}>
-                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                          Download Syllabus
-                        </button>
-                        <a href="#contact" className="cert-btn-details">View Course</a>
-                      </div>
+                          {(course as { rating?: number }).rating && (
+                            <span className="cert-rating">
+                              <span className="cert-rating-star">★</span>
+                              {(course as { rating?: number }).rating}
+                            </span>
+                          )}
+                        </>
+                      )}
+                      <span className="cert-price-lg" style={{ marginLeft: "auto" }}>₹{course.price.toLocaleString("en-IN")}</span>
+                    </div>
+
+                    {/* Footer actions */}
+                    <div className="cert-actions">
+                      <a href="#contact" className="cert-btn-view">View Course</a>
+                      <button className="cert-btn-enquire" onClick={() => setReqInfoOpen(true)}>Enquire now</button>
                     </div>
                   </div>
                 ))}
@@ -699,37 +704,45 @@ export default function CourseListings() {
               {totalPages > 1 && (
                 <>
                   {/* Desktop pagination */}
-                  <div className="cert-pagination cert-pagination-desktop">
-                    <button className="cert-pg-arrow" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
-                    {paginationNums.map((p, i) =>
-                      p === "..." ? (
-                        <span key={`e-${i}`} className="cert-pg-ellipsis">…</span>
-                      ) : (
-                        <button key={p} className={`cert-pg-num${currentPage === p ? " active" : ""}`} onClick={() => setCurrentPage(p as number)}>{p}</button>
-                      )
-                    )}
-                    <button className="cert-pg-arrow" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                    </button>
+                  <div className="cert-pagination-wrap cert-pagination-desktop">
+                    <div className="cert-pagination">
+                      <button className="cert-pg-arrow" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                        Previous
+                      </button>
+                      {paginationNums.map((p, i) =>
+                        p === "..." ? (
+                          <span key={`e-${i}`} className="cert-pg-ellipsis">…</span>
+                        ) : (
+                          <button key={p} className={`cert-pg-num${currentPage === p ? " active" : ""}`} onClick={() => setCurrentPage(p as number)}>{p}</button>
+                        )
+                      )}
+                      <button className="cert-pg-arrow" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
+                        Next
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                      </button>
+                    </div>
                   </div>
 
                   {/* Mobile pagination */}
-                  <div className="cert-pagination cert-pagination-mobile">
-                    <button className="cert-pg-arrow" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
-                    {mobilePaginationNums.map((p, i) =>
-                      p === "..." ? (
-                        <span key={`e-${i}`} className="cert-pg-ellipsis">…</span>
-                      ) : (
-                        <button key={p} className={`cert-pg-num${currentPage === p ? " active" : ""}`} onClick={() => setCurrentPage(p as number)}>{p}</button>
-                      )
-                    )}
-                    <button className="cert-pg-arrow" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                    </button>
+                  <div className="cert-pagination-wrap cert-pagination-mobile">
+                    <div className="cert-pagination">
+                      <button className="cert-pg-arrow" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                        Previous
+                      </button>
+                      {mobilePaginationNums.map((p, i) =>
+                        p === "..." ? (
+                          <span key={`e-${i}`} className="cert-pg-ellipsis">…</span>
+                        ) : (
+                          <button key={p} className={`cert-pg-num${currentPage === p ? " active" : ""}`} onClick={() => setCurrentPage(p as number)}>{p}</button>
+                        )
+                      )}
+                      <button className="cert-pg-arrow" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
+                        Next
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                      </button>
+                    </div>
                   </div>
                 </>
               )}
@@ -1225,17 +1238,16 @@ export default function CourseListings() {
         }
 
         /* cert card */
-        .cert-card { background: #fff; border: 1.5px solid rgba(6,148,209,0.12); border-radius: 14px; padding: 16px 16px 14px; cursor: pointer; transition: box-shadow 0.25s; display: flex; flex-direction: column; position: relative; overflow: visible; min-height: 250px; box-shadow: 0 2px 10px rgba(6,148,209,0.07); }
+        .cert-card { background: #fff; border: 1.5px solid rgba(6,148,209,0.12); border-radius: 14px; padding: 16px 16px 14px; cursor: pointer; transition: all 0.25s; display: flex; flex-direction: column; position: relative; overflow: visible; gap: 0; min-height: 250px; box-shadow: 0 2px 10px rgba(6,148,209,0.07); }
         .cert-card:hover { box-shadow: 0 8px 32px rgba(6,148,209,0.18),0 2px 8px rgba(0,0,0,0.06); }
 
         /* popular badge */
         .cert-hot-badge { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: 4px; height: 20px; font-size: 9px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; padding: 0 10px 0 8px; border-radius: 0 14px 0 10px; background: linear-gradient(135deg,#0694D1,#22d3ee); color: #fff; box-shadow: -2px 2px 8px rgba(6,148,209,0.28); z-index: 2; }
 
-        /* level badges */
-        .cert-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 9px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; padding: 3px 9px 3px 7px; border-radius: 20px; margin-bottom: 3px; border: none; line-height: 1; }
-        .cert-badge.fund   { background: linear-gradient(135deg,#4DBFEF,#0694D1); color: #fff; box-shadow: 0 2px 8px rgba(6,148,209,0.25); }
-        .cert-badge.assoc  { background: linear-gradient(135deg,#0694D1,#076D9D); color: #fff; box-shadow: 0 2px 8px rgba(6,108,157,0.3); }
-        .cert-badge.expert { background: linear-gradient(135deg,#076D9D,#062238); color: #fff; box-shadow: 0 2px 8px rgba(6,34,56,0.35); }
+        /* level pill */
+        .cert-pill-row { display: flex; align-items: center; justify-content: flex-start; gap: 8px; margin-bottom: 6px; margin-top: -8px; }
+        .cert-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; white-space: nowrap; line-height: 1; }
+        .cert-pill-level { background: #F1F4F8; border: 1px solid #E1E7EE; color: #4a5568; }
 
         /* card name + tooltip */
         .cert-name-wrap { position: relative; flex: 1; margin-top: 10px; }
@@ -1244,36 +1256,54 @@ export default function CourseListings() {
         .cert-name-tooltip::after { content: ''; position: absolute; top: 100%; left: 16px; border: 5px solid transparent; border-top-color: #071e2e; }
         .cert-name-wrap.show-tip .cert-name-tooltip { display: block; }
 
+        /* download syllabus — text link */
+        .cert-syllabus-link { display: inline-flex; align-items: center; gap: 5px; align-self: flex-start; margin-bottom: 10px; padding: 0; border: none; background: none; color: #0694D1; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
+        .cert-syllabus-link:hover { text-decoration: underline; }
+
         /* code / hours pills */
         .cert-code-row { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
-        .cert-code  { font-size: 12px; font-family: 'SFMono-Regular','Consolas',monospace; color: #0694D1; background: rgba(6,148,209,0.1); border: 1px solid rgba(6,148,209,0.28); padding: 2px 7px; border-radius: 4px; font-weight: 700; letter-spacing: 0.4px; }
-        .cert-hours { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-family: 'SFMono-Regular','Consolas',monospace; color: #5a7a90; background: rgba(6,148,209,0.05); border: 1px solid rgba(6,148,209,0.14); padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+        .cert-code  { background: #f0f4f8; border: 1px solid #dde8f0; border-radius: 6px; padding: 3px 8px; font-size: 12px; font-weight: 600; color: #4a6275; font-family: monospace; }
+        .cert-hours { background: none; border: none; padding: 0; font-family: inherit; font-size: 12px; font-weight: 500; color: #7a93a8; display: flex; align-items: center; gap: 4px; }
 
-        /* card footer */
-        .cert-footer { display: flex; flex-direction: column; gap: 8px; margin-top: auto; border-top: 1px solid rgba(6,148,209,0.08); padding-top: 10px; }
-        .cert-price-row { display: flex; align-items: center; gap: 6px; }
-        .cert-enrolled { font-size: 11px; color: #4a6375; font-weight: 600; display: inline-flex; align-items: center; gap: 3px; }
-        .cert-star { color: #f59e0b; font-size: 11px; line-height: 1; margin-left: 1px; }
-        .cert-rating-num { color: #f59e0b; font-size: 11px; font-weight: 700; line-height: 1; }
-        .cert-price      { display: flex; align-items: baseline; gap: 1px; margin-left: auto; }
-        .cert-price-curr { font-size: 10px; font-weight: 600; color: #0694D1; opacity: 0.8; margin-right: 1px; }
-        .cert-price-amount { font-size: 15px; font-weight: 700; color: #0694D1; letter-spacing: -0.3px; line-height: 1; }
+        /* price + rating row */
+        .cert-price-rating-row { display: flex; align-items: center; justify-content: space-between; margin: 10px 0 12px; }
+        .cert-enrolled { font-size: 10px; color: #4a6375; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+        .cert-rating { display: flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; color: #d97706; }
+        .cert-rating-star { font-size: 10px; }
+        .cert-price-lg { font-size: 16px; font-weight: 800; color: #071e2e; letter-spacing: -0.2px; }
+
+        /* footer actions */
         .cert-actions { display: flex; gap: 7px; }
-        .cert-btn-brochure { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 32px; padding: 0 8px; border-radius: 8px; font-size: 10px; font-weight: 700; background: transparent; color: #0694D1; border: 1.5px solid #0694D1; cursor: pointer; transition: background 0.18s; white-space: nowrap; font-family: inherit; }
-        .cert-btn-brochure:hover { background: rgba(6,148,209,0.07); }
-        .cert-btn-details { flex: 1; display: flex; align-items: center; justify-content: center; height: 32px; padding: 0 8px; border-radius: 8px; font-size: 10.5px; font-weight: 700; background: linear-gradient(135deg,#093148 0%,#0d5280 100%); color: #fff; border: none; cursor: pointer; transition: filter 0.22s,box-shadow 0.22s,transform 0.22s; white-space: nowrap; font-family: inherit; box-shadow: 0 2px 8px rgba(9,49,72,0.3); text-decoration: none; }
-        .cert-btn-details:hover { filter: brightness(1.25); box-shadow: 0 4px 14px rgba(9,49,72,0.4); transform: translateY(-1px); }
+        .cert-btn-view { flex: 1; display: flex; align-items: center; justify-content: center; height: 32px; padding: 0 8px; border-radius: 8px; font-size: 10.5px; font-weight: 700; background: #fff; color: #093148; border: 1.5px solid #093148; cursor: pointer; transition: background 0.18s; white-space: nowrap; font-family: inherit; text-decoration: none; }
+        .cert-btn-view:hover { background: rgba(9,49,72,0.06); }
+        .cert-btn-enquire { flex: 1; display: flex; align-items: center; justify-content: center; height: 32px; padding: 0 8px; border-radius: 8px; font-size: 10.5px; font-weight: 700; background: linear-gradient(135deg,#093148 0%,#0d5280 100%); color: #fff; border: none; cursor: pointer; transition: filter 0.22s,box-shadow 0.22s,transform 0.22s; white-space: nowrap; font-family: inherit; box-shadow: 0 2px 8px rgba(9,49,72,0.3); }
+        .cert-btn-enquire:hover { filter: brightness(1.25); box-shadow: 0 4px 14px rgba(9,49,72,0.4); transform: translateY(-1px); }
 
-        /* pagination */
-        .cert-pagination { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 16px 0 8px; }
+        /* pagination — pill (matches /microsoft) */
+        .cert-pagination-wrap { display: flex; align-items: center; justify-content: center; padding: 16px 0 8px; }
         .cert-pagination-mobile { display: none; }
-        .cert-pg-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid rgba(6,148,209,0.25); background: #fff; display: flex; align-items: center; justify-content: center; color: #0578b3; cursor: pointer; transition: all 0.18s; font-family: inherit; }
-        .cert-pg-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
-        .cert-pg-arrow:not(:disabled):hover { background: #0694D1; border-color: #0694D1; color: #fff; box-shadow: 0 4px 12px rgba(6,148,209,0.3); }
-        .cert-pg-num { min-width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid transparent; background: transparent; font-size: 13px; font-weight: 600; color: #4a6375; cursor: pointer; transition: all 0.18s; font-family: inherit; padding: 0 8px; }
-        .cert-pg-num:hover { background: rgba(6,148,209,0.08); color: #0694D1; border-color: rgba(6,148,209,0.2); }
-        .cert-pg-num.active { background: #0694D1; color: #fff; border-color: #0694D1; box-shadow: 0 3px 10px rgba(6,148,209,0.35); }
-        .cert-pg-ellipsis { font-size: 13px; font-weight: 600; color: #94a3b8; padding: 0 4px; }
+        .cert-pagination {
+          display: inline-flex; align-items: center; gap: 2px;
+          background: #fff; border: 1.5px solid #E2EBF6; border-radius: 999px;
+          padding: 6px 8px; box-shadow: 0 2px 10px rgba(6,148,209,0.06);
+        }
+        .cert-pg-arrow {
+          display: flex; align-items: center; gap: 4px; height: 36px; padding: 0 12px;
+          border-radius: 999px; border: none; background: transparent;
+          font-size: 13px; font-weight: 700; font-family: inherit;
+          color: #0694D1; cursor: pointer; transition: background 0.18s;
+        }
+        .cert-pg-arrow:disabled { color: #B9C6D6; cursor: not-allowed; }
+        .cert-pg-arrow:not(:disabled):hover { background: rgba(6,148,209,0.08); }
+        .cert-pg-num {
+          min-width: 36px; height: 36px; padding: 0 4px; border-radius: 10px;
+          display: flex; align-items: center; justify-content: center;
+          border: 1.5px solid transparent; background: transparent;
+          font-size: 13px; font-weight: 600; color: #0694D1;
+          cursor: pointer; transition: border-color 0.15s; font-family: inherit;
+        }
+        .cert-pg-num.active { font-weight: 800; color: #0b2545; border-color: #0b2545; }
+        .cert-pg-ellipsis { width: 28px; text-align: center; font-size: 13px; font-weight: 600; color: #94a3b8; }
 
         /* mobile drawer */
         .cf-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.45); backdrop-filter: blur(2px); animation: cfFadeIn 0.18s ease; }
@@ -1355,13 +1385,12 @@ export default function CourseListings() {
           section[id="cert"] { padding: 18px 16px !important; }
           .tab-shimmer-border > div > button { padding: 9px 8px !important; gap: 6px !important; }
           .cert-pagination-desktop { display: none !important; }
-          .cert-pagination-mobile { display: flex !important; gap: 6px; padding: 16px 0 10px; }
-          .cert-pagination-mobile .cert-pg-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(6,148,209,0.3); background: #fff; }
-          .cert-pagination-mobile .cert-pg-num { min-width: 36px; height: 36px; border-radius: 50%; border: none; background: transparent; font-size: 13px; color: #374151; padding: 0; }
-          .cert-pagination-mobile .cert-pg-num.active { background: #0694D1; color: #fff; border-radius: 50%; box-shadow: 0 4px 12px rgba(6,148,209,0.35); }
-          .cert-pagination-mobile .cert-pg-ellipsis { font-size: 13px; color: #94a3b8; padding: 0 2px; letter-spacing: 1px; line-height: 36px; }
+          .cert-pagination-mobile { display: flex !important; }
+          .cert-pagination { flex-wrap: nowrap !important; justify-content: center !important; border-radius: 16px !important; max-width: 100%; padding: 4px 6px; }
+          .cert-pg-arrow { padding: 0 8px !important; font-size: 11px !important; gap: 3px !important; height: 30px !important; }
+          .cert-pg-num { min-width: 30px !important; height: 30px !important; font-size: 11px !important; }
+          .cert-pg-ellipsis { width: 18px !important; }
           .cert-actions { flex-direction: row; gap: 6px; }
-          .cert-btn-brochure, .cert-btn-details { flex: 1; width: auto; }
           .cf-mobile-controls { padding: 8px 10px; }
           .cert-panel-scroll { padding: 10px 10px 14px; }
         }
