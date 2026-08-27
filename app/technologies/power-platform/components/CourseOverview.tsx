@@ -380,7 +380,7 @@ export default function CourseOverview() {
               <div style={{ position: "absolute", inset: "0 0 auto", height: 2, background: "linear-gradient(to right,rgba(52,211,153,0.6),rgba(16,185,129,0.8),rgba(52,211,153,0.3))" }} />
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg,#10b981,#34d399)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", boxShadow: "0 4px 12px rgba(16,185,129,0.3)", flexShrink: 0 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(16,185,129,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981", flexShrink: 0 }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                   </div>
                   <span className="font-heading font-medium" style={{ fontSize: 14, color: C.dark }}>Salary Impact</span>
@@ -409,7 +409,7 @@ export default function CourseOverview() {
             <div style={{ position: "relative", overflow: "hidden", borderRadius: 16, border: "1px solid rgba(6,148,209,0.18)", background: "#fff", padding: 24, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
               <div style={{ position: "absolute", inset: "0 0 auto", height: 2, background: "linear-gradient(to right,rgba(6,148,209,0.6),rgba(34,211,238,0.8),rgba(6,148,209,0.3))" }} />
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg,#0694D1,#22d3ee)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", boxShadow: "0 4px 12px rgba(6,148,209,0.3)", flexShrink: 0 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(6,148,209,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#0694D1", flexShrink: 0 }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                 </div>
                 <span className="font-heading font-medium" style={{ fontSize: 14, color: C.dark }}>Job Roles</span>
@@ -430,7 +430,7 @@ export default function CourseOverview() {
             <div style={{ position: "relative", overflow: "hidden", borderRadius: 16, border: "1px solid #cffafe", background: "#fff", padding: 24, boxShadow: "0 2px 12px rgba(0,0,0,0.06)", display: "flex", flexDirection: "column" as const }}>
               <div style={{ position: "absolute", inset: "0 0 auto", height: 2, background: "linear-gradient(to right,rgba(34,211,238,0.6),rgba(56,189,248,0.8),rgba(34,211,238,0.3))" }} />
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg,#06b6d4,#38bdf8)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", boxShadow: "0 4px 12px rgba(6,182,212,0.3)", flexShrink: 0 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(6,182,212,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#06b6d4", flexShrink: 0 }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 </div>
                 <span className="font-heading font-medium" style={{ fontSize: 14, color: C.dark }}>Companies Hiring</span>
@@ -461,7 +461,7 @@ export default function CourseOverview() {
                     <div style={{ position: "absolute", inset: "0 0 auto", height: 2, background: "linear-gradient(to right,rgba(52,211,153,0.6),rgba(16,185,129,0.8),rgba(52,211,153,0.3))" }} />
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                        <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg,#10b981,#34d399)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", boxShadow: "0 4px 12px rgba(16,185,129,0.3)", flexShrink: 0 }}>
+                        <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(16,185,129,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#10b981", flexShrink: 0 }}>
                           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                         </div>
                         <span className="font-heading font-medium" style={{ fontSize: 14, color: C.dark }}>Salary Impact</span>
@@ -488,7 +488,7 @@ export default function CourseOverview() {
                   <div style={{ position: "relative", overflow: "hidden", borderRadius: 16, border: "1px solid rgba(6,148,209,0.18)", background: "#fff", padding: 24, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
                     <div style={{ position: "absolute", inset: "0 0 auto", height: 2, background: "linear-gradient(to right,rgba(6,148,209,0.6),rgba(34,211,238,0.8),rgba(6,148,209,0.3))" }} />
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                      <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg,#0694D1,#22d3ee)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", boxShadow: "0 4px 12px rgba(6,148,209,0.3)", flexShrink: 0 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(6,148,209,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#0694D1", flexShrink: 0 }}>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                       </div>
                       <span className="font-heading font-medium" style={{ fontSize: 14, color: C.dark }}>Job Roles</span>
@@ -511,7 +511,7 @@ export default function CourseOverview() {
                   <div style={{ position: "relative", overflow: "hidden", borderRadius: 16, border: "1px solid #cffafe", background: "#fff", padding: 24, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
                     <div style={{ position: "absolute", inset: "0 0 auto", height: 2, background: "linear-gradient(to right,rgba(34,211,238,0.6),rgba(56,189,248,0.8),rgba(34,211,238,0.3))" }} />
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                      <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg,#06b6d4,#38bdf8)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", boxShadow: "0 4px 12px rgba(6,182,212,0.3)", flexShrink: 0 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(6,182,212,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "#06b6d4", flexShrink: 0 }}>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                       </div>
                       <span className="font-heading font-medium" style={{ fontSize: 14, color: C.dark }}>Companies Hiring</span>
