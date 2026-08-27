@@ -191,7 +191,7 @@ const RELEVANT_TECHNOLOGIES = [
   { label: "Virtualisation", prefixes: ["VCP-"] },
 ];
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 4;
 
 const MODE_BTNS = [
   {
