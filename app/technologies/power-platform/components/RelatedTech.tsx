@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-const C = { dark: "#093148", accent: "#0694D1", light: "#E4F7FF", bg: "#041825" };
+const C = { dark: "#093148", accent: "#0694D1", light: "#E4F7FF", bg: "#EAF4FC" };
 
 const technologies = [
   { name: "Azure",            courses: "45+", paths: ["Fundamentals", "Administrator", "Architect"] },
@@ -18,13 +18,13 @@ function TechCard({ name, courses, paths }: { name: string; courses: string; pat
   return (
     <div
       className="group relative flex flex-col p-[20px] rounded-[14px] transition-all duration-300 hover:-translate-y-[2px] cursor-pointer tech-card"
-      style={{ background: "rgba(10,28,46,0.85)", border: "1px solid rgba(6,148,209,0.18)", backdropFilter: "blur(8px)" }}
+      style={{ background: "#ffffff", border: "1px solid rgba(6,148,209,0.18)", boxShadow: "0 2px 10px rgba(6,148,209,0.07)" }}
     >
       <div className="absolute inset-x-0 top-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-[14px]"
         style={{ background: "linear-gradient(90deg, transparent, rgba(6,148,209,0.6), transparent)" }} />
 
       <div className="flex items-start justify-between gap-[8px] mb-[8px]">
-        <h3 className="font-heading font-medium text-[16px] leading-tight" style={{ color: "#ffffff" }}>{name}</h3>
+        <h3 className="font-heading font-medium text-[16px] leading-tight" style={{ color: "#0f1f3d" }}>{name}</h3>
         <div className="flex-shrink-0 w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110"
           style={{ background: "transparent", border: "1px solid rgba(6,148,209,0.35)" }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={C.accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -35,12 +35,12 @@ function TechCard({ name, courses, paths }: { name: string; courses: string; pat
 
       <p className="font-heading font-medium text-[13px] mb-[18px]" style={{ color: C.accent }}>{courses} Courses</p>
       <div style={{ height: 1, background: "rgba(6,148,209,0.1)", marginBottom: 14 }} />
-      <p className="font-body text-[11px] mb-[10px]" style={{ color: "rgba(228,247,255,0.35)", letterSpacing: "0.03em" }}>Learning Paths</p>
+      <p className="font-body text-[11px] mb-[10px]" style={{ color: "#94a3b8", letterSpacing: "0.03em" }}>Learning Paths</p>
 
       <div className="flex flex-wrap gap-[8px]">
         {paths.map((path) => (
           <span key={path} className="font-heading font-medium text-[11px] px-[10px] py-[5px] rounded-full"
-            style={{ background: "rgba(6,148,209,0.08)", border: "1px solid rgba(6,148,209,0.3)", color: "#60CEFA" }}>
+            style={{ background: "rgba(6,148,209,0.08)", border: "1px solid rgba(6,148,209,0.3)", color: "#0694D1" }}>
             {path}
           </span>
         ))}
@@ -94,7 +94,7 @@ export default function RelatedTech() {
           .rt-nav-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(6,148,209,0.35); background: rgba(6,148,209,0.08); color: ${C.accent}; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; }
           .rt-nav-btn:hover { background: rgba(6,148,209,0.2); }
           .rt-nav-btn:disabled { opacity: 0.35; cursor: default; }
-          .rt-nav-count { font-size: 13px; font-weight: 700; color: rgba(228,247,255,0.6); min-width: 40px; text-align: center; }
+          .rt-nav-count { font-size: 13px; font-weight: 700; color: #4a6375; min-width: 40px; text-align: center; }
           .tech-card { padding: 16px !important; }
         }
         @media(max-width: 375px) {
@@ -118,13 +118,13 @@ export default function RelatedTech() {
         {/* Header */}
         <div className="animate-on-scroll text-center mb-[36px]">
           <span className="inline-flex items-center gap-[6px] text-[12px] font-heading font-medium uppercase tracking-[0.1em] px-[14px] py-[5px] rounded-full mb-[14px]"
-            style={{ backgroundColor: "rgba(6,148,209,0.12)", color: "#60CEFA", border: "1px solid rgba(6,148,209,0.25)" }}>
+            style={{ backgroundColor: "rgba(6,148,209,0.08)", color: "#0694D1", border: "1px solid rgba(6,148,209,0.25)" }}>
             Microsoft Technologies
           </span>
-          <h2 id="related-tech-heading" className="font-heading font-medium leading-tight mb-[12px]" style={{ color: "#fff", fontSize: "clamp(22px, 2.8vw, 36px)" }}>
+          <h2 id="related-tech-heading" className="font-heading font-medium leading-tight mb-[12px]" style={{ color: "#0f1f3d", fontSize: "clamp(22px, 2.8vw, 36px)" }}>
             Top Microsoft <span style={{ color: C.accent }}>Technology Areas</span>
           </h2>
-          <p className="font-body text-[16px] max-w-[600px] mx-auto" style={{ color: "rgba(228,247,255,0.5)" }}>
+          <p className="font-body text-[16px] max-w-[600px] mx-auto" style={{ color: "#6b8499" }}>
             Explore official Microsoft certification paths across cloud, security, data, and productivity.
           </p>
         </div>
