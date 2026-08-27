@@ -31,8 +31,7 @@ const COMPANIES = [
   { name: "Capgemini",          img: "capeg.png"                },
 ];
 
-const row1 = [...COMPANIES.slice(0, 10), ...COMPANIES.slice(0, 10)];
-const row2 = [...COMPANIES.slice(10),    ...COMPANIES.slice(10)];
+const singleRow = [...COMPANIES, ...COMPANIES];
 
 function MarqueeRow({ items, reverse = false }: { items: typeof COMPANIES; reverse?: boolean }) {
   const wrapRef  = useRef<HTMLDivElement>(null);
@@ -164,8 +163,7 @@ export default function TrustedCompanies() {
           </div>
         </div>
 
-        <MarqueeRow items={row1} />
-        <MarqueeRow items={row2} reverse />
+        <MarqueeRow items={singleRow} />
       </div>
     </section>
   );
