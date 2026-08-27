@@ -2,15 +2,15 @@
 import { useEffect, useRef, useState } from "react";
 
 const TESTIMONIALS = [
-  { quote: "Passed AZ-104 on first attempt. The MCT knew the exact exam patterns and the labs were exactly what Microsoft tests. Worth every penny.", name: "Rahul M.", role: "Azure Administrator", cert: "AZ-104 Certified", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face&auto=format" },
-  { quote: "I trained 15 of my team members for SC-200. Koenig's on-site delivery was seamless and all 15 passed within 3 months.", name: "Sarah K.", role: "CISO, Financial Services", cert: "Enterprise Client", photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face&auto=format" },
-  { quote: "The 1-on-1 format was a game changer. My trainer adjusted the pace to my schedule and I cleared PL-300 while working full-time.", name: "Ahmed R.", role: "Business Intelligence Lead", cert: "PL-300 Certified", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face&auto=format" },
-  { quote: "From AZ-900 to AZ-305 in 6 months. Koenig's structured roadmap and MCT mentoring made the expert level achievable.", name: "Priya S.", role: "Cloud Solutions Architect", cert: "AZ-305 Expert", photo: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face&auto=format" },
-  { quote: "As an L&D head I've used 5 training vendors. Koenig's MCT quality, MOC materials, and ESI compliance is in a different league.", name: "James T.", role: "Head of L&D, UK Enterprise", cert: "100+ Learners Trained", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face&auto=format" },
-  { quote: "SC-900 and SC-300 back to back — both cleared first try. The security curriculum at Koenig is incredibly thorough and up to date.", name: "Aisha N.", role: "Security Analyst", cert: "SC-300 Certified", photo: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&crop=face&auto=format" },
-  { quote: "AI-102 was daunting but the trainer broke it down perfectly. Real Azure OpenAI labs made the difference. Highly recommend.", name: "David L.", role: "AI Engineer", cert: "AI-102 Certified", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face&auto=format" },
-  { quote: "DP-600 Fabric certification done in 3 weeks of part-time study. The customised schedule around my timezone was a lifesaver.", name: "Mei W.", role: "Data Platform Engineer", cert: "DP-600 Certified", photo: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&h=80&fit=crop&crop=face&auto=format" },
-  { quote: "Our whole DevOps team got AZ-400 certified through Koenig's corporate training. Smooth logistics and top-tier MCTs throughout.", name: "Carlos R.", role: "Engineering Manager", cert: "AZ-400 Team Training", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "Passed PL-900 on first attempt with zero prior low-code experience. The MCT knew the exact exam patterns and the labs mirrored what Microsoft actually tests. Worth every penny.", name: "Rahul M.", role: "Business Analyst", cert: "PL-900 Certified", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "I trained 15 of my team members for PL-200. Koenig's on-site delivery was seamless and all 15 passed the Functional Consultant exam within 3 months.", name: "Sarah K.", role: "CISO, Financial Services", cert: "Enterprise Client", photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "The 1-on-1 format was a game changer. My trainer adjusted the pace to my schedule and I cleared PL-300 Power BI Data Analyst while working full-time.", name: "Ahmed R.", role: "Business Intelligence Lead", cert: "PL-300 Certified", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "From PL-900 to PL-600 in 6 months. Koenig's structured roadmap and MCT mentoring made Solution Architect level genuinely achievable.", name: "Priya S.", role: "Power Platform Solution Architect", cert: "PL-600 Expert", photo: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "As an L&D head I compared 5 training vendors for our Power Platform rollout. Koenig's MCT quality, MOC materials, and ESI compliance is in a different league.", name: "James T.", role: "Head of L&D, UK Enterprise", cert: "100+ Learners Trained", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "PL-100 and PL-400 back to back — both cleared first try. Going from App Maker to full Developer track at Koenig is incredibly thorough and up to date.", name: "Aisha N.", role: "Power Platform Developer", cert: "PL-400 Certified", photo: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "Building Copilot Studio agents felt daunting but the trainer broke it down perfectly. Real Power Virtual Agents labs made the difference. Highly recommend.", name: "David L.", role: "AI & Copilot Developer", cert: "Copilot Studio Specialist", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "PL-500 Power Automate certification done in 3 weeks of part-time study. The customised schedule around my timezone was a lifesaver for RPA work.", name: "Mei W.", role: "Automation Consultant", cert: "PL-500 Certified", photo: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&h=80&fit=crop&crop=face&auto=format" },
+  { quote: "Our whole CoE team got PL-600 certified through Koenig's corporate training. Smooth logistics and top-tier MCTs throughout the entire Power Platform architecture track.", name: "Carlos R.", role: "Engineering Manager", cert: "PL-600 Team Training", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&crop=face&auto=format" },
 ];
 
 function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
@@ -183,13 +183,13 @@ export default function Testimonials() {
             Real Transformations
           </span>
           <h2 id="testimonials-heading" style={{ fontSize: "clamp(22px, 2.8vw, 36px)", fontWeight: 800, color: "#071e2e", margin: "0 0 12px", lineHeight: 1.3, letterSpacing: "-0.015em" }}>
-            Microsoft Certification{" "}
+            Power Platform Certification{" "}
             <span style={{ background: "linear-gradient(90deg,#0694D1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               Student Reviews
             </span>
           </h2>
           <p style={{ textAlign: "center", maxWidth: 480, margin: "0 auto", color: "#4a6375", fontSize: 15, lineHeight: 1.65 }}>
-            Real results from IT professionals who passed AZ-104, AI-102, SC-300 and other Microsoft exams with Koenig — rated 4.9/5 from 18,400+ verified reviews.
+            Real results from professionals who passed PL-900, PL-300, PL-600 and other Power Platform exams with Koenig — rated 4.9/5 from 18,400+ verified reviews.
           </p>
         </div>
 
