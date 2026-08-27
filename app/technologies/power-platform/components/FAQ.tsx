@@ -202,7 +202,7 @@ export default function FAQ() {
                         }}
                       >
                         <span style={{
-                          flex: 1, fontSize: 14, fontWeight: 600, lineHeight: 1.45,
+                          flex: 1, fontSize: 14, fontWeight: 400, lineHeight: 1.45,
                           color: isOpen ? "#0694D1" : "#22262a",
                           transition: "color 0.3s",
                         }}>
