@@ -387,7 +387,6 @@ export default function CourseListings() {
           <div className="certs-header-row">
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                <span style={{ color: "#0694D1", fontSize: 14, fontWeight: 700, letterSpacing: "0.02em", lineHeight: 1 }}>//</span>
                 <span style={{ color: "#0694D1", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", lineHeight: 1 }}>MICROSOFT TRAINING</span>
                 <span style={{ flex: "0 0 60px", height: 1.5, background: "linear-gradient(to right,#0694D1,transparent)", borderRadius: 2 }} />
               </div>
