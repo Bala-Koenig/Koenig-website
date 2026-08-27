@@ -1397,7 +1397,7 @@ p {
 /* ── STATS STRIP ── */
 
 /* ── WHY KOENIG (Features) ── */
-.features-sec { background: var(--light-bg); padding: 40px 48px; }
+.features-sec { background: var(--light-bg); padding: 30px 48px; }
 .sec-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--blue); margin-bottom: 14px; }
 .sec-title { font-family: var(--display); font-weight: 700; font-size: 24px; color: var(--light-text); letter-spacing: -0.015em; line-height: 1.4; margin-bottom: 16px; }
 /* ── GLOBAL BLUE EM SHIMMER ── */
@@ -1437,7 +1437,7 @@ p {
 }
 .sec-sub { font-size: 16px; color: var(--light-sub); max-width: 560px; line-height: 1.65; }
 /* ── USP COMPARISON ── */
-.usp-sec { background: var(--light-white); padding: 40px 48px; border-top: 1px solid var(--light-border); border-bottom: 1px solid var(--light-border); }
+.usp-sec { background: var(--light-white); padding: 30px 48px; border-top: 1px solid var(--light-border); border-bottom: 1px solid var(--light-border); }
 .usp-inner { max-width: var(--container); margin: 0 auto; }
 .usp-header { text-align: center; margin-bottom: 20px; }
 .usp-table {
@@ -1570,7 +1570,7 @@ p {
    HOW IT WORKS  (vertical scroll-reveal)
 ══════════════════════════════ */
 .hiw-sec {
-  background: var(--ink); padding: 40px 48px;
+  background: var(--ink); padding: 30px 48px;
   border-top: 1px solid rgba(255,255,255,0.04);
   overflow: hidden; position: relative;
 }
@@ -1779,7 +1779,7 @@ p {
 }
 
 /* ── How It Works v2 — horizontal 4-step (Koenig-website design) ── */
-.hiw2-sec { background: #fff; padding: 40px 48px; overflow: hidden; position: relative; border-top: 1px solid rgba(6,148,209,0.08); }
+.hiw2-sec { background: #fff; padding: 30px 48px; overflow: hidden; position: relative; border-top: 1px solid rgba(6,148,209,0.08); }
 .hiw2-sec::before { content:''; position:absolute; right:-128px; top:-128px; width:500px; height:500px; background:radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 70%); pointer-events:none; border-radius:50%; }
 .hiw2-sec::after  { content:''; position:absolute; left:-80px; bottom:0; width:350px; height:350px; background:radial-gradient(circle, rgba(77,191,239,0.18) 0%, transparent 70%); pointer-events:none; border-radius:50%; }
 .hiw2-inner { max-width: 1200px; margin: 0 auto; position: relative; }
@@ -1828,7 +1828,7 @@ p {
    4 WAYS TO LEARN
 ══════════════════════════════ */
 .learn-sec {
-  background: var(--light-bg); padding: 40px 48px;
+  background: var(--light-bg); padding: 30px 48px;
   position: relative; overflow: hidden;
   border-top: 1px solid rgba(255,255,255,0.04);
 }
@@ -1919,7 +1919,7 @@ p {
 @media (max-width: 560px) { .learn-sec { padding: 40px 20px; } .learn-footer { flex-direction: column; align-items: flex-start; } }
 
 /* ── CERT PATHS (Sidebar Layout) ── */
-.certs-sec { background: var(--light-bg); padding: 40px 48px; border-top: 1px solid var(--light-border); }
+.certs-sec { background: var(--light-bg); padding: 30px 48px; border-top: 1px solid var(--light-border); }
 .certs-inner { max-width: var(--container); margin: 0 auto; }
 .certs-header { margin-bottom: 20px; }
 .certs-header .sec-label { color: var(--blue); }
@@ -3109,7 +3109,7 @@ p {
    WHY CHOOSE KOENIG — Video + reasons
 ══════════════════════════════ */
 .why-sec {
-  background: var(--ink); padding: 40px 48px;
+  background: var(--ink); padding: 30px 48px;
   border-top: 1px solid rgba(255,255,255,0.04);
 }
 .why-inner {
@@ -3203,7 +3203,7 @@ p {
 /* ── LEAD GEN MID-PAGE ── */
 .lgm-sec {
   background: var(--light-bg);
-  padding: 40px 48px;
+  padding: 30px 48px;
   overflow: hidden;
   position: relative;
 }
@@ -3453,7 +3453,7 @@ p {
 .cert-showcase-sec .cert-unlock-note { color: var(--light-sub); }
 
 /* ── ENROLLMENT INSIGHTS ── */
-.enroll-sec { background: var(--light-bg); padding: 40px 48px; overflow: hidden; position: relative; }
+.enroll-sec { background: var(--light-bg); padding: 30px 48px; overflow: hidden; position: relative; }
 .enroll-inner { max-width: var(--container); margin: 0 auto; display: flex; align-items: center; gap: 72px; }
 .enroll-left { flex: 1; min-width: 0; }
 .enroll-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
@@ -3539,7 +3539,7 @@ p {
 }
 
 /* ── LEARNING FORMATS ── */
-.lf-sec { background: var(--light-bg); padding: 40px 48px; border-top: 1px solid var(--light-border); }
+.lf-sec { background: var(--light-bg); padding: 30px 48px; border-top: 1px solid var(--light-border); }
 .lf-inner { max-width: 1200px; margin: 0 auto; }
 .lf-grid {
   display: grid;
@@ -3595,7 +3595,7 @@ p {
 @media (max-width: 600px)  { .lf-grid { grid-template-columns: 1fr; } .lf-sec { padding: 40px 24px; } }
 
 /* ── TRAINER PROFILES ── */
-.trainer-sec { background: #071e2e; padding: 40px 48px; border-top: 1px solid rgba(6,148,209,0.15); overflow: hidden; }
+.trainer-sec { background: #071e2e; padding: 30px 48px; border-top: 1px solid rgba(6,148,209,0.15); overflow: hidden; }
 .trainer-inner { max-width: 1200px; margin: 0 auto; }
 .trainer-sec .sec-title { color: #fff; }
 .trainer-sec .sec-label { color: #0694D1; background: rgba(6,148,209,0.12); border-color: rgba(6,148,209,0.25); }
@@ -3815,7 +3815,7 @@ p {
 }
 
 /* ── TESTIMONIALS ── */
-.test-sec { background: #E8F4FA; padding: 40px 48px; overflow: hidden; position: relative; border-top: 1px solid #CAEFFF; }
+.test-sec { background: #E8F4FA; padding: 30px 48px; overflow: hidden; position: relative; border-top: 1px solid #CAEFFF; }
 .test-inner { max-width: 1200px; margin: 0 auto; position: relative; }
 .test-sec .sec-title { color: var(--light-text); }
 .test-sec .sec-sub { color: var(--light-sub); }
@@ -3883,7 +3883,7 @@ p {
 /* ── GLOBE SECTION ── */
 .globe-sec {
   background: var(--light-white);
-  padding: 40px 48px;
+  padding: 30px 48px;
   overflow: hidden;
   position: relative;
   border-top: 1px solid var(--light-border);
@@ -4000,7 +4000,7 @@ p {
 /* ── COMPANIES SECTION ── */
 .companies-sec {
   background: var(--light-white);
-  padding: 40px 0;
+  padding: 30px 0;
   border-top: 1px solid var(--light-border);
   border-bottom: 1px solid var(--light-border);
   overflow: hidden;
@@ -4175,7 +4175,7 @@ p {
 
 /* ── CERT SHOWCASE ── */
 .cert-showcase-sec {
-  background: var(--light-bg); padding: 40px 48px;
+  background: var(--light-bg); padding: 30px 48px;
   overflow: hidden; position: relative;
 }
 .cert-showcase-sec::before {
@@ -4354,7 +4354,7 @@ p {
 /* ── AWARDS SLIDER ── */
 .awards-sec {
   background: var(--ink);
-  padding: 40px 48px;
+  padding: 30px 48px;
   overflow: hidden;
   position: relative;
   border-top: 1px solid rgba(6,148,209,0.12);
@@ -4617,7 +4617,7 @@ p {
 
 /* ── HOW TO GET MICROSOFT CERTIFIED — HORIZONTAL TIMELINE ── */
 .certpath-sec {
-  background: var(--ink); padding: 40px 48px;
+  background: var(--ink); padding: 30px 48px;
   position: relative; overflow: hidden;
   border-top: 1px solid rgba(255,255,255,0.06);
 }
@@ -4998,7 +4998,7 @@ p {
 }
 
 /* ── ROI & CAREER OUTCOMES — mirrored layout of edge-sec ── */
-.roi-sec { background: linear-gradient(160deg, #d6eef9 0%, #e4f4fb 50%, #eff9fd 100%); padding: 40px 0; }
+.roi-sec { background: linear-gradient(160deg, #d6eef9 0%, #e4f4fb 50%, #eff9fd 100%); padding: 30px 0; }
 .roi-inner {
   display: flex; flex-direction: row-reverse; align-items: center;
   max-width: var(--container); margin: 0 auto; padding: 0 var(--px);
@@ -5089,7 +5089,7 @@ p {
 }
 
 /* ── KOENIG EDGE SECTION ── */
-.edge-sec { background: #001523; padding: 40px 0; }
+.edge-sec { background: #001523; padding: 30px 0; }
 .edge-inner {
   display: flex; align-items: center;
   max-width: var(--container); margin: 0 auto; padding: 0 var(--px);
@@ -5755,7 +5755,7 @@ p {
 ══════════════════════════════════════════════════════ */
 .ced-sec {
   background: var(--light-white);
-  padding: 40px 40px;
+  padding: 30px 40px;
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--light-border);
@@ -6317,7 +6317,7 @@ p {
 }
 
 /* ══ COMPARISON TABLE ══ */
-.compare-sec { background: radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%); padding: 40px 48px; overflow: hidden; position: relative; }
+.compare-sec { background: radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 45%, #040C18 100%); padding: 30px 48px; overflow: hidden; position: relative; }
 .compare-sec::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(6,148,209,0.08) 0%, transparent 70%); pointer-events:none; }
 .compare-inner { max-width: var(--container); margin: 0 auto; position: relative; }
 .compare-header { text-align: center; margin-bottom: 28px; }
@@ -6395,7 +6395,7 @@ p {
 }
 
 /* ══ PRICING TIERS ══ */
-.pricing-sec { background: #f8fafc; padding: 40px 48px; border-top: 1px solid rgba(6,148,209,0.1); }
+.pricing-sec { background: #f8fafc; padding: 30px 48px; border-top: 1px solid rgba(6,148,209,0.1); }
 .pricing-inner { max-width: var(--container); margin: 0 auto; }
 .pricing-trust-strip { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; font-size: 12px; font-weight: 600; color: #6b8299; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 28px; }
 .pts-dot { color: var(--blue); opacity: 0.5; }
@@ -6476,7 +6476,7 @@ p {
 }
 
 /* ══ REFERRAL SECTION ══ */
-.referral-sec { background: #f0f6fb; padding: 40px 48px 24px; border-top: 1px solid rgba(6,148,209,0.1); overflow: hidden; position: relative; }
+.referral-sec { background: #f0f6fb; padding: 30px 48px; border-top: 1px solid rgba(6,148,209,0.1); overflow: hidden; position: relative; }
 .referral-sec::before { content:''; position:absolute; top:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle, rgba(6,148,209,0.07) 0%, transparent 65%); pointer-events:none; border-radius:50%; }
 .referral-sec::after { content:''; position:absolute; bottom:-100px; left:-100px; width:400px; height:400px; background:radial-gradient(circle, rgba(80,230,255,0.05) 0%, transparent 65%); pointer-events:none; border-radius:50%; }
 .referral-inner { max-width: var(--container); margin: 0 auto; position: relative; z-index: 1; }
@@ -6616,7 +6616,7 @@ p {
 }
 
 /* ══ LEARNING FORMATS ══ */
-.lf-sec { background:linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%); padding:40px 50px; border-top:1px solid rgba(6,148,209,0.12); position:relative; overflow:hidden; }
+.lf-sec { background:linear-gradient(135deg,#061e30 0%,#093148 50%,#062240 100%); padding:30px 50px; border-top:1px solid rgba(6,148,209,0.12); position:relative; overflow:hidden; }
 .lf-inner { max-width:1120px; margin:0 auto; position:relative; z-index:1; }
 .lf-eyebrow { display:inline-block; background:rgba(6,148,209,0.18); color:#0694D1; font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; padding:6px 16px; border-radius:20px; margin-bottom:12px; }
 .lf-h2 { font-size:24px; font-weight:800; color:#fff; line-height:1.4; margin-bottom:12px; }
@@ -6651,7 +6651,7 @@ p {
 @media(max-width:540px){ .lf-sec{padding:48px 16px} .lf-grid{grid-template-columns:1fr} .lf-card{height:360px} }
 
 /* ══ UPCOMING BATCHES ══ */
-.batches-sec { background:#EBF8FE; padding:40px 50px; border-top:1px solid #CAEFFF; position:relative; overflow:hidden; }
+.batches-sec { background:#EBF8FE; padding:30px 50px; border-top:1px solid #CAEFFF; position:relative; overflow:hidden; }
 .batches-sec::before { content:''; position:absolute; top:-100px; right:-80px; width:380px; height:380px; background:radial-gradient(circle,rgba(6,148,209,0.2) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
 .batches-sec::after  { content:''; position:absolute; bottom:-64px; left:25%; width:300px; height:300px; background:radial-gradient(circle,rgba(77,191,239,0.18) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
 .batches-inner { max-width:1120px; margin:0 auto; position:relative; z-index:1; }
@@ -6694,8 +6694,21 @@ p {
   .batch-reserve-btn{white-space:normal; width:100%; text-align:center;}
 }
 
+/* Colour reference from the course-card screenshot: light pill badges (white/subtle
+   border, dark text) instead of the solid gradient fills .cert-badge/.cert-hot-badge
+   use elsewhere. Scoped to .batch-card only — layout/content unchanged, and the
+   shared classes on the main certification cards elsewhere are untouched. */
+.batch-card .cert-badge {
+  background: #fff !important; color: #0f1f3d !important;
+  border: 1px solid #E2E8F0 !important; box-shadow: none !important;
+}
+.batch-card .cert-hot-badge {
+  background: rgba(6,148,209,0.10) !important; color: #0694D1 !important;
+  box-shadow: none !important;
+}
+
 /* ══ WEBINARS ══ */
-.webinars-sec { background:linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%); padding:40px 50px; border-top:1px solid #CAEFFF; border-bottom:1px solid #CAEFFF; position:relative; overflow:hidden; }
+.webinars-sec { background:linear-gradient(160deg,#EBF8FE 0%,#F5FBFF 50%,#EAF6FD 100%); padding:30px 50px; border-top:1px solid #CAEFFF; border-bottom:1px solid #CAEFFF; position:relative; overflow:hidden; }
 .webinars-inner { max-width:1120px; margin:0 auto; position:relative; z-index:1; }
 .webinars-center-hd { text-align:center; margin-bottom:40px; }
 .webinars-h2 { font-size:clamp(20px,2.4vw,30px); font-weight:700; color:#071e2e; margin-bottom:8px; line-height:1.25; }
