@@ -478,7 +478,9 @@ export default function CourseListings() {
                   className={`cert-sidebar-item${activeTechName === t.name ? " active" : ""}`}
                   onClick={() => { setActiveTechName(activeTechName === t.name ? "" : t.name); setActiveSubTechs(new Set()); }}
                 >
-                  <span className="csi-icon">{techLogos[t.name]}</span>
+                  <span className="csi-radio">
+                    {activeTechName === t.name && <span className="csi-radio-dot" />}
+                  </span>
                   <div className="csi-body"><span className="csi-label">{t.name}</span></div>
                   <span className="csi-count">{t.courses.length}</span>
                 </button>
@@ -1150,6 +1152,10 @@ export default function CourseListings() {
         .cert-sidebar-item.active .csi-icon { opacity: 1; background: rgba(6,148,209,0.08); }
         .cert-sidebar-item.active .csi-count { background: rgba(6,148,209,0.1); color: #0694D1; border-color: rgba(6,148,209,0.3); }
         .csi-icon { width: 26px; height: 26px; flex-shrink: 0; opacity: 0.6; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.22s; }
+        .csi-radio { width: 16px; height: 16px; flex-shrink: 0; border-radius: 50%; border: 1.5px solid rgba(6,148,209,0.3); background: rgba(6,148,209,0.06); display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; }
+        .cert-sidebar-item:hover .csi-radio { border-color: rgba(6,148,209,0.5); background: rgba(6,148,209,0.1); }
+        .cert-sidebar-item.active .csi-radio { border-color: #0694D1; background: rgba(6,148,209,0.12); }
+        .csi-radio-dot { width: 8px; height: 8px; border-radius: 50%; background: #0694D1; }
         .csi-body { flex: 1; min-width: 0; }
         .csi-label { font-size: 13px; font-weight: 600; color: #0f1f3d; display: block; line-height: 1.3; }
         .csi-count { font-size: 11px; font-weight: 700; color: #6b8499; background: #f0f9ff; border: 1px solid #CAEFFF; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; min-width: 28px; text-align: center; }
