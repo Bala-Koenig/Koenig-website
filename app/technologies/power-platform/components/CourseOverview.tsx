@@ -345,12 +345,12 @@ export default function CourseOverview() {
           </div>
 
           {/* Hero stat banner */}
-          <div style={{ position: "relative", overflow: "hidden", borderRadius: 18, padding: "32px", textAlign: "center", marginBottom: 24, background: "radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 55%, #040C18 100%)" }}>
-            <div style={{ pointerEvents: "none", position: "absolute", right: -32, top: -32, width: 160, height: 160, borderRadius: "50%", background: "radial-gradient(circle, rgba(6,148,209,0.25) 0%, transparent 70%)" }} />
-            <div style={{ pointerEvents: "none", position: "absolute", left: -32, bottom: 0, width: 130, height: 130, borderRadius: "50%", background: "radial-gradient(circle, rgba(77,191,239,0.15) 0%, transparent 70%)" }} />
+          <div style={{ position: "relative", overflow: "hidden", borderRadius: 18, padding: "32px", textAlign: "center", marginBottom: 24, background: "radial-gradient(ellipse at 55% 40%, #F2FAFF 0%, #E4F7FF 55%, #D5EFFC 100%)", border: "1px solid rgba(6,148,209,0.15)" }}>
+            <div style={{ pointerEvents: "none", position: "absolute", right: -32, top: -32, width: 160, height: 160, borderRadius: "50%", background: "radial-gradient(circle, rgba(6,148,209,0.16) 0%, transparent 70%)" }} />
+            <div style={{ pointerEvents: "none", position: "absolute", left: -32, bottom: 0, width: 130, height: 130, borderRadius: "50%", background: "radial-gradient(circle, rgba(77,191,239,0.12) 0%, transparent 70%)" }} />
             <div style={{ position: "relative" }}>
               <div className="font-heading font-medium" style={{ fontSize: 52, lineHeight: 1, marginBottom: 6, background: "linear-gradient(to right,#0694D1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>72%</div>
-              <p className="font-body" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)" }}>of Power Platform certified professionals report career advancement within 6 months</p>
+              <p className="font-body" style={{ fontSize: 14, color: "#4a6375" }}>of Power Platform certified professionals report career advancement within 6 months</p>
             </div>
           </div>
 
