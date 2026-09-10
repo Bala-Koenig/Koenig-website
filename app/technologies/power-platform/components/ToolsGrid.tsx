@@ -53,6 +53,11 @@ export default function ToolsGrid() {
   return (
     <section id="tools" ref={sectionRef} className="py-24 overflow-hidden" style={{ backgroundColor: "#F0F9FF" }} aria-labelledby="tools-heading">
       <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent, rgba(6,148,209,0.2), transparent)` }} />
+      <style suppressHydrationWarning>{`
+        @media (max-width: 700px) {
+          #tools-heading { font-size: 20px !important; }
+        }
+      `}</style>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="animate-on-scroll text-center max-w-3xl mx-auto mb-14">

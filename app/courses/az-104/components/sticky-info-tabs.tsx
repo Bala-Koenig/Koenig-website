@@ -233,9 +233,18 @@ export function StickyInfoTabs(_props: StickyInfoTabsProps = {}) {
   });
   const tabBtnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  /* Scroll active mobile tab into view when it changes */
+  /* Scroll active mobile tab into view within the horizontal tab strip only —
+     scrollIntoView (even with block:"nearest") can decide the page itself
+     also needs scrolling, yanking the whole page back to the top. Scroll
+     just the tab strip's own scrollLeft instead. */
   useEffect(() => {
-    tabBtnRefs.current[active]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    const btn = tabBtnRefs.current[active];
+    const container = btn?.parentElement;
+    if (!btn || !container) return;
+    container.scrollTo({
+      left: btn.offsetLeft - container.clientWidth / 2 + btn.offsetWidth / 2,
+      behavior: "smooth",
+    });
   }, [active]);
 
   /* Scroll-spy via IntersectionObserver */
@@ -454,12 +463,12 @@ export function StickyInfoTabs(_props: StickyInfoTabsProps = {}) {
 
               <div className="space-y-5">
                 {/* Hero stat banner */}
-                <div className="relative overflow-hidden rounded-2xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 55% 40%, #0D3F5A 0%, #071B2E 55%, #040C18 100%)" }}>
-                  <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full" style={{ background: "radial-gradient(circle, rgba(6,148,209,0.25) 0%, transparent 70%)" }} />
-                  <div className="pointer-events-none absolute -left-10 bottom-0 h-40 w-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(77,191,239,0.15) 0%, transparent 70%)" }} />
+                <div className="relative overflow-hidden rounded-2xl border border-koenig-blue/15 bg-white p-8 text-center" style={{ boxShadow: "0 4px 24px rgba(6,148,209,0.10)" }}>
+                  <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full" style={{ background: "radial-gradient(circle, rgba(6,148,209,0.12) 0%, transparent 70%)" }} />
+                  <div className="pointer-events-none absolute -left-10 bottom-0 h-40 w-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(77,191,239,0.10) 0%, transparent 70%)" }} />
                   <div className="relative">
                     <div className="mb-1 bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-5xl font-bold text-transparent">86%</div>
-                    <p className="text-sm text-white/70">of AZ-104 certified professionals report career advancement within 6 months</p>
+                    <p className="text-sm text-koenig-muted">of AZ-104 certified professionals report career advancement within 6 months</p>
                   </div>
                 </div>
 

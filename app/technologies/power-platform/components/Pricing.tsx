@@ -337,6 +337,9 @@ export default function Pricing() {
 
       {/* Responsive styles */}
       <style jsx>{`
+        @media (max-width: 700px) {
+          #pricing-heading { font-size: 20px !important; }
+        }
         @media (max-width: 992px) {
           div[style*="grid-template-columns: repeat(3"] {
             grid-template-columns: 1fr !important;

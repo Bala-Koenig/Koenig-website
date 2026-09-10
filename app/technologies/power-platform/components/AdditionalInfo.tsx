@@ -171,6 +171,7 @@ export default function AdditionalInfo() {
           .ai-shimmer-inner  { width: 100%; border-radius: 16px; }
           .ai-tab-btn        { flex: 1; justify-content: center; padding: 10px 8px; }
           .ai-tab-sub        { display: none; }
+          .ai-section-h2     { font-size: 20px !important; }
         }
         @media(max-width:480px){
           .ai-tab-icon { display: none; }
@@ -213,7 +214,7 @@ export default function AdditionalInfo() {
           {/* ── Tab 0: Prerequisites ─────────────────────── */}
           {activeTab === 0 && (
             <div className="animate-on-scroll" style={{ maxWidth: 900, margin: "0 auto" }}>
-              <h2 style={{ fontSize: "clamp(18px, 1.8vw, 22px)", fontWeight: 800, color: C.dark, marginBottom: 24, fontFamily: "'GTWalsheimPro', sans-serif" }}>
+              <h2 className="ai-section-h2" style={{ fontSize: "clamp(18px, 1.8vw, 22px)", fontWeight: 800, color: C.dark, marginBottom: 24, fontFamily: "'GTWalsheimPro', sans-serif" }}>
                 Prerequisites for{" "}
                 <span style={{ background: "linear-gradient(to right, #0694D1, #22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                   Certification
@@ -249,7 +250,7 @@ export default function AdditionalInfo() {
           {/* ── Tab 1: Who Should Attend ─────────────────── */}
           {activeTab === 1 && (
             <div className="animate-on-scroll" style={{ maxWidth: 900, margin: "0 auto" }}>
-              <h2 style={{ fontSize: "clamp(18px, 1.8vw, 22px)", fontWeight: 800, color: C.dark, marginBottom: 24, fontFamily: "'GTWalsheimPro', sans-serif" }}>
+              <h2 className="ai-section-h2" style={{ fontSize: "clamp(18px, 1.8vw, 22px)", fontWeight: 800, color: C.dark, marginBottom: 24, fontFamily: "'GTWalsheimPro', sans-serif" }}>
                 Who Should Take{" "}
                 <span style={{ background: "linear-gradient(to right, #0694D1, #22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                   This Course?

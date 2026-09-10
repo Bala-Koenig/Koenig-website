@@ -43,6 +43,11 @@ export default function KeyFeatures() {
       style={{ backgroundColor: C.bg }}
       aria-labelledby="features-heading"
     >
+      <style suppressHydrationWarning>{`
+        @media (max-width: 700px) {
+          #features-heading { font-size: 20px !important; }
+        }
+      `}</style>
       <div className="absolute inset-0 dot-pattern opacity-30" />
       <div className="absolute inset-x-0 top-0 h-px cosmos-divider" />
       <div className="absolute inset-x-0 bottom-0 h-px cosmos-divider" />

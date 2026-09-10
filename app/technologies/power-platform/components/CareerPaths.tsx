@@ -111,6 +111,7 @@ export default function CareerPaths() {
           .cp-desktop-grid { display: grid; }
           .cp-mobile-carousel { display: none; }
           @media(max-width:700px) {
+            #careers-heading, #cp-roadmap-heading { font-size: 20px !important; }
             .cp-desktop-grid { display: none !important; }
             .cp-mobile-carousel { display: block; margin-bottom: 40px; }
             .cp-track-wrap { overflow: hidden; }
@@ -193,7 +194,7 @@ export default function CareerPaths() {
         {/* Cert roadmap */}
         <div className="animate-on-scroll" style={{ transitionDelay: "0.15s" }}>
           <div className="text-center mb-10">
-            <h2 className="font-heading font-medium text-2xl" style={{ color: C.light }}>
+            <h2 id="cp-roadmap-heading" className="font-heading font-medium text-2xl" style={{ color: C.light }}>
               Certification <span className="text-shimmer">Roadmap</span>
             </h2>
             <p className="text-sm font-body mt-1" style={{ color: "rgba(228,247,255,0.4)" }}>All certifications covered in this program</p>

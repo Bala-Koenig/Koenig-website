@@ -164,7 +164,7 @@ export default function UpcomingBatches() {
         .ub-view-more-btn { display:flex; align-items:center; justify-content:center; gap:6px; margin:24px auto 0; padding:0; background:none; border:none; color:#0694D1; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; text-decoration:underline; text-underline-offset:3px; transition:color 0.18s; }
         .ub-view-more-btn:hover { color:#046fa3; }
         @media(max-width:1100px) { .ub-batches-grid{grid-template-columns:repeat(2,1fr)} }
-        @media(max-width:700px) { .ub-batches-sec{padding:18px 16px} }
+        @media(max-width:700px) { .ub-batches-sec{padding:18px 16px} .ub-batches-h2{font-size:20px !important} }
         @media(max-width:600px) { .ub-batches-sec{padding:18px 16px} .ub-batches-grid{grid-template-columns:1fr} .ub-batches-hd{flex-direction:column;gap:15px} .ub-batch-footer{flex-wrap:wrap} }
       `}</style>
 

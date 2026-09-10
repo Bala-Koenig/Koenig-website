@@ -403,6 +403,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Power BI Data Analyst Associate", code: "PL-300", dur: "3 days", level: "assoc", url: "/courses/pl-300" },
       { name: "Azure Data Engineer Associate", code: "DP-203", dur: "4 days", level: "assoc", url: "/courses/dp-203" },
       { name: "Fabric Analytics Engineer Associate", code: "DP-600", dur: "4 days", level: "expert", url: "/courses/dp-600" },
+      { name: "Azure Data Fundamentals", code: "DP-900", dur: "1 day", level: "fund", url: "/courses/dp-900" },
+      { name: "Implementing Data Engineering Solutions Using Microsoft Fabric", code: "DP-700", dur: "4 days", level: "expert", url: "/courses/dp-700" },
+      { name: "Designing and Implementing Microsoft DevOps Solutions", code: "AZ-400", dur: "5 days", level: "expert", url: "/courses/az-400" },
+      { name: "Azure Solutions Architect Expert", code: "AZ-305", dur: "4 days", level: "expert", url: "/courses/az-305" },
     ],
   };
   if (/security|cyber|soc|sentinel|defender/i.test(t) && isAdvancing) return {
@@ -412,6 +416,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Microsoft Azure Security Technologies", code: "AZ-500", dur: "4 days", level: "assoc", url: "/courses/az-500" },
       { name: "Microsoft Security Operations Analyst", code: "SC-200", dur: "4 days", level: "assoc", url: "/courses/sc-200" },
       { name: "Microsoft Cybersecurity Architect", code: "SC-100", dur: "4 days", level: "expert", url: "/courses/sc-100" },
+      { name: "Microsoft Identity and Access Administrator", code: "SC-300", dur: "4 days", level: "assoc", url: "/courses/sc-300" },
+      { name: "Microsoft Information Protection Administrator", code: "SC-400", dur: "4 days", level: "assoc", url: "/courses/sc-400" },
+      { name: "Microsoft Security Fundamentals", code: "SC-900", dur: "1 day", level: "fund", url: "/courses/sc-900" },
+      { name: "Microsoft Azure Administrator", code: "AZ-104", dur: "4 days", level: "assoc", url: "/courses/az-104" },
     ],
   };
   if (/devops|pipeline|ci.?cd|github|terraform/i.test(t) && isAdvancing) return {
@@ -421,6 +429,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Azure Solutions Architect Expert", code: "AZ-305", dur: "4 days", level: "expert", url: "/courses/az-305" },
       { name: "Designing and Implementing Microsoft DevOps Solutions", code: "AZ-400", dur: "5 days", level: "expert", url: "/courses/az-400" },
       { name: "Azure Data Engineer Associate", code: "DP-203", dur: "4 days", level: "assoc", url: "/courses/dp-203" },
+      { name: "Microsoft Azure Administrator", code: "AZ-104", dur: "4 days", level: "assoc", url: "/courses/az-104" },
+      { name: "Developing Solutions for Microsoft Azure", code: "AZ-204", dur: "5 days", level: "assoc", url: "/courses/az-204" },
+      { name: "GitHub Actions: Automate Your Workflow", code: "GH-Actions", dur: "1 day", level: "fund", url: "/courses/gh-actions" },
+      { name: "Microsoft Azure Security Technologies", code: "AZ-500", dur: "4 days", level: "assoc", url: "/courses/az-500" },
     ],
   };
 
@@ -431,6 +443,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Microsoft Azure Fundamentals", code: "AZ-900", dur: "2 days", level: "fund", url: "/courses/az-900" },
       { name: "Microsoft Azure Administrator", code: "AZ-104", dur: "4 days", level: "assoc", url: "/courses/az-104" },
       { name: "Azure Solutions Architect Expert", code: "AZ-305", dur: "4 days", level: "expert", url: "/courses/az-305" },
+      { name: "Developing Solutions for Microsoft Azure", code: "AZ-204", dur: "5 days", level: "assoc", url: "/courses/az-204" },
+      { name: "Designing and Implementing Microsoft DevOps Solutions", code: "AZ-400", dur: "5 days", level: "expert", url: "/courses/az-400" },
+      { name: "Microsoft Security Fundamentals", code: "SC-900", dur: "1 day", level: "fund", url: "/courses/sc-900" },
+      { name: "Azure AI Fundamentals", code: "AI-900", dur: "1 day", level: "fund", url: "/courses/ai-900" },
     ],
   };
   if (/ai|machine learning|ml|artificial intelligence|cognitive|openai/i.test(t)) return {
@@ -440,6 +456,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Azure AI Fundamentals", code: "AI-900", dur: "1 day", level: "fund", url: "/courses/ai-900" },
       { name: "Designing and Implementing a Data Science Solution on Azure", code: "DP-100", dur: "3 days", level: "assoc", url: "/courses/dp-100" },
       { name: "Designing and Implementing an Azure AI Solution", code: "AI-102", dur: "4 days", level: "expert", url: "/courses/ai-102" },
+      { name: "Develop Generative AI Solutions with Azure OpenAI", code: "AI-3018", dur: "3 days", level: "assoc", url: "/courses/ai-3018" },
+      { name: "Craft Effective Prompts for Microsoft Copilot for M365", code: "MS-4005", dur: "1 day", level: "fund", url: "/courses/ms-4005" },
+      { name: "Empower Your Workforce with Copilot for Microsoft 365", code: "MS-4004", dur: "2 days", level: "assoc", url: "/courses/ms-4004" },
+      { name: "Create Automated Processes Using Copilot Studio", code: "PL-7005", dur: "2 days", level: "assoc", url: "/courses/pl-7005" },
     ],
   };
   if (/devops|pipeline|ci.?cd|continuous|deployment|github|terraform/i.test(t)) return {
@@ -449,6 +469,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Microsoft Azure Administrator", code: "AZ-104", dur: "4 days", level: "assoc", url: "/courses/az-104" },
       { name: "Azure Solutions Architect Expert", code: "AZ-305", dur: "4 days", level: "expert", url: "/courses/az-305" },
       { name: "Designing and Implementing Microsoft DevOps Solutions", code: "AZ-400", dur: "5 days", level: "expert", url: "/courses/az-400" },
+      { name: "Developing Solutions for Microsoft Azure", code: "AZ-204", dur: "5 days", level: "assoc", url: "/courses/az-204" },
+      { name: "GitHub Actions: Automate Your Workflow", code: "GH-Actions", dur: "1 day", level: "fund", url: "/courses/gh-actions" },
+      { name: "Accelerate Developer Productivity with GitHub Copilot", code: "AZ-2009", dur: "2 days", level: "assoc", url: "/courses/az-2009" },
+      { name: "Deploy Cloud-Native Apps Using Azure Container Apps", code: "AZ-2003", dur: "3 days", level: "assoc", url: "/courses/az-2003" },
     ],
   };
   if (/microsoft.?365|m365|office.?365|teams|sharepoint|exchange|intune/i.test(t)) return {
@@ -458,6 +482,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Microsoft 365 Fundamentals", code: "MS-900", dur: "1 day", level: "fund", url: "/courses/ms-900" },
       { name: "Microsoft Teams Administrator Associate", code: "MS-700", dur: "4 days", level: "assoc", url: "/courses/ms-700" },
       { name: "Microsoft 365 Administrator Expert", code: "MS-102", dur: "5 days", level: "expert", url: "/courses/ms-102" },
+      { name: "Microsoft 365 Endpoint Administrator", code: "MD-102", dur: "5 days", level: "assoc", url: "/courses/md-102" },
+      { name: "Collaboration Communications Systems Engineer", code: "MS-721", dur: "5 days", level: "expert", url: "/courses/ms-721" },
+      { name: "Empower Your Workforce with Copilot for Microsoft 365", code: "MS-4004", dur: "2 days", level: "assoc", url: "/courses/ms-4004" },
+      { name: "Craft Effective Prompts for Microsoft Copilot for M365", code: "MS-4005", dur: "1 day", level: "fund", url: "/courses/ms-4005" },
     ],
   };
   if (/security|cyber|soc|sentinel|defender|compliance|zero trust/i.test(t)) return {
@@ -467,6 +495,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Microsoft Security Fundamentals", code: "SC-900", dur: "1 day", level: "fund", url: "/courses/sc-900" },
       { name: "Microsoft Security Operations Analyst", code: "SC-200", dur: "4 days", level: "assoc", url: "/courses/sc-200" },
       { name: "Microsoft Azure Security Technologies", code: "AZ-500", dur: "4 days", level: "expert", url: "/courses/az-500" },
+      { name: "Microsoft Identity and Access Administrator", code: "SC-300", dur: "4 days", level: "assoc", url: "/courses/sc-300" },
+      { name: "Microsoft Information Protection Administrator", code: "SC-400", dur: "4 days", level: "assoc", url: "/courses/sc-400" },
+      { name: "Microsoft Cybersecurity Architect", code: "SC-100", dur: "4 days", level: "expert", url: "/courses/sc-100" },
+      { name: "Microsoft Azure Administrator", code: "AZ-104", dur: "4 days", level: "assoc", url: "/courses/az-104" },
     ],
   };
   if (/data|database|sql|synapse|analytics|fabric|power.?bi/i.test(t)) return {
@@ -476,6 +508,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Azure Data Fundamentals", code: "DP-900", dur: "1 day", level: "fund", url: "/courses/dp-900" },
       { name: "Azure Data Engineer Associate", code: "DP-203", dur: "4 days", level: "assoc", url: "/courses/dp-203" },
       { name: "Fabric Analytics Engineer Associate", code: "DP-600", dur: "4 days", level: "expert", url: "/courses/dp-600" },
+      { name: "Administering Microsoft Azure SQL Solutions", code: "DP-300", dur: "3 days", level: "assoc", url: "/courses/dp-300" },
+      { name: "Implementing Data Engineering Solutions Using Microsoft Fabric", code: "DP-700", dur: "4 days", level: "expert", url: "/courses/dp-700" },
+      { name: "Power BI Data Analyst Associate", code: "PL-300", dur: "3 days", level: "assoc", url: "/courses/pl-300" },
+      { name: "Designing and Implementing a Data Science Solution on Azure", code: "DP-100", dur: "3 days", level: "assoc", url: "/courses/dp-100" },
     ],
   };
   if (/cisco|ccna|ccnp|ccie|router|switch(ing)?|routing|vlan|ospf|bgp/i.test(t)) return {
@@ -485,6 +521,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Cisco Certified Network Associate (CCNA)", code: "CCNA 200-301", dur: "5 days", level: "assoc", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
       { name: "Cisco Certified Network Professional (CCNP)", code: "CCNP", dur: "5 days", level: "expert", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
       { name: "Cisco Certified Internetwork Expert (CCIE)", code: "CCIE", dur: "5 days", level: "expert", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
+      { name: "Implementing and Operating Cisco Enterprise Network Core Technologies", code: "ENCOR 350-401", dur: "5 days", level: "assoc", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
+      { name: "Cisco Certified DevNet Associate", code: "DEVASC", dur: "5 days", level: "assoc", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
+      { name: "Cisco Certified CyberOps Associate", code: "CBROPS", dur: "5 days", level: "assoc", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
+      { name: "Cisco Certified Support Technician (CCST) Networking", code: "CCST", dur: "2 days", level: "fund", url: "https://www.koenig-solutions.com/cisco-training-certification-courses" },
     ],
   };
   return {
@@ -494,6 +534,10 @@ export function classifyAiQuery(q: string): AiClassifyResult {
       { name: "Microsoft Azure Fundamentals", code: "AZ-900", dur: "2 days", level: "fund", url: "/courses/az-900" },
       { name: "Microsoft Azure Administrator", code: "AZ-104", dur: "4 days", level: "Intermediate", url: "/courses/az-104" },
       { name: "Azure Solutions Architect Expert", code: "AZ-305", dur: "4 days", level: "expert", url: "/courses/az-305" },
+      { name: "Developing Solutions for Microsoft Azure", code: "AZ-204", dur: "5 days", level: "assoc", url: "/courses/az-204" },
+      { name: "Designing and Implementing Microsoft DevOps Solutions", code: "AZ-400", dur: "5 days", level: "expert", url: "/courses/az-400" },
+      { name: "Microsoft Security Fundamentals", code: "SC-900", dur: "1 day", level: "fund", url: "/courses/sc-900" },
+      { name: "Azure AI Fundamentals", code: "AI-900", dur: "1 day", level: "fund", url: "/courses/ai-900" },
     ],
   };
 }

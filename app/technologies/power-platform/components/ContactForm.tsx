@@ -63,6 +63,11 @@ export default function ContactForm({ initialType = "individual" }: { initialTyp
       style={{ backgroundColor: "#EEF7FD" }}
       aria-labelledby="contact-form-heading"
     >
+      <style suppressHydrationWarning>{`
+        @media (max-width: 700px) {
+          #contact-form-heading { font-size: 20px !important; }
+        }
+      `}</style>
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div
           className="animate-on-scroll rounded-3xl p-8 sm:p-10 border"

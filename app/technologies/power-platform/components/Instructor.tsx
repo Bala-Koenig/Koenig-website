@@ -35,6 +35,11 @@ export default function Instructor() {
 
   return (
     <section id="instructor" ref={sectionRef} className="py-24 bg-white overflow-hidden" aria-labelledby="instructor-heading">
+      <style suppressHydrationWarning>{`
+        @media (max-width: 700px) {
+          #instructor-heading { font-size: 20px !important; }
+        }
+      `}</style>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="animate-on-scroll text-center max-w-3xl mx-auto mb-14">
           <span className="section-badge mb-5 inline-flex"><svg viewBox="0 0 24 24" fill="none" width="14" height="14" style={{display:'inline',verticalAlign:'middle'}}><rect x="2" y="3" width="20" height="14" rx="2" stroke="#0694D1" strokeWidth="1.8"/><path d="M8 21h8M12 17v4" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M6 10h4M14 10h4M10 7v6" stroke="#0694D1" strokeWidth="1.5" strokeLinecap="round"/></svg> Expert Trainers</span>

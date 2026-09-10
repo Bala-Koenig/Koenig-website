@@ -29,6 +29,7 @@ export default function Curriculum() {
     <>
     <style suppressHydrationWarning>{`
       @media(max-width:700px){
+        #curriculum-heading { font-size: 20px !important; }
         .curr-pills-grid { grid-template-columns: repeat(2,1fr) !important; }
         .curr-accordion-btn { padding-left: 16px !important; padding-right: 16px !important; padding-top: 14px !important; padding-bottom: 14px !important; gap: 12px !important; }
         .curr-accordion-body { padding-left: 16px !important; padding-right: 16px !important; padding-bottom: 16px !important; }

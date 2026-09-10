@@ -1,6 +1,7 @@
 ﻿"use client";
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback, memo } from "react";
+import { createPortal } from "react-dom";
 import { Boxes } from "./components/ui/background-boxes";
 import ScrollFAQAccordion from "./components/ui/scroll-faqaccordion";
 import TwitterTestimonials from "./components/ui/twitter-testimonial-cards";
@@ -892,7 +893,7 @@ p {
 .hero-h1 {
   font-family: var(--display);
   font-size: 32px;
-  font-weight: 800; line-height: 1.1;
+  font-weight: 500; line-height: 1.1;
   letter-spacing: -0.025em; color: var(--white);
   margin-bottom: 10px;
   animation: fadeUp 0.6s 0.1s ease both;
@@ -915,9 +916,9 @@ p {
   animation: fadeUp 0.6s 0.18s ease both;
   font-weight: 400;
 }
-.hero-sub strong { color: #38bdf8; font-weight: 700; }
+.hero-sub strong { color: #38bdf8; font-weight: 500; }
 .hero-sub-more { color: rgba(255,255,255,0.97); font-weight: 400; }
-.hero-sub-more strong { color: #38bdf8; font-weight: 700; }
+.hero-sub-more strong { color: #38bdf8; font-weight: 500; }
 .hero-sub-clamp {
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
   overflow: hidden;
@@ -2170,15 +2171,17 @@ p {
   display: flex; align-items: center; justify-content: center;
   border-radius: 7px;
 }
-.csi-radio {
-  width: 16px; height: 16px; flex-shrink: 0; border-radius: 50%;
+/* Technology list selector — checkbox (multi-select), not radio (single-select):
+   square with a checkmark, filled solid blue when checked, matching .cert-filter-checkbox
+   used by the Level list just below it. */
+.csi-checkbox {
+  width: 16px; height: 16px; flex-shrink: 0; border-radius: 4px;
   border: 1.5px solid rgba(6,148,209,0.3); background: rgba(6,148,209,0.06);
   display: flex; align-items: center; justify-content: center;
   transition: border-color 0.2s, background 0.2s;
 }
-.cert-sidebar-item:hover .csi-radio { border-color: rgba(6,148,209,0.5); background: rgba(6,148,209,0.1); }
-.cert-sidebar-item.active .csi-radio { border-color: var(--blue); background: rgba(6,148,209,0.12); }
-.csi-radio-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+.cert-sidebar-item:hover .csi-checkbox { border-color: rgba(6,148,209,0.5); background: rgba(6,148,209,0.1); }
+.cert-sidebar-item.active .csi-checkbox { border-color: var(--blue); background: var(--blue); }
 .cert-tech-search {
   display: flex; align-items: center; gap: 6px;
   margin: 0 12px 6px; padding: 5px 8px;
@@ -2663,10 +2666,10 @@ p {
   display: flex; align-items: center; gap: 10px; flex-shrink: 0;
 }
 .cf-footer-clear {
-  background: none; border: 1.5px solid #B5D4F4; color: #185FA5;
+  flex: 1; background: none; border: 1.5px solid #B5D4F4; color: #185FA5;
   border-radius: 8px; padding: 9px 14px;
   font-size: 13px; font-weight: 700; cursor: pointer;
-  font-family: inherit; transition: all 0.15s; white-space: nowrap;
+  font-family: inherit; transition: all 0.15s; white-space: nowrap; text-align: center;
 }
 .cf-footer-clear:hover { border-color: #0078D4; color: #0078D4; }
 .cf-footer-apply {
@@ -2680,12 +2683,57 @@ p {
 @media (max-width: 767px) {
   .cf-drawer {
     top: auto; left: 0; right: 0; bottom: 0;
-    width: 100%; max-width: 100%; max-height: 85vh;
+    width: 100%; max-width: 100%; height: 85vh; max-height: 85vh;
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -8px 32px rgba(0,0,0,0.2);
     animation: cfSlideInUp 0.25s cubic-bezier(0.4,0,0.2,1);
   }
   @keyframes cfSlideInUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+}
+
+/* ── Mobile "Technology: <selected>" popup — dedicated tech picker, separate from
+   the general filter drawer above. Centered dialog, not a bottom sheet. ── */
+.tech-modal {
+  position: fixed; top: 50%; left: 50%; z-index: 1001;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 32px); max-width: 360px; max-height: 80vh;
+  background: #fff;
+  display: flex; flex-direction: column;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  animation: techModalPop 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes techModalPop {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.tech-modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 16px 20px 14px;
+  border-bottom: 0.5px solid #e0ecf8;
+  flex-shrink: 0;
+}
+.tech-modal-eyebrow {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: #0694D1; margin-bottom: 3px;
+}
+.tech-modal-title { font-size: 18px; font-weight: 800; color: #0a1f33; }
+.tech-modal-list { flex: 1; overflow-y: auto; padding: 8px 12px 16px; }
+.tech-modal-item {
+  width: 100%; display: flex; align-items: center; gap: 12px;
+  padding: 11px 8px; border: none; background: none; cursor: pointer;
+  font-family: inherit; text-align: left; border-radius: 10px;
+  transition: background 0.15s;
+}
+.tech-modal-item:hover { background: #f5f9fc; }
+/* Radio indicator — same look as the desktop sidebar's .csi-radio/.csi-radio-dot */
+.tech-modal-item.active .csi-radio { border-color: var(--blue); background: rgba(6,148,209,0.12); }
+.tech-modal-item-label { flex: 1; font-size: 14px; font-weight: 600; color: #0a1f33; }
+.tech-modal-item.active .tech-modal-item-label { color: #0694D1; }
+.tech-modal-item-count {
+  flex-shrink: 0; font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: 10px;
+  background: #E8F1FB; color: #185FA5;
 }
 
 /* BOTTOM COURSE ROW */
@@ -5191,6 +5239,9 @@ p {
 }
 @media (max-width: 900px) {
   .certs-layout { grid-template-columns: 1fr; height: auto; }
+  /* Sidebar now stacks on top of cert-right — it had no top radius, so the section's
+     own background showed through the parent's rounded corner as a thin grey strip */
+  .cert-sidebar { border-radius: 20px 20px 0 0; overflow: hidden; }
   .cert-sidebar-label { display: none; }
   .cert-sidebar-divider { display: none; }
   .csi-sublabel { display: none; }
@@ -5209,7 +5260,8 @@ p {
   .cf-result-count-inline { display: none !important; }
   /* Ensure filter bar wraps correctly on mobile */
   .cf-bar-right { flex: 0 0 100%; width: 100% !important; }
-  .cf-sort { flex: 1 !important; min-width: 0 !important; }
+  .cf-sort { flex: 0 0 auto !important; min-width: 0 !important; padding: 6px 22px 6px 10px !important; }
+  .cf-filter-btn-mobile { flex: 1 !important; justify-content: center !important; }
 }
 @media (max-width: 768px) {
   .nav { padding: 0 20px; }
@@ -5366,7 +5418,7 @@ p {
   .test-sec { padding: 40px 20px; }
 
   /* Companies: no side padding here — .companies-sec already applies 16px edge padding on mobile; doubling it up narrowed the content */
-  .companies-headline-wrap { margin-bottom: 32px; padding: 0; }
+  .companies-headline-wrap { margin-bottom: 18px; padding: 0; }
   .company-logo-item { min-width: 100px; padding: 0 14px; }
   .company-logo-item svg { height: 20px; }
 
@@ -5488,8 +5540,9 @@ p {
   /* Filter bar: wrap to 2 rows so all elements are visible */
   .cf-bar { flex-wrap: wrap; padding: 8px 12px; gap: 6px; }
   .cf-search-wrap { flex: 0 0 100%; }
-  .cf-sort { flex: 1; min-width: 0; }
+  .cf-sort { flex: 0 0 auto; min-width: 0; }
   .cf-filter-btn { flex-shrink: 0; }
+  .cf-filter-btn-mobile { flex: 1; justify-content: center; }
 
   @keyframes cfFullIn { from { opacity:0; transform:scale(0.94); } to { opacity:1; transform:scale(1); } }
 
@@ -6685,6 +6738,14 @@ p {
 .batch-location-val { display:flex; align-items:center; gap:4px; font-size:13px; font-weight:700; color:#071e2e; margin-top:2px; }
 .batch-reserve-btn { padding:8px 16px; background:var(--blue); border:none; border-radius:var(--r8); color:#fff; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.2s,box-shadow 0.2s,transform 0.2s; box-shadow:0 2px 8px rgba(6,148,209,0.25); }
 .batch-reserve-btn:hover { background:#057ab5; box-shadow:0 6px 20px rgba(6,148,209,0.4); transform:translateY(-1px); }
+/* "View N more courses" — mobile-only 4-card collapse trigger, see UpcomingBatchesSection.
+   Plain underlined text link (same style as the FAQ "View N more questions" link). */
+.batches-view-more {
+  display: block; width: 100%; margin-top: 16px;
+  background: none; border: none; padding: 0;
+  color: #0694D1; font-size: 13px; font-weight: 600; text-decoration: underline;
+  cursor: pointer; font-family: inherit;
+}
 @media(max-width:900px){ .batches-sec{padding:40px 24px} .batches-grid{grid-template-columns:1fr 1fr} }
 @media(max-width:600px){
   .batches-sec{padding:15px 16px 48px}
@@ -6694,13 +6755,14 @@ p {
   .batch-reserve-btn{white-space:normal; width:100%; text-align:center;}
 }
 
-/* Colour reference from the course-card screenshot: light pill badges (white/subtle
-   border, dark text) instead of the solid gradient fills .cert-badge/.cert-hot-badge
-   use elsewhere. Scoped to .batch-card only — layout/content unchanged, and the
-   shared classes on the main certification cards elsewhere are untouched. */
+/* Colour reference from the course-card screenshot: light pill badges, matching
+   .cert-pill-level's exact colours (bg #F1F4F8, border #E1E7EE, text #4a5568)
+   instead of the solid gradient fills .cert-badge/.cert-hot-badge use elsewhere.
+   Scoped to .batch-card only — layout/content unchanged, and the shared classes
+   on the main certification cards elsewhere are untouched. */
 .batch-card .cert-badge {
-  background: #fff !important; color: #0f1f3d !important;
-  border: 1px solid #E2E8F0 !important; box-shadow: none !important;
+  background: #F1F4F8 !important; color: #4a5568 !important;
+  border: 1px solid #E1E7EE !important; box-shadow: none !important;
 }
 .batch-card .cert-hot-badge {
   background: rgba(6,148,209,0.10) !important; color: #0694D1 !important;
@@ -6908,25 +6970,66 @@ p {
   .preview-title,
   .hiw2-h2,
   .batches-h2,
-  .webinars-h2 {
+  .webinars-h2,
+  /* Every other page h2 was a one-off inline style (fixed px or its own clamp()),
+     so several landed at 22px instead of the 20px every other title uses. Marker
+     class added to each of those h2s — desktop inline color/weight/margin is
+     untouched, only font-size is forced here. */
+  .title-20-mobile {
     font-size: 20px !important;
     line-height: 1.3 !important;
     margin-bottom: 12px !important;
     white-space: normal !important;
   }
 
-  /* Hero title: same 20px, but tighter line spacing between the two lines */
+  /* Hero title: same 20px, but tighter line spacing between the two lines. */
   .hero-h1,
   .hero-h1 .h1-plain {
     font-size: 20px !important;
-    line-height: 1.15 !important;
+    line-height: 1.0 !important;
     margin-bottom: 12px !important;
     white-space: normal !important;
   }
 
-  /* ── Mobile: course card text — 14px minimum everywhere inside .cert-card ── */
-  .cert-hot-badge,
+  /* ── Mobile: course card text — course name stays 14px (untouched below),
+     price/"View course"/"Enquire now" stay at their original size (untouched),
+     everything else inside .cert-card is 12px ── */
+  .cert-hot-badge {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+  }
   .cert-badge,
+  .cert-pill,
+  .cert-pill-level {
+    font-size: 11px !important;
+    font-weight: 400 !important;
+  }
+  .cert-name {
+    font-size: 14px !important;
+  }
+  /* "All Courses" panel header — was showing the grey .cert-panel background behind it
+     (the search/filter bar below it is white) — match it to white, and tighten the padding */
+  .cert-list-header {
+    padding: 8px 16px 10px !important;
+    background: #fff !important;
+  }
+  /* Space between the mode toggle row and the "All Courses" card below it */
+  .certs-header {
+    margin-bottom: 4px !important;
+  }
+  .cert-section-top-row {
+    gap: 12px !important;
+  }
+  .cert-mode-wrap {
+    margin-top: 0 !important;
+  }
+  /* Toggle's glow bled ~28px below it, reading as extra space even with margin removed */
+  .tab-shimmer-border {
+    box-shadow: none !important;
+  }
+  .cert-mode-toggle {
+    box-shadow: 0 2px 8px rgba(6,148,209,0.12) !important;
+  }
   .cert-enrolled,
   .cert-rating,
   .cert-rating-star,
@@ -6938,20 +7041,89 @@ p {
   .cert-back-tips-label,
   .cert-back-tip,
   .cert-back-prereq,
-  .cert-price-curr,
-  .cert-price-label,
-  .cert-inr-price,
   .cert-dur,
   .cert-btn-brochure,
   .cert-btn-details,
   .cert-syllabus-link,
-  .cert-btn-view,
-  .cert-btn-enquire,
-  .cert-pill,
   .cert-rating-inline,
   .cert-card-v2 .cert-code,
   .cert-card-v2 .cert-hours {
-    font-size: 14px !important;
+    font-size: 12px !important;
+  }
+
+  /* Pagination pill (Previous 1 2 3 4 5 … 94 Next) was wider than the screen and
+     html/body has overflow-x:hidden (line ~107), so the ends were silently clipped.
+     Kept to a single line, always: shrunk further, and getRange() below now shows
+     only first/current/last on mobile (no run of neighbour numbers) so the row's
+     max possible width is small and constant, regardless of how many total pages
+     there are — no scroll, no wrap needed. */
+  .cert-pagination-wrap { overflow-x: visible !important; padding: 10px 12px 16px !important; }
+  .cert-pagination {
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    border-radius: 16px !important;
+    max-width: 100%;
+  }
+  .cert-pg-arrow { padding: 0 8px !important; font-size: 11px !important; gap: 3px !important; height: 30px !important; }
+  .cert-pg-num { min-width: 30px !important; height: 30px !important; font-size: 11px !important; }
+  .cert-pg-ellipsis { width: 18px !important; }
+
+  /* Course count above the pagination row */
+  .cert-pagination-count {
+    text-align: center; font-size: 12px; font-weight: 600; color: #6b8299;
+    padding: 0 16px; margin-top: 14px;
+  }
+
+  /* "Request for more information" enquiry modal — reduce the space above the
+     LET'S TALK badge. The 28px-to-15px padding fix alone didn't close the gap
+     because .modal-box has margin:auto, and inside .modal-overlay's flex row
+     an auto margin on the cross axis overrides align-items:flex-start and
+     vertically CENTERS the box instead — on a tall phone screen with a short
+     modal that reads as a large blank gap above the card, unrelated to padding.
+     Pin the box to the top (kill the vertical auto-margin) and zero the
+     overlay's own top padding, so 15px is the entire visible gap. Both scoped
+     to this one modal, not .modal-box/.modal-overlay generally, which the
+     brochure/cert modals also use. */
+  .modal-overlay-enquiry { padding-top: 0 !important; }
+  .modal-box-enquiry { padding-top: 15px !important; margin-top: 0 !important; margin-bottom: 0 !important; }
+
+  /* "Why Choose Koenig / ROI & Career Outcomes" tab pill — the general
+     .tab-shimmer-border mobile rule (display:block, width:100%) stretches this
+     to full width, so each button's fixed padding leaves too little room and the
+     label wraps onto 3 lines. Scoped to just this instance (.koenig-tab-toggle):
+     stay a compact single-row pill, sized down so both labels fit on one line. */
+  .koenig-tab-toggle {
+    display: inline-flex !important; width: auto !important; max-width: 100%;
+  }
+  .koenig-tab-toggle .tab-shimmer-inner {
+    max-width: 100%; overflow-x: auto; scrollbar-width: none;
+  }
+  .koenig-tab-toggle .tab-shimmer-inner::-webkit-scrollbar { display: none; }
+  .koenig-tab-toggle .tab-shimmer-inner button {
+    padding: 9px 12px !important; font-size: 12px !important; gap: 5px !important;
+  }
+  .koenig-tab-toggle .tab-shimmer-inner button svg { display: none; }
+
+  /* "Why Choose Koenig" (.edge-*) and "ROI & Career Outcomes" (.roi-*) tab panels —
+     both had the same oversized vertical rhythm (32px sub margin, 36px count-strip
+     margin-top, 24px padding-top, 18-20px item gaps). Capped the largest at 15px,
+     scaled the rest down to 5-8px, mirrored identically across both panels. */
+  .edge-eyebrow, .roi-eyebrow { margin-bottom: 8px !important; }
+  .edge-left-heading, .roi-left-heading { margin-bottom: 8px !important; }
+  .edge-left-sub, .roi-left-sub { margin-bottom: 15px !important; }
+  .edge-left-count, .roi-stat-strip { margin-top: 15px !important; padding-top: 8px !important; }
+  .edge-count-item, .roi-stat-chip { padding-right: 6px !important; }
+  .edge-count-item + .edge-count-item,
+  .roi-stat-chip + .roi-stat-chip { padding-left: 6px !important; }
+
+  /* "WhatsApp us" / "Email us" buttons (enquiry modal + inline lead form) — lacked
+     white-space:nowrap, so at narrow widths (e.g. 360px) the row was *just* tight
+     enough that each button's own text wrapped onto 2 lines instead of the row
+     reflowing. Force nowrap and shrink padding/font/gap so both fit on one line. */
+  .whatsapp-email-row { gap: 8px !important; }
+  .whatsapp-email-btn {
+    padding: 8px 12px !important; font-size: 12px !important; gap: 6px !important;
+    white-space: nowrap !important;
   }
 }
 `;
@@ -8952,7 +9124,7 @@ function EnterpriseLeadForm({ onClose }) {
       </div>
 
       {/* Title */}
-      <h2 style={{ color:'#fff', fontSize:22, fontWeight:800, textAlign:'center', margin:'0 0 6px', lineHeight:1.3 }}>
+      <h2 className="title-20-mobile" style={{ color:'#fff', fontSize:22, fontWeight:800, textAlign:'center', margin:'0 0 6px', lineHeight:1.3 }}>
         Request for more{' '}
         <span style={{ color:'#0694D1' }}>information</span>
       </h2>
@@ -8961,12 +9133,12 @@ function EnterpriseLeadForm({ onClose }) {
       </p>
 
       {/* WhatsApp / Email */}
-      <div style={{ display:'flex', gap:10, justifyContent:'center', marginBottom:18 }}>
-        <button type="button" style={{ display:'flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:10, border:'1.5px solid rgba(255,255,255,0.15)', background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.85)', fontSize:13, fontWeight:600, cursor:'pointer', fontFamily:'inherit' }}>
+      <div className="whatsapp-email-row" style={{ display:'flex', gap:10, justifyContent:'center', marginBottom:18 }}>
+        <button type="button" className="whatsapp-email-btn" style={{ display:'flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:10, border:'1.5px solid rgba(255,255,255,0.15)', background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.85)', fontSize:13, fontWeight:600, cursor:'pointer', fontFamily:'inherit', whiteSpace:'nowrap' }}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style={{ color:'#25D366' }}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.558 4.121 1.535 5.847L0 24l6.335-1.508A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.825 9.825 0 01-5.027-1.381l-.36-.214-3.735.889.927-3.647-.235-.374A9.774 9.774 0 012.182 12C2.182 6.567 6.567 2.182 12 2.182S21.818 6.567 21.818 12 17.433 21.818 12 21.818z"/></svg>
           WhatsApp us
         </button>
-        <button type="button" style={{ display:'flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:10, border:'1.5px solid rgba(255,255,255,0.15)', background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.85)', fontSize:13, fontWeight:600, cursor:'pointer', fontFamily:'inherit' }}>
+        <button type="button" className="whatsapp-email-btn" style={{ display:'flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:10, border:'1.5px solid rgba(255,255,255,0.15)', background:'rgba(255,255,255,0.04)', color:'rgba(255,255,255,0.85)', fontSize:13, fontWeight:600, cursor:'pointer', fontFamily:'inherit', whiteSpace:'nowrap' }}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           Email us
         </button>
@@ -9894,7 +10066,7 @@ function VendorStack() {
         {/* Header */}
         <div className="vs-header" style={{ textAlign: 'center', padding: '0 16px' }}>
           <span style={{ display: 'inline-block', borderRadius: 9999, background: 'rgba(6,148,209,0.18)', padding: '6px 16px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4DBFEF', marginBottom: 12 }}>Top Vendor Partners</span>
-          <h2 style={{ marginTop: 0, fontSize: 'clamp(20px,3vw,36px)', fontWeight: 700, color: 'white', marginBottom: 12 }}>
+          <h2 className="title-20-mobile" style={{ marginTop: 0, fontSize: 'clamp(20px,3vw,36px)', fontWeight: 700, color: 'white', marginBottom: 12 }}>
             Train with <span style={{ background: 'linear-gradient(90deg,#0694D1,#4DBFEF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Industry Leaders</span>
           </h2>
           <p style={{ margin: '0 auto', maxWidth: 520, fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7 }}>
@@ -10766,11 +10938,14 @@ const CARDS_PER_PAGE = 12;
 
 function UnifiedCertSection({ onEnroll, onBrochure }) {
   const [viewMode, setViewMode]       = useState("courses"); // "courses" | "exams"
-  const [activeTab, setActiveTab]     = useState("");
+  // Technology filter: multiple technologies can be selected at once (checkboxes),
+  // "All Courses" is the special empty-set state, not a member of the set itself.
+  const [activeTabs, setActiveTabs]   = useState(() => new Set());
   const [activeLevels, setActiveLevels]   = useState(new Set());
   const [activeDurations, setActiveDurations] = useState(new Set());
   const [techSearch, setTechSearch]   = useState("");
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const [filterCategory, setFilterCategory] = useState("technology"); // "technology" | "level" | "duration"
   const [drawerStyle, setDrawerStyle] = useState<React.CSSProperties>({});
   const certPanelRef = useRef<HTMLDivElement>(null);
   const scrollToPanelTop = () => certPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -10794,6 +10969,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
         bottom: "auto",
         width: "auto",
         maxWidth: "100%",
+        height: "70vh",
         maxHeight: "70vh",
         transform: "translateY(-50%)",
         borderRadius: 16,
@@ -10808,8 +10984,8 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
 
   const toggleCard = (code, e) => { e.stopPropagation(); setFlippedCards(prev => { const n = new Set(prev); n.has(code) ? n.delete(code) : n.add(code); return n; }); };
 
-  useEffect(() => { setSelectedCert(null); setFlippedCards(new Set()); }, [activeTab, viewMode]);
-  useEffect(() => { setMobilePage(0); setExamPage(0); }, [activeTab, activeLevels, activeDurations, certSearch, certSort, viewMode]);
+  useEffect(() => { setSelectedCert(null); setFlippedCards(new Set()); }, [activeTabs, viewMode]);
+  useEffect(() => { setMobilePage(0); setExamPage(0); }, [activeTabs, activeLevels, activeDurations, certSearch, certSort, viewMode]);
   useEffect(() => {
     const handler = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handler);
@@ -10820,7 +10996,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
   useEffect(() => {
     const handler = (e) => {
       if (CERT_TABS.includes(e.detail)) {
-        setActiveTab(e.detail);
+        setActiveTabs(new Set([e.detail]));
         setActiveLevels(new Set());
         setActiveDurations(new Set());
         setSidebarOpen(false);
@@ -10830,8 +11006,8 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
     return () => window.removeEventListener("koenig:selectTech", handler);
   }, []);
 
-  const allCerts = activeTab
-    ? (CERTS[activeTab] || [])
+  const allCerts = activeTabs.size > 0
+    ? Array.from(activeTabs).flatMap(t => (CERTS[t] || []).map(c => ({ ...c, tab: t })))
     : CERT_TABS.flatMap(t => (CERTS[t] || []).map(c => ({ ...c, tab: t })));
   const counts = {
     all:     allCerts.length,
@@ -10885,13 +11061,15 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
         const durOk = activeDurations.size === 0 ? true
           : activeDurations.has(String(days)) || (activeDurations.has("5+") && days > 5);
         return levelOk && durOk;
-      }).map(c => ({ ...c, tab: c.tab || activeTab }));
+      });
   const courseDisplay = applyCertSort(rawCourseDisplay);
   const totalPages = Math.ceil(courseDisplay.length / CARDS_PER_PAGE) || 1;
   const pagedCourseDisplay = courseDisplay.slice(mobilePage * CARDS_PER_PAGE, (mobilePage + 1) * CARDS_PER_PAGE);
 
-  // Exams mode
-  const skills       = EXAM_SKILLS[activeTab] || [];
+  // Exams mode — skills/journey below are keyed off the opened cert's own technology
+  // (selectedCert.tab), not the filter selection, since multiple technologies can be
+  // active in the filter at once.
+  const skills       = EXAM_SKILLS[selectedCert?.tab] || [];
   const examDisplay  = allCerts.filter(c => activeLevels.size === 0 ? true
     : (activeLevels.has("popular") ? !!CERT_POPULAR[c.code]?.hot : false)
       || (activeLevels.has("new") ? CERT_NEW.has(c.code) : false)
@@ -10915,10 +11093,15 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
   ];
   const toggleLevel = (key) => setActiveLevels(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; });
   const toggleDuration = (key) => setActiveDurations(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; });
+  const toggleTech = (t) => { setActiveTabs(prev => { const n = new Set(prev); n.has(t) ? n.delete(t) : n.add(t); return n; }); setActiveLevels(new Set()); };
   const clearAllFilters = () => { setActiveLevels(new Set()); setActiveDurations(new Set()); };
   const levelChipLabel = (k) => k==="popular"?"Popular":k==="new"?"New":k==="fund"?"Fundamentals":k==="assoc"?"Associate":k==="expert"?"Expert":k;
   const durChipLabel = (k) => { const d = DURATION_OPTS.find(o=>o.key===k); return d ? `${d.label} (${d.sub})` : k; };
-  const totalActiveFilters = activeLevels.size + activeDurations.size;
+  const techCount = (t) => CERTS[t]?.length || 0;
+  const totalTechCount = CERT_TABS.reduce((s,t)=>s+techCount(t),0);
+  const activeTechCount = activeTabs.size > 0 ? Array.from(activeTabs).reduce((s,t)=>s+techCount(t),0) : totalTechCount;
+  const techLabel = activeTabs.size === 0 ? "All Technologies" : activeTabs.size === 1 ? Array.from(activeTabs)[0] : `${activeTabs.size} Technologies`;
+  const totalActiveFilters = activeTabs.size + activeLevels.size + activeDurations.size;
 
   return (
     <section className="certs-sec" id="cert">
@@ -11000,46 +11183,54 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
 
           {/* SIDEBAR */}
           <div className="cert-sidebar">
-            {/* ── Mobile hamburger trigger (hidden on desktop) ── */}
-            <button
-              className="cert-sidebar-hamburger"
-              onClick={() => setSidebarOpen(o => !o)}
-              aria-label="Select Technology"
-            >
-              <span className="cert-sidebar-hamburger-logo" style={activeTab==="GitHub"?{background:"#fff",borderRadius:8,padding:3}:{}}>
-                {activeTab ? TECH_LOGOS[activeTab]({ size: 20 }) : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>}
-              </span>
-              <span className="cert-sidebar-hamburger-label">{activeTab || "All Technologies"}</span>
-              <span className="cert-sidebar-hamburger-count">{activeTab ? CERTS[activeTab].length : CERT_TABS.reduce((s,t)=>s+(CERTS[t]?.length||0),0)}</span>
-              <svg
-                className={`cert-sidebar-hamburger-icon${sidebarOpen ? ' open' : ''}`}
-                style={{marginLeft:'auto'}}
-                width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
+            {/* ── Mobile hamburger trigger (hidden on desktop). At ≤768px (isMobile) this is
+                 superseded by the "Technology: <selected>" row + popup inside the mobile
+                 panel header above — showing both left an extra tech-selector bar (and its
+                 gap) between the mode toggle and the "All Courses" card. Still used for the
+                 769–900px band, which keeps the original panel header. ── */}
+            {!isMobile && (
+              <>
+                <button
+                  className="cert-sidebar-hamburger"
+                  onClick={() => setSidebarOpen(o => !o)}
+                  aria-label="Select Technology"
+                >
+                  <span className="cert-sidebar-hamburger-logo" style={activeTabs.size===1 && Array.from(activeTabs)[0]==="GitHub"?{background:"#fff",borderRadius:8,padding:3}:{}}>
+                    {activeTabs.size === 1 ? TECH_LOGOS[Array.from(activeTabs)[0]]({ size: 20 }) : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>}
+                  </span>
+                  <span className="cert-sidebar-hamburger-label">{techLabel}</span>
+                  <span className="cert-sidebar-hamburger-count">{activeTechCount}</span>
+                  <svg
+                    className={`cert-sidebar-hamburger-icon${sidebarOpen ? ' open' : ''}`}
+                    style={{marginLeft:'auto'}}
+                    width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
 
-            {/* ── Mobile dropdown panel ── */}
-            {sidebarOpen && (
-              <div className="cert-sidebar-dropdown">
-                {CERT_TABS.map(t => (
-                  <button
-                    key={t}
-                    className={`cert-sidebar-dropdown-item${activeTab===t?" active":""}`}
-                    onClick={() => { setActiveTab(t); setActiveLevels(new Set()); setSidebarOpen(false); }}
-                  >
-                    <span className="cert-sidebar-dropdown-logo" style={t==="GitHub"?{background:"#fff",borderRadius:7,padding:3}:{}}>
-                      {TECH_LOGOS[t]({ size: t==="GitHub"?18:22 })}
-                    </span>
-                    <span className="cert-sidebar-dropdown-name">{t}</span>
-                    <span className="cert-sidebar-dropdown-count">{CERTS[t].length}</span>
-                    {activeTab===t && (
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    )}
-                  </button>
-                ))}
-              </div>
+                {/* ── Mobile dropdown panel ── */}
+                {sidebarOpen && (
+                  <div className="cert-sidebar-dropdown">
+                    {CERT_TABS.map(t => (
+                      <button
+                        key={t}
+                        className={`cert-sidebar-dropdown-item${activeTabs.has(t)?" active":""}`}
+                        onClick={() => toggleTech(t)}
+                      >
+                        <span className="cert-sidebar-dropdown-logo" style={t==="GitHub"?{background:"#fff",borderRadius:7,padding:3}:{}}>
+                          {TECH_LOGOS[t]({ size: t==="GitHub"?18:22 })}
+                        </span>
+                        <span className="cert-sidebar-dropdown-name">{t}</span>
+                        <span className="cert-sidebar-dropdown-count">{CERTS[t].length}</span>
+                        {activeTabs.has(t) && (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
 
             {/* ── Desktop scrollable list (hidden on mobile) ── */}
@@ -11064,8 +11255,8 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
               <div className="cert-tech-list">
                 {!techSearch && (
                   <button
-                    className={`cert-sidebar-item${activeTab===""?" active":""}`}
-                    onClick={() => setActiveTab("")}
+                    className={`cert-sidebar-item${activeTabs.size===0?" active":""}`}
+                    onClick={() => setActiveTabs(new Set())}
                   >
                     <span className="csi-icon" style={{color:"var(--light-text)"}}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -11076,17 +11267,17 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                     <div className="csi-body">
                       <span className="csi-label">All Courses</span>
                     </div>
-                    <span className="csi-count">{CERT_TABS.reduce((s,t)=>s+(CERTS[t]?.length||0),0)}</span>
+                    <span className="csi-count">{totalTechCount}</span>
                   </button>
                 )}
                 {CERT_TABS.filter(t => t.toLowerCase().includes(techSearch.toLowerCase())).map(t => (
                   <button
                     key={t}
-                    className={`cert-sidebar-item${activeTab===t?" active":""}`}
-                    onClick={() => { setActiveTab(t === activeTab ? "" : t); }}
+                    className={`cert-sidebar-item${activeTabs.has(t)?" active":""}`}
+                    onClick={() => toggleTech(t)}
                   >
-                    <span className="csi-radio">
-                      {activeTab===t && <span className="csi-radio-dot" />}
+                    <span className="csi-checkbox">
+                      {activeTabs.has(t) && <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                     </span>
                     <div className="csi-body">
                       <span className="csi-label">{t}</span>
@@ -11170,10 +11361,32 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                         "GitHub":           "Version control, CI/CD and GitHub Actions certifications",
                         "Windows Server":   "Server administration and hybrid infrastructure certifications",
                       };
-                      const label = activeTab || "All Courses";
-                      const desc  = techDesc[activeTab] ?? `Browse all ${activeTab} certification courses`;
+                      const activeTabsArr = Array.from(activeTabs);
+                      const label = activeTabs.size === 0 ? "All Courses"
+                        : activeTabs.size === 1 ? activeTabsArr[0]
+                        : `${activeTabs.size} Technologies`;
+                      const desc = activeTabs.size === 0 ? techDesc[""]
+                        : activeTabs.size === 1 ? (techDesc[activeTabsArr[0]] ?? `Browse all ${activeTabsArr[0]} certification courses`)
+                        : `Browse courses across ${activeTabsArr.join(", ")}`;
+
+                      // Mobile: stack SHOWING N COURSES and a full-width quote button above
+                      // the search box. Technology selection lives in the common Filters
+                      // drawer (near Sort by) below, alongside Level and Duration. Desktop
+                      // keeps the original inline title/desc + button row, untouched.
+                      if (isMobile) {
+                        return (
+                          <div className="cert-list-header" style={{padding:'12px 16px 10px',borderBottom:'1px solid rgba(6,148,209,0.10)'}}>
+                            <div style={{fontSize:15,fontWeight:700,color:'#071e2e',lineHeight:1.2}}>{label}</div>
+                            <div style={{fontSize:12,color:'#6b8299',marginTop:3,lineHeight:1.4}}>{desc}</div>
+                            <div style={{fontSize:11,fontWeight:700,color:'#0694D1',letterSpacing:'0.04em',marginTop:10}}>
+                              SHOWING {courseDisplay.length} COURSES
+                            </div>
+                          </div>
+                        );
+                      }
+
                       return (
-                        <div style={{padding:'12px 16px 10px',borderBottom:'1px solid rgba(6,148,209,0.10)',display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
+                        <div className="cert-list-header" style={{padding:'12px 16px 10px',borderBottom:'1px solid rgba(6,148,209,0.10)',display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
                           <div>
                             <div style={{fontSize:15,fontWeight:700,color:'#071e2e',lineHeight:1.2}}>{label}</div>
                             <div style={{fontSize:12,color:'#6b8299',marginTop:3,lineHeight:1.4}}>{desc}</div>
@@ -11206,7 +11419,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                         <input
                           className="cf-search-input"
                           type="text"
-                          placeholder={`Search ${activeTab || "Microsoft"} courses…`}
+                          placeholder={`Search ${activeTabs.size === 1 ? Array.from(activeTabs)[0] : "Microsoft"} courses…`}
                           value={certSearch}
                           onChange={e => setCertSearch(e.target.value)}
                           onKeyDown={e => e.key==="Escape" && setCertSearch("")}
@@ -11226,6 +11439,8 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                           <option value="dur-asc">Duration: Low to High</option>
                         </select>
                         <span className="cf-result-count-inline">Showing {courseDisplay.length} courses</span>
+                        {/* Sort dropdown + Filters button (opens the common Level/Duration/
+                            Technology drawer) — the single filter entry point on mobile. */}
                         <button
                           className="cf-filter-btn-mobile"
                           onClick={openFilterDrawer}
@@ -11233,21 +11448,44 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                         >
                           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
                           Filters
-                          {(totalActiveFilters > 0 || activeTab) && <span className="cf-filter-badge-mobile">{totalActiveFilters + (activeTab ? 1 : 0)}</span>}
+                          {totalActiveFilters > 0 && <span className="cf-filter-badge-mobile">{totalActiveFilters}</span>}
                         </button>
                       </div>
                     </div>
 
+                    {/* Mobile-only: Request a Quote, below the sort/filter row */}
+                    {isMobile && (
+                      <div style={{padding:'0 16px 10px'}}>
+                        <button
+                          onClick={onEnroll}
+                          style={{
+                            width:'100%',
+                            padding:'9px 14px',
+                            fontSize:14,fontWeight:700,
+                            borderRadius:10,
+                            border:'none',
+                            background:'#0694D1',
+                            color:'#fff',
+                            cursor:'pointer',
+                            fontFamily:'inherit',
+                            boxShadow:'0 3px 10px rgba(6,148,209,0.30)',
+                          }}
+                        >
+                          Request a Quote
+                        </button>
+                      </div>
+                    )}
+
                     {/* ── Active filter chips (Technology + Level + Duration) ── */}
-                    {(activeTab || activeLevels.size > 0 || activeDurations.size > 0) && (
+                    {(activeTabs.size > 0 || activeLevels.size > 0 || activeDurations.size > 0) && (
                       <div className="cf-chips-row">
                         <span className="cf-chips-label">Active filters:</span>
-                        {activeTab && (
-                          <span className="cf-chip">
-                            {activeTab}
-                            <button className="cf-chip-x" onClick={() => setActiveTab("")}>×</button>
+                        {Array.from(activeTabs).map(t => (
+                          <span key={t} className="cf-chip">
+                            {t}
+                            <button className="cf-chip-x" onClick={() => toggleTech(t)}>×</button>
                           </span>
-                        )}
+                        ))}
                         {Array.from(activeLevels).map(k => (
                           <span key={k} className="cf-chip">
                             {levelChipLabel(k)}
@@ -11260,12 +11498,18 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                             <button className="cf-chip-x" onClick={() => toggleDuration(k)}>×</button>
                           </span>
                         ))}
-                        <button className="cf-clear-all" onClick={() => { clearAllFilters(); setActiveTab(""); }}>Clear all</button>
+                        <button className="cf-clear-all" onClick={() => { clearAllFilters(); setActiveTabs(new Set()); }}>Clear all</button>
                       </div>
                     )}
 
-                    {/* ── Filter drawer ── */}
-                    {filterDrawerOpen && (
+                    {/* ── Filter drawer ── Portaled to document.body: this panel sits inside
+                         the AnimatePresence motion.div above (key="courses-view"), which
+                         Framer Motion keeps a `transform` on even at rest — that turns it into
+                         the containing block for any `position: fixed` descendant, so an
+                         un-portaled drawer anchors to that (very tall, scrollable) div instead
+                         of the viewport and renders far off-screen. Same fix previously applied
+                         to the mobile technology popup, now merged into this drawer. ── */}
+                    {filterDrawerOpen && typeof document !== "undefined" && createPortal(
                       <>
                         <div className="cf-overlay" onClick={() => setFilterDrawerOpen(false)} />
                         <div className="cf-drawer" style={drawerStyle}>
@@ -11275,56 +11519,64 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
                             </button>
                           </div>
-                          <div className="cf-drawer-body">
-                            {/* Technology group */}
-                            <div>
-                              <div className="cf-group-title">Technology</div>
-                              <div className="cf-pills">
-                                <button className={`cf-pill${activeTab===""?" active":""}`} onClick={() => { setActiveTab(""); setSidebarOpen(false); }}>
-                                  All <span className="cf-pill-count">{CERT_TABS.reduce((s,t)=>s+(CERTS[t]?.length||0),0)}</span>
-                                </button>
-                                {CERT_TABS.map(t => (
-                                  <button key={t} className={`cf-pill${activeTab===t?" active":""}`} onClick={() => { setActiveTab(t); setActiveLevels(new Set()); setSidebarOpen(false); }}>
-                                    {t} <span className="cf-pill-count">{CERTS[t]?.length||0}</span>
-                                  </button>
-                                ))}
-                              </div>
+                          <div className="cf-drawer-body" style={{ display: "flex", flexDirection: "row", padding: 0, gap: 0, overflow: "hidden" }}>
+                            {/* Left category tabs */}
+                            <div style={{ width: 120, flexShrink: 0, borderRight: "1px solid #e8f1fb", overflowY: "auto", background: "#fafcff" }}>
+                              {[
+                                { key: "technology", label: "Technology"  },
+                                { key: "level",      label: "Skill Level" },
+                                { key: "duration",   label: "Duration"   },
+                              ].map(cat => (
+                                <button key={cat.key} onClick={() => setFilterCategory(cat.key)} style={{
+                                  width: "100%", textAlign: "left", padding: "14px 16px", border: "none", cursor: "pointer",
+                                  fontFamily: "inherit", fontSize: 13, fontWeight: filterCategory === cat.key ? 700 : 500,
+                                  color: filterCategory === cat.key ? "#0694D1" : "#374151",
+                                  background: filterCategory === cat.key ? "#EBF8FE" : "transparent",
+                                  borderLeft: filterCategory === cat.key ? "3px solid #0694D1" : "3px solid transparent",
+                                }}>{cat.label}</button>
+                              ))}
                             </div>
-                            {/* Level group */}
-                            <div>
-                              <div className="cf-group-title">Level</div>
-                              <div className="cf-pills">
-                                <button className={`cf-pill${activeLevels.size===0?" active":""}`} onClick={() => { setActiveLevels(new Set()); setSelectedCert(null); }}>
-                                  All <span className="cf-pill-count">{counts.all}</span>
-                                </button>
-                                {levels.filter(lv => lv.key !== "all").map(lv => (
-                                  <button key={lv.key} className={`cf-pill${activeLevels.has(lv.key)?" active":""}`} onClick={() => { toggleLevel(lv.key); setSelectedCert(null); }}>
-                                    {lv.label} <span className="cf-pill-count">{lv.count}</span>
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                            {/* Duration group */}
-                            <div>
-                              <div className="cf-group-title">Duration</div>
-                              <div className="cf-pills">
-                                {DURATION_OPTS.map(d => (
-                                  <button key={d.key} className={`cf-pill${activeDurations.has(d.key)?" active":""}`} onClick={() => toggleDuration(d.key)}>
-                                    {d.label} <span className="cf-pill-sub">{d.sub}</span>
-                                  </button>
-                                ))}
-                              </div>
+                            {/* Right items */}
+                            <div style={{ flex: 1, overflowY: "auto", padding: "6px 0" }}>
+                              {filterCategory === "technology" && (
+                                <>
+                                  <label style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", cursor: "pointer", borderBottom: "1px solid #f0f7fc" }}>
+                                    <span style={{ fontSize: 13, color: "#374151" }}>All Courses <span style={{ color: "#94a3b8", fontSize: 11 }}>{counts.all}</span></span>
+                                    <input type="checkbox" checked={activeTabs.size===0} onChange={() => setActiveTabs(new Set())} style={{ width: 16, height: 16, accentColor: "#0694D1", cursor: "pointer" }} />
+                                  </label>
+                                  {CERT_TABS.map(t => (
+                                    <label key={t} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", cursor: "pointer", borderBottom: "1px solid #f0f7fc" }}>
+                                      <span style={{ fontSize: 13, color: "#374151" }}>{t} <span style={{ color: "#94a3b8", fontSize: 11 }}>{CERTS[t]?.length||0}</span></span>
+                                      <input type="checkbox" checked={activeTabs.has(t)} onChange={() => toggleTech(t)} style={{ width: 16, height: 16, accentColor: "#0694D1", cursor: "pointer" }} />
+                                    </label>
+                                  ))}
+                                </>
+                              )}
+                              {filterCategory === "level" && levels.filter(lv => ["fund","assoc","expert"].includes(lv.key)).map(lv => (
+                                <label key={lv.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", cursor: "pointer", borderBottom: "1px solid #f0f7fc" }}>
+                                  <span style={{ fontSize: 13, color: "#374151" }}>{lv.label}</span>
+                                  <input type="checkbox" checked={activeLevels.has(lv.key)} onChange={() => { toggleLevel(lv.key); setSelectedCert(null); }} style={{ width: 16, height: 16, accentColor: "#0694D1", cursor: "pointer" }} />
+                                </label>
+                              ))}
+                              {filterCategory === "duration" && DURATION_OPTS.map(d => (
+                                <label key={d.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", cursor: "pointer", borderBottom: "1px solid #f0f7fc" }}>
+                                  <span style={{ fontSize: 13, color: "#374151" }}>{d.label} <span style={{ color: "#94a3b8", fontSize: 11 }}>{d.sub}</span></span>
+                                  <input type="checkbox" checked={activeDurations.has(d.key)} onChange={() => toggleDuration(d.key)} style={{ width: 16, height: 16, accentColor: "#0694D1", cursor: "pointer" }} />
+                                </label>
+                              ))}
                             </div>
                           </div>
                           <div className="cf-drawer-footer">
                             <button className="cf-footer-clear" onClick={clearAllFilters}>Clear all</button>
                             <button className="cf-footer-apply" onClick={() => setFilterDrawerOpen(false)}>
-                              Show {courseDisplay.length} courses →
+                              Apply
                             </button>
                           </div>
                         </div>
-                      </>
+                      </>,
+                      document.body
                     )}
+
                     <div className="cert-panel-scroll">
                       {courseDisplay.length===0 ? (
                         <div className="certs-no-results">
@@ -11406,8 +11658,19 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                         {/* ── Pagination ── */}
                         {totalPages > 1 && (() => {
                           const getRange = () => {
+                            if (isMobile) {
+                              // Mobile: only first/current/last — keeps the row a small,
+                              // constant width no matter how many total pages there are,
+                              // so it always fits on one line without wrapping or scrolling.
+                              if (totalPages <= 4) return Array.from({length: totalPages}, (_,i) => i);
+                              const s = new Set([0, mobilePage, totalPages-1].filter(p => p>=0 && p<totalPages));
+                              const sorted = Array.from(s).sort((a,b)=>a-b);
+                              const r = [];
+                              for (let i=0;i<sorted.length;i++) { if(i>0&&sorted[i]-sorted[i-1]>1) r.push(-1); r.push(sorted[i]); }
+                              return r;
+                            }
                             if (totalPages <= 7) return Array.from({length: totalPages}, (_,i) => i);
-                            // Always lead with the first 5 pages, then the current page's
+                            // Desktop: lead with the first 5 pages, then the current page's
                             // neighbours, then the last page — e.g. 1,2,3,4,5 … 149
                             const lead = Math.min(5, totalPages);
                             const s = new Set(Array.from({length: lead}, (_,i) => i));
@@ -11419,6 +11682,12 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                             return r;
                           };
                           return (
+                            <>
+                            {isMobile && (
+                              <div className="cert-pagination-count">
+                                Showing {mobilePage*CARDS_PER_PAGE+1}–{Math.min((mobilePage+1)*CARDS_PER_PAGE, courseDisplay.length)} of {courseDisplay.length} courses
+                              </div>
+                            )}
                             <div className="cert-pagination-wrap">
                               <div className="cert-pagination">
                                 <button className="cert-pg-arrow" disabled={mobilePage===0} onClick={()=>{setMobilePage(p=>p-1);scrollToPanelTop();}} aria-label="Previous page">
@@ -11435,6 +11704,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                                 </button>
                               </div>
                             </div>
+                            </>
                           );
                         })()}
                         </>
@@ -11457,12 +11727,12 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                 >
                   <div className="cert-panel" ref={certPanelRef}>
                     <div className="cert-panel-sticky">
-                      <span style={{fontSize:13,fontWeight:700,color:"var(--light-text)"}}>{activeTab || "All Microsoft Exams"}</span>
+                      <span style={{fontSize:13,fontWeight:700,color:"var(--light-text)"}}>{activeTabs.size > 0 ? techLabel : "All Microsoft Exams"}</span>
                     </div>
                     <div className="cert-panel-scroll">
                       <AnimatePresence mode="wait">
                         <motion.div
-                          key={`${activeTab}-${Array.from(activeLevels).sort().join(",")}-${examPage}`}
+                          key={`${Array.from(activeTabs).sort().join(",")}-${Array.from(activeLevels).sort().join(",")}-${examPage}`}
                           className="cert-grid"
                           initial={{ opacity:0 }}
                           animate={{ opacity:1 }}
@@ -11524,8 +11794,13 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                       </AnimatePresence>
                       {examTotalPages > 1 && (() => {
                         const getRange = () => {
-                          if (examTotalPages <= 7) return Array.from({length: examTotalPages}, (_,i) => i);
-                          const s = new Set([0, examTotalPages-1, examPage, examPage-1, examPage+1].filter(p => p>=0 && p<examTotalPages));
+                          const threshold = isMobile ? 4 : 7;
+                          if (examTotalPages <= threshold) return Array.from({length: examTotalPages}, (_,i) => i);
+                          // Mobile: first/current/last only, so the row stays a small constant
+                          // width and never needs to wrap or scroll (same as courses pagination).
+                          const s = isMobile
+                            ? new Set([0, examPage, examTotalPages-1].filter(p => p>=0 && p<examTotalPages))
+                            : new Set([0, examTotalPages-1, examPage, examPage-1, examPage+1].filter(p => p>=0 && p<examTotalPages));
                           const sorted = Array.from(s).sort((a,b)=>a-b);
                           const r = [];
                           for (let i=0;i<sorted.length;i++) { if(i>0&&sorted[i]-sorted[i-1]>1) r.push(-1); r.push(sorted[i]); }
@@ -11603,7 +11878,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                       </motion.div>
                     ))}
                   </div>
-                  <div className="ced-dp-section-label" style={{marginTop:20}}>Skills Measured ({activeTab || "All"})</div>
+                  <div className="ced-dp-section-label" style={{marginTop:20}}>Skills Measured ({selectedCert.tab || "All"})</div>
                   <div className="ced-dp-skills">
                     {skills.map((sk,si) => (
                       <motion.div key={sk.l} className="ced-dp-skill-row" initial={{opacity:0,x:-10}} animate={{opacity:1,x:0}} transition={{delay:0.32+si*0.06,duration:0.3}}>
@@ -11620,7 +11895,7 @@ function UnifiedCertSection({ onEnroll, onBrochure }) {
                 </div>
                 <div className="ced-dp-path">
                   <div className="ced-dp-section-label">Certification Path</div>
-                  <p className="ced-dp-path-sub">Where {selectedCert.code} fits in the {activeTab || "Microsoft"} journey</p>
+                  <p className="ced-dp-path-sub">Where {selectedCert.code} fits in the {selectedCert.tab || "Microsoft"} journey</p>
                   <div className="ced-path-steps">
                     {pathSteps.map((step,idx) => (
                       <motion.div key={step.code} className={`ced-path-step${step.current?" current":""}`} initial={{opacity:0,x:16}} animate={{opacity:1,x:0}} transition={{delay:idx*0.1,duration:0.35}}>
@@ -13059,20 +13334,61 @@ function EdgeSection({ onCTA }) {
   );
 }
 
+// ── MID-PAGE ADVISOR CTA BANNER ──
+function AdvisorCtaBanner({ onCTA }) {
+  return (
+    <section style={{ background: "#fff", borderTop: "1px solid rgba(6,148,209,0.10)", borderBottom: "1px solid rgba(6,148,209,0.10)" }}>
+      <style>{`
+        .advisor-cta-inner {
+          max-width: 1100px; margin: 0 auto; padding: 28px 24px;
+          display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+        }
+        .advisor-cta-btn {
+          display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;
+          background: var(--blue); color: #fff; font-size: 14px; font-weight: 700;
+          padding: 9px 26px; border-radius: var(--r8); border: none; cursor: pointer;
+          font-family: inherit; white-space: nowrap;
+          box-shadow: 0 4px 16px rgba(6,148,209,0.3);
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+        .advisor-cta-btn:hover { background: #057ab5; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(6,148,209,0.4); }
+        @media (max-width: 600px) {
+          .advisor-cta-inner { padding: 20px 16px; flex-direction: column; align-items: flex-start; gap: 14px; }
+          .advisor-cta-btn { width: 100%; justify-content: center; }
+        }
+      `}</style>
+      <div className="advisor-cta-inner">
+        <div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: "#071e2e", letterSpacing: "-0.01em", marginBottom: 4 }}>
+            Ready to get Microsoft certified?
+          </div>
+          <div style={{ fontSize: 14, color: "#6b8299" }}>
+            Talk to our advisor — free consultation
+          </div>
+        </div>
+        <button className="advisor-cta-btn" onClick={onCTA}>
+          Request more info
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </section>
+  );
+}
+
 function KoenigCombinedSection({ onCTA }) {
   const [tab, setTab] = React.useState(0);
   return (
     <div>
       {/* Tab switcher bar */}
       <div style={{ background: '#f0f5fb', borderTop: '1px solid rgba(6,148,209,0.1)', padding: '32px 16px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-        <div className="tab-shimmer-border">
+        <div className="tab-shimmer-border koenig-tab-toggle">
           <div className="tab-shimmer-inner">
           <button
             onClick={() => setTab(0)}
             style={{
               display:'flex', alignItems:'center', gap:8,
               padding:'11px 28px', borderRadius:14, border:'none', cursor:'pointer', fontFamily:'inherit',
-              fontSize:14, fontWeight:700, transition:'all 0.22s',
+              fontSize:14, fontWeight:700, transition:'all 0.22s', whiteSpace:'nowrap',
               background: tab===0 ? 'linear-gradient(135deg,#0694D1 0%,#22d3ee 100%)' : 'rgba(6,148,209,0.07)',
               color: tab===0 ? '#fff' : '#4a6375',
               boxShadow: tab===0 ? '0 4px 18px rgba(6,148,209,0.38)' : 'none',
@@ -13086,7 +13402,7 @@ function KoenigCombinedSection({ onCTA }) {
             style={{
               display:'flex', alignItems:'center', gap:8,
               padding:'11px 28px', borderRadius:14, border:'none', cursor:'pointer', fontFamily:'inherit',
-              fontSize:14, fontWeight:700, transition:'all 0.22s',
+              fontSize:14, fontWeight:700, transition:'all 0.22s', whiteSpace:'nowrap',
               background: tab===1 ? 'linear-gradient(135deg,#0694D1 0%,#22d3ee 100%)' : 'rgba(6,148,209,0.07)',
               color: tab===1 ? '#fff' : '#4a6375',
               boxShadow: tab===1 ? '0 4px 18px rgba(6,148,209,0.38)' : 'none',
@@ -13193,7 +13509,7 @@ function AwardsSlider() {
             fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase",
             padding: "6px 18px", borderRadius: 999, marginBottom: 10,
           }}>Recognition</span>
-          <h2 style={{ fontSize: "clamp(22px,3vw,30px)", fontWeight: 800, color: "#0f1f3d", marginBottom: 8, lineHeight: 1.3 }}>
+          <h2 className="title-20-mobile" style={{ fontSize: "clamp(22px,3vw,30px)", fontWeight: 800, color: "#0f1f3d", marginBottom: 8, lineHeight: 1.3 }}>
             Awards &amp; <span style={{ background: "linear-gradient(to right,#0694d1,#22d3ee)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>Recognition</span>
           </h2>
           <p style={{ fontSize: 14, color: "#6b8499", margin: 0 }}>
@@ -14351,7 +14667,7 @@ function LearningFormatsSection({ onCTA }) {
         {/* Header */}
         <motion.div style={{ textAlign:"center", marginBottom:35 }} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:0.2}} transition={{duration:0.7}}>
           <span style={{ display:"inline-block", background:"rgba(6,148,209,0.18)", color:"#0694d1", fontSize:11, fontWeight:600, letterSpacing:"0.12em", textTransform:"uppercase", padding:"6px 16px", borderRadius:20, marginBottom:12 }}>Learning Formats</span>
-          <h2 style={{ fontSize:"clamp(22px,3.5vw,36px)", fontWeight:800, color:"#fff", lineHeight:1.35, marginBottom:12 }}>
+          <h2 className="title-20-mobile" style={{ fontSize:"clamp(22px,3.5vw,36px)", fontWeight:800, color:"#fff", lineHeight:1.35, marginBottom:12 }}>
             Learning That <span style={{ background:"linear-gradient(90deg,#0694d1,#38bdf8)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>Fits Your Life</span>
           </h2>
           <p style={{ fontSize:14, color:"rgba(255,255,255,0.55)", lineHeight:1.65, maxWidth:560, margin:"0 auto" }}>
@@ -14463,6 +14779,19 @@ const MS_BATCHES = [
 ];
 
 function UpcomingBatchesSection({ onCTA, onBrochure }) {
+  // Mobile: show only the first 4 cards, rest behind "View N more courses". Desktop
+  // (3-col grid, 6 cards = 2 full rows) is unaffected — always shows all of them.
+  const [isMobile, setIsMobile] = React.useState(() => typeof window !== "undefined" && window.innerWidth <= 768);
+  const [showAllBatches, setShowAllBatches] = React.useState(false);
+  React.useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  const hasMoreBatches = isMobile && MS_BATCHES.length > 4;
+  const collapsedOnMobile = hasMoreBatches && !showAllBatches;
+  const visibleBatches = collapsedOnMobile ? MS_BATCHES.slice(0, 4) : MS_BATCHES;
+
   return (
     <section className="batches-sec">
       <div className="batches-inner">
@@ -14478,7 +14807,7 @@ function UpcomingBatchesSection({ onCTA, onBrochure }) {
           </motion.button>
         </div>
         <div className="batches-grid">
-          {MS_BATCHES.map((s, i) => {
+          {visibleBatches.map((s, i) => {
             const urgent = s.seats <= 3;
             return (
               <motion.div key={i} className="batch-card" initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:0.1}} transition={{duration:0.5,delay:i*0.08}}>
@@ -14501,7 +14830,7 @@ function UpcomingBatchesSection({ onCTA, onBrochure }) {
                       )}
                     </span>
                   </div>
-                  <span className={`batch-seats ${urgent ? "batch-seats-low" : "batch-seats-ok"}`} style={urgent ? {animation:"livePulse 1.5s infinite"} : {}}>
+                  <span className={`batch-seats ${urgent ? "batch-seats-low" : "batch-seats-ok"}`} style={{ position:'relative', top:6, ...(urgent ? {animation:"livePulse 1.5s infinite"} : {}) }}>
                     {s.seats} seats left
                   </span>
                 </div>
@@ -14540,6 +14869,11 @@ function UpcomingBatchesSection({ onCTA, onBrochure }) {
             );
           })}
         </div>
+        {hasMoreBatches && (
+          <button className="batches-view-more" onClick={() => setShowAllBatches(v => !v)}>
+            {showAllBatches ? "View less courses" : `View ${MS_BATCHES.length - 4} more courses`}
+          </button>
+        )}
       </div>
     </section>
   );
@@ -15011,6 +15345,21 @@ const MS_TOP_TECH = [
 ];
 
 function MsTopTechSection() {
+  // Mobile-only slide counter for the scroll-snap card slider below — tracks native
+  // swipe via onScroll, and the arrow buttons scroll one card at a time.
+  const mttGridRef = React.useRef<HTMLDivElement>(null);
+  const [mttIndex, setMttIndex] = React.useState(0);
+  const mttScrollTo = (i) => {
+    const el = mttGridRef.current; if (!el) return;
+    const clamped = Math.max(0, Math.min(MS_TOP_TECH.length - 1, i));
+    el.scrollTo({ left: clamped * el.clientWidth, behavior: "smooth" });
+  };
+  const onMttScroll = (e) => {
+    const el = e.currentTarget;
+    if (!el.clientWidth) return;
+    setMttIndex(Math.round(el.scrollLeft / el.clientWidth));
+  };
+
   return (
     <section style={{ position:"relative", overflow:"hidden", background: "#E9F3FB", borderTop:"1px solid rgba(6,148,209,0.10)", borderBottom:"1px solid rgba(6,148,209,0.10)", padding: "35px 24px" }}>
       <style>{`
@@ -15024,6 +15373,31 @@ function MsTopTechSection() {
         .mtt-tag { display:inline-block; border-radius:999px; padding:3px 10px; font-size:11px; font-weight:600; background:rgba(6,148,209,0.08); color:#0694D1; border:1px solid rgba(6,148,209,0.25); }
         @media(max-width:900px){ .mtt-grid { grid-template-columns:repeat(2,1fr); } }
         @media(max-width:480px){ .mtt-grid { grid-template-columns:1fr 1fr; gap:10px; } }
+        /* Mobile (≤768px, same cutoff used across this page): one card per view,
+           swipeable, instead of a cramped 2-up grid. Supersedes both rules above
+           for this range; the 769–900px tablet band keeps its 2-column grid. */
+        @media(max-width:768px){
+          .mtt-grid {
+            display:flex; grid-template-columns:unset;
+            overflow-x:auto; scroll-snap-type:x mandatory;
+            -webkit-overflow-scrolling:touch;
+            gap:12px; padding-bottom:4px; scrollbar-width:none;
+          }
+          .mtt-grid::-webkit-scrollbar { display:none; }
+          .mtt-card { scroll-snap-align:start; flex:0 0 100%; min-width:100%; }
+          .mtt-nav { display:flex !important; }
+        }
+        /* Slide counter — hidden on desktop/tablet, where the full grid shows at once */
+        .mtt-nav { display:none; align-items:center; justify-content:center; gap:16px; margin-top:16px; }
+        .mtt-nav-arrow {
+          width:34px; height:34px; border-radius:50%; flex-shrink:0;
+          border:1px solid rgba(6,148,209,0.25); background:rgba(6,148,209,0.08); color:#0694D1;
+          display:flex; align-items:center; justify-content:center; cursor:pointer;
+          transition:background 0.2s, opacity 0.2s;
+        }
+        .mtt-nav-arrow:disabled { opacity:0.35; cursor:not-allowed; }
+        .mtt-nav-arrow:not(:disabled):hover { background:rgba(6,148,209,0.18); }
+        .mtt-nav-count { font-size:13px; font-weight:700; color:#071e2e; letter-spacing:0.02em; min-width:40px; text-align:center; }
       `}</style>
       {/* Soft blurred blue glow — differentiates section from plain neighbours */}
       <div style={{
@@ -15035,7 +15409,7 @@ function MsTopTechSection() {
       <div style={{ position:"relative", maxWidth:1200, margin:"0 auto" }}>
         {/* Header */}
         <div style={{ textAlign:"center", marginBottom:32 }}>
-          <h2 style={{ color:"var(--light-text)", fontWeight:800, fontSize:"clamp(22px,3.5vw,34px)", margin:"0 0 10px", lineHeight:1.25 }}>
+          <h2 className="title-20-mobile" style={{ color:"var(--light-text)", fontWeight:800, fontSize:"clamp(22px,3.5vw,34px)", margin:"0 0 10px", lineHeight:1.25 }}>
             Top Microsoft{" "}
             <span style={{ color:"var(--blue)" }}>
               Technology Areas
@@ -15047,7 +15421,7 @@ function MsTopTechSection() {
         </div>
 
         {/* Cards grid */}
-        <div className="mtt-grid">
+        <div className="mtt-grid" ref={mttGridRef} onScroll={onMttScroll}>
           {MS_TOP_TECH.map((t, i) => (
             <div key={i} className="mtt-card">
               {/* Title row */}
@@ -15073,6 +15447,17 @@ function MsTopTechSection() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Mobile slide counter — mirrors the .mtt-grid scroll-snap slider above */}
+        <div className="mtt-nav">
+          <button className="mtt-nav-arrow" onClick={() => mttScrollTo(mttIndex - 1)} disabled={mttIndex === 0} aria-label="Previous">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <span className="mtt-nav-count">{mttIndex + 1} / {MS_TOP_TECH.length}</span>
+          <button className="mtt-nav-arrow" onClick={() => mttScrollTo(mttIndex + 1)} disabled={mttIndex === MS_TOP_TECH.length - 1} aria-label="Next">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
         </div>
       </div>
     </section>
@@ -15130,19 +15515,19 @@ function InlineLeadFormSection() {
             <span style={{ display:"inline-block", border:"1px solid rgba(6,148,209,0.55)", background:"rgba(6,148,209,0.12)", color:"#38bdf8", borderRadius:999, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"0.12em", textTransform:"uppercase", marginBottom:12 }}>
               Let&apos;s Talk
             </span>
-            <h2 style={{ color:"#fff", fontWeight:800, fontSize:"clamp(20px,3vw,28px)", margin:"0 0 6px", lineHeight:1.25 }}>
+            <h2 className="title-20-mobile" style={{ color:"#fff", fontWeight:800, fontSize:"clamp(20px,3vw,28px)", margin:"0 0 6px", lineHeight:1.25 }}>
               Request for more <span style={{ color:"#38bdf8" }}>information</span>
             </h2>
             <p style={{ color:"rgba(255,255,255,0.45)", fontSize:13, margin:"0 0 16px" }}>Microsoft Certification Training with Koenig Solutions</p>
             {/* Quick action links */}
-            <div style={{ display:"flex", justifyContent:"center", gap:10, flexWrap:"wrap" }}>
-              <a href="https://wa.me/918800971792" target="_blank" rel="noopener noreferrer"
-                style={{ display:"inline-flex", alignItems:"center", gap:7, border:"1px solid rgba(255,255,255,0.15)", borderRadius:10, padding:"8px 16px", color:"rgba(255,255,255,0.75)", fontSize:13, textDecoration:"none", fontFamily:"inherit" }}>
+            <div className="whatsapp-email-row" style={{ display:"flex", justifyContent:"center", gap:10, flexWrap:"wrap" }}>
+              <a href="https://wa.me/918800971792" target="_blank" rel="noopener noreferrer" className="whatsapp-email-btn"
+                style={{ display:"inline-flex", alignItems:"center", gap:7, border:"1px solid rgba(255,255,255,0.15)", borderRadius:10, padding:"8px 16px", color:"rgba(255,255,255,0.75)", fontSize:13, textDecoration:"none", fontFamily:"inherit", whiteSpace:"nowrap" }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 WhatsApp us
               </a>
-              <a href="mailto:training@koenig-solutions.com"
-                style={{ display:"inline-flex", alignItems:"center", gap:7, border:"1px solid rgba(255,255,255,0.15)", borderRadius:10, padding:"8px 16px", color:"rgba(255,255,255,0.75)", fontSize:13, textDecoration:"none", fontFamily:"inherit" }}>
+              <a href="mailto:training@koenig-solutions.com" className="whatsapp-email-btn"
+                style={{ display:"inline-flex", alignItems:"center", gap:7, border:"1px solid rgba(255,255,255,0.15)", borderRadius:10, padding:"8px 16px", color:"rgba(255,255,255,0.75)", fontSize:13, textDecoration:"none", fontFamily:"inherit", whiteSpace:"nowrap" }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
                 Email us
               </a>
@@ -15559,7 +15944,7 @@ export default function App() {
               revealed together with the bonus copy. */}
           <div style={{ marginBottom: heroExpanded ? 2 : 14 }}>
             <p className={`hero-sub${heroExpanded ? "" : " hero-sub-clamp"}`} style={{ marginBottom: 0 }}>
-              <strong style={{color:"#fff"}}>Official Microsoft Authorized Learning Partner.</strong> MCT-certified instructors, <strong style={{color:"#fff"}}>95% exam pass rate</strong>, 100+ courses — train online or 1-on-1 in <strong style={{color:"#fff"}}>50+ countries</strong>. Azure job postings grew <strong style={{color:"#fff"}}>40%</strong> last year. Every month without a cert is a month competitors pull ahead.
+              <strong style={{color:"#fff"}}>Official Microsoft Authorized Learning Partner.</strong> MCT-certified instructors, <strong style={{color:"#fff"}}>95% exam pass rate</strong>, 300+ courses — train online or 1-on-1 in <strong style={{color:"#fff"}}>50+ countries</strong>. Azure job postings grew <strong style={{color:"#fff"}}>40%</strong> last year. Every month without a cert is a month competitors pull ahead.
               {heroExpanded && (
                 <span className="hero-sub-more">
                   {" "}We deliver official <strong style={{color:"#fff"}}>Microsoft Courseware (MOC)</strong> for Azure, AI, Security, M365, and Dynamics 365 role tracks. <strong style={{color:"#fff"}}>Flexi scheduling</strong> means you start any day — from <strong style={{color:"#fff"}}>AZ-900 Fundamentals</strong> through <strong style={{color:"#fff"}}>AZ-305 Expert-level</strong>. Microsoft has recognised Koenig as <strong style={{color:"#fff"}}>Partner of the Year</strong> multiple times, including FY24.
@@ -15589,7 +15974,7 @@ export default function App() {
               className="hero-read-more"
               onClick={() => setHeroExpanded(v => !v)}
               aria-expanded={heroExpanded}
-              style={{ marginTop: heroExpanded ? 14 : 6, display: "inline-block" }}
+              style={{ marginTop: heroExpanded ? 14 : 6, display: "inline-block", position: "relative", top: heroExpanded ? -20 : 0 }}
             >
               {heroExpanded ? "Show less ↑" : "Read more ↓"}
             </button>
@@ -15697,28 +16082,6 @@ export default function App() {
 
         </div>
         </div>{/* end .hero-cols */}
-
-        {/* ── Below-banner stats strip: all 5 stats in one line ── */}
-        <div className="hero-stats-bar stats-animated">
-          <div className="hero-stats-inner">
-            {[
-              {n:95,  suf:"%", label:"Exam Pass Rate",       src:"vs. 60–70% industry avg", glowCls:"glow-3", iconBg:"rgba(7,109,157,0.18)",  icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0694D1" strokeWidth="1.5"/><path d="M7.5 12l3 3 6-6" stroke="#3AB6EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>},
-              {n:300, suf:"+", label:"MCT-Certified Trainers", src:"No contractors, ever",      glowCls:"glow-4", iconBg:"rgba(6,148,209,0.14)",    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="#0694D1"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" fill="#3AB6EB" opacity="0.7"/></svg>},
-              {n:300, suf:"+", label:"Microsoft Courses",      src:"Azure · AI · Security · M365", glowCls:"glow-5", iconBg:"rgba(255,255,255,0.06)", icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="1" fill="#f25022"/><rect x="13" y="3" width="8" height="8" rx="1" fill="#7fba00"/><rect x="3" y="13" width="8" height="8" rx="1" fill="#00a4ef"/><rect x="13" y="13" width="8" height="8" rx="1" fill="#ffb900"/></svg>},
-              {n:33,  suf:"+", label:"Years of Excellence",       glowCls:"glow-1", iconBg:"rgba(58,182,235,0.14)", icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26H20.5l-5.27 3.84 2.09 6.26L12 14.52l-5.32 3.84 2.09-6.26L3.5 8.26H9.91z" fill="#3AB6EB"/></svg>},
-              {n:500000, suf:"+", label:"IT Professionals Certified", glowCls:"glow-2", iconBg:"rgba(6,148,209,0.16)",  icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="6" r="3.5" fill="#0694D1"/><path d="M2 20c0-3.87 3.13-7 7-7s7 3.13 7 7" fill="#0694D1" opacity="0.85"/><circle cx="17" cy="7" r="2.5" fill="#3AB6EB" opacity="0.75"/><path d="M20 20c0-2.76-1.79-5.12-4.31-5.82" stroke="#3AB6EB" strokeWidth="1.5" strokeLinecap="round" opacity="0.75"/></svg>},
-            ].map((s, i) => (
-              <div key={i} className="hero-stat-item">
-                <div className={`hero-stat-icon ${s.glowCls}`} style={{ background:s.iconBg }}>{s.icon}</div>
-                <div className="hero-stat-text">
-                  <div className="hero-stat-number"><Counter end={s.n} suffix={s.suf}/></div>
-                  <div className="hero-stat-label">{s.label}</div>
-                  {s.src && <div className="hero-stat-src">{s.src}</div>}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
         {/* Mobile-only: quick technology selector */}
         <div className="hero-tech-menu-wrap">
@@ -16001,6 +16364,9 @@ export default function App() {
       {/* WHY CHOOSE KOENIG + ROI — combined tabbed section */}
       <KoenigCombinedSection onCTA={() => { const el = document.getElementById('cert'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }} />
 
+      {/* ADVISOR CTA BANNER — opens the same "Request for more information" enquiry modal */}
+      <AdvisorCtaBanner onCTA={() => setModal(true)} />
+
       {/* WEBINARS */}
       <WebinarsSection onCTA={() => setModal(true)} />
 
@@ -16033,7 +16399,7 @@ export default function App() {
             }}>
               Real Transformations
             </span>
-            <h2 style={{ fontSize: "clamp(22px,3.5vw,34px)", fontWeight: 800, color: "#071e2e", margin: "0 0 12px", lineHeight: 1.3, letterSpacing: "-0.015em" }}>
+            <h2 className="title-20-mobile" style={{ fontSize: "clamp(22px,3.5vw,34px)", fontWeight: 800, color: "#071e2e", margin: "0 0 12px", lineHeight: 1.3, letterSpacing: "-0.015em" }}>
               Microsoft Certification{" "}
               <span style={{
                 background: "linear-gradient(90deg,#0694D1,#22d3ee)",
@@ -16226,8 +16592,8 @@ export default function App() {
 
       {/* ENQUIRY MODAL */}
       {modal && (
-        <div className="modal-overlay" onClick={e=>{ if(e.target===e.currentTarget) setModal(false); }}>
-          <div className="modal-box">
+        <div className="modal-overlay modal-overlay-enquiry" onClick={e=>{ if(e.target===e.currentTarget) setModal(false); }}>
+          <div className="modal-box modal-box-enquiry">
             <button className="modal-close" onClick={()=>setModal(false)}>✕</button>
             <EnterpriseLeadForm onClose={()=>setModal(false)}/>
           </div>

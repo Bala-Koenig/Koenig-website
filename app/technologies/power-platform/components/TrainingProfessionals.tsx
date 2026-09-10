@@ -54,6 +54,9 @@ export default function TrainingProfessionals() {
         .tp-stat-lbl { font-size: 12px; font-weight: 500; color: #4a6375; text-transform: uppercase; letter-spacing: 1px; }
         .tp-divider { width: 1px; align-self: stretch; background: rgba(6,148,209,0.12); }
 
+        @media (max-width: 700px) {
+          #tp-heading { font-size: 20px !important; }
+        }
         @media (max-width: 900px) {
           .tp-inner { flex-direction: column; gap: 15px; }
           .tp-map-panel { width: 100%; }

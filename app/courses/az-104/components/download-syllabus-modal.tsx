@@ -31,27 +31,38 @@ export function DownloadSyllabusModal({ courseTitle, courseCode, triggerClassNam
   }
 
   const inputStyle: React.CSSProperties = {
-    background: "rgba(255,255,255,0.05)",
-    border: "1px solid rgba(255,255,255,0.1)",
-    color: "#fff",
+    background: "#fff",
+    border: "1.5px solid #C7D9E8",
+    color: "#093148",
+    boxShadow: "0 1px 3px rgba(6,148,209,0.06)",
   };
-  const inputCls = "w-full rounded-xl px-4 py-[11px] text-sm placeholder-white/30 outline-none transition-colors focus:border-[#0694D1]";
-  const labelCls = "mb-1.5 block text-xs font-bold uppercase tracking-wide text-white/50";
+  const inputCls = "reqinfo-field w-full rounded-xl px-4 py-[11px] text-sm placeholder-koenig-muted/70 outline-none transition-all";
+  const labelCls = "mb-1.5 block text-sm font-medium text-koenig-dark";
 
   const courseLabel = courseTitle.startsWith(courseCode) ? courseTitle : `${courseCode}: ${courseTitle}`;
 
   const modal = open && mounted && createPortal(
     <div className="fixed inset-0 z-[999] flex items-center justify-center p-4" onClick={() => setOpen(false)}>
+      {/* Field focus state — !important beats each field's inline border/background style */}
+      <style>{`
+        .reqinfo-field:focus {
+          border-color: #0694D1 !important;
+          box-shadow: 0 10px 20px -8px rgba(6,148,209,0.35), 0 0 0 3px rgba(6,148,209,0.15) !important;
+        }
+      `}</style>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div
-        className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl"
-        style={{ background: "radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.18) 0%, rgba(6,148,209,0.06) 38%, transparent 65%), #06111E" }}
+        className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl border border-koenig-blue/15"
+        style={{
+          background: "radial-gradient(ellipse at 68% 48%, rgba(6,148,209,0.10) 0%, rgba(6,148,209,0.04) 38%, transparent 65%), #F3FAFD",
+          boxShadow: "0 0 80px 10px rgba(6,148,209,0.35), 0 25px 50px -12px rgba(0,0,0,0.35)",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
           onClick={() => setOpen(false)}
-          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 transition"
+          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white text-koenig-muted hover:bg-koenig-border transition"
         >
           ✕
         </button>
@@ -60,8 +71,8 @@ export function DownloadSyllabusModal({ courseTitle, courseCode, triggerClassNam
           {submitted ? (
             <div className="py-12 text-center">
               <div className="mb-4 text-5xl">✅</div>
-              <h3 className="mb-2 text-xl font-bold text-white">Sent!</h3>
-              <p className="text-white/60">Check your inbox — the course content is on its way.</p>
+              <h3 className="mb-2 text-xl font-bold text-koenig-dark">Sent!</h3>
+              <p className="text-koenig-muted">Check your inbox — the course content is on its way.</p>
               <button onClick={() => setOpen(false)} className="mt-6 rounded-xl bg-koenig-blue px-6 py-2.5 text-sm font-semibold text-white hover:bg-koenig-accent transition">
                 Close
               </button>
@@ -70,18 +81,22 @@ export function DownloadSyllabusModal({ courseTitle, courseCode, triggerClassNam
             <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
               {/* Eyebrow */}
               <div className="mb-4 flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#38bdf8" }} />
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#38bdf8" }}>Download Syllabus</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 text-koenig-blue">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <text x="12" y="17.5" fontSize="6.5" fontWeight="700" fill="currentColor" stroke="none" textAnchor="middle">PDF</text>
+                </svg>
+                <span className="text-xs font-bold uppercase tracking-widest text-koenig-blue">Download Syllabus</span>
               </div>
 
               {/* Course box */}
-              <div className="mb-5 rounded-xl px-4 py-3" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-white/40">Course</p>
-                <p className="text-sm font-bold leading-snug text-white">{courseLabel}</p>
+              <div className="mb-5 rounded-xl border border-koenig-blue/20 bg-koenig-blue/5 px-4 py-3">
+                <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-koenig-muted">Course</p>
+                <p className="text-sm font-bold leading-snug text-koenig-dark">{courseLabel}</p>
               </div>
 
-              <h2 className="mb-1.5 text-xl font-extrabold text-white">Get the Course Content</h2>
-              <p className="mb-5 text-sm leading-relaxed text-white/50">
+              <h2 className="mb-1.5 text-xl font-bold text-koenig-dark">Get the Course Content</h2>
+              <p className="mb-5 text-sm leading-relaxed text-koenig-muted">
                 Fill in your details and we&apos;ll send it straight to your inbox.
               </p>
 
@@ -115,21 +130,21 @@ export function DownloadSyllabusModal({ courseTitle, courseCode, triggerClassNam
                   <div className="relative">
                     <select
                       required
-                      className="w-full appearance-none rounded-xl px-4 py-[11px] text-sm outline-none transition-colors focus:border-[#0694D1]"
-                      style={{ ...inputStyle, color: form.country ? "#fff" : "rgba(255,255,255,0.3)" }}
+                      className="reqinfo-field w-full appearance-none rounded-xl px-4 py-[11px] text-sm outline-none transition-all"
+                      style={{ ...inputStyle, color: form.country ? "#093148" : "#7a8c96" }}
                       value={form.country}
                       onChange={(e) => set("country", e.target.value)}
                     >
-                      <option value="" disabled style={{ background: "#0a1929" }}>Select your country</option>
+                      <option value="" disabled style={{ background: "#fff" }}>Select your country</option>
                       {countries.map((c) => (
-                        <option key={c} value={c} style={{ background: "#0a1929", color: "#fff" }}>{c}</option>
+                        <option key={c} value={c} style={{ background: "#fff", color: "#093148" }}>{c}</option>
                       ))}
                     </select>
-                    <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2" style={{ color: "rgba(255,255,255,0.4)" }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                    <svg className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-koenig-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                   </div>
                 </div>
 
-                <p className="flex items-center gap-2 text-xs text-white/40">
+                <p className="flex items-center gap-2 text-xs text-koenig-muted">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                     <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 5L2 7" />
                   </svg>
@@ -138,14 +153,13 @@ export function DownloadSyllabusModal({ courseTitle, courseCode, triggerClassNam
 
                 <button
                   type="submit"
-                  className="w-full rounded-xl py-4 text-base font-bold text-white transition-opacity hover:opacity-90 active:scale-[0.99]"
-                  style={{ background: "linear-gradient(135deg, #0694D1 0%, #076D9D 100%)", boxShadow: "0 0 28px rgba(6,148,209,0.40)" }}
+                  className="w-full rounded-xl bg-koenig-blue py-4 text-base font-bold text-white transition hover:bg-koenig-accent active:scale-[0.99]"
                 >
                   Send Course Content →
                 </button>
               </div>
 
-              <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-[11px] text-white/30">
+              <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-[11px] text-koenig-muted">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="10" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                 No spam, ever. Unsubscribe anytime.
               </p>

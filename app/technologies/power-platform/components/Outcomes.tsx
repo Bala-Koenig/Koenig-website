@@ -103,6 +103,7 @@ export default function Outcomes() {
 
         {/* Heading */}
         <h2
+          id="outcomes-heading"
           className="animate-on-scroll"
           style={{
             textAlign: "center",
@@ -208,6 +209,9 @@ export default function Outcomes() {
         @media (max-width: 700px) {
           .outcomes-grid {
             grid-template-columns: 1fr !important;
+          }
+          #outcomes-heading {
+            font-size: 20px !important;
           }
         }
       `}</style>

@@ -82,6 +82,7 @@ export default function RelatedTech() {
         .rt-desktop-grid { display: grid; }
 
         @media(max-width: 700px) {
+          #related-tech-heading { font-size: 20px !important; }
           .rt-desktop-grid { display: none; }
           .rt-mobile-carousel { display: block; }
 

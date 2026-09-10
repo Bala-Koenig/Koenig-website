@@ -445,10 +445,10 @@ function assignSpanLanes(batches: Batch[], weekIsos: string[]): SpanItem[][] {
   return lanes;
 }
 
-function seatStatus(batch: Batch): { label: string; text: string; color: string; dot: string } {
-  if (batch.seats <= 3) return { label: `${batch.seats} left · Almost full`,   text: "Almost full",     color: "text-koenig-navy",  dot: "bg-koenig-navy"  };
-  if (batch.seats <= 6) return { label: `${batch.seats} left · Limited seats`, text: "Limited seats",   color: "text-koenig-navy",  dot: "bg-koenig-navy"  };
-  return                       { label: `${batch.seats} seats available`,       text: "Seats available", color: "text-koenig-muted",  dot: "bg-koenig-muted"  };
+function seatStatus(batch: Batch): { label: string; text: string; color: string; dot: string; bg: string; border: string } {
+  if (batch.seats <= 1) return { label: `${batch.seats} seat${batch.seats === 1 ? "" : "s"} left`, text: "Almost full",     color: "text-red-400",    dot: "bg-red-400",    bg: "bg-red-50",    border: "border-red-200"    };
+  if (batch.seats <= 5) return { label: `${batch.seats} seats left`,                                text: "Limited seats",   color: "text-orange-400", dot: "bg-orange-400", bg: "bg-orange-50", border: "border-orange-200" };
+  return                       { label: `${batch.seats} seats available`,                           text: "Seats available", color: "text-green-400",  dot: "bg-green-400",  bg: "bg-green-50",  border: "border-green-200"  };
 }
 
 function seatBarWidth(batch: Batch): string {
@@ -457,8 +457,9 @@ function seatBarWidth(batch: Batch): string {
 }
 
 function seatBarColor(batch: Batch): string {
-  if (batch.seats <= 6) return "bg-koenig-navy";
-  return "bg-koenig-muted";
+  if (batch.seats <= 1) return "bg-red-400";
+  if (batch.seats <= 5) return "bg-orange-400";
+  return "bg-green-400";
 }
 
 /** AZ-104 total training hours */
@@ -533,6 +534,32 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
     };
   }, []);
 
+  // Hard stop for the floating mobile Enroll bar: an end-of-section sentinel
+  // via IntersectionObserver, so the bar reliably disappears once the
+  // schedule section is actually scrolled past — the scroll-listener math
+  // above can go stale on fast/inertial mobile scrolling and leave the bar
+  // stuck showing over whatever section comes next (e.g. the lead form).
+  const scheduleEndRef = useRef<HTMLDivElement>(null);
+  const [pastScheduleEnd, setPastScheduleEnd] = useState(false);
+  useEffect(() => {
+    const el = scheduleEndRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        // Not just "is the sentinel visible right now" (that flips back to
+        // false again once it scrolls above the viewport too, bringing the
+        // bar back) — track direction: once its bottom edge has scrolled
+        // above the top of the viewport, we're past it for good until the
+        // user scrolls back up.
+        setPastScheduleEnd(e.boundingClientRect.bottom <= 0);
+      },
+      { threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  const showMobileEnrollBar = scheduleInView && tabsFloating && !pastScheduleEnd;
+
   const [activeView, setActiveView] = useState<"calendar" | "list" | "compare">("list");
   const [listPage, setListPage] = useState(0);
   const [certSelected, setCertSelected] = useState<Set<number>>(new Set());
@@ -570,6 +597,8 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
   const [flexiModalOpen, setFlexiModalOpen] = useState(false);
   const [detailInfoModal, setDetailInfoModal] = useState<"public" | "one-on-one" | null>(null);
   const [tzOpen, setTzOpen] = useState(false);
+  const [formatOpen, setFormatOpen] = useState(false);
+  const [scheduleTypeOpen, setScheduleTypeOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerMonth, setPickerMonth] = useState(today.getMonth());
   const [pickerYear, setPickerYear] = useState(today.getFullYear());
@@ -741,7 +770,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
 
   return (
     <>
-    <section id="schedule" className="relative overflow-hidden border-t border-b border-koenig-border bg-white px-3 sm:px-6 py-8 sm:py-14">
+    <section id="schedule" className="relative border-t border-b border-koenig-border bg-white px-3 sm:px-6 py-8 sm:py-14">
       {/* Top accent gradient bar */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-koenig-blue via-cyan-400 to-koenig-blue/50" />
       {/* Glow blobs */}
@@ -764,16 +793,8 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
         {/* ══════════════════════════════════════════════════════════════ */}
         <div ref={card1Ref} className="rounded-2xl border border-koenig-border bg-white" style={{ boxShadow: '0 8px 40px 0 rgba(6, 148, 209, 0.30), 0 2px 8px 0 rgba(6, 148, 209, 0.18)' }}>
           {/* Card header */}
-          <div className="rounded-t-2xl flex flex-wrap items-center gap-x-2 gap-y-0.5 border-b border-koenig-blue/30 bg-gradient-to-r from-koenig-navy to-koenig-blue px-4 sm:px-6 py-2 sm:py-3">
+          <div className="rounded-t-2xl flex items-center justify-center border-b border-koenig-blue/30 bg-gradient-to-r from-koenig-navy to-koenig-blue px-4 sm:px-6 py-1.5 sm:py-2">
             <span className="text-xs sm:text-sm font-semibold text-white">Choose Your Training Mode</span>
-            <span className="ml-auto flex flex-col items-end whitespace-nowrap">
-              <span className="text-xs sm:text-sm font-extrabold text-white">
-                {pricingTab === "one-on-one" && "From INR 85,000"}
-                {pricingTab === "public" && "From INR 42,500"}
-                {pricingTab === "self-paced" && "From INR 9,990"}
-              </span>
-              <span className="text-[10px] sm:text-[11px] font-normal text-white/70">excl. VAT/GST</span>
-            </span>
           </div>
           {/* ── Tab switcher (all screen sizes) ── */}
           <div>
@@ -781,69 +802,72 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
             <div ref={tabRowRef} className="flex gap-1.5 sm:gap-2 px-3 sm:px-4 pt-3 pb-2 sm:pt-4 sm:pb-3">
               <button
                 onClick={() => setPricingTab("one-on-one")}
-                className={`flex-1 rounded-xl border py-2 sm:py-[11px] transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${pricingTab === "one-on-one" ? "bg-koenig-blue border-koenig-blue text-white shadow-md" : "border-koenig-blue/30 text-koenig-blue bg-sky-50 shadow-sm hover:bg-sky-100 hover:border-koenig-blue/60"}`}
+                className={`flex-1 transition-all flex flex-col items-center justify-center gap-0.5 ${pricingTab === "one-on-one" ? "h-[46px] rounded-[10px] border-[2.5px] border-[#00b4d8] bg-[#f0fbfe] px-4" : "h-[46px] rounded-[10px] border-2 border-[#dde8f0] bg-[#f8fafc] px-4 duration-150 hover:bg-[#f0f4f8] hover:border-[#c8dde8]"}`}
               >
-                {pricingTab === "one-on-one"
-                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  : <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>
-                }
-                <span className="text-xs sm:text-sm font-extrabold"><span className="hidden sm:inline">1-on-1 Training</span><span className="sm:hidden">1-on-1</span></span>
+                <span className={`flex items-center justify-center gap-1.5`}>
+                  {pricingTab === "one-on-one"
+                    ? <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#00b4d8"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    : <span className="flex items-center text-[#7a93a8]"><svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg></span>
+                  }
+                  <span className={pricingTab === "one-on-one" ? "text-[15px] font-semibold text-[#0077a8]" : "text-[15px] font-semibold text-[#0d1e32]"}><span className="hidden sm:inline">1-on-1 Training</span><span className="sm:hidden">1-on-1</span></span>
+                </span>
               </button>
               <button
                 onClick={() => setPricingTab("public")}
-                className={`flex-1 rounded-xl border py-2 sm:py-[11px] transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${pricingTab === "public" ? "bg-koenig-blue border-koenig-blue text-white shadow-md" : "border-koenig-blue/30 text-koenig-blue bg-sky-50 shadow-sm hover:bg-sky-100 hover:border-koenig-blue/60"}`}
+                className={`flex-1 transition-all flex flex-col items-center justify-center gap-0.5 ${pricingTab === "public" ? "h-[46px] rounded-[10px] border-[2.5px] border-[#00b4d8] bg-[#f0fbfe] px-4" : "h-[46px] rounded-[10px] border-2 border-[#dde8f0] bg-[#f8fafc] px-4 duration-150 hover:bg-[#f0f4f8] hover:border-[#c8dde8]"}`}
               >
-                {pricingTab === "public"
-                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  : <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>
-                }
-                <span className="text-xs sm:text-sm font-extrabold"><span className="hidden sm:inline">Public Training</span><span className="sm:hidden">Public</span></span>
+                <span className={`flex items-center justify-center gap-1.5`}>
+                  {pricingTab === "public"
+                    ? <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#00b4d8"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    : <span className="flex items-center text-[#7a93a8]"><svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg></span>
+                  }
+                  <span className={pricingTab === "public" ? "text-[15px] font-semibold text-[#0077a8]" : "text-[15px] font-semibold text-[#0d1e32]"}><span className="hidden sm:inline">Public Training</span><span className="sm:hidden">Public</span></span>
+                </span>
               </button>
               <button
                 onClick={() => setPricingTab("self-paced")}
-                className={`flex-1 rounded-xl border py-2 sm:py-[11px] transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${pricingTab === "self-paced" ? "bg-koenig-blue border-koenig-blue text-white shadow-md" : "border-koenig-blue/30 text-koenig-blue bg-sky-50 shadow-sm hover:bg-sky-100 hover:border-koenig-blue/60"}`}
+                className={`flex-1 transition-all flex flex-col items-center justify-center gap-0.5 ${pricingTab === "self-paced" ? "h-[46px] rounded-[10px] border-[2.5px] border-[#00b4d8] bg-[#f0fbfe] px-4" : "h-[46px] rounded-[10px] border-2 border-[#dde8f0] bg-[#f8fafc] px-4 duration-150 hover:bg-[#f0f4f8] hover:border-[#c8dde8]"}`}
               >
-                {pricingTab === "self-paced"
-                  ? <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="white"/><polyline points="6 12 10 16 18 8" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  : <svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg>
-                }
-                <span className="text-xs sm:text-sm font-extrabold">Flexi<span className="hidden sm:inline text-xs font-normal opacity-75"> (Self Paced)</span></span>
+                <span className={`flex items-center justify-center gap-1.5`}>
+                  {pricingTab === "self-paced"
+                    ? <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#00b4d8"/><polyline points="6 12 10 16 18 8" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    : <span className="flex items-center text-[#7a93a8]"><svg width="14" height="14" className="sm:w-[18px] sm:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10.5" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4"/><polyline points="6 12 10 16 18 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.3"/></svg></span>
+                  }
+                  <span className={pricingTab === "self-paced" ? "text-[15px] font-semibold text-[#0077a8]" : "text-[15px] font-semibold text-[#0d1e32]"}>Flexi<span className="hidden sm:inline text-xs font-normal opacity-75"> (Self Paced)</span></span>
+                </span>
               </button>
             </div>
 
             {/* Tab content panel */}
-            <div className="px-3 sm:px-4 pb-4">
+            <div className={`px-3 sm:px-4 ${pricingTab === "self-paced" ? "pb-4" : "pb-1"}`}>
 
               {pricingTab === "one-on-one" && (
-                <div className="rounded-xl border border-koenig-navy/30 bg-transparent overflow-hidden">
-                  <div className="pl-5 pr-3 pt-[15px] pb-3">
-                    <div className="mb-2 flex flex-wrap gap-1.5">
+                <div>
+                  <div className="pl-2.5 pr-4 pt-1 pb-0">
+                    <div className="mb-[10px] flex flex-wrap gap-1">
                       {["Private instructor", "Any date", "Flexible hours", "Personalised curriculum"].map((tag) => (
-                        <span key={tag} className="rounded-full bg-koenig-navy/10 px-2.5 py-0.5 text-[11px] font-medium text-koenig-navy border border-koenig-navy/20">{tag}</span>
+                        <span key={tag} className="rounded-full bg-koenig-navy/10 px-2 py-0.5 text-[11px] font-medium text-koenig-navy border border-koenig-navy/20">{tag}</span>
                       ))}
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                      <ul className="flex flex-col gap-y-0.5">
-                        <li className="flex items-start gap-2">
-                          <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-navy" />
+                    <div className="mb-[10px] flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                      <ul className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
+                        <li className="flex items-center gap-2">
+                          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
                           <span className="text-xs font-bold text-koenig-dark">Live Training (Duration: 32 Hours)</span>
                         </li>
-                        <li className="flex items-start gap-2">
-                          <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-navy" />
-                          <span className="text-xs font-semibold text-koenig-gray">Also available in <span className="text-koenig-blue">Arabic</span>, <span className="text-koenig-blue">Japanese</span>, <span className="text-koenig-blue">Polish</span> &amp; <span className="text-koenig-blue">Spanish</span></span>
+                        <li className="flex items-center gap-2">
+                          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
+                          <span className="text-xs font-bold text-koenig-dark">Available in all languages</span>
                         </li>
-                      </ul>
-                      <ul className="flex flex-col gap-y-0.5">
                         {[{ text: "Per Participant", bold: false }, { text: "Guaranteed-to-Run (GTR)", bold: false }].map(({ text, bold }) => (
-                          <li key={text} className="flex items-start gap-2">
-                            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-navy" />
+                          <li key={text} className="flex items-center gap-2">
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
                             <span className={`text-xs ${bold ? "font-bold text-koenig-dark" : "font-semibold text-koenig-gray"}`}>{text}</span>
                           </li>
                         ))}
                       </ul>
-                      <button onClick={() => setStackModalOpen(true)} className="flex-shrink-0 cursor-pointer rounded-lg border border-koenig-blue/30 bg-koenig-blue/8 px-3 py-2 text-[11px] font-semibold text-koenig-blue hover:bg-koenig-blue/15 transition whitespace-nowrap flex flex-col items-center gap-0.5 sm:ml-auto sm:mr-[150px]">
-                        <span>Koenig Learning Stack*</span>
-                        <span className="text-[10px] font-normal text-koenig-blue/70">click here to view</span>
+                      <button onClick={() => setStackModalOpen(true)} className="mt-[10px] sm:mt-0 flex-shrink-0 cursor-pointer text-[11px] font-semibold text-koenig-blue underline underline-offset-2 hover:text-koenig-accent transition whitespace-nowrap sm:ml-auto">
+                        Koenig Learning Stack*
                       </button>
                     </div>
                   </div>
@@ -851,35 +875,32 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
               )}
 
               {pricingTab === "public" && (
-                <div className="rounded-xl border border-koenig-blue/30 bg-transparent overflow-hidden">
-                  <div className="pl-5 pr-3 pt-[15px] pb-3">
-                    <div className="mb-2 flex flex-wrap gap-1.5">
-                      {["Live online & classroom", "Scheduled dates", "GTR assured", "MCT-led"].map((tag) => (
-                        <span key={tag} className="rounded-full bg-koenig-blue/10 px-2.5 py-0.5 text-[11px] font-medium text-koenig-blue border border-koenig-blue/20">{tag}</span>
+                <div>
+                  <div className="pl-2.5 pr-4 pt-1 pb-0">
+                    <div className="mb-[10px] flex flex-wrap gap-1.5">
+                      {["Live online & classroom", "Scheduled dates", "GTR assured", "Expert-led"].map((tag) => (
+                        <span key={tag} className="rounded-full bg-koenig-navy/10 px-2 py-0.5 text-[11px] font-medium text-koenig-navy border border-koenig-navy/20">{tag}</span>
                       ))}
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                      <ul className="flex flex-col gap-y-0.5">
-                        <li className="flex items-start gap-2">
-                          <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
+                    <div className="mb-[10px] flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                      <ul className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
+                        <li className="flex items-center gap-2">
+                          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
                           <span className="text-xs font-bold text-koenig-dark">Live Training (Duration: 32 Hours)</span>
                         </li>
-                        <li className="flex items-start gap-2">
-                          <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
-                          <span className="text-xs font-semibold text-koenig-gray">Also available in <span className="text-koenig-blue">Arabic</span>, <span className="text-koenig-blue">Japanese</span>, <span className="text-koenig-blue">Polish</span> &amp; <span className="text-koenig-blue">Spanish</span></span>
+                        <li className="flex items-center gap-2">
+                          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
+                          <span className="text-xs font-bold text-koenig-dark">Available in all languages</span>
                         </li>
-                      </ul>
-                      <ul className="flex flex-col gap-y-0.5">
                         {[{ text: "Per Participant", bold: false }].map(({ text, bold }) => (
-                          <li key={text} className="flex items-start gap-2">
-                            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
+                          <li key={text} className="flex items-center gap-2">
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
                             <span className={`text-xs ${bold ? "font-bold text-koenig-dark" : "font-semibold text-koenig-gray"}`}>{text}</span>
                           </li>
                         ))}
                       </ul>
-                      <button onClick={() => setStackModalOpen(true)} className="flex-shrink-0 cursor-pointer rounded-lg border border-koenig-blue/30 bg-koenig-blue/8 px-3 py-2 text-[11px] font-semibold text-koenig-blue hover:bg-koenig-blue/15 transition whitespace-nowrap flex flex-col items-center gap-0.5 sm:ml-auto sm:mr-[150px]">
-                        <span>Koenig Learning Stack*</span>
-                        <span className="text-[10px] font-normal text-koenig-blue/70">click here to view</span>
+                      <button onClick={() => setStackModalOpen(true)} className="mt-[10px] sm:mt-0 flex-shrink-0 cursor-pointer text-[11px] font-semibold text-koenig-blue underline underline-offset-2 hover:text-koenig-accent transition whitespace-nowrap sm:ml-auto">
+                        Koenig Learning Stack*
                       </button>
                     </div>
                   </div>
@@ -887,26 +908,18 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
               )}
 
               {pricingTab === "self-paced" && (
-                <div className="rounded-xl border border-koenig-accent/30 bg-transparent overflow-hidden">
-                  <div className="pl-5 pr-3 pt-[15px] pb-3">
-                    <div className="mb-2 flex flex-wrap gap-1.5">
-                      {["Start anytime", "6 months access", "MCT support", "Learn at your pace"].map((tag) => (
-                        <span key={tag} className="rounded-full bg-koenig-accent/10 px-2.5 py-0.5 text-[11px] font-medium text-koenig-accent border border-koenig-accent/20">{tag}</span>
+                <div>
+                  <div className="pl-2.5 pr-4 pt-1 pb-0">
+                    <div className="mb-[10px] flex flex-wrap gap-1.5">
+                      {["Start anytime", "6 months access", "Trainer support", "Learn at your pace"].map((tag) => (
+                        <span key={tag} className="rounded-full bg-koenig-navy/10 px-2 py-0.5 text-[11px] font-medium text-koenig-navy border border-koenig-navy/20">{tag}</span>
                       ))}
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                      <ul className="flex flex-col gap-y-0.5">
-                        {["Access within 30 minutes", "Microsoft Learn content + hands-on labs (Optional)", "6 Hrs free MCT consultation"].map((item) => (
-                          <li key={item} className="flex items-start gap-2">
-                            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-accent" />
-                            <span className="text-xs font-semibold text-koenig-gray">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <ul className="flex flex-col gap-y-0.5">
-                        {["6 months video access · Exam prep (Qubits)", "Certificate of Completion"].map((item) => (
-                          <li key={item} className="flex items-start gap-2">
-                            <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-accent" />
+                    <div className="mb-[10px] flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                      <ul className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
+                        {["Access within 30 minutes (English language)", "Available in all languages — delivered within 24 hours", "6 Hrs free trainer consultation", "6 months video access", "Exam prep (Qubits)", "Certificate of Completion"].map((item) => (
+                          <li key={item} className="flex items-center gap-2">
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
                             <span className="text-xs font-semibold text-koenig-gray">{item}</span>
                           </li>
                         ))}
@@ -1056,12 +1069,15 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
 
           </div>
 
+          {/* ── CARD 2 (1-on-1 only, trial) — Schedule Session as its own floating card ── */}
+          <div className={pricingTab === "one-on-one" ? "rounded-2xl border border-koenig-border bg-white" : ""}>
+
           {/* ── Section title bar — non-public tabs only ── */}
           {pricingTab !== "public" && (
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-koenig-border bg-koenig-light/60 px-[15px] sm:px-5 py-3">
+            <div className={`flex flex-wrap items-center gap-x-3 gap-y-2 bg-koenig-light/60 px-[15px] sm:px-5 pt-3 pb-[10px] ${pricingTab === "one-on-one" ? "rounded-t-2xl" : "border-t border-koenig-border"}`}>
               <div className="flex min-w-0 flex-1 items-center gap-2">
                 <span className="truncate text-sm font-semibold text-koenig-dark">
-                  {pricingTab === "self-paced" ? "Flexi — Choose Add-ons" : "1-on-1 — Schedule Session"}
+                  {pricingTab === "self-paced" ? "Flexi — Choose Add-ons" : "Schedule your 1-on-1 session"}
                 </span>
               </div>
               {pricingTab === "self-paced" && (
@@ -1100,7 +1116,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
               </button>
               {/* View toggle — unchanged */}
               <div className="flex items-center gap-0.5 rounded-full bg-white border border-koenig-border p-1">
-                {(["list", "calendar", "compare"] as const).map((view) => (
+                {(["list", "calendar"] as const).map((view) => (
                   <button key={view} onClick={() => setActiveView(view)}
                     className={`flex items-center justify-center rounded-full p-1.5 transition ${activeView === view ? "bg-koenig-navy text-white shadow-sm" : "text-koenig-muted hover:text-koenig-navy"}`}>
                     {view === "list" && <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>}
@@ -1236,46 +1252,61 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
             {/* ── DESKTOP: single row ── */}
             <div className="hidden sm:flex items-center gap-x-4">
               <div className="flex items-center gap-2">
-                <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide text-koenig-dark">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                  Format
-                </span>
-                <div className="flex items-center gap-1">
-                  {["All", "Online", "Classroom"].map((fmt) => (
-                    <button key={fmt} onClick={() => setActiveFormat(fmt)}
-                      className={`rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition ${activeFormat === fmt ? "bg-koenig-navy text-white shadow-sm" : "bg-white text-koenig-dark border border-koenig-dark/30 hover:border-koenig-navy hover:text-koenig-navy"}`}>
-                      {fmt}
-                    </button>
-                  ))}
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-koenig-muted">Learning format</span>
+                <div className="relative">
+                  <button onClick={() => { setFormatOpen(v => !v); setScheduleTypeOpen(false); setTzOpen(false); }}
+                    className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition ${activeFormat !== "All" ? "bg-koenig-navy text-white shadow-sm" : "bg-white text-koenig-dark border border-koenig-dark/30 hover:border-koenig-navy hover:text-koenig-navy"}`}>
+                    <span>{activeFormat === "All" ? "All formats" : activeFormat}</span>
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                  {formatOpen && (
+                    <div className="absolute left-0 top-full z-10 mt-1 w-40 rounded-lg border border-koenig-border bg-white p-1.5 shadow-lg">
+                      {["All", "Online", "Classroom"].map((fmt) => (
+                        <button key={fmt} onClick={() => { setActiveFormat(fmt); setFormatOpen(false); }}
+                          className={`flex w-full items-center justify-between rounded-md px-2.5 py-2 text-left text-xs transition hover:bg-koenig-light active:scale-[0.98] ${activeFormat === fmt ? "font-semibold text-koenig-blue bg-koenig-blue/5" : "text-koenig-dark"}`}>
+                          <span>{fmt === "All" ? "All formats" : fmt}</span>
+                          {activeFormat === fmt && <svg className="h-3.5 w-3.5 text-koenig-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="h-5 w-px bg-koenig-dark/20" />
               <div className="flex items-center gap-2">
-                <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide text-koenig-dark">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  Type
-                </span>
-                <div className="flex items-center gap-1">
-                  {(["all", "weekday", "weekend"] as const).map((t) => (
-                    <button key={t} onClick={() => setScheduleType(t)}
-                      className={`rounded-full px-3.5 py-1.5 text-[11px] font-semibold capitalize transition ${scheduleType === t ? "bg-koenig-navy text-white shadow-sm" : "bg-white text-koenig-dark border border-koenig-dark/30 hover:border-koenig-navy hover:text-koenig-navy"}`}>
-                      {t === "all" ? "All" : t === "weekday" ? "Weekday" : "Weekend"}
-                    </button>
-                  ))}
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-koenig-muted">Schedule type</span>
+                <div className="relative">
+                  <button onClick={() => { setScheduleTypeOpen(v => !v); setFormatOpen(false); setTzOpen(false); }}
+                    className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition ${scheduleType !== "all" ? "bg-koenig-navy text-white shadow-sm" : "bg-white text-koenig-dark border border-koenig-dark/30 hover:border-koenig-navy hover:text-koenig-navy"}`}>
+                    <span>{scheduleType === "all" ? "All schedules" : scheduleType === "weekday" ? "Weekday" : "Weekend"}</span>
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                  {scheduleTypeOpen && (
+                    <div className="absolute left-0 top-full z-10 mt-1 w-36 rounded-lg border border-koenig-border bg-white p-1.5 shadow-lg">
+                      {(["all", "weekday", "weekend"] as const).map((t) => (
+                        <button key={t} onClick={() => { setScheduleType(t); setScheduleTypeOpen(false); }}
+                          className={`flex w-full items-center justify-between rounded-md px-2.5 py-2 text-left text-xs capitalize transition hover:bg-koenig-light active:scale-[0.98] ${scheduleType === t ? "font-semibold text-koenig-blue bg-koenig-blue/5" : "text-koenig-dark"}`}>
+                          <span>{t === "all" ? "All schedules" : t === "weekday" ? "Weekday" : "Weekend"}</span>
+                          {scheduleType === t && <svg className="h-3.5 w-3.5 text-koenig-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="h-5 w-px bg-koenig-dark/20" />
               <button onClick={() => setGtrOnly(!gtrOnly)}
-                className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition ${gtrOnly ? "bg-green-600 text-white shadow-sm" : "bg-white text-koenig-dark border border-koenig-dark/30 hover:border-green-500 hover:text-green-600"}`}>
-                <span className={`h-1.5 w-1.5 rounded-full ${gtrOnly ? "bg-white" : "bg-green-500"}`} />
-                GTR Only
+                className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition ${gtrOnly ? "bg-green-600 text-white shadow-sm" : "bg-white text-koenig-dark border border-koenig-dark/30 hover:border-green-500 hover:text-green-600"}`}>
+                <span className={`flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${gtrOnly ? "border-white bg-white" : "border-gray-300 bg-white"}`}>
+                  {gtrOnly && <svg className="h-2.5 w-2.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                </span>
+                Guaranteed to run
               </button>
               <div className="relative">
-                <button onClick={() => setTzOpen(!tzOpen)}
-                  className="flex items-center gap-1.5 rounded-lg border border-koenig-dark/30 bg-white px-3.5 py-1.5 text-[11px] font-semibold text-koenig-dark hover:border-koenig-navy transition">
-                  <svg className="h-3.5 w-3.5 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span>{timezone}</span>
-                  <svg className="h-3 w-3 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <button onClick={() => { setTzOpen(!tzOpen); setFormatOpen(false); setScheduleTypeOpen(false); }}
+                  className="flex items-center gap-1.5 rounded-full border border-koenig-dark/30 bg-white px-3.5 py-1.5 text-[11px] font-semibold text-koenig-dark hover:border-koenig-navy transition">
+                  <span>Timezone: {timezone}</span>
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </button>
                 {tzOpen && (
                   <div className="absolute left-0 top-full z-10 mt-1 w-44 rounded-lg border border-koenig-border bg-white p-1.5 shadow-lg">
@@ -1304,7 +1335,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                 )}
               </div>
               <div className="flex items-center gap-0.5 rounded-full bg-white border border-koenig-border p-0.5 ml-auto">
-                {(["list", "calendar", "compare"] as const).map((view) => (
+                {(["list", "calendar"] as const).map((view) => (
                   <button key={view} onClick={() => setActiveView(view)}
                     className={`flex items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-semibold transition ${activeView === view ? "bg-koenig-navy text-white shadow-sm" : "text-koenig-muted hover:text-koenig-navy"}`}>
                     {view === "list" && <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>}
@@ -1417,21 +1448,19 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
               </div>
 
               {/* Mobile fixed bottom Enroll bar — Flexi */}
-              {scheduleInView && tabsFloating && (
+              {showMobileEnrollBar && (
                 <div className="lg:hidden" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40, background: '#fff', borderTop: '1px solid rgba(6,148,209,0.2)', boxShadow: '0 -4px 20px rgba(0,0,0,0.10)', padding: '8px 16px 12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
-                    <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                        <span style={{ fontSize: 14, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>INR {flexiSubtotal.toLocaleString("en-IN")}</span>
-                        <span style={{ fontSize: 10, color: '#8a9db5', whiteSpace: 'nowrap' }}>excl. GST</span>
-                      </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                      <span style={{ fontSize: 14, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>INR {flexiSubtotal.toLocaleString("en-IN")}</span>
+                      <span style={{ fontSize: 10, color: '#8a9db5', whiteSpace: 'nowrap' }}>excl. GST</span>
                       <button
                         onClick={() => setFlexiBreakdownOpen(true)}
-                        style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer', textAlign: 'left' }}
+                        style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer', whiteSpace: 'nowrap' }}
                       >View Fees Breakdown</button>
                     </div>
-                    <button style={{ flex: 1, minWidth: 0, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                      <span>Enroll Now</span>
+                    <button style={{ width: '100%', maxWidth: 320, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                      <span>Get instant access</span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </button>
                   </div>
@@ -1476,54 +1505,44 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
 
               {/* RIGHT — live price + breakdown — desktop only */}
               <div className="hidden lg:flex lg:w-[330px] lg:flex-shrink-0 lg:sticky lg:top-20 lg:self-start flex-col">
-                <div className="rounded-xl border-2 border-koenig-blue/30 bg-white flex flex-col" style={{ boxShadow: '0 4px 20px 0 rgba(6,148,209,0.15)' }}>
-                  {/* Price area */}
-                  <div className="bg-gradient-to-b from-koenig-blue/8 to-koenig-blue/3 px-4 py-4 text-center border-b border-koenig-blue/15 rounded-t-xl">
-                    <div className="text-sm font-bold uppercase tracking-widest text-koenig-navy/70 mb-1">Total (excl. GST)</div>
-                    <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-sm font-bold text-koenig-blue">INR</span>
-                      <span className="text-3xl font-extrabold text-koenig-navy">{flexiSubtotal.toLocaleString("en-IN")}</span>
-                      <span className="text-sm font-bold text-koenig-blue">†</span>
-                    </div>
-                    <button onClick={() => setFlexiBreakdownOpen(v => !v)} className="mt-1.5 text-sm font-semibold text-koenig-blue underline underline-offset-2 hover:text-koenig-navy transition">
-                      {flexiBreakdownOpen ? "Hide Breakdown" : "View Fees Breakdown"}
-                    </button>
+                <div className="rounded-xl border-2 border-koenig-blue/30 bg-white flex flex-col overflow-hidden" style={{ boxShadow: '0 4px 20px 0 rgba(6,148,209,0.15)' }}>
+                  {/* Title */}
+                  <div className="px-4 pt-4 pb-3">
+                    <div className="text-base font-bold text-koenig-dark">Enrollment summary</div>
                   </div>
-                  {/* Inline Fees Breakdown — no absolute positioning, works on all screen sizes */}
-                  {flexiBreakdownOpen && (
-                    <div className="border-b border-koenig-accent/20 text-sm">
-                      <div className="flex items-center justify-between bg-koenig-accent px-3 py-2">
-                        <span className="text-sm font-bold uppercase tracking-wide text-white">Fees Breakdown</span>
-                        <button onClick={() => setFlexiBreakdownOpen(false)} className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition text-xs font-bold">✕</button>
-                      </div>
-                      {[
-                        { label: "Flexi Video", val: FLEXI_VIDEO, active: true, details: "HD video · 6 months · MS Learn" },
-                        { label: "Exam Voucher", val: FLEXI_EXAM, active: flexiExamSelected, details: "Official Microsoft exam voucher" },
-                        { label: "Hands-On-Labs²", val: FLEXI_LABS, active: flexiLabsSelected, details: "Live lab environment access" },
-                      ].filter(r => r.active).map((r, i) => (
-                        <div key={r.label} className={`flex items-start justify-between gap-2 px-3 py-2 bg-white ${i > 0 ? "border-t border-koenig-accent/10" : ""}`}>
-                          <div className="min-w-0">
-                            <div className="text-koenig-muted">{r.label}</div>
-                            <div className="text-sm mt-0.5 text-koenig-muted/70">{r.details}</div>
-                          </div>
-                          <span className="flex-shrink-0 font-semibold text-koenig-dark">{r.val.toLocaleString("en-IN")}</span>
-                        </div>
-                      ))}
-                      <div className="flex items-center justify-between border-t border-koenig-accent/20 bg-koenig-accent/10 px-3 py-2">
-                        <span className="font-bold text-koenig-accent">Total (excl. GST)</span>
-                        <span className="font-bold text-koenig-accent">{flexiSubtotal.toLocaleString("en-IN")}</span>
-                      </div>
+                  {/* Plan + price */}
+                  <div className="px-4 pb-1 flex items-start justify-between gap-2">
+                    <div>
+                      <div className="text-sm font-bold text-koenig-dark">Flexi (Self-Paced)</div>
+                      <div className="mt-0.5 text-xs text-koenig-muted">Start anytime · 6 months access</div>
                     </div>
-                  )}
+                    <div className="text-base font-bold text-koenig-dark whitespace-nowrap">{formatCurrency(FLEXI_VIDEO, "INR")}</div>
+                  </div>
+                  <div className="px-4 pb-3 text-[10px] text-koenig-muted">* Exclusive of 18% GST (calculated at checkout)</div>
+                  <div className="mx-4 border-t border-koenig-border" />
+                  {/* Total payable */}
+                  <div className="px-4 py-3 flex items-center justify-between">
+                    <div>
+                      <span className="text-sm text-koenig-dark">Total payable</span>
+                      <div className="text-[10px] text-koenig-muted">{formatCurrency(flexiSubtotal, "INR")} + 18% GST</div>
+                    </div>
+                    <span className="text-xl font-extrabold text-koenig-dark">{formatCurrency(flexiTotal, "INR")}</span>
+                  </div>
                   {/* Buy Now CTA */}
-                  <div className="px-4 py-3">
+                  <div className="px-4 pb-3">
                     <button className="group w-full rounded-lg bg-gradient-to-r from-koenig-blue to-cyan-500 py-3 text-sm font-bold text-white shadow-md shadow-koenig-blue/25 hover:shadow-lg hover:shadow-koenig-blue/40 hover:brightness-105 transition-all active:scale-95 flex items-center justify-center gap-2 overflow-hidden">
-                      <span>Enroll Now</span>
+                      <span>Get instant access</span>
                       <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6"/>
                       </svg>
                     </button>
+                    <p className="mt-2 text-center text-[10px] text-koenig-muted">Secure checkout. Instant access after payment.</p>
                   </div>
+                  {/* Detailed fee breakdown — opens the Fees Breakdown popup */}
+                  <button onClick={() => setFlexiBreakdownOpen(v => !v)} className="flex items-center justify-between border-t border-koenig-border px-4 py-3 text-left transition hover:bg-koenig-light/60">
+                    <span className="text-sm font-semibold text-koenig-dark">Detailed fee breakdown</span>
+                    <svg className="h-4 w-4 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  </button>
                 </div>
               </div>
 
@@ -1574,7 +1593,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                     </div>
                   </div>
                   <div className="flex-shrink-0 text-right">
-                    <div className="text-base font-bold text-koenig-blue">{formatCurrency(COURSE_PRICING.online.public, "INR")}</div>
+                    <div className="text-base font-bold text-koenig-blue">From {formatCurrency(COURSE_PRICING.online.public, "INR")}</div>
                     <div className="text-[10px] text-koenig-muted">per person · excl. VAT/GST</div>
                   </div>
                 </div>
@@ -1594,7 +1613,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                     </div>
                   </div>
                   <div className="flex-shrink-0 text-right">
-                    <div className="text-base font-bold text-koenig-blue">{formatCurrency(COURSE_PRICING.online.oneOnOne, "INR")}</div>
+                    <div className="text-base font-bold text-koenig-blue">From {formatCurrency(COURSE_PRICING.online.oneOnOne, "INR")}</div>
                     <div className="text-[10px] text-koenig-muted">per person · excl. VAT/GST</div>
                   </div>
                 </div>
@@ -1640,7 +1659,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-8">
                   {/* Duration */}
                   <div className="flex flex-col gap-1 sm:w-[300px]">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-koenig-blue px-1">Duration</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-koenig-blue px-1">Duration per day</span>
                     <div className="flex gap-2">
                       {(["4h", "8h"] as const).map((d) => {
                         const sel = oneOnOneDuration === d;
@@ -1661,7 +1680,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                   </div>
                   {/* Schedule */}
                   <div className="flex flex-col gap-1 sm:w-[300px]">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-koenig-blue px-1">Schedule</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-koenig-blue px-1">Preferred schedule</span>
                     <div className="flex gap-2">
                       {(["weekday", "weekend"] as const).map((s) => {
                         const sel = oneOnOneSchedule === s;
@@ -1689,10 +1708,10 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                     <label className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-koenig-blue">Time</label>
                     <button
                       onClick={() => { setOneOnOneTimeOpen(v => !v); setOneOnOneTZOpen(false); }}
-                      className={`flex w-full items-center justify-between rounded-xl border-[1.5px] px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneTimeChosen ? "border-koenig-blue bg-koenig-blue/[0.06] ring-1 ring-koenig-blue/30 shadow-sm hover:border-koenig-blue hover:bg-koenig-blue/[0.06]" : "border-koenig-blue/40 hover:border-koenig-blue/70 hover:bg-koenig-blue/5"}`}
+                      className={`flex w-full items-center justify-between rounded-xl border-[1.5px] px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneTimeChosen ? "border-[#00b4d8] bg-[#f0fbfe] hover:border-[#00b4d8] hover:bg-[#f0fbfe]" : "border-koenig-blue/40 hover:border-koenig-blue/70 hover:bg-koenig-blue/5"}`}
                       style={oneOnOneTimeChosen ? undefined : { background: "rgba(6,148,209,0.06)" }}
                     >
-                      <span className={`font-bold ${oneOnOneTimeChosen ? "text-koenig-blue" : "text-koenig-dark"}`}>{oneOnOneTime}</span>
+                      <span className={`font-bold ${oneOnOneTimeChosen ? "text-[#0077a8]" : "text-koenig-dark"}`}>{oneOnOneTime}</span>
                       <svg className={`h-3.5 w-3.5 ${oneOnOneTimeChosen ? "text-koenig-blue" : "text-koenig-blue"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                     </button>
                   </div>
@@ -1701,10 +1720,10 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                     <label className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-koenig-blue">Timezone</label>
                     <button
                       onClick={() => { setOneOnOneTZOpen(v => !v); setOneOnOneTimeOpen(false); }}
-                      className={`flex w-full items-center justify-between rounded-xl border-[1.5px] px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneTZChosen ? "border-koenig-blue bg-koenig-blue/[0.06] ring-1 ring-koenig-blue/30 shadow-sm hover:border-koenig-blue hover:bg-koenig-blue/[0.06]" : "border-koenig-blue/40 hover:border-koenig-blue/70 hover:bg-koenig-blue/5"}`}
+                      className={`flex w-full items-center justify-between rounded-xl border-[1.5px] px-3 py-2 sm:py-2.5 text-xs font-bold transition ${oneOnOneTZChosen ? "border-[#00b4d8] bg-[#f0fbfe] hover:border-[#00b4d8] hover:bg-[#f0fbfe]" : "border-koenig-blue/40 hover:border-koenig-blue/70 hover:bg-koenig-blue/5"}`}
                       style={oneOnOneTZChosen ? undefined : { background: "rgba(6,148,209,0.06)" }}
                     >
-                      <span className={`font-bold ${oneOnOneTZChosen ? "text-koenig-blue" : "text-koenig-dark"}`}>{oneOnOneTZ} ({TIMEZONE_OFFSETS[oneOnOneTZ]})</span>
+                      <span className={`font-bold ${oneOnOneTZChosen ? "text-[#0077a8]" : "text-koenig-dark"}`}>{oneOnOneTZ} ({TIMEZONE_OFFSETS[oneOnOneTZ]})</span>
                       <svg className={`h-3.5 w-3.5 ${oneOnOneTZChosen ? "text-koenig-blue" : "text-koenig-blue"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                     </button>
                   </div>
@@ -1977,111 +1996,87 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                   </div>
                 )}
 
-                <p className="text-[10px] text-koenig-muted">† Excluding VAT/GST &nbsp;·&nbsp; Dedicated trainer, flexible scheduling</p>
+                <p className="whitespace-nowrap text-[9px] sm:text-[10px] text-koenig-muted">† Excluding VAT/GST &nbsp;·&nbsp; Dedicated trainer, flexible scheduling</p>
               </div>
 
               {/* RIGHT — Price card (hidden on mobile; fixed bar below replaces it) */}
               <div className="hidden lg:flex lg:w-[330px] lg:flex-shrink-0 lg:sticky lg:top-20 lg:self-start flex-col">
-                <div className="rounded-xl border-2 border-koenig-blue/30 bg-white flex flex-col" style={{ boxShadow: '0 4px 20px 0 rgba(6,148,209,0.15)' }}>
-                  {/* Add Certification — checkbox */}
-                  <div className="px-4 pt-3 pb-0">
-                    <label className={`flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 transition-colors ${oneOnOneCert ? "border-koenig-blue bg-koenig-blue/10 ring-1 ring-koenig-blue/30 shadow-sm" : "border-koenig-navy/20 bg-koenig-light hover:border-koenig-blue/40 hover:bg-koenig-blue/5"}`}>
-                      <div className="flex items-center gap-2">
-                        <div className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${oneOnOneCert ? "border-koenig-blue bg-koenig-blue" : "border-gray-300 bg-white"}`}>
-                          {oneOnOneCert && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
-                        </div>
-                        <span className={`text-sm font-semibold ${oneOnOneCert ? "text-koenig-blue" : "text-koenig-dark"}`}>Add Certification</span>
-                        <div className="group relative flex items-center">
-                          <button
-                            type="button"
-                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                            className="flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center text-koenig-muted hover:text-koenig-blue"
-                            aria-label="About the certification exam"
-                          >
-                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="11" /><circle cx="12" cy="8" r="0.5" fill="currentColor" /></svg>
-                          </button>
-                          <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 w-48 -translate-x-1/2 rounded-lg border border-koenig-border bg-white px-3 py-2 text-[11px] leading-snug text-koenig-dark opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
-                            Check this box to add the certification exam
-                            <div className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 border-b border-r border-koenig-border bg-white" />
-                          </div>
-                        </div>
-                      </div>
-                      <span className={`text-sm font-bold ${oneOnOneCert ? "text-koenig-navy" : "text-koenig-navy"}`}>+{EXAM_FEE_INR.toLocaleString("en-IN")}</span>
-                      <input type="checkbox" className="sr-only" checked={oneOnOneCert} onChange={(e) => setOneOnOneCert(e.target.checked)} />
-                    </label>
+                <div className="rounded-xl border-2 border-koenig-blue/30 bg-white flex flex-col overflow-hidden" style={{ boxShadow: '0 4px 20px 0 rgba(6,148,209,0.15)' }}>
+                  {/* Title */}
+                  <div className="px-4 pt-4 pb-3">
+                    <div className="text-base font-bold text-koenig-dark">Enrollment summary</div>
                   </div>
-                  {/* Price area */}
-                  <div className="bg-gradient-to-b from-koenig-blue/8 to-koenig-blue/3 px-4 py-4 text-center border-t border-koenig-blue/15 mt-3">
-                    <div className="text-sm font-bold uppercase tracking-widest text-koenig-navy/70 mb-1">Total (excl. GST)</div>
-                    <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-sm font-bold text-koenig-blue">INR</span>
-                      <span className="text-3xl font-extrabold text-koenig-blue">{oo1Subtotal.toLocaleString("en-IN")}</span>
-                      <span className="text-sm font-bold text-koenig-blue">†</span>
-                    </div>
-                    <button onClick={() => setOneOnOneBreakdownOpen(v => !v)} className="mt-1.5 text-sm font-semibold text-koenig-blue underline underline-offset-2 hover:text-koenig-navy transition">
-                      {oneOnOneBreakdownOpen ? "Hide Breakdown" : "View Fees Breakdown"}
-                    </button>
-                  </div>
-                  {/* Inline Fees Breakdown — no absolute positioning, works on all screen sizes */}
-                  {oneOnOneBreakdownOpen && (
-                    <div className="border-y border-koenig-navy/20 text-sm">
-                      <div className="flex items-center justify-between bg-koenig-navy px-3 py-2">
-                        <span className="text-sm font-bold uppercase tracking-wide text-white">Fees Breakdown</span>
-                        <button onClick={() => setOneOnOneBreakdownOpen(false)} className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition text-xs font-bold">✕</button>
-                      </div>
-                      <div className="flex items-center justify-between px-3 py-2 bg-white">
-                        <span className="text-koenig-muted">1-on-1 Training</span>
-                        <span className="font-semibold text-koenig-dark">{oo1Price.toLocaleString("en-IN")}</span>
-                      </div>
-                      {oneOnOneCert && (
-                        <div className="flex items-center justify-between border-t border-koenig-navy/10 px-3 py-2 bg-white">
-                          <span className="text-koenig-muted">Exam Fee</span>
-                          <span className="font-semibold text-koenig-dark">{EXAM_FEE_INR.toLocaleString("en-IN")}</span>
+                  {/* Plan + price + batch dates */}
+                  <div className="px-4 pb-1 flex items-start justify-between gap-2">
+                    <div>
+                      <div className="text-sm font-bold text-koenig-dark">1-on-1 Training</div>
+                      {oneOnOneDate && oo1EndDate && (
+                        <div className="mt-0.5 text-xs text-koenig-muted">
+                          Batch: {new Date(oneOnOneDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })} – {new Date(oo1EndDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </div>
                       )}
-                      <div className="flex items-center justify-between border-t border-koenig-navy/10 px-3 py-2 bg-white">
-                        <span className="text-koenig-muted">+ GST 18%</span>
-                        <span className="font-semibold text-koenig-dark">{oo1Gst.toLocaleString("en-IN")}</span>
-                      </div>
-                      <div className="flex items-center justify-between border-t border-koenig-navy/20 bg-koenig-navy/8 px-3 py-2">
-                        <span className="font-bold text-koenig-navy">Total (INR)</span>
-                        <span className="font-bold text-koenig-navy">{oo1Total.toLocaleString("en-IN")}</span>
-                      </div>
                     </div>
-                  )}
-                  {/* Selected session info */}
-                  {oneOnOneDate && oo1EndDate && (
-                    <div className="mx-4 mt-3 rounded-lg border border-koenig-blue/20 bg-koenig-light px-3 py-2 text-left">
-                      <div className="text-sm font-bold uppercase tracking-wide text-koenig-blue mb-1.5">Your Session</div>
-                      <div className="flex items-start gap-1.5 mb-1">
-                        <span className="text-sm font-bold uppercase text-koenig-muted shrink-0 pt-px">Start :</span>
-                        <span className="text-sm font-semibold text-koenig-dark whitespace-nowrap">{new Date(oneOnOneDate + "T00:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}</span>
+                    <div className="text-base font-bold text-koenig-dark whitespace-nowrap">{formatCurrency(oo1Price, "INR")}</div>
+                  </div>
+                  <div className="px-4 pb-3 text-[10px] text-koenig-muted">* Exclusive of 18% GST (calculated at checkout)</div>
+                  {/* Add Certification — small nested card */}
+                  <div className={`mx-4 mb-3 rounded-lg border px-3 py-2.5 flex items-center justify-between gap-2 transition-colors ${oneOnOneCert ? "border-koenig-blue bg-koenig-blue/10" : "border-koenig-border bg-koenig-light hover:border-koenig-blue/40 hover:bg-koenig-blue/5"}`}>
+                    <label className="flex cursor-pointer items-center gap-2">
+                      <div className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${oneOnOneCert ? "border-koenig-blue bg-koenig-blue" : "border-gray-300 bg-white"}`}>
+                        {oneOnOneCert && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
                       </div>
-                      <div className="flex items-start gap-1.5 mb-1.5">
-                        <span className="text-sm font-bold uppercase text-koenig-muted shrink-0 pt-px">End :</span>
-                        <span className="text-sm font-semibold text-koenig-navy whitespace-nowrap">{new Date(oo1EndDate + "T00:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}</span>
+                      <span className="text-sm text-koenig-dark">Add certification exam</span>
+                      <input type="checkbox" className="sr-only" checked={oneOnOneCert} onChange={(e) => setOneOnOneCert(e.target.checked)} />
+                    </label>
+                    <div className="flex items-center gap-1.5">
+                      <div className="group relative flex items-center">
+                        <button
+                          type="button"
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                          className="flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center text-koenig-muted hover:text-koenig-blue"
+                          aria-label="About the certification exam"
+                        >
+                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="11" /><circle cx="12" cy="8" r="0.5" fill="currentColor" /></svg>
+                        </button>
+                        <div className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-48 rounded-lg border border-koenig-border bg-white px-3 py-2 text-[11px] leading-snug text-koenig-dark opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
+                          Check this box to add the certification exam
+                          <div className="absolute right-3 top-full h-2 w-2 -translate-y-1/2 rotate-45 border-b border-r border-koenig-border bg-white" />
+                        </div>
                       </div>
-                      <div className="border-t border-koenig-blue/10 pt-1.5 text-sm text-koenig-muted">
-                        {oneOnOneTime} · {oneOnOneTZ} · {oo1HrsPerDay}h/day · {oo1TotalDays} days · {oneOnOneSchedule === "weekday" ? "Weekdays" : "Weekends"}
-                      </div>
+                      <span className="text-sm font-semibold text-koenig-blue">+{formatCurrency(EXAM_FEE_INR, "INR")}</span>
                     </div>
-                  )}
+                  </div>
+                  <div className="mx-4 border-t border-koenig-border" />
+                  {/* Total payable */}
+                  <div className="px-4 pt-4 pb-3 flex items-center justify-between">
+                    <div>
+                      <span className="text-sm text-koenig-dark">Total payable</span>
+                      <div className="text-[10px] text-koenig-muted">{formatCurrency(oo1Subtotal, "INR")} + 18% GST</div>
+                    </div>
+                    <span className="text-xl font-extrabold text-koenig-dark">{formatCurrency(oo1Total, "INR")}</span>
+                  </div>
                   {/* BOOK CTA */}
-                  <div className="px-4 py-3">
+                  <div className="px-4 pb-3">
                     <button className="group w-full rounded-lg bg-gradient-to-r from-koenig-blue to-cyan-500 py-3 text-sm font-bold text-white shadow-md shadow-koenig-blue/25 hover:shadow-lg hover:shadow-koenig-blue/40 hover:brightness-105 transition-all active:scale-95 flex items-center justify-center gap-2 overflow-hidden">
-                      <span>Enroll Now</span>
+                      <span>Enroll for training</span>
                       <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6"/>
                       </svg>
                     </button>
+                    <p className="mt-2 text-center text-[10px] text-koenig-muted">Secure checkout. Multi-language support available for 1-on-1 sessions.</p>
                   </div>
+                  {/* Detailed fee breakdown — opens the Fees Breakdown popup */}
+                  <button onClick={() => setOneOnOneBreakdownOpen(v => !v)} className="flex items-center justify-between border-t border-koenig-border px-4 py-3 text-left transition hover:bg-koenig-light/60">
+                    <span className="text-sm font-semibold text-koenig-dark">Detailed fee breakdown</span>
+                    <svg className="h-4 w-4 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  </button>
                 </div>
               </div>
 
             </div>
 
             {/* Mobile fixed bottom Enroll bar — always shown for 1-on-1 */}
-            {scheduleInView && tabsFloating && (
+            {showMobileEnrollBar && (
               <div className="lg:hidden" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40, background: '#fff', borderTop: '1px solid rgba(6,148,209,0.2)', boxShadow: '0 -4px 20px rgba(0,0,0,0.10)', padding: '8px 16px 12px' }}>
                 {oo1EnrollError && (
                   <p className="mb-1.5 flex items-center justify-center gap-1 text-[11px] font-medium text-red-500">
@@ -2089,15 +2084,13 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                     {oo1EnrollError}
                   </p>
                 )}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
-                  <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                      <span style={{ fontSize: 14, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>INR {oo1Subtotal.toLocaleString("en-IN")}</span>
-                      <span style={{ fontSize: 10, color: '#8a9db5', whiteSpace: 'nowrap' }}>excl. GST</span>
-                    </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%' }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                    <span style={{ fontSize: 14, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>INR {oo1Total.toLocaleString("en-IN")}</span>
+                    <span style={{ fontSize: 10, color: '#8a9db5', whiteSpace: 'nowrap' }}>incl. GST</span>
                     <button
                       onClick={() => setOneOnOneBreakdownOpen(true)}
-                      style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer', textAlign: 'left' }}
+                      style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer', whiteSpace: 'nowrap' }}
                     >
                       View Fees Breakdown
                     </button>
@@ -2109,9 +2102,9 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                       if (!oneOnOneTZChosen) { setOo1EnrollError("Please select a timezone"); return; }
                       setOo1EnrollError("");
                     }}
-                    style={{ flex: 1, minWidth: 0, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                    style={{ width: '100%', maxWidth: 320, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                   >
-                    <span>Enroll Now</span>
+                    <span>Enroll for training</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                   </button>
                 </div>
@@ -2175,7 +2168,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                     </div>
                   </div>
                   <div className="flex-shrink-0 text-right">
-                    <div className="text-base font-bold text-koenig-blue">{formatCurrency(COURSE_PRICING.online.public, "INR")}</div>
+                    <div className="text-base font-bold text-koenig-blue">From {formatCurrency(COURSE_PRICING.online.public, "INR")}</div>
                     <div className="text-[10px] text-koenig-muted">per person · excl. VAT/GST</div>
                   </div>
                 </div>
@@ -2195,7 +2188,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                     </div>
                   </div>
                   <div className="flex-shrink-0 text-right">
-                    <div className="text-base font-bold text-koenig-accent">{formatCurrency(COURSE_PRICING.online.flexi, "INR")}</div>
+                    <div className="text-base font-bold text-koenig-accent">From {formatCurrency(COURSE_PRICING.online.flexi, "INR")}</div>
                     <div className="text-[10px] text-koenig-muted">per person · excl. VAT/GST</div>
                   </div>
                 </div>
@@ -2644,12 +2637,12 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                       {/* Row 3: Price + Seats — mobile only inline, desktop in right column */}
                       <div className="sm:hidden">
                         <div className="mb-1 flex items-center justify-between">
-                          <span className={`text-sm font-bold ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
+                          <span className={`text-base font-bold ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
                             {batch.format === "Classroom" && INTERNATIONAL_LOCATIONS.has(batch.location) ? "On Request" : formatCurrency(batch.price, batch.currency)}
                           </span>
-                          <span className={`text-xs font-semibold whitespace-nowrap ${status.color}`}>{batch.seats} seats · {status.text}</span>
+                          <span className={`text-xs font-semibold whitespace-nowrap ${status.color}`}>{status.label}</span>
                         </div>
-                        <div className="h-1 rounded-full overflow-hidden bg-gray-100">
+                        <div className="h-0.5 rounded-full overflow-hidden bg-gray-100">
                           <div className={`h-full rounded-full transition-all ${seatBarColor(batch)}`} style={{ width: seatBarWidth(batch) }} />
                         </div>
                       </div>
@@ -2657,13 +2650,13 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
 
                       {/* Bar column — desktop only */}
                       <div className="hidden sm:flex flex-shrink-0 flex-col items-center justify-center gap-1 self-stretch pl-3 border-l border-koenig-blue/10 min-w-[150px]">
-                        <span className={`text-sm font-bold ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
+                        <span className={`text-base font-bold ${isSel ? "text-koenig-blue" : "text-koenig-dark"}`}>
                           {batch.format === "Classroom" && INTERNATIONAL_LOCATIONS.has(batch.location) ? "On Request" : formatCurrency(batch.price, batch.currency)}
                         </span>
-                        <div className="w-32 h-1 rounded-full overflow-hidden bg-gray-100 mt-0.5">
+                        <div className="w-32 h-0.5 rounded-full overflow-hidden bg-gray-100 mt-0.5">
                           <div className={`h-full rounded-full transition-all ${seatBarColor(batch)}`} style={{ width: seatBarWidth(batch) }} />
                         </div>
-                        <span className={`text-[12px] font-medium whitespace-nowrap ${status.color}`}>{batch.seats} Seats · {status.text}</span>
+                        <span className={`text-[12px] font-medium whitespace-nowrap ${status.color}`}>{status.label}</span>
                       </div>
                     </div>
                     </div>
@@ -2720,6 +2713,50 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                   </span>
                 </div>
               )}
+
+              {/* Other training options — moved inside the left column so the sticky sidebar has room to persist through this content */}
+              <div className="hidden lg:grid gap-3 mt-4 lg:grid-cols-2">
+                <div
+                  className="cursor-pointer rounded-lg border border-koenig-blue/20 bg-gradient-to-r from-koenig-blue/5 to-white px-3 py-2.5 transition-all hover:border-koenig-blue/50 hover:shadow-md"
+                  onClick={() => { setPricingTab("one-on-one"); document.getElementById("schedule")?.scrollIntoView({ behavior: "smooth" }); }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-koenig-blue/10">
+                        <svg className="h-4 w-4 text-koenig-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-koenig-dark">1-on-1 Training</div>
+                        <div className="text-[11px] text-koenig-muted">Private instructor &mdash; any date</div>
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 text-right">
+                      <div className="text-base font-bold text-koenig-blue">From {formatCurrency(COURSE_PRICING.online.oneOnOne, "INR")}</div>
+                      <div className="text-[10px] text-koenig-muted">per person · excl. VAT/GST</div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="cursor-pointer rounded-lg border border-koenig-accent/20 bg-gradient-to-r from-koenig-accent/5 to-white px-3 py-2.5 transition-all hover:border-koenig-accent/50 hover:shadow-md"
+                  onClick={() => { setPricingTab("self-paced"); document.getElementById("schedule")?.scrollIntoView({ behavior: "smooth" }); }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-koenig-accent/10">
+                        <svg className="h-4 w-4 text-koenig-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-koenig-dark">Flexi (Self-Paced)</div>
+                        <div className="text-[11px] text-koenig-muted">Start now &mdash; recorded HD sessions</div>
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 text-right">
+                      <div className="text-base font-bold text-koenig-accent">From {formatCurrency(COURSE_PRICING.online.flexi, "INR")}</div>
+                      <div className="text-[10px] text-koenig-muted">per person · excl. VAT/GST</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               </div>
 
               {/* Mobile fixed bottom Enroll bar — public batch. Mirrors the
@@ -2727,27 +2764,23 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                   numeric price/breakdown, and CTA reads "Request More
                   Info" instead of "Enroll Now" for on-request classroom
                   batches (e.g. international locations). */}
-              {scheduleInView && tabsFloating && selBatch && (
+              {showMobileEnrollBar && selBatch && (
                 <div className="lg:hidden" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40, background: '#fff', borderTop: '1px solid rgba(6,148,209,0.2)', boxShadow: '0 -4px 20px rgba(0,0,0,0.10)', padding: '8px 16px 12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%' }}>
-                    <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                      {selFeeOnRequest ? (
-                        <span style={{ fontSize: 13, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>Fee on Request</span>
-                      ) : (
-                        <>
-                          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-                            <span style={{ fontSize: 14, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>INR {selSubtotal.toLocaleString("en-IN")}</span>
-                            <span style={{ fontSize: 10, color: '#8a9db5', whiteSpace: 'nowrap' }}>excl. GST</span>
-                          </div>
-                          <button
-                            onClick={() => setPubBreakdownOpen(true)}
-                            style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer', textAlign: 'left' }}
-                          >View Fees Breakdown</button>
-                        </>
-                      )}
-                    </div>
-                    <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} style={{ flex: 1, minWidth: 0, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                      <span>{selFeeOnRequest ? "Request More Info" : "Enroll Now"}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%' }}>
+                    {selFeeOnRequest ? (
+                      <span style={{ fontSize: 13, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>Fee on Request</span>
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                        <span style={{ fontSize: 14, fontWeight: 800, color: '#071e2e', whiteSpace: 'nowrap' }}>INR {selSubtotal.toLocaleString("en-IN")}</span>
+                        <span style={{ fontSize: 10, color: '#8a9db5', whiteSpace: 'nowrap' }}>excl. GST</span>
+                        <button
+                          onClick={() => setPubBreakdownOpen(true)}
+                          style={{ background: 'none', border: 'none', padding: 0, fontSize: 11, fontWeight: 600, color: '#0694D1', textDecoration: 'underline', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                        >View Fees Breakdown</button>
+                      </div>
+                    )}
+                    <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} style={{ width: '100%', maxWidth: 320, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                      <span>{selFeeOnRequest ? "Request More Info" : "Enroll for training"}</span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </button>
                   </div>
@@ -2793,79 +2826,85 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
 
               {/* RIGHT: Enroll card — desktop only */}
               <div className="hidden lg:block lg:w-[330px] flex-shrink-0 lg:sticky lg:top-20 lg:self-start">
-                <div className="rounded-xl border-2 border-koenig-blue/30 bg-white flex flex-col" style={{ boxShadow: '0 4px 20px 0 rgba(6,148,209,0.15)' }}>
-                  {/* Add Certification */}
-                  <div className="px-4 pt-3 pb-0">
-                    <label className={`flex cursor-pointer items-center justify-between rounded-lg border px-3 py-2 transition-colors ${hasCertSel ? "border-koenig-blue bg-koenig-blue/10 ring-1 ring-koenig-blue/30" : "border-koenig-navy/20 bg-koenig-light hover:bg-koenig-blue/5"}`}>
-                      <div className="flex items-center gap-2">
-                        <div className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${hasCertSel ? "border-koenig-blue bg-koenig-blue" : "border-gray-300 bg-white"}`}>
-                          {hasCertSel && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                <div className="rounded-xl border-2 border-koenig-blue/30 bg-white flex flex-col overflow-hidden" style={{ boxShadow: '0 4px 20px 0 rgba(6,148,209,0.15)' }}>
+                  {/* Title */}
+                  <div className="px-4 pt-4 pb-3">
+                    <div className="text-base font-bold text-koenig-dark">Enrollment summary</div>
+                  </div>
+                  {/* Plan + price + batch dates */}
+                  <div className="px-4 pb-1 flex items-start justify-between gap-2">
+                    <div>
+                      <div className="text-sm font-bold text-koenig-dark">Public Training</div>
+                      {selBatch && (
+                        <div className="mt-0.5 text-xs text-koenig-muted">
+                          Batch: {new Date(selBatch.startDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })} – {new Date(selBatch.endDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </div>
-                        <span className={`text-sm font-semibold ${hasCertSel ? "text-koenig-blue" : "text-koenig-dark"}`}>Add Certification</span>
-                        <div className="group relative flex items-center">
-                          <button
-                            type="button"
-                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                            className="flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center text-koenig-muted hover:text-koenig-blue"
-                            aria-label="About the certification exam"
-                          >
-                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="11" /><circle cx="12" cy="8" r="0.5" fill="currentColor" /></svg>
-                          </button>
-                          <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 w-48 -translate-x-1/2 rounded-lg border border-koenig-border bg-white px-3 py-2 text-[11px] leading-snug text-koenig-dark opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
-                            Check this box to add the certification exam
-                            <div className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 border-b border-r border-koenig-border bg-white" />
-                          </div>
-                        </div>
+                      )}
+                    </div>
+                    <div className="text-base font-bold text-koenig-dark whitespace-nowrap">{selFeeOnRequest ? "On Request" : formatCurrency(selCourseFee, selBatch?.currency ?? "INR")}</div>
+                  </div>
+                  {!selFeeOnRequest && <div className="px-4 pb-3 text-[10px] text-koenig-muted">* Exclusive of 18% GST (calculated at checkout)</div>}
+                  {/* Add Certification — small nested card */}
+                  <div className={`mx-4 mb-3 rounded-lg border px-3 py-2.5 flex items-center justify-between gap-2 transition-colors ${hasCertSel ? "border-koenig-blue bg-koenig-blue/10" : "border-koenig-border bg-koenig-light hover:border-koenig-blue/40 hover:bg-koenig-blue/5"}`}>
+                    <label className="flex cursor-pointer items-center gap-2">
+                      <div className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${hasCertSel ? "border-koenig-blue bg-koenig-blue" : "border-gray-300 bg-white"}`}>
+                        {hasCertSel && <svg className="h-2.5 w-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
                       </div>
-                      <span className={`text-sm font-bold ${hasCertSel ? "text-koenig-navy" : "text-koenig-navy"}`}>+{EXAM_FEE_INR.toLocaleString("en-IN")}</span>
+                      <span className="text-sm text-koenig-dark">Add certification exam</span>
                       <input type="checkbox" className="sr-only" checked={hasCertSel} onChange={() => {
                         if (!selBatch) return;
                         setCertSelected(prev => { const next = new Set(prev); next.has(selBatch.id) ? next.delete(selBatch.id) : next.add(selBatch.id); return next; });
                       }} />
                     </label>
+                    <div className="flex items-center gap-1.5">
+                      <div className="group relative flex items-center">
+                        <button
+                          type="button"
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                          className="flex h-3.5 w-3.5 flex-shrink-0 items-center justify-center text-koenig-muted hover:text-koenig-blue"
+                          aria-label="About the certification exam"
+                        >
+                          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="11" /><circle cx="12" cy="8" r="0.5" fill="currentColor" /></svg>
+                        </button>
+                        <div className="pointer-events-none absolute bottom-full right-0 z-20 mb-2 w-48 rounded-lg border border-koenig-border bg-white px-3 py-2 text-[11px] leading-snug text-koenig-dark opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
+                          Check this box to add the certification exam
+                          <div className="absolute right-3 top-full h-2 w-2 -translate-y-1/2 rotate-45 border-b border-r border-koenig-border bg-white" />
+                        </div>
+                      </div>
+                      <span className="text-sm font-semibold text-koenig-blue">+{formatCurrency(EXAM_FEE_INR, "INR")}</span>
+                    </div>
                   </div>
-                  {/* Price */}
+                  <div className="mx-4 border-t border-koenig-border" />
                   {selFeeOnRequest ? (
-                    <div className="bg-gradient-to-b from-koenig-blue/8 to-koenig-blue/3 px-4 py-4 text-center border-t border-koenig-blue/15 mt-3">
-                      <div className="text-sm font-bold uppercase tracking-widest text-koenig-navy/70 mb-1">Classroom Fee</div>
-                      <div className="text-xl font-extrabold text-koenig-blue">Fee on Request</div>
+                    <div className="mx-4 mt-4 mb-3 rounded-lg bg-koenig-light px-3 py-2.5 text-center">
+                      <div className="text-sm font-semibold text-koenig-dark">Fee on request</div>
+                      <div className="mt-1 text-[10px] text-koenig-muted">Our team will get back to you shortly</div>
                     </div>
                   ) : (
-                    <div className="bg-gradient-to-b from-koenig-blue/8 to-koenig-blue/3 px-4 py-4 text-center border-t border-koenig-blue/15 mt-3">
-                      <div className="text-sm font-bold uppercase tracking-widest text-koenig-navy/70 mb-1">Total (excl. GST)</div>
-                      <div className="flex items-baseline justify-center gap-1">
-                        <span className="text-sm font-bold text-koenig-blue">INR</span>
-                        <span className="text-3xl font-extrabold text-koenig-blue">{selSubtotal.toLocaleString("en-IN")}</span>
-                        <span className="text-sm font-bold text-koenig-blue">†</span>
+                    <div className="px-4 pt-4 pb-3 flex items-center justify-between">
+                      <div>
+                        <span className="text-sm text-koenig-dark">Total payable</span>
+                        <div className="text-[10px] text-koenig-muted">{formatCurrency(selSubtotal, selBatch?.currency ?? "INR")} + 18% GST</div>
                       </div>
-                      <button onClick={() => setPubBreakdownOpen(v => !v)} className="mt-1.5 text-sm font-semibold text-koenig-blue underline underline-offset-2 hover:text-koenig-navy transition">
-                        {pubBreakdownOpen ? "Hide Breakdown" : "View Fees Breakdown"}
-                      </button>
-                    </div>
-                  )}
-                  {/* Breakdown */}
-                  {!selFeeOnRequest && pubBreakdownOpen && selBatch && (
-                    <div className="border-y border-koenig-navy/20 text-sm">
-                      <div className="flex items-center justify-between bg-koenig-navy px-3 py-2">
-                        <span className="text-sm font-bold uppercase tracking-wide text-white">Fees Breakdown</span>
-                        <button onClick={() => setPubBreakdownOpen(false)} className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-white hover:bg-white/40 transition text-xs font-bold">✕</button>
-                      </div>
-                      <div className="flex items-center justify-between px-3 py-2 bg-white"><span className="text-koenig-muted">Course Fee</span><span className="font-semibold text-koenig-dark">{selCourseFee.toLocaleString("en-IN")}</span></div>
-                      {hasCertSel && <div className="flex items-center justify-between border-t border-koenig-navy/10 px-3 py-2 bg-white"><span className="text-koenig-muted">Exam Fee</span><span className="font-semibold text-koenig-dark">{selExamFee.toLocaleString("en-IN")}</span></div>}
-                      <div className="flex items-center justify-between border-t border-koenig-navy/10 px-3 py-2 bg-white"><span className="text-koenig-muted">+ GST 18%</span><span className="font-semibold text-koenig-dark">{selGst.toLocaleString("en-IN")}</span></div>
-                      <div className="flex items-center justify-between border-t border-koenig-navy/20 bg-koenig-navy/8 px-3 py-2"><span className="font-bold text-koenig-navy">Total (INR)</span><span className="font-bold text-koenig-navy">{selTotal.toLocaleString("en-IN")}</span></div>
+                      <span className="text-xl font-extrabold text-koenig-dark">{formatCurrency(selTotal, selBatch?.currency ?? "INR")}</span>
                     </div>
                   )}
                   {/* Enroll Now / Request More Info */}
-                  <div className="px-4 py-3">
+                  <div className="px-4 pb-3">
                     <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} className="group w-full rounded-lg bg-gradient-to-r from-koenig-blue to-cyan-500 py-3 text-sm font-bold text-white shadow-md shadow-koenig-blue/25 hover:shadow-lg hover:shadow-koenig-blue/40 hover:brightness-105 transition-all active:scale-95 flex items-center justify-center gap-2 overflow-hidden">
-                      <span>{selFeeOnRequest ? "Request More Info" : "Enroll Now"}</span>
+                      <span>{selFeeOnRequest ? "Request More Info" : "Enroll for training"}</span>
                       <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6"/>
                       </svg>
                     </button>
-                    <p className="mt-2 text-center text-[10px] text-koenig-muted">{selFeeOnRequest ? "Our team will get back to you shortly" : "Secure payment"}</p>
+                    <p className="mt-2 text-center text-[10px] text-koenig-muted">{selFeeOnRequest ? "Our team will get back to you shortly" : "Secure checkout. Multi-language support available."}</p>
                   </div>
+                  {!selFeeOnRequest && (
+                    <button onClick={() => setPubBreakdownOpen(v => !v)} className="flex items-center justify-between border-t border-koenig-border px-4 py-3 text-left transition hover:bg-koenig-light/60">
+                      <span className="text-sm font-semibold text-koenig-dark">Detailed fee breakdown</span>
+                      <svg className="h-4 w-4 text-koenig-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -2927,7 +2966,8 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
           );
         })()}
 
-        {/* Other training options below public — desktop only */}
+        {/* Other training options below public — desktop only (list view renders its own copy inside the sticky-sidebar row instead) */}
+        {activeView !== "list" && (
         <div className="hidden lg:grid gap-3 px-[18px] pb-[18px] lg:grid-cols-2">
           <div
             className="cursor-pointer rounded-lg border border-koenig-blue/20 bg-gradient-to-r from-koenig-blue/5 to-white px-3 py-2.5 transition-all hover:border-koenig-blue/50 hover:shadow-md"
@@ -2944,7 +2984,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                 </div>
               </div>
               <div className="flex-shrink-0 text-right">
-                <div className="text-base font-bold text-koenig-blue">{formatCurrency(COURSE_PRICING.online.oneOnOne, "INR")}</div>
+                <div className="text-base font-bold text-koenig-blue">From {formatCurrency(COURSE_PRICING.online.oneOnOne, "INR")}</div>
                 <div className="text-[10px] text-koenig-muted">per person · excl. VAT/GST</div>
               </div>
             </div>
@@ -2964,12 +3004,13 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                 </div>
               </div>
               <div className="flex-shrink-0 text-right">
-                <div className="text-base font-bold text-koenig-accent">{formatCurrency(COURSE_PRICING.online.flexi, "INR")}</div>
+                <div className="text-base font-bold text-koenig-accent">From {formatCurrency(COURSE_PRICING.online.flexi, "INR")}</div>
                 <div className="text-[10px] text-koenig-muted">per person · excl. VAT/GST</div>
               </div>
             </div>
           </div>
         </div>
+        )}
 
         {/* ================================================================ */}
         {/*  COMPARE VIEW                                                    */}
@@ -3111,7 +3152,7 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                                 <span className="text-koenig-muted">Seats</span>
                                 <span className={`font-semibold ${status.color}`}>{batch.seats} / {batch.totalSeats}</span>
                               </div>
-                              <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-koenig-border">
+                              <div className="relative h-[0.5px] w-full overflow-hidden rounded-full bg-koenig-border">
                                 <div className={`absolute left-0 top-0 h-full rounded-full ${seatBarColor(batch)}`} style={{ width: seatBarWidth(batch) }} />
                               </div>
                             </div>
@@ -3288,9 +3329,9 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                         )}
                       </div>
                       <div className={`mt-1 text-[12px] font-bold ${seatStatus(selectedBatch).color}`}>
-                        {selectedBatch.seats} seats left
+                        {seatStatus(selectedBatch).label}
                       </div>
-                      <div className="mt-2 relative h-2 w-full overflow-hidden rounded-full bg-koenig-border">
+                      <div className="mt-2 relative h-[0.5px] w-full overflow-hidden rounded-full bg-koenig-border">
                         <div className={`absolute left-0 top-0 h-full rounded-full ${seatBarColor(selectedBatch)}`} style={{ width: seatBarWidth(selectedBatch) }} />
                       </div>
                       <div className="mt-1 text-[10px] text-koenig-muted">
@@ -3363,8 +3404,14 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
 
           </div>
           )}
+          </div>
         </div>
 
+        {/* Sentinel — marks the true bottom of the schedule section, so the
+            mobile floating Enroll bar knows to disappear once it's in view.
+            Needs a real height: a zero-size target can fail to register as
+            intersecting in some browsers. */}
+        <div ref={scheduleEndRef} style={{ height: 4, width: "100%" }} />
       </div>
     </section>
 

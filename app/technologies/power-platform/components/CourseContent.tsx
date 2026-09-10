@@ -68,6 +68,11 @@ export default function CourseContent() {
 
   return (
     <section ref={sectionRef} className="relative py-16 bg-white" aria-labelledby="course-content-heading">
+      <style suppressHydrationWarning>{`
+        @media (max-width: 700px) {
+          #course-content-heading, .pp-cc-subh2 { font-size: 20px !important; }
+        }
+      `}</style>
       {/* Top accent line */}
       <div className="h-0.5 w-full" style={{ background: `linear-gradient(90deg, transparent, ${C.accent}, transparent)` }} />
 
@@ -88,7 +93,7 @@ export default function CourseContent() {
               This article will explore the core components of the Microsoft Power Platform, discuss the tangible risks and tradeoffs of its low-code approach, and explain why formal training is an essential ingredient for success.
             </p>
 
-            <h2 className="font-heading font-medium text-2xl mb-3" style={{ color: C.dark }}>What is the Microsoft Power Platform?</h2>
+            <h2 className="font-heading font-medium text-2xl mb-3 pp-cc-subh2" style={{ color: C.dark }}>What is the Microsoft Power Platform?</h2>
             <p className="font-body text-base leading-relaxed mb-4" style={{ color: "#374151" }}>
               The Microsoft Power Platform is a unified suite of low-code applications and services designed to help users build custom applications, automate workflows, and analyze data with minimal to no traditional coding experience. It is built to work seamlessly with other Microsoft products like Microsoft 365, Dynamics 365, and Azure, creating a deeply integrated ecosystem for business transformation.
             </p>
@@ -102,7 +107,7 @@ export default function CourseContent() {
               style={{ maxHeight: expanded ? "3000px" : "0" }}
             >
               {/* Core Components */}
-              <h2 className="font-heading font-medium text-2xl mb-4" style={{ color: C.dark }}>The Core Components of the Power Platform</h2>
+              <h2 className="font-heading font-medium text-2xl mb-4 pp-cc-subh2" style={{ color: C.dark }}>The Core Components of the Power Platform</h2>
               <p className="font-body text-base leading-relaxed mb-6" style={{ color: "#374151" }}>
                 The platform is comprised of several key applications, each serving a distinct purpose but designed to work together. Understanding these components is the first step in mastering the suite.
               </p>
@@ -127,7 +132,7 @@ export default function CourseContent() {
               </div>
 
               {/* Dataverse & Connectors */}
-              <h2 className="font-heading font-medium text-2xl mb-4" style={{ color: C.dark }}>The Foundation: Dataverse and Connectors</h2>
+              <h2 className="font-heading font-medium text-2xl mb-4 pp-cc-subh2" style={{ color: C.dark }}>The Foundation: Dataverse and Connectors</h2>
               <p className="font-body text-sm leading-relaxed mb-3" style={{ color: "#374151" }}>Supporting these applications are two foundational elements:</p>
               <ul className="space-y-3 text-sm font-body mb-8 pl-4" style={{ color: "#374151", borderLeft: `3px solid ${C.accent}` }}>
                 <li><strong style={{ color: C.dark }}>Microsoft Dataverse:</strong> A scalable and secure cloud-based data service that acts as the primary data backbone for the Power Platform. It provides robust security, rich business logic, and data management capabilities, going far beyond a simple database.</li>
@@ -135,7 +140,7 @@ export default function CourseContent() {
               </ul>
 
               {/* Why Training */}
-              <h2 className="font-heading font-medium text-2xl mb-4" style={{ color: C.dark }}>Why is Formal Power Platform Training Essential?</h2>
+              <h2 className="font-heading font-medium text-2xl mb-4 pp-cc-subh2" style={{ color: C.dark }}>Why is Formal Power Platform Training Essential?</h2>
               <p className="font-body text-sm leading-relaxed mb-5" style={{ color: C.accent }}>
                 The promise of low-code is alluring, but it is not a substitute for expertise. To truly leverage the platform and mitigate its inherent risks, a strategic investment in training is non-negotiable.
               </p>

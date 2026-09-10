@@ -18,9 +18,19 @@ export function StickyCourseNav() {
   const [activeId, setActiveId] = useState("overview");
   const btnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  /* Scroll active tab into view when it changes */
+  /* Scroll active tab into view within the horizontal tab strip only —
+     scrollIntoView (even with block:"nearest") can decide the page itself
+     also needs scrolling, which was yanking the whole page back to the
+     top whenever "Schedule" became active. Scroll just the tab strip's
+     own scrollLeft instead, so the page's vertical scroll is never touched. */
   useEffect(() => {
-    btnRefs.current[activeId]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    const btn = btnRefs.current[activeId];
+    const container = btn?.parentElement;
+    if (!btn || !container) return;
+    container.scrollTo({
+      left: btn.offsetLeft - container.clientWidth / 2 + btn.offsetWidth / 2,
+      behavior: "smooth",
+    });
   }, [activeId]);
 
   /* Scroll-spy: highlight the section whose top is closest above the fold */

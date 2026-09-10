@@ -27,14 +27,27 @@ const CATEGORY_MAP: Record<number, string> = {
 export default function ScrollFAQAccordion({ data = [], onCTA }: ScrollFAQAccordionProps) {
   const [openItem, setOpenItem] = React.useState<number | null>(1);
   const [activeCategory, setActiveCategory] = React.useState("All");
+  // Mobile: show only the first 4 FAQs, rest behind "View N more" (same pattern as
+  // Upcoming Batches). Desktop's 2-column grid is unaffected — always shows all of them.
+  const [isMobile, setIsMobile] = React.useState(() => typeof window !== "undefined" && window.innerWidth <= 768);
+  const [showAllFaqs, setShowAllFaqs] = React.useState(false);
+  React.useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
 
   const filtered = activeCategory === "All"
     ? data
     : data.filter(item => CATEGORY_MAP[item.id] === activeCategory);
 
-  const half = Math.ceil(filtered.length / 2);
-  const col1 = filtered.slice(0, half);
-  const col2 = filtered.slice(half);
+  const hasMoreFaqs = isMobile && filtered.length > 4;
+  const collapsedOnMobile = hasMoreFaqs && !showAllFaqs;
+  const visibleFaqs = collapsedOnMobile ? filtered.slice(0, 4) : filtered;
+
+  const half = Math.ceil(visibleFaqs.length / 2);
+  const col1 = visibleFaqs.slice(0, half);
+  const col2 = visibleFaqs.slice(half);
 
   return (
     <section className="faq-chatbot-sec" style={{ position: "relative", overflow: "hidden", background: "#F0FAFF", padding: "40px clamp(16px,4vw,48px) 0" }}>
@@ -167,8 +180,8 @@ export default function ScrollFAQAccordion({ data = [], onCTA }: ScrollFAQAccord
                       }}
                     >
                       {/* Question — no number, matches homepage font weight & colour */}
-                      <span style={{
-                        flex: 1, fontSize: 14, fontWeight: 600, lineHeight: 1.45,
+                      <span className="faq-question" style={{
+                        flex: 1, fontSize: 14, fontWeight: 400, lineHeight: 1.45,
                         color: isOpen ? "#0694D1" : "#22262a",
                         transition: "color 0.3s",
                       }}>
@@ -212,6 +225,20 @@ export default function ScrollFAQAccordion({ data = [], onCTA }: ScrollFAQAccord
             </div>
           ))}
         </div>
+
+        {hasMoreFaqs && (
+          <div style={{ textAlign: "center", marginTop: -16, marginBottom: 32 }}>
+            <button
+              onClick={() => setShowAllFaqs(v => !v)}
+              style={{
+                background: "none", border: "none", cursor: "pointer", fontFamily: "inherit",
+                fontSize: 13, fontWeight: 600, color: "#0694D1", textDecoration: "underline",
+              }}
+            >
+              {showAllFaqs ? "View less" : `View ${filtered.length - 4} more questions`}
+            </button>
+          </div>
+        )}
 
         {/* Bottom CTA strip — data unchanged */}
         <div className="faq-cta-bottom">

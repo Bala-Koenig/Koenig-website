@@ -13,104 +13,137 @@ const TESTIMONIALS = [
   { quote: "Our whole ops team got AZ-104 certified through Koenig's corporate training. Smooth logistics and top-tier MCTs throughout.", name: "Carlos R.", role: "Engineering Manager", cert: "AZ-104 Team Training", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&h=80&fit=crop&crop=face&auto=format" },
 ];
 
-function TestimonialsColumn({ testimonials, duration = 15, className = "" }: { testimonials: typeof TESTIMONIALS; duration?: number; className?: string }) {
-  const doubled = [...testimonials, ...testimonials];
+function TestimonialCard({ t, onReadMore }: { t: (typeof TESTIMONIALS)[number]; onReadMore: () => void }) {
   return (
-    <div className={`overflow-hidden ${className}`}>
-      <ul
-        style={{
-          display: "flex", flexDirection: "column", gap: 20, margin: 0, padding: 0, listStyle: "none",
-          animation: `courseScrollCol ${duration}s linear infinite`,
-        }}
-        onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = "paused")}
-        onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = "running")}
-      >
-        {doubled.map((t, i) => (
-          <li key={i} style={{ width: 280, flexShrink: 0 }}>
-            <div style={{ display: "flex", flexDirection: "column", overflow: "hidden", borderRadius: 16, background: "#fff", border: "1px solid #DCEEFB", boxShadow: "0 2px 12px rgba(6,148,209,0.07)" }}>
-              <div style={{ flex: 1, padding: "18px 18px 14px" }}>
-                <div style={{ marginBottom: 8, fontSize: 13, color: "#FBBF24" }}>★★★★★</div>
-                <p style={{ margin: "0 0 14px", fontSize: 13, lineHeight: 1.7, color: "#2d4a6a" }}>"{t.quote}"</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <img src={t.photo} alt={t.name} loading="lazy" style={{ width: 40, height: 40, borderRadius: "50%", border: "2px solid #DCEEFB", flexShrink: 0, objectFit: "cover" }} />
-                  <div style={{ minWidth: 0 }}>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: "#0d1b2a", lineHeight: 1.3 }}>{t.name}</p>
-                    <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: "#0694D1" }}>{t.role}</p>
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid #E8F4FA", background: "#F8FCFF", padding: "10px 18px" }}>
-                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: "#0d1b2a" }}>{t.cert}</p>
-                <span style={{ background: "#E8F4FA", color: "#0569a8", borderRadius: 20, padding: "2px 10px", fontSize: 11, fontWeight: 700 }}>✓ Verified</span>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden", borderRadius: 16, background: "#fff", border: "1px solid #DCEEFB", boxShadow: "0 2px 12px rgba(6,148,209,0.07)" }}>
+      <div style={{ flex: 1, padding: "18px 18px 14px" }}>
+        <div style={{ marginBottom: 8, fontSize: 13, color: "#FBBF24" }}>★★★★★</div>
+        <p style={{ margin: "0 0 6px", fontSize: 13, lineHeight: 1.7, color: "#2d4a6a", display: "-webkit-box", WebkitLineClamp: 4, WebkitBoxOrient: "vertical" as const, overflow: "hidden" }}>"{t.quote}"</p>
+        <button onClick={onReadMore} style={{ background: "none", border: "none", color: "#0694D1", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "0 0 12px", display: "block" }}>Read more →</button>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <img src={t.photo} alt={t.name} loading="lazy" style={{ width: 40, height: 40, borderRadius: "50%", border: "2px solid #DCEEFB", flexShrink: 0, objectFit: "cover" }} />
+          <div style={{ minWidth: 0 }}>
+            <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: "#0d1b2a", lineHeight: 1.3 }}>{t.name}</p>
+            <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: "#0694D1" }}>{t.role}</p>
+          </div>
+        </div>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid #E8F4FA", background: "#F8FCFF", padding: "10px 18px" }}>
+        <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: "#0d1b2a" }}>{t.cert}</p>
+        <span style={{ background: "#E8F4FA", color: "#0569a8", borderRadius: 20, padding: "2px 10px", fontSize: 11, fontWeight: 700 }}>✓ Verified</span>
+      </div>
     </div>
   );
 }
 
-function MobileTestimonialRow({ testimonials }: { testimonials: typeof TESTIMONIALS }) {
-  const doubled = [...testimonials, ...testimonials];
-  const trackRef = useRef<HTMLUListElement>(null);
-  const posRef = useRef(0);
-  const dragRef = useRef({ active: false, startX: 0, startPos: 0 });
-  const rafRef = useRef<number | null>(null);
+function TestimonialsSlider({ testimonials }: { testimonials: typeof TESTIMONIALS }) {
+  const [cardsPerSlide, setCardsPerSlide] = useState(1);
+  const [page, setPage] = useState(0);
   const [popup, setPopup] = useState<(typeof TESTIMONIALS)[number] | null>(null);
+  const dragRef = useRef({ active: false, startX: 0 });
 
+  // Responsive: 1 card per slide on mobile, 3 per slide from md breakpoint up.
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const loop = () => {
-      if (!dragRef.current.active) {
-        posRef.current += 0.5;
-        const half = track.scrollWidth / 2;
-        if (posRef.current >= half) posRef.current -= half;
-        track.style.transform = `translateX(-${posRef.current}px)`;
-      }
-      rafRef.current = requestAnimationFrame(loop);
-    };
-    rafRef.current = requestAnimationFrame(loop);
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setCardsPerSlide(mq.matches ? 3 : 1);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, []);
 
+  const pageCount = Math.max(1, Math.ceil(testimonials.length / cardsPerSlide));
+
+  // Keep the current page in range whenever cardsPerSlide (breakpoint) changes.
+  useEffect(() => { setPage((p) => Math.min(p, pageCount - 1)); }, [pageCount]);
+
+  // Manual navigation clamps at the ends instead of wrapping, so the arrows can
+  // reflect "no slide that way" by disabling.
+  const clamp = (p: number) => Math.max(0, Math.min(pageCount - 1, p));
+  const prev = () => setPage((p) => clamp(p - 1));
+  const next = () => setPage((p) => clamp(p + 1));
+  const atStart = page === 0;
+  const atEnd = page === pageCount - 1;
+
+  // Autoplay: advance to the next set of cards every few seconds; pauses on
+  // hover/touch and restarts its timer whenever the page changes (manual or auto)
+  // so a manual click doesn't get immediately overridden by a pending tick.
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (paused || pageCount <= 1) return;
+    const id = setInterval(() => setPage((p) => (p + 1) % pageCount), 5000);
+    return () => clearInterval(id);
+  }, [page, paused, pageCount]);
+
   return (
-    <div className="overflow-hidden md:hidden" style={{ touchAction: "pan-y" }}
-      onTouchStart={(e) => { dragRef.current = { active: true, startX: e.touches[0].clientX, startPos: posRef.current }; }}
-      onTouchMove={(e) => {
-        if (!dragRef.current.active || !trackRef.current) return;
-        const delta = dragRef.current.startX - e.touches[0].clientX;
-        const half = trackRef.current.scrollWidth / 2;
-        posRef.current = ((dragRef.current.startPos + delta) % half + half) % half;
-        trackRef.current.style.transform = `translateX(-${posRef.current}px)`;
-      }}
-      onTouchEnd={() => { dragRef.current.active = false; }}
-    >
-      <ul ref={trackRef} style={{ listStyle: "none", margin: 0, padding: "4px 0", display: "flex", gap: 16, width: "max-content" }}>
-        {doubled.map((t, i) => (
-          <li key={i} style={{ width: 280, flexShrink: 0 }}>
-            <div style={{ display: "flex", flexDirection: "column", overflow: "hidden", borderRadius: 16, background: "#fff", border: "1px solid #DCEEFB", boxShadow: "0 2px 12px rgba(6,148,209,0.07)" }}>
-              <div style={{ flex: 1, padding: "18px 18px 14px" }}>
-                <div style={{ marginBottom: 8, fontSize: 13, color: "#FBBF24" }}>★★★★★</div>
-                <p style={{ margin: "0 0 6px", fontSize: 13, lineHeight: 1.7, color: "#2d4a6a", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>"{t.quote}"</p>
-                <button onClick={() => setPopup(t)} style={{ background: "none", border: "none", color: "#0694D1", fontSize: 11, fontWeight: 700, cursor: "pointer", padding: "0 0 12px", display: "block" }}>Show more →</button>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <img src={t.photo} alt={t.name} loading="lazy" style={{ width: 40, height: 40, borderRadius: "50%", border: "2px solid #DCEEFB", flexShrink: 0, objectFit: "cover" }} />
-                  <div><p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: "#0d1b2a", lineHeight: 1.3 }}>{t.name}</p><p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: "#0694D1" }}>{t.role}</p></div>
+    <div style={{ position: "relative" }}>
+      <div
+        style={{ overflow: "hidden" }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onTouchStart={(e) => { setPaused(true); dragRef.current = { active: true, startX: e.touches[0].clientX }; }}
+        onTouchEnd={(e) => {
+          setPaused(false);
+          if (!dragRef.current.active) return;
+          const delta = dragRef.current.startX - e.changedTouches[0].clientX;
+          if (delta > 40) next();
+          else if (delta < -40) prev();
+          dragRef.current.active = false;
+        }}
+      >
+        <div style={{ display: "flex", transform: `translateX(-${page * 100}%)`, transition: "transform 0.4s ease" }}>
+          {Array.from({ length: pageCount }, (_, pageIdx) => (
+            <div key={pageIdx} style={{ display: "flex", gap: 20, flexShrink: 0, width: "100%" }}>
+              {testimonials.slice(pageIdx * cardsPerSlide, pageIdx * cardsPerSlide + cardsPerSlide).map((t, i) => (
+                <div key={i} style={{ flex: `1 1 0`, minWidth: 0 }}>
+                  <TestimonialCard t={t} onReadMore={() => setPopup(t)} />
                 </div>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid #E8F4FA", background: "#F8FCFF", padding: "10px 18px" }}>
-                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: "#0d1b2a" }}>{t.cert}</p>
-                <span style={{ background: "#E8F4FA", color: "#0569a8", borderRadius: 20, padding: "2px 10px", fontSize: 11, fontWeight: 700 }}>✓ Verified</span>
-              </div>
+              ))}
             </div>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </div>
+
+      {/* Arrows + page counter */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, marginTop: 24 }}>
+        <button
+          onClick={prev}
+          disabled={atStart}
+          aria-label="Previous testimonials"
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, flexShrink: 0, borderRadius: "50%", background: "#fff", color: "#0694D1",
+            cursor: atStart ? "not-allowed" : "pointer", opacity: atStart ? 0.35 : 1,
+            border: atStart ? "1px solid #CAEFFF" : "1.5px solid #0694D1",
+            boxShadow: atStart ? "none" : "0 0 0 3px rgba(6,148,209,0.15)",
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
+        </button>
+        <span style={{ fontSize: 13, fontWeight: 700, color: "#093148", minWidth: 48, textAlign: "center" }}>{page + 1} / {pageCount}</span>
+        <button
+          onClick={next}
+          disabled={atEnd}
+          aria-label="Next testimonials"
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, flexShrink: 0, borderRadius: "50%", background: "#fff", color: "#0694D1",
+            cursor: atEnd ? "not-allowed" : "pointer", opacity: atEnd ? 0.35 : 1,
+            border: atEnd ? "1px solid #CAEFFF" : "1.5px solid #0694D1",
+            boxShadow: atEnd ? "none" : "0 0 0 3px rgba(6,148,209,0.15)",
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+        </button>
+      </div>
+
       {popup && (
-        <div onClick={() => setPopup(null)} style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(7,30,46,0.70)", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ background: "#fff", borderRadius: "20px 20px 0 0", padding: "28px 24px 40px", width: "100%", maxWidth: 480, maxHeight: "85vh", overflowY: "auto" }}>
+        <div onClick={() => setPopup(null)} style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(7,30,46,0.70)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", background: "#fff", borderRadius: 20, padding: "28px 24px", width: "100%", maxWidth: 480, maxHeight: "85vh", overflowY: "auto", boxShadow: "0 20px 60px rgba(7,30,46,0.35)" }}>
+            <button
+              onClick={() => setPopup(null)}
+              aria-label="Close"
+              style={{ position: "absolute", top: 16, right: 16, display: "flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: "50%", border: "none", background: "#E8F4FA", color: "#0569a8", cursor: "pointer" }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            </button>
             <div style={{ marginBottom: 12, fontSize: 14, color: "#FBBF24" }}>★★★★★</div>
             <p style={{ fontSize: 15, lineHeight: 1.7, color: "#2d4a6a", marginBottom: 20 }}>"{popup.quote}"</p>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -134,62 +167,52 @@ const STATS = [
 
 export function CourseTestimonials() {
   return (
-    <>
-      <style>{`
-        @keyframes courseScrollCol { from { transform: translateY(0); } to { transform: translateY(-50%); } }
-      `}</style>
-      <section className="px-[15px] sm:px-6 py-[15px] sm:py-12" style={{ background: "#E8F4FA", overflow: "hidden", position: "relative", borderTop: "1px solid #CAEFFF" }}>
-        {/* Blobs */}
-        <div style={{ pointerEvents: "none", position: "absolute", left: "50%", top: 0, transform: "translateX(-50%)", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 65%)" }} />
-        <div style={{ pointerEvents: "none", position: "absolute", right: -96, bottom: 0, width: 320, height: 320, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,180,216,0.15) 0%, transparent 70%)" }} />
+    <section className="px-[15px] sm:px-6 py-[15px] sm:py-12" style={{ background: "#E8F4FA", overflow: "hidden", position: "relative", borderTop: "1px solid #CAEFFF" }}>
+      {/* Blobs */}
+      <div style={{ pointerEvents: "none", position: "absolute", left: "50%", top: 0, transform: "translateX(-50%)", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(6,148,209,0.18) 0%, transparent 65%)" }} />
+      <div style={{ pointerEvents: "none", position: "absolute", right: -96, bottom: 0, width: 320, height: 320, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,180,216,0.15) 0%, transparent 70%)" }} />
 
-        <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative" }}>
-          {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: 0 }}>
-            <span style={{ display: "inline-block", marginBottom: 12, borderRadius: 999, background: "rgba(6,148,209,0.10)", padding: "6px 18px", fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.08em", color: "#0694D1" }}>
-              Real Transformations
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative" }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: 0 }}>
+          <span style={{ display: "inline-block", marginBottom: 12, borderRadius: 999, background: "rgba(6,148,209,0.10)", padding: "6px 18px", fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.08em", color: "#0694D1" }}>
+            Real Transformations
+          </span>
+          <h2 style={{ fontSize: "clamp(22px,3.5vw,34px)", fontWeight: 800, color: "#071e2e", margin: "0 0 12px", lineHeight: 1.3, letterSpacing: "-0.015em" }}>
+            Course{" "}
+            <span style={{ background: "linear-gradient(90deg,#0694D1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              Student Reviews
             </span>
-            <h2 style={{ fontSize: "clamp(22px,3.5vw,34px)", fontWeight: 800, color: "#071e2e", margin: "0 0 12px", lineHeight: 1.3, letterSpacing: "-0.015em" }}>
-              Course{" "}
-              <span style={{ background: "linear-gradient(90deg,#0694D1,#22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                Student Reviews
-              </span>
-            </h2>
-            <p style={{ textAlign: "center", maxWidth: 480, margin: "0 auto", color: "#4a6a8a", fontSize: 15, lineHeight: 1.65 }}>
-              Real results from IT professionals who trained with Koenig — rated 4.9/5 from 18,400+ verified reviews.
-            </p>
-          </div>
+          </h2>
+          <p style={{ textAlign: "center", maxWidth: 480, margin: "0 auto", color: "#4a6a8a", fontSize: 15, lineHeight: 1.65 }}>
+            Real results from IT professionals who trained with Koenig — rated 4.9/5 from 18,400+ verified reviews.
+          </p>
+        </div>
 
-          {/* Stats bar */}
-          <div style={{ margin: "16px auto 15px", maxWidth: 760 }}>
-            <div style={{ background: "#fff", borderRadius: 16, padding: "12px 8px", boxShadow: "0 4px 20px rgba(6,148,209,0.10)", border: "1px solid #DCEEFB" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 0 }}>
-                {STATS.map((s, i) => (
-                  <div key={s.label} style={{ textAlign: "center", padding: "6px 4px", borderRight: i < STATS.length - 1 ? "1px solid #CAEFFF" : "none" }}>
-                    <div style={{ display: "flex", justifyContent: "center", marginBottom: 4 }}>
-                      {/* Smaller icon on mobile */}
-                      <span className="sm:hidden" style={{ transform: "scale(0.75)", display: "inline-flex" }}>{s.icon}</span>
-                      <span className="hidden sm:inline-flex">{s.icon}</span>
-                    </div>
-                    <div className="text-[15px] sm:text-[22px]" style={{ fontWeight: 800, color: "#093148", lineHeight: 1.2 }}>{s.val}</div>
-                    <div className="text-[12px]" style={{ marginTop: 2, color: "#666", lineHeight: 1.3 }}>{s.label}</div>
+        {/* Stats bar */}
+        <div style={{ margin: "16px auto 15px", maxWidth: 760 }}>
+          <div style={{ background: "#fff", borderRadius: 16, padding: "12px 8px", boxShadow: "0 4px 20px rgba(6,148,209,0.10)", border: "1px solid #DCEEFB" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 0 }}>
+              {STATS.map((s, i) => (
+                <div key={s.label} style={{ textAlign: "center", padding: "6px 4px", borderRight: i < STATS.length - 1 ? "1px solid #CAEFFF" : "none" }}>
+                  <div style={{ display: "flex", justifyContent: "center", marginBottom: 4 }}>
+                    {/* Smaller icon on mobile */}
+                    <span className="sm:hidden" style={{ transform: "scale(0.75)", display: "inline-flex" }}>{s.icon}</span>
+                    <span className="hidden sm:inline-flex">{s.icon}</span>
                   </div>
-                ))}
-              </div>
+                  <div className="text-[15px] sm:text-[22px]" style={{ fontWeight: 800, color: "#093148", lineHeight: 1.2 }}>{s.val}</div>
+                  <div className="text-[12px]" style={{ marginTop: 2, color: "#666", lineHeight: 1.3 }}>{s.label}</div>
+                </div>
+              ))}
             </div>
           </div>
-
-          {/* Mobile horizontal marquee */}
-          <MobileTestimonialRow testimonials={TESTIMONIALS} />
-
-          {/* Desktop scrolling columns */}
-          <div className="hidden md:flex" style={{ justifyContent: "center", gap: 24, marginTop: 48, maxHeight: 740, overflow: "hidden", WebkitMaskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)", maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}>
-            <TestimonialsColumn testimonials={TESTIMONIALS.slice(0, 3)} duration={15} />
-            <TestimonialsColumn testimonials={TESTIMONIALS.slice(3, 6)} duration={19} className="hidden md:block" />
-            <TestimonialsColumn testimonials={TESTIMONIALS.slice(6, 9)} duration={17} className="hidden lg:block" />
-          </div>
         </div>
-      </section>
-    </>
+
+        {/* Horizontal slider — 1 card/slide on mobile, 3 cards/slide from md up */}
+        <div style={{ marginTop: 32 }}>
+          <TestimonialsSlider testimonials={TESTIMONIALS} />
+        </div>
+      </div>
+    </section>
   );
 }

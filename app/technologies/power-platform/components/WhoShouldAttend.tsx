@@ -39,6 +39,11 @@ export default function WhoShouldAttend() {
     >
       {/* subtle top divider */}
       <div className="absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(6,148,209,0.2), transparent)" }} />
+      <style suppressHydrationWarning>{`
+        @media (max-width: 700px) {
+          #who-heading { font-size: 20px !important; }
+        }
+      `}</style>
 
       <div className="relative max-w-[1280px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px]">
 

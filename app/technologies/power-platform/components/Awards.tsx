@@ -168,6 +168,7 @@ export default function Awards() {
         }
         @media (max-width: 700px) {
           section[aria-labelledby="awards-heading"] { padding: 24px 16px !important; }
+          #awards-heading { font-size: 20px !important; }
         }
         @media (max-width: 375px) {
           section[aria-labelledby="awards-heading"] { padding: 24px 16px !important; }

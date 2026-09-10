@@ -123,6 +123,13 @@ export default function TrustedCompanies() {
         }
         @keyframes tc-shimmer { to { background-position: 200% center; } }
         .tc-headline-sub { font-size: 15px; color: #4a6375; margin-bottom: 0; font-weight: 400; }
+        .tc-headline-break { display: none; }
+        @media (max-width: 700px) {
+          .tc-section { padding: 15px 0; }
+          .tc-headline-wrap { padding: 0 16px; margin-bottom: 15px; }
+          .tc-headline { font-size: 20px; }
+          .tc-headline-break { display: block; }
+        }
 
         .tc-marquee-wrap {
           position: relative; overflow-x: clip; overflow-y: visible;
@@ -156,7 +163,7 @@ export default function TrustedCompanies() {
       <div className="tc-inner">
         <div className="tc-headline-wrap">
           <div className="tc-headline">
-            Trusted by enterprise teams at <em>500+</em> global companies
+            Trusted by enterprise teams<br className="tc-headline-break" />at <em>500+</em> global companies
           </div>
           <div className="tc-headline-sub">
             From Fortune 500 enterprises to fast-growing tech firms — Koenig alumni are everywhere

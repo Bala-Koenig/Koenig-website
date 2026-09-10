@@ -210,6 +210,7 @@ export default function UniqueOfferings() {
         }
         @media(max-width:700px) {
           .lfr-sec { padding-top:24px!important; padding-bottom:24px!important; }
+          #lfr-heading { font-size: 20px !important; }
         }
         @media(max-width:640px) {
           .lfr-desktop { display:none!important; }

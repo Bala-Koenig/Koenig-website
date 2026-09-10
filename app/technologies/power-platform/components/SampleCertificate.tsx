@@ -109,6 +109,9 @@ export default function SampleCertificate() {
           .sc-title { font-size:18px; }
           .sc-desc { font-size:14px; }
         }
+        @media(max-width:700px) {
+          .sc-title { font-size:20px !important; }
+        }
       `}</style>
 
       <section className="sc-sec" aria-labelledby="sc-heading">

@@ -219,9 +219,8 @@ export default function CourseListings() {
   const [certSort, setCertSort]             = useState("");
   const [viewMode, setViewMode]             = useState<"courses" | "exams">("courses");
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
-  const [filterCategory, setFilterCategory]     = useState<"level"|"duration">("level");
+  const [filterCategory, setFilterCategory]     = useState<"vendor"|"relevant"|"level"|"duration">("vendor");
   const [filterSearch, setFilterSearch]         = useState("");
-  const [techSheetOpen, setTechSheetOpen]       = useState(false);
   const [currentPage, setCurrentPage]       = useState(1);
   const [syllabusOpen, setSyllabusOpen]     = useState(false);
   const [sylSubmitted, setSylSubmitted]     = useState(false);
@@ -567,19 +566,6 @@ export default function CourseListings() {
               </button>
             </div>
 
-            {/* Mobile-only: count + Request More Info + Technology selector */}
-            <div className="cf-mobile-controls">
-              <div className="cf-mobile-count">Showing {filteredCourses.length} courses</div>
-              <button className="cf-mobile-req-btn" onClick={() => setReqInfoOpen(true)}>
-                Request More Info
-              </button>
-              <button className="cf-mobile-tech-selector" onClick={() => setTechSheetOpen(true)}>
-                <svg className="cf-mobile-tech-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-                <span className="cf-mobile-tech-label">Technology: {activeTechName || "All Courses"}</span>
-                <svg className="cf-mobile-tech-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-            </div>
-
             {/* Filter bar */}
             <div className="cf-bar">
               <div className="cf-search-wrap">
@@ -617,6 +603,12 @@ export default function CourseListings() {
               </div>
             </div>
 
+            {/* Mobile-only: Request More Info, below the sort/filter row */}
+            <div className="cf-mobile-req-wrap">
+              <button className="cf-mobile-req-btn" onClick={() => setReqInfoOpen(true)}>
+                Request More Info
+              </button>
+            </div>
 
             {/* Card grid */}
             <div className="cert-panel-scroll">
@@ -758,9 +750,17 @@ export default function CourseListings() {
         {/* ── Filter popup modal ──────────────────── */}
         {filterDrawerOpen && (() => {
           const FILTER_CATS = [
+            { key: "vendor",   label: "Vendor" },
             { key: "level",    label: "Skill Level" },
             { key: "duration", label: "Duration" },
+            { key: "relevant", label: "Relevant Technology" },
           ] as const;
+          const vendorItems = technologies.filter(t =>
+            !filterSearch || t.name.toLowerCase().includes(filterSearch.toLowerCase())
+          );
+          const relevantItems = RELEVANT_TECHNOLOGIES.filter(t =>
+            !filterSearch || t.label.toLowerCase().includes(filterSearch.toLowerCase())
+          );
           const levelItems = LEVELS.filter(l =>
             !filterSearch || l.label.toLowerCase().includes(filterSearch.toLowerCase())
           );
@@ -796,6 +796,24 @@ export default function CourseListings() {
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
                       {/* Checkbox list */}
                     <div style={{ flex: 1, overflowY: "auto", padding: "6px 0" }}>
+                      {filterCategory === "vendor" && !filterSearch && (
+                        <label style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", cursor: "pointer", borderBottom: "1px solid #f0f7fc" }}>
+                          <span style={{ fontSize: 13, color: "#374151" }}>All Courses</span>
+                          <input type="radio" name="filter-vendor" checked={activeTechName === ""} onChange={() => { setActiveTechName(""); setActiveSubTechs(new Set()); }} style={{ width: 16, height: 16, accentColor: "#0694D1", cursor: "pointer" }} />
+                        </label>
+                      )}
+                      {filterCategory === "vendor" && vendorItems.map(t => (
+                        <label key={t.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", cursor: "pointer", borderBottom: "1px solid #f0f7fc" }}>
+                          <span style={{ fontSize: 13, color: "#374151" }}>{t.name} <span style={{ color: "#94a3b8", fontSize: 11 }}>{t.courses.length}</span></span>
+                          <input type="radio" name="filter-vendor" checked={activeTechName === t.name} onChange={() => { setActiveTechName(t.name); setActiveSubTechs(new Set()); }} style={{ width: 16, height: 16, accentColor: "#0694D1", cursor: "pointer" }} />
+                        </label>
+                      ))}
+                      {filterCategory === "relevant" && relevantItems.map(t => (
+                        <label key={t.label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", cursor: "pointer", borderBottom: "1px solid #f0f7fc" }}>
+                          <span style={{ fontSize: 13, color: "#374151" }}>{t.label}</span>
+                          <input type="checkbox" checked={activeSubTechs.has(t.label)} onChange={() => toggleSubTech(t.label)} style={{ width: 16, height: 16, accentColor: "#0694D1", cursor: "pointer" }} />
+                        </label>
+                      ))}
                       {filterCategory === "level" && levelItems.map(l => (
                         <label key={l.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", cursor: "pointer", borderBottom: "1px solid #f0f7fc" }}>
                           <span style={{ fontSize: 13, color: "#374151" }}>{l.label}</span>
@@ -820,45 +838,6 @@ export default function CourseListings() {
             </>
           );
         })()}
-
-      {/* ── Technology bottom sheet (mobile) ────── */}
-      {techSheetOpen && (
-        <>
-          <div className="tbs-overlay" onClick={() => setTechSheetOpen(false)} />
-          <div className="tbs-sheet">
-            <div className="tbs-handle" />
-            <div className="tbs-header">
-              <div>
-                <div className="tbs-label">Filter by</div>
-                <div className="tbs-title">Technology</div>
-              </div>
-              <button className="tbs-close" onClick={() => setTechSheetOpen(false)}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-              </button>
-            </div>
-            <div className="tbs-list">
-              {/* All Courses */}
-              <button className={`tbs-item${activeTechName === "" ? " active" : ""}`} onClick={() => { setActiveTechName(""); setActiveSubTechs(new Set()); setTechSheetOpen(false); }}>
-                <span className="tbs-item-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={activeTechName === "" ? "#0694D1" : "#6b8499"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-                </span>
-                <span className="tbs-item-name">All Courses</span>
-                <span className="tbs-item-count">{totalCount}</span>
-                {activeTechName === "" && <svg className="tbs-item-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-              </button>
-              {/* Tech list */}
-              {technologies.map(t => (
-                <button key={t.name} className={`tbs-item${activeTechName === t.name ? " active" : ""}`} onClick={() => { setActiveTechName(t.name); setActiveSubTechs(new Set()); setTechSheetOpen(false); }}>
-                  <span className="tbs-item-icon">{techLogos[t.name]}</span>
-                  <span className="tbs-item-name">{t.name}</span>
-                  <span className="tbs-item-count">{t.courses.length}</span>
-                  {activeTechName === t.name && <svg className="tbs-item-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0694D1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                </button>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
 
       {/* ── Syllabus modal (vendor page design) ────── */}
       {syllabusOpen && (
@@ -1197,6 +1176,7 @@ export default function CourseListings() {
         /* mobile-only controls */
         .cf-mobile-controls { display: none; flex-direction: column; gap: 8px; padding: 12px 14px; background: #fff; border-bottom: 1px solid #CAEFFF; }
         .cf-mobile-count { font-size: 11px; font-weight: 800; color: #0694D1; letter-spacing: 0.08em; text-transform: uppercase; }
+        .cf-mobile-req-wrap { display: none; padding: 0 14px 12px; background: #fff; }
         .cf-mobile-req-btn { width: 100%; padding: 12px; background: linear-gradient(135deg,#0694D1,#046fa3); color: #fff; border-radius: 10px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; font-family: inherit; box-shadow: 0 4px 14px rgba(6,148,209,0.25); }
         .cf-mobile-tech-selector { position: relative; display: flex; align-items: center; }
         .cf-mobile-tech-icon { position: absolute; left: 12px; pointer-events: none; flex-shrink: 0; }
@@ -1356,6 +1336,7 @@ export default function CourseListings() {
           .cf-filter-btn-mobile { display: inline-flex !important; }
           .cf-result-count-inline { display: none; }
           .cf-mobile-controls { display: flex; }
+          .cf-mobile-req-wrap { display: block; }
           .cert-strip-req-btn { display: none !important; }
           /* hide tech strip on mobile — cf-mobile-controls replaces it */
           .cert-tech-strip { display: none; }
@@ -1363,14 +1344,15 @@ export default function CourseListings() {
           .cf-bar { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 14px; }
           .cf-search-wrap { width: 100%; box-sizing: border-box; }
           .cf-bar-right { margin-left: 0; width: 100%; display: flex; align-items: center; gap: 8px; }
-          .cf-sort-wrap { flex: 1; }
-          .cf-sort { width: 100%; box-sizing: border-box; font-size: 13px; padding-top: 9px; padding-bottom: 9px; }
-          .cf-filter-btn-mobile { flex-shrink: 0; padding: 9px 18px; font-size: 13px; }
+          .cf-sort-wrap { flex: 0 0 auto; }
+          .cf-sort { width: auto; box-sizing: border-box; font-size: 13px; padding: 9px 20px 9px 22px; }
+          .cf-filter-btn-mobile { flex: 1; justify-content: center; padding: 9px 18px; font-size: 13px; }
           .cert-panel-scroll { padding: 14px 14px 20px; }
         }
 
         /* Mobile: single column, full-width tabs */
         @media (max-width: 700px) {
+          #cert-explorer-heading { font-size: 20px !important; }
           section[id="cert"] { padding: 18px 16px !important; }
           .certs-header-row { flex-direction: column; align-items: stretch; gap: 14px; }
           .cert-mode-toggle-wrap { align-self: stretch; }

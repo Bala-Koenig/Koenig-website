@@ -87,6 +87,7 @@ export default function CourseOverview() {
         @media(max-width: 700px) {
           .who-desktop-grid { display: none !important; }
           .who-mobile-view { display: block; }
+          #overview-heading { font-size: 20px !important; }
         }
       `}</style>
 
@@ -334,7 +335,7 @@ export default function CourseOverview() {
               </svg>
               Career Outcomes
             </div>
-            <h2 className="font-heading font-medium" style={{ fontSize: "clamp(20px, 2.2vw, 28px)", color: C.dark }}>
+            <h2 id="career-outcomes-heading" className="font-heading font-medium" style={{ fontSize: "clamp(20px, 2.2vw, 28px)", color: C.dark }}>
               What{" "}
               <span style={{ background: "linear-gradient(to right, #0694D1, #22d3ee)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 Power Platform Certification
@@ -358,6 +359,7 @@ export default function CourseOverview() {
             .co-cards-desktop { display: grid; }
             .co-cards-mobile { display: none; }
             @media(max-width:700px) {
+              #career-outcomes-heading { font-size: 20px !important; }
               .co-cards-desktop { display: none !important; }
               .co-cards-mobile { display: block; }
               .co-cards-track-wrap { overflow: hidden; user-select: none; cursor: grab; }

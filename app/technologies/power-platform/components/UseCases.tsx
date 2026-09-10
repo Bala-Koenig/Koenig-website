@@ -107,6 +107,11 @@ export default function UseCases() {
           <span className="section-badge mb-5 inline-flex">
             <svg viewBox="0 0 24 24" fill="none" width="14" height="14" style={{display:'inline',verticalAlign:'middle'}}><rect x="2" y="7" width="20" height="14" rx="2" stroke="#0694D1" strokeWidth="1.8"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke="#0694D1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> Real-World Impact
           </span>
+          <style suppressHydrationWarning>{`
+            @media (max-width: 700px) {
+              #use-cases-heading { font-size: 20px !important; }
+            }
+          `}</style>
           <h2
             id="use-cases-heading"
             className="font-heading font-medium text-3xl sm:text-4xl lg:text-[2.6rem] leading-tight mb-5"

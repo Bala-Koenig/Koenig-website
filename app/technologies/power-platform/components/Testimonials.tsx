@@ -244,6 +244,7 @@ export default function Testimonials() {
         }
         @media (max-width: 700px) {
           section[aria-labelledby="testimonials-heading"] { padding: 24px 16px !important; }
+          #testimonials-heading { font-size: 20px !important; }
         }
         @media (max-width: 375px) {
           section[aria-labelledby="testimonials-heading"] { padding: 24px 12px !important; }

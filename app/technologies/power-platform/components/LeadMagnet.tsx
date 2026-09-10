@@ -98,6 +98,11 @@ export default function LeadMagnet() {
 
   return (
     <section ref={sectionRef} className="py-[60px] bg-white" aria-labelledby="lead-magnet-heading">
+      <style suppressHydrationWarning>{`
+        @media (max-width: 700px) {
+          #lead-magnet-heading { font-size: 20px !important; }
+        }
+      `}</style>
       <div className="max-w-[1280px] mx-auto px-[16px] sm:px-[24px] lg:px-[32px]">
 
         {/* Header */}

@@ -87,6 +87,7 @@ export default function FAQ() {
           .faq-pp-cta-btns a, .faq-pp-cta-btns button { width: 100%; justify-content: center; box-sizing: border-box; }
         }
         @media(max-width:700px){
+          #faq-heading { font-size: 20px !important; }
           .faq-pp-cta-btns a, .faq-pp-cta-btns button { width: 100%; justify-content: center; box-sizing: border-box; }
           .faq-pp-accordion-btn { padding-left: 14px !important; padding-right: 10px !important; padding-top: 13px !important; padding-bottom: 13px !important; }
           .faq-pp-answer-body { padding-left: 14px !important; padding-right: 14px !important; }
@@ -120,7 +121,7 @@ export default function FAQ() {
 
           {/* Header */}
           <div className="animate-on-scroll" style={{ textAlign: "center", marginBottom: 15 }}>
-            <h2 style={{ fontSize: "clamp(22px, 2.8vw, 36px)", fontWeight: 800, color: "#071e2e", margin: "0 0 15px", letterSpacing: "-0.02em", lineHeight: 1.25, fontFamily: "'GTWalsheimPro', sans-serif" }}>
+            <h2 id="faq-heading" style={{ fontSize: "clamp(22px, 2.8vw, 36px)", fontWeight: 800, color: "#071e2e", margin: "0 0 15px", letterSpacing: "-0.02em", lineHeight: 1.25, fontFamily: "'GTWalsheimPro', sans-serif" }}>
               Got Questions?{" "}
               <span style={{
                 background: "linear-gradient(90deg, #0694D1 0%, #50e6ff 45%, #a8d8ff 65%, #0694D1 100%)",

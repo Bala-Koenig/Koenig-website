@@ -135,10 +135,10 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: 30, paddingBottom: 30 }}>
 
         {/* ── Top: 2-column main area ─────────────────────────────────── */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center hero-top-grid">
 
           {/* Left — headline + CTA */}
-          <div className="space-y-[18px]">
+          <div className="space-y-[18px] hero-content-stack">
 
 
             <div className="animate-on-scroll" style={{ transitionDelay: "0.1s" }}>
@@ -175,8 +175,10 @@ export default function Hero() {
             <style suppressHydrationWarning>{`
               .hero-cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
               @media (max-width: 700px) {
-                .hero-cta-row { flex-direction: column; gap: 10px; }
-                .hero-cta-btn { width: 100% !important; text-align: center; justify-content: center; }
+                .hero-top-grid { row-gap: 15px !important; }
+                .hero-content-stack > p { margin-top: 15px !important; }
+                .hero-cta-row { flex-direction: row; gap: 10px; }
+                .hero-cta-btn { flex: 1 1 0; text-align: center; justify-content: center; padding: 10px 8px !important; font-size: clamp(12px, 3.4vw, 14px) !important; white-space: nowrap; }
               }
             `}</style>
 
