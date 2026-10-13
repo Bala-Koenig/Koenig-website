@@ -542,7 +542,9 @@ function renderMap(course, path) {
   const isDefaultCourse = defaultCourse && String(defaultCourse.id) === String(course.id);
   const badgeLabel = isDefaultCourse ? 'Current Course' : 'Selected Course';
 
-  $('mid-label').textContent = level ? level + ' course' : 'Selected course';
+  // Keep the header relational like its neighbours ("Before course" / "After course"), not level-named —
+  // the level itself is still shown inside the card, so nothing is lost, just not duplicated inconsistently.
+  $('mid-label').textContent = isDefaultCourse ? 'Current course' : 'Selected course';
   $('mid-body').innerHTML =
     '<div class="course-card card-inter card-current" data-code="' + esc(cur.code) + '"><span class="badge-this"><svg width="6" height="6" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> ' + badgeLabel + '</span>' + cardInner(cur, level) + prereqHtml(cur) + '</div>' +
     (path ? '' : '<p class="standalone-note">This course is standalone. No related courses yet.</p>');
