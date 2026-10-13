@@ -104,6 +104,11 @@ body{max-width:1380px;margin:0 auto;padding-left:16px;padding-right:16px}
 .side-scroll::-webkit-scrollbar{width:6px}
 .side-scroll::-webkit-scrollbar-thumb{background:#9EB3BE;border-radius:99px}
 .side-scroll-wrap{position:relative;width:100%}
+.list-more-btn{display:none}
+@media (max-width:900px){
+  .list-more-btn{display:block;margin:10px auto 0;height:40px;padding:0 20px;border:1.5px solid #0694D1;border-radius:20px;background:#fff;color:#076D9D;font-size:13px;font-weight:700;cursor:pointer}
+  .list-more-btn:hover{background:#E4F7FF}
+}
 .scroll-fade{position:absolute;left:0;right:0;bottom:0;height:46px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#076D9D;background:linear-gradient(to bottom, rgba(255,255,255,0), #fff 70%);pointer-events:none;opacity:0;transition:opacity .2s}
 .scroll-fade.show{opacity:1}
 .mid-body{flex:1;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:10px}
@@ -553,7 +558,31 @@ function renderMap(course, path) {
   $('after-scroll').innerHTML = after ? sideCards(after.certs, 'card-after')
     : related.length ? '<p class="side-note">No later courses. Other courses at this level:</p>' + sideCards(related, 'card-after')
     : '<div class="course-card card-aa placeholder"><span class="cname">No later courses</span></div>';
+
+  // On a phone, the page already scrolls — so a 25-card "before" list shouldn't also force a huge
+  // scroll before the visitor ever reaches the current/after sections. Show a handful, let them expand.
+  sideExpanded.before = sideExpanded.after = false;
+  applyCollapse('before'); applyCollapse('after');
 }
+const MOBILE_LIST_LIMIT = 4;
+let sideExpanded = {before: false, after: false};
+function applyCollapse(key) {
+  const el = $(key + '-scroll'), wrap = el.closest('.side-scroll-wrap');
+  const oldBtn = wrap.querySelector('.list-more-btn');
+  if (oldBtn) oldBtn.remove();
+  const cards = [...el.children].filter(c => c.classList.contains('course-card'));
+  cards.forEach(c => { c.style.display = ''; });
+  const isMobile = window.matchMedia('(max-width:900px)').matches;
+  if (!isMobile || sideExpanded[key] || cards.length <= MOBILE_LIST_LIMIT) return;
+  cards.slice(MOBILE_LIST_LIMIT).forEach(c => { c.style.display = 'none'; });
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'list-more-btn';
+  btn.textContent = 'Show ' + (cards.length - MOBILE_LIST_LIMIT) + ' more ↓';
+  btn.addEventListener('click', () => { sideExpanded[key] = true; applyCollapse(key); });
+  wrap.appendChild(btn);
+}
+window.addEventListener('resize', () => { applyCollapse('before'); applyCollapse('after'); });
 
 /* ---------- connector lines ---------- */
 let wireFrame = 0, lastGeo = null;
