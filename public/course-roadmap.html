@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Mind Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#F5F1E8;color:#1C2B33;min-height:100vh;padding:28px 24px}
+h1{font-family:'Fraunces',Georgia,serif;font-size:36px;font-weight:600;margin-bottom:8px}
+.subtitle{text-align:center;color:#55626A;font-size:15px;line-height:1.4;margin:0 auto 20px;max-width:560px}
+
+/* SEARCH */
+.search-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.search-row input{flex:1;min-width:280px;height:52px;padding:0 24px;border:2px solid #0694D1;border-radius:26px;background:#fff;font-size:16px;font-family:inherit;outline:none;transition:border-color .2s;color:#1C2B33}
+.search-row input:focus{border-color:#076D9D;box-shadow:0 0 0 3px rgba(6,148,209,.15)}
+.search-row input::placeholder{color:#8899AA}
+.search-box{position:relative;flex:1;min-width:280px;max-width:900px;display:flex;align-items:center}
+.search-box input{width:100%;min-width:0;padding-right:96px}
+.q-btn{position:absolute;top:50%;transform:translateY(-50%);border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.q-go{right:6px;width:40px;height:40px;border-radius:50%;background:#0694D1;color:#fff}
+.q-go:hover{background:#076D9D}
+.q-clear{right:52px;width:30px;height:30px;border-radius:50%;background:#EEF2F4;color:#55626A;font-size:20px;line-height:1;display:none}
+.q-clear:hover{background:#dde4e8}
+.search-box.has-text .q-clear{display:flex}
+
+/* FILTERS */
+.filters-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:32px;align-items:flex-end}
+.filter-section{display:flex;flex-direction:column;gap:6px}
+.filter-label{font-size:11px;letter-spacing:.1em;font-weight:700;color:#093148}
+.filter-select{height:46px;padding:0 40px 0 16px;border:2px solid #0694D1;border-radius:24px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230694D1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center;background-size:16px;-webkit-appearance:none;appearance:none;font-size:14px;font-weight:600;font-family:inherit;color:#0694D1;cursor:pointer;outline:none;min-width:180px;transition:background-color .15s}
+.filter-select:focus{border-color:#076D9D;box-shadow:0 0 0 3px rgba(6,148,209,.15)}
+.filter-select.active{background-color:#0694D1;color:#fff;border-color:#0694D1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")}
+
+/* MAP */
+
+/* SECTION LABELS */
+.section-label{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:20px;font-size:13px;font-weight:700;color:#fff;width:148px;height:36px;z-index:2}
+
+/* CARDS */
+.course-card{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:16px;border:2.5px solid;padding:18px 16px;transition:opacity .25s,box-shadow .25s,transform .2s;cursor:default;gap:8px;overflow:visible}
+.cname{font-size:13px;font-weight:700;line-height:1.3;max-width:190px}
+.clevel{font-size:11px;color:#55626A}
+.oem-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:10px;border:1.5px solid;font-size:11px;font-weight:700;cursor:pointer;background:#fff;transition:transform .12s,opacity .12s;white-space:nowrap}
+.oem-badge:hover{transform:scale(1.08);opacity:.85}
+
+/* overlay badges */
+.badge-popular{position:absolute;top:-12px;left:10px;display:inline-flex;align-items:center;gap:4px;background:#F7F3E8;color:#8A6D1D;border:1px solid #E3D5AC;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;white-space:nowrap;z-index:5;pointer-events:none}
+.badge-this{position:absolute;top:-12px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:4px;background:#0694D1;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;white-space:nowrap;z-index:5;pointer-events:none}
+.badge-new{position:absolute;top:-12px;right:10px;display:inline-flex;align-items:center;gap:4px;background:#E6F7F1;color:#0E7C59;border:1px solid #A8E3CB;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;z-index:5;pointer-events:none}
+
+/* card colours: white cards with a clean coloured border, matching the course-page cert-path cards */
+.card-before{background:#fff;border-color:#0694D1}
+.card-after{background:#fff;border-color:#1E7F6B}
+.card-selected{background:#1C2B33;border-color:#1C2B33;color:#fff}
+.card-selected .clevel{color:#9EB3BE}
+.card-bb{background:#fff;border-color:#0694D1;border-style:dashed;opacity:.85}
+.card-aa{background:#fff;border-color:#1E7F6B;border-style:dashed;opacity:.85}
+/* very mild per-level tint so Beginner/Intermediate/Advanced read apart at a glance within a column */
+.course-card[data-level="Beginner"]{background:#F8FBFE}
+.course-card[data-level="Intermediate"]{background:#FBFAF4}
+.course-card[data-level="Advanced"]{background:#FBF6F6}
+
+/* hover states */
+.dimmed{opacity:.2}
+.card-before.card-hovered,.card-bb.card-hovered{box-shadow:0 10px 24px rgba(6,148,209,.3);transform:scale(1.04)}
+.card-after.card-hovered,.card-aa.card-hovered{box-shadow:0 10px 24px rgba(30,127,107,.3);transform:scale(1.04)}
+.card-selected.card-hovered{box-shadow:0 10px 24px rgba(158,179,190,.35);transform:scale(1.04)}
+.card-before.card-next,.card-bb.card-next{box-shadow:0 10px 26px rgba(6,148,209,.35);transform:scale(1.04)}
+.card-after.card-next,.card-aa.card-next{box-shadow:0 10px 26px rgba(30,127,107,.35);transform:scale(1.04)}
+
+/* travel dot */
+
+
+.other-item .dot{width:8px;height:8px;border-radius:50%;background:#0694D1;flex-shrink:0}
+
+/* DECK CARDS - other intermediate courses stacked behind selected */
+.deck-card{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:16px;border:2px solid #0694D1;background:#E4F7FF;padding:12px 16px;gap:6px;cursor:pointer;transition:transform .2s,box-shadow .2s,opacity .2s;z-index:1}
+.deck-card:hover{transform:translateY(-4px);box-shadow:0 0 0 4px #9EB3BE}
+.deck-card .cname{font-size:12px;font-weight:700;line-height:1.3;max-width:200px;color:#fff}
+.deck-card{background:#1C2B33;border-color:#1C2B33;color:#fff;opacity:1;z-index:1;justify-content:flex-start;gap:4px;padding:12px 14px}
+.deck-card .cname{flex:1;display:flex;align-items:center;justify-content:center;max-width:none}
+.deck-card .clevel{font-size:10px;color:#9EB3BE}
+.deck-card-label{position:absolute;font-size:10px;font-weight:700;color:#0694D1;letter-spacing:.06em}
+
+
+/* side padding matches the top navigation (16px, 50px from lg; content max 1280px) */
+body{max-width:1380px;margin:0 auto;padding-left:16px;padding-right:16px}
+@media (min-width:1024px){body{padding-left:50px;padding-right:50px}}
+
+/* MAP: Before | This course | After, built from the learning path data */
+.map-wrap{overflow-x:auto;padding:8px 0 16px}
+.map{position:relative;display:flex;justify-content:center;align-items:stretch;gap:80px;width:max-content;min-width:100%;margin:0 auto;padding:0 8px}
+.col{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px}
+.col-before{width:262px}.col-mid{width:230px}.col-after{width:252px}
+.col::before{content:'';position:absolute;inset:-14px -16px;border-radius:26px;z-index:-1}
+.col-before::before{background:linear-gradient(180deg,#EDF8FF,rgba(237,248,255,.25))}
+.col-mid::before{background:linear-gradient(180deg,#F2F3F1,rgba(242,243,241,.25))}
+.col-after::before{background:linear-gradient(180deg,#EAF8F3,rgba(234,248,243,.25))}
+.col .section-label{position:static;width:auto;min-width:160px;padding:0 20px;flex:none}
+.label-before{background:#0694D1}.label-mid{background:#1C2B33}.label-after{background:#1E7F6B}
+.side-scroll{width:100%;max-height:720px;overflow-y:auto;overflow-x:hidden;padding:16px 14px 14px;scrollbar-gutter:stable;display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:14px;scrollbar-width:thin;scrollbar-color:#9EB3BE transparent}
+.side-scroll::-webkit-scrollbar{width:6px}
+.side-scroll::-webkit-scrollbar-thumb{background:#9EB3BE;border-radius:99px}
+.side-scroll-wrap{position:relative;width:100%}
+.list-more-btn{display:none}
+@media (max-width:900px){
+  .list-more-btn{display:block;margin:10px auto 0;height:40px;padding:0 20px;border:1.5px solid #0694D1;border-radius:20px;background:#fff;color:#076D9D;font-size:13px;font-weight:700;cursor:pointer}
+  .list-more-btn:hover{background:#E4F7FF}
+}
+.scroll-fade{position:absolute;left:0;right:0;bottom:0;height:46px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#076D9D;background:linear-gradient(to bottom, rgba(255,255,255,0), #fff 70%);pointer-events:none;opacity:0;transition:opacity .2s}
+.scroll-fade.show{opacity:1}
+.mid-body{flex:1;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:10px}
+.col .course-card{position:relative;flex:none;width:220px;height:136px}
+.cdur{font-size:11px;font-weight:600;color:#55626A}
+.col .oem-badge{max-width:100%;overflow:hidden;text-overflow:ellipsis;display:block}
+.col-mid .course-card{width:230px;height:137px}
+.col-after .course-card{width:210px}
+button.course-card{font:inherit;color:inherit;appearance:none;-webkit-appearance:none;cursor:pointer;text-align:center}
+button.card-before:hover{box-shadow:0 0 0 3px #0694D1;transform:scale(1.02)}
+button.card-after:hover{box-shadow:0 0 0 3px #1E7F6B;transform:scale(1.02)}
+button.course-card:focus-visible{outline:3px solid #1C2B33;outline-offset:3px}
+.course-card.placeholder{cursor:default;color:#55626A}
+.map-msg{text-align:center;font-size:16px;font-weight:600;color:#093148;margin:40px 0}
+.standalone-note{max-width:230px;text-align:center;font-size:13px;line-height:1.4;color:#55626A}
+#map .travel-dot{position:absolute;width:18px;height:18px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;opacity:0;transform:translate(-50%,-50%);z-index:10}
+svg.wires{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+
+/* filters keep a fixed width (long data-driven option names must not stretch them) */
+@media (min-width:901px){
+  #level-select{width:180px;min-width:0}
+  .combo:has(#oem-select){width:190px}
+  .combo:has(#tech-select){width:220px}
+}
+.filter-select{text-overflow:ellipsis}
+
+/* searchable dropdown (OEM / Technology) */
+.combo{position:relative}
+.combo>select{display:none}
+.combo-btn{display:block;width:100%;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;font-family:inherit}
+.combo-panel{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;max-width:min(340px,90vw);z-index:50;background:#fff;border:1.5px solid #0694D1;border-radius:8px;box-shadow:0 8px 24px rgba(9,49,72,.18);padding:8px}
+.combo-panel[hidden]{display:none}
+.combo-search{width:100%;height:40px;box-sizing:border-box;border:1.5px solid #9EB3BE;border-radius:6px;padding:0 10px;font:inherit;font-size:15px;color:#1C2B33;outline:none}
+.combo-search:focus{border-color:#076D9D;box-shadow:0 0 0 3px rgba(6,148,209,.15)}
+.combo-list{list-style:none;margin:8px 0 0;padding:0;max-height:260px;overflow-y:auto}
+.combo-list li{padding:9px 10px;border-radius:6px;font-size:15px;color:#1C2B33;cursor:pointer}
+.combo-list li.hl{background:#E4F7FF;color:#076D9D}
+.combo-list li.sel{font-weight:700}
+.combo-list li.none{color:#55626A;cursor:default}
+
+/* SELECTED FILTERS shown below the dropdowns */
+.filter-chips{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:-18px 0 22px}
+.filter-chips:empty{display:none}
+.fchip{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 6px 0 14px;border-radius:99px;border:1.5px solid #0694D1;background:#E4F7FF;color:#076D9D;font-size:13px;font-weight:600}
+.fchip b{font-weight:700;color:#093148}
+.fchip button{width:22px;height:22px;border-radius:50%;border:0;background:#0694D1;color:#fff;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.fchip button:hover{background:#076D9D}
+.fchip button:focus-visible{outline:2px solid #1C2B33;outline-offset:2px}
+.fclear{background:none;border:0;color:#076D9D;font-size:13px;font-weight:600;text-decoration:underline;cursor:pointer;padding:0 4px}
+
+/* RESULTS: list of matching courses */
+.results{margin:0 auto 24px;max-width:1000px}
+.results-title{font-size:16px;font-weight:700;color:#093148;margin:0 0 10px;text-align:center}
+.results-scroll{max-height:332px;overflow-y:auto;overflow-x:hidden;padding:6px;scrollbar-width:thin;scrollbar-color:#9EB3BE transparent}
+.results-scroll{cursor:grab;touch-action:pan-y}
+.results-scroll.dragging{cursor:grabbing;user-select:none}
+.results-scroll.dragging .rcard{pointer-events:none}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.rcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;min-height:98px;padding:10px 12px;border-radius:12px;border:2px solid #0694D1;background:#E4F7FF;color:#1C2B33;font:inherit;cursor:pointer;transition:box-shadow .15s}
+.rcard:hover{box-shadow:0 0 0 3px #0694D1}
+.rcard:focus-visible{outline:3px solid #1C2B33;outline-offset:2px}
+.rcard.active{background:#1C2B33;border-color:#1C2B33;color:#fff}
+.rname{font-size:12px;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rlevel{font-size:11px;color:#55626A}
+.rcard.active .rlevel{color:#9EB3BE}
+.rnote{font-size:10px;font-weight:600;color:#D9622B}
+.show-more{display:block;margin:12px auto 4px;height:40px;padding:0 24px;border:0;border-radius:8px;background:#0694D1;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.show-more:hover{background:#076D9D}
+.cprereq{font-size:10.5px;line-height:1.3;color:#55626A;text-align:center;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.col-mid .course-card{height:auto;min-height:137px}
+.side-note{margin:0;font-size:12px;font-weight:700;color:#1E7F6B;text-align:center}
+.cprereq{display:block;-webkit-line-clamp:unset;overflow:visible}
+.cplist{list-style:none;margin:2px 0 0;padding:0;max-height:92px;overflow-y:auto;display:flex;flex-direction:column;gap:3px;scrollbar-width:thin}
+.cprelink{background:none;border:0;padding:0;font:inherit;font-size:10.5px;line-height:1.3;color:#076D9D;text-decoration:underline;cursor:pointer;text-align:center}
+.cprelink:hover{color:#0694D1}
+.cprelink:focus-visible{outline:2px solid #1C2B33;outline-offset:2px;border-radius:2px}
+
+/* hint bar */
+.hint-bar{margin-top:18px;background:#fff;border:1.5px solid #D6D0C2;border-radius:24px;padding:14px 28px;font-size:15px;color:#1C2B33;text-align:center;min-height:52px;display:flex;align-items:center;justify-content:center}
+.hint-bar.active{background:#E4F7FF;border-color:#0694D1;color:#0694D1;font-weight:600}
+
+/* LAYOUT OVERRIDES: white bg, square controls, everything centered */
+body{background:#fff}
+/* side padding matches the top navigation (16px, 50px from lg; content max 1280px) */
+body{max-width:1380px;margin:0 auto;padding-left:16px;padding-right:16px}
+@media (min-width:1024px){body{padding-left:50px;padding-right:50px}}
+h1{text-align:center}
+.search-row{justify-content:center}
+.search-row input{max-width:900px;border-radius:8px}
+.filters-row{justify-content:center;align-items:flex-end;margin-bottom:40px}
+.filter-section{align-items:center}
+.filter-select{height:52px;border-radius:8px;font-size:16px;font-weight:400}
+.filter-select.active{font-weight:600}
+
+/* GT WALSHEIM PRO everywhere */
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Regular.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Regular.woff') format('woff');font-weight:400;font-display:swap}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Medium.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Medium.woff') format('woff');font-weight:500;font-display:swap}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Bold.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Bold.woff') format('woff');font-weight:700;font-display:swap}
+*,input,select,button,textarea{font-family:'GT Walsheim Pro',system-ui,sans-serif !important}
+
+.card-inter,.deck-card{background:#fff;border-color:#10243E;border-width:2.5px;color:#1C2B33;justify-content:flex-start;gap:4px;padding:12px 14px;border-radius:16px;box-shadow:0 4px 20px rgba(16,36,62,.15)}
+.card-inter .cname,.deck-card .cname{flex:1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;line-height:1.3;max-width:none;color:#10243E}
+.card-inter .clevel,.deck-card .clevel{font-size:10px;color:#55626A}
+.card-inter.card-hovered,.card-inter.card-next{border-width:4.5px;box-shadow:0 12px 28px rgba(16,36,62,.3);transform:scale(1.04)}
+/* the current course is the anchor of the map — a mild tinted fill makes it stand out without going heavy */
+.card-current{background:#D6E2F0;border-color:#10243E;color:#1C2B33;box-shadow:0 10px 28px rgba(16,36,62,.18)}
+.card-current .cname{color:#10243E}
+.card-current .clevel,.card-current .cdur{color:#55626A}
+.card-current .cprereq{color:#55626A}
+.card-current .cprelink{color:#076D9D}
+.card-current .cprelink:hover{color:#0694D1}
+.deck-card{cursor:default}
+.deck-card.card-hovered,.deck-card.card-next{border-width:4.5px;box-shadow:0 12px 28px rgba(16,36,62,.3);transform:scale(1.04)}
+
+/* RESPONSIVE: phones/tablets stack the journey vertically */
+@media (max-width:900px){
+  .map-wrap{overflow:visible}
+  .map{flex-direction:column;align-items:center;width:100%;gap:40px;padding:0}
+  .col{width:100%}
+  .col .course-card{width:100%;max-width:360px}
+  body{padding:20px 16px}
+  h1{font-size:28px}
+  .search-row input{min-width:0;width:100%;height:48px;font-size:15px}
+  .filters-row{flex-direction:column;align-items:stretch;gap:12px;margin-bottom:24px}
+  .filter-section{width:100%;align-items:stretch}
+  .filter-label{text-align:center}
+  .filter-select{width:100%;min-width:0;height:48px;font-size:15px}
+  .side-scroll{max-height:none;overflow-y:visible;padding-bottom:0}
+  .scroll-fade{display:none}
+  .badge-popular,.badge-new,.badge-this{position:absolute !important}
+  .card-before.card-hovered,.card-after.card-hovered,.card-aa.card-hovered,.card-before.card-next,.card-after.card-next,.card-aa.card-next,.card-inter.card-hovered,.deck-card.card-hovered{transform:none}
+  .hint-bar{font-size:14px;padding:12px 16px;border-radius:12px}
+}
+
+/* long course names: stay inside the card */
+.card-before,.card-after,.card-bb,.card-aa{padding:12px 12px;gap:5px}
+.card-before .cname,.card-after .cname,.card-bb .cname{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;line-height:1.3;max-width:100%}
+.card-aa .cname{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;line-height:1.3;max-width:100%}
+.card-inter .cname,.deck-card .cname{min-height:0;overflow:hidden}
+/* dropdown lists stay light */
+.filter-select option{background:#fff;color:#1C2B33;font-weight:400}
+.filter-select option:checked{background:#E4F7FF;color:#076D9D}
+/* mild This course pill */
+.badge-this{background:#E4F7FF !important;color:#076D9D !important;border:1px solid #0694D1}
+
+.card-inter,.deck-card{justify-content:center}
+.card-inter .cname,.deck-card .cname{flex:none;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-align:center;line-height:1.3}
+
+.hint-bar{display:none !important}
+
+/* This page is a sample of the roadmap widget for team sign-off before it's embedded
+   into real course pages. The search box stays — typing a course name redraws the
+   roadmap for that course — but the vendor/level/technology filters and the matching-
+   courses grid are part of the full /mind-map explorer, not what gets embedded, so
+   they're hidden here to keep the sample focused on just the roadmap itself. */
+.filters-row,.filter-chips,.results,#empty-msg{display:none !important}
+</style>
+</head>
+<body>
+
+<h1>Course Mind Map</h1>
+<p class="subtitle">See what to take before this course — and what comes next.</p>
+
+<div class="search-row">
+  <div class="search-box">
+    <input id="q" type="text" placeholder="What do you want to learn or accomplish?" oninput="onSearch()" onkeydown="if(event.key==='Enter'){runSearchNow()}else if(event.key==='Escape'){clearSearch()}" autocomplete="off">
+    <button type="button" id="q-clear" class="q-btn q-clear" aria-label="Clear search" title="Clear" onclick="clearSearch()">&times;</button>
+    <button type="button" class="q-btn q-go" aria-label="Search" title="Search" onclick="runSearchNow()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="filters-row">
+  <div class="filter-section">
+    <div class="filter-label">LEVEL</div>
+    <select class="filter-select" id="level-select" onchange="selectFilter('level',this)">
+      <option value="">All Levels</option>
+      <option value="Beginner">Beginner</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Advanced">Advanced</option>
+    </select>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">SELECT OEM</div>
+    <select class="filter-select" id="oem-select" onchange="selectFilter('oem',this)">
+      <option value="">All OEMs</option>
+    </select>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">SELECT TECHNOLOGY</div>
+    <select class="filter-select" id="tech-select" onchange="selectFilter('tech',this)">
+      <option value="">All Technologies</option>
+    </select>
+  </div>
+</div>
+
+<div class="filter-chips" id="filter-chips" aria-label="Selected filters"></div>
+
+<section class="results" id="results" style="display:none" aria-label="Matching courses">
+  <h2 class="results-title" id="results-title"></h2>
+  <div class="results-scroll" id="results-scroll">
+    <div class="results-grid" id="results-grid"></div>
+    <button type="button" class="show-more" id="show-more" style="display:none">Show more</button>
+  </div>
+</section>
+
+<div id="empty-msg" style="display:none;text-align:center;padding:60px 20px;font-size:17px;font-weight:600;color:#093148">No courses match. Clear a filter or try different words.</div>
+
+
+<div class="map-wrap" id="map-wrap">
+  <div class="map" id="map">
+    <svg class="wires" id="wg"><defs>
+      <marker id="ah-blue" orient="auto" markerWidth="6" markerHeight="6" refX="5" refY="3"><path d="M0 0L6 3L0 6Z" fill="#0694D1"/></marker>
+      <marker id="ah-green" orient="auto" markerWidth="6" markerHeight="6" refX="5" refY="3"><path d="M0 0L6 3L0 6Z" fill="#1E7F6B"/></marker>
+    </defs><g id="wg-lines"></g><g id="wg-geom"></g></svg>
+    <div class="col col-before">
+      <div class="section-label label-before">Before course</div>
+      <div class="side-scroll-wrap">
+        <div class="side-scroll" id="before-scroll"></div>
+        <div class="scroll-fade" id="before-fade" aria-hidden="true">Scroll for more ↓</div>
+      </div>
+    </div>
+    <div class="col col-mid">
+      <div class="section-label label-mid" id="mid-label">Selected course</div>
+      <div class="mid-body" id="mid-body"></div>
+    </div>
+    <div class="col col-after">
+      <div class="section-label label-after">After course</div>
+      <div class="side-scroll-wrap">
+        <div class="side-scroll" id="after-scroll"></div>
+        <div class="scroll-fade" id="after-fade" aria-hidden="true">Scroll for more ↓</div>
+      </div>
+    </div>
+  </div>
+  <p class="map-msg" id="map-msg" style="display:none">Loading...</p>
+</div>
+
+<div class="hint-bar" id="hint"></div>
+
+<script src="learning-path-data.js"></script>
+<script>
+const LP = window.LearningPathData;
+const COURSES = LP.courses();
+const HAY = COURSES.map(c => (c.name + ' ' + (c.vendor || '') + ' ' + (c.technologies || []).join(' ')).toLowerCase());
+const NO_VENDOR = 'No vendor listed', NONE_KEY = '__none__';
+const OEM_COLOURS = {"Microsoft": "#00A4EF", "Salesforce": "#00A1E0", "SAP": "#0073E6", "Cisco": "#1BA0D7", "Oracle": "#C74634", "AWS": "#FF9900", "Google": "#4285F4", "PMI": "#C74500", "Red Hat": "#EE0000", "VMware": "#607078", "IBM": "#054ADA", "Fortinet": "#EE3124", "Cloudera": "#F96702", "CompTIA": "#C8202F", "Palo Alto": "#FA582D", "Check Point": "#CC0000", "IASSC": "#005A8E"};
+const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
+const state = { level: null, oem: null, tech: null };
+const EMPTY_TEXT = 'No courses match. Clear a filter or try different words.';
+const vendorKey = c => c.vendor || NONE_KEY;
+const byName = (a, b) => a.name.localeCompare(b.name);
+let searchTimer = null, drawToken = 0, currentId = null;
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const sortedUnique = arr => [...new Set(arr)].filter(Boolean).sort((a, b) => a.localeCompare(b));
+const $ = id => document.getElementById(id);
+
+/* ---------- filters ---------- */
+function setSelect(id, value) { const sel = $(id); sel.value = value || ''; sel.classList.toggle('active', !!value); if (sel._combo) sel._combo.sync(); }
+
+/* wraps a <select> in a searchable dropdown; the select stays the source of truth */
+function makeCombo(sel) {
+  const wrap = document.createElement('div'); wrap.className = 'combo';
+  sel.parentNode.insertBefore(wrap, sel); wrap.appendChild(sel);
+  const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'filter-select combo-btn';
+  btn.setAttribute('aria-haspopup', 'listbox'); btn.setAttribute('aria-expanded', 'false');
+  const panel = document.createElement('div'); panel.className = 'combo-panel'; panel.hidden = true;
+  const input = document.createElement('input'); input.type = 'text'; input.className = 'combo-search';
+  input.placeholder = 'Search…'; input.autocomplete = 'off'; input.setAttribute('aria-label', 'Search options');
+  const list = document.createElement('ul'); list.className = 'combo-list'; list.setAttribute('role', 'listbox');
+  panel.append(input, list); wrap.append(btn, panel);
+  let items = [], hl = 0;
+  const sync = () => { btn.textContent = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : ''; btn.classList.toggle('active', !!sel.value); };
+  const render = () => {
+    const q = input.value.trim().toLowerCase();
+    items = [...sel.options].filter(o => !q || o.text.toLowerCase().includes(q));
+    hl = Math.max(0, items.findIndex(o => o.value === sel.value));
+    list.innerHTML = items.length ? items.map((o, i) => '<li role="option" data-i="' + i + '"' + (o.value === sel.value ? ' class="sel"' : '') + '>' + esc(o.text) + '</li>').join('') : '<li class="none">No matches</li>';
+    paint();
+  };
+  const paint = () => { [...list.children].forEach((li, i) => li.classList.toggle('hl', i === hl)); const el = list.children[hl]; if (el && el.scrollIntoView) el.scrollIntoView({ block: 'nearest' }); };
+  const close = () => { panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
+  const open = () => {
+    document.querySelectorAll('.combo-panel').forEach(p => { if (p !== panel) p.hidden = true; });
+    input.value = ''; render(); panel.hidden = false; btn.setAttribute('aria-expanded', 'true'); input.focus();
+  };
+  const pick = i => {
+    const o = items[i]; if (!o) return;
+    close(); btn.focus();
+    if (sel.value !== o.value) { sel.value = o.value; sync(); sel.dispatchEvent(new Event('change')); }
+  };
+  btn.addEventListener('click', () => panel.hidden ? open() : close());
+  input.addEventListener('input', render);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); hl = Math.min(items.length - 1, hl + 1); paint(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); hl = Math.max(0, hl - 1); paint(); }
+    else if (e.key === 'Enter') { e.preventDefault(); pick(hl); }
+    else if (e.key === 'Escape') { close(); btn.focus(); }
+  });
+  list.addEventListener('click', e => { const li = e.target.closest('li[data-i]'); if (li) pick(+li.dataset.i); });
+  document.addEventListener('click', e => { if (!wrap.contains(e.target)) close(); });
+  sel._combo = { sync };
+  sync();
+}
+function fillOEMOptions() {
+  const vendors = sortedUnique(COURSES.map(c => c.vendor));
+  const hasNone = COURSES.some(c => !c.vendor);
+  $('oem-select').innerHTML = '<option value="">All OEMs</option>' +
+    vendors.map(v => '<option value="' + esc(v) + '">' + esc(v) + '</option>').join('') +
+    (hasNone ? '<option value="' + NONE_KEY + '">' + NO_VENDOR + '</option>' : '');
+}
+function fillTechOptions(oem) {
+  const techs = sortedUnique(COURSES.filter(c => !oem || vendorKey(c) === oem).flatMap(c => c.technologies || []));
+  $('tech-select').innerHTML = '<option value="">All Technologies</option>' + techs.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('');
+}
+function matches(i, words) {
+  const c = COURSES[i];
+  if (state.level && c.level !== state.level) return false;
+  if (state.oem && vendorKey(c) !== state.oem) return false;
+  if (state.tech && !(c.technologies || []).includes(state.tech)) return false;
+  return words.every(w => HAY[i].includes(w));
+}
+
+/* ---------- map ---------- */
+function showEmpty(message) {
+  clearMap();
+  $('map-wrap').style.display = 'none';
+  const m = $('empty-msg'); m.textContent = message; m.style.display = '';
+}
+function showMap() { $('empty-msg').style.display = 'none'; $('map-wrap').style.display = ''; }
+function clearMap() {
+  $('before-scroll').innerHTML = ''; $('after-scroll').innerHTML = ''; $('mid-body').innerHTML = '';
+  $('wg-lines').innerHTML = '';
+}
+function vendorTag(vendor) {
+  const colour = OEM_COLOURS[vendor] || '#1C2B33';
+  return '<span class="oem-badge" style="color:' + colour + ';border-color:' + colour + '">' + esc(vendor || NO_VENDOR) + '</span>';
+}
+// PLACEHOLDER durations for reference only: the data has no duration field. If the course name states one
+// ("(2 Days)", "5 Day") it is used; otherwise a stable demo value is made from the course id.
+function durationFor(cert) {
+  const m = /\b(\d+)\s*[- ]?\s*(day|days|hour|hours|hrs)\b/i.exec(cert.name || '');
+  let days, hours;
+  if (m && /^h/i.test(m[2])) { hours = +m[1]; days = Math.max(1, Math.ceil(hours / 8)); }
+  else { days = m ? +m[1] : [1, 2, 3, 4, 5][Number(cert.code) % 5]; hours = days * 8; }   // 8 teaching hours per day
+  return days + ' Day' + (days === 1 ? '' : 's') + ' (' + hours + ' hrs)';
+}
+// "Recommended before" text: hidden when it is empty, "None", or a multi-tier note
+function prereqText(cert) {
+  const t = String(cert.prerequisites || '').trim();
+  const low = t.toLowerCase();
+  return (!t || low === 'none' || low.indexOf('tier (multiple') !== -1) ? '' : t;
+}
+// The prerequisite text is a comma separated list of course names (some names contain commas themselves),
+// so the pieces are matched against the real course names; matches become links, the rest stays plain text.
+const normName = t => String(t || '').toLowerCase().split(/\s+/).join(' ').trim();
+const NAME_MAP = new Map();
+COURSES.forEach(c => { const k = normName(c.name); if (!NAME_MAP.has(k)) NAME_MAP.set(k, c); });
+function parsePrereqs(text) {
+  const parts = text.split(', '), out = [];
+  let i = 0;
+  while (i < parts.length) {
+    let hit = null;
+    for (let e = parts.length; e > i; e--) {
+      const c = NAME_MAP.get(normName(parts.slice(i, e).join(', ')));
+      if (c) { hit = {c, e}; break; }
+    }
+    if (hit) { out.push({course: hit.c}); i = hit.e; } else { out.push({text: parts[i]}); i++; }
+  }
+  return out;
+}
+function prereqHtml(cert) {
+  const t = prereqText(cert);
+  if (!t) return '';
+  const items = parsePrereqs(t).map(it => it.course
+    ? '<li><button type="button" class="cprelink" data-id="' + esc(it.course.id) + '" title="Show the learning path for this course">' + esc(it.course.name) + '</button></li>'
+    : '<li>' + esc(it.text) + '</li>').join('');
+  return '<span class="cprereq">Recommended before:<ul class="cplist">' + items + '</ul></span>';
+}
+function cardInner(cert, level) {
+  const info = LP.course(cert.code);
+  return '<span class="cname">' + esc(cert.name) + '</span><span class="cdur">' + durationFor(cert) + '</span><span class="clevel">' + esc(level || 'Course') + '</span>' + vendorTag(info && info.vendor);
+}
+// PLACEHOLDER tags for reference only: the data has no popular/new flag, so a few cards are marked by course id.
+// Replace this with real data when it exists.
+function demoTag(code) {
+  const n = Number(code) % 6;
+  if (n === 0) return '<span class="badge-popular"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Popular</span>';
+  if (n === 3) return '<span class="badge-new"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></svg> New</span>';
+  return '';
+}
+function sideCards(certs, cls) {
+  return certs.map(cert =>
+    '<button type="button" class="course-card ' + cls + '" data-code="' + esc(cert.code) + '" data-level="' + esc(cert.tier || '') + '" aria-label="' + esc(cert.name) + '"' + (prereqText(cert) ? ' title="Recommended before: ' + esc(prereqText(cert)) + '"' : '') + '>' + demoTag(cert.code) + cardInner(cert, cert.tier) + '</button>').join('');
+}
+function computeSides(course, path) {
+  let cur = null, level = course.level;
+  if (path) {
+    path.forEach(t => (t.certs || []).forEach(c => { if (c.current) { cur = c; level = t.tier; } }));
+  }
+  if (!cur) cur = {code: String(course.id), name: course.name, prerequisites: 'None'};
+  const li = LEVELS.indexOf(level);
+  const certsAt = l => { const t = path && path.find(x => x.tier === LEVELS[l]); return t && t.certs ? t.certs.filter(c => !c.current) : []; };
+  // every level below goes to Before, every level above goes to After (each cert keeps its own level)
+  const gather = levels => {
+    const certs = levels.flatMap(l => certsAt(l).slice().sort(byName).map(c => Object.assign({}, c, {tier: LEVELS[l]})));
+    return certs.length ? {certs} : null;
+  };
+  const lower = [], higher = [];
+  for (let l = li - 1; l >= 0; l--) lower.push(l);   // nearest level first, so it is visible without scrolling
+  for (let l = li + 1; l < 3; l++) higher.push(l);
+  const before = li < 0 ? null : gather(lower);
+  const after = li < 0 ? null : gather(higher);
+  return {cur, level, before, after};
+}
+// When nothing comes after the course, offer other courses from the same vendor that share a technology
+function relatedCourses(cur, beforeCerts, level) {
+  const c0 = LP.course(cur.code);
+  if (!c0) return [];
+  const techs = new Set(c0.technologies || []);
+  const li = LEVELS.indexOf(level);
+  const skip = new Set(beforeCerts.map(x => String(x.code)));
+  skip.add(String(c0.id));
+  return COURSES
+    .filter(c => c.vendor === c0.vendor && !skip.has(String(c.id)) && LEVELS.indexOf(c.level) >= li && (c.technologies || []).some(t => techs.has(t)))
+    .sort((a, b) => (b.hasPath ? 1 : 0) - (a.hasPath ? 1 : 0) || byName(a, b))
+    .slice(0, 20)
+    .map(c => ({code: String(c.id), name: c.name, prerequisites: 'None', tier: c.level || 'Course'}));
+}
+function renderMap(course, path) {
+  const {cur, level, before, after} = computeSides(course, path);
+
+  // The sample's own "page course" is whichever one it defaults to on load; anything the
+  // visitor searches or clicks into instead is just a course they've picked to preview.
+  const isDefaultCourse = defaultCourse && String(defaultCourse.id) === String(course.id);
+  const badgeLabel = isDefaultCourse ? 'Current Course' : 'Selected Course';
+
+  // Keep the header relational like its neighbours ("Before course" / "After course"), not level-named —
+  // the level itself is still shown inside the card, so nothing is lost, just not duplicated inconsistently.
+  $('mid-label').textContent = isDefaultCourse ? 'Current course' : 'Selected course';
+  $('mid-body').innerHTML =
+    '<div class="course-card card-inter card-current" data-code="' + esc(cur.code) + '"><span class="badge-this"><svg width="6" height="6" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> ' + badgeLabel + '</span>' + cardInner(cur, level) + prereqHtml(cur) + '</div>' +
+    (path ? '' : '<p class="standalone-note">This course is standalone. No related courses yet.</p>');
+  $('before-scroll').innerHTML = before ? sideCards(before.certs, 'card-before') : '<div class="course-card card-bb placeholder"><span class="cname">No earlier courses</span></div>';
+  const related = (!after && path) ? relatedCourses(cur, before ? before.certs : [], level) : [];
+  $('after-scroll').innerHTML = after ? sideCards(after.certs, 'card-after')
+    : related.length ? '<p class="side-note">No later courses. Other courses at this level:</p>' + sideCards(related, 'card-after')
+    : '<div class="course-card card-aa placeholder"><span class="cname">No later courses</span></div>';
+
+  // On a phone, the page already scrolls — so a 25-card "before" list shouldn't also force a huge
+  // scroll before the visitor ever reaches the current/after sections. Show a handful, let them expand.
+  sideExpanded.before = sideExpanded.after = false;
+  applyCollapse('before'); applyCollapse('after');
+}
+const MOBILE_LIST_LIMIT = 4;
+let sideExpanded = {before: false, after: false};
+function applyCollapse(key) {
+  const el = $(key + '-scroll'), wrap = el.closest('.side-scroll-wrap');
+  const oldBtn = wrap.querySelector('.list-more-btn');
+  if (oldBtn) oldBtn.remove();
+  const cards = [...el.children].filter(c => c.classList.contains('course-card'));
+  cards.forEach(c => { c.style.display = ''; });
+  const isMobile = window.matchMedia('(max-width:900px)').matches;
+  if (!isMobile || sideExpanded[key] || cards.length <= MOBILE_LIST_LIMIT) return;
+  cards.slice(MOBILE_LIST_LIMIT).forEach(c => { c.style.display = 'none'; });
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'list-more-btn';
+  btn.textContent = 'Show ' + (cards.length - MOBILE_LIST_LIMIT) + ' more ↓';
+  btn.addEventListener('click', () => { sideExpanded[key] = true; applyCollapse(key); });
+  wrap.appendChild(btn);
+}
+window.addEventListener('resize', () => { applyCollapse('before'); applyCollapse('after'); });
+
+/* ---------- connector lines ---------- */
+let wireFrame = 0, lastGeo = null;
+function scheduleWires() { cancelAnimationFrame(wireFrame); wireFrame = requestAnimationFrame(drawWires); }
+function updateFade(scrollId, fadeId) {
+  const el = $(scrollId), fade = $(fadeId);
+  if (!el || !fade) return;
+  fade.classList.toggle('show', el.scrollHeight - el.clientHeight - el.scrollTop > 4);
+}
+function drawWires() {
+  updateFade('before-scroll', 'before-fade');
+  updateFade('after-scroll', 'after-fade');
+  const map = $('map'), svg = $('wg'), g = $('wg-lines');
+  g.innerHTML = '';
+  if ($('map-wrap').style.display === 'none' || getComputedStyle(svg).display === 'none') return;
+  const mr = map.getBoundingClientRect();
+  svg.setAttribute('width', map.offsetWidth); svg.setAttribute('height', map.offsetHeight);
+  const add = (d, arrow, green) => {
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', d); p.setAttribute('fill', 'none');
+    p.setAttribute('stroke', green ? '#1E7F6B' : '#0694D1'); p.setAttribute('stroke-width', '2'); p.setAttribute('stroke-linecap', 'butt');
+    if (arrow) p.setAttribute('marker-end', 'url(#ah-' + (green ? 'green' : 'blue') + ')');
+    g.appendChild(p);
+  };
+  const vertical = window.matchMedia('(max-width:900px)').matches;
+  const pts = (selector, scroller) => {
+    const sr = scroller ? scroller.getBoundingClientRect() : null;
+    return [...map.querySelectorAll(selector)].map(el => {
+      const r = el.getBoundingClientRect(), cy = r.top + r.height / 2;
+      if (sr && (cy < sr.top || cy > sr.bottom)) return null;      // centre scrolled out of view: no line
+      return {
+        el,
+        l: r.left - mr.left, r: r.right - mr.left, y: r.top - mr.top + r.height / 2,
+        t: r.top - mr.top, b: r.bottom - mr.top, x: r.left - mr.left + r.width / 2
+      };
+    }).filter(Boolean);
+  };
+  const B = pts('#before-scroll > button.course-card', $('before-scroll'));
+  const C = pts('#mid-body > .course-card');
+  const A = pts('#after-scroll > button.course-card', $('after-scroll'));
+  lastGeo = {left: null, right: null, vertical};
+  // desktop: columns sit side by side — one side always has exactly one card (the centre course),
+  // so a smooth S-curve straight from each card to the centre reads as an organic mind-map branch
+  // instead of a rigid bus-bar of right angles.
+  const pairH = (L, R, green) => {
+    if (!L.length || !R.length) return;
+    const jx = (Math.max(...L.map(o => o.r)) + Math.min(...R.map(o => o.l))) / 2;
+    const jy = [...L, ...R].reduce((s, o) => s + o.y, 0) / (L.length + R.length);
+    lastGeo[green ? 'right' : 'left'] = {L, R, jx, jy};
+    L.forEach(l => R.forEach(r => {
+      const x1 = l.r, y1 = l.y, x2 = r.l - 1, y2 = r.y, mx = (x1 + x2) / 2;
+      add('M' + x1 + ',' + y1 + ' C' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2, true, green);
+    }));
+  };
+  // mobile: columns are stacked top to bottom — same idea, curved vertically instead of horizontally
+  const pairV = (L, R, green) => {
+    if (!L.length || !R.length) return;
+    const jy = (Math.max(...L.map(o => o.b)) + Math.min(...R.map(o => o.t))) / 2;
+    const jx = [...L, ...R].reduce((s, o) => s + o.x, 0) / (L.length + R.length);
+    lastGeo[green ? 'right' : 'left'] = {L, R, jx, jy};
+    L.forEach(l => R.forEach(r => {
+      const x1 = l.x, y1 = l.b, x2 = r.x, y2 = r.t - 1, my = (y1 + y2) / 2;
+      add('M' + x1 + ',' + y1 + ' C' + x1 + ',' + my + ' ' + x2 + ',' + my + ' ' + x2 + ',' + y2, true, green);
+    }));
+  };
+  const pair = vertical ? pairV : pairH;
+  pair(B, C, false);
+  pair(C, A, true);
+}
+$('before-scroll').addEventListener('scroll', scheduleWires, {passive: true});
+$('after-scroll').addEventListener('scroll', scheduleWires, {passive: true});
+window.addEventListener('resize', scheduleWires);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleWires);
+
+/* ---------- hover: highlight the next cards and send a dot along the line ---------- */
+let animToken = 0, animFrame = 0, hoveredEl = null;
+const dots = [];
+function getDot(i) {
+  if (!dots[i]) { const d = document.createElement('div'); d.className = 'travel-dot'; $('map').appendChild(d); dots[i] = d; }
+  return dots[i];
+}
+function stopHover() {
+  animToken++; cancelAnimationFrame(animFrame); hoveredEl = null;
+  dots.forEach(d => { d.style.opacity = '0'; });
+  $('wg-geom').innerHTML = '';
+  document.querySelectorAll('#map .card-hovered, #map .card-next').forEach(el => el.classList.remove('card-hovered', 'card-next'));
+}
+function runDot(i, d, colour, targetEl, token) {
+  const geom = $('wg-geom'), p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', 'none'); geom.appendChild(p);
+  const len = p.getTotalLength(), dot = getDot(i), dur = 900;
+  dot.style.background = colour; dot.style.opacity = '1';
+  let start = null;
+  const step = ts => {
+    if (token !== animToken) return;
+    if (start === null) start = ts;
+    const k = Math.min((ts - start) / dur, 1), t = k < .5 ? 2 * k * k : -1 + (4 - 2 * k) * k;
+    const pt = p.getPointAtLength(t * len);
+    dot.style.left = pt.x + 'px'; dot.style.top = pt.y + 'px';
+    if (k < 1) animFrame = requestAnimationFrame(step);
+    else { dot.style.opacity = '0'; if (targetEl) targetEl.classList.add('card-next'); }
+  };
+  animFrame = requestAnimationFrame(step);
+}
+function startHover(el) {
+  stopHover(); hoveredEl = el;
+  el.classList.add('card-hovered');
+  if (!lastGeo || lastGeo.vertical || getComputedStyle($('wg')).display === 'none') return;
+  const token = animToken;
+  const L = lastGeo.left, R = lastGeo.right;
+  const c = (L && L.R[0]) || (R && R.L[0]);
+  if (L) {
+    const o = L.L.find(x => x.el === el);
+    if (o) {                                   // Before card -> centre card
+      const mx = (o.r + c.l - 1) / 2;
+      const d = 'M' + o.r + ',' + o.y + ' C' + mx + ',' + o.y + ' ' + mx + ',' + c.y + ' ' + (c.l - 1) + ',' + c.y;
+      c.el.classList.add('card-next');
+      runDot(0, d, '#0694D1', c.el, token);
+      return;
+    }
+  }
+  if (R && R.L[0] && R.L[0].el === el) {       // centre card -> every visible After card
+    R.R.slice(0, 8).forEach((a, i) => {
+      const cr = R.L[0];
+      const mx = (cr.r + a.l - 1) / 2;
+      const path = 'M' + cr.r + ',' + cr.y + ' C' + mx + ',' + cr.y + ' ' + mx + ',' + a.y + ' ' + (a.l - 1) + ',' + a.y;
+      a.el.classList.add('card-next');
+      runDot(i, path, '#1E7F6B', a.el, token);
+    });
+  }
+}
+$('map').addEventListener('mouseover', e => {
+  const card = e.target.closest('.course-card');
+  if (!card || card.classList.contains('placeholder') || card === hoveredEl) return;
+  startHover(card);
+});
+$('map').addEventListener('mouseleave', stopHover);
+$('map').addEventListener('mouseout', e => {
+  const card = e.target.closest('.course-card');
+  if (card && card === hoveredEl && !card.contains(e.relatedTarget)) stopHover();
+});
+
+/* ---------- selected filters (chips) ---------- */
+function clearFilter(type) {
+  state[type] = null;
+  if (type === 'level') setSelect('level-select', '');
+  if (type === 'oem') { setSelect('oem-select', ''); state.tech = null; fillTechOptions(null); setSelect('tech-select', ''); }
+  if (type === 'tech') setSelect('tech-select', '');
+  refresh();
+}
+function clearAllFilters() {
+  state.level = state.oem = state.tech = null;
+  setSelect('level-select', ''); setSelect('oem-select', ''); fillTechOptions(null); setSelect('tech-select', '');
+  refresh();
+}
+function renderChips() {
+  const items = [];
+  if (state.level) items.push(['level', 'Level', state.level]);
+  if (state.oem) items.push(['oem', 'OEM', state.oem === NONE_KEY ? NO_VENDOR : state.oem]);
+  if (state.tech) items.push(['tech', 'Technology', state.tech]);
+  $('filter-chips').innerHTML = items.map(it =>
+    '<span class="fchip">' + it[1] + ': <b>' + esc(it[2]) + '</b><button type="button" data-clear="' + it[0] + '" aria-label="Remove ' + it[1] + ' filter" title="Remove">&times;</button></span>').join('') +
+    (items.length > 1 ? '<button type="button" class="fclear" data-clear="all">Clear all</button>' : '');
+}
+$('filter-chips').addEventListener('click', e => {
+  const b = e.target.closest('[data-clear]');
+  if (!b) return;
+  if (b.dataset.clear === 'all') clearAllFilters(); else clearFilter(b.dataset.clear);
+});
+
+/* ---------- list of matching courses ---------- */
+const PAGE_SIZE = 24;
+let matchList = [], shownCount = PAGE_SIZE;
+function isActive() { return !!$('q').value.trim() || !!(state.level || state.oem || state.tech); }
+function resultCard(c) {
+  return '<button type="button" class="rcard" data-id="' + esc(c.id) + '">' +
+    '<span class="rname">' + esc(c.name) + '</span>' +
+    (c.level ? '<span class="rlevel">' + esc(c.level) + '</span>' : '') +
+    vendorTag(c.vendor) +
+    (c.hasPath ? '' : '<span class="rnote">No learning path</span>') + '</button>';
+}
+function renderResults() {
+  const n = matchList.length;
+  const oemLabel = state.oem === NONE_KEY ? NO_VENDOR : state.oem;
+  $('results-title').textContent = (n === 1 ? '1 course matches' : n + ' courses match') + (state.oem ? ' for ' + oemLabel : '');
+  $('results-grid').innerHTML = matchList.slice(0, shownCount).map(resultCard).join('');
+  $('show-more').style.display = shownCount < n ? '' : 'none';
+  highlightInList(currentId);
+}
+function highlightInList(id) {
+  const grid = $('results-grid');
+  grid.querySelectorAll('.rcard.active').forEach(el => el.classList.remove('active'));
+  if (id == null) return;
+  const el = grid.querySelector('.rcard[data-id="' + id + '"]');
+  if (!el) return;
+  el.classList.add('active');
+  const sc = $('results-scroll');
+  if ($('results').style.display === 'none') return;
+  const r = el.getBoundingClientRect(), cr = sc.getBoundingClientRect();
+  if (r.top < cr.top) sc.scrollTop -= cr.top - r.top + 8;
+  else if (r.bottom > cr.bottom) sc.scrollTop += r.bottom - cr.bottom + 8;
+}
+// drag the list with the mouse (touch screens already scroll by swiping)
+(function () {
+  const sc = $('results-scroll');
+  let down = false, moved = false, sx = 0, sy = 0, sl = 0, st = 0;
+  sc.addEventListener('mousedown', e => {
+    if (e.button !== 0 || e.target.closest('.show-more')) return;
+    down = true; moved = false; sx = e.clientX; sy = e.clientY; sl = sc.scrollLeft; st = sc.scrollTop;
+  });
+  window.addEventListener('mousemove', e => {
+    if (!down) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if (!moved && Math.abs(dx) + Math.abs(dy) < 5) return;
+    moved = true; sc.classList.add('dragging');
+    sc.scrollLeft = sl - dx; sc.scrollTop = st - dy;
+  });
+  window.addEventListener('mouseup', () => {
+    if (!down) return;
+    down = false; sc.classList.remove('dragging');
+    if (moved) {                                   // the click that ends a drag must not select a card
+      const block = ev => { ev.stopPropagation(); ev.preventDefault(); };
+      sc.addEventListener('click', block, true);
+      setTimeout(() => sc.removeEventListener('click', block, true), 0);
+    }
+  });
+})();
+$('show-more').addEventListener('click', () => { shownCount += PAGE_SIZE; renderResults(); });
+$('results-grid').addEventListener('click', e => {
+  const card = e.target.closest('.rcard');
+  const course = card && LP.course(card.dataset.id);
+  if (course) drawCourse(course, null, 'push');          // the list itself does not change
+});
+
+/* ---------- drawing a course ---------- */
+// historyMode: 'push' (card click), 'replace' (search / filter / first load), 'none' (Back / Forward)
+async function drawCourse(course, note, historyMode) {
+  const token = ++drawToken;
+  const id = String(course.id);
+  currentId = id;
+  if (historyMode) {
+    const url = location.pathname + location.search + '#c=' + id;
+    if (historyMode === 'push' && location.hash !== '#c=' + id) history.pushState({c: id}, '', url);
+    else if (historyMode === 'replace') history.replaceState({c: id}, '', url);
+  }
+  highlightInList(id);
+  stopHover(); showMap(); clearMap();
+  $('map-msg').style.display = '';
+  let path = null;
+  try { path = await LP.get(course.id); } catch (err) { path = null; }
+  if (token !== drawToken) return;
+  $('map-msg').style.display = 'none';
+  renderMap(course, path);
+  $('before-scroll').scrollTop = 0; $('after-scroll').scrollTop = 0;
+  scheduleWires();
+  $('hint').textContent = (note ? note + ' ' : '') + 'Showing "' + course.name + '".';
+}
+
+// Default view (no search, no filters): an Intermediate course that has courses both before and after it
+let defaultCourse = null;
+async function pickDefault(list) {
+  if (defaultCourse) return defaultCourse;
+  const candidates = list.filter(c => c.hasPath && c.level === 'Intermediate').slice(0, 80);
+  let fallback = null;
+  for (const c of candidates) {
+    let path = null;
+    try { path = await LP.get(c.id); } catch (err) { path = null; }
+    if (!path) continue;
+    const sd = computeSides(c, path);
+    if (!sd.before || !sd.after) continue;
+    if (sd.before.certs.length >= 2 && sd.after.certs.length >= 2) { defaultCourse = c; return c; }
+    if (!fallback) fallback = c;
+  }
+  defaultCourse = fallback || list.find(c => c.hasPath);
+  return defaultCourse;
+}
+// One entry point: filter the list, then ALWAYS redraw the map with the first matching course that has a path.
+function refresh() {
+  const words = $('q').value.toLowerCase().split(/\s+/).filter(Boolean);
+  const list = [];
+  for (let i = 0; i < COURSES.length; i++) if (matches(i, words)) list.push(COURSES[i]);
+  list.sort((a, b) => (b.hasPath ? 1 : 0) - (a.hasPath ? 1 : 0) || byName(a, b));
+  drawToken++;
+  renderChips();
+  matchList = list; shownCount = PAGE_SIZE;
+  const showList = isActive() && list.length > 0;
+  $('results').style.display = showList ? '' : 'none';
+  if (showList) renderResults();
+  if (!list.length) { showEmpty(EMPTY_TEXT); $('hint').textContent = 'No courses match.'; return; }
+  const first = list.find(c => c.hasPath);
+  if (!first) { showEmpty('None of the ' + list.length + ' matching courses has a learning path. Clear a filter or try different words.'); return; }
+  const note = list.length + ' course' + (list.length > 1 ? 's' : '') + ' match.';
+  if (!words.length && !state.level && !state.oem && !state.tech) {
+    const t = drawToken;
+    pickDefault(list).then(c => { if (t === drawToken && c) drawCourse(c, note, 'replace'); });
+    return;
+  }
+  drawCourse(first, note, 'replace');
+}
+function selectFilter(type, sel) {
+  state[type] = sel.value || null;
+  sel.classList.toggle('active', !!sel.value);
+  if (type === 'oem') { state.tech = null; fillTechOptions(state.oem); setSelect('tech-select', ''); }
+  refresh();
+}
+function filterByOEM(name) {
+  state.oem = state.oem === name ? null : name;
+  setSelect('oem-select', state.oem);
+  state.tech = null; fillTechOptions(state.oem); setSelect('tech-select', '');
+  refresh();
+}
+
+/* ---------- clicks, history ---------- */
+$('map').addEventListener('click', e => {
+  const pl = e.target.closest('.cprelink');
+  if (pl) { const pc = LP.course(pl.dataset.id); if (pc) drawCourse(pc, null, 'push'); return; }
+  const btn = e.target.closest('button.course-card');
+  if (!btn || btn.dataset.code === currentId) return;
+  const course = LP.course(btn.dataset.code);
+  if (course) drawCourse(course, null, 'push');
+});
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.addEventListener('popstate', () => {
+  const m = /^#c=(.+)$/.exec(location.hash);
+  const course = m && LP.course(decodeURIComponent(m[1]));
+  if (course) drawCourse(course, null, 'none'); else refresh();
+});
+
+/* ---------- search ---------- */
+function syncPlaceholder() {
+  $('q').placeholder = window.matchMedia('(max-width:480px)').matches
+    ? 'Search courses…'
+    : 'What do you want to learn or accomplish?';
+}
+syncPlaceholder();
+window.addEventListener('resize', syncPlaceholder);
+function syncClear() { document.querySelector('.search-box').classList.toggle('has-text', !!$('q').value); }
+function runSearch() {
+  if ($('q').value.trim()) {
+    state.level = state.oem = state.tech = null;
+    setSelect('level-select', ''); setSelect('oem-select', '');
+    fillTechOptions(null); setSelect('tech-select', '');
+  }
+  refresh();
+}
+function runSearchNow() { clearTimeout(searchTimer); runSearch(); }
+function clearSearch() { const q = $('q'); q.value = ''; syncClear(); clearTimeout(searchTimer); refresh(); q.focus(); }
+function onSearch() { syncClear(); clearTimeout(searchTimer); searchTimer = setTimeout(runSearch, 350); }
+
+fillOEMOptions();
+fillTechOptions(null);
+makeCombo($('oem-select'));
+makeCombo($('tech-select'));
+(function init() {
+  const m = /^#c=(.+)$/.exec(location.hash);
+  const fromHash = m && LP.course(decodeURIComponent(m[1]));
+  const wanted = (new URLSearchParams(location.search).get('course') || '').trim().toLowerCase();
+  const hit = fromHash || (wanted && COURSES.find(c => String(c.id) === wanted || c.name.toLowerCase() === wanted));
+  if (hit) drawCourse(hit, null, 'replace'); else refresh();
+})();
+</script>
+</body>
+</html>

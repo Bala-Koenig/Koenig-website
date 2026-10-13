@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Mind Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#F5F1E8;color:#1C2B33;min-height:100vh;padding:28px 24px}
+h1{font-family:'Fraunces',Georgia,serif;font-size:36px;font-weight:600;margin-bottom:16px}
+
+/* SEARCH */
+.search-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.search-row input{flex:1;min-width:280px;height:52px;padding:0 24px;border:2px solid #0694D1;border-radius:26px;background:#fff;font-size:16px;font-family:inherit;outline:none;transition:border-color .2s;color:#1C2B33}
+.search-row input:focus{border-color:#076D9D;box-shadow:0 0 0 3px rgba(6,148,209,.15)}
+.search-row input::placeholder{color:#8899AA}
+.search-box{position:relative;flex:1;min-width:280px;max-width:900px;display:flex;align-items:center}
+.search-box input{width:100%;min-width:0;padding-right:96px}
+.q-btn{position:absolute;top:50%;transform:translateY(-50%);border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.q-go{right:6px;width:40px;height:40px;border-radius:50%;background:#0694D1;color:#fff}
+.q-go:hover{background:#076D9D}
+.q-clear{right:52px;width:30px;height:30px;border-radius:50%;background:#EEF2F4;color:#55626A;font-size:20px;line-height:1;display:none}
+.q-clear:hover{background:#dde4e8}
+.search-box.has-text .q-clear{display:flex}
+
+/* FILTERS */
+.filters-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:32px;align-items:flex-end}
+.filter-section{display:flex;flex-direction:column;gap:6px}
+.filter-label{font-size:11px;letter-spacing:.1em;font-weight:700;color:#093148}
+.filter-select{height:46px;padding:0 40px 0 16px;border:2px solid #0694D1;border-radius:24px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230694D1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center;background-size:16px;-webkit-appearance:none;appearance:none;font-size:14px;font-weight:600;font-family:inherit;color:#0694D1;cursor:pointer;outline:none;min-width:180px;transition:background-color .15s}
+.filter-select:focus{border-color:#076D9D;box-shadow:0 0 0 3px rgba(6,148,209,.15)}
+.filter-select.active{background-color:#0694D1;color:#fff;border-color:#0694D1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")}
+
+/* MAP */
+.map-wrap{overflow-x:auto;padding-bottom:16px}
+@media (min-width:901px){.map-wrap{margin-top:-20px}}
+.map{position:relative;width:1400px;height:820px;margin:0 auto}
+svg.connectors{position:absolute;inset:0;width:1400px;height:820px;pointer-events:none;overflow:visible}
+
+/* SECTION LABELS */
+.section-label{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:20px;font-size:13px;font-weight:700;color:#fff;width:148px;height:36px;z-index:2}
+.label-before{background:#0694D1;left:160px;top:196px}
+.label-after{background:#1E7F6B;left:1060px;top:196px}
+
+/* CARDS */
+.course-card{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:16px;border:2.5px solid;padding:18px 16px;transition:opacity .25s,box-shadow .25s,transform .2s;cursor:default;gap:8px;overflow:visible}
+.cname{font-size:13px;font-weight:700;line-height:1.3;max-width:190px}
+.clevel{font-size:11px;color:#55626A}
+.oem-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:10px;border:1.5px solid;font-size:11px;font-weight:700;cursor:pointer;background:#fff;transition:transform .12s,opacity .12s;white-space:nowrap}
+.oem-badge:hover{transform:scale(1.08);opacity:.85}
+
+/* overlay badges */
+.badge-popular{position:absolute;top:-12px;left:10px;background:#D9622B;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;white-space:nowrap;z-index:5;pointer-events:none}
+.badge-this{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#0694D1;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;white-space:nowrap;z-index:5;pointer-events:none}
+.badge-new{position:absolute;top:-12px;right:10px;background:#0d5c46;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;z-index:5;pointer-events:none}
+
+/* card colours */
+.card-before{background:#E4F7FF;border-color:#0694D1}
+.card-after{background:#D9EFE6;border-color:#1E7F6B}
+.card-selected{background:#1C2B33;border-color:#1C2B33;color:#fff}
+.card-selected .clevel{color:#9EB3BE}
+.card-bb{background:#E4F7FF;border-color:#0694D1;border-style:dashed;opacity:.85}
+.card-aa{background:#D9EFE6;border-color:#1E7F6B;border-style:dashed;opacity:.85}
+
+/* hover states */
+.dimmed{opacity:.2}
+.card-before.card-hovered,.card-bb.card-hovered{box-shadow:0 0 0 4px #0694D1;transform:scale(1.04)}
+.card-after.card-hovered,.card-aa.card-hovered{box-shadow:0 0 0 4px #1E7F6B;transform:scale(1.04)}
+.card-selected.card-hovered{box-shadow:0 0 0 4px #9EB3BE;transform:scale(1.04)}
+.card-before.card-next,.card-bb.card-next{box-shadow:0 0 0 5px #0694D1;transform:scale(1.04)}
+.card-after.card-next,.card-aa.card-next{box-shadow:0 0 0 5px #1E7F6B;transform:scale(1.04)}
+
+/* travel dot */
+#travel-dot,#travel-dot-2,#travel-dot-3,#travel-dot-4,#travel-dot-5,#travel-dot-6{position:absolute;width:18px;height:18px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;opacity:0;transform:translate(-50%,-50%);z-index:10}
+
+
+.other-item .dot{width:8px;height:8px;border-radius:50%;background:#0694D1;flex-shrink:0}
+
+/* DECK CARDS - other intermediate courses stacked behind selected */
+.deck-card{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:16px;border:2px solid #0694D1;background:#E4F7FF;padding:12px 16px;gap:6px;cursor:pointer;transition:transform .2s,box-shadow .2s,opacity .2s;z-index:1}
+.deck-card:hover{transform:translateY(-4px);box-shadow:0 0 0 4px #9EB3BE}
+.deck-card .cname{font-size:12px;font-weight:700;line-height:1.3;max-width:200px;color:#fff}
+.deck-card{background:#1C2B33;border-color:#1C2B33;color:#fff;opacity:1;z-index:1;justify-content:flex-start;gap:4px;padding:12px 14px}
+.deck-card .cname{flex:1;display:flex;align-items:center;justify-content:center;max-width:none}
+.deck-card .clevel{font-size:10px;color:#9EB3BE}
+.deck-card-label{position:absolute;font-size:10px;font-weight:700;color:#0694D1;letter-spacing:.06em}
+
+/* hint bar */
+.hint-bar{margin-top:18px;background:#fff;border:1.5px solid #D6D0C2;border-radius:24px;padding:14px 28px;font-size:15px;color:#1C2B33;text-align:center;min-height:52px;display:flex;align-items:center;justify-content:center}
+.hint-bar.active{background:#E4F7FF;border-color:#0694D1;color:#0694D1;font-weight:600}
+
+/* LAYOUT OVERRIDES: white bg, square controls, everything centered */
+body{background:#fff}
+/* side padding matches the top navigation (16px, 50px from lg; content max 1280px) */
+body{max-width:1380px;margin:0 auto;padding-left:16px;padding-right:16px}
+@media (min-width:1024px){body{padding-left:50px;padding-right:50px}}
+h1{text-align:center}
+.search-row{justify-content:center}
+.search-row input{max-width:900px;border-radius:8px}
+.filters-row{justify-content:center;align-items:flex-end;margin-bottom:40px}
+.map-wrap{height:664px;padding-bottom:0}
+.map{margin:-156px auto 0}
+.filter-section{align-items:center}
+.filter-select{height:52px;border-radius:8px;font-size:16px;font-weight:400}
+.filter-select.active{font-weight:600}
+
+/* GT WALSHEIM PRO everywhere */
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Regular.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Regular.woff') format('woff');font-weight:400;font-display:swap}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Medium.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Medium.woff') format('woff');font-weight:500;font-display:swap}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Bold.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Bold.woff') format('woff');font-weight:700;font-display:swap}
+*,input,select,button,textarea{font-family:'GT Walsheim Pro',system-ui,sans-serif !important}
+
+.card-inter,.deck-card{background:#E8EDF1;border-color:#1C2B33;color:#1C2B33;justify-content:flex-start;gap:4px;padding:12px 14px;border-radius:16px}
+.card-inter .cname,.deck-card .cname{flex:1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;line-height:1.3;max-width:none;color:#1C2B33}
+.card-inter .clevel,.deck-card .clevel{font-size:10px;color:#55626A}
+.card-inter.card-hovered,.card-inter.card-next{box-shadow:0 0 0 4px #1C2B33;transform:scale(1.04)}
+.deck-card{cursor:default}
+.deck-card.card-hovered,.deck-card.card-next{box-shadow:0 0 0 4px #1C2B33;transform:scale(1.04)}
+
+/* RESPONSIVE: phones/tablets stack the journey vertically */
+@media (max-width:900px){
+  body{padding:20px 16px}
+  h1{font-size:28px}
+  .search-row input{min-width:0;width:100%;height:48px;font-size:15px}
+  .filters-row{flex-direction:column;align-items:stretch;gap:12px;margin-bottom:24px}
+  .filter-section{width:100%;align-items:stretch}
+  .filter-label{text-align:center}
+  .filter-select{width:100%;min-width:0;height:48px;font-size:15px}
+  .map-wrap{height:auto !important;overflow:visible}
+  .map{width:100% !important;height:auto !important;margin:0 !important;transform:none !important;display:flex;flex-direction:column;align-items:center;gap:14px}
+  svg.connectors,#travel-dot,#travel-dot-2,#travel-dot-3,#travel-dot-4,#travel-dot-5,#travel-dot-6{display:none !important}
+  .map > *{position:static !important;left:auto !important;top:auto !important}
+  .map .course-card,.map .deck-card{width:100% !important;max-width:360px;height:auto !important;min-height:96px}
+  .map .section-label{width:auto !important;min-width:160px;padding:0 20px;margin-top:10px}
+  .map .section-label::before{content:"↓";margin-right:8px}
+  .badge-popular,.badge-new,.badge-this{position:absolute !important}
+  #b1{order:2}#b2{order:3}#deck-label{order:4}#c{order:5}#dc1{order:6}#dc2{order:7}#dc3{order:8}#dc4{order:9}
+  .label-before{order:1;margin-top:0 !important}.label-after{order:10}
+  #a1{order:11}#a2{order:12}#aa1{order:13}#aa2{order:14}
+  .card-before.card-hovered,.card-after.card-hovered,.card-aa.card-hovered,.card-before.card-next,.card-after.card-next,.card-aa.card-next,.card-inter.card-hovered,.deck-card.card-hovered{transform:none}
+  .hint-bar{font-size:14px;padding:12px 16px;border-radius:12px}
+}
+
+/* long course names: stay inside the card */
+.card-before,.card-after,.card-bb,.card-aa{padding:12px 12px;gap:5px}
+.card-before .cname,.card-after .cname,.card-bb .cname{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;line-height:1.3;max-width:100%}
+.card-aa .cname{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;line-height:1.3;max-width:100%}
+.card-inter .cname,.deck-card .cname{min-height:0;overflow:hidden}
+/* dropdown lists stay light */
+.filter-select option{background:#fff;color:#1C2B33;font-weight:400}
+.filter-select option:checked{background:#E4F7FF;color:#076D9D}
+/* mild This course pill */
+.badge-this{background:#E4F7FF !important;color:#076D9D !important;border:1px solid #0694D1}
+
+.card-inter,.deck-card{justify-content:center}
+.card-inter .cname,.deck-card .cname{flex:none;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-align:center;line-height:1.3}
+
+.hint-bar{display:none !important}
+</style>
+</head>
+<body>
+
+<h1>Course Mind Map</h1>
+
+<div class="search-row">
+  <div class="search-box">
+    <input id="q" type="text" placeholder="What do you want to learn or accomplish?" oninput="onSearch()" onkeydown="if(event.key==='Enter'){runSearchNow()}else if(event.key==='Escape'){clearSearch()}" autocomplete="off">
+    <button type="button" id="q-clear" class="q-btn q-clear" aria-label="Clear search" title="Clear" onclick="clearSearch()">&times;</button>
+    <button type="button" class="q-btn q-go" aria-label="Search" title="Search" onclick="runSearchNow()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="filters-row">
+  <div class="filter-section">
+    <div class="filter-label">LEVEL</div>
+    <select class="filter-select" id="level-select" onchange="selectFilter('level',this)">
+      <option value="">All Levels</option>
+      <option value="Beginner">Beginner</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Advanced">Advanced</option>
+    </select>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">SELECT OEM</div>
+    <select class="filter-select" id="oem-select" onchange="selectFilter('oem',this)">
+      <option value="">All OEMs</option>
+      <option value="AWS">AWS</option>
+      <option value="Check Point">Check Point</option>
+      <option value="Cisco">Cisco</option>
+      <option value="Cloudera">Cloudera</option>
+      <option value="CompTIA">CompTIA</option>
+      <option value="Fortinet">Fortinet</option>
+      <option value="Google">Google</option>
+      <option value="IASSC">IASSC</option>
+      <option value="IBM">IBM</option>
+      <option value="Microsoft">Microsoft</option>
+      <option value="Oracle">Oracle</option>
+      <option value="Palo Alto">Palo Alto</option>
+      <option value="PMI">PMI</option>
+      <option value="Red Hat">Red Hat</option>
+      <option value="SAP">SAP</option>
+      <option value="Salesforce">Salesforce</option>
+      <option value="VMware">VMware</option>
+    </select>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">SELECT TECHNOLOGY</div>
+    <select class="filter-select" id="tech-select" onchange="selectFilter('tech',this)">
+      <option value="">All Technologies</option>
+      <option value="Cloud">Cloud</option>
+      <option value="Networking">Networking</option>
+      <option value="Security">Security</option>
+      <option value="AI / ML">AI / ML</option>
+      <option value="ERP">ERP</option>
+      <option value="Storage">Storage</option>
+      <option value="Automation">Automation</option>
+      <option value="Project Management">Project Management</option>
+    </select>
+  </div>
+</div>
+
+<div id="empty-msg" style="display:none;text-align:center;padding:60px 20px;font-size:17px;font-weight:600;color:#093148">No courses match. Clear a filter or try different words.</div>
+
+<div class="map-wrap">
+<div class="map" id="map">
+<div id="travel-dot"></div>
+<div id="travel-dot-2"></div>
+<div id="travel-dot-3"></div><div id="travel-dot-4"></div><div id="travel-dot-5"></div><div id="travel-dot-6"></div>
+
+<svg class="connectors" id="svg-conn" viewBox="0 0 1400 820">
+  <defs>
+    <marker id="ah-blue" orient="auto" markerWidth="6" markerHeight="6" refX="5" refY="3"><path d="M0 0L6 3L0 6Z" fill="#0694D1"/></marker>
+    <marker id="ah-green" orient="auto" markerWidth="6" markerHeight="6" refX="5" refY="3"><path d="M0 0L6 3L0 6Z" fill="#1E7F6B"/></marker>
+  </defs>
+
+  <!-- b1 → b2: bottom of b1(362,375) to top of b2(362,450) -->
+  <path id="path-b1-b2" d="M270 375 C270 410 270 430 270 448" stroke="#0694D1" stroke-width="2.5" fill="none" stroke-linecap="round" marker-end="url(#ah-blue)"/>
+  <!-- b2 → c: right of b2(472,508) to left edge of ellipse -->
+  <!-- left edge of ellipse at y=436 is approx x=530 -->
+  <path id="path-b2-c" d="M380 508 C430 508 490 460 520 442" stroke="#0694D1" stroke-width="2.5" fill="none" stroke-linecap="round" marker-end="url(#ah-blue)"/>
+  <!-- c → a1: right edge of ellipse ~x:866 y:436 to left of a1 -->
+  <path id="path-c-a1" d="M866 436 C920 436 980 325 1056 325" stroke="#1E7F6B" stroke-width="2.5" fill="none" stroke-linecap="round" marker-end="url(#ah-green)"/>
+  <!-- c → a2: right edge of ellipse ~x:866 y:436 to left of a2 -->
+  <path id="path-c-a2" d="M866 436 C920 436 980 505 1056 505" stroke="#1E7F6B" stroke-width="2.5" fill="none" stroke-linecap="round" marker-end="url(#ah-green)"/>
+  <!-- a1 → aa1 -->
+  <path id="path-a1-aa1" d="M1268 340 C1320 340 1340 310 1358 300" stroke="#1E7F6B" stroke-width="2" fill="none" stroke-dasharray="6 4" stroke-linecap="round" marker-end="url(#ah-green)"/>
+  <!-- a2 → aa2 -->
+  <path id="path-a2-aa2" d="M1268 510 C1320 510 1340 480 1358 470" stroke="#1E7F6B" stroke-width="2" fill="none" stroke-dasharray="6 4" stroke-linecap="round" marker-end="url(#ah-green)"/>
+  <g id="deck-arrows"></g>
+</svg>
+
+<!-- SECTION LABELS -->
+<div class="section-label label-before">Before course</div>
+<div class="section-label label-after">After course</div>
+
+<!-- BEFORE CARDS -->
+<div class="course-card card-before" id="b1" style="left:160px;top:260px;width:220px;height:115px"
+  onmouseenter="hoverCard('b1')" onmouseleave="leaveCard()"
+  data-name="Salesforce B2B Commerce on Lightning" data-level="Beginner" data-oem="Salesforce" data-tech="Cloud">
+  <span class="badge-popular">⭐ Popular</span>
+  <span class="cname">Salesforce B2B Commerce on Lightning</span>
+  <span class="clevel">Beginner</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<div class="course-card card-before" id="b2" style="left:160px;top:450px;width:220px;height:115px"
+  onmouseenter="hoverCard('b2')" onmouseleave="leaveCard()"
+  data-name="Salesforce Data Cloud Fundamentals (SDC101)" data-level="Beginner" data-oem="Salesforce" data-tech="Cloud">
+  <span class="cname">Salesforce Data Cloud Fundamentals (SDC101)</span>
+  <span class="clevel">Beginner</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<!-- INTERMEDIATE DECK LABEL -->
+<div id="deck-label" class="section-label" style="background:#1C2B33;width:180px">Intermediate course</div>
+
+<!-- DECK CARD 4 (furthest back) -->
+<div class="deck-card" id="dc4" onmouseenter="hoverCard('dc4')" onmouseleave="leaveCard()" style="width:230px;height:116px">
+  <span class="cname">Sales Agent Activation - AGT504</span>
+  <span class="clevel">Intermediate</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<!-- DECK CARD 3 -->
+<div class="deck-card" id="dc3" onmouseenter="hoverCard('dc3')" onmouseleave="leaveCard()" style="width:230px;height:116px">
+  <span class="cname">Integrating with Salesforce Platform (DEX502)</span>
+  <span class="clevel">Intermediate</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<!-- DECK CARD 2 -->
+<div class="deck-card" id="dc2" onmouseenter="hoverCard('dc2')" onmouseleave="leaveCard()" style="width:230px;height:116px">
+  <span class="cname">Build Applications on Salesforce (DEX450)</span>
+  <span class="clevel">Intermediate</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<!-- DECK CARD 1 -->
+<div class="deck-card" id="dc1" onmouseenter="hoverCard('dc1')" onmouseleave="leaveCard()" style="width:230px;height:116px">
+  <span class="cname">Lead Management for Salesforce</span>
+  <span class="clevel">Intermediate</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<!-- SELECTED CENTRE (top of deck) -->
+<div class="course-card card-inter" id="c" style="width:230px;height:116px;z-index:1"
+  onmouseenter="hoverCard('c')" onmouseleave="leaveCard()"
+  data-name="Sales Cloud Administration (ADM 251)" data-level="Intermediate" data-oem="Salesforce" data-tech="Cloud">
+  <span class="cname">Sales Cloud Administration (ADM 251)</span>
+  <span class="clevel">Intermediate</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<!-- AFTER CARDS -->
+<div class="course-card card-after" id="a1" style="left:1058px;top:268px;width:210px;height:115px"
+  onmouseenter="hoverCard('a1')" onmouseleave="leaveCard()"
+  data-name="Build and Analyze Customer Journeys Using Marketing Cloud (MKT101)" data-level="Advanced" data-oem="Salesforce" data-tech="Cloud">
+  <span class="badge-new">New</span>
+  <span class="cname">Marketing Cloud Customer Journeys (MKT101)</span>
+  <span class="clevel">Advanced</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<div class="course-card card-after" id="a2" style="left:1058px;top:448px;width:210px;height:115px"
+  onmouseenter="hoverCard('a2')" onmouseleave="leaveCard()"
+  data-name="Salesforce Advanced Analytics" data-level="Advanced" data-oem="Salesforce" data-tech="Cloud">
+  <span class="cname">Salesforce Marketing Cloud Email Specialist</span>
+  <span class="clevel">Advanced</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<!-- ADDITIONAL ADVANCED (dashed) -->
+<div class="course-card card-aa" id="aa1" style="left:1340px;top:248px;width:200px;height:100px"
+  onmouseenter="hoverCard('aa1')" onmouseleave="leaveCard()"
+  data-name="Salesforce B2C Commerce Developer" data-level="Advanced" data-oem="Salesforce" data-tech="Cloud">
+  <span class="cname">Salesforce B2C Commerce Developer</span>
+  <span class="clevel">Advanced</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+<div class="course-card card-aa" id="aa2" style="left:1340px;top:418px;width:200px;height:100px"
+  onmouseenter="hoverCard('aa2')" onmouseleave="leaveCard()"
+  data-name="Salesforce CPQ Specialist" data-level="Advanced" data-oem="Salesforce" data-tech="Cloud">
+  <span class="cname">Salesforce CPQ Specialist</span>
+  <span class="clevel">Advanced</span>
+  <span class="oem-badge" style="color:#00A1E0;border-color:#00A1E0" onclick="filterByOEM('Salesforce',event)">
+    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>Salesforce
+  </span>
+</div>
+
+</div>
+
+<div class="hint-bar" id="hint">Hover any course to see where it leads next.</div>
+
+<script src="learning-path-data.js"></script>
+<script>
+const state = { level:null, oem:null, tech:null };
+
+const OEM_DATA = {
+  "Microsoft": {
+    "fundamentals": [
+      {
+        "name": "Development Basics in Microsoft Dynamics 365 Finance and Operations",
+        "code": "17",
+        "prereq": "None"
+      },
+      {
+        "name": "MB-910T00: Microsoft Dynamics 365 Fundamentals (CRM)",
+        "code": "9626",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "55242-A: Microsoft Dynamics 365 Customization and Configuration",
+        "code": "11031"
+      },
+      {
+        "name": "Lifecycle Services and Tools in Microsoft Dynamics 365 Finance & Operations",
+        "code": "11495"
+      },
+      {
+        "name": "Microsoft Dynamics 365 Business Central \u2013 Web Services",
+        "code": "11828"
+      },
+      {
+        "name": "MB-300 Exam Prep",
+        "code": "11948"
+      },
+      {
+        "name": "MB-500 Exam prep",
+        "code": "11949"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Advanced Development in Microsoft Dynamics 365 Finance and Operations",
+        "code": "1119"
+      },
+      {
+        "name": "Microsoft Dynamics 365 HR & Payroll",
+        "code": "1645"
+      }
+    ]
+  },
+  "PMI": {
+    "fundamentals": [
+      {
+        "name": "PMP Exam Focus",
+        "code": "9365",
+        "prereq": "None"
+      },
+      {
+        "name": "PMI Project Management Ready\u2122",
+        "code": "11157",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Certified Associate in Project Management (CAPM) Certification Training",
+        "code": "33"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Project Management Professional (PMP\u00ae) Certification Training (PMI)",
+        "code": "31"
+      },
+      {
+        "name": "PMI-Risk Management Professional (PMI-RMP)\u00ae Certification Exam Prep",
+        "code": "2639"
+      }
+    ]
+  },
+  "Salesforce": {
+    "fundamentals": [
+      {
+        "name": "Salesforce B2B Commerce on Lightning - Architecture and Setup",
+        "code": "14271",
+        "prereq": "None"
+      },
+      {
+        "name": "Salesforce Discover Salesforce Data Cloud Fundamentals (SDC101)",
+        "code": "17569",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Sales Cloud Administration (ADM 251)",
+        "code": "48"
+      },
+      {
+        "name": "Lead Management for Salesforce",
+        "code": "19351"
+      },
+      {
+        "name": "Build Applications Programmatically on the Salesforce Platform (DEX450)",
+        "code": "22380"
+      },
+      {
+        "name": "Integrating with the Salesforce Platform in Lightning Experience (DEX502) ",
+        "code": "22381"
+      },
+      {
+        "name": "Sales Agent Activation - AGT504",
+        "code": "24180"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Build and Analyze Customer Journeys Using Marketing Cloud (MKT101)",
+        "code": "10757"
+      }
+    ]
+  },
+  "Cloudera": {
+    "fundamentals": [
+      {
+        "name": "Cloudera Training for Apache Kafka",
+        "code": "10819",
+        "prereq": "None"
+      },
+      {
+        "name": "Trino for Enterprise Data Federation: Unified Analytics with Cloudera (DENG-257)",
+        "code": "23143",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Cloudera Apache Hadoop Administration",
+        "code": "52"
+      },
+      {
+        "name": "Cloudera Data Engineering: Developing Applications with Apache Spark",
+        "code": "11044"
+      },
+      {
+        "name": "Administering Apache HBase (ADMIN-234)",
+        "code": "23145"
+      },
+      {
+        "name": "Administering Apache Ozone (ADMIN-237)",
+        "code": "23147"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Apache Spark Application Performance Tuning",
+        "code": "10116"
+      },
+      {
+        "name": "Optimizing Apache Spark Applications (DENG-256)",
+        "code": "23148"
+      }
+    ]
+  },
+  "SAP": {
+    "fundamentals": [
+      {
+        "name": "SLES for SAP Applications HA Deployment and Configuration (SLE311v12)",
+        "code": "11206",
+        "prereq": "None"
+      },
+      {
+        "name": "SUSE NeuVector 5 Deployment (Course NEU211v5)",
+        "code": "14702",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "SLE321v15 - Deploying and Administering SUSE Linux Enterprise High Availability 15",
+        "code": "9302"
+      },
+      {
+        "name": "Deploying and Administering SUSE Linux Enterprise High Availability 12",
+        "code": "11802"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "SUSE Linux Enterprise Server 12 Advanced Administration",
+        "code": "105"
+      },
+      {
+        "name": "SUSE Manager 4 Deployment and Initial Configuration (Course SMGR211v4)",
+        "code": "10041"
+      }
+    ]
+  },
+  "Check Point": {
+    "fundamentals": [
+      {
+        "name": "Hacking 101: Check Point Certified PenTesting Associate (CCPA)",
+        "code": "9785",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "MDSM With VSX R77 (CCMSE)",
+        "code": "121"
+      },
+      {
+        "name": "AppSec for Developers (CCPE)",
+        "code": "9784"
+      },
+      {
+        "name": "Cloud Security (CCPE)",
+        "code": "11703"
+      },
+      {
+        "name": "DevSecOps (CCPA)",
+        "code": "11704"
+      },
+      {
+        "name": "Infrastructure Hacking",
+        "code": "11739"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Advanced IPS",
+        "code": "126"
+      },
+      {
+        "name": "Check Point Certified Cloud Specialist (CCCS) R80.X",
+        "code": "9745"
+      }
+    ]
+  },
+  "Red Hat": {
+    "fundamentals": [
+      {
+        "name": "CL010 - Red Hat OpenStack Technical Overview",
+        "code": "11340",
+        "prereq": "None"
+      },
+      {
+        "name": "CL261 Red Hat Ceph Storage for OpenStack and Exam",
+        "code": "17321",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Red Hat OpenStack Administration II",
+        "code": "220"
+      },
+      {
+        "name": "CL211 Red Hat OpenStack Administration II: Day 2 Operations for Cloud Operators with Exam",
+        "code": "17320"
+      },
+      {
+        "name": "CL170 OpenStack Administration: Control Plane Management",
+        "code": "18300"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Red Hat Ceph Storage for OpenStack - CL260",
+        "code": "11037"
+      }
+    ]
+  },
+  "Cisco": {
+    "fundamentals": [
+      {
+        "name": "Introduction to Cisco Packet Tracer",
+        "code": "9176",
+        "prereq": "None"
+      },
+      {
+        "name": "Introduction to Cisco Sales (ICS)",
+        "code": "11309",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Implementing Cisco IP Switched Networks (SWITCH V2.0)",
+        "code": "314"
+      },
+      {
+        "name": "Managing Networks with Cisco Prime Infrastructure (CPI) v3",
+        "code": "2138"
+      },
+      {
+        "name": "IPv6 Addressing and Subnetting",
+        "code": "13318"
+      },
+      {
+        "name": "Understanding OSPF Routing",
+        "code": "14639"
+      },
+      {
+        "name": "Implementing Cisco Quality of Service (QoS) v3.0",
+        "code": "15079"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Advanced Services Building Core Networks with OSPF, IS-IS, BGP, and MPLS Boot Camp (BCN) v6.1",
+        "code": "319"
+      },
+      {
+        "name": "MPLS-ENT",
+        "code": "321"
+      }
+    ]
+  },
+  "Oracle": {
+    "fundamentals": [
+      {
+        "name": "Oracle BI 12c: Create Analyses and Dashboards Ed 2",
+        "code": "1442",
+        "prereq": "None"
+      },
+      {
+        "name": "Oracle BI 12c: Build Repositories Ed 1",
+        "code": "1443",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Oracle Service Bus 12c: Administration Ed 1",
+        "code": "2344"
+      },
+      {
+        "name": "Oracle Unified Directory 12c: Administration Ed 2",
+        "code": "8768"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Oracle GoldenGate 12c: Troubleshooting and Tuning Ed 1",
+        "code": "592"
+      },
+      {
+        "name": "Oracle WebLogic Server 12c: Troubleshooting Workshop Ed 3",
+        "code": "2351"
+      }
+    ]
+  },
+  "Google": {
+    "fundamentals": [
+      {
+        "name": "Virtual Reality with Unity Engine, Google Cardboard and Oculus Rift",
+        "code": "741",
+        "prereq": "None"
+      },
+      {
+        "name": "Introduction to 3D Interactive Development",
+        "code": "8803",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Unity for Animation Studios",
+        "code": "8801"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Unity for Automobiles",
+        "code": "9014"
+      },
+      {
+        "name": "Unity for Architecture",
+        "code": "9015"
+      }
+    ]
+  },
+  "AWS": {
+    "fundamentals": [
+      {
+        "name": "AWS Technical Essentials",
+        "code": "898",
+        "prereq": "None"
+      },
+      {
+        "name": "AWS Certified Cloud Practitioner (AWS Cloud Practitioner Essentials)",
+        "code": "3817",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "AWS Certified CloudOps Engineer - Associate (Cloud Operations on AWS)",
+        "code": "1526"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Migrating to AWS",
+        "code": "8204"
+      },
+      {
+        "name": "AWS Architect & DevOps",
+        "code": "18748"
+      }
+    ]
+  },
+  "IBM": {
+    "fundamentals": [
+      {
+        "name": "IBM i Performance Tuning - I: IBM i Structure, Tailoring and Basic Tuning (OL23G)",
+        "code": "23439",
+        "prereq": "None"
+      },
+      {
+        "name": "Basic z/OS Tuning Using the Workload Manager (ES54G)",
+        "code": "23806",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "IBM SAN Volume Controller (SVC) Planning and Implementation",
+        "code": "1183"
+      },
+      {
+        "name": "IBM Cognos Framework",
+        "code": "1258"
+      },
+      {
+        "name": "BRMS for IBM i, Including Cloud Storage Solutions for i",
+        "code": "2438"
+      },
+      {
+        "name": "IBM FILENET P8 PLATFORM ADMINISTRATION (V5.5.X)",
+        "code": "10783"
+      },
+      {
+        "name": "DFSMS Implementation (SS84G)",
+        "code": "23194"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "IBM Db2 Federation Administration: Setup, Security and Performance Tuning (V010024G)",
+        "code": "23554"
+      },
+      {
+        "name": "IBM Db2 12.1: Advanced Data Management and Recovery for Relational DBAs (CLA92G)",
+        "code": "23808"
+      }
+    ]
+  },
+  "Fortinet": {
+    "fundamentals": [
+      {
+        "name": "NSE 4/FortiGate Security",
+        "code": "1624",
+        "prereq": "None"
+      },
+      {
+        "name": "FortiAuthenticator",
+        "code": "1289",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Lenel Security (Comprehensive Systems and Administration)",
+        "code": "14479"
+      },
+      {
+        "name": "FortiGate 7.4 Administration",
+        "code": "17854"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Pfsense and Security Onion",
+        "code": "9461"
+      },
+      {
+        "name": "NSE 7 Advanced Threat Protection",
+        "code": "9505"
+      }
+    ]
+  },
+  "VMware": {
+    "fundamentals": [
+      {
+        "name": "VMware Telco Cloud Platform: Install, Configure, Manage [V2.0]",
+        "code": "11645",
+        "prereq": "None"
+      },
+      {
+        "name": "VMware Telco Cloud Infrastructure: Install, Configure, Manage [V2.0]",
+        "code": "11646",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Brocade Associate SAN Administrator",
+        "code": "1938"
+      },
+      {
+        "name": "VMware Carbon Black Cloud Audit and Remediation",
+        "code": "9343"
+      },
+      {
+        "name": "VMware Carbon Black Cloud Endpoint Standard",
+        "code": "9344"
+      },
+      {
+        "name": "VMware Carbon Black Cloud Enterprise EDR",
+        "code": "9345"
+      },
+      {
+        "name": "VMware Carbon Black EDR Administrator",
+        "code": "9346"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Brocade Professional SAN Administrator",
+        "code": "1939"
+      },
+      {
+        "name": "VMware Carbon Black App Control Advanced Administrator",
+        "code": "9342"
+      }
+    ]
+  },
+  "CompTIA": {
+    "fundamentals": [],
+    "intermediate": [
+      {
+        "name": "CompTIA Security+ SY0-701",
+        "code": "15465"
+      },
+      {
+        "name": "CompTIA CloudNetX CNX-001 (Exam Objectives)",
+        "code": "19291"
+      }
+    ],
+    "advanced": []
+  },
+  "Palo Alto": {
+    "fundamentals": [
+      {
+        "name": "Palo Alto Networks Cybersecurity Apprentice",
+        "code": "20441",
+        "prereq": "None"
+      },
+      {
+        "name": "Firewall 8.1 Essentials: Configuration and Management (EDU-210)",
+        "code": "2750",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Palo Alto Networks: Firewall 10.0: Improving Security Posture and Hardening PAN-OS Firewalls (EDU-214)",
+        "code": "10603"
+      },
+      {
+        "name": "Panorama: Managing Firewalls at Scale (EDU-220)",
+        "code": "11897"
+      },
+      {
+        "name": "Palo Alto Firewall Administration and Configuration Course Modules 11.0 Version",
+        "code": "18535"
+      },
+      {
+        "name": "Panorama: Centralized Network Security Administration",
+        "code": "23038"
+      },
+      {
+        "name": "Strata Cloud Manager: Network Security Management and Administration",
+        "code": "23816"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "Palo Alto Network Security Engineer",
+        "code": "20555"
+      },
+      {
+        "name": "Palo Alto Networks Cybersecurity Practitioner Training (PCNP)",
+        "code": "22397"
+      }
+    ]
+  },
+  "IASSC": {
+    "fundamentals": [
+      {
+        "name": "Lean Six Sigma Yellow Belt (PECB)",
+        "code": "21749",
+        "prereq": "None"
+      },
+      {
+        "name": "ISO/IEC 27001 Lead Auditor (PECB)",
+        "code": "286",
+        "prereq": "None"
+      }
+    ],
+    "intermediate": [
+      {
+        "name": "Certified Lead Forensics Examiner",
+        "code": "963"
+      },
+      {
+        "name": "Lead SCADA Security Manager",
+        "code": "4086"
+      },
+      {
+        "name": "ISO 55001 Lead Auditor (PECB)",
+        "code": "8833"
+      },
+      {
+        "name": "ISO 18788 Lead Auditor",
+        "code": "9016"
+      },
+      {
+        "name": "ISO 50001 Lead Auditor",
+        "code": "9543"
+      }
+    ],
+    "advanced": [
+      {
+        "name": "ISO 45001 Lead Implementer (PECB)",
+        "code": "8906"
+      },
+      {
+        "name": "Certified Lead Privacy Implementer",
+        "code": "9521"
+      }
+    ]
+  }
+};
+
+
+
+const chainPaths = {
+  b1: { next:'b2', pathId:'path-b1-b2',  color:'#0694D1' },
+  b2: { next:'c',  pathId:'path-b2-c',   color:'#0694D1' },
+  c:  { next:'a1', pathId:'path-c-a1',   color:'#1E7F6B', also:'a2', alsoPath:'path-c-a2' },
+  a1: { next:'aa1',pathId:'path-a1-aa1', color:'#1E7F6B' },
+  a2: { next:'aa2',pathId:'path-a2-aa2', color:'#1E7F6B' },
+  aa1:{ next:null, pathId:null, color:'#1E7F6B' },
+  aa2:{ next:null, pathId:null, color:'#1E7F6B' }
+};
+
+const names = {
+  b1:'Salesforce B2B Commerce', b2:'Salesforce Data Cloud Fundamentals',
+  c:'Sales Cloud Administration (ADM 251)',
+  a1:'Marketing Cloud Customer Journeys (MKT101)', a2:'Salesforce Marketing Cloud Email Specialist',
+  aa1:'Salesforce B2C Commerce Developer', aa2:'Salesforce CPQ Specialist'
+};
+
+let animFrame = null, animToken = 0;
+
+
+function rebuildMap(oem, focus) {
+  const data = OEM_DATA[oem];
+  if (!data) return;
+  stopAnim(); hideDot(); clearHL();
+  document.querySelectorAll('.course-card, .deck-card').forEach(el => el.classList.remove('dimmed', 'card-hovered', 'card-next'));
+
+  const fund = [...(data.fundamentals || [])];
+  const inter = [...(data.intermediate || [])];
+  const adv = [...(data.advanced || [])];
+  if (focus) {
+    const grp = {Beginner: fund, Intermediate: inter, Advanced: adv}[focus.level];
+    const i = grp ? grp.findIndex(c => c.name === focus.name) : -1;
+    if (i > 0) grp.unshift(grp.splice(i, 1)[0]);
+  }
+  const colour = OEM_COLOURS[oem] || '#1C2B33';
+  document.getElementById('b1').style.display = fund[0] ? '' : 'none';
+  document.getElementById('b2').style.display = fund[1] ? '' : 'none';
+  const icon = `<svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M1 1h6l6 6-6 6-6-6V1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="4.5" cy="4.5" r="1.2" fill="currentColor"/></svg>`;
+  const badge = `<span class="oem-badge" style="color:${colour};border-color:${colour}" onclick="filterByOEM('${oem}',event)">${icon}${oem}</span>`;
+
+  // Update before cards (fundamentals)
+  if (fund[0]) {
+    const b1 = document.getElementById('b1');
+    b1.querySelector('.cname').textContent = fund[0].name;
+    b1.querySelector('.clevel').textContent = 'Beginner';
+    b1.dataset.name = fund[0].name;
+    b1.dataset.oem = oem;
+    b1.querySelector('.oem-badge').outerHTML;
+    b1.querySelector('.oem-badge').style.color = colour;
+    b1.querySelector('.oem-badge').style.borderColor = colour;
+    b1.querySelector('.oem-badge').lastChild.textContent = oem;
+  }
+  if (fund[1]) {
+    const b2 = document.getElementById('b2');
+    b2.querySelector('.cname').textContent = fund[1].name;
+    b2.querySelector('.clevel').textContent = 'Beginner';
+    b2.dataset.name = fund[1].name;
+    b2.dataset.oem = oem;
+    b2.querySelector('.oem-badge').style.color = colour;
+    b2.querySelector('.oem-badge').style.borderColor = colour;
+    b2.querySelector('.oem-badge').lastChild.textContent = oem;
+  }
+
+  // Update selected centre (first intermediate)
+  if (inter[0]) {
+    const c = document.getElementById('c');
+    c.querySelector('.cname').textContent = inter[0].name;
+    c.querySelector('.clevel').textContent = 'Intermediate';
+    c.dataset.name = inter[0].name;
+    c.dataset.oem = oem;
+    c.querySelector('.oem-badge').style.color = colour;
+    c.querySelector('.oem-badge').style.borderColor = colour;
+    c.querySelector('.oem-badge').lastChild.textContent = oem;
+  }
+
+  // Update deck cards (other intermediates)
+  const deckIds = ['dc1','dc2','dc3','dc4'];
+  deckIds.forEach((id, i) => {
+    const dc = document.getElementById(id);
+    if (dc) {
+      const course = inter[i+1];
+      if (course) {
+        dc.querySelector('.cname').textContent = course.name;
+        dc.querySelector('.clevel').textContent = 'Intermediate · ' + oem;
+        dc.style.display = '';
+      } else {
+        dc.style.display = 'none';
+      }
+      const b = dc && dc.querySelector('.oem-badge');
+      if (b) { b.style.color = colour; b.style.borderColor = colour; b.lastChild.textContent = oem; }
+    }
+  });
+  layoutDeck();
+
+  // Update after cards (advanced)
+  if (adv[0]) {
+    const a1 = document.getElementById('a1');
+    a1.querySelector('.cname').textContent = adv[0].name;
+    a1.querySelector('.clevel').textContent = 'Advanced';
+    a1.dataset.name = adv[0].name;
+    a1.dataset.oem = oem;
+    a1.querySelector('.oem-badge').style.color = colour;
+    a1.querySelector('.oem-badge').style.borderColor = colour;
+    a1.querySelector('.oem-badge').lastChild.textContent = oem;
+    a1.style.display = '';
+  }
+  if (adv[1]) {
+    const a2 = document.getElementById('a2');
+    a2.querySelector('.cname').textContent = adv[1].name;
+    a2.querySelector('.clevel').textContent = 'Advanced';
+    a2.dataset.name = adv[1].name;
+    a2.dataset.oem = oem;
+    a2.querySelector('.oem-badge').style.color = colour;
+    a2.querySelector('.oem-badge').style.borderColor = colour;
+    a2.querySelector('.oem-badge').lastChild.textContent = oem;
+    a2.style.display = '';
+  } else {
+    document.getElementById('a2').style.display = 'none';
+  }
+
+  // Update additional advanced cards
+  ['aa1','aa2'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const course = adv[i];
+    if (!course) { el.style.display = 'none'; return; }
+    el.style.display = '';
+    el.querySelector('.cname').textContent = course.name;
+    el.querySelector('.clevel').textContent = 'Advanced';
+    el.dataset.name = course.name; el.dataset.oem = oem;
+    const b = el.querySelector('.oem-badge');
+    b.style.color = colour; b.style.borderColor = colour; b.lastChild.textContent = oem;
+    names[id] = course.name;
+  });
+
+  // Show only the cards and connectors that have a course behind them
+  const vis = {b1: !!fund[0], b2: !!fund[1], c: !!inter[0], a1: !!adv[0], a2: !!adv[1], aa1: !!adv[0], aa2: !!adv[1]};
+  Object.keys(vis).forEach(id => { const el = document.getElementById(id); if (el) el.style.display = vis[id] ? '' : 'none'; });
+  [['path-b1-b2','b1','b2'],['path-b2-c','b2','c'],['path-c-a1','c','a1'],['path-c-a2','c','a2'],['path-a1-aa1','a1','aa1'],['path-a2-aa2','a2','aa2']].forEach(([pid, x, y]) => {
+    const el = document.getElementById(pid); if (el) el.style.display = (vis[x] && vis[y]) ? '' : 'none';
+  });
+  document.getElementById('path-b2-c').style.display = (fund[0] && inter[0]) ? '' : 'none';
+  const setShow = (sel, on) => { const el = document.querySelector(sel); if (el) el.style.display = on ? '' : 'none'; };
+  setShow('.label-before', !!fund[0]); setShow('.label-after', !!adv[0]); setShow('#deck-label', !!inter[0]);
+
+  // Update names map
+  if (inter[0]) names.c = inter[0].name;
+  if (adv[0]) names.a1 = adv[0].name;
+  if (adv[1]) names.a2 = adv[1].name;
+  if (fund[0]) names.b1 = fund[0].name;
+  if (fund[1]) names.b2 = fund[1].name;
+  applyThisCourse();
+}
+
+const OEM_COLOURS = {"Microsoft": "#00A4EF", "Salesforce": "#00A1E0", "SAP": "#0073E6", "Cisco": "#1BA0D7", "Oracle": "#C74634", "AWS": "#FF9900", "Google": "#4285F4", "PMI": "#C74500", "Red Hat": "#EE0000", "VMware": "#607078", "IBM": "#054ADA", "Fortinet": "#EE3124", "Cloudera": "#F96702", "CompTIA": "#C8202F", "Palo Alto": "#FA582D", "Check Point": "#CC0000", "IASSC": "#005A8E"};
+
+function applyFilters() { document.querySelectorAll(".course-card, .deck-card").forEach(el => el.classList.remove("dimmed")); }
+
+function hoverCard(id) {
+  stopAnim(); clearHL();
+  const el = document.getElementById(id);
+  if(el) el.classList.add('card-hovered');
+  const ch = chainPaths[id];
+  const hint = document.getElementById('hint');
+  const interIds = ['c','dc1','dc2','dc3','dc4'].filter(x => { const e = document.getElementById(x); return e && e.style.display !== 'none'; });
+  const b2Hidden = document.getElementById('b2').style.display === 'none';
+  if(id === 'b2' || (id === 'b1' && b2Hidden)) {
+    interIds.forEach((x, i) => {
+      document.getElementById(x).classList.add('card-next');
+      animDot(document.getElementById('full-in-' + x), x, '#0694D1', i === 0 ? 'travel-dot' : 'travel-dot-' + (i + 1));
+    });
+    hint.textContent = 'From ' + (names[id]||id) + ' → next: any intermediate course';
+    hint.classList.add('active');
+    return;
+  }
+  if(interIds.includes(id)) {
+    ['a1','a2'].forEach((a, i) => {
+      const ae = document.getElementById(a);
+      if(!ae || ae.style.display === 'none') return;
+      ae.classList.add('card-next');
+      animDot(document.getElementById('full-out-' + id + '-' + a), a, '#1E7F6B', i === 0 ? 'travel-dot' : 'travel-dot-2');
+    });
+    hint.textContent = 'From this intermediate course → next: advanced courses';
+    hint.classList.add('active');
+    return;
+  }
+  if(ch && ch.next) {
+    const nx = document.getElementById(ch.next);
+    if(nx) nx.classList.add('card-next');
+    // also highlight secondary next if exists
+    if(ch.also) {
+      const nx2 = document.getElementById(ch.also);
+      if(nx2) nx2.classList.add('card-next');
+      if(ch.alsoPath) animDot(document.getElementById(ch.alsoPath), ch.also, ch.color, 'travel-dot-2');
+    }
+    if(ch.pathId) animDot(document.getElementById(ch.pathId), ch.next, ch.color);
+    const nextNames = ch.also ? (names[ch.next]||ch.next) + ' & ' + (names[ch.also]||ch.also) : (names[ch.next]||ch.next);
+    hint.textContent = 'From ' + (names[id]||id) + ' → next: ' + nextNames;
+    hint.classList.add('active');
+  } else {
+    hint.textContent = (names[id]||id) + ' — end of this path.';
+    hint.classList.add('active');
+  }
+}
+
+function leaveCard() {
+  stopAnim(); clearHL(); hideDot();
+  const hint = document.getElementById('hint');
+  hint.textContent = 'Hover any course to see where it leads next.';
+  hint.classList.remove('active');
+}
+
+function clearHL() {
+  document.querySelectorAll('.course-card,.deck-card').forEach(el=>el.classList.remove('card-hovered','card-next'));
+}
+
+function animDot(pathEl, toId, color, dotId) {
+  if(!pathEl) return;
+  const dot = document.getElementById(dotId||'travel-dot');
+  dot.style.background = color||'#0694D1';
+  const len = pathEl.getTotalLength();
+  let start=null; const dur=900; const tok=animToken;
+  dot.style.opacity='1';
+  function step(ts) {
+    if(tok!==animToken) return;
+    if(!start) start=ts;
+    const p=Math.min((ts-start)/dur,1);
+    const t=p<.5?2*p*p:-1+(4-2*p)*p;
+    const pt=pathEl.getPointAtLength(t*len);
+    const svgR=document.getElementById('svg-conn').getBoundingClientRect();
+    dot.style.left=(pt.x*(svgR.width/1400))+'px';
+    dot.style.top=(pt.y*(svgR.height/820))+'px';
+    if(p<1){ animFrame=requestAnimationFrame(step); }
+    else{ document.getElementById(toId)?.classList.add('card-next'); hideDot(); }
+  }
+  animFrame=requestAnimationFrame(step);
+}
+function stopAnim(){ animToken++; if(animFrame){ cancelAnimationFrame(animFrame); animFrame=null; } }
+function hideDot(){ for(let i=1;i<=6;i++){ const d=document.getElementById(i===1?'travel-dot':'travel-dot-'+i); if(d) d.style.opacity='0'; } }
+
+let visH = 664;
+function layoutDeck() {
+  const cards = ['c','dc1','dc2','dc3','dc4'].map(id => document.getElementById(id)).filter(el => el && el.style.display !== 'none');
+  const n = cards.length, w = 230, h = 116, gap = 10, cx = 719;
+  const total = n * h + (n - 1) * gap;
+  const top = Math.max(248, 440 - total / 2), yc = top + total / 2;
+  visH = Math.max(664, top + total + 30 - 156);
+  fitMap();
+  const lab = document.getElementById('deck-label');
+  Object.assign(lab.style, {left: (cx - 90) + 'px', top: (top - 52) + 'px'});
+  const g = document.getElementById('deck-arrows');
+  g.innerHTML = '';
+  const mk = (d, color, arrow) => {
+    const q = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    q.setAttribute('d', d); q.setAttribute('stroke', color); q.setAttribute('stroke-width', '2.5');
+    q.setAttribute('fill', 'none'); q.setAttribute('stroke-linecap', 'round');
+    if (arrow) q.setAttribute('marker-end', arrow);
+    g.appendChild(q);
+  };
+  const L = cx - w / 2, R = cx + w / 2, sp = L - 70, mp = R + 70;
+  const b2v = document.getElementById('b2').style.display !== 'none';
+  const sx = 380, sy = b2v ? 508 : 318;
+  cards.forEach((el, i) => {
+    el.style.left = L + 'px';
+    el.style.top = (top + i * (h + gap)) + 'px';
+    const cy = top + i * (h + gap) + h / 2;
+    mk(`M${sp} ${yc} C${sp + 30} ${yc} ${L - 40} ${cy} ${L - 2} ${cy}`, '#0694D1', 'url(#ah-blue)');
+    mk(`M${R} ${cy} C${R + 40} ${cy} ${mp - 30} ${yc} ${mp} ${yc}`, '#1E7F6B', null);
+  });
+  const hp = (pid, d) => { const q = document.createElementNS('http://www.w3.org/2000/svg', 'path'); q.id = pid; q.setAttribute('d', d); q.setAttribute('stroke', 'none'); q.setAttribute('fill', 'none'); g.appendChild(q); };
+  cards.forEach((el, i) => {
+    const cy = top + i * (h + gap) + h / 2;
+    hp('full-in-' + el.id, `M${sx} ${sy} C${sx + 60} ${sy} ${sp - 60} ${yc} ${sp} ${yc} C${sp + 30} ${yc} ${L - 40} ${cy} ${L - 2} ${cy}`);
+    hp('full-out-' + el.id + '-a1', `M${R} ${cy} C${R + 40} ${cy} ${mp - 30} ${yc} ${mp} ${yc} C${mp + 50} ${yc} 1000 325 1056 325`);
+    hp('full-out-' + el.id + '-a2', `M${R} ${cy} C${R + 40} ${cy} ${mp - 30} ${yc} ${mp} ${yc} C${mp + 50} ${yc} 1000 505 1056 505`);
+  });
+  document.getElementById('path-b2-c').setAttribute('d', `M${sx} ${sy} C${sx + 60} ${sy} ${sp - 60} ${yc} ${sp} ${yc}`);
+  document.getElementById('path-c-a1').setAttribute('d', `M${mp} ${yc} C${mp + 50} ${yc} 1000 325 1056 325`);
+  document.getElementById('path-c-a2').setAttribute('d', `M${mp} ${yc} C${mp + 50} ${yc} 1000 505 1056 505`);
+}
+layoutDeck();
+
+
+function fitMap() {
+  const map = document.getElementById('map'), wrap = document.querySelector('.map-wrap');
+  if (window.innerWidth <= 900) {
+    map.style.transform = ''; map.style.margin = ''; wrap.style.height = ''; wrap.style.overflow = ''; return;
+  }
+  const x0 = 140, cw = 1420, visTop = 156;
+  const scale = Math.min(1, wrap.clientWidth / cw);
+  map.style.transformOrigin = 'top left';
+  map.style.transform = scale < 1 ? `scale(${scale})` : '';
+  map.style.margin = `${-visTop * scale}px 0 0 ${(wrap.clientWidth - cw * scale) / 2 - x0 * scale}px`;
+  wrap.style.height = (visH * scale) + 'px';
+  wrap.style.overflow = 'hidden';
+}
+window.addEventListener('resize', fitMap);
+fitMap();
+
+const THIS_COURSE = new URLSearchParams(location.search).get('course');
+function applyThisCourse() {
+  document.querySelectorAll('.badge-this').forEach(b => b.remove());
+  const norm = t => (t || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const target = norm(THIS_COURSE);
+  const cards = [...document.querySelectorAll('.course-card,.deck-card')].filter(el => el.style.display !== 'none');
+  let hit = target.length >= 3 ? cards.filter(el => { const n = norm(el.querySelector('.cname')?.textContent); return n && (n === target || n.includes(target) || target.includes(n)); }) : [];
+  if (!hit.length && !THIS_COURSE) hit = cards.filter(el => el.id === 'c');
+  hit.forEach(el => {
+    const b = document.createElement('span');
+    b.className = 'badge-this';
+    b.textContent = 'This course';
+    el.appendChild(b);
+  });
+}
+applyThisCourse();
+
+// ---- Search drives the map: vendor name, technology, or course name ----
+let searchTimer = null;
+const TECH_OEMS = {
+  "Cloud": ["AWS","Microsoft","Google","Salesforce","VMware","Red Hat"],
+  "Networking": ["Cisco"],
+  "Security": ["Palo Alto","Fortinet","Check Point","Cisco"],
+  "AI / ML": ["IBM","Google","Cloudera"],
+  "ERP": ["SAP","Oracle"],
+  "Storage": ["VMware","Cloudera"],
+  "Automation": ["Red Hat"],
+  "Project Management": ["PMI"]
+};
+const TECH_ALIASES = {"Cloud":["cloud","azure","devops"],"Networking":["network","networking","routing","switching"],"Security":["security","cyber","firewall"],"AI / ML":["ai","ml","machine learning","artificial intelligence","data","analytics"],"ERP":["erp","sap","finance"],"Storage":["storage","backup"],"Automation":["automation","ansible"],"Project Management":["project","pmp","agile","scrum"]};
+function setSelect(id, value) {
+  const sel = document.getElementById(id);
+  sel.value = value || '';
+  sel.classList.toggle('active', !!value);
+}
+// ---- Search + filters drive one flat course list; the map always shows the first course in it ----
+const LEVEL_GROUPS = [['fundamentals','Beginner'],['intermediate','Intermediate'],['advanced','Advanced']];
+function techsOf(oem) { return Object.keys(TECH_OEMS).filter(t => TECH_OEMS[t].includes(oem)); }
+function allCourses() {
+  const list = [];
+  Object.keys(OEM_DATA).forEach(oem => LEVEL_GROUPS.forEach(([g, level]) =>
+    (OEM_DATA[oem][g] || []).forEach(c => list.push({name: c.name, oem, level, techs: techsOf(oem)}))));
+  return list;
+}
+function courseMatches(c, words) {
+  if (state.level && c.level !== state.level) return false;
+  if (state.oem && c.oem !== state.oem) return false;
+  if (state.tech && !c.techs.includes(state.tech)) return false;
+  const hay = (c.name + ' ' + c.oem + ' ' + c.techs.join(' ')).toLowerCase();
+  return words.every(w => hay.includes(w) || c.techs.some(t => (TECH_ALIASES[t] || []).includes(w)));
+}
+function setSelect(id, value) {
+  const sel = document.getElementById(id);
+  sel.value = value || '';
+  sel.classList.toggle('active', !!value);
+}
+function fillTechOptions(oem) {
+  const sel = document.getElementById('tech-select');
+  const techs = oem ? techsOf(oem) : Object.keys(TECH_OEMS);
+  sel.innerHTML = '<option value="">All Technologies</option>' + techs.map(t => '<option value="' + t + '">' + t + '</option>').join('');
+}
+function showEmpty(on) {
+  document.querySelector('.map-wrap').style.display = on ? 'none' : '';
+  document.getElementById('empty-msg').style.display = on ? '' : 'none';
+  if (on) { stopAnim(); hideDot(); clearHL(); }
+}
+// Single entry point: filter the list, then ALWAYS redraw the map from scratch with its first course.
+function refresh() {
+  const words = document.getElementById('q').value.toLowerCase().split(/\s+/).filter(Boolean);
+  const list = allCourses().filter(c => courseMatches(c, words));
+  const hint = document.getElementById('hint');
+  if (!list.length) { showEmpty(true); hint.textContent = 'No courses match.'; return; }
+  showEmpty(false);
+  rebuildMap(list[0].oem, list[0]);
+  fitMap();
+  hint.textContent = list.length + ' course' + (list.length > 1 ? 's' : '') + ' match - showing the ' + list[0].oem + ' path for "' + list[0].name + '".';
+}
+function selectFilter(type, sel) {
+  state[type] = sel.value || null;
+  sel.classList.toggle('active', !!sel.value);
+  if (type === 'oem') { state.tech = null; fillTechOptions(state.oem); setSelect('tech-select', ''); }
+  refresh();
+}
+function filterByOEM(name, e) {
+  if (e) e.stopPropagation();
+  state.oem = state.oem === name ? null : name;
+  setSelect('oem-select', state.oem);
+  state.tech = null; fillTechOptions(state.oem); setSelect('tech-select', '');
+  refresh();
+}
+function selectCard(el) {
+  const oem = el.dataset.oem || (el.querySelector('.oem-badge') || {}).textContent;
+  const name = (el.querySelector('.cname') || {}).textContent;
+  if (!oem || !name || !OEM_DATA[oem.trim()]) return;
+  const c = allCourses().find(x => x.oem === oem.trim() && x.name === name.trim());
+  if (!c) return;
+  showEmpty(false);
+  rebuildMap(c.oem, c);
+  fitMap();
+}
+document.getElementById('map').addEventListener('click', e => {
+  const el = e.target.closest('.course-card, .deck-card');
+  if (el && !e.target.closest('.oem-badge')) selectCard(el);
+});
+function syncClear() { document.querySelector('.search-box').classList.toggle('has-text', !!document.getElementById('q').value); }
+function runSearch() {
+  if (document.getElementById('q').value.trim()) {
+    state.level = state.oem = state.tech = null;
+    setSelect('level-select', ''); setSelect('oem-select', '');
+    fillTechOptions(null); setSelect('tech-select', '');
+  }
+  refresh();
+}
+function runSearchNow() { clearTimeout(searchTimer); runSearch(); }
+function clearSearch() { const q = document.getElementById('q'); q.value = ''; syncClear(); clearTimeout(searchTimer); refresh(); q.focus(); }
+function onSearch() { syncClear(); clearTimeout(searchTimer); searchTimer = setTimeout(runSearch, 350); }
+</script>
+</body>
+</html>

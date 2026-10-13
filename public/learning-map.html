@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Koenig Learning Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F6F9FD; --surface:#E8F1FB; --field:#FFFFFF; --hover:#D9E8F8; --ink:#0F2342; --muted:#4F6280; --line:#BFD3EA;
+  --accent:#0B5CAD; --accent-soft:#E6F0FA; --cta:#F26A21; --ok:#1F7A4D;
+  --head:"GT Walsheim Pro","Trebuchet MS",system-ui,sans-serif;
+  --body:"GT Walsheim Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+/* always light, whatever the visitor's system theme */
+:root{color-scheme:light}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Regular.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Regular.woff') format('woff');font-weight:400;font-display:swap}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Medium.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Medium.woff') format('woff');font-weight:500;font-display:swap}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Bold.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Bold.woff') format('woff');font-weight:700 800;font-display:swap}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 var(--body)}
+
+/* side padding matches the top navigation (16px, 50px from lg; content max 1280px) */
+.wrap{max-width:1380px;margin:0 auto;padding:20px 16px 48px}
+@media(min-width:1024px){.wrap{padding-left:50px;padding-right:50px}}
+
+
+/* header */
+header{display:flex;flex-wrap:wrap;gap:10px 32px;align-items:center;justify-content:center;margin-bottom:14px}
+.brand{font:800 26px var(--head);letter-spacing:.01em;color:var(--ink)}
+.brand small{display:block;font:500 12px var(--body);color:var(--muted);letter-spacing:.04em;margin-top:1px}
+.hcenter{text-align:center}
+h1{font:800 clamp(22px,3vw,36px)/1.1 var(--head);margin:0 0 4px;color:var(--ink)}
+.sub{margin:0;font-size:13.5px;color:var(--muted)}
+.tagline{font:700 13px/1.4 var(--head);text-align:right;color:var(--ink)}
+.tagline span{color:var(--accent)}
+@media(max-width:700px){header{flex-direction:column;align-items:flex-start}.tagline{text-align:left}.hcenter{text-align:left}}
+
+/* ── Path stepper ── */
+.stepper{display:flex;align-items:center;padding:10px 8px 16px;margin:0 -8px;overflow-x:auto;scrollbar-width:none}
+.stepper::-webkit-scrollbar{display:none}
+.stp-wrap{display:flex;align-items:center;flex:1 1 0;min-width:0}
+.stp-wrap:last-child{flex:none}
+.stp{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;border:none;background:none;padding:0;position:relative;flex:none}
+.stp-circle{position:relative;width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;transition:all .25s;z-index:1}
+.stp-circle svg{width:18px;height:18px}
+/* small number badge — top-left, same as card .num */
+.stp-badge{position:absolute;top:-5px;left:-5px;width:18px;height:18px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:700 10px var(--head);transition:background .2s;z-index:2}
+.stp-tick{position:absolute;top:-5px;left:-5px;width:18px;height:18px;border-radius:50%;background:var(--ok);color:#fff;display:none;place-items:center;z-index:2}
+.stp-tick svg{width:10px;height:10px;stroke:#fff;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.stp-label{font:500 11px var(--body);color:var(--muted);white-space:nowrap;transition:color .25s;margin-top:2px}
+.stp-line{flex:1 1 0;height:2px;background:var(--line);min-width:8px;transition:background .35s;margin-bottom:20px}
+/* states */
+.stp.done .stp-circle{background:var(--accent-soft);color:var(--accent)}
+.stp.done .stp-badge{display:none}
+.stp.done .stp-tick{display:grid}
+.stp.done .stp-label{color:var(--ok);font-weight:600}
+.stp.done + .stp-wrap .stp-line,.stp-wrap:has(.stp.done) .stp-line{background:var(--ok)}
+.stp.now .stp-circle{background:var(--accent);color:#fff;box-shadow:0 0 0 4px var(--accent-soft)}
+.stp.now .stp-badge{background:var(--accent);color:#fff}
+.stp.now .stp-label{color:var(--accent);font-weight:700}
+.stp.locked{cursor:default;opacity:.4}
+.stp:not(.locked):focus-visible .stp-circle{outline:3px solid var(--accent);outline-offset:3px}
+
+/* ── Cards row ── */
+.row{display:flex;align-items:flex-start;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 0 16px;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+.row::-webkit-scrollbar{height:6px}
+.row::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+.row::-webkit-scrollbar-track{background:transparent}
+
+.step{flex:none;width:calc((100vw - 100px)/5.1);min-width:210px;max-width:280px;display:flex;align-items:flex-start;scroll-snap-align:start;transition:opacity .45s ease,transform .45s cubic-bezier(.4,0,.2,1),width .45s cubic-bezier(.4,0,.2,1),min-width .45s cubic-bezier(.4,0,.2,1),max-width .45s cubic-bezier(.4,0,.2,1)}
+.step.gone{width:0 !important;min-width:0 !important;max-width:0 !important;opacity:0;transform:translateX(-24px);overflow:hidden;pointer-events:none}
+.step.gone .card{flex:none}
+/* every card stays in the row and fully usable, so dragging shows them all */
+.step.locked{opacity:1;pointer-events:auto;transform:none}
+.step.unlocking{animation:slidein .35s forwards}
+@keyframes slidein{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+
+.card{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 10px 14px 12px;display:flex;flex-direction:column;transition:border-color .2s}
+.card.done{border-color:var(--ok)}
+
+/* head: icon circle + number badge + title + tick */
+.head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.hicon{position:relative;flex:none;width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.hicon svg{width:18px;height:18px}
+.num{position:absolute;top:-6px;left:-6px;width:18px;height:18px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:700 10px var(--head);transition:background .2s}
+.card.done .num{background:var(--ok)}
+.card h2{font:700 15px/1.2 var(--head);margin:0;flex:1}
+/* tick beside title */
+.htick{display:none;width:20px;height:20px;border-radius:50%;background:var(--ok);align-items:center;justify-content:center;flex:none}
+.htick svg{width:11px;height:11px;stroke:#fff;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.card.done .htick{display:flex}
+
+.card .q{font-size:12px;color:var(--muted);margin:0 0 4px;padding-right:4px}
+.cnt{margin:0 0 5px;font-size:11px;color:var(--accent);min-height:14px}
+
+fieldset{border:0;margin:0;padding:0 4px 0 0;display:flex;flex-direction:column;gap:3px;height:260px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+fieldset::-webkit-scrollbar{width:5px}
+fieldset::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.opt{position:relative;display:flex;align-items:center;gap:8px;padding:8px;border-radius:9px;cursor:pointer;font-size:13px;line-height:1.25;border:1px solid transparent;flex:none}
+.opt:hover{background:var(--hover)}
+fieldset.multi .dot{border-radius:5px}
+fieldset.multi .dot::after{width:8px;height:8px;border-radius:2px}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.dot{flex:none;width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);display:grid;place-items:center;transition:border-color .15s}
+.dot::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform .15s}
+.opt input:checked~.dot{border-color:var(--accent)}
+.opt input:checked~.dot::after{transform:scale(1)}
+.opt:has(input:checked){background:var(--accent-soft);border-color:var(--accent)}
+.oi{flex:none;width:16px;height:16px;color:var(--muted)}
+.opt:has(input:checked) .oi{color:var(--accent)}
+.opt em{display:block;font-style:normal;font-size:11px;color:var(--muted)}
+.other-in{flex:none;margin:2px 0 4px 8px;width:calc(100% - 8px);padding:7px 9px;border-radius:8px;border:1px solid var(--accent);background:var(--field);color:var(--ink);font:400 13px var(--body)}
+.other-in[hidden]{display:none}
+
+.arrow{flex:none;width:22px;text-align:center;color:var(--muted);font-size:18px;margin-top:60px;flex-shrink:0}
+
+/* mobile slider nav: left/right arrows below the cards row */
+.rownav{display:none;align-items:center;justify-content:center;gap:18px;margin:2px 0 8px}
+.rnbtn{display:flex;align-items:center;justify-content:center;flex:none;width:40px;height:40px;border:0;border-radius:50%;background:var(--accent);color:#fff;cursor:pointer}
+.rnbtn svg{width:20px;height:20px;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.rnbtn:hover{background:#076D9D}
+.rnbtn:disabled{opacity:.35;cursor:default;background:var(--accent)}
+.rnbtn:focus-visible{outline:3px solid var(--accent-soft);outline-offset:2px}
+
+/* Enquire card */
+.enq{width:calc((100vw - 100px)/3.1);min-width:210px;max-width:300px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 10px 14px 12px;display:flex;flex-direction:column}
+.enq-fields{display:flex;flex-direction:column;gap:8px}
+/* the form stays closed until the CTA is clicked */
+.step:not(.open) .enq-fields{display:none}
+.enq-body{display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:340px;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+.sum{margin:0;padding:8px 10px;border-radius:10px;background:var(--field);display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12px}
+.sum dt{color:var(--muted)}
+.sum dd{margin:0;font-weight:600}
+.sum dd.empty{color:var(--muted);font-weight:400}
+.f{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)}
+.f input,.f textarea{font:400 13.5px var(--body);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:8px;padding:8px 9px;width:100%}
+.f textarea{resize:vertical;min-height:52px}
+.f input:focus-visible,.f textarea:focus-visible{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.f.bad input{border-color:var(--cta)}
+.err{font-size:12px;color:var(--cta);margin:0;min-height:0}
+.go{font:700 15px var(--head);background:#0694D1;color:#fff;border:0;border-radius:10px;padding:11px 16px;cursor:pointer;margin-top:2px}
+.go:hover{background:#076D9D}
+.note{font-size:11.5px;color:var(--muted);margin:0}
+.note a{color:var(--accent)}
+
+@media(max-width:900px){
+  .step,.enq{width:calc(100vw - 48px);max-width:380px}
+  .enq-body{max-height:none;overflow:visible}
+  .other-in{padding-top:26px;padding-bottom:26px}
+  .arrow{margin-top:0;transform:rotate(90deg)}
+  /* stepper: stop squishing into overlapping labels — let it scroll instead */
+  .stepper{justify-content:flex-start}
+  .stp-wrap{flex:none}
+  .stp-line{flex:none;width:18px;min-width:18px;margin-bottom:18px}
+  .stp-circle{width:32px;height:32px}
+  .stp-circle svg{width:16px;height:16px}
+  .stp-label{font-size:10px}
+  .rownav{display:flex}
+}
+/* chosen answers, shown above the cards */
+.picks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 12px}
+.picks:empty{display:none}
+.pick{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:99px;border:1px solid var(--ok);background:var(--accent-soft);color:var(--ink);font:500 13px var(--body);cursor:pointer;position:relative}
+.pick b{font-weight:600;color:var(--muted)}
+.pick:hover{background:var(--hover)}
+.pick-tick{position:absolute;top:-7px;left:-5px;width:16px;height:16px;border-radius:50%;background:var(--ok);display:grid;place-items:center}
+.pick-tick svg{width:9px;height:9px;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;fill:none}
+@media(max-width:900px){
+  /* chosen-answer pills: one scrollable line instead of wrapping */
+  .picks{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding-bottom:6px}
+  .picks::-webkit-scrollbar{display:none}
+  .pick{flex:none;white-space:nowrap}
+}
+/* final form: full width of the centre once every step is answered */
+@media(min-width:901px){
+  .step.full{width:100%;min-width:0;max-width:none;justify-content:center}
+  .step.full .arrow{display:none}
+  .step.full .enq{width:100%;max-width:none;min-width:0}
+  .step.full .enq-body{display:grid;grid-template-columns:1fr;gap:12px;max-height:none;overflow:visible}
+  .step.full .enq-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px;animation:fieldsin .35s ease}
+  .step.full .enq-fields > .f:nth-of-type(4),.step.full .enq-fields > .err{grid-column:1/-1}
+  .step.full:not(.open) .go{justify-self:center;width:100%;max-width:320px;padding:13px 24px}
+  @keyframes fieldsin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .step{transition:none}.step.unlocking{animation:none;opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+  <div class="hcenter">
+    <h1>Koenig Learning Map</h1>
+    <p class="sub" id="sub" aria-live="polite">Don&rsquo;t search for a course. Find your learning path.</p>
+  </div>
+</header>
+<div class="stepper" id="stepper" aria-label="Steps"></div>
+  <div class="picks" id="picks" aria-live="polite"></div>
+  <div class="row" id="row"></div>
+  <div class="rownav" id="rownav">
+    <button class="rnbtn" id="rnprev" type="button" aria-label="Previous step"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="rnbtn" id="rnnext" type="button" aria-label="Next step"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+  </div>
+</div>
+<script>
+var P={
+  target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  award:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+  bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/>',
+  wrench:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  user:'<circle cx="12" cy="7" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>',
+  trend:'<path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+  users:'<circle cx="9" cy="7" r="4"/><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"/><path d="M16 3.13a4 4 0 0 1 0 7.75M22 21v-1a4 4 0 0 0-3-3.87"/>',
+  server:'<rect x="2" y="3" width="20" height="7" rx="2"/><rect x="2" y="14" width="20" height="7" rx="2"/><path d="M6 6.5h.01M6 17.5h.01"/>',
+  network:'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3M12 12V8"/>',
+  cloud:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  code:'<path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>',
+  layers:'<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65M22 12.65l-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
+  brief:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+  more:'<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+  win:'<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/>',
+  box:'<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/>',
+  signal:'<path d="M4 20v-4M9 20v-8M14 20V8M19 20V4"/>',
+  db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5M3 12a9 3 0 0 0 18 0"/>',
+  cpu:'<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>',
+  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  bars:'<path d="M12 20V10M18 20V4M6 20v-4"/>',
+  globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+  term:'<path d="m4 17 6-6-6-6M12 19h8"/>',
+  loop:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/>',
+  clip:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 12h6M9 16h6"/>',
+  folder:'<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>',
+  flask:'<path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2M8.5 2h7"/>',
+  monitor:'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  cap:'<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+  book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>'
+};
+
+function icon(name,cls){
+  var s=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  s.setAttribute("viewBox","0 0 24 24");s.setAttribute("fill","none");s.setAttribute("stroke","currentColor");
+  s.setAttribute("stroke-width","1.8");s.setAttribute("stroke-linecap","round");s.setAttribute("stroke-linejoin","round");
+  s.setAttribute("aria-hidden","true");if(cls)s.setAttribute("class",cls);
+  s.innerHTML=P[name]||"";return s;
+}
+
+var STEPS=[
+  {key:"Goal",title:"Your Goal",ic:"target",q:"What do you want to achieve?",opts:[
+    ["Get certified","award"],["Learn a technology","bulb"],["Solve a project problem","wrench"],
+    ["Change career","user"],["Upgrade existing skills","trend"],["Prepare my team","users"]]},
+  {key:"Role",title:"Your Role",ic:"user",q:"What is your current or target role?",opts:[
+    ["IT Administrator","server"],["Network Engineer","network"],["Cloud Engineer","cloud"],["Security Analyst","shield"],
+    ["Developer","code"],["Architect","layers"],["Manager / Team Lead","brief"],
+    ["DevOps Engineer","loop"],["Data Analyst","bars"],["Project Manager","clip"],["Other","more"]]},
+  {key:"Technology",title:"Technology",multi:true,q:"Which technology are you interested in? (pick one or more)",ic:"layers",opts:[
+    ["Microsoft","win"],["AWS","cloud"],["Cisco","signal"],["VMware","box"],["Oracle","db"],
+    ["AI / Generative AI","cpu"],["Cybersecurity","lock"],["Data & Analytics","bars"],
+    ["Google Cloud","globe"],["Red Hat / Linux","term"],["DevOps & Automation","loop"],["Other","more"]]},
+  {key:"Skill level",title:"Skill Level",ic:"signal",q:"Where are you now?",opts:[
+    ["Beginner","signal"],["Intermediate","signal"],["Advanced","signal"],["Expert","signal"]]},
+  {key:"Path",title:"Your Learning Path",ic:"pin",q:"Where do you want to go?",opts:[
+    ["Role-based path","user","e.g. Azure Administrator"],["Certification path","award","e.g. AZ-104, CCNA"],
+    ["Skill-based path","trend","e.g. Cloud Networking"],["Project-based path","folder","e.g. Build a cloud solution"]]},
+  {key:"Course",title:"Course",ic:"book",q:"Which course fits you?",opts:[
+    ["Official Certification","award"],["Instructor-led Training","users"],["Hands-on Labs","flask"],
+    ["Real-world Projects","folder"],["Learning Bundles","layers"]]},
+  {key:"Delivery",title:"Delivery Option",ic:"cal",q:"How do you want to learn?",opts:[
+    ["Live Online","monitor"],["1-on-1 Training","user"],["Classroom","cap"],["Flexible / Self-paced","clock"],["Customized Learning","wrench"]]}
+];
+
+var state={};
+var row=document.getElementById("row");
+var stepper=document.getElementById("stepper");
+
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
+
+/* ── Build stepper ── */
+var NAMES=STEPS.map(function(s){return s.key;}).concat(["Enquire"]);
+NAMES.forEach(function(n,i){
+  var wrap=el("div","stp-wrap");
+  var b=document.createElement("button");b.className="stp";b.type="button";b.id="stp"+i;
+  b.setAttribute("aria-label","Step "+(i+1)+": "+n);
+  var circ=el("span","stp-circle");circ.id="stpc"+i;
+  /* icon — use step icon or mail for enquire */
+  var stepIc = i<STEPS.length ? STEPS[i].ic : "mail";
+  circ.appendChild(icon(stepIc));
+  /* number badge (top-left) */
+  var badge=el("span","stp-badge",String(i+1));badge.id="stpn"+i;circ.appendChild(badge);
+  /* tick badge (replaces number on done) */
+  var tickWrap=el("span","stp-tick");tickWrap.id="stpt"+i;
+  var tkS=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  tkS.setAttribute("viewBox","0 0 24 24");tkS.innerHTML='<polyline points="4 13 9 18 20 7"/>';
+  tickWrap.appendChild(tkS);circ.appendChild(tickWrap);
+  b.appendChild(circ);b.appendChild(el("span","stp-label",n));
+  b.addEventListener("click",function(){
+    var steps=[].slice.call(document.querySelectorAll(".step"));
+    if(steps[i]&&steps[i].classList.contains("gone")){steps[i].classList.remove("gone");reopened[i]=true;closeFinal();var rc=steps[i].querySelector(".card");if(rc)setTimeout(function(){rc.style.width="";},470);setTimeout(function(){steps[i].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});},380);return;}
+    var c=document.getElementById(i<STEPS.length?"card"+i:"enq");
+    if(c)c.scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});
+  });
+  wrap.appendChild(b);
+  if(i<NAMES.length-1){var line=el("div","stp-line");line.id="stpl"+i;wrap.appendChild(line);}
+  stepper.appendChild(wrap);
+});
+
+/* ── Build cards ── */
+STEPS.forEach(function(s,i){
+  var step=el("div","step");step.id="step"+i;
+  var card=el("div","card");card.id="card"+i;
+
+  /* head */
+  var head=el("div","head");
+  var hi=el("span","hicon");hi.appendChild(icon(s.ic));
+  var nm=el("span","num",String(i+1));hi.appendChild(nm);
+  head.appendChild(hi);
+  head.appendChild(el("h2",null,s.title));
+  /* tick badge */
+  var tk=el("span","htick");
+  var tkSvg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  tkSvg.setAttribute("viewBox","0 0 24 24");tkSvg.innerHTML='<polyline points="4 13 9 18 20 7"/>';
+  tk.appendChild(tkSvg);head.appendChild(tk);
+  card.appendChild(head);
+
+  card.appendChild(el("p","q",s.q));
+  var cnt=el("p","cnt");cnt.id="cnt"+i;cnt.setAttribute("aria-hidden","true");card.appendChild(cnt);
+
+  var fs=el("fieldset");fs.id="fs"+i;if(s.multi)fs.className="multi";fs.appendChild(el("legend",null,s.title));
+
+  s.opts.forEach(function(o,oi){
+    var label=o[0],ic=o[1],sub=o[2]||"";
+    var lab=el("label","opt");
+    var inp=document.createElement("input");inp.type=s.multi?"checkbox":"radio";inp.name="step"+i;inp.value=label;
+    lab.appendChild(inp);lab.appendChild(el("span","dot"));
+    var oic=icon(ic,"oi");
+    if(s.key==="Skill level"){
+      oic.innerHTML=[4,9,14,19].map(function(x,k){
+        var tops=[16,12,8,4];
+        return '<path d="M'+x+' 20V'+tops[k]+'" opacity="'+(k<=oi?1:.25)+'"/>';
+      }).join("");
+    }
+    lab.appendChild(oic);
+    var txt=el("span");txt.appendChild(document.createTextNode(label));
+    if(sub)txt.appendChild(el("em",null,sub));
+    lab.appendChild(txt);
+    fs.appendChild(lab);
+    if(label==="Other"){
+      var t=document.createElement("input");t.type="text";t.className="other-in";t.hidden=true;
+      t.placeholder="Type your own";t.setAttribute("aria-label",s.title+": your own");t.maxLength=60;
+      fs.appendChild(t);
+      t.addEventListener("input",function(){if(state[i]){state[i].other=t.value.trim();render();}});
+    }
+    inp.addEventListener("click",function(){if(state[i]&&state[i].value===label&&reopened[i]){reopened[i]=false;render();}});
+    inp.addEventListener("change",function(){
+      if(s.multi){
+        var m=state[i]&&state[i].multi?state[i].multi.slice():[],at=m.indexOf(label),oth=state[i]?state[i].other:"";
+        if(inp.checked){if(at<0)m.push(label);}else if(at>-1)m.splice(at,1);
+        if(label==="Other"){
+          fs.querySelectorAll(".other-in").forEach(function(t){
+            t.hidden=!inp.checked;
+            if(inp.checked)setTimeout(function(){t.focus();},0);else{t.value="";oth="";}
+          });
+        }
+        if(m.length)state[i]={multi:m,other:oth};else delete state[i];
+        reopened[i]=false;submitted=false;render();return;
+      }
+      state[i]={value:label,other:""};reopened[i]=false;submitted=false;
+      fs.querySelectorAll(".other-in").forEach(function(t){
+        t.hidden=(label!=="Other");
+        if(label==="Other"){t.value="";setTimeout(function(){t.focus();},0);}
+      });
+      render();
+    });
+  });
+
+  fs.addEventListener("scroll",function(){updCnt(i);},{passive:true});
+  card.appendChild(fs);
+  step.appendChild(card);
+  if(i<STEPS.length-1){var a=el("div","arrow","\u203A");a.setAttribute("aria-hidden","true");step.appendChild(a);}
+  row.appendChild(step);
+});
+
+/* ── Build enquire card ── */
+(function(){
+  var stepE=el("div","step");stepE.id="step"+STEPS.length;
+  var a=el("div","arrow","\u203A");a.setAttribute("aria-hidden","true");stepE.appendChild(a);
+  var card=el("div","enq");card.id="enq";
+  var head=el("div","head");
+  var hi=el("span","hicon");hi.appendChild(icon("mail"));
+  var nm=el("span","num",String(STEPS.length+1));hi.appendChild(nm);
+  head.appendChild(hi);head.appendChild(el("h2",null,"Let's plan your learning path"));card.appendChild(head);
+  card.appendChild(el("p","q","Share your details and our team will send you a personalised plan."));
+  var body=el("div","enq-body");
+  var dl=el("dl","sum");dl.id="sum";body.appendChild(dl);
+  var fields=el("div","enq-fields");body.appendChild(fields);
+  function field(id,label,type,ph){
+    var w=el("label","f");w.appendChild(document.createTextNode(label));
+    var inp=type==="textarea"?document.createElement("textarea"):document.createElement("input");
+    if(type!=="textarea")inp.type=type;inp.id=id;inp.placeholder=ph||"";inp.maxLength=type==="textarea"?500:80;
+    if(type==="email")inp.autocomplete="email";if(id==="e-name")inp.autocomplete="name";if(type==="tel")inp.autocomplete="tel";
+    w.appendChild(inp);fields.appendChild(w);return w;
+  }
+  var fn=field("e-name","Your name","text","Your full name");
+  var fe=field("e-mail","Email","email","example@company.com");
+  field("e-tel","Phone (optional)","tel","So we can call you");
+  field("e-msg","Anything we should know? (optional)","textarea","Your goals, timeline or questions");
+  var err=el("p","err");err.id="e-err";err.setAttribute("role","alert");fields.appendChild(err);
+  var btn=el("button","go","Get my learning path");btn.type="button";body.appendChild(btn);
+  card.appendChild(body);stepE.appendChild(card);row.appendChild(stepE);
+
+  btn.addEventListener("click",function(){
+    if(!stepE.classList.contains("open")){
+      stepE.classList.add("open","full");btn.textContent="Submit";
+      setTimeout(function(){document.getElementById("e-name").focus({preventScroll:true});stepE.scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});},60);return;
+    }
+    var name=document.getElementById("e-name").value.trim(),mail=document.getElementById("e-mail").value.trim();
+    var okMail=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail);
+    fn.classList.toggle("bad",!name);fe.classList.toggle("bad",!okMail);
+    if(!name||!okMail){err.textContent=!name?"Please tell us your name.":"Please enter a valid email address.";return;}
+    err.textContent="";
+    submitted=true;updateSub();
+    var lines=["Name: "+name,"Email: "+mail];
+    var tel=document.getElementById("e-tel").value.trim();if(tel)lines.push("Phone: "+tel);
+    lines.push("","My learning map:");
+    STEPS.forEach(function(s,i){lines.push("- "+s.title+": "+(chosen(i)||"Not chosen"));});
+    var msg=document.getElementById("e-msg").value.trim();if(msg)lines.push("","Message: "+msg);
+    var url="mailto:info@koenig-solutions.com?subject="+encodeURIComponent("Learning path enquiry")+"&body="+encodeURIComponent(lines.join("\n"));
+    window.location.href=url;
+  });
+})();
+
+/* ── Helpers ── */
+function chosen(i){
+  var v=state[i];if(!v)return "";
+  if(v.multi)return v.multi.map(function(x){return x==="Other"?v.other||"":x;}).filter(Boolean).join(", ");
+  return v.value==="Other"?v.other||"":v.value;
+}
+function keepOpen(i){var v=state[i];return !!v&&(v.multi?true:v.value==="Other");}
+
+function updCnt(i){
+  var fs=document.getElementById("fs"+i),cnt=document.getElementById("cnt"+i);if(!fs||!cnt)return;
+  var opts=[].slice.call(fs.querySelectorAll(".opt")),n=opts.length,r=fs.getBoundingClientRect(),first=-1,last=-1;
+  opts.forEach(function(o,k){var b=o.getBoundingClientRect();if(b.top>=r.top-2&&b.bottom<=r.bottom+2){if(first<0)first=k;last=k;}});
+  if(first<0){first=0;last=Math.min(n-1,3);}
+  cnt.textContent=fs.scrollHeight<=fs.clientHeight+2?n+" options":(first+1)+"\u2013"+(last+1)+" of "+n+" \u00B7 scroll for more";
+}
+function updAll(){STEPS.forEach(function(s,i){updCnt(i);});}
+window.addEventListener("resize",updAll);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(updAll);
+
+/* ── Progressive reveal ── */
+function visibleInit(){return window.matchMedia("(max-width:900px)").matches?3:5;}
+var reopened={},hideTimer=null;
+function lockAll(){
+  var steps=[].slice.call(document.querySelectorAll(".step"));
+  steps.forEach(function(st,i){
+    if(i<visibleInit()){st.classList.remove("locked","unlocking");}
+    else{st.classList.add("locked");st.classList.remove("unlocking");}
+  });
+}
+function unlockNext(){
+  var steps=[].slice.call(document.querySelectorAll(".step"));
+  var completed=0;
+  for(var i=0;i<STEPS.length;i++){if(chosen(i))completed++;else break;}
+  var show=Math.min(completed+visibleInit(),steps.length);
+  steps.forEach(function(st,i){
+    if(i<show){
+      var wasLocked=st.classList.contains("locked");
+      st.classList.remove("locked");
+      if(wasLocked){st.classList.add("unlocking");setTimeout(function(){st.classList.remove("unlocking");},400);if(window.matchMedia("(max-width:900px)").matches)scrollToStep(i);}
+    }
+  });
+}
+function closeFinal(){
+  var fin=document.getElementById("step"+STEPS.length);if(!fin)return;
+  fin.classList.remove("full","open");
+  var g=fin.querySelector(".go");if(g)g.textContent="Get my learning path";
+}
+function hideDone(){
+  var steps=[].slice.call(document.querySelectorAll(".step"));
+  var completed=0;
+  for(var i=0;i<STEPS.length;i++){if(chosen(i))completed++;else break;}
+  var changed=false,allDone=completed===STEPS.length;
+  steps.forEach(function(st,i){
+    if(i<completed&&!reopened[i]&&(allDone||!keepOpen(i))){
+      if(!st.classList.contains("gone")){
+        var c=st.querySelector(".card");if(c)c.style.width=c.offsetWidth+"px";
+        st.classList.add("gone");changed=true;
+      }
+    }
+  });
+  var fin=steps[STEPS.length];
+  if(changed){
+    var row=document.getElementById("row");
+    row.style.scrollSnapType="none";
+    setTimeout(function(){
+      row.style.scrollSnapType="";
+      var next=steps.filter(function(st,i){return i>=completed&&!st.classList.contains("locked");})[0];
+      if(allDone)row.scrollTo({left:0,behavior:"smooth"});
+      else if(next)next.scrollIntoView({behavior:"smooth",block:"nearest",inline:"nearest"});
+    },520);
+  }
+}
+function scheduleHide(){clearTimeout(hideTimer);hideTimer=setTimeout(hideDone,350);}
+function scrollToStep(i){
+  var steps=[].slice.call(document.querySelectorAll(".step"));
+  if(steps[i])steps[i].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});
+}
+
+/* ── Mobile slider nav (left/right arrows below the row) ── */
+function visibleSteps(){return [].slice.call(document.querySelectorAll(".step")).filter(function(st){return !st.classList.contains("gone");});}
+function currentStepIndex(){
+  var steps=visibleSteps(),rowRect=row.getBoundingClientRect(),best=0,bestDist=Infinity;
+  steps.forEach(function(st,i){var d=Math.abs(st.getBoundingClientRect().left-rowRect.left);if(d<bestDist){bestDist=d;best=i;}});
+  return best;
+}
+function updateRowNav(){
+  var steps=visibleSteps(),idx=currentStepIndex();
+  var prev=document.getElementById("rnprev"),next=document.getElementById("rnnext");
+  if(!prev||!next)return;
+  prev.disabled=idx<=0;
+  next.disabled=idx>=steps.length-1;
+}
+(function(){
+  var prev=document.getElementById("rnprev"),next=document.getElementById("rnnext");
+  if(!prev||!next)return;
+  prev.addEventListener("click",function(){
+    var steps=visibleSteps(),idx=currentStepIndex()-1;
+    if(idx>=0)steps[idx].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});
+  });
+  next.addEventListener("click",function(){
+    var steps=visibleSteps(),idx=currentStepIndex()+1;
+    if(idx<=steps.length-1)steps[idx].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});
+  });
+  row.addEventListener("scroll",function(){clearTimeout(row._navT);row._navT=setTimeout(updateRowNav,80);},{passive:true});
+  window.addEventListener("resize",updateRowNav);
+  setTimeout(updateRowNav,300);
+})();
+
+/* ── Subtitle follows progress ── */
+var SUB0=document.getElementById("sub").textContent,submitted=false;
+function updateSub(){
+  var sub=document.getElementById("sub"),n=0;
+  STEPS.forEach(function(s,i){if(chosen(i))n++;});
+  var t;
+  if(submitted&&n===STEPS.length)t="Thank you! Your learning path request has been sent. Our team will get back to you soon.";
+  else if(n===STEPS.length)t="Your learning path is ready. Send it to our team and we’ll get back to you.";
+  else if(n>0)t=n+" of "+STEPS.length+" answered. Keep going to build your path.";
+  else t=SUB0;
+  if(sub.textContent!==t)sub.textContent=t;
+}
+
+/* ── Chosen answers above the cards ── */
+function renderPicks(){
+  var box=document.getElementById("picks");if(!box)return;box.textContent="";
+  STEPS.forEach(function(s,i){
+    var v=chosen(i);if(!v)return;
+    var b=el("button","pick");b.type="button";b.title="Change "+s.key;
+    var tick=el("span","pick-tick");
+    var tickSvg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+    tickSvg.setAttribute("viewBox","0 0 24 24");tickSvg.innerHTML='<polyline points="4 13 9 18 20 7"/>';
+    tick.appendChild(tickSvg);b.appendChild(tick);
+    var k=el("b",null,s.key+":");b.appendChild(k);b.appendChild(document.createTextNode(" "+v));
+    b.addEventListener("click",function(){var t=document.getElementById("stp"+i);if(t)t.click();});
+    box.appendChild(b);
+  });
+}
+
+/* ── Render summary ── */
+function renderSummary(){
+  var dl=document.getElementById("sum");if(!dl)return;dl.textContent="";
+  var n=0;STEPS.forEach(function(s,i){if(chosen(i))n++;});
+  dl.appendChild(el("dt",null,"Your answers"));dl.appendChild(el("dd",n?"":"empty",n+" of 7 done"));
+}
+
+/* ── Main render ── */
+function render(){
+  var cur=-1;
+  STEPS.forEach(function(s,i){
+    var has=!!chosen(i);
+    document.getElementById("card"+i).classList.toggle("done",has);
+    /* stepper tick/num swap */
+    var b=document.getElementById("stp"+i);b.classList.toggle("done",has);
+    /* tick/num swap now handled by CSS via .stp.done class */
+    var ln=document.getElementById("stpl"+i);if(ln)ln.style.background=has?"var(--ok)":"";
+    if(!has&&cur<0)cur=i;
+  });
+  if(cur<0)cur=STEPS.length;
+  NAMES.forEach(function(n,i){
+    var b=document.getElementById("stp"+i);
+    b.classList.toggle("now",i===cur);
+    if(i===cur)b.setAttribute("aria-current","step");else b.removeAttribute("aria-current");
+  });
+  renderSummary();
+  renderPicks();
+  updateSub();
+  var allDone=true;STEPS.forEach(function(s,i){if(!chosen(i))allDone=false;});
+  var fin=document.getElementById("step"+STEPS.length);if(fin&&!allDone)closeFinal();
+  unlockNext();
+  if(window.matchMedia("(max-width:900px)").matches===false)scheduleHide();
+}
+
+render();
+lockAll();
+updAll();
+</script>
+</body>
+</html>

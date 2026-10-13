@@ -14,6 +14,7 @@ import { WhatsIncludedCarousel } from "./components/whats-included-carousel";
 import { ReadMore } from "./components/read-more";
 import { CourseTestimonials } from "./components/course-testimonials";
 import { RelatedCourses } from "./components/related-courses";
+import { CertificationPath } from "./components/certification-path";
 import { BannerReadMore } from "./components/banner-read-more";
 import { ScrollToTop } from "./components/scroll-to-top";
 import { BreadcrumbTechDropdown } from "./components/breadcrumb-tech-dropdown";
@@ -64,10 +65,12 @@ const course = {
     "Implement backup and recovery solutions",
   ],
   prerequisites: [
-    "Understanding of on-premises virtualization technologies",
-    "Networking fundamentals (TCP/IP, DNS, VPNs)",
-    "Basic PowerShell or Azure CLI experience",
-    "Familiarity with Azure portal navigation",
+    "Experience working with data in Microsoft Excel, including pivot tables and formulas, as part of preparing for the Microsoft Power BI certification (PL-300T00).",
+    "Basic understanding of relational database concepts such as tables, keys, and relationships, essential for designing effective Power BI solutions.",
+    "Familiarity with data modeling principles including star schema and dimensional modeling, crucial for creating optimized Power BI reports.",
+    "Ability to write basic DAX (Data Analysis Expressions) for calculated columns and measures, a key skill for mastering the Microsoft Power BI certification (PL-300T00).",
+    "Understanding of Power BI Desktop interface and components (e.g., report view, data view, model view), vital for managing analytics solutions using Power BI.",
+    "Experience connecting to data sources using Power Query in Power BI or Excel, which enhances your ability to design and manage analytics solutions using Power BI.",
   ],
   syllabus: [
     {
@@ -150,22 +153,15 @@ const course = {
 const tabs = ["Overview", "Schedule", "Curriculum", "Instructor", "Reviews", "FAQs", "Related"];
 
 const skills = [
-  { name: "Azure AD", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> },
-  { name: "Virtual Machines", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg> },
-  { name: "Storage Accounts", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg> },
-  { name: "Virtual Networking", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="9" y="16" width="6" height="6" rx="1"/><path d="M5 8v4h14V8"/><path d="M12 12v4"/></svg> },
-  { name: "Azure Monitor", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> },
-  { name: "Azure Backup", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> },
-  { name: "RBAC", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> },
-  { name: "ARM Templates", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> },
-  { name: "Network Security Groups", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg> },
-  { name: "Load Balancer", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="3" x2="12" y2="8"/><path d="M3 12h18"/><path d="M6 8l-3 4 3 4"/><path d="M18 8l3 4-3 4"/><line x1="7" y1="16" x2="7" y2="21"/><line x1="17" y1="16" x2="17" y2="21"/></svg> },
-  { name: "Azure DNS", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> },
-  { name: "Azure Policy", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> },
-  { name: "Resource Locks", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg> },
-  { name: "Azure Files", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg> },
-  { name: "Site Recovery", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.92"/></svg> },
-  { name: "Log Analytics", icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> },
+  "Power BI Data Modeling", "Power BI DAX", "Power BI Data Transformation", "Power BI Data Analysis", "Power BI Visualizations",
+  "Power BI Report Design", "Power BI Dashboards", "Power BI Workspaces", "Power BI Security", "Power BI Row-Level Security",
+  "Power BI Data Sources", "Power BI DirectQuery", "Power BI Import Mode", "Power BI Gateway", "Power BI Sensitivity Labels",
+  "Power BI Performance Optimization", "Power BI Copilot",
+];
+
+const curriculumTopics = [
+  "PL-300", "Power BI Desktop", "Power BI DAX", "Power BI Reports", "Power BI Semantic Model",
+  "Power BI Data Modeling", "Power BI Dashboard", "Power BI Visual Calculations", "Power BI Row Level Security", "Copilot for Power BI",
 ];
 
 const labs = [
@@ -202,10 +198,10 @@ const relatedCourses = [
 ];
 
 const certPath = [
-  { tier: "Fundamentals", certs: [{ code: "AZ-900", name: "Azure Fundamentals", current: false, note: "New to Azure? Start here first" }] },
-  { tier: "Associate", certs: [{ code: "AZ-104", name: "Azure Administrator", current: true }, { code: "AZ-204", name: "Azure Developer", current: false }] },
-  { tier: "Expert", certs: [{ code: "AZ-305", name: "Azure Solutions Architect", current: false }, { code: "AZ-400", name: "Azure DevOps Engineer", current: false }] },
-  { tier: "Specialty", certs: [{ code: "AZ-500", name: "Azure Security Engineer", current: false }] },
+  { tier: "Fundamentals", certs: [{ code: "AZ-900", name: "Azure Fundamentals", current: false, note: "New to Azure? Start here first", duration: "8 Hours (1 Day)", vendor: "Microsoft" }] },
+  { tier: "Associate", certs: [{ code: "AZ-104", name: "Azure Administrator", current: true, duration: course.duration, vendor: "Microsoft" }, { code: "AZ-204", name: "Azure Developer", current: false, duration: "40 Hours (5 Days)", vendor: "Microsoft" }] },
+  { tier: "Expert", certs: [{ code: "AZ-305", name: "Azure Solutions Architect", current: false, duration: "32 Hours (4 Days)", vendor: "Microsoft" }, { code: "AZ-400", name: "Azure DevOps Engineer", current: false, duration: "32 Hours (4 Days)", vendor: "Microsoft" }] },
+  { tier: "Specialty", certs: [{ code: "AZ-500", name: "Azure Security Engineer", current: false, duration: "32 Hours (4 Days)", vendor: "Microsoft" }] },
 ];
 
 const included = [
@@ -479,15 +475,37 @@ export default function CoursePageDesign() {
               Skills You&apos;ll Gain
             </h3>
             <div className="flex flex-wrap gap-2">
-              {skills.map(({ name, icon }) => (
+              {skills.map((name) => (
                 <span
                   key={name}
                   className="inline-flex items-center gap-1.5 rounded-full border border-koenig-blue/20 bg-koenig-blue/5 px-3 py-1.5 text-xs font-medium text-koenig-accent"
                 >
-                  {icon}
                   {name}
                 </span>
               ))}
+            </div>
+
+            {/* Topics Covered in This Course */}
+            <h3 className="mb-1 mt-8 text-lg font-bold text-koenig-dark">
+              Topics <span className="bg-gradient-to-r from-koenig-blue to-cyan-400 bg-clip-text text-transparent">Covered</span> in This Course
+            </h3>
+            <p className="mb-4 text-sm text-koenig-muted">
+              Extracted directly from the full course curriculum &mdash; every topic below is actually taught, module by module.
+            </p>
+            <div className="rounded-2xl border border-koenig-border bg-white p-5 shadow-sm">
+              <div className="flex flex-wrap gap-2">
+                {curriculumTopics.map((topic, idx) => (
+                  <span
+                    key={topic}
+                    className="inline-flex items-center gap-2 rounded-full border border-koenig-border bg-koenig-light px-3.5 py-1.5 text-xs font-medium text-koenig-dark"
+                  >
+                    <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#0E7C99]/15 text-[10px] font-bold text-[#0E7C99]">
+                      {idx + 1}
+                    </span>
+                    {topic}
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Prerequisites */}
@@ -787,74 +805,7 @@ export default function CoursePageDesign() {
             <p className="text-sm text-koenig-muted">Continue your Azure journey after AZ-104</p>
           </div>
 
-          {/* Connector line behind columns */}
-          <div className="relative">
-            <div className="pointer-events-none absolute left-[12.5%] right-[12.5%] top-[22px] hidden h-px bg-gradient-to-r from-cyan-200 via-koenig-blue/50 to-koenig-blue/30 md:block" />
-
-            <div className="grid items-start gap-4 md:grid-cols-4">
-              {certPath.map((tier, tierIdx) => {
-                const tierStyles = [
-                  { bubble: "from-sky-400 to-cyan-400",        shadow: "shadow-sky-400/25",     pill: "bg-sky-50 text-sky-700 border-sky-200",                 cardBorder: "border-sky-100",        cardHover: "hover:border-sky-300/60 hover:shadow-sky-400/8",
-                    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> },
-                  { bubble: "from-koenig-blue to-cyan-500",    shadow: "shadow-koenig-blue/25", pill: "bg-koenig-blue/8 text-koenig-blue border-koenig-blue/20", cardBorder: "border-koenig-blue/20", cardHover: "hover:border-koenig-blue/40 hover:shadow-koenig-blue/10",
-                    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> },
-                  { bubble: "from-cyan-600 to-blue-500",       shadow: "shadow-cyan-600/25",    pill: "bg-cyan-50 text-cyan-700 border-cyan-200",               cardBorder: "border-cyan-100",       cardHover: "hover:border-cyan-300/60 hover:shadow-cyan-500/8",
-                    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> },
-                  { bubble: "from-teal-500 to-cyan-400",       shadow: "shadow-teal-500/25",    pill: "bg-teal-50 text-teal-700 border-teal-200",               cardBorder: "border-teal-100",       cardHover: "hover:border-teal-300/60 hover:shadow-teal-500/8",
-                    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg> },
-                ][tierIdx];
-
-                return (
-                  <div key={tier.tier} className="flex flex-col gap-3">
-                    {/* Tier header with icon bubble */}
-                    <div className="flex flex-col items-center gap-2">
-                      <div className={`relative z-10 flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br ${tierStyles.bubble} shadow-md ${tierStyles.shadow} ring-4 ring-white`}>
-                        {tierStyles.icon}
-                      </div>
-                      <span className={`rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-widest ${tierStyles.pill}`}>
-                        {tier.tier}
-                      </span>
-                    </div>
-
-                    {/* Cert cards */}
-                    <div className="flex flex-col gap-2.5">
-                      {tier.certs.map((cert) => (
-                        <div
-                          key={cert.code}
-                          className={`group relative overflow-hidden rounded-2xl border bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md ${
-                            cert.current
-                              ? "border-koenig-blue/40 shadow-[0_4px_20px_rgba(6,148,209,0.15)] ring-2 ring-koenig-blue/15"
-                              : `${tierStyles.cardBorder} ${tierStyles.cardHover}`
-                          }`}
-                        >
-                          {/* Top accent */}
-                          <div className={`absolute inset-x-0 top-0 h-[3px] rounded-t-2xl bg-gradient-to-r ${tierStyles.bubble} ${cert.current ? "opacity-100" : "opacity-40 group-hover:opacity-70"} transition-opacity`} />
-
-                          <div className={`text-sm font-black ${cert.current ? "bg-gradient-to-r from-koenig-blue to-cyan-500 bg-clip-text text-transparent" : "text-koenig-dark"}`}>
-                            {cert.code}
-                          </div>
-                          <div className="mt-0.5 text-[11px] text-koenig-muted">{cert.name}</div>
-
-                          {cert.current && (
-                            <span className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-koenig-blue to-cyan-500 px-3 py-1 text-[10px] font-bold text-white shadow-sm shadow-koenig-blue/30">
-                              <svg width="6" height="6" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
-                              Current Course
-                            </span>
-                          )}
-                          {"note" in cert && cert.note && (
-                            <p className="mt-2 text-[10px] leading-snug text-sky-600 font-medium">
-                              {cert.note}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
+          <CertificationPath certPath={certPath} />
         </div>
       </section>
 

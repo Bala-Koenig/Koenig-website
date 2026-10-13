@@ -171,6 +171,7 @@ function CheckoutContent() {
   const [country, setCountry] = useState("India");
   const [message, setMessage] = useState("");
   const [promoCode, setPromoCode] = useState("");
+  const [clcRedeem, setClcRedeem] = useState("");
   const [partialPay, setPartialPay] = useState(false);
   const [showParticipant, setShowParticipant] = useState(false);
   const [participantName, setParticipantName] = useState("");
@@ -256,11 +257,15 @@ function CheckoutContent() {
                     </div>
                   </div>
 
-                  {/* Promo Code */}
-                  <div className="mb-3.5 sm:w-1/2 sm:pr-1.5">
+                  {/* Promo Code / CLCs to Redeem */}
+                  <div className="mb-3.5 grid gap-3 sm:grid-cols-2">
                     <div className="relative">
                       <input id="promoCode" type="text" placeholder=" " value={promoCode} onChange={(e) => setPromoCode(e.target.value)} className={floatInputCls} />
                       <label htmlFor="promoCode" className={floatLabelCls}>Promo Code <span className="font-normal text-koenig-muted/60">(optional)</span></label>
+                    </div>
+                    <div className="relative">
+                      <input id="clcRedeem" type="number" min="0" placeholder=" " value={clcRedeem} onChange={(e) => setClcRedeem(e.target.value)} className={floatInputCls} />
+                      <label htmlFor="clcRedeem" className={floatLabelCls}>Number of CLCs to redeem <span className="font-normal text-koenig-muted/60">(optional)</span></label>
                     </div>
                   </div>
 

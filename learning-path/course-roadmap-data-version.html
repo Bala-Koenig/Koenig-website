@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Mind Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#F5F1E8;color:#1C2B33;min-height:100vh;padding:28px 24px}
+h1{font-family:'Fraunces',Georgia,serif;font-size:36px;font-weight:600;margin-bottom:16px}
+
+/* SEARCH */
+.search-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.search-row input{flex:1;min-width:280px;height:52px;padding:0 24px;border:2px solid #0694D1;border-radius:26px;background:#fff;font-size:16px;font-family:inherit;outline:none;transition:border-color .2s;color:#1C2B33}
+.search-row input:focus{border-color:#076D9D;box-shadow:0 0 0 3px rgba(6,148,209,.15)}
+.search-row input::placeholder{color:#8899AA}
+.search-box{position:relative;flex:1;min-width:280px;max-width:900px;display:flex;align-items:center}
+.search-box input{width:100%;min-width:0;padding-right:96px}
+.q-btn{position:absolute;top:50%;transform:translateY(-50%);border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.q-go{right:6px;width:40px;height:40px;border-radius:50%;background:#0694D1;color:#fff}
+.q-go:hover{background:#076D9D}
+.q-clear{right:52px;width:30px;height:30px;border-radius:50%;background:#EEF2F4;color:#55626A;font-size:20px;line-height:1;display:none}
+.q-clear:hover{background:#dde4e8}
+.search-box.has-text .q-clear{display:flex}
+
+/* FILTERS */
+.filters-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:32px;align-items:flex-end}
+.filter-section{display:flex;flex-direction:column;gap:6px}
+.filter-label{font-size:11px;letter-spacing:.1em;font-weight:700;color:#093148}
+.filter-select{height:46px;padding:0 40px 0 16px;border:2px solid #0694D1;border-radius:24px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230694D1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center;background-size:16px;-webkit-appearance:none;appearance:none;font-size:14px;font-weight:600;font-family:inherit;color:#0694D1;cursor:pointer;outline:none;min-width:180px;transition:background-color .15s}
+.filter-select:focus{border-color:#076D9D;box-shadow:0 0 0 3px rgba(6,148,209,.15)}
+.filter-select.active{background-color:#0694D1;color:#fff;border-color:#0694D1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")}
+
+/* MAP */
+
+/* SECTION LABELS */
+.section-label{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:20px;font-size:13px;font-weight:700;color:#fff;width:148px;height:36px;z-index:2}
+
+/* CARDS */
+.course-card{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:16px;border:2.5px solid;padding:18px 16px;transition:opacity .25s,box-shadow .25s,transform .2s;cursor:default;gap:8px;overflow:visible}
+.cname{font-size:13px;font-weight:700;line-height:1.3;max-width:190px}
+.clevel{font-size:11px;color:#55626A}
+.oem-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:10px;border:1.5px solid;font-size:11px;font-weight:700;cursor:pointer;background:#fff;transition:transform .12s,opacity .12s;white-space:nowrap}
+.oem-badge:hover{transform:scale(1.08);opacity:.85}
+
+/* overlay badges */
+.badge-popular{position:absolute;top:-12px;left:10px;background:#D9622B;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;white-space:nowrap;z-index:5;pointer-events:none}
+.badge-this{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#0694D1;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;white-space:nowrap;z-index:5;pointer-events:none}
+.badge-new{position:absolute;top:-12px;right:10px;background:#0d5c46;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;z-index:5;pointer-events:none}
+
+/* card colours */
+.card-before{background:#E4F7FF;border-color:#0694D1}
+.card-after{background:#D9EFE6;border-color:#1E7F6B}
+.card-selected{background:#1C2B33;border-color:#1C2B33;color:#fff}
+.card-selected .clevel{color:#9EB3BE}
+.card-bb{background:#E4F7FF;border-color:#0694D1;border-style:dashed;opacity:.85}
+.card-aa{background:#D9EFE6;border-color:#1E7F6B;border-style:dashed;opacity:.85}
+
+/* hover states */
+.dimmed{opacity:.2}
+.card-before.card-hovered,.card-bb.card-hovered{box-shadow:0 0 0 4px #0694D1;transform:scale(1.04)}
+.card-after.card-hovered,.card-aa.card-hovered{box-shadow:0 0 0 4px #1E7F6B;transform:scale(1.04)}
+.card-selected.card-hovered{box-shadow:0 0 0 4px #9EB3BE;transform:scale(1.04)}
+.card-before.card-next,.card-bb.card-next{box-shadow:0 0 0 5px #0694D1;transform:scale(1.04)}
+.card-after.card-next,.card-aa.card-next{box-shadow:0 0 0 5px #1E7F6B;transform:scale(1.04)}
+
+/* travel dot */
+
+
+.other-item .dot{width:8px;height:8px;border-radius:50%;background:#0694D1;flex-shrink:0}
+
+/* DECK CARDS - other intermediate courses stacked behind selected */
+.deck-card{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:16px;border:2px solid #0694D1;background:#E4F7FF;padding:12px 16px;gap:6px;cursor:pointer;transition:transform .2s,box-shadow .2s,opacity .2s;z-index:1}
+.deck-card:hover{transform:translateY(-4px);box-shadow:0 0 0 4px #9EB3BE}
+.deck-card .cname{font-size:12px;font-weight:700;line-height:1.3;max-width:200px;color:#fff}
+.deck-card{background:#1C2B33;border-color:#1C2B33;color:#fff;opacity:1;z-index:1;justify-content:flex-start;gap:4px;padding:12px 14px}
+.deck-card .cname{flex:1;display:flex;align-items:center;justify-content:center;max-width:none}
+.deck-card .clevel{font-size:10px;color:#9EB3BE}
+.deck-card-label{position:absolute;font-size:10px;font-weight:700;color:#0694D1;letter-spacing:.06em}
+
+
+/* MAP: one column per tier, built from the learning path data */
+.map-wrap{overflow-x:auto;padding:8px 0 16px}
+.map{position:relative;display:flex;justify-content:center;align-items:flex-start;gap:80px;width:max-content;min-width:100%;margin:0 auto;padding:0 8px}
+.tier{position:relative;display:flex;flex-direction:column;align-items:center;gap:16px;width:240px}
+svg.wires{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+.tier .section-label{position:static;width:auto;min-width:170px;padding:0 20px}
+.tier-Beginner .section-label{background:#0694D1}
+.tier-Intermediate .section-label{background:#1C2B33}
+.tier-Advanced .section-label{background:#1E7F6B}
+.tier .course-card{position:relative;width:240px;min-height:112px;cursor:pointer}
+.card-selected{padding:18px 16px}
+
+/* hint bar */
+.hint-bar{margin-top:18px;background:#fff;border:1.5px solid #D6D0C2;border-radius:24px;padding:14px 28px;font-size:15px;color:#1C2B33;text-align:center;min-height:52px;display:flex;align-items:center;justify-content:center}
+.hint-bar.active{background:#E4F7FF;border-color:#0694D1;color:#0694D1;font-weight:600}
+
+/* LAYOUT OVERRIDES: white bg, square controls, everything centered */
+body{background:#fff}
+h1{text-align:center}
+.search-row{justify-content:center}
+.search-row input{max-width:900px;border-radius:8px}
+.filters-row{justify-content:center;align-items:flex-end;margin-bottom:40px}
+.filter-section{align-items:center}
+.filter-select{height:52px;border-radius:8px;font-size:16px;font-weight:400}
+.filter-select.active{font-weight:600}
+
+/* GT WALSHEIM PRO everywhere */
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Regular.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Regular.woff') format('woff');font-weight:400;font-display:swap}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Medium.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Medium.woff') format('woff');font-weight:500;font-display:swap}
+@font-face{font-family:'GT Walsheim Pro';src:url('/fonts/GTWalsheimPro-Bold.woff2') format('woff2'),url('/fonts/GTWalsheimPro-Bold.woff') format('woff');font-weight:700;font-display:swap}
+*,input,select,button,textarea{font-family:'GT Walsheim Pro',system-ui,sans-serif !important}
+
+.card-inter,.deck-card{background:#E8EDF1;border-color:#1C2B33;color:#1C2B33;justify-content:flex-start;gap:4px;padding:12px 14px;border-radius:16px}
+.card-inter .cname,.deck-card .cname{flex:1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;line-height:1.3;max-width:none;color:#1C2B33}
+.card-inter .clevel,.deck-card .clevel{font-size:10px;color:#55626A}
+.card-inter.card-hovered,.card-inter.card-next{box-shadow:0 0 0 4px #1C2B33;transform:scale(1.04)}
+.deck-card{cursor:default}
+.deck-card.card-hovered,.deck-card.card-next{box-shadow:0 0 0 4px #1C2B33;transform:scale(1.04)}
+
+/* RESPONSIVE: phones/tablets stack the journey vertically */
+@media (max-width:900px){
+  .map-wrap{overflow:visible}
+  .map{flex-direction:column;align-items:center;width:100%;gap:24px;padding:0}
+  .tier{width:100%;align-items:center}
+  svg.wires{display:none}
+  .tier .course-card{width:100%;max-width:360px}
+  body{padding:20px 16px}
+  h1{font-size:28px}
+  .search-row input{min-width:0;width:100%;height:48px;font-size:15px}
+  .filters-row{flex-direction:column;align-items:stretch;gap:12px;margin-bottom:24px}
+  .filter-section{width:100%;align-items:stretch}
+  .filter-label{text-align:center}
+  .filter-select{width:100%;min-width:0;height:48px;font-size:15px}
+  .badge-popular,.badge-new,.badge-this{position:absolute !important}
+  .hint-bar{font-size:14px;padding:12px 16px;border-radius:12px}
+}
+
+/* long course names: stay inside the card */
+.card-before,.card-after,.card-bb,.card-aa{padding:12px 12px;gap:5px}
+.card-before .cname,.card-after .cname,.card-bb .cname{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;line-height:1.3;max-width:100%}
+.card-aa .cname{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;line-height:1.3;max-width:100%}
+.card-inter .cname,.deck-card .cname{min-height:0;overflow:hidden}
+/* dropdown lists stay light */
+.filter-select option{background:#fff;color:#1C2B33;font-weight:400}
+.filter-select option:checked{background:#E4F7FF;color:#076D9D}
+/* mild This course pill */
+.badge-this{background:#E4F7FF !important;color:#076D9D !important;border:1px solid #0694D1}
+
+.card-inter,.deck-card{justify-content:center}
+.card-inter .cname,.deck-card .cname{flex:none;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-align:center;line-height:1.3}
+
+.hint-bar{display:none !important}
+</style>
+</head>
+<body>
+
+<h1>Course Mind Map</h1>
+
+<div class="search-row">
+  <div class="search-box">
+    <input id="q" type="text" placeholder="What do you want to learn or accomplish?" oninput="onSearch()" onkeydown="if(event.key==='Enter'){runSearchNow()}else if(event.key==='Escape'){clearSearch()}" autocomplete="off">
+    <button type="button" id="q-clear" class="q-btn q-clear" aria-label="Clear search" title="Clear" onclick="clearSearch()">&times;</button>
+    <button type="button" class="q-btn q-go" aria-label="Search" title="Search" onclick="runSearchNow()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="filters-row">
+  <div class="filter-section">
+    <div class="filter-label">LEVEL</div>
+    <select class="filter-select" id="level-select" onchange="selectFilter('level',this)">
+      <option value="">All Levels</option>
+      <option value="Beginner">Beginner</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Advanced">Advanced</option>
+    </select>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">SELECT OEM</div>
+    <select class="filter-select" id="oem-select" onchange="selectFilter('oem',this)">
+      <option value="">All OEMs</option>
+    </select>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">SELECT TECHNOLOGY</div>
+    <select class="filter-select" id="tech-select" onchange="selectFilter('tech',this)">
+      <option value="">All Technologies</option>
+    </select>
+  </div>
+</div>
+
+<div id="empty-msg" style="display:none;text-align:center;padding:60px 20px;font-size:17px;font-weight:600;color:#093148">No courses match. Clear a filter or try different words.</div>
+
+<div class="map-wrap">
+  <div class="map" id="map"></div>
+</div>
+
+<div class="hint-bar" id="hint">Loading courses...</div>
+
+<script src="learning-path-data.js"></script>
+<script>
+const LP = window.LearningPathData;
+const COURSES = LP.courses();
+const HAY = COURSES.map(c => (c.name + ' ' + c.vendor + ' ' + (c.technologies || []).join(' ')).toLowerCase());
+const OEM_COLOURS = {"Microsoft": "#00A4EF", "Salesforce": "#00A1E0", "SAP": "#0073E6", "Cisco": "#1BA0D7", "Oracle": "#C74634", "AWS": "#FF9900", "Google": "#4285F4", "PMI": "#C74500", "Red Hat": "#EE0000", "VMware": "#607078", "IBM": "#054ADA", "Fortinet": "#EE3124", "Cloudera": "#F96702", "CompTIA": "#C8202F", "Palo Alto": "#FA582D", "Check Point": "#CC0000", "IASSC": "#005A8E"};
+const TIERS = ['Beginner', 'Intermediate', 'Advanced'];
+const TIER_CLASS = {Beginner: 'card-before', Intermediate: 'card-inter', Advanced: 'card-after'};
+const state = { level: null, oem: null, tech: null };
+const EMPTY_TEXT = 'No courses match. Clear a filter or try different words.';
+let searchTimer = null, drawToken = 0;
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const sortedUnique = arr => [...new Set(arr)].filter(Boolean).sort((a, b) => a.localeCompare(b));
+
+function setSelect(id, value) {
+  const sel = document.getElementById(id);
+  sel.value = value || '';
+  sel.classList.toggle('active', !!value);
+}
+function fillOEMOptions() {
+  document.getElementById('oem-select').innerHTML = '<option value="">All OEMs</option>' +
+    sortedUnique(COURSES.map(c => c.vendor)).map(v => '<option value="' + esc(v) + '">' + esc(v) + '</option>').join('');
+}
+function fillTechOptions(oem) {
+  const techs = sortedUnique(COURSES.filter(c => !oem || c.vendor === oem).flatMap(c => c.technologies || []));
+  document.getElementById('tech-select').innerHTML = '<option value="">All Technologies</option>' +
+    techs.map(t => '<option value="' + esc(t) + '">' + esc(t) + '</option>').join('');
+}
+
+function showEmpty(message) {
+  document.getElementById('map').innerHTML = '';
+  document.querySelector('.map-wrap').style.display = 'none';
+  const m = document.getElementById('empty-msg');
+  m.textContent = message; m.style.display = '';
+}
+function showMap() {
+  document.getElementById('empty-msg').style.display = 'none';
+  document.querySelector('.map-wrap').style.display = '';
+}
+
+function renderPath(path) {
+  const byTier = {};
+  path.forEach(t => { if (t && t.certs && t.certs.length) byTier[t.tier] = t.certs; });
+  const cols = TIERS.filter(t => byTier[t]).map(tier => {
+    const cards = byTier[tier].map(cert => {
+      const info = LP.course(cert.code);
+      const vendor = info && info.vendor;
+      const colour = OEM_COLOURS[vendor] || '#1C2B33';
+      const cls = cert.current ? 'card-selected' : TIER_CLASS[tier];
+      const badge = vendor ? '<span class="oem-badge" data-oem="' + esc(vendor) + '" style="color:' + colour + ';border-color:' + colour + '">' + esc(vendor) + '</span>' : '';
+      return '<div class="course-card ' + cls + '" data-code="' + esc(cert.code) + '" title="Prerequisites: ' + esc(cert.prerequisites || 'None') + '">' +
+        (cert.current ? '<span class="badge-this">This course</span>' : '') +
+        '<span class="cname">' + esc(cert.name) + '</span><span class="clevel">' + tier + '</span>' + badge + '</div>';
+    }).join('');
+    return '<div class="tier tier-' + tier + '" data-tier="' + TIERS.indexOf(tier) + '"><div class="section-label">' + tier + ' course</div>' + cards + '</div>';
+  }).join('');
+  return WIRES_SVG + cols;
+}
+
+// ---- Curved connectors between neighbouring columns ----
+const WIRES_SVG = '<svg class="wires" id="wg"><defs>' +
+  '<marker id="ah-blue" orient="auto" markerWidth="6" markerHeight="6" refX="5" refY="3"><path d="M0 0L6 3L0 6Z" fill="#0694D1"/></marker>' +
+  '<marker id="ah-green" orient="auto" markerWidth="6" markerHeight="6" refX="5" refY="3"><path d="M0 0L6 3L0 6Z" fill="#1E7F6B"/></marker>' +
+  '</defs><g id="wg-lines"></g></svg>';
+function drawWires() {
+  const map = document.getElementById('map'), svg = document.getElementById('wg'), g = document.getElementById('wg-lines');
+  if (!map || !svg || !g) return;
+  g.innerHTML = '';
+  const mr = map.getBoundingClientRect();
+  svg.setAttribute('width', map.scrollWidth); svg.setAttribute('height', map.scrollHeight);
+  const add = (d, arrow, tier) => {
+    const colour = tier === 2 ? 'green' : 'blue';
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d); path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', colour === 'green' ? '#1E7F6B' : '#0694D1');
+    path.setAttribute('stroke-width', '2'); path.setAttribute('stroke-linecap', 'round');
+    if (arrow) path.setAttribute('marker-end', 'url(#ah-' + colour + ')');
+    g.appendChild(path);
+  };
+  const groups = [0, 1, 2].map(t => ({t, a: [...map.querySelectorAll('.tier[data-tier="' + t + '"] .course-card')].map(el => {
+    const r = el.getBoundingClientRect();
+    return {l: r.left - mr.left, r: r.right - mr.left, y: r.top - mr.top + r.height / 2};
+  })})).filter(o => o.a.length);
+  for (let i = 0; i < groups.length - 1; i++) {
+    const L = groups[i].a, R = groups[i + 1].a, tt = groups[i + 1].t;
+    const xr = Math.max(...L.map(o => o.r)), xl = Math.min(...R.map(o => o.l));
+    const jx = (xr + xl) / 2, jy = [...L, ...R].reduce((sum, o) => sum + o.y, 0) / (L.length + R.length);
+    L.forEach(o => { const m = (o.r + jx) / 2; add('M' + o.r + ',' + o.y + ' C' + m + ',' + o.y + ' ' + m + ',' + jy + ' ' + jx + ',' + jy, false, tt); });
+    R.forEach(o => { const m = (jx + o.l) / 2; add('M' + jx + ',' + jy + ' C' + m + ',' + jy + ' ' + m + ',' + o.y + ' ' + (o.l - 1) + ',' + o.y, true, tt); });
+  }
+}
+window.addEventListener('resize', drawWires);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWires);
+
+// Draw the learning path of one course. Always clears the old map first.
+async function drawCourse(course, note) {
+  const token = ++drawToken;
+  document.getElementById('map').innerHTML = '';
+  const path = await LP.get(course.id);
+  if (token !== drawToken) return;
+  if (!path) { showEmpty('"' + course.name + '" is a standalone course - it has no learning path.'); return; }
+  showMap();
+  document.getElementById('map').innerHTML = renderPath(path);
+  drawWires();
+  document.getElementById('hint').textContent = (note ? note + ' ' : '') + 'Showing the learning path for "' + course.name + '".';
+}
+
+function matches(i, words) {
+  const c = COURSES[i];
+  if (state.level && c.level !== state.level) return false;
+  if (state.oem && c.vendor !== state.oem) return false;
+  if (state.tech && !(c.technologies || []).includes(state.tech)) return false;
+  return words.every(w => HAY[i].includes(w));
+}
+// One entry point: filter the list, then ALWAYS redraw the map with the first matching course that has a path.
+function refresh() {
+  const words = document.getElementById('q').value.toLowerCase().split(/\s+/).filter(Boolean);
+  const list = [];
+  for (let i = 0; i < COURSES.length; i++) if (matches(i, words)) list.push(COURSES[i]);
+  const hint = document.getElementById('hint');
+  drawToken++;
+  if (!list.length) { showEmpty(EMPTY_TEXT); hint.textContent = 'No courses match.'; return; }
+  const first = list.find(c => c.hasPath);
+  if (!first) { showEmpty('None of the ' + list.length + ' matching courses has a learning path. Clear a filter or try different words.'); hint.textContent = list.length + ' courses match.'; return; }
+  drawCourse(first, list.length + ' course' + (list.length > 1 ? 's' : '') + ' match.');
+}
+
+function selectFilter(type, sel) {
+  state[type] = sel.value || null;
+  sel.classList.toggle('active', !!sel.value);
+  if (type === 'oem') { state.tech = null; fillTechOptions(state.oem); setSelect('tech-select', ''); }
+  refresh();
+}
+function filterByOEM(name) {
+  state.oem = state.oem === name ? null : name;
+  setSelect('oem-select', state.oem);
+  state.tech = null; fillTechOptions(state.oem); setSelect('tech-select', '');
+  refresh();
+}
+document.getElementById('map').addEventListener('click', e => {
+  const badge = e.target.closest('.oem-badge');
+  if (badge) { filterByOEM(badge.dataset.oem); return; }
+  const el = e.target.closest('.course-card');
+  const course = el && LP.course(el.dataset.code);
+  if (course && course.hasPath) drawCourse(course);
+});
+
+function syncClear() { document.querySelector('.search-box').classList.toggle('has-text', !!document.getElementById('q').value); }
+function runSearch() {
+  if (document.getElementById('q').value.trim()) {
+    state.level = state.oem = state.tech = null;
+    setSelect('level-select', ''); setSelect('oem-select', '');
+    fillTechOptions(null); setSelect('tech-select', '');
+  }
+  refresh();
+}
+function runSearchNow() { clearTimeout(searchTimer); runSearch(); }
+function clearSearch() { const q = document.getElementById('q'); q.value = ''; syncClear(); clearTimeout(searchTimer); refresh(); q.focus(); }
+function onSearch() { syncClear(); clearTimeout(searchTimer); searchTimer = setTimeout(runSearch, 350); }
+
+fillOEMOptions();
+fillTechOptions(null);
+(function init() {
+  const wanted = (new URLSearchParams(location.search).get('course') || '').trim().toLowerCase();
+  const hit = wanted && COURSES.find(c => String(c.id) === wanted || c.name.toLowerCase() === wanted);
+  if (hit && hit.hasPath) drawCourse(hit); else refresh();
+})();
+</script>
+</body>
+</html>
