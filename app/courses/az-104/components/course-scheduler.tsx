@@ -2063,6 +2063,9 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                         <path d="M5 12h14M13 6l6 6-6 6"/>
                       </svg>
                     </button>
+                    <button className="group mt-2 w-full rounded-lg border-2 border-koenig-blue bg-white py-[10px] text-sm font-bold text-koenig-blue transition-all hover:bg-koenig-blue/5 active:scale-95 flex items-center justify-center gap-2">
+                      <span>Enroll using CLCs</span>
+                    </button>
                     <p className="mt-2 text-center text-[10px] text-koenig-muted">Secure checkout. Multi-language support available for 1-on-1 sessions.</p>
                   </div>
                   {/* Detailed fee breakdown — opens the Fees Breakdown popup */}
@@ -2095,18 +2098,30 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                       View Fees Breakdown
                     </button>
                   </div>
-                  <button
-                    onClick={() => {
-                      if (!oneOnOneDate) { setOo1EnrollError("Please select a start date"); return; }
-                      if (!oneOnOneTimeChosen) { setOo1EnrollError("Please select a time slot"); return; }
-                      if (!oneOnOneTZChosen) { setOo1EnrollError("Please select a timezone"); return; }
-                      setOo1EnrollError("");
-                    }}
-                    style={{ width: '100%', maxWidth: 320, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
-                  >
-                    <span>Enroll for training</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                  </button>
+                  <div style={{ display: 'flex', gap: 8, width: '100%' }}>
+                    <button
+                      onClick={() => {
+                        if (!oneOnOneDate) { setOo1EnrollError("Please select a start date"); return; }
+                        if (!oneOnOneTimeChosen) { setOo1EnrollError("Please select a time slot"); return; }
+                        if (!oneOnOneTZChosen) { setOo1EnrollError("Please select a timezone"); return; }
+                        setOo1EnrollError("");
+                      }}
+                      style={{ flex: 1, minWidth: 0, borderRadius: 12, background: '#fff', padding: '10px 0', fontSize: 12.5, fontWeight: 700, color: '#0694D1', border: '2px solid #0694D1', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}
+                    >
+                      <span>Enroll using CLCs</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (!oneOnOneDate) { setOo1EnrollError("Please select a start date"); return; }
+                        if (!oneOnOneTimeChosen) { setOo1EnrollError("Please select a time slot"); return; }
+                        if (!oneOnOneTZChosen) { setOo1EnrollError("Please select a timezone"); return; }
+                        setOo1EnrollError("");
+                      }}
+                      style={{ flex: 1, minWidth: 0, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 12.5, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}
+                    >
+                      <span>Enroll for training</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
@@ -2779,10 +2794,17 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                         >View Fees Breakdown</button>
                       </div>
                     )}
-                    <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} style={{ width: '100%', maxWidth: 320, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: 14, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                      <span>{selFeeOnRequest ? "Request More Info" : "Enroll for training"}</span>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                    </button>
+                    <div style={{ display: 'flex', gap: 8, width: '100%' }}>
+                      {!selFeeOnRequest && (
+                        <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} style={{ flex: 1, minWidth: 0, borderRadius: 12, background: '#fff', padding: '10px 0', fontSize: 12.5, fontWeight: 700, color: '#0694D1', border: '2px solid #0694D1', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}>
+                          <span>Enroll using CLCs</span>
+                        </button>
+                      )}
+                      <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} style={{ flex: 1, minWidth: 0, borderRadius: 12, background: 'linear-gradient(to right,#0694D1,#22d3ee)', padding: '12px 0', fontSize: selFeeOnRequest ? 14 : 12.5, fontWeight: 700, color: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, whiteSpace: 'nowrap' }}>
+                        <span>{selFeeOnRequest ? "Request More Info" : "Enroll for training"}</span>
+                        {selFeeOnRequest && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>}
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -2897,6 +2919,11 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                         <path d="M5 12h14M13 6l6 6-6 6"/>
                       </svg>
                     </button>
+                    {!selFeeOnRequest && (
+                      <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} className="group mt-2 w-full rounded-lg border-2 border-koenig-blue bg-white py-[10px] text-sm font-bold text-koenig-blue transition-all hover:bg-koenig-blue/5 active:scale-95 flex items-center justify-center gap-2">
+                        <span>Enroll using CLCs</span>
+                      </button>
+                    )}
                     <p className="mt-2 text-center text-[10px] text-koenig-muted">{selFeeOnRequest ? "Our team will get back to you shortly" : "Secure checkout. Multi-language support available."}</p>
                   </div>
                   {!selFeeOnRequest && (
