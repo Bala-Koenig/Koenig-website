@@ -9,7 +9,6 @@ import { CourseResources } from "./components/course-resources";
 import { RequestInfoForm } from "./components/request-info-form";
 import { RequestInfoModal } from "./components/request-info-modal";
 import { DownloadSyllabusModal } from "./components/download-syllabus-modal";
-import { CorporateQuoteModal } from "./components/corporate-quote-modal";
 import { WhatsIncludedCarousel } from "./components/whats-included-carousel";
 import { ReadMore } from "./components/read-more";
 import { CourseTestimonials } from "./components/course-testimonials";
@@ -18,6 +17,7 @@ import { CertificationPath } from "./components/certification-path";
 import { BannerReadMore } from "./components/banner-read-more";
 import { ScrollToTop } from "./components/scroll-to-top";
 import { BreadcrumbTechDropdown } from "./components/breadcrumb-tech-dropdown";
+import { AudienceCards } from "./components/audience-cards";
 import Link from "next/link";
 import { UserCog, User, Users, Clock } from "lucide-react";
 
@@ -564,16 +564,6 @@ export default function CoursePageDesign() {
 
             </div>
 
-            {/* Enterprise nudge — separate card */}
-            <div className="rounded-xl border border-koenig-blue/20 bg-koenig-blue/5 px-4 py-4 text-center shadow-sm">
-              <p className="mb-2 text-sm text-koenig-muted">Training 5 or more employees?</p>
-              <CorporateQuoteModal>
-                <div className="inline-block rounded-lg border border-koenig-blue/30 bg-gradient-to-r from-koenig-blue/10 to-koenig-blue/5 px-5 py-2 transition hover:border-koenig-blue/50 hover:shadow-sm cursor-pointer">
-                  <span className="text-sm font-semibold text-koenig-blue">Request More Info →</span>
-                </div>
-              </CorporateQuoteModal>
-            </div>
-
           </div>
         </div>
       </section>
@@ -639,6 +629,11 @@ export default function CoursePageDesign() {
       {/* 8b. Request for More Information Form                        */}
       {/* ============================================================ */}
       <RequestInfoForm courseTitle={course.title} courseCode="AZ-104T00-A" />
+
+      {/* ============================================================ */}
+      {/* 8c. Individual vs Enterprise — benefit cards                 */}
+      {/* ============================================================ */}
+      <AudienceCards courseTitle={course.title} courseCode="AZ-104T00-A" />
 
       {/* ============================================================ */}
       {/* 9. Detailed Curriculum                                       */}

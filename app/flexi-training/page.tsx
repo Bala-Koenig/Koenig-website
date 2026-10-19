@@ -239,6 +239,22 @@ const COURSES = [
     techs: ['Project Management'],
     startImmediately: true,
   },
+  {
+    id: 28, vendor: 'SAP', code: 'SAP-S4HANA-FC',
+    name: 'SAP S/4HANA Functional Consultant',
+    duration: 40, accessDuration: '90 Days',
+    tags: ['EXPERT'], rating: 4.8, enrolled: '1,100+', price: 'INR 9999', certFee: 4999,
+    techs: ['SAP / ERP'],
+    startImmediately: false,
+  },
+  {
+    id: 29, vendor: 'SAP', code: 'SAP-FICO',
+    name: 'SAP FICO: Finance & Controlling',
+    duration: 40, accessDuration: '90 Days',
+    tags: ['ASSOCIATE'], rating: 4.7, enrolled: '890+', price: 'INR 9999', certFee: 4999,
+    techs: ['SAP / ERP'],
+    startImmediately: false,
+  },
 ]
 
 const TAG_STYLES: Record<string, { bg: string; color: string; dot?: boolean }> = {
@@ -391,15 +407,21 @@ const SIDEBAR_TECHNOLOGIES = [
   { name: 'Oracle Cloud',       label: 'Oracle Cloud',            count: COURSES.filter(c => (c.techs??[]).includes('Oracle Cloud')).length, bg: '#FFF3E0', color: '#e65100', initial: 'OC' },
   { name: 'Identity and Access Management (IAM)', label: 'IAM / Identity', count: COURSES.filter(c => (c.techs??[]).includes('Identity and Access Management (IAM)')).length, bg: '#E3F2FD', color: '#0078d4', initial: 'IA' },
   { name: 'Artificial Intelligence (AI)', label: 'AI / ML',       count: COURSES.filter(c => (c.techs??[]).includes('Artificial Intelligence (AI)')).length, bg: '#E0F2F1', color: '#0d9488', initial: 'AI' },
+  { name: 'SAP / ERP',          label: 'SAP / ERP',               count: COURSES.filter(c => (c.techs??[]).includes('SAP / ERP')).length, bg: '#E3F2FD', color: '#0078d4', initial: 'SAP' },
 ]
 
-const ALL_VENDORS = ['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'PECB', 'Oracle', 'Red Hat']
+const ALL_VENDORS = ['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'PECB', 'Oracle', 'Red Hat', 'SAP']
 
 const TECH_DESCS: Record<string, string> = {
   'Microsoft Azure': 'Browse all Guaranteed self-paced Microsoft Azure Flexi courses with official labs and course materials.',
   'Cyber Security': 'Flexible self-paced cybersecurity courses from CEH, CompTIA, ISO, and more — study at your own pace.',
   'AWS Cloud': 'Self-paced AWS Flexi courses with hands-on lab access and optional exam vouchers.',
   'Project Management': 'Flexible PMP, CAPM, and PRINCE2 training you can complete on your own schedule.',
+  'SAP / ERP': 'Self-paced SAP Flexi courses with official labs and materials — plus up to 4 certification exam attempts a year and live expert-led sessions through SAP Learning Hub.',
+}
+
+const VENDOR_DESCS: Record<string, string> = {
+  SAP: 'Self-paced SAP Flexi courses with official labs and materials — plus up to 4 certification exam attempts a year and live expert-led sessions through SAP Learning Hub.',
 }
 
 const SYL_COUNTRIES = [
@@ -1416,8 +1438,9 @@ export default function FlexiTrainingPage() {
   const bannerDesc = activeTechs.length === 1
     ? (TECH_DESCS[activeTechs[0]] ?? `Browse all self-paced ${activeTechData.label} Flexi Training courses — start immediately.`)
     : filterVendor
-    ? `Browse all self-paced ${filterVendor} Flexi Training courses with official labs and materials.`
+    ? (VENDOR_DESCS[filterVendor] ?? `Browse all self-paced ${filterVendor} Flexi Training courses with official labs and materials.`)
     : `Browse all self-paced Flexi Training courses with official labs, materials, and optional exam vouchers.`
+  const showSapHubLink = activeTechs.includes('SAP / ERP') || filterVendor === 'SAP'
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -1808,21 +1831,68 @@ export default function FlexiTrainingPage() {
 
                 {/* Tech header card */}
                 <div className="flex flex-col gap-3 mb-5 p-5 rounded-2xl bg-white" style={{ border: '1px solid #CAEFFF', boxShadow: '0 2px 8px rgba(6,148,209,0.07)' }}>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <div className="flex items-center gap-4">
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{getTechIcon(activeTechData.name || 'All')}</div>
-                      <div>
-                        <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
-                        <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
+                  {showSapHubLink ? (
+                    <>
+                      <div className="flex items-center gap-4">
+                        <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{getTechIcon(activeTechData.name || 'All')}</div>
+                        <div>
+                          <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
+                          <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
+                        </div>
                       </div>
+                      <style>{`
+                        @keyframes sapCardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+                        .sap-info-card { opacity: 0; animation: sapCardIn .45s ease forwards; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+                        .sap-info-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(6,148,209,0.22); background: #dcedfa !important; }
+                        .sap-info-card:hover .sap-info-icon { transform: scale(1.12) rotate(-6deg); }
+                        @media (prefers-reduced-motion: reduce) { .sap-info-card { animation: none; opacity: 1; } }
+                      `}</style>
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        {[
+                          { text: '4 certification exam attempts/year', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/> },
+                          { text: 'Learning content in 9 languages', icon: <><circle cx="12" cy="12" r="9" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 12h18M12 3a14 14 0 010 18 14 14 0 010-18z"/></> },
+                          { text: 'Live expert sessions + hands-on practice', icon: <><circle cx="12" cy="12" r="9" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 9l5 3-5 3V9z"/></> },
+                          { text: 'Covers the entire SAP product portfolio', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 3l9 4.5-9 4.5-9-4.5L12 3zm-9 9l9 4.5 9-4.5M3 16.5l9 4.5 9-4.5"/> },
+                        ].map(({ text, icon }, i) => (
+                          <div key={text} className="sap-info-card flex flex-col items-center gap-2 rounded-xl px-3 py-4 text-center" style={{ background: '#EBF8FE', border: '1px solid #CAEFFF', animationDelay: `${i * 0.08}s` }}>
+                            <span className="sap-info-icon flex h-12 w-12 items-center justify-center rounded-full transition-all duration-200" style={{ color: '#0694D1', background: 'linear-gradient(135deg, #ffffff, #d8eefb)', boxShadow: '0 4px 10px rgba(6,148,209,0.25)' }}>
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor">{icon}</svg>
+                            </span>
+                            <span className="sap-info-text text-xs font-semibold leading-snug transition-colors duration-200" style={{ color: '#0694D1' }}>{text}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <a href="/sap-learning-hub" className="w-full rounded-xl px-5 py-2.5 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                        style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                        Visit SAP Learning Hub →
+                      </a>
+                    </>
+                  ) : (
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      <div className="flex items-center gap-4">
+                        <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{getTechIcon(activeTechData.name || 'All')}</div>
+                        <div>
+                          <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
+                          <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
+                        </div>
+                      </div>
+                      <a href="#request" className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                        style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                        Request More Info →
+                      </a>
                     </div>
-                    <a href="#request" className="shrink-0 self-center rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
-                      style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
-                      Request More Info →
-                    </a>
-                  </div>
+                  )}
                 </div>
 
+                {/* Mobile: Vendor + All Technologies + Currency row — always visible so mobile users can switch filters */}
+                <div className="lg:hidden flex gap-2 mb-2 flex-wrap">
+                  <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS.filter(v => COURSES.some(c => c.vendor === v))]} value={filterVendor || 'All Vendors'} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth /></div>
+                  <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.filter(t => t.name !== 'All').map(t => t.label)} value={activeTechs.length === 1 ? (SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0])?.label ?? '') : ''} onChange={v => { const n = SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v; setActiveTechs(n ? [n] : []); setPage(0) }} fullWidth inputType="checkbox" values={activeTechs.map(n => SIDEBAR_TECHNOLOGIES.find(t => t.name === n)?.label ?? n)} onMultiChange={vals => { setActiveTechs(vals.map(v => SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v)); setPage(0) }} /></div>
+                  <CurrencyDropdown currency={currency} setCurrency={setCurrency} />
+                </div>
+
+                {!showSapHubLink && (
+                <>
                 {/* Desktop: search bar + currency */}
                 <div className="hidden lg:flex items-center gap-2 mb-2">
                   <div className="relative flex-1 min-w-0">
@@ -1852,13 +1922,6 @@ export default function FlexiTrainingPage() {
                       </button>
                     )}
                   </div>
-                </div>
-
-                {/* Mobile: Vendor + All Technologies + Currency row */}
-                <div className="lg:hidden flex gap-2 mb-2 flex-wrap">
-                  <div className="flex-1 min-w-0"><FilterDropdown label="Vendor" options={['All Vendors', ...ALL_VENDORS.filter(v => COURSES.some(c => c.vendor === v))]} value={filterVendor || 'All Vendors'} onChange={v => { setFilterVendor(v === 'All Vendors' ? '' : v); setPage(0) }} inputType="radio" fullWidth /></div>
-                  <div className="flex-1 min-w-0"><FilterDropdown label="All Technologies" options={SIDEBAR_TECHNOLOGIES.filter(t => t.name !== 'All').map(t => t.label)} value={activeTechs.length === 1 ? (SIDEBAR_TECHNOLOGIES.find(t => t.name === activeTechs[0])?.label ?? '') : ''} onChange={v => { const n = SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v; setActiveTechs(n ? [n] : []); setPage(0) }} fullWidth inputType="checkbox" values={activeTechs.map(n => SIDEBAR_TECHNOLOGIES.find(t => t.name === n)?.label ?? n)} onMultiChange={vals => { setActiveTechs(vals.map(v => SIDEBAR_TECHNOLOGIES.find(t => t.label === v)?.name ?? v)); setPage(0) }} /></div>
-                  <CurrencyDropdown currency={currency} setCurrency={setCurrency} />
                 </div>
 
                 <div className="mb-3">
@@ -1903,6 +1966,8 @@ export default function FlexiTrainingPage() {
                     </div>
                   )
                 })()}
+                </>
+                )}
               </div>
             </div>
           </div>

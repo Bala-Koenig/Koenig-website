@@ -397,7 +397,7 @@ const MEGA_MENU_COURSES: Record<string, { name: string; days: number; level: str
 }
 
 const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: number; level: string }[]> = {
-  'Cloud Computing': [
+  'Cloud Architect': [
     { name: 'AZ-104: Microsoft Azure Administrator', vendor: 'Microsoft', days: 5, level: 'Intermediate' },
     { name: 'AWS Solutions Architect – Associate', vendor: 'AWS', days: 4, level: 'Intermediate' },
     { name: 'Google Professional Cloud Architect', vendor: 'Google Cloud', days: 4, level: 'Advanced' },
@@ -411,7 +411,7 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'AWS SysOps Administrator – Associate', vendor: 'AWS', days: 3, level: 'Intermediate' },
     { name: 'AZ-500: Azure Security Engineer Associate', vendor: 'Microsoft', days: 4, level: 'Advanced' },
   ],
-  'Cybersecurity': [
+  'Cybersecurity Specialist': [
     { name: 'Certified Ethical Hacker (CEH v13)', vendor: 'EC-Council', days: 5, level: 'Intermediate' },
     { name: 'CompTIA Security+ (SY0-701)', vendor: 'CompTIA', days: 5, level: 'Intermediate' },
     { name: 'CISSP Certification', vendor: 'ISC2', days: 5, level: 'Advanced' },
@@ -425,7 +425,7 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'ISO 27001 Lead Implementer', vendor: 'PECB', days: 5, level: 'Advanced' },
     { name: 'CND: Certified Network Defender', vendor: 'EC-Council', days: 5, level: 'Intermediate' },
   ],
-  'Networking': [
+  'Network Engineer': [
     { name: 'CCNP Enterprise Core (ENCOR)', vendor: 'Cisco', days: 5, level: 'Advanced' },
     { name: 'CCNA (200-301)', vendor: 'Cisco', days: 5, level: 'Beginner' },
     { name: 'CompTIA Network+', vendor: 'CompTIA', days: 5, level: 'Beginner' },
@@ -439,7 +439,7 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'CCIE Security', vendor: 'Cisco', days: 5, level: 'Advanced' },
     { name: 'Cisco Certified Support Technician (CCST)', vendor: 'Cisco', days: 2, level: 'Beginner' },
   ],
-  'Project Management': [
+  'Project Manager': [
     { name: 'Project Management Professional (PMP)', vendor: 'PMI', days: 3, level: 'Advanced' },
     { name: 'PRINCE2® Foundation & Practitioner', vendor: 'PeopleCert', days: 5, level: 'Intermediate' },
     { name: 'ITIL® 4 Foundation', vendor: 'PeopleCert', days: 3, level: 'Beginner' },
@@ -453,7 +453,7 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'M_o_R®: Management of Risk', vendor: 'PeopleCert', days: 3, level: 'Intermediate' },
     { name: 'AgileSHIFT®', vendor: 'PeopleCert', days: 1, level: 'Beginner' },
   ],
-  'Data & AI': [
+  'Data Scientist': [
     { name: 'AI-102: Azure AI Engineer Associate', vendor: 'Microsoft', days: 4, level: 'Advanced' },
     { name: 'AWS Certified AI Practitioner', vendor: 'AWS', days: 3, level: 'Beginner' },
     { name: 'Google Professional Data Engineer', vendor: 'Google Cloud', days: 4, level: 'Advanced' },
@@ -467,7 +467,7 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'ISTQB Specialist AI Testing', vendor: 'ISTQB', days: 2, level: 'Advanced' },
     { name: 'ISO 42001 AI Management Lead Implementer', vendor: 'PECB', days: 4, level: 'Advanced' },
   ],
-  'DevOps': [
+  'DevOps Engineer': [
     { name: 'AZ-400: Azure DevOps Engineer Expert', vendor: 'Microsoft', days: 5, level: 'Advanced' },
     { name: 'Certified Kubernetes Administrator (CKA)', vendor: 'Linux Foundation', days: 4, level: 'Advanced' },
     { name: 'AWS DevOps Engineer – Professional', vendor: 'AWS', days: 5, level: 'Advanced' },
@@ -481,7 +481,7 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'ServiceNow App Engine Studio', vendor: 'ServiceNow', days: 3, level: 'Intermediate' },
     { name: 'Prometheus Certified Associate (PCA)', vendor: 'Linux Foundation', days: 2, level: 'Intermediate' },
   ],
-  'ERP Systems': [
+  'ERP Consultant': [
     { name: 'SAP S/4HANA Functional Consultant', vendor: 'SAP', days: 5, level: 'Advanced' },
     { name: 'SAP BASIS Administration', vendor: 'SAP', days: 5, level: 'Intermediate' },
     { name: 'Oracle Database Administration', vendor: 'Oracle', days: 5, level: 'Intermediate' },
@@ -495,7 +495,7 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'Oracle Fusion Cloud Applications', vendor: 'Oracle', days: 5, level: 'Advanced' },
     { name: 'MySQL Database Administration', vendor: 'Oracle', days: 4, level: 'Intermediate' },
   ],
-  'Linux & Open Source': [
+  'Systems Administrator': [
     { name: 'RHCSA: Red Hat Certified System Administrator', vendor: 'Red Hat', days: 5, level: 'Intermediate' },
     { name: 'RHCE: Red Hat Certified Engineer', vendor: 'Red Hat', days: 5, level: 'Advanced' },
     { name: 'Linux Foundation Certified System Administrator', vendor: 'Linux Foundation', days: 5, level: 'Intermediate' },
@@ -509,7 +509,7 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
     { name: 'CompTIA Linux+', vendor: 'CompTIA', days: 5, level: 'Intermediate' },
     { name: 'Istio and Envoy Fundamentals', vendor: 'Linux Foundation', days: 2, level: 'Advanced' },
   ],
-  'Power Platform': [
+  'Power Platform Developer': [
     { name: 'PL-900: Microsoft Power Platform Fundamentals', vendor: 'Microsoft', days: 1, level: 'Beginner' },
     { name: 'PL-100: Microsoft Power Platform App Maker', vendor: 'Microsoft', days: 5, level: 'Intermediate' },
     { name: 'PL-200: Power Platform Functional Consultant', vendor: 'Microsoft', days: 5, level: 'Intermediate' },
@@ -526,15 +526,11 @@ const TECH_MENU_COURSES: Record<string, { name: string; vendor: string; days: nu
 }
 
 const NAV_TOP_TECHNOLOGIES = [
-  { name: 'Cloud Computing',     count: '840+', partners: ['Microsoft', 'AWS', 'Google Cloud'] },
-  { name: 'Cybersecurity',       count: '620+', partners: ['EC-Council', 'CompTIA', 'ISC2'] },
-  { name: 'Networking',          count: '510+', partners: ['Cisco', 'Juniper', 'CompTIA'] },
-  { name: 'Project Management',  count: '390+', partners: ['PMI', 'PeopleCert', 'AXELOS'] },
-  { name: 'Data & AI',           count: '280+', partners: ['Microsoft', 'AWS', 'Google Cloud'] },
-  { name: 'DevOps',              count: '210+', partners: ['Kubernetes', 'HashiCorp', 'AWS'] },
-  { name: 'ERP Systems',         count: '180+', partners: ['SAP', 'Oracle', 'Microsoft'] },
-  { name: 'Linux & Open Source', count: '110+', partners: ['Red Hat', 'Linux Foundation', 'CompTIA'] },
-  { name: 'Power Platform',      count: '60+',  partners: ['Microsoft'] },
+  { name: 'Cloud Architect',             count: '840+', partners: ['Microsoft', 'AWS', 'Google Cloud'] },
+  { name: 'Cybersecurity Specialist',     count: '620+', partners: ['EC-Council', 'CompTIA', 'ISC2'] },
+  { name: 'Project Manager',              count: '390+', partners: ['PMI', 'PeopleCert', 'AXELOS'] },
+  { name: 'Data Scientist',               count: '280+', partners: ['Microsoft', 'AWS', 'Google Cloud'] },
+  { name: 'DevOps Engineer',              count: '210+', partners: ['Kubernetes', 'HashiCorp', 'AWS'] },
 ]
 
 const NAV_COURSES = [
@@ -567,7 +563,23 @@ const COURSE_HREFS: Record<string, string> = {
 }
 
 const TECH_HREFS: Record<string, string> = {
-  'Power Platform': '/technologies/power-platform',
+  'Agile Coach': '/search?q=Agile',
+  'Web Developer': '/search?q=Web%20Development',
+  'Business Analyst': '/search?q=Business%20Analysis',
+  'Quality Assurance Manager': '/search?q=Quality%20Management',
+  'IT Service Manager': '/search?q=IT%20Service%20Management',
+  'Generative AI Engineer': '/search?q=Generative%20AI',
+  'Software Developer': '/search?q=Programming',
+  'BI Analyst': '/search?q=BI%20and%20Visualization',
+  'Blockchain Developer': '/search?q=Blockchain',
+  'Big Data Engineer': '/search?q=Big%20Data',
+  'Mobile App Developer': '/search?q=Mobile%20App%20Development',
+  'QA/Test Engineer': '/search?q=Software%20Testing',
+  'Digital Marketing Specialist': '/search?q=Digital%20Marketing',
+  'Risk Manager': '/search?q=Risk%20Management',
+  'Financial Analyst': '/search?q=Finance',
+  'Database Administrator': '/search?q=Database',
+  'Medical Coder': '/search?q=Medical%20Coding',
 }
 
 /* ─── Navbar Component ───────────────────────────────────────── */
@@ -597,7 +609,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
   const [megaMenuVendor, setMegaMenuVendor] = useState('All Courses')
   const megaMenuRef = useRef<HTMLDivElement>(null)
   const [techMenuOpen, setTechMenuOpen] = useState(false)
-  const [techMenuCategory, setTechMenuCategory] = useState('Cloud Computing')
+  const [techMenuCategory, setTechMenuCategory] = useState('Cloud Architect')
   const techMenuRef = useRef<HTMLDivElement>(null)
   const [aboutMenuOpen, setAboutMenuOpen] = useState(false)
   const aboutMenuRef = useRef<HTMLDivElement>(null)
@@ -815,7 +827,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 All Courses
                 <svg className="h-3 w-3 opacity-70 -ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </button>
-              {/* Technologies */}
+              {/* Career Paths */}
               <a
                 href="#"
                 className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-[40px] transition-all"
@@ -823,7 +835,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 onMouseEnter={e => { openMenu('tech'); e.currentTarget.style.color = '#38bdf8'; e.currentTarget.style.background = 'rgba(6,148,209,0.18)' }}
                 onMouseLeave={e => { startCloseTimer(); e.currentTarget.style.color = techMenuOpen ? '#38bdf8' : '#ffffff'; e.currentTarget.style.background = techMenuOpen ? 'rgba(6,148,209,0.18)' : 'transparent' }}
               >
-                Technologies
+                Career Paths
                 <svg className="h-3 w-3 opacity-50 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
               </a>
               {/* Learning Options */}
@@ -1013,14 +1025,14 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 <Link href="/" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal text-white" style={{ background: '#0694D1', boxShadow: '0 0 10px rgba(6,148,209,0.40)' }}>Individual</Link>
                 <Link href="/enterprise" className="flex-1 rounded-lg px-3 py-2 text-center text-sm font-normal transition-all" style={{ color: 'rgba(255,255,255,0.55)' }}>Enterprise</Link>
               </div>
-              {/* Technologies accordion */}
+              {/* Career Paths accordion */}
               <div>
                 <button
                   onClick={() => setMobileTechOpen(v => !v)}
                   className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5"
                   style={{ color: mobileTechOpen ? '#38bdf8' : '#ffffff' }}
                 >
-                  Technologies
+                  Career Paths
                   <svg className={`h-4 w-4 transition-transform ${mobileTechOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 {mobileTechOpen && (
@@ -1039,7 +1051,9 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                     </div>
                     <div className="p-3 space-y-2">
                       <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'rgba(6,148,209,0.8)' }}>
-                        {NAV_TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)?.count} courses · Partners: {NAV_TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)?.partners.join(', ')}
+                        {NAV_TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)
+                          ? `${NAV_TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)!.count} courses · Partners: ${NAV_TOP_TECHNOLOGIES.find(t => t.name === mobileTechCategory)!.partners.join(', ')}`
+                          : `Browse ${mobileTechCategory} courses`}
                       </p>
                       {(TECH_MENU_COURSES[mobileTechCategory] ?? []).map((course, i) => (
                         <a key={i} href="#" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5" style={{ color: 'rgba(255,255,255,0.85)' }}>
@@ -1247,7 +1261,7 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
         {/* Learning Options + About dropdowns are portalled to document.body to fully escape
             the nav-pill backdrop-filter stacking/containing-block context */}
 
-        {/* Technologies Mega Menu */}
+        {/* Career Paths Mega Menu */}
         {techMenuOpen && (
           <div
             ref={techMenuRef}
@@ -1256,19 +1270,32 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
             className="absolute left-0 right-0 top-full z-[200] flex overflow-hidden"
             style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderTop: 'none', boxShadow: '0 24px 60px rgba(0,0,0,0.18)', maxHeight: '520px' }}
           >
-            {/* Left — technology categories */}
-            <div className="flex w-52 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: '#F8FBFE' }}>
-              <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Technologies</div>
+            {/* Left — career path categories */}
+            <div className="flex w-72 shrink-0 flex-col overflow-y-auto border-r" style={{ borderColor: 'rgba(6,148,209,0.15)', background: '#F8FBFE' }}>
+              <div className="px-4 py-3 text-sm font-semibold uppercase tracking-widest" style={{ color: '#0694D1' }}>Career Paths</div>
               {([
-                { name: 'Cloud Computing',    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
-                { name: 'Cybersecurity',      icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
-                { name: 'Networking',         icon: <><circle cx="12" cy="5" r="2" strokeWidth={1.8}/><circle cx="5" cy="19" r="2" strokeWidth={1.8}/><circle cx="19" cy="19" r="2" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 7v4M8.5 17.5l3-2.5M15.5 17.5l-3-2.5"/></> },
-                { name: 'Project Management', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/> },
-                { name: 'Data & AI',          icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></> },
-                { name: 'DevOps',             icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/> },
-                { name: 'ERP Systems',        icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/> },
-                { name: 'Linux & Open Source',icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/> },
-                { name: 'Power Platform',     icon: <><rect x="3" y="3" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="13" y="3" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="3" y="13" width="8" height="8" rx="1.5" strokeWidth={1.8}/><rect x="13" y="13" width="8" height="8" rx="1.5" strokeWidth={1.8}/></> },
+                { name: 'Agile Coach', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Project Manager', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/> },
+                { name: 'Data Scientist', icon: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></> },
+                { name: 'Cloud Architect', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/> },
+                { name: 'Web Developer', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'DevOps Engineer', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/> },
+                { name: 'Cybersecurity Specialist', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/> },
+                { name: 'Business Analyst', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Quality Assurance Manager', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'IT Service Manager', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Generative AI Engineer', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Software Developer', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'BI Analyst', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Blockchain Developer', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Big Data Engineer', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Mobile App Developer', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'QA/Test Engineer', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Digital Marketing Specialist', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Risk Manager', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Financial Analyst', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Database Administrator', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
+                { name: 'Medical Coder', icon: <><circle cx="11" cy="11" r="7" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 21l-4.3-4.3"/></> },
               ] as { name: string; icon: React.ReactNode }[]).map(({ name, icon }) => {
                 const t = NAV_TOP_TECHNOLOGIES.find(x => x.name === name)!
                 return (
@@ -1296,7 +1323,9 @@ export default function Navbar({ initialQuery = '' }: { initialQuery?: string })
                 <div>
                   <h3 className="text-base font-bold" style={{ color: '#093148' }}>{techMenuCategory}</h3>
                   <p className="text-sm" style={{ color: '#7a8c96' }}>
-                    {NAV_TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.count} courses · Partners: {NAV_TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)?.partners.join(', ')}
+                    {NAV_TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)
+                      ? `${NAV_TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)!.count} courses · Partners: ${NAV_TOP_TECHNOLOGIES.find(t => t.name === techMenuCategory)!.partners.join(', ')}`
+                      : `Browse ${techMenuCategory} courses`}
                   </p>
                 </div>
                 <a href={TECH_HREFS[techMenuCategory] ?? '#'} className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-[#076D9D]" style={{ color: '#0694D1' }}>
