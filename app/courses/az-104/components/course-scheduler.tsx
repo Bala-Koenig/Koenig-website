@@ -4,6 +4,7 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { ClassroomBookingModal } from "./classroom-booking-modal";
+import { CourseActionBar } from "./course-action-bar";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -489,9 +490,10 @@ function calcOo1EndDate(startIso: string, hrsPerDay: 4 | 8, schedule: "weekday" 
 type CourseSchedulerProps = {
   initialBatches?: Batch[];
   courseTitle?: string;
+  courseId?: string;
 };
 
-export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microsoft Azure Administrator" }: CourseSchedulerProps = {}) {
+export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microsoft Azure Administrator", courseId = "AZ-104" }: CourseSchedulerProps = {}) {
   const router = useRouter();
   const activeBatches = initialBatches && initialBatches.length > 0 ? initialBatches : batches;
   const today = new Date();
@@ -594,6 +596,24 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
   const COMPARE_PAGE_SIZE = 12; // 4 rows × 3 cols
   const [pricingTab, setPricingTab] = useState<"public" | "one-on-one" | "self-paced">("one-on-one");
   const [detailTab, setDetailTab] = useState<string>("public");
+
+  // Restore a shared/copied selection from the URL (?mode=public|1on1|flexi&batch={id})
+  // so a link produced by CourseActionBar reopens on the same tab and batch.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get("mode");
+    if (mode === "public") setPricingTab("public");
+    else if (mode === "1on1") setPricingTab("one-on-one");
+    else if (mode === "flexi") setPricingTab("self-paced");
+
+    const batchParam = params.get("batch");
+    if (batchParam) {
+      const batchId = Number(batchParam);
+      const match = activeBatches.find((b) => b.id === batchId);
+      if (match) setSelectedBatch(match);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [flexiModalOpen, setFlexiModalOpen] = useState(false);
   const [detailInfoModal, setDetailInfoModal] = useState<"public" | "one-on-one" | null>(null);
   const [tzOpen, setTzOpen] = useState(false);
@@ -1382,6 +1402,16 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
 
               {/* LEFT — option selector */}
               <div className="w-full lg:flex-1 min-w-0 lg:max-w-[850px]">
+                <div className="mb-3 flex justify-center lg:hidden">
+                  <CourseActionBar
+                    courseId={courseId}
+                    courseName={courseTitle}
+                    activeTab="flexi"
+                    oneOnOnePrice={COURSE_PRICING.online.oneOnOne}
+                    flexiPrice={FLEXI_VIDEO}
+                    flexiValidity="6 months"
+                  />
+                </div>
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-koenig-muted">Select Add-ons</p>
                 <div className="flex flex-col gap-3 rounded-2xl p-4" style={{ background: "rgba(6,148,209,0.03)", border: "1px solid rgba(6,148,209,0.12)" }}>
                   {/* Flexi Video — always selected */}
@@ -1444,6 +1474,18 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                 <div className="mt-2 space-y-0.5">
                   <p className="text-[10px] text-koenig-muted">† Excluding VAT/GST</p>
                   <p className="text-[10px] text-koenig-muted">* Flexi access provided once MS learn registration is done.</p>
+                </div>
+
+                {/* Copy/share/like/dislike — Flexi, desktop (mobile shows it above, near Select Add-ons) */}
+                <div className="hidden lg:flex justify-end -mt-[27px]">
+                  <CourseActionBar
+                    courseId={courseId}
+                    courseName={courseTitle}
+                    activeTab="flexi"
+                    oneOnOnePrice={COURSE_PRICING.online.oneOnOne}
+                    flexiPrice={FLEXI_VIDEO}
+                    flexiValidity="6 months"
+                  />
                 </div>
               </div>
 
@@ -1654,6 +1696,18 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
 
               {/* LEFT — Duration + Schedule + Calendar + Time/TZ */}
               <div className="w-full lg:flex-1 min-w-0 lg:max-w-[850px] flex flex-col gap-4 sm:gap-3">
+
+                {/* Copy/share/like/dislike — 1-on-1, mobile only (desktop shows it in the price card) */}
+                <div className="flex justify-center lg:hidden">
+                  <CourseActionBar
+                    courseId={courseId}
+                    courseName={courseTitle}
+                    activeTab="1on1"
+                    oneOnOneDate={oneOnOneDate}
+                    oneOnOnePrice={oo1Price}
+                    flexiPrice={FLEXI_VIDEO}
+                  />
+                </div>
 
                 {/* Duration + Schedule — two rows on mobile, side by side on desktop */}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-8">
@@ -1997,6 +2051,18 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                 )}
 
                 <p className="whitespace-nowrap text-[9px] sm:text-[10px] text-koenig-muted">† Excluding VAT/GST &nbsp;·&nbsp; Dedicated trainer, flexible scheduling</p>
+
+                {/* Copy/share/like/dislike — 1-on-1, desktop (mobile shows it above, near Duration per day) */}
+                <div className="hidden lg:flex justify-end -mt-[27px]">
+                  <CourseActionBar
+                    courseId={courseId}
+                    courseName={courseTitle}
+                    activeTab="1on1"
+                    oneOnOneDate={oneOnOneDate}
+                    oneOnOnePrice={oo1Price}
+                    flexiPrice={FLEXI_VIDEO}
+                  />
+                </div>
               </div>
 
               {/* RIGHT — Price card (hidden on mobile; fixed bar below replaces it) */}
@@ -2684,50 +2750,82 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                 )}
               </div>
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="mt-3 flex flex-col items-center gap-2">
-                  {/* Mobile: compact prev / page-x-of-y / next */}
-                  <div className="flex sm:hidden items-center gap-2 w-full">
-                    <button onClick={() => setListPage(p => Math.max(0, p - 1))} disabled={listPage === 0}
-                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border border-koenig-border bg-white text-koenig-muted transition hover:border-koenig-blue hover:text-koenig-blue disabled:opacity-40">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-                    </button>
-                    <div className="flex flex-1 items-center justify-center gap-1">
-                      {getPaginationRange(listPage, totalPages).map((i) => (
-                        <button key={i} onClick={() => setListPage(i)}
-                          className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-semibold transition ${i === listPage ? "bg-koenig-navy text-white" : "border border-koenig-border bg-white text-koenig-muted hover:border-koenig-blue hover:text-koenig-blue"}`}>
-                          {i + 1}
-                        </button>
-                      ))}
-                    </div>
-                    <button onClick={() => setListPage(p => Math.min(totalPages - 1, p + 1))} disabled={listPage === totalPages - 1}
-                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border border-koenig-border bg-white text-koenig-muted transition hover:border-koenig-blue hover:text-koenig-blue disabled:opacity-40">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                    </button>
-                  </div>
-                  {/* Desktop: full buttons */}
-                  <div className="hidden sm:flex items-center gap-1.5">
-                    <button onClick={() => setListPage(p => Math.max(0, p - 1))} disabled={listPage === 0}
-                      className="flex h-9 w-9 items-center justify-center rounded-lg border border-koenig-border bg-white text-koenig-muted transition hover:border-koenig-blue hover:text-koenig-blue disabled:opacity-40">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-                    </button>
-                    {getPaginationRange(listPage, totalPages).map((i) => (
-                      <button key={i} onClick={() => setListPage(i)}
-                        className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-semibold transition ${i === listPage ? "bg-koenig-navy text-white" : "border border-koenig-border bg-white text-koenig-muted hover:border-koenig-blue hover:text-koenig-blue"}`}>
-                        {i + 1}
+              {/* Pagination + course action bar (copy/share/like/dislike) */}
+              <div className="mt-3 flex flex-col items-center gap-2">
+                {totalPages > 1 && (
+                  <>
+                    {/* Mobile: compact prev / page-x-of-y / next */}
+                    <div className="flex sm:hidden items-center gap-2 w-full">
+                      <button onClick={() => setListPage(p => Math.max(0, p - 1))} disabled={listPage === 0}
+                        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border border-koenig-border bg-white text-koenig-muted transition hover:border-koenig-blue hover:text-koenig-blue disabled:opacity-40">
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
                       </button>
-                    ))}
-                    <button onClick={() => setListPage(p => Math.min(totalPages - 1, p + 1))} disabled={listPage === totalPages - 1}
-                      className="flex h-9 w-9 items-center justify-center rounded-lg border border-koenig-border bg-white text-koenig-muted transition hover:border-koenig-blue hover:text-koenig-blue disabled:opacity-40">
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                    </button>
+                      <div className="flex flex-1 items-center justify-center gap-1">
+                        {getPaginationRange(listPage, totalPages).map((i) => (
+                          <button key={i} onClick={() => setListPage(i)}
+                            className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-semibold transition ${i === listPage ? "bg-koenig-navy text-white" : "border border-koenig-border bg-white text-koenig-muted hover:border-koenig-blue hover:text-koenig-blue"}`}>
+                            {i + 1}
+                          </button>
+                        ))}
+                      </div>
+                      <button onClick={() => setListPage(p => Math.min(totalPages - 1, p + 1))} disabled={listPage === totalPages - 1}
+                        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border border-koenig-border bg-white text-koenig-muted transition hover:border-koenig-blue hover:text-koenig-blue disabled:opacity-40">
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                      </button>
+                    </div>
+                  </>
+                )}
+                {/* Desktop: pagination (if any) + action bar, same row, bar right-aligned */}
+                <div className="hidden md:grid w-full grid-cols-3 items-center">
+                  <div />
+                  <div className="flex items-center justify-center gap-1.5">
+                    {totalPages > 1 && (
+                      <>
+                        <button onClick={() => setListPage(p => Math.max(0, p - 1))} disabled={listPage === 0}
+                          className="flex h-9 w-9 items-center justify-center rounded-lg border border-koenig-border bg-white text-koenig-muted transition hover:border-koenig-blue hover:text-koenig-blue disabled:opacity-40">
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                        </button>
+                        {getPaginationRange(listPage, totalPages).map((i) => (
+                          <button key={i} onClick={() => setListPage(i)}
+                            className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-semibold transition ${i === listPage ? "bg-koenig-navy text-white" : "border border-koenig-border bg-white text-koenig-muted hover:border-koenig-blue hover:text-koenig-blue"}`}>
+                            {i + 1}
+                          </button>
+                        ))}
+                        <button onClick={() => setListPage(p => Math.min(totalPages - 1, p + 1))} disabled={listPage === totalPages - 1}
+                          className="flex h-9 w-9 items-center justify-center rounded-lg border border-koenig-border bg-white text-koenig-muted transition hover:border-koenig-blue hover:text-koenig-blue disabled:opacity-40">
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                      </>
+                    )}
                   </div>
+                  <div className="flex justify-end">
+                    <CourseActionBar
+                      courseId={courseId}
+                      courseName={courseTitle}
+                      activeTab={pricingTab === "public" ? "public" : pricingTab === "one-on-one" ? "1on1" : "flexi"}
+                      selectedBatch={selBatch}
+                      oneOnOnePrice={COURSE_PRICING.online.oneOnOne}
+                      flexiPrice={COURSE_PRICING.online.flexi}
+                    />
+                  </div>
+                </div>
+                {totalPages > 1 && (
                   <span className="text-sm font-medium text-koenig-dark">
                     Showing {listPage * PAGE_SIZE + 1}–{Math.min((listPage + 1) * PAGE_SIZE, filtered.length)} of <span className="font-bold">{filtered.length}</span> schedules
                   </span>
+                )}
+                {/* Mobile (<768px): action bar in its own centred row below "Showing..." */}
+                <div className="flex md:hidden w-full justify-center">
+                  <CourseActionBar
+                    courseId={courseId}
+                    courseName={courseTitle}
+                    activeTab={pricingTab === "public" ? "public" : pricingTab === "one-on-one" ? "1on1" : "flexi"}
+                    selectedBatch={selBatch}
+                    oneOnOnePrice={COURSE_PRICING.online.oneOnOne}
+                    flexiPrice={COURSE_PRICING.online.flexi}
+                  />
                 </div>
-              )}
+              </div>
 
               {/* Other training options — moved inside the left column so the sticky sidebar has room to persist through this content */}
               <div className="hidden lg:grid gap-3 mt-4 lg:grid-cols-2">

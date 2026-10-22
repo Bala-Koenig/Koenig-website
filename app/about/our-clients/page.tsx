@@ -5,38 +5,43 @@ import Navbar from '@/components/Navbar'
 import DownloadPptButton from '@/components/DownloadPptButton'
 import AboutSubNav from '@/components/AboutSubNav'
 import ContactModal from '../../live-online-classroom/components/ContactModal'
+import { ClientLogoFilter } from './components/client-logo-filter'
 
+// country/industry are best-effort classifications from well-known public
+// facts about each company (primary HQ country, closest-fit sector) — not
+// data Koenig has confirmed. Dept/Link/Abin are generic names we couldn't
+// confidently identify, so they're grouped under "Other".
 const CLIENTS = [
-  { name: 'Google',             img: 'google.png'               },
-  { name: 'Microsoft',          img: 'ms.png'                   },
-  { name: 'Adobe',              img: 'adobe.png'                },
-  { name: 'Dell',               img: 'dell.png'                 },
-  { name: 'HP',                 img: 'hp.png'                   },
-  { name: 'Infosys',            img: 'infosys.png'              },
-  { name: 'TCS',                img: 'TCS.png'                  },
-  { name: 'Wipro',              img: 'wipro.png'                },
-  { name: 'HCL Technologies',   img: 'hcl-technologies.png'     },
-  { name: 'Cognizant',          img: 'cts.png'                  },
-  { name: 'EY',                 img: 'EY.png'                   },
-  { name: 'PwC',                img: 'pwc.png'                  },
-  { name: 'McKinsey & Company', img: 'mcKinsey-and-company.png' },
-  { name: 'Bain & Company',     img: 'Bain-and-Company.png'     },
-  { name: 'HSBC',               img: 'hsbc.png'                 },
-  { name: 'Shell',              img: 'shell 1.png'              },
-  { name: 'Chevron',            img: 'chevron.png'              },
-  { name: 'Saudi Aramco',       img: 'aramco.png'               },
-  { name: 'Bharat Petroleum',   img: 'Bharat-Petroleum.png'     },
-  { name: 'GE',                 img: 'ge.png'                   },
-  { name: 'Fujifilm',           img: 'fuji.png'                 },
-  { name: 'DHL',                img: 'dhl.png'                  },
-  { name: 'Emirates',           img: 'Emirates.png'             },
-  { name: 'NTT',                img: 'NTT.png'                  },
-  { name: 'NHS',                img: 'NHS.png'                  },
-  { name: 'United Nations',     img: 'united-nations.png'       },
-  { name: 'Capgemini',          img: 'capeg.png'                },
-  { name: 'Dept',               img: 'dept.png'                 },
-  { name: 'Link',               img: 'link.png'                 },
-  { name: 'Abin',               img: 'abin.png'                 },
+  { name: 'Google',             img: 'google.png',               country: 'United States',       industry: 'IT'         },
+  { name: 'Microsoft',          img: 'ms.png',                    country: 'United States',       industry: 'IT'         },
+  { name: 'Adobe',              img: 'adobe.png',                 country: 'United States',       industry: 'IT'         },
+  { name: 'Dell',               img: 'dell.png',                  country: 'United States',       industry: 'IT'         },
+  { name: 'HP',                 img: 'hp.png',                    country: 'United States',       industry: 'IT'         },
+  { name: 'Infosys',            img: 'infosys.png',               country: 'India',                industry: 'IT'         },
+  { name: 'TCS',                img: 'TCS.png',                   country: 'India',                industry: 'IT'         },
+  { name: 'Wipro',              img: 'wipro.png',                 country: 'India',                industry: 'IT'         },
+  { name: 'HCL Technologies',   img: 'hcl-technologies.png',      country: 'India',                industry: 'IT'         },
+  { name: 'Cognizant',          img: 'cts.png',                   country: 'United States',       industry: 'IT'         },
+  { name: 'EY',                 img: 'EY.png',                    country: 'United Kingdom',       industry: 'Consulting' },
+  { name: 'PwC',                img: 'pwc.png',                   country: 'United Kingdom',       industry: 'Consulting' },
+  { name: 'McKinsey & Company', img: 'mcKinsey-and-company.png',  country: 'United States',       industry: 'Consulting' },
+  { name: 'Bain & Company',     img: 'Bain-and-Company.png',      country: 'United States',       industry: 'Consulting' },
+  { name: 'HSBC',               img: 'hsbc.png',                  country: 'United Kingdom',       industry: 'BFSI'       },
+  { name: 'Shell',              img: 'shell 1.png',               country: 'United Kingdom',       industry: 'Oil & Gas'  },
+  { name: 'Chevron',            img: 'chevron.png',               country: 'United States',       industry: 'Oil & Gas'  },
+  { name: 'Saudi Aramco',       img: 'aramco.png',                country: 'Saudi Arabia',         industry: 'Oil & Gas'  },
+  { name: 'Bharat Petroleum',   img: 'Bharat-Petroleum.png',      country: 'India',                industry: 'Oil & Gas'  },
+  { name: 'GE',                 img: 'ge.png',                    country: 'United States',       industry: 'Manufacturing' },
+  { name: 'Fujifilm',           img: 'fuji.png',                  country: 'Japan',                industry: 'Manufacturing' },
+  { name: 'DHL',                img: 'dhl.png',                   country: 'Germany',              industry: 'Logistics'  },
+  { name: 'Emirates',           img: 'Emirates.png',              country: 'United Arab Emirates', industry: 'Logistics'  },
+  { name: 'NTT',                img: 'NTT.png',                   country: 'Japan',                industry: 'Telecom'    },
+  { name: 'NHS',                img: 'NHS.png',                   country: 'United Kingdom',       industry: 'Healthcare' },
+  { name: 'United Nations',     img: 'united-nations.png',        country: 'International',        industry: 'Government' },
+  { name: 'Capgemini',          img: 'capeg.png',                 country: 'France',               industry: 'IT'         },
+  { name: 'Dept',               img: 'dept.png',                  country: 'Netherlands',          industry: 'IT'         },
+  { name: 'Link',               img: 'link.png',                  country: 'Other',                industry: 'Other'      },
+  { name: 'Abin',               img: 'abin.png',                  country: 'Other',                industry: 'Other'      },
 ]
 
 
@@ -101,19 +106,9 @@ export default function OurClientsPage() {
           <h2 className="text-2xl sm:text-[28px] font-bold text-[#0F172A] mb-3 text-center">
             Trusted by the World's <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(135deg, #0694D1, #38bdf8)' }}>Best</span>
           </h2>
-          <p className="text-center text-[#475569] mb-12">Organizations that rely on Koenig to develop their teams</p>
+          <p className="text-center text-[#475569] mb-4">Organizations that rely on Koenig to develop their teams</p>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-x-8 gap-y-8 items-center">
-            {CLIENTS.map(c => (
-              <div key={c.name} className="flex items-center justify-center" title={c.name}>
-                <img
-                  src={`/images/trusted-logos/${encodeURIComponent(c.img)}`}
-                  alt={c.name}
-                  className="h-14 w-auto max-w-full object-contain"
-                />
-              </div>
-            ))}
-          </div>
+          <ClientLogoFilter clients={CLIENTS} />
         </div>
       </section>
 

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AWS Skill Builder Subscriptions | Koenig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --navy:#0a3a5c;
+  --blue:#0a7fc1;
+  --cyan:#06b6d4;
+  --bg:#f3f9fd;
+  --panel:#ffffff;
+  --panel-soft:#eaf5fc;
+  --line:#c9e3f3;
+  --text:#0d2233;
+  --muted:#52697c;
+  --chip-bg:#dcedf8;
+  --chip-text:#0a5c8f;
+  --ok:#14a05a;
+  --shadow:0 12px 34px rgba(10,100,160,.14);
+  box-sizing:border-box;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.6}
+img,svg{max-width:100%}
+a{color:inherit}
+.container{max-width:1120px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;border-radius:6px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font:inherit;font-weight:700;font-size:15px;border-radius:999px;padding:12px 24px;border:1.5px solid transparent;cursor:pointer;transition:transform .15s,filter .15s,background .15s,color .15s,border-color .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:transparent;color:var(--blue);border-color:var(--blue)}
+.btn-primary:hover{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;border-color:transparent}
+.btn-light{background:transparent;color:#fff;border-color:#fff}
+.btn-light:hover{background:#fff;color:var(--navy)}
+.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+.btn-ghost:hover{background:#fff;color:var(--navy);border-color:#fff}
+.btn-outline{background:transparent;color:var(--blue);border-color:var(--blue)}
+.btn-outline:hover{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;border-color:transparent}
+.btn-block{display:flex;width:100%}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}.btn:hover{transform:none}}
+
+/* hero */
+.hero{background:linear-gradient(115deg,#072f4c 0%,#0a6fae 62%,#08a5cf 120%);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,.35),transparent 70%);pointer-events:none}
+.hero .container{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center;padding-top:64px;padding-bottom:72px;position:relative;z-index:1}
+@media (max-width:900px){.hero .container{grid-template-columns:1fr;padding-top:44px;padding-bottom:52px;gap:34px}}
+.eyebrow{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;margin-bottom:18px}
+.hero h1{margin:0 0 16px;font-size:clamp(32px,5vw,50px);line-height:1.08;letter-spacing:-.025em;font-weight:800;text-wrap:balance}
+.hero p.lead{margin:0 0 28px;font-size:clamp(16px,2vw,19px);max-width:34em;opacity:.93}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+
+/* image placeholders — no real images supplied yet */
+.imgph{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;border:2px dashed var(--line);border-radius:18px;background:repeating-linear-gradient(135deg,var(--panel-soft) 0 14px,var(--bg) 14px 28px);color:var(--muted);padding:24px;min-height:260px;font-weight:600;font-size:14px}
+.imgph svg{color:var(--blue)}
+.imgph small{display:block;font-weight:500;font-size:12.5px;max-width:26em}
+.hero .imgph{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.55);color:#fff;min-height:320px}
+.hero .imgph svg{color:#fff}
+
+/* sections */
+section.block{padding:76px 0}
+@media (max-width:700px){section.block{padding:54px 0}}
+h2.title{margin:0 0 12px;font-size:clamp(26px,3.6vw,38px);line-height:1.15;letter-spacing:-.02em;font-weight:800;text-wrap:balance;text-align:center}
+.sub{margin:0 auto 36px;color:var(--muted);max-width:42em;font-size:17px;text-align:center}
+.soft{background:var(--panel-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ico{flex:none;width:44px;height:44px;border-radius:12px;background:var(--panel-soft);border:1px solid var(--line);color:var(--blue);display:flex;align-items:center;justify-content:center}
+
+.two{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+@media (max-width:900px){.two{grid-template-columns:1fr;gap:26px}}
+.dots{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.dots li{position:relative;padding-left:20px;font-weight:600;font-size:15px}
+.dots li::before{content:"";position:absolute;left:1px;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+
+/* cards */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:900px){.grid3{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.card:hover{transform:translateY(-8px);box-shadow:0 20px 45px rgba(10,100,160,.22);border-color:var(--blue)}
+.card h3{margin:16px 0 8px;font-size:20px;line-height:1.25;letter-spacing:-.01em;transition:color .25s ease}
+.card:hover h3{color:var(--blue)}
+.card p{margin:0;color:var(--muted);font-size:15.5px}
+.card .ico{width:48px;height:48px;border-radius:14px;transition:transform .3s ease,background .3s ease,color .3s ease}
+.card:hover .ico{transform:scale(1.12) rotate(-6deg);background:var(--blue);color:#fff}
+
+
+/* pricing */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1040px;margin:0 auto}
+@media (max-width:900px){.price-grid{grid-template-columns:1fr;max-width:480px}}
+.price-card{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:var(--shadow)}
+.price-card.highlight{border:2px solid var(--blue);box-shadow:0 20px 45px rgba(10,100,160,.22)}
+.price-badge{align-self:flex-start;background:var(--chip-bg);color:var(--chip-text);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
+.price-card h3{margin:0 0 4px;font-size:20px}
+.price-card .amount{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:10px 0 2px}
+.price-card .amount small{font-size:16px;font-weight:600;color:var(--muted)}
+.price-card .per{font-size:13px;color:var(--muted);margin-bottom:18px}
+.price-card ul{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:10px;flex:1}
+.price-card li{position:relative;padding-left:22px;font-size:14.5px;color:var(--text)}
+.price-card li::before{content:"";position:absolute;left:0;top:.35em;width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a7fc1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 12.5 9.5 18 20 6'/%3E%3C/svg%3E") no-repeat center/contain}
+.fine{margin:14px 0 0;font-size:12px;color:var(--muted)}
+
+/* comparison: all plans side by side — fluid, no forced horizontal scroll */
+.cmp-list{border-radius:16px;border:1px solid var(--line);background:var(--panel);overflow:hidden}
+.cmp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--navy);color:#fff;padding:12px 14px}
+.cmp-head-main{font-size:12.5px;font-weight:700;opacity:0;flex:1;min-width:0}
+.cmp-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;text-align:center;width:clamp(120px,34vw,252px);flex:none}
+.cmp-cols span{font-size:clamp(10.5px,2.6vw,13px);font-weight:700}
+.cmp-cat{background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.03em;padding:9px 14px}
+.cmp-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-top:1px solid var(--line)}
+.cmp-row-main{flex:1;min-width:0}
+.cmp-row-main .feat-name{font-weight:700;color:var(--text);margin:0 0 3px;font-size:13.5px}
+.cmp-row-main .feat-desc{color:var(--muted);font-size:11.5px;margin:0}
+.cmp-row-status{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;text-align:center;width:clamp(120px,34vw,252px);flex:none}
+.cmp-row-status .st{font-weight:800;font-size:clamp(12px,3vw,14px)}
+.st.yes{color:var(--ok)}
+.st.partial{color:var(--muted);font-style:italic;font-size:10.5px;font-weight:600}
+.st.no{color:var(--line)}
+@media (max-width:480px){.cmp-row-main .feat-desc{display:none}}
+
+/* faq */
+.faq{max-width:860px;margin:0 auto}
+details{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:10px}
+summary{cursor:pointer;padding:16px 20px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:14px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:22px;line-height:1;color:var(--blue);font-weight:600}
+details[open] summary::after{content:"\2212"}
+details .ans{padding:0 20px 18px;color:var(--muted);font-size:15.5px}
+details .ans p{margin:0 0 10px}
+
+/* request info form (shared pattern) */
+.reqinfo-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:34px;box-shadow:0 0 80px 10px rgba(10,127,193,.35),0 25px 50px -12px rgba(0,0,0,.35);max-width:780px;margin:0 auto}
+.reqinfo-head{text-align:center;margin-bottom:6px}
+.reqinfo-badge{display:inline-block;background:var(--chip-bg);color:var(--chip-text);border-radius:999px;padding:5px 16px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.reqinfo-head h3{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.reqinfo-head h3 span{color:var(--blue)}
+.reqinfo-head p{margin:0;color:var(--muted);font-size:14px}
+.reqinfo-contact{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.reqinfo-contact a{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:9px 16px;font-size:13.5px;font-weight:600;color:var(--text);text-decoration:none;box-shadow:0 1px 3px rgba(10,100,160,.08)}
+.reqinfo-contact a:hover{border-color:var(--blue)}
+.reqinfo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+@media (max-width:560px){.reqinfo-grid{grid-template-columns:1fr}}
+.reqinfo-fw label{display:block;margin-bottom:6px;font-size:13.5px;font-weight:600;color:var(--text)}
+.reqinfo-fw label em{color:#e0484f;font-style:normal}
+.reqinfo-field{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 14px;font:inherit;font-size:14px;color:var(--text);background:var(--panel);outline:none;transition:border-color .15s,box-shadow .15s}
+.reqinfo-field:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,127,193,.15)}
+textarea.reqinfo-field{resize:none}
+.reqinfo-recaptcha{display:flex;justify-content:center;margin-top:16px}
+.reqinfo-recaptcha-box{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:6px;padding:10px 14px;background:var(--panel);cursor:pointer}
+.reqinfo-submit{margin-top:20px;width:100%}
+.reqinfo-thanks{text-align:center;padding:30px 10px;display:none}
+.reqinfo-thanks .ico{font-size:44px;margin-bottom:10px}
+.reqinfo-thanks h3{margin:0 0 6px;font-size:20px}
+.reqinfo-thanks p{margin:0;color:var(--muted);font-size:14.5px}
+
+/* final + footer */
+.final{background:linear-gradient(115deg,#072f4c,#0a7fc1 70%,#08a5cf 125%);color:#fff;text-align:center;padding:68px 0}
+.final h2{margin:0 0 10px;font-size:clamp(26px,4vw,40px);letter-spacing:-.02em;line-height:1.15;text-wrap:balance}
+.final p{margin:0 auto 26px;max-width:36em;opacity:.92}
+.final .cta-row{justify-content:center}
+footer{background:var(--panel);border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:14px}
+footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div>
+        <span class="eyebrow">Koenig × AWS Skill Builder</span>
+        <h1 id="hero-title">Build Real AWS Skills, Backed by Koenig</h1>
+        <p class="lead">Hands-on labs, role-based learning games, and official certification prep — subscribe through Koenig and get the support of a dedicated training partner alongside AWS's own learning platform.</p>
+        <div class="cta-row">
+          <a class="btn btn-light" href="#request-info">Contact us</a>
+          <a class="btn btn-ghost" href="#pricing">View plans</a>
+        </div>
+      </div>
+      <div class="imgph" role="img" aria-label="Image placeholder: Hero image"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg><span>Image placeholder</span><small>Add a hero image here once available (e.g. a learner using AWS Builder Labs or Cloud Quest).</small></div>
+    </div>
+  </section>
+
+  <!-- LEARN PRACTICE CERTIFY -->
+  <section class="block" aria-labelledby="lpc-title">
+    <div class="container">
+      <h2 class="title" id="lpc-title">Learn, practice, and get AWS-certified</h2>
+      <p class="sub">One subscription gives you a complete path from foundation courses to hands-on practice to official certification — guided by Koenig every step of the way.</p>
+      <div class="two">
+        <div class="imgph" role="img" aria-label="Image placeholder: Product screenshot"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg><span>Image placeholder</span><small>Add a dashboard or Cloud Quest screenshot here once available.</small></div>
+        <div>
+          <h3 style="margin:0 0 14px;font-size:clamp(20px,2.6vw,26px);line-height:1.25;letter-spacing:-.01em">Develop, test, and prove your AWS expertise using:</h3>
+          <ul class="dots">
+            <li>900+ courses to learn at your own pace, plus curated learning plans</li>
+            <li>Game-based learning — AWS Cloud Quest, AWS Card Clash, AWS Industry Quest</li>
+            <li>Hands-on Guided AWS Builder Labs in a live AWS environment</li>
+            <li>Official exam prep, practice exams, and the AWS Escape Room</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY BENEFITS -->
+  <section class="block soft" id="benefits" aria-labelledby="ben-title">
+    <div class="container">
+      <h2 class="title" id="ben-title">Key benefits</h2>
+      <div class="grid3" style="margin-top:28px">
+        <article class="card">
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 13l2.2 2.2L15.5 11"/></svg></span>
+          <h3>Build real-world AWS skills</h3>
+          <p>Practise in a live AWS environment through Guided AWS Builder Labs, and translate business problems into solutions with AWS SimuLearn — not just theory.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M3 20c.6-3.6 3.4-6 7-6"/><circle cx="18" cy="17" r="2.5"/><path d="M18 12.5v1M18 20.5v1M13.5 17h1M21.5 17h1"/></svg></span>
+          <h3>Learn your way, at your pace</h3>
+          <p>900+ self-paced courses plus game-based learning — AWS Cloud Quest, AWS Card Clash, and AWS Industry Quest — make skill-building genuinely engaging.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></span>
+          <h3>Prove it with certification</h3>
+          <p>Prepare with official exam-prep videos, exam-style practice questions, the AWS Escape Room, and full-length official practice exams built by AWS.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="block soft" id="pricing" aria-labelledby="price-title">
+    <div class="container">
+      <h2 class="title" id="price-title">Plans and pricing</h2>
+      <p class="sub">Choose the plan that fits you or your team — subscribe through Koenig and we'll help you pick the right one.</p>
+      <div class="price-grid">
+        <div class="price-card">
+          <span class="price-badge">Monthly</span>
+          <h3>Monthly</h3>
+          <div class="amount">$29<small>/month</small></div>
+          <div class="per">Billed monthly &middot; cancel anytime</div>
+          <ul>
+            <li>Full access to all digital courses</li>
+            <li>Game-based learning</li>
+            <li>Hands-on labs</li>
+            <li>Immersive solution-building</li>
+            <li>Exam prep content</li>
+          </ul>
+          <a class="btn btn-outline btn-block" href="#request-info">Contact us</a>
+        </div>
+        <div class="price-card highlight">
+          <span class="price-badge">Annual</span>
+          <h3>Annual</h3>
+          <div class="amount">$449<small>/year</small></div>
+          <div class="per">Billed annually</div>
+          <ul>
+            <li>Everything in Monthly</li>
+            <li>Plus AWS Digital Classroom courses — expert-led, on demand</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="#request-info">Contact us</a>
+        </div>
+        <div class="price-card">
+          <span class="price-badge">Team</span>
+          <h3>Team</h3>
+          <div class="amount">$449<small>/seat/year</small></div>
+          <div class="per">Billed annually &middot; minimum 5 seats</div>
+          <ul>
+            <li>Everything in Annual</li>
+            <li>Plus tools and team training to build cloud skills at scale and maximize your cloud investment</li>
+          </ul>
+          <a class="btn btn-outline btn-block" href="#request-info">Contact us</a>
+        </div>
+      </div>
+      <p class="fine">Prices exclude applicable taxes and duties (e.g. VAT/sales tax). A free tier with limited course access is also available directly from AWS — see the comparison below.</p>
+    </div>
+  </section>
+
+  <!-- REQUEST FOR MORE INFORMATION (inline) -->
+  <section class="block" id="request-info" aria-labelledby="reqinfo-inline-title">
+    <div class="container">
+      <form id="reqinfo-form-inline" class="reqinfo-card">
+        <div class="reqinfo-head">
+          <span class="reqinfo-badge">Let's Talk</span>
+          <h3 id="reqinfo-inline-title">Request for more <span>information</span></h3>
+          <p>AWS Skill Builder Subscriptions</p>
+          <div class="reqinfo-contact">
+            <a href="https://wa.me/918800971792" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp us
+            </a>
+            <a href="mailto:training@koenig-solutions.com">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6b7f94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              Email us
+            </a>
+          </div>
+        </div>
+
+        <div class="reqinfo-grid" style="margin-top:22px">
+          <div class="reqinfo-fw">
+            <label>Full Name <em>*</em></label>
+            <input class="reqinfo-field" type="text" required placeholder="John Smith">
+          </div>
+          <div class="reqinfo-fw">
+            <label>Email <em>*</em></label>
+            <input class="reqinfo-field" type="email" required placeholder="you@email.com">
+          </div>
+        </div>
+        <div class="reqinfo-grid" style="margin-top:12px">
+          <div class="reqinfo-fw">
+            <label>Phone</label>
+            <input class="reqinfo-field" type="tel" placeholder="+91 98765 43210">
+          </div>
+          <div class="reqinfo-fw">
+            <label>Country</label>
+            <select class="reqinfo-field">
+              <option selected>India</option><option>United States</option><option>United Kingdom</option><option>United Arab Emirates</option><option>Saudi Arabia</option><option>Germany</option><option>France</option><option>Japan</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="reqinfo-fw" style="margin-top:12px">
+          <label>Tell us about your Training Needs</label>
+          <textarea class="reqinfo-field" rows="4" placeholder="Tell us whether you're looking at Monthly, Annual, or Team, team size, and target certification..."></textarea>
+        </div>
+        <div class="reqinfo-recaptcha">
+          <label class="reqinfo-recaptcha-box">
+            <input type="checkbox" required>
+            <span style="font-size:13px">I'm not a robot</span>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary reqinfo-submit">Submit - Get Free Consultation</button>
+      </form>
+      <div class="reqinfo-thanks" id="reqinfo-thanks-inline" style="max-width:780px;margin:0 auto">
+        <div class="ico">✅</div>
+        <h3>Thank you!</h3>
+        <p>Our team will reach out within 1 business day.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="block" id="compare" aria-labelledby="cmp-title">
+    <div class="container">
+      <h2 class="title" id="cmp-title">Compare all subscription features</h2>
+      <p class="sub">A side-by-side look at what's included in Monthly, Annual, and Team.</p>
+
+      <div class="cmp-list">
+          <div class="cmp-head">
+            <span class="cmp-head-main">Feature</span>
+            <div class="cmp-cols"><span>Monthly</span><span>Annual</span><span>Team</span></div>
+          </div>
+
+          <div class="cmp-cat">Digital training</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Digital courses</p><p class="feat-desc">900+ self-paced digital courses covering a wide range of AWS topics.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Learning plans</p><p class="feat-desc">Curated sequences of courses built around a role or solution.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Digital badges</p><p class="feat-desc">Earn shareable digital badges as you complete courses and games.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Exam preparation</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Exam Prep Review</p><p class="feat-desc">Short refresher videos covering key exam topics.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Exam Prep Practice</p><p class="feat-desc">Exam-style practice questions with explanations.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Escape Room: Exam Prep</p><p class="feat-desc">Solve puzzle-style challenges to reinforce exam topics.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Certification Official Pretests and Practice Exams</p><p class="feat-desc">Full-length official practice exams built by AWS experts.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Game-based learning</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Card Clash</p><p class="feat-desc">Fast-paced card game that builds AWS service knowledge.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Cloud Quest</p><p class="feat-desc">Role-based 3D learning game across four career tracks.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Industry Quest</p><p class="feat-desc">Learn how AWS is applied within specific industries through a game.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Skill Builder Meeting Simulator</p><p class="feat-desc">Practice stakeholder conversations in a simulated meeting.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Immersive solution-building</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS SimuLearn</p><p class="feat-desc">Apply AWS services to realistic business scenarios with AI-powered guidance.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Labs</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Guided AWS Builder Labs</p><p class="feat-desc">Step-by-step hands-on labs in a live, temporary AWS environment.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Lab Maker</p><p class="feat-desc">Build and customize your own hands-on labs.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Group-based learning</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Cloud Quest Tournament</p><p class="feat-desc">Compete as a group in timed Cloud Quest challenges.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Escape Room Sessions</p><p class="feat-desc">Host live, team-based escape room events.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Jam Events</p><p class="feat-desc">Gamified, team-based challenges that mirror real-world scenarios.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Skill Builder Trivia</p><p class="feat-desc">Live trivia sessions to engage teams around AWS topics.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Expert-led digital classroom</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Digital Classroom</p><p class="feat-desc">On-demand, expert-led classroom courses.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Skills validation</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Microcredentials</p><p class="feat-desc">Validate specific AWS skills with digital microcredentials.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Certification Maintenance</p><p class="feat-desc">Maintain active AWS certifications with ongoing learning.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Tools for teams</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Cohorts Studio</p><p class="feat-desc">Group learners into cohorts and manage their training together.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">AWS Cloud Quest Enterprise features</p><p class="feat-desc">Enterprise-grade controls for Cloud Quest deployments.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Administrator Dashboard</p><p class="feat-desc">Manage users, assign training, and monitor activity.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Comprehensive Reporting</p><p class="feat-desc">Track enrollment, progress, and completion across the team.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Single Sign-On</p><p class="feat-desc">Centralized identity and access management for teams.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+      </div>
+      <p class="fine">Feature availability shown above reflects AWS Skill Builder's published subscription tiers; Koenig helps you select and onboard onto the right one.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <h2 class="title" id="faq-title" style="margin-bottom:28px">Frequently asked questions</h2>
+      <div class="faq">
+        <details open>
+          <summary>What is AWS Skill Builder?</summary>
+          <div class="ans"><p>AWS Skill Builder is AWS's digital learning platform, with 900+ courses, hands-on labs, game-based learning, immersive solution-building, and official certification exam prep. Koenig helps you choose the right subscription and supports your team through the learning journey.</p></div>
+        </details>
+        <details>
+          <summary>What's included in the free tier?</summary>
+          <div class="ans"><p>AWS offers a free tier directly, with limited access to digital courses, learning plans, and digital badges. Subscribing through Koenig (Monthly, Annual, or Team) unlocks the full course catalog, labs, game-based learning, exam prep, and more — see the comparison table above for the full breakdown.</p></div>
+        </details>
+        <details>
+          <summary>What's the difference between the Monthly, Annual, and Team subscriptions?</summary>
+          <div class="ans"><p>Monthly ($29/month) gives one learner full access to all digital courses, game-based learning, labs, immersive solution-building, and exam prep content. Annual ($449/year) includes everything in Monthly plus AWS Digital Classroom courses. Team ($449/seat/year, 5-seat minimum) includes everything in Annual plus tools and team training to build cloud skills at scale — admin dashboard, reporting, single sign-on, and group-based learning.</p></div>
+        </details>
+        <details>
+          <summary>Can I cancel my subscription anytime?</summary>
+          <div class="ans"><p>The Monthly subscription can be cancelled at any time. Annual and Team subscriptions are annual commitments — talk to Koenig about the terms that apply to you or your organization.</p></div>
+        </details>
+        <details>
+          <summary>What languages is this available in?</summary>
+          <div class="ans"><p>Subscriptions are available in multiple languages, including English, French, German, Italian, Japanese, Korean, Brazilian Portuguese, and both Latin American and European Spanish, across 200+ countries and territories.</p></div>
+        </details>
+        <details>
+          <summary>What certifications does the exam prep cover?</summary>
+          <div class="ans"><p>Official exam prep content — Exam Prep Review, Exam Prep Practice, the AWS Escape Room: Exam Prep, and full-length AWS Certification Official Pretests and Practice Exams — is included across the AWS certification portfolio, from Cloud Practitioner through Associate, Professional, and Specialty levels.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" aria-labelledby="final-title">
+    <div class="container">
+      <h2 id="final-title">Ready to get started with AWS Skill Builder?</h2>
+      <p>Subscribe through Koenig, or talk to us if you have questions about the right plan for you or your team.</p>
+      <div class="cta-row">
+        <a class="btn btn-light" href="#pricing">View plans</a>
+        <a class="btn btn-ghost" href="#request-info">Contact us</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>Koenig | AWS Skill Builder Subscriptions</span>
+    <span>Terms and conditions apply.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var inlineForm = document.getElementById('reqinfo-form-inline');
+  var inlineThanks = document.getElementById('reqinfo-thanks-inline');
+  if(inlineForm){
+    inlineForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      inlineForm.style.display = 'none';
+      if(inlineThanks){ inlineThanks.style.display = 'block'; }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

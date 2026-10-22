@@ -623,7 +623,7 @@ export default function CoursePageDesign() {
       {/* ============================================================ */}
       {/* 8. Schedule & Pricing — Interactive Scheduler                */}
       {/* ============================================================ */}
-      <CourseScheduler courseTitle={course.title} />
+      <CourseScheduler courseTitle={course.title} courseId={course.code} />
 
       {/* ============================================================ */}
       {/* 8b. Request for More Information Form                        */}

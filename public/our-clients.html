@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trusted by the World's Best | Koenig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0694d1;
+  --accent:#076d9d;
+  --navy:#093148;
+  --dark:#053148;
+  --muted:#7a8c96;
+  --border:#dedede;
+  --light:#f0faff;
+  --bg:#ffffff;
+  box-sizing:border-box;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--dark);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.container{max-width:1180px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+
+section.clients{padding:64px 0 76px}
+.head{text-align:center;max-width:640px;margin:0 auto 36px}
+.head h2{margin:0 0 10px;font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-0.02em;line-height:1.2}
+.head h2 span{color:var(--blue)}
+.head p{margin:0;color:var(--muted);font-size:16px}
+
+/* filter bar */
+.filters{display:flex;flex-direction:column;gap:14px;align-items:center;margin-bottom:34px}
+.country-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px}
+.country-select-wrap{position:relative;width:260px}
+.country-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font:inherit;font-size:14.5px;font-weight:600;color:var(--dark);cursor:pointer}
+.country-trigger:hover{border-color:var(--blue)}
+.country-trigger svg{flex:none;color:var(--muted);transition:transform .15s}
+.country-trigger[aria-expanded="true"] svg{transform:rotate(180deg)}
+.country-panel{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:40;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 14px 34px rgba(9,49,72,.14);padding:8px;display:none}
+.country-panel.open{display:block}
+.country-search{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font:inherit;font-size:14px;margin-bottom:6px;outline:none}
+.country-search:focus{border-color:var(--blue)}
+.country-list{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.country-opt{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;border-radius:8px;background:none;border:0;font:inherit;font-size:14px;font-weight:500;color:var(--dark);text-align:left;cursor:pointer}
+.country-opt:hover{background:var(--light)}
+.country-opt.selected{background:var(--light);color:var(--blue);font-weight:700}
+.country-opt .cnt{font-size:12px;color:var(--muted);font-weight:500}
+.country-opt.selected .cnt{color:var(--blue)}
+.showing-label{font-size:14px;color:var(--muted)}
+.showing-label b{color:var(--dark);font-weight:700}
+
+.industry-row{display:flex;gap:8px;overflow-x:auto;max-width:100%;padding:2px 2px 6px;scrollbar-width:none}
+.industry-row::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:9px 16px;border-radius:999px;border:1.5px solid var(--border);background:#fff;font:inherit;font-size:13.5px;font-weight:600;color:var(--dark);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
+.chip:hover{border-color:var(--blue)}
+.chip.active{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* meta row */
+.meta-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.count-line{font-size:14px;color:var(--muted)}
+.count-line b{color:var(--dark);font-weight:700}
+.clear-link{background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:700;color:var(--blue);text-decoration:underline;cursor:pointer}
+.fallback-note{width:100%;margin:-6px 0 2px;font-size:13px;font-weight:600;color:var(--accent);background:var(--light);border:1px solid var(--border);border-radius:8px;padding:8px 12px}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+@media (max-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:620px){.grid{grid-template-columns:repeat(2,1fr)}}
+.tile{display:flex;align-items:center;justify-content:center;text-align:center;min-height:84px;padding:14px 10px;border:1.5px solid var(--border);border-radius:12px;background:#fff;font-size:13.5px;font-weight:700;color:var(--navy);line-height:1.3;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;cursor:default}
+.tile:hover,.tile:focus-visible{transform:translateY(-4px);border-color:var(--blue);box-shadow:0 10px 24px rgba(6,148,209,.18)}
+.tile:focus-visible{outline:none}
+
+.load-more-wrap{display:flex;justify-content:center;margin-top:30px}
+.load-more{padding:12px 28px;border-radius:10px;border:1.5px solid var(--blue);background:#fff;color:var(--blue);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;transition:background .15s,color .15s}
+.load-more:hover{background:var(--blue);color:#fff}
+
+.empty-state{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted)}
+.empty-state p{margin:0 0 10px;font-size:15px;font-weight:600;color:var(--dark)}
+.empty-state button{background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:700;color:var(--blue);text-decoration:underline;cursor:pointer}
+</style>
+</head>
+<body>
+
+<section class="clients">
+  <div class="container">
+    <div class="head">
+      <h2 id="clients-heading">Trusted by the World's <span>Best</span></h2>
+      <p>Organizations that rely on Koenig to develop their teams</p>
+    </div>
+
+    <div class="filters">
+      <div class="country-row">
+        <div class="country-select-wrap">
+          <button type="button" class="country-trigger" id="countryTrigger" aria-haspopup="listbox" aria-expanded="false">
+            <span id="countryTriggerLabel">India</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="country-panel" id="countryPanel" role="listbox">
+            <input type="text" class="country-search" id="countrySearch" placeholder="Search country...">
+            <div class="country-list" id="countryList"></div>
+          </div>
+        </div>
+        <span class="showing-label">Showing clients in: <b id="showingCountryLabel">India</b></span>
+      </div>
+
+      <div class="industry-row" id="industryRow" role="tablist" aria-label="Filter by industry"></div>
+    </div>
+
+    <div class="meta-row">
+      <span class="count-line" id="countLine"></span>
+      <button type="button" class="clear-link" id="clearFilters">Clear filters</button>
+    </div>
+    <div class="fallback-note" id="fallbackNote" style="display:none"></div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+      <button type="button" class="load-more" id="loadMoreBtn">Load more</button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------------------------------------------------------- */
+  /*  Sample data (front-end only — no backend, no real logos)         */
+  /* ---------------------------------------------------------------- */
+  var CONTINENT = {
+    "India": "Asia",
+    "United States": "North America",
+    "United Kingdom": "Europe",
+    "United Arab Emirates": "Asia",
+    "Saudi Arabia": "Asia",
+    "Israel": "Asia"
+  };
+  var COUNTRIES = ["India", "United States", "United Kingdom", "United Arab Emirates", "Saudi Arabia", "Israel"];
+  var INDUSTRIES = ["IT", "BFSI", "Healthcare", "Government", "Oil & Gas", "Manufacturing", "Telecom", "Retail"];
+
+  var RAW = [
+    // India (18)
+    ["Bharat Cloud Technologies","India","IT"],["Ganges Software Labs","India","IT"],["Indus Data Systems","India","IT"],
+    ["Lotus Capital Bank","India","BFSI"],["Mumbai Trust Financial","India","BFSI"],
+    ["Himalaya Health Group","India","Healthcare"],["Ayur Wellness Hospitals","India","Healthcare"],
+    ["Bharat Public Services Board","India","Government"],["State Infrastructure Corporation","India","Government"],
+    ["Rajasthan Petrochem Ltd","India","Oil & Gas"],["Deccan Energy Resources","India","Oil & Gas"],
+    ["Konkan Steel Works","India","Manufacturing"],["Ganga Precision Industries","India","Manufacturing"],
+    ["Bharat Telecom Networks","India","Telecom"],["Sagar Mobile Communications","India","Telecom"],
+    ["Bazaar Retail Chain","India","Retail"],["Spice Market Stores","India","Retail"],["Monsoon Fashion Mart","India","Retail"],
+
+    // United States (16)
+    ["Nexora Technologies","United States","IT"],["ByteForge Systems","United States","IT"],
+    ["Meridian Capital Bank","United States","BFSI"],["Liberty Trust Financial","United States","BFSI"],
+    ["CarePoint Hospitals","United States","Healthcare"],["Vitalis Health Group","United States","Healthcare"],
+    ["Federal Transit Authority","United States","Government"],["Public Works Commission","United States","Government"],
+    ["Northstar Petroleum","United States","Oil & Gas"],["Prairie Energy Corp","United States","Oil & Gas"],
+    ["Ironclad Manufacturing","United States","Manufacturing"],["Precision Forge Industries","United States","Manufacturing"],
+    ["Skyline Telecom","United States","Telecom"],["ConnectWave Communications","United States","Telecom"],
+    ["Marketplace Retail Group","United States","Retail"],["UrbanMart Stores","United States","Retail"],
+
+    // United Kingdom (10)
+    ["Thames Software Labs","United Kingdom","IT"],["Albion IT Services","United Kingdom","IT"],
+    ["Britannia Capital Bank","United Kingdom","BFSI"],["Sterling Trust Group","United Kingdom","BFSI"],
+    ["Wellspring Medical Centre","United Kingdom","Healthcare"],
+    ["Crown Infrastructure Board","United Kingdom","Government"],
+    ["Northsea Petroleum Ltd","United Kingdom","Oil & Gas"],
+    ["SteelCraft Works","United Kingdom","Manufacturing"],
+    ["Orbit Broadband","United Kingdom","Telecom"],
+    ["HighStreet Retail Co","United Kingdom","Retail"],
+
+    // United Arab Emirates (9)
+    ["Gulf Digital Systems","United Arab Emirates","IT"],["Oasis Cloud Technologies","United Arab Emirates","IT"],
+    ["Emirates Capital Bank","United Arab Emirates","BFSI"],
+    ["Desert Rose Hospitals","United Arab Emirates","Healthcare"],
+    ["Federal Authority for Infrastructure","United Arab Emirates","Government"],
+    ["DuneField Oil Corp","United Arab Emirates","Oil & Gas"],
+    ["Al Reem Manufacturing","United Arab Emirates","Manufacturing"],
+    ["Falcon Telecom Networks","United Arab Emirates","Telecom"],
+    ["Marina Retail Group","United Arab Emirates","Retail"],
+
+    // Saudi Arabia (7)
+    ["Najd Technology Group","Saudi Arabia","IT"],
+    ["Hejaz Capital Bank","Saudi Arabia","BFSI"],
+    ["Crescent Health Group","Saudi Arabia","Healthcare"],
+    ["Kingdom Infrastructure Authority","Saudi Arabia","Government"],
+    ["Arabian Gasworks","Saudi Arabia","Oil & Gas"],
+    ["Red Sea Industries","Saudi Arabia","Manufacturing"],
+    ["Arabian Mobile Networks","Saudi Arabia","Telecom"]
+    // Israel: intentionally zero companies — demonstrates the empty-country fallback
+  ];
+
+  // Deterministic shuffle (fixed seed) so "rank" looks like an independent
+  // prominence score rather than just array order, but stays stable across loads.
+  function seededRandom(seed){
+    var s = seed % 2147483647; if (s <= 0) s += 2147483646;
+    return function(){ s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+  }
+  var rng = seededRandom(42);
+  var ranks = RAW.map(function(_, i){ return i + 1; });
+  for (var i = ranks.length - 1; i > 0; i--){
+    var j = Math.floor(rng() * (i + 1));
+    var tmp = ranks[i]; ranks[i] = ranks[j]; ranks[j] = tmp;
+  }
+
+  var COMPANIES = RAW.map(function(row, i){
+    return { name: row[0], country: row[1], industry: row[2], rank: ranks[i] };
+  });
+
+  /* ---------------------------------------------------------------- */
+  /*  State                                                            */
+  /* ---------------------------------------------------------------- */
+  var PAGE_SIZE = 30;
+  var state = {
+    country: "India",
+    industry: "All industries",
+    visible: PAGE_SIZE
+  };
+
+  /* ---------------------------------------------------------------- */
+  /*  Country dropdown                                                  */
+  /* ---------------------------------------------------------------- */
+  var countryTrigger = document.getElementById("countryTrigger");
+  var countryTriggerLabel = document.getElementById("countryTriggerLabel");
+  var countryPanel = document.getElementById("countryPanel");
+  var countrySearch = document.getElementById("countrySearch");
+  var countryList = document.getElementById("countryList");
+  var showingCountryLabel = document.getElementById("showingCountryLabel");
+
+  function countOfCountry(c){
+    return COMPANIES.filter(function(x){ return x.country === c; }).length;
+  }
+
+  function renderCountryList(filterText){
+    var q = (filterText || "").toLowerCase();
+    countryList.innerHTML = "";
+    COUNTRIES.filter(function(c){ return c.toLowerCase().indexOf(q) !== -1; }).forEach(function(c){
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "country-opt" + (c === state.country ? " selected" : "");
+      btn.setAttribute("role", "option");
+      btn.innerHTML = "<span>" + c + "</span><span class=\"cnt\">" + countOfCountry(c) + "</span>";
+      btn.addEventListener("click", function(){
+        state.country = c;
+        state.visible = PAGE_SIZE;
+        countryTriggerLabel.textContent = c;
+        showingCountryLabel.textContent = c;
+        closeCountryPanel();
+        render();
+      });
+      countryList.appendChild(btn);
+    });
+  }
+
+  function openCountryPanel(){
+    countryPanel.classList.add("open");
+    countryTrigger.setAttribute("aria-expanded", "true");
+    countrySearch.value = "";
+    renderCountryList("");
+    setTimeout(function(){ countrySearch.focus(); }, 0);
+  }
+  function closeCountryPanel(){
+    countryPanel.classList.remove("open");
+    countryTrigger.setAttribute("aria-expanded", "false");
+  }
+  countryTrigger.addEventListener("click", function(){
+    if (countryPanel.classList.contains("open")) closeCountryPanel(); else openCountryPanel();
+  });
+  countrySearch.addEventListener("input", function(){ renderCountryList(countrySearch.value); });
+  document.addEventListener("click", function(e){
+    if (!countryPanel.contains(e.target) && e.target !== countryTrigger && !countryTrigger.contains(e.target)) closeCountryPanel();
+  });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeCountryPanel(); });
+
+  /* ---------------------------------------------------------------- */
+  /*  Industry chips                                                    */
+  /* ---------------------------------------------------------------- */
+  var industryRow = document.getElementById("industryRow");
+  var ALL_CHIPS = ["All industries"].concat(INDUSTRIES).concat(["More"]);
+  ALL_CHIPS.forEach(function(label){
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip";
+    btn.textContent = label;
+    btn.setAttribute("role", "tab");
+    btn.addEventListener("click", function(){
+      if (label === "More") return; // placeholder chip, no extra industries to reveal in this sample
+      state.industry = label;
+      state.visible = PAGE_SIZE;
+      render();
+    });
+    industryRow.appendChild(btn);
+  });
+
+  function syncChips(){
+    Array.prototype.forEach.call(industryRow.children, function(chip){
+      chip.classList.toggle("active", chip.textContent === state.industry);
+      chip.setAttribute("aria-selected", chip.textContent === state.industry ? "true" : "false");
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /*  Filtering + fallback logic                                        */
+  /* ---------------------------------------------------------------- */
+  function byRank(a, b){ return a.rank - b.rank; }
+
+  function getFiltered(){
+    var hasCountry = true; // a country is always selected (default India)
+    var hasIndustry = state.industry !== "All industries";
+
+    var base = COMPANIES.filter(function(x){
+      var cOk = x.country === state.country;
+      var iOk = !hasIndustry || x.industry === state.industry;
+      return cOk && iOk;
+    }).sort(byRank);
+
+    var usedFallback = false;
+    var list = base;
+
+    // Fallback only applies when filtering by country alone (not combined
+    // with an industry pick) and that country can't fill a full page.
+    if (!hasIndustry && base.length < PAGE_SIZE){
+      var continent = CONTINENT[state.country];
+      var pool = COMPANIES.filter(function(x){ return CONTINENT[x.country] === continent; }).sort(byRank);
+      if (pool.length > base.length){
+        list = pool;
+        usedFallback = true;
+      }
+    }
+
+    return { list: list, usedFallback: usedFallback, continent: CONTINENT[state.country] };
+  }
+
+  /* ---------------------------------------------------------------- */
+  /*  Render                                                            */
+  /* ---------------------------------------------------------------- */
+  var grid = document.getElementById("grid");
+  var countLine = document.getElementById("countLine");
+  var fallbackNote = document.getElementById("fallbackNote");
+  var loadMoreWrap = document.getElementById("loadMoreWrap");
+  var loadMoreBtn = document.getElementById("loadMoreBtn");
+  var clearFilters = document.getElementById("clearFilters");
+
+  function render(){
+    syncChips();
+    var result = getFiltered();
+    var total = result.list.length;
+    var shown = result.list.slice(0, state.visible);
+
+    grid.innerHTML = "";
+    if (total === 0){
+      var empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.innerHTML = "<p>No organisations for this filter</p><button type=\"button\" id=\"emptyClear\">Clear filters</button>";
+      grid.appendChild(empty);
+      document.getElementById("emptyClear").addEventListener("click", resetFilters);
+    } else {
+      shown.forEach(function(c){
+        var tile = document.createElement("div");
+        tile.className = "tile";
+        tile.textContent = c.name;
+        tile.tabIndex = 0;
+        grid.appendChild(tile);
+      });
+    }
+
+    if (result.usedFallback){
+      fallbackNote.style.display = "block";
+      fallbackNote.textContent = "Showing popular clients across " + result.continent;
+    } else {
+      fallbackNote.style.display = "none";
+    }
+
+    countLine.textContent = total === 0 ? "" : ("Showing " + shown.length + " of " + total + " organisations");
+    loadMoreWrap.style.display = shown.length < total ? "flex" : "none";
+  }
+
+  loadMoreBtn.addEventListener("click", function(){
+    state.visible += PAGE_SIZE;
+    render();
+  });
+
+  function resetFilters(){
+    state.country = "India";
+    state.industry = "All industries";
+    state.visible = PAGE_SIZE;
+    countryTriggerLabel.textContent = "India";
+    showingCountryLabel.textContent = "India";
+    render();
+  }
+  clearFilters.addEventListener("click", resetFilters);
+
+  render();
+})();
+</script>
+
+</body>
+</html>
