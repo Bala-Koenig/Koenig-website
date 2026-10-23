@@ -90,10 +90,10 @@ h2.title{margin:0 0 12px;font-size:clamp(26px,3.6vw,38px);line-height:1.15;lette
 
 
 /* pricing */
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1040px;margin:0 auto}
-@media (max-width:900px){.price-grid{grid-template-columns:1fr;max-width:480px}}
-.price-card{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:var(--shadow)}
-.price-card.highlight{border:2px solid var(--blue);box-shadow:0 20px 45px rgba(10,100,160,.22)}
+.price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,340px));justify-content:center;gap:20px;max-width:1040px;margin:0 auto}
+@media (max-width:700px){.price-grid{grid-template-columns:minmax(0,340px);max-width:380px}}
+.price-card{display:flex;flex-direction:column;border-radius:20px;padding:28px;box-shadow:var(--shadow);border:2px solid transparent;background-image:linear-gradient(var(--panel),var(--panel)),linear-gradient(135deg,var(--blue),var(--cyan));background-origin:border-box;background-clip:padding-box,border-box}
+.price-card.highlight{box-shadow:0 20px 45px rgba(10,100,160,.22)}
 .price-badge{align-self:flex-start;background:var(--chip-bg);color:var(--chip-text);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
 .price-card h3{margin:0 0 4px;font-size:20px}
 .price-card .amount{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:10px 0 2px}
@@ -108,14 +108,14 @@ h2.title{margin:0 0 12px;font-size:clamp(26px,3.6vw,38px);line-height:1.15;lette
 .cmp-list{border-radius:16px;border:1px solid var(--line);background:var(--panel);overflow:hidden}
 .cmp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--navy);color:#fff;padding:12px 14px}
 .cmp-head-main{font-size:12.5px;font-weight:700;opacity:0;flex:1;min-width:0}
-.cmp-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;text-align:center;width:clamp(120px,34vw,252px);flex:none}
+.cmp-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;text-align:center;width:clamp(100px,24vw,168px);flex:none}
 .cmp-cols span{font-size:clamp(10.5px,2.6vw,13px);font-weight:700}
 .cmp-cat{background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.03em;padding:9px 14px}
 .cmp-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-top:1px solid var(--line)}
 .cmp-row-main{flex:1;min-width:0}
 .cmp-row-main .feat-name{font-weight:700;color:var(--text);margin:0 0 3px;font-size:13.5px}
 .cmp-row-main .feat-desc{color:var(--muted);font-size:11.5px;margin:0}
-.cmp-row-status{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;text-align:center;width:clamp(120px,34vw,252px);flex:none}
+.cmp-row-status{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;text-align:center;width:clamp(100px,24vw,168px);flex:none}
 .cmp-row-status .st{font-weight:800;font-size:clamp(12px,3vw,14px)}
 .st.yes{color:var(--ok)}
 .st.partial{color:var(--muted);font-style:italic;font-size:10.5px;font-weight:600}
@@ -239,27 +239,17 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
       <h2 class="title" id="price-title">Plans and pricing</h2>
       <p class="sub">Choose the plan that fits you or your team — subscribe through Koenig and we'll help you pick the right one.</p>
       <div class="price-grid">
-        <div class="price-card">
-          <span class="price-badge">Monthly</span>
-          <h3>Monthly</h3>
-          <div class="amount">$29<small>/month</small></div>
-          <div class="per">Billed monthly &middot; cancel anytime</div>
-          <ul>
-            <li>Full access to all digital courses</li>
-            <li>Game-based learning</li>
-            <li>Hands-on labs</li>
-            <li>Immersive solution-building</li>
-            <li>Exam prep content</li>
-          </ul>
-          <a class="btn btn-outline btn-block" href="#request-info">Contact us</a>
-        </div>
         <div class="price-card highlight">
           <span class="price-badge">Annual</span>
           <h3>Annual</h3>
           <div class="amount">$449<small>/year</small></div>
           <div class="per">Billed annually</div>
           <ul>
-            <li>Everything in Monthly</li>
+            <li>Full access to all digital courses</li>
+            <li>Game-based learning</li>
+            <li>Hands-on labs</li>
+            <li>Immersive solution-building</li>
+            <li>Exam prep content</li>
             <li>Plus AWS Digital Classroom courses — expert-led, on demand</li>
           </ul>
           <a class="btn btn-primary btn-block" href="#request-info">Contact us</a>
@@ -324,7 +314,7 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
         </div>
         <div class="reqinfo-fw" style="margin-top:12px">
           <label>Tell us about your Training Needs</label>
-          <textarea class="reqinfo-field" rows="4" placeholder="Tell us whether you're looking at Monthly, Annual, or Team, team size, and target certification..."></textarea>
+          <textarea class="reqinfo-field" rows="4" placeholder="Tell us whether you're looking at Annual or Team, team size, and target certification..."></textarea>
         </div>
         <div class="reqinfo-recaptcha">
           <label class="reqinfo-recaptcha-box">
@@ -346,134 +336,134 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
   <section class="block" id="compare" aria-labelledby="cmp-title">
     <div class="container">
       <h2 class="title" id="cmp-title">Compare all subscription features</h2>
-      <p class="sub">A side-by-side look at what's included in Monthly, Annual, and Team.</p>
+      <p class="sub">A side-by-side look at what's included in Annual and Team.</p>
 
       <div class="cmp-list">
           <div class="cmp-head">
             <span class="cmp-head-main">Feature</span>
-            <div class="cmp-cols"><span>Monthly</span><span>Annual</span><span>Team</span></div>
+            <div class="cmp-cols"><span>Annual</span><span>Team</span></div>
           </div>
 
           <div class="cmp-cat">Digital training</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Digital courses</p><p class="feat-desc">900+ self-paced digital courses covering a wide range of AWS topics.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Learning plans</p><p class="feat-desc">Curated sequences of courses built around a role or solution.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Digital badges</p><p class="feat-desc">Earn shareable digital badges as you complete courses and games.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
 
           <div class="cmp-cat">Exam preparation</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Exam Prep Review</p><p class="feat-desc">Short refresher videos covering key exam topics.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Exam Prep Practice</p><p class="feat-desc">Exam-style practice questions with explanations.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Escape Room: Exam Prep</p><p class="feat-desc">Solve puzzle-style challenges to reinforce exam topics.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Certification Official Pretests and Practice Exams</p><p class="feat-desc">Full-length official practice exams built by AWS experts.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
 
           <div class="cmp-cat">Game-based learning</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Card Clash</p><p class="feat-desc">Fast-paced card game that builds AWS service knowledge.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Cloud Quest</p><p class="feat-desc">Role-based 3D learning game across four career tracks.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Industry Quest</p><p class="feat-desc">Learn how AWS is applied within specific industries through a game.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Skill Builder Meeting Simulator</p><p class="feat-desc">Practice stakeholder conversations in a simulated meeting.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
 
           <div class="cmp-cat">Immersive solution-building</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS SimuLearn</p><p class="feat-desc">Apply AWS services to realistic business scenarios with AI-powered guidance.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
 
           <div class="cmp-cat">Labs</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Guided AWS Builder Labs</p><p class="feat-desc">Step-by-step hands-on labs in a live, temporary AWS environment.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Lab Maker</p><p class="feat-desc">Build and customize your own hands-on labs.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
 
           <div class="cmp-cat">Group-based learning</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Cloud Quest Tournament</p><p class="feat-desc">Compete as a group in timed Cloud Quest challenges.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Escape Room Sessions</p><p class="feat-desc">Host live, team-based escape room events.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Jam Events</p><p class="feat-desc">Gamified, team-based challenges that mirror real-world scenarios.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Skill Builder Trivia</p><p class="feat-desc">Live trivia sessions to engage teams around AWS topics.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
 
           <div class="cmp-cat">Expert-led digital classroom</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Digital Classroom</p><p class="feat-desc">On-demand, expert-led classroom courses.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
 
           <div class="cmp-cat">Skills validation</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Microcredentials</p><p class="feat-desc">Validate specific AWS skills with digital microcredentials.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Certification Maintenance</p><p class="feat-desc">Maintain active AWS certifications with ongoing learning.</p></div>
-            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
           </div>
 
           <div class="cmp-cat">Tools for teams</div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Cohorts Studio</p><p class="feat-desc">Group learners into cohorts and manage their training together.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">AWS Cloud Quest Enterprise features</p><p class="feat-desc">Enterprise-grade controls for Cloud Quest deployments.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Administrator Dashboard</p><p class="feat-desc">Manage users, assign training, and monitor activity.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Comprehensive Reporting</p><p class="feat-desc">Track enrollment, progress, and completion across the team.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
           <div class="cmp-row">
             <div class="cmp-row-main"><p class="feat-name">Single Sign-On</p><p class="feat-desc">Centralized identity and access management for teams.</p></div>
-            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
           </div>
       </div>
       <p class="fine">Feature availability shown above reflects AWS Skill Builder's published subscription tiers; Koenig helps you select and onboard onto the right one.</p>
@@ -491,15 +481,15 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
         </details>
         <details>
           <summary>What's included in the free tier?</summary>
-          <div class="ans"><p>AWS offers a free tier directly, with limited access to digital courses, learning plans, and digital badges. Subscribing through Koenig (Monthly, Annual, or Team) unlocks the full course catalog, labs, game-based learning, exam prep, and more — see the comparison table above for the full breakdown.</p></div>
+          <div class="ans"><p>AWS offers a free tier directly, with limited access to digital courses, learning plans, and digital badges. Subscribing through Koenig (Annual or Team) unlocks the full course catalog, labs, game-based learning, exam prep, and more — see the comparison table above for the full breakdown.</p></div>
         </details>
         <details>
-          <summary>What's the difference between the Monthly, Annual, and Team subscriptions?</summary>
-          <div class="ans"><p>Monthly ($29/month) gives one learner full access to all digital courses, game-based learning, labs, immersive solution-building, and exam prep content. Annual ($449/year) includes everything in Monthly plus AWS Digital Classroom courses. Team ($449/seat/year, 5-seat minimum) includes everything in Annual plus tools and team training to build cloud skills at scale — admin dashboard, reporting, single sign-on, and group-based learning.</p></div>
+          <summary>What's the difference between the Annual and Team subscriptions?</summary>
+          <div class="ans"><p>Annual ($449/year) gives one learner full access to all digital courses, game-based learning, labs, immersive solution-building, exam prep content, and AWS Digital Classroom courses. Team ($449/seat/year, 5-seat minimum) includes everything in Annual plus tools and team training to build cloud skills at scale — admin dashboard, reporting, single sign-on, and group-based learning.</p></div>
         </details>
         <details>
           <summary>Can I cancel my subscription anytime?</summary>
-          <div class="ans"><p>The Monthly subscription can be cancelled at any time. Annual and Team subscriptions are annual commitments — talk to Koenig about the terms that apply to you or your organization.</p></div>
+          <div class="ans"><p>Annual and Team subscriptions are annual commitments — talk to Koenig about the cancellation and renewal terms that apply to you or your organization.</p></div>
         </details>
         <details>
           <summary>What languages is this available in?</summary>
