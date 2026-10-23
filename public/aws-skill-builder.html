@@ -54,9 +54,16 @@ a{color:inherit}
 .hero h1{margin:0 0 16px;font-size:clamp(32px,5vw,50px);line-height:1.08;letter-spacing:-.025em;font-weight:800;text-wrap:balance}
 .hero p.lead{margin:0 0 28px;font-size:clamp(16px,2vw,19px);max-width:34em;opacity:.93}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px}
-.hero-logo-wrap{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:18px;padding:40px;min-height:260px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.hero-logo-wrap{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:18px;padding:40px;min-height:320px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
 .lpc-img{width:100%;height:auto;border-radius:18px;box-shadow:var(--shadow)}
-.hero-logo{width:100%;max-width:280px;height:auto}
+.hero-logo{width:100%;max-width:420px;height:auto}
+
+#scroll-top{position:fixed;bottom:20px;right:16px;z-index:50;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:0;background:var(--navy);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(6,148,209,.35);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s,background .15s}
+#scroll-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+#scroll-top:hover{background:var(--blue)}
+#scroll-top:active{transform:scale(.95)}
+#scroll-top svg{width:20px;height:20px}
+@media (prefers-reduced-motion:reduce){#scroll-top{transition:opacity .2s}}
 
 /* image placeholders — no real images supplied yet */
 .imgph{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;border:2px dashed var(--line);border-radius:18px;background:repeating-linear-gradient(135deg,var(--panel-soft) 0 14px,var(--bg) 14px 28px);color:var(--muted);padding:24px;min-height:260px;font-weight:600;font-size:14px}
@@ -102,7 +109,7 @@ h2.title{margin:0 0 12px;font-size:clamp(26px,3.6vw,38px);line-height:1.15;lette
 .price-card ul{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:10px;flex:1}
 .price-card li{position:relative;padding-left:22px;font-size:14.5px;color:var(--text)}
 .price-card li::before{content:"";position:absolute;left:0;top:.35em;width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a7fc1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 12.5 9.5 18 20 6'/%3E%3C/svg%3E") no-repeat center/contain}
-.fine{margin:14px 0 0;font-size:12px;color:var(--muted)}
+.fine{margin:14px 0 0;font-size:12px;color:var(--muted);text-align:center}
 
 /* comparison: all plans side by side — fluid, no forced horizontal scroll */
 .cmp-list{border-radius:16px;border:1px solid var(--line);background:var(--panel);overflow:hidden}
@@ -175,7 +182,7 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
   <section class="hero" aria-labelledby="hero-title">
     <div class="container">
       <div>
-        <span class="eyebrow">Koenig AWS Skill Builder</span>
+        <span class="eyebrow">AWS Skill Builder</span>
         <h1 id="hero-title">Build Real AWS Skills, Backed by Koenig</h1>
         <p class="lead">Hands-on labs, role-based learning games, and official certification prep — subscribe through Koenig and get the support of a dedicated training partner alongside AWS's own learning platform.</p>
         <div class="cta-row">
@@ -266,7 +273,7 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
           <a class="btn btn-outline btn-block" href="#request-info">Contact us</a>
         </div>
       </div>
-      <p class="fine">Prices exclude applicable taxes and duties (e.g. VAT/sales tax). A free tier with limited course access is also available directly from AWS — see the comparison below.</p>
+      <p class="fine">Prices exclude applicable taxes and duties (e.g. GST, VAT, or sales tax, as applicable in your country).</p>
     </div>
   </section>
 
@@ -480,10 +487,6 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
           <div class="ans"><p>AWS Skill Builder is AWS's digital learning platform, with 900+ courses, hands-on labs, game-based learning, immersive solution-building, and official certification exam prep. Koenig helps you choose the right subscription and supports your team through the learning journey.</p></div>
         </details>
         <details>
-          <summary>What's included in the free tier?</summary>
-          <div class="ans"><p>AWS offers a free tier directly, with limited access to digital courses, learning plans, and digital badges. Subscribing through Koenig (Annual or Team) unlocks the full course catalog, labs, game-based learning, exam prep, and more — see the comparison table above for the full breakdown.</p></div>
-        </details>
-        <details>
           <summary>What's the difference between the Annual and Team subscriptions?</summary>
           <div class="ans"><p>Annual ($449/year) gives one learner full access to all digital courses, game-based learning, labs, immersive solution-building, exam prep content, and AWS Digital Classroom courses. Team ($449/seat/year, 5-seat minimum) includes everything in Annual plus tools and team training to build cloud skills at scale — admin dashboard, reporting, single sign-on, and group-based learning.</p></div>
         </details>
@@ -523,6 +526,10 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
   </div>
 </footer>
 
+<button type="button" id="scroll-top" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
 <script>
 (function(){
   var inlineForm = document.getElementById('reqinfo-form-inline');
@@ -534,6 +541,18 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
       if(inlineThanks){ inlineThanks.style.display = 'block'; }
     });
   }
+
+  var topBtn = document.getElementById('scroll-top');
+  var lastY = window.scrollY;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    var visible = y < lastY && y > 300;
+    topBtn.classList.toggle('show', visible);
+    lastY = y;
+  }, { passive: true });
+  topBtn.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 })();
 </script>
 
