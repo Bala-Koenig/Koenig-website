@@ -394,7 +394,7 @@ const SIDEBAR_TECHNOLOGIES = [
   { name: 'All',          label: 'All Technologies',              count: COURSES.length, bg: '#EBF8FE', color: '#0694D1', initial: '★' },
   { name: 'Microsoft Azure',    label: 'Microsoft Azure',         count: COURSES.filter(c => (c.techs??[]).includes('Microsoft Azure')).length, bg: '#E3F2FD', color: '#0078d4', initial: 'Az' },
   { name: 'Cyber Security',     label: 'Cyber Security',          count: COURSES.filter(c => (c.techs??[]).includes('Cyber Security')).length, bg: '#FCE4EC', color: '#c2185b', initial: '🔒' },
-  { name: 'AWS Cloud',          label: 'AWS Cloud',               count: COURSES.filter(c => (c.techs??[]).includes('AWS Cloud')).length, bg: '#FFF3E0', color: '#e65100', initial: 'AW' },
+  { name: 'AWS Cloud',          label: 'AWS Cloud',               count: 1, bg: '#FFF3E0', color: '#e65100', initial: 'AW' },
   { name: 'Project Management', label: 'Project Management',      count: COURSES.filter(c => (c.techs??[]).includes('Project Management')).length, bg: '#F3E5F5', color: '#7c3aed', initial: 'PM' },
   { name: 'Microsoft Fabric',   label: 'Microsoft Fabric',        count: COURSES.filter(c => (c.techs??[]).includes('Microsoft Fabric')).length, bg: '#E3F2FD', color: '#0078d4', initial: 'Fb' },
   { name: 'Data Management & Analytics', label: 'Data & Analytics', count: COURSES.filter(c => (c.techs??[]).includes('Data Management & Analytics')).length, bg: '#E0F2F1', color: '#0d9488', initial: 'DA' },
@@ -407,10 +407,10 @@ const SIDEBAR_TECHNOLOGIES = [
   { name: 'Oracle Cloud',       label: 'Oracle Cloud',            count: COURSES.filter(c => (c.techs??[]).includes('Oracle Cloud')).length, bg: '#FFF3E0', color: '#e65100', initial: 'OC' },
   { name: 'Identity and Access Management (IAM)', label: 'IAM / Identity', count: COURSES.filter(c => (c.techs??[]).includes('Identity and Access Management (IAM)')).length, bg: '#E3F2FD', color: '#0078d4', initial: 'IA' },
   { name: 'Artificial Intelligence (AI)', label: 'AI / ML',       count: COURSES.filter(c => (c.techs??[]).includes('Artificial Intelligence (AI)')).length, bg: '#E0F2F1', color: '#0d9488', initial: 'AI' },
-  { name: 'SAP / ERP',          label: 'SAP / ERP',               count: COURSES.filter(c => (c.techs??[]).includes('SAP / ERP')).length, bg: '#E3F2FD', color: '#0078d4', initial: 'SAP' },
+  { name: 'SAP / ERP',          label: 'SAP / ERP',               count: 1, bg: '#E3F2FD', color: '#0078d4', initial: 'SAP' },
 ]
 
-const ALL_VENDORS = ['Microsoft', 'AWS', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'PECB', 'Oracle', 'Red Hat', 'SAP']
+const ALL_VENDORS = ['SAP', 'AWS', 'Microsoft', 'Cisco', 'CompTIA', 'EC-Council', 'PMI', 'PECB', 'Oracle', 'Red Hat']
 
 const TECH_DESCS: Record<string, string> = {
   'Microsoft Azure': 'Browse all Guaranteed self-paced Microsoft Azure Flexi courses with official labs and course materials.',
@@ -422,6 +422,7 @@ const TECH_DESCS: Record<string, string> = {
 
 const VENDOR_DESCS: Record<string, string> = {
   SAP: 'Self-paced SAP Flexi courses with official labs and materials — plus up to 4 certification exam attempts a year and live expert-led sessions through SAP Learning Hub.',
+  AWS: 'Hands-on labs, role-based learning games, and official certification prep — subscribe through Koenig and get the support of a dedicated training partner alongside AWS Skill Builder.',
 }
 
 const SYL_COUNTRIES = [
@@ -1441,6 +1442,7 @@ export default function FlexiTrainingPage() {
     ? (VENDOR_DESCS[filterVendor] ?? `Browse all self-paced ${filterVendor} Flexi Training courses with official labs and materials.`)
     : `Browse all self-paced Flexi Training courses with official labs, materials, and optional exam vouchers.`
   const showSapHubLink = activeTechs.includes('SAP / ERP') || filterVendor === 'SAP'
+  const showAwsHubLink = activeTechs.includes('AWS Cloud') || filterVendor === 'AWS'
 
   return (
     <div style={{ fontFamily: "'GT Walsheim Pro', sans-serif" }}>
@@ -1761,7 +1763,7 @@ export default function FlexiTrainingPage() {
                 </div>
                 <div className="flex flex-col overflow-y-auto" style={{ maxHeight: 296 }}>
                   {ALL_VENDORS.filter(v => !vendorSearch || v.toLowerCase().includes(vendorSearch.toLowerCase())).map(v => {
-                    const count = COURSES.filter(c => c.vendor === v).length
+                    const count = (v === 'SAP' || v === 'AWS') ? 1 : COURSES.filter(c => c.vendor === v).length
                     if (count === 0) return null
                     const active = filterVendor === v
                     return (
@@ -1867,6 +1869,42 @@ export default function FlexiTrainingPage() {
                         Visit SAP Learning Hub →
                       </a>
                     </>
+                  ) : showAwsHubLink ? (
+                    <>
+                      <div className="flex items-center gap-4">
+                        <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeTechData.bg, color: activeTechData.color }}>{getTechIcon(activeTechData.name || 'All')}</div>
+                        <div>
+                          <h3 className="text-base font-bold mb-0.5" style={{ color: '#06111E' }}>{activeTechData.label}</h3>
+                          <p className="text-xs sm:text-sm leading-snug" style={{ color: '#64748B' }}>{bannerDesc}</p>
+                        </div>
+                      </div>
+                      <style>{`
+                        @keyframes sapCardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+                        .sap-info-card { opacity: 0; animation: sapCardIn .45s ease forwards; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+                        .sap-info-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(6,148,209,0.22); background: #dcedfa !important; }
+                        .sap-info-card:hover .sap-info-icon { transform: scale(1.12) rotate(-6deg); }
+                        @media (prefers-reduced-motion: reduce) { .sap-info-card { animation: none; opacity: 1; } }
+                      `}</style>
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        {[
+                          { text: '900+ AWS courses & learning plans', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 6.253v13M12 6.253C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s4.332.477 5.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/> },
+                          { text: 'Hands-on Guided AWS Builder Labs', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/> },
+                          { text: 'AWS Jam Events & gamified challenges', icon: <><circle cx="12" cy="12" r="9" strokeWidth={1.8}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M10 9l5 3-5 3V9z"/></> },
+                          { text: 'Official AWS certification exam prep', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/> },
+                        ].map(({ text, icon }, i) => (
+                          <div key={text} className="sap-info-card flex flex-col items-center gap-2 rounded-xl px-3 py-4 text-center" style={{ background: '#EBF8FE', border: '1px solid #CAEFFF', animationDelay: `${i * 0.08}s` }}>
+                            <span className="sap-info-icon flex h-12 w-12 items-center justify-center rounded-full transition-all duration-200" style={{ color: '#0694D1', background: 'linear-gradient(135deg, #ffffff, #d8eefb)', boxShadow: '0 4px 10px rgba(6,148,209,0.25)' }}>
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor">{icon}</svg>
+                            </span>
+                            <span className="sap-info-text text-xs font-semibold leading-snug transition-colors duration-200" style={{ color: '#0694D1' }}>{text}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <a href="/aws-skill-builder" className="w-full rounded-xl px-5 py-2.5 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                        style={{ background: 'linear-gradient(135deg, #0694D1, #076D9D)' }}>
+                        Visit AWS Skill Builder →
+                      </a>
+                    </>
                   ) : (
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                       <div className="flex items-center gap-4">
@@ -1891,7 +1929,7 @@ export default function FlexiTrainingPage() {
                   <CurrencyDropdown currency={currency} setCurrency={setCurrency} />
                 </div>
 
-                {!showSapHubLink && (
+                {!showSapHubLink && !showAwsHubLink && (
                 <>
                 {/* Desktop: search bar + currency */}
                 <div className="hidden lg:flex items-center gap-2 mb-2">

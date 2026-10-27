@@ -19,7 +19,7 @@ import { ScrollToTop } from "./components/scroll-to-top";
 import { BreadcrumbTechDropdown } from "./components/breadcrumb-tech-dropdown";
 import { AudienceCards } from "./components/audience-cards";
 import Link from "next/link";
-import { UserCog, User, Users, Clock } from "lucide-react";
+import { User, Users, Clock, Globe } from "lucide-react";
 
 /* Formats "Mar 3 - Mar 7, 2026" -> "Mar 3, 2026" for a compact next-batch label */
 function formatNextBatchDate(dateRange: string): string {
@@ -331,6 +331,14 @@ export default function CoursePageDesign() {
                 </div>
               </div>
 
+              {/* AI-based live training, any language — quote-request note */}
+              <div className="mb-4 inline-flex w-fit max-w-full items-start gap-2 rounded-lg border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-sm">
+                <Globe size={18} strokeWidth={1.75} className="mt-0.5 flex-shrink-0 text-sky-300" />
+                <p className="text-base font-medium text-sky-200">
+                  Training in <span className="font-bold text-white">any language</span>, with <span className="font-bold text-white">AI-based Live Training</span>. Tell us which one and we&apos;ll send you a quote.
+                </p>
+              </div>
+
               {/* CTA Buttons — side by side even on mobile. Tighter mobile
                   padding + whitespace-nowrap keeps each label on one line
                   instead of wrapping inside its half of the row. */}
@@ -380,32 +388,6 @@ export default function CoursePageDesign() {
             />
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* 4b. Customisation CTA strip                                  */}
-      {/* ============================================================ */}
-      {/* !mt-0 overrides the site-wide ".vc-page section + section"
-          mobile spacing rule — both this strip and the hero above it are
-          full-bleed color bands, so that generic 20px gap just leaves an
-          awkward blank white seam between them instead of a flush edge. */}
-      <section className="!mt-0 bg-[#EAF4FB] px-[15px] sm:px-6 py-4">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-4">
-          <p className="flex items-center gap-2 text-base font-medium text-koenig-dark">
-            <UserCog size={20} strokeWidth={1.75} className="flex-shrink-0 text-koenig-blue" />
-            <span>
-              Want this course <span className="font-bold">customised</span>? We can adjust the <span className="font-bold">schedule</span>, <span className="font-bold">content</span> and <span className="font-bold">format</span> to fit your needs.
-            </span>
-          </p>
-          <Link
-            href="/customised-training"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center whitespace-nowrap rounded-lg border-2 border-koenig-blue bg-koenig-blue px-6 py-3 text-[15px] font-medium text-white transition hover:bg-koenig-blue/90"
-          >
-            Request Customisation
-          </Link>
         </div>
       </section>
 
