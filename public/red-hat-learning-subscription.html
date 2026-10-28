@@ -105,8 +105,8 @@ h2.title{margin:0 0 12px;font-size:32px;line-height:1.2;letter-spacing:-.02em;fo
 
 
 /* pricing */
-.price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,340px));justify-content:center;gap:20px;max-width:1040px;margin:0 auto}
-@media (max-width:700px){.price-grid{grid-template-columns:minmax(0,340px);max-width:380px}}
+.price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,460px));justify-content:center;gap:20px;max-width:1000px;margin:0 auto}
+@media (max-width:700px){.price-grid{grid-template-columns:minmax(0,420px);max-width:420px}}
 .price-card{display:flex;flex-direction:column;border-radius:20px;padding:28px;box-shadow:var(--shadow);border:2px solid transparent;background-image:linear-gradient(var(--panel),var(--panel)),linear-gradient(135deg,var(--blue),var(--cyan));background-origin:border-box;background-clip:padding-box,border-box}
 .price-card.highlight{box-shadow:0 20px 45px rgba(10,100,160,.22)}
 .price-badge{align-self:flex-start;background:var(--chip-bg);color:var(--chip-text);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
@@ -262,7 +262,7 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
           <a class="btn btn-filled btn-block" href="#request-info">Buy Now</a>
         </div>
       </div>
-      <p class="fine">Pricing reflects Red Hat's official rate card — Standard (SKU LS220) and Premium (SKU LS520). Final pricing excludes applicable taxes and duties (e.g. GST, VAT, or sales tax, as applicable in your country).</p>
+      <p class="fine">Final pricing excludes applicable taxes and duties (e.g. GST, VAT, or sales tax, as applicable in your country).</p>
     </div>
   </section>
 
@@ -270,8 +270,8 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
   <section class="block soft" id="whats-included" aria-labelledby="inc-title">
     <div class="container">
       <h2 class="title" id="inc-title">What's included — Standard (LS220)</h2>
-      <p class="sub">Red Hat Learning Subscription provides access to all Red Hat online training content in a single, annual subscription — on-demand, self-paced learning resources such as videos, e-books, hands-on labs, exams, and technical support, across all Red Hat products and technologies. Learn with the same high-quality content as a classroom setting, with the added flexibility of 24x7 access.</p>
-      <p class="sub">With this subscription you use an intuitive, user-friendly interface that helps you track progress towards training and certification goals. Take control of your learning paths and build them to meet your business and training needs.</p>
+      <p class="sub" style="max-width:68em">Red Hat Learning Subscription provides access to all Red Hat online training content in a single, annual subscription — on-demand, self-paced learning resources such as videos, e-books, hands-on labs, exams, and technical support, across all Red Hat products and technologies. Learn with the same high-quality content as a classroom setting, with the added flexibility of 24x7 access.</p>
+      <p class="sub" style="max-width:68em">With this subscription you use an intuitive, user-friendly interface that helps you track progress towards training and certification goals. Take control of your learning paths and build them to meet your business and training needs.</p>
 
       <h3 style="margin:0 0 20px;font-size:clamp(18px,2.4vw,22px);line-height:1.25;letter-spacing:-.01em;text-align:center">Why Standard works for you</h3>
       <div class="grid3">
@@ -324,7 +324,7 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
   <section class="block" id="whats-included-premium" aria-labelledby="inc-prem-title" style="padding-bottom:0">
     <div class="container">
       <h2 class="title" id="inc-prem-title">What's included — Premium (LS520)</h2>
-      <p class="sub"><strong style="color:var(--text)">The most comprehensive training experience.</strong> Red Hat Learning Subscription Premium is our most comprehensive solution, combining self-paced learning with live, virtual instructor-led sessions for guided, interactive learning. These live virtual classes supplement self-paced learning and provide real-time Q&amp;A opportunities with expert instructors and other attendees.</p>
+      <p class="sub" style="max-width:68em"><strong style="color:var(--text)">The most comprehensive training experience.</strong> Red Hat Learning Subscription Premium is our most comprehensive solution, combining self-paced learning with live, virtual instructor-led sessions for guided, interactive learning. These live virtual classes supplement self-paced learning and provide real-time Q&amp;A opportunities with expert instructors and other attendees.</p>
       <h3 style="margin:0 0 20px;font-size:clamp(18px,2.4vw,22px);line-height:1.25;letter-spacing:-.01em;text-align:center">Key benefits for you and your organization</h3>
       <div class="grid3">
         <article class="card">
@@ -369,7 +369,7 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
   </section>
 
   <!-- REQUEST FOR MORE INFORMATION (inline) -->
-  <section class="block" id="request-info" aria-labelledby="reqinfo-inline-title" style="padding-top:0">
+  <section class="block" id="request-info" aria-labelledby="reqinfo-inline-title" style="padding-top:70px">
     <div class="container">
       <form id="reqinfo-form-inline" class="reqinfo-card">
         <div class="reqinfo-head">
