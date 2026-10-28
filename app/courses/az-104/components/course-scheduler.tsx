@@ -230,6 +230,48 @@ function toLocalIso(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
+/* ------------------------------------------------------------------ */
+/*  "5% off, today only" experiment — CEO-requested pilot              */
+/*  Shown on one day a week, the same day for every visitor (seeded    */
+/*  by ISO week number, not per-session), so the week's enquiry        */
+/*  impact can be measured against a single known day.                 */
+/* ------------------------------------------------------------------ */
+
+const DISCOUNT_RATE = 0.05;
+
+function getIsoWeekNumber(d: Date): number {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const dayNum = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  return Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+}
+
+/** Deterministic pseudo-random day (0=Sun..6=Sat) for a given ISO week — same for all visitors, changes week to week. */
+function getDiscountDayOfWeek(d: Date): number {
+  const seed = d.getFullYear() * 100 + getIsoWeekNumber(d);
+  const frac = Math.sin(seed) * 10000;
+  return Math.floor((frac - Math.floor(frac)) * 7);
+}
+
+function isDiscountDayToday(d: Date): boolean {
+  return d.getDay() === getDiscountDayOfWeek(d);
+}
+
+function hasTrackingConsent(): boolean {
+  try {
+    return typeof window !== "undefined" && localStorage.getItem("koenig_cookie_consent") !== "denied";
+  } catch {
+    return true;
+  }
+}
+
+function trackDiscountEvent(event: string, params: Record<string, unknown>) {
+  if (typeof window === "undefined" || !hasTrackingConsent()) return;
+  (window as unknown as { dataLayer: unknown[] }).dataLayer = (window as unknown as { dataLayer: unknown[] }).dataLayer || [];
+  (window as unknown as { dataLayer: unknown[] }).dataLayer.push({ event, ...params });
+}
+
 function getMonday(d: Date): Date {
   const date = new Date(d);
   const day = date.getDay();
@@ -561,6 +603,33 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
     return () => obs.disconnect();
   }, []);
   const showMobileEnrollBar = scheduleInView && tabsFloating && !pastScheduleEnd;
+
+  // "5% off, today only" pilot — computed client-side only (avoids an
+  // SSR/client date mismatch) and announced once per page load so the
+  // CEO's team can read enquiry impact off this one dataLayer event.
+  const [discountActive, setDiscountActive] = useState(false);
+  const [discountSecondsLeft, setDiscountSecondsLeft] = useState(0);
+  useEffect(() => {
+    const now = new Date();
+    const active = isDiscountDayToday(now);
+    setDiscountActive(active);
+    if (!active) return;
+    trackDiscountEvent("discount_banner_view", { course_id: courseId, course_name: courseTitle, discount_pct: 5 });
+    const tick = () => {
+      const n = new Date();
+      const midnight = new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1, 0, 0, 0);
+      setDiscountSecondsLeft(Math.max(0, Math.floor((midnight.getTime() - n.getTime()) / 1000)));
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [courseId, courseTitle]);
+  const discountCountdown = (() => {
+    const h = String(Math.floor(discountSecondsLeft / 3600)).padStart(2, "0");
+    const m = String(Math.floor((discountSecondsLeft % 3600) / 60)).padStart(2, "0");
+    const s = String(discountSecondsLeft % 60).padStart(2, "0");
+    return `${h}:${m}:${s}`;
+  })();
 
   const [activeView, setActiveView] = useState<"calendar" | "list" | "compare">("list");
   const [listPage, setListPage] = useState(0);
@@ -2600,11 +2669,13 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
           const selBatch = selectedBatch ?? pageItems[0] ?? null;
           const hasCertSel = selBatch ? certSelected.has(selBatch.id) : false;
           const selCourseFee = selBatch?.price ?? COURSE_PRICING.online.public;
+          const selFeeOnRequest = selBatch?.format === "Classroom" && INTERNATIONAL_LOCATIONS.has(selBatch.location);
+          const selDiscountApplies = discountActive && !selFeeOnRequest;
+          const selCourseFeeDiscounted = selDiscountApplies ? Math.round(selCourseFee * (1 - DISCOUNT_RATE)) : selCourseFee;
           const selExamFee = selBatch?.currency === "INR" ? EXAM_FEE_INR : 0;
-          const selSubtotal = selCourseFee + (hasCertSel ? selExamFee : 0);
+          const selSubtotal = selCourseFeeDiscounted + (hasCertSel ? selExamFee : 0);
           const selGst = Math.round(selSubtotal * GST_RATE);
           const selTotal = selSubtotal + selGst;
-          const selFeeOnRequest = selBatch?.format === "Classroom" && INTERNATIONAL_LOCATIONS.has(selBatch.location);
           return (
             <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 p-2 sm:p-[18px] lg:items-start">
               {/* LEFT: batch list */}
@@ -2947,6 +3018,16 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
               {/* RIGHT: Enroll card — desktop only */}
               <div className="hidden lg:block lg:w-[330px] flex-shrink-0 lg:sticky lg:top-20 lg:self-start">
                 <div className="rounded-xl border-2 border-koenig-blue/30 bg-white flex flex-col overflow-hidden" style={{ boxShadow: '0 4px 20px 0 rgba(6,148,209,0.15)' }}>
+                  {/* "5% off, today only" banner — pilot experiment, shown one random day/week */}
+                  {selDiscountApplies && (
+                    <div className="flex items-center justify-between gap-2 bg-gradient-to-r from-orange-500 to-red-500 px-4 py-2 text-white">
+                      <span className="flex items-center gap-1.5 text-xs font-bold">
+                        <svg className="h-3.5 w-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h8l-1 8 11-14h-8l1-6z"/></svg>
+                        5% OFF — Today Only
+                      </span>
+                      <span className="font-mono text-xs font-bold tabular-nums">{discountCountdown}</span>
+                    </div>
+                  )}
                   {/* Title */}
                   <div className="px-4 pt-4 pb-3">
                     <div className="text-base font-bold text-koenig-dark">Enrollment summary</div>
@@ -2961,7 +3042,12 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                         </div>
                       )}
                     </div>
-                    <div className="text-base font-bold text-koenig-dark whitespace-nowrap">{selFeeOnRequest ? "On Request" : formatCurrency(selCourseFee, selBatch?.currency ?? "INR")}</div>
+                    <div className="text-right whitespace-nowrap">
+                      {selDiscountApplies && (
+                        <div className="text-xs font-semibold text-koenig-muted line-through">{formatCurrency(selCourseFee, selBatch?.currency ?? "INR")}</div>
+                      )}
+                      <div className="text-base font-bold text-koenig-dark">{selFeeOnRequest ? "On Request" : formatCurrency(selCourseFeeDiscounted, selBatch?.currency ?? "INR")}</div>
+                    </div>
                   </div>
                   {!selFeeOnRequest && <div className="px-4 pb-3 text-[10px] text-koenig-muted">* Exclusive of 18% GST (calculated at checkout)</div>}
                   {/* Add Certification — small nested card */}
@@ -3011,14 +3097,20 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                   )}
                   {/* Enroll Now / Request More Info */}
                   <div className="px-4 pb-3">
-                    <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} className="group w-full rounded-lg bg-gradient-to-r from-koenig-blue to-cyan-500 py-3 text-sm font-bold text-white shadow-md shadow-koenig-blue/25 hover:shadow-lg hover:shadow-koenig-blue/40 hover:brightness-105 transition-all active:scale-95 flex items-center justify-center gap-2 overflow-hidden">
+                    <button onClick={() => {
+                      if (selDiscountApplies) trackDiscountEvent("discount_enquiry_click", { course_id: courseId, course_name: courseTitle, cta: "enroll", discount_pct: 5 });
+                      openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch);
+                    }} className="group w-full rounded-lg bg-gradient-to-r from-koenig-blue to-cyan-500 py-3 text-sm font-bold text-white shadow-md shadow-koenig-blue/25 hover:shadow-lg hover:shadow-koenig-blue/40 hover:brightness-105 transition-all active:scale-95 flex items-center justify-center gap-2 overflow-hidden">
                       <span>{selFeeOnRequest ? "Request More Info" : "Enroll for training"}</span>
                       <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M13 6l6 6-6 6"/>
                       </svg>
                     </button>
                     {!selFeeOnRequest && (
-                      <button onClick={() => { openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch); }} className="group mt-2 w-full rounded-lg border-2 border-koenig-blue bg-white py-[10px] text-sm font-bold text-koenig-blue transition-all hover:bg-koenig-blue/5 active:scale-95 flex items-center justify-center gap-2">
+                      <button onClick={() => {
+                        if (selDiscountApplies) trackDiscountEvent("discount_enquiry_click", { course_id: courseId, course_name: courseTitle, cta: "enroll_clc", discount_pct: 5 });
+                        openBookingIfClassroom(selBatch); goToOnlineCheckout(selBatch);
+                      }} className="group mt-2 w-full rounded-lg border-2 border-koenig-blue bg-white py-[10px] text-sm font-bold text-koenig-blue transition-all hover:bg-koenig-blue/5 active:scale-95 flex items-center justify-center gap-2">
                         <span>Enroll using CLCs</span>
                       </button>
                     )}
@@ -3036,6 +3128,15 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
               {/* Mobile fee summary — date info + subtotal only */}
               {selBatch && (
                 <div className="lg:hidden px-3 pb-3">
+                  {selDiscountApplies && (
+                    <div className="mb-2 flex items-center justify-between gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 px-3 py-1.5 text-white">
+                      <span className="flex items-center gap-1.5 text-[11px] font-bold">
+                        <svg className="h-3 w-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h8l-1 8 11-14h-8l1-6z"/></svg>
+                        5% OFF — Today Only
+                      </span>
+                      <span className="font-mono text-[11px] font-bold tabular-nums">{discountCountdown}</span>
+                    </div>
+                  )}
                   <div className="rounded-xl border border-koenig-blue/20 bg-koenig-blue/5 px-4 py-3">
                     <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-koenig-blue">Fees Summary</div>
 
@@ -3068,7 +3169,10 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                           <div className="space-y-1 text-sm mb-2">
                             <div className="flex items-center justify-between">
                               <span className="text-koenig-muted">Course Fee</span>
-                              <span className="font-semibold text-koenig-dark">INR {selCourseFee.toLocaleString("en-IN")}</span>
+                              <span className="flex items-baseline gap-1.5">
+                                {selDiscountApplies && <span className="text-xs text-koenig-muted line-through">INR {selCourseFee.toLocaleString("en-IN")}</span>}
+                                <span className="font-semibold text-koenig-dark">INR {selCourseFeeDiscounted.toLocaleString("en-IN")}</span>
+                              </span>
                             </div>
                             <div className="flex items-center justify-between">
                               <span className="text-koenig-muted">Exam Fee</span>
@@ -3079,7 +3183,10 @@ export function CourseScheduler({ initialBatches, courseTitle = "AZ-104: Microso
                         {/* Subtotal */}
                         <div className={`flex items-center justify-between text-sm ${hasCertSel ? "border-t border-koenig-blue/15 pt-2" : ""}`}>
                           <span className="font-bold text-koenig-dark">Subtotal</span>
-                          <span className="font-bold text-koenig-blue">INR {selSubtotal.toLocaleString("en-IN")} <span className="text-xs font-normal text-koenig-muted">excl. GST</span></span>
+                          <span className="flex items-baseline gap-1.5">
+                            {selDiscountApplies && !hasCertSel && <span className="text-xs font-normal text-koenig-muted line-through">INR {selCourseFee.toLocaleString("en-IN")}</span>}
+                            <span className="font-bold text-koenig-blue">INR {selSubtotal.toLocaleString("en-IN")} <span className="text-xs font-normal text-koenig-muted">excl. GST</span></span>
+                          </span>
                         </div>
                       </>
                     )}
