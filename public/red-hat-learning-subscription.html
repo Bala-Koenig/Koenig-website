@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Red Hat Learning Subscription | Koenig</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --navy:#0a3a5c;
+  --blue:#0a7fc1;
+  --cyan:#06b6d4;
+  --bg:#f3f9fd;
+  --panel:#ffffff;
+  --panel-soft:#eaf5fc;
+  --line:#c9e3f3;
+  --text:#0d2233;
+  --muted:#52697c;
+  --chip-bg:#dcedf8;
+  --chip-text:#0a5c8f;
+  --ok:#14a05a;
+  --shadow:0 12px 34px rgba(10,100,160,.14);
+  box-sizing:border-box;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.6}
+img,svg{max-width:100%}
+a{color:inherit}
+.container{max-width:1280px;margin:0 auto}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;border-radius:6px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font:inherit;font-weight:700;font-size:15px;border-radius:999px;padding:12px 24px;border:1.5px solid transparent;cursor:pointer;transition:transform .15s,filter .15s,background .15s,color .15s,border-color .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:transparent;color:var(--blue);border-color:var(--blue)}
+.btn-primary:hover{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;border-color:transparent}
+.btn-light{background:#fff;color:var(--navy);border-color:#fff}
+.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+.btn-ghost:hover{background:#fff;color:var(--navy);border-color:#fff}
+.btn-outline{background:transparent;color:var(--blue);border-color:var(--blue)}
+.btn-outline:hover{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;border-color:transparent}
+.btn-filled{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;border-color:transparent}
+.btn-filled:hover{filter:brightness(1.08)}
+.btn-block{display:flex;width:100%}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}.btn:hover{transform:none}}
+
+/* hero */
+.hero{background:linear-gradient(115deg,#072f4c 0%,#0a6fae 62%,#08a5cf 120%);color:#fff;position:relative;overflow:hidden;padding-left:16px;padding-right:16px}
+@media (min-width:1024px){.hero{padding-left:50px;padding-right:50px}}
+.hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,.35),transparent 70%);pointer-events:none}
+.hero .container{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center;padding-top:50px;padding-bottom:50px;position:relative;z-index:1}
+@media (max-width:900px){.hero .container{grid-template-columns:1fr;gap:34px}}
+.eyebrow{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;margin-bottom:18px}
+.hero h1{margin:0 0 16px;font-size:38px;line-height:1.15;letter-spacing:-.025em;font-weight:800;text-wrap:balance}
+.hero p.lead{margin:0 0 28px;font-size:clamp(16px,2vw,19px);max-width:34em;opacity:.93}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+
+#scroll-top{position:fixed;bottom:20px;right:16px;z-index:50;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:0;background:var(--navy);color:#fff;cursor:pointer;box-shadow:0 4px 20px rgba(6,148,209,.35);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s,background .15s}
+#scroll-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+#scroll-top:hover{background:var(--blue)}
+#scroll-top:active{transform:scale(.95)}
+#scroll-top svg{width:20px;height:20px}
+@media (prefers-reduced-motion:reduce){#scroll-top{transition:opacity .2s}}
+
+/* image placeholders — no real images supplied yet, kept as blocks */
+.imgph{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;border:2px dashed var(--line);border-radius:18px;background:repeating-linear-gradient(135deg,var(--panel-soft) 0 14px,var(--bg) 14px 28px);color:var(--muted);padding:24px;min-height:260px;font-weight:600;font-size:14px}
+.imgph svg{color:var(--blue)}
+.imgph small{display:block;font-weight:500;font-size:12.5px;max-width:26em}
+.imgph strong{font-size:15px;color:var(--text)}
+
+/* sections */
+section.block{padding:50px 16px}
+@media (min-width:1024px){section.block{padding:50px 50px}}
+h2.title{margin:0 0 12px;font-size:32px;line-height:1.2;letter-spacing:-.02em;font-weight:800;text-wrap:balance;text-align:center}
+.sub{margin:0 auto 36px;color:var(--muted);max-width:42em;font-size:17px;text-align:center}
+.soft{background:var(--panel-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ico{flex:none;width:44px;height:44px;border-radius:12px;background:var(--panel-soft);border:1px solid var(--line);color:var(--blue);display:flex;align-items:center;justify-content:center}
+
+.two{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+@media (max-width:900px){.two{grid-template-columns:1fr;gap:26px}}
+.dots{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.dots li{position:relative;padding-left:20px;font-weight:600;font-size:15px}
+.dots li::before{content:"";position:absolute;left:1px;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--blue)}
+
+.incl-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 28px;margin-top:22px}
+@media (max-width:700px){.incl-grid{grid-template-columns:1fr}}
+.incl-item{display:flex;align-items:flex-start;gap:12px;font-size:14.5px;font-weight:600;color:var(--text)}
+.incl-item .chk{flex:none;width:24px;height:24px;border-radius:50%;background:var(--panel-soft);border:1px solid var(--line);color:var(--ok);display:flex;align-items:center;justify-content:center;margin-top:1px}
+.incl-item .chk svg{width:13px;height:13px}
+
+/* cards */
+.grid3{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+.grid3 .card{flex:1 1 320px;max-width:346px}
+@media (max-width:900px){.grid3 .card{flex:1 1 100%;max-width:420px}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.card:hover{transform:translateY(-8px);box-shadow:0 20px 45px rgba(10,100,160,.22);border-color:var(--blue)}
+.card h3{margin:16px 0 8px;font-size:20px;line-height:1.25;letter-spacing:-.01em;transition:color .25s ease}
+.card:hover h3{color:var(--blue)}
+.card p{margin:0;color:var(--muted);font-size:15.5px}
+.card .ico{width:48px;height:48px;border-radius:14px;transition:transform .3s ease,background .3s ease,color .3s ease}
+.card:hover .ico{transform:scale(1.12) rotate(-6deg);background:var(--blue);color:#fff}
+
+
+/* pricing */
+.price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,340px));justify-content:center;gap:20px;max-width:1040px;margin:0 auto}
+@media (max-width:700px){.price-grid{grid-template-columns:minmax(0,340px);max-width:380px}}
+.price-card{display:flex;flex-direction:column;border-radius:20px;padding:28px;box-shadow:var(--shadow);border:2px solid transparent;background-image:linear-gradient(var(--panel),var(--panel)),linear-gradient(135deg,var(--blue),var(--cyan));background-origin:border-box;background-clip:padding-box,border-box}
+.price-card.highlight{box-shadow:0 20px 45px rgba(10,100,160,.22)}
+.price-badge{align-self:flex-start;background:var(--chip-bg);color:var(--chip-text);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
+.price-card h3{margin:0 0 4px;font-size:20px}
+.price-card .amount{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:10px 0 2px}
+.price-card .amount small{font-size:16px;font-weight:600;color:var(--muted)}
+.price-card .per{font-size:13px;color:var(--muted);margin-bottom:18px}
+.price-card ul{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:10px;flex:1}
+.price-card li{position:relative;padding-left:22px;font-size:14.5px;color:var(--text)}
+.price-card li::before{content:"";position:absolute;left:0;top:.35em;width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a7fc1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 12.5 9.5 18 20 6'/%3E%3C/svg%3E") no-repeat center/contain}
+.fine{margin:14px 0 0;font-size:12px;color:var(--muted);text-align:center}
+
+/* comparison: all plans side by side — fluid, no forced horizontal scroll */
+.cmp-list{border-radius:16px;border:1px solid var(--line);background:var(--panel);overflow:hidden}
+.cmp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--navy);color:#fff;padding:12px 14px}
+.cmp-head-main{font-size:12.5px;font-weight:700;opacity:0;flex:1;min-width:0}
+.cmp-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;text-align:center;width:clamp(100px,24vw,168px);flex:none}
+.cmp-cols span{font-size:clamp(10.5px,2.6vw,13px);font-weight:700}
+.cmp-cat{background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.03em;padding:9px 14px}
+.cmp-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-top:1px solid var(--line)}
+.cmp-row-main{flex:1;min-width:0}
+.cmp-row-main .feat-name{font-weight:700;color:var(--text);margin:0 0 3px;font-size:13.5px}
+.cmp-row-main .feat-desc{color:var(--muted);font-size:11.5px;margin:0}
+.cmp-row-status{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;text-align:center;width:clamp(100px,24vw,168px);flex:none}
+.cmp-row-status .st{font-weight:800;font-size:clamp(12px,3vw,14px)}
+.st.yes{color:var(--ok)}
+.st.partial{color:var(--muted);font-style:italic;font-size:10.5px;font-weight:600}
+.st.no{color:var(--line)}
+@media (max-width:480px){.cmp-row-main .feat-desc{display:none}}
+
+/* faq */
+.faq{max-width:860px;margin:0 auto}
+details{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:10px}
+summary{cursor:pointer;padding:16px 20px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:14px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:22px;line-height:1;color:var(--blue);font-weight:600}
+details[open] summary::after{content:"\2212"}
+details .ans{padding:0 20px 18px;color:var(--muted);font-size:15.5px}
+details .ans p{margin:0 0 10px}
+
+/* request info form (shared pattern) */
+.reqinfo-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:34px;box-shadow:0 0 80px 10px rgba(10,127,193,.35),0 25px 50px -12px rgba(0,0,0,.35);max-width:780px;margin:0 auto}
+.reqinfo-head{text-align:center;margin-bottom:6px}
+.reqinfo-badge{display:inline-block;background:var(--chip-bg);color:var(--chip-text);border-radius:999px;padding:5px 16px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.reqinfo-head h3{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.reqinfo-head h3 span{color:var(--blue)}
+.reqinfo-head p{margin:0;color:var(--muted);font-size:14px}
+.reqinfo-contact{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.reqinfo-contact a{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:9px 16px;font-size:13.5px;font-weight:600;color:var(--text);text-decoration:none;box-shadow:0 1px 3px rgba(10,100,160,.08)}
+.reqinfo-contact a:hover{border-color:var(--blue)}
+.reqinfo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+@media (max-width:560px){.reqinfo-grid{grid-template-columns:1fr}}
+.reqinfo-fw label{display:block;margin-bottom:6px;font-size:13.5px;font-weight:600;color:var(--text)}
+.reqinfo-fw label em{color:#e0484f;font-style:normal}
+.reqinfo-field{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 14px;font:inherit;font-size:14px;color:var(--text);background:var(--panel);outline:none;transition:border-color .15s,box-shadow .15s}
+.reqinfo-field:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,127,193,.15)}
+textarea.reqinfo-field{resize:none}
+.reqinfo-recaptcha{display:flex;justify-content:center;margin-top:16px}
+.reqinfo-recaptcha-box{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:6px;padding:10px 14px;background:var(--panel);cursor:pointer}
+.reqinfo-submit{margin-top:20px;width:100%}
+.reqinfo-submit.btn-primary{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;border-color:transparent}
+.reqinfo-thanks{text-align:center;padding:30px 10px;display:none}
+.reqinfo-thanks .ico{font-size:44px;margin-bottom:10px}
+.reqinfo-thanks h3{margin:0 0 6px;font-size:20px}
+.reqinfo-thanks p{margin:0;color:var(--muted);font-size:14.5px}
+
+/* final + footer */
+.final{background:linear-gradient(115deg,#072f4c,#0a7fc1 70%,#08a5cf 125%);color:#fff;text-align:center;padding:50px 16px}
+@media (min-width:1024px){.final{padding-left:50px;padding-right:50px}}
+.final h2{margin:0 0 10px;font-size:clamp(26px,4vw,40px);letter-spacing:-.02em;line-height:1.15;text-wrap:balance}
+.final p{margin:0 auto 26px;max-width:36em;opacity:.92}
+.final .cta-row{justify-content:center}
+footer{background:var(--panel);border-top:1px solid var(--line);padding:26px 16px;color:var(--muted);font-size:14px}
+@media (min-width:1024px){footer{padding-left:50px;padding-right:50px}}
+footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div>
+        <span class="eyebrow">Red Hat Learning Subscription</span>
+        <h1 id="hero-title">Level Up Your Red Hat Expertise, Backed by Koenig</h1>
+        <p class="lead">Build the technical skills needed to keep pace with a growing, complex IT landscape — self-paced courses, 24/7 cloud-based labs, and live virtual classes, with Koenig as your dedicated training partner every step of the way.</p>
+        <div class="cta-row">
+          <a class="btn btn-light" href="#request-info">Contact us</a>
+          <a class="btn btn-ghost" href="#pricing">View plans</a>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;background:#fff;border-radius:16px;padding:22px;min-height:240px;max-width:340px;margin:0 auto;box-shadow:0 20px 50px rgba(0,0,0,.25)">
+        <img src="/images/red-hat-learning-subscription/red-hat-partner-badge.png" alt="Red Hat Premier Business Partner — Training" style="width:100%;max-width:280px;height:auto">
+      </div>
+    </div>
+  </section>
+
+  <!-- GUIDED LEARNING -->
+  <section class="block" aria-labelledby="lpc-title">
+    <div class="container">
+      <h2 class="title" id="lpc-title">Guided learning. Trusted certification.</h2>
+      <p class="sub">One subscription gives you a complete path from foundational Red Hat Enterprise Linux skills to advanced cloud, automation, containerization, and AI topics — guided by Koenig every step of the way.</p>
+      <div class="two">
+        <img src="/images/red-hat-learning-subscription/learning-journey.png" alt="Learner working through a Red Hat Learning Subscription course in a modern office" style="width:100%;height:auto;border-radius:18px;box-shadow:var(--shadow)">
+        <div>
+          <h3 style="margin:0 0 14px;font-size:clamp(20px,2.6vw,26px);line-height:1.25;letter-spacing:-.01em">Develop, test, and prove your Red Hat expertise using:</h3>
+          <ul class="dots">
+            <li>Self-paced courses from Red Hat-certified experts — RHEL basics through advanced cloud, automation, containers, and AI</li>
+            <li>Live, virtual instructor-led classes guided by certified Red Hat experts</li>
+            <li>24/7 cloud-based hands-on labs to practise real-world challenges from anywhere</li>
+            <li>Exam readiness tools and performance-based certification exams that verify practical skills</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="block soft" id="pricing" aria-labelledby="price-title">
+    <div class="container">
+      <h2 class="title" id="price-title">Plans and pricing</h2>
+      <p class="sub">Choose Standard or Premium — subscribe through Koenig and we'll help you pick the right one.</p>
+      <div class="price-grid">
+        <div class="price-card">
+          <span class="price-badge">Standard</span>
+          <h3>Standard</h3>
+          <div class="amount">$7,500<small>/year</small></div>
+          <div class="per">Billed annually &middot; SKU LS220 &middot; 25 training units &middot; 365-day term</div>
+          <ul>
+            <li>One year's access to all Red Hat Online Learning courses</li>
+            <li>Unlimited access to 35+ online courses</li>
+            <li>400 hours of cloud-delivered, hands-on lab time</li>
+            <li>300+ recorded instructor videos, plus Video Classroom access</li>
+            <li>Single sign-on training module, exams within learning paths</li>
+            <li>Expert seminar access, instructor office hours, email support</li>
+          </ul>
+          <a class="btn btn-filled btn-block" href="#request-info">Buy Now</a>
+        </div>
+        <div class="price-card highlight">
+          <span class="price-badge">Premium</span>
+          <h3>Premium</h3>
+          <div class="amount">$9,000<small>/year</small></div>
+          <div class="per">Billed annually &middot; SKU LS520 &middot; 30 training units &middot; 365-day term</div>
+          <ul>
+            <li>Everything in Standard, plus instructor-led live virtual classes (up to 2 per course)</li>
+            <li>Real-time Q&amp;A with expert instructors and other attendees</li>
+            <li>5 certification exams plus 5 retakes</li>
+            <li>Exam readiness tools: objective mapping, practice experience, exam catalog</li>
+            <li>User-friendly dashboard for progress tracking and metric monitoring</li>
+          </ul>
+          <a class="btn btn-filled btn-block" href="#request-info">Buy Now</a>
+        </div>
+      </div>
+      <p class="fine">Pricing reflects Red Hat's official rate card — Standard (SKU LS220) and Premium (SKU LS520). Final pricing excludes applicable taxes and duties (e.g. GST, VAT, or sales tax, as applicable in your country).</p>
+    </div>
+  </section>
+
+  <!-- WHAT'S INCLUDED (Standard, official product detail) -->
+  <section class="block soft" id="whats-included" aria-labelledby="inc-title">
+    <div class="container">
+      <h2 class="title" id="inc-title">What's included — Standard (LS220)</h2>
+      <p class="sub">Red Hat Learning Subscription provides access to all Red Hat online training content in a single, annual subscription — on-demand, self-paced learning resources such as videos, e-books, hands-on labs, exams, and technical support, across all Red Hat products and technologies. Learn with the same high-quality content as a classroom setting, with the added flexibility of 24x7 access.</p>
+      <p class="sub">With this subscription you use an intuitive, user-friendly interface that helps you track progress towards training and certification goals. Take control of your learning paths and build them to meet your business and training needs.</p>
+
+      <h3 style="margin:0 0 20px;font-size:clamp(18px,2.4vw,22px);line-height:1.25;letter-spacing:-.01em;text-align:center">Why Standard works for you</h3>
+      <div class="grid3">
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+          <h3>Comprehensive self-paced curriculum</h3>
+          <p>Access to Red Hat self-paced content, including courses, videos, e-books, and hands-on labs, covering a wide range of Red Hat technologies.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 13l2.2 2.2L15.5 11"/></svg></span>
+          <h3>Hands-on labs</h3>
+          <p>400 hours of cloud-delivered, hands-on lab time to practise real Red Hat skills at your own pace.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></span>
+          <h3>Certification support</h3>
+          <p>Exam readiness tools and access to exams within the learning paths help validate your expertise.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+          <h3>Flexible 24x7 access</h3>
+          <p>Learn with the same high-quality content as a classroom setting, with the added flexibility to study anytime, anywhere.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 20h8M12 17v3"/></svg></span>
+          <h3>Progress tracking</h3>
+          <p>An intuitive, user-friendly interface helps you track progress towards training and certification goals.</p>
+        </article>
+      </div>
+
+      <h3 style="margin:40px 0 0;font-size:clamp(18px,2.4vw,22px);line-height:1.25;letter-spacing:-.01em;text-align:center">You will receive:</h3>
+      <div class="incl-grid">
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>One year's access to all Red Hat Online Learning courses</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>A single sign-on training module for each student</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Unlimited access to over 35 online courses</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>400 hours of cloud-delivered, hands-on lab time</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>More than 300 recorded instructor videos</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Access to Video Classroom offerings</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Ongoing access to new and updated courses</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Access to exams within the learning paths</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Expert seminar access</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Instructor office hours</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Email support</div>
+      </div>
+      <p class="fine" style="margin-top:28px">Identifier LS220 &middot; Training Units 25 &middot; Subscription Period 365 Days &middot; Language English (en) &middot; Ideal for learners seeking ongoing, self-paced learning solutions that drive expertise and innovation.</p>
+    </div>
+  </section>
+
+  <!-- WHAT'S INCLUDED (Premium, official product detail) -->
+  <section class="block" id="whats-included-premium" aria-labelledby="inc-prem-title" style="padding-bottom:0">
+    <div class="container">
+      <h2 class="title" id="inc-prem-title">What's included — Premium (LS520)</h2>
+      <p class="sub"><strong style="color:var(--text)">The most comprehensive training experience.</strong> Red Hat Learning Subscription Premium is our most comprehensive solution, combining self-paced learning with live, virtual instructor-led sessions for guided, interactive learning. These live virtual classes supplement self-paced learning and provide real-time Q&amp;A opportunities with expert instructors and other attendees.</p>
+      <h3 style="margin:0 0 20px;font-size:clamp(18px,2.4vw,22px);line-height:1.25;letter-spacing:-.01em;text-align:center">Key benefits for you and your organization</h3>
+      <div class="grid3">
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="13" height="11" rx="2"/><path d="m16 9 5-3v11l-5-3"/></svg></span>
+          <h3>Instructor-led sessions</h3>
+          <p>Live, virtual instructor-led sessions (up to two per course) offer real-time Q&amp;A and enhanced understanding.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+          <h3>Comprehensive curriculum</h3>
+          <p>Access to Red Hat self-paced content — courses, videos, e-books, and hands-on labs — covering a wide range of Red Hat technologies.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></span>
+          <h3>Certification support</h3>
+          <p>Five certification exams with retakes validate expertise, with exam readiness tools for thorough preparation.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="3"/><path d="M3 20c.5-3.3 3-5.5 6-5.5s5.5 2.2 6 5.5"/><path d="M15.5 14.8c2.4.3 4.2 2.3 4.6 5.2"/></svg></span>
+          <h3>Collaborative learning</h3>
+          <p>Engage with instructors and peers to deepen knowledge and build connections.</p>
+        </article>
+        <article class="card">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M4 12h16M4 17h7"/><circle cx="18" cy="7" r="1.6"/><circle cx="9" cy="17" r="1.6"/></svg></span>
+          <h3>Flexible learning model</h3>
+          <p>A mix of self-paced resources and live sessions creates a balanced, adaptable training approach.</p>
+        </article>
+      </div>
+
+      <h3 style="margin:40px 0 0;font-size:clamp(18px,2.4vw,22px);line-height:1.25;letter-spacing:-.01em;text-align:center">What learners will receive:</h3>
+      <div class="incl-grid">
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>One year access to the full spectrum of Red Hat self-paced learning and live, virtual, instructor-led training</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>A single sign-on training module for each learner</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>400 hours of cloud-delivered, hands-on lab time</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>5 certification exams plus 5 retakes</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Instructor-led live, virtual classes (up to two per course)</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>A user-friendly dashboard for progress tracking and metric monitoring</div>
+        <div class="incl-item"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg></span>Exam readiness tools, including objective mapping, practice experience, and an exam catalog</div>
+      </div>
+      <p class="fine" style="margin-top:28px">Identifier LS520 &middot; Training Units 30 &middot; Subscription Period 365 Days &middot; Language English (en), English (en-us) &middot; Ideal for learners seeking advanced Red Hat technology training with the added benefit of expert-led, live interaction to drive expertise and innovation.</p>
+    </div>
+  </section>
+
+  <!-- REQUEST FOR MORE INFORMATION (inline) -->
+  <section class="block" id="request-info" aria-labelledby="reqinfo-inline-title" style="padding-top:0">
+    <div class="container">
+      <form id="reqinfo-form-inline" class="reqinfo-card">
+        <div class="reqinfo-head">
+          <span class="reqinfo-badge">Let's Talk</span>
+          <h3 id="reqinfo-inline-title">Request for more <span>information</span></h3>
+          <p>Red Hat Learning Subscription</p>
+          <div class="reqinfo-contact">
+            <a href="https://wa.me/918800971792" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp us
+            </a>
+            <a href="mailto:training@koenig-solutions.com">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6b7f94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              Email us
+            </a>
+          </div>
+        </div>
+
+        <div class="reqinfo-grid" style="margin-top:22px">
+          <div class="reqinfo-fw">
+            <label>Full Name <em>*</em></label>
+            <input class="reqinfo-field" type="text" required placeholder="John Smith">
+          </div>
+          <div class="reqinfo-fw">
+            <label>Email <em>*</em></label>
+            <input class="reqinfo-field" type="email" required placeholder="you@email.com">
+          </div>
+        </div>
+        <div class="reqinfo-grid" style="margin-top:12px">
+          <div class="reqinfo-fw">
+            <label>Phone</label>
+            <input class="reqinfo-field" type="tel" placeholder="+91 98765 43210">
+          </div>
+          <div class="reqinfo-fw">
+            <label>Country</label>
+            <select class="reqinfo-field">
+              <option selected>India</option><option>United States</option><option>United Kingdom</option><option>United Arab Emirates</option><option>Saudi Arabia</option><option>Germany</option><option>France</option><option>Japan</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="reqinfo-fw" style="margin-top:12px">
+          <label>Tell us about your Training Needs</label>
+          <textarea class="reqinfo-field" rows="4" placeholder="Tell us whether you're looking at Standard or Premium, team size, and target certification..."></textarea>
+        </div>
+        <div class="reqinfo-recaptcha">
+          <label class="reqinfo-recaptcha-box">
+            <input type="checkbox" required>
+            <span style="font-size:13px">I'm not a robot</span>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary reqinfo-submit">Submit - Get Free Consultation</button>
+      </form>
+      <div class="reqinfo-thanks" id="reqinfo-thanks-inline" style="max-width:780px;margin:0 auto">
+        <div class="ico">✅</div>
+        <h3>Thank you!</h3>
+        <p>Our team will reach out within 1 business day.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="block" id="compare" aria-labelledby="cmp-title">
+    <div class="container">
+      <h2 class="title" id="cmp-title">Compare Standard and Premium</h2>
+      <p class="sub">A side-by-side look at what's included in each subscription tier.</p>
+
+      <div class="cmp-list">
+          <div class="cmp-head">
+            <span class="cmp-head-main">Feature</span>
+            <div class="cmp-cols"><span>Standard</span><span>Premium</span></div>
+          </div>
+
+          <div class="cmp-cat">Digital training</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Full Red Hat training catalog</p><p class="feat-desc">Self-paced courses covering RHEL basics through advanced cloud, automation, containers, and AI.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">New courses during your term</p><p class="feat-desc">Access to new self-paced courses released during the subscription period.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Live training</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Live, virtual instructor-led classes</p><p class="feat-desc">Real-time sessions led by certified Red Hat experts — up to 2 per course.</p></div>
+            <div class="cmp-row-status"><span class="st no">&#8211;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Hands-on labs</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Cloud-based hands-on labs</p><p class="feat-desc">400 hours per user to practise real-world challenges, available 24/7.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Exam preparation</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Exam readiness tools</p><p class="feat-desc">Prepare for certification exams and test with confidence.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Certification exams</p><p class="feat-desc">5 performance-based exams plus 5 retakes, verifying practical skills.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+
+          <div class="cmp-cat">Support</div>
+          <div class="cmp-row">
+            <div class="cmp-row-main"><p class="feat-name">Dedicated Koenig training partner</p><p class="feat-desc">Guidance choosing the right tier, onboarding, and support through your subscription term.</p></div>
+            <div class="cmp-row-status"><span class="st yes">&#10003;</span><span class="st yes">&#10003;</span></div>
+          </div>
+      </div>
+      <p class="fine">Feature availability shown above reflects Red Hat Learning Subscription's published tiers; Koenig helps you select and onboard onto the right one.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <h2 class="title" id="faq-title" style="margin-bottom:28px">Frequently asked questions</h2>
+      <div class="faq">
+        <details open>
+          <summary>What is the Red Hat Learning Subscription?</summary>
+          <div class="ans"><p>A one-year subscription giving access to Red Hat's catalog of technical training courses, available through Koenig in two tiers — Standard and Premium. It covers everything from Red Hat Enterprise Linux basics through advanced cloud, automation, containerization, and AI topics.</p></div>
+        </details>
+        <details>
+          <summary>What's the difference between Standard and Premium?</summary>
+          <div class="ans"><p>Standard gives you the full self-paced training catalog, 400 hours of cloud-based hands-on labs per user, exam readiness tools, and 5 certification exams plus 5 retakes. Premium includes everything in Standard, plus live, virtual instructor-led classes with certified Red Hat experts — up to 2 per course.</p></div>
+        </details>
+        <details>
+          <summary>When does my subscription start?</summary>
+          <div class="ans"><p>You can choose a start date within 90 days of purchase, noted on your order. If no date is chosen, the subscription starts on the order date.</p></div>
+        </details>
+        <details>
+          <summary>How often are live courses offered?</summary>
+          <div class="ans"><p>Each live, virtual, instructor-led course (Premium only) runs once every 12 months in English.</p></div>
+        </details>
+        <details>
+          <summary>Can my team or organization get a subscription?</summary>
+          <div class="ans"><p>Yes — Koenig can help set up Red Hat Learning Subscriptions for teams and enterprises, including bulk and multi-seat orders. Contact us to discuss your team's needs.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" aria-labelledby="final-title">
+    <div class="container">
+      <h2 id="final-title">Ready to get started with Red Hat Learning Subscription?</h2>
+      <p>Subscribe through Koenig, or talk to us if you have questions about Standard vs Premium for you or your team.</p>
+      <div class="cta-row">
+        <a class="btn btn-light" href="#pricing">View plans</a>
+        <a class="btn btn-ghost" href="#request-info">Contact us</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>Koenig | Red Hat Learning Subscription</span>
+    <span>Terms and conditions apply.</span>
+  </div>
+</footer>
+
+<button type="button" id="scroll-top" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script>
+(function(){
+  var inlineForm = document.getElementById('reqinfo-form-inline');
+  var inlineThanks = document.getElementById('reqinfo-thanks-inline');
+  if(inlineForm){
+    inlineForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      inlineForm.style.display = 'none';
+      if(inlineThanks){ inlineThanks.style.display = 'block'; }
+    });
+  }
+
+  var topBtn = document.getElementById('scroll-top');
+  var lastY = window.scrollY;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    var visible = y < lastY && y > 300;
+    topBtn.classList.toggle('show', visible);
+    lastY = y;
+  }, { passive: true });
+  topBtn.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+
+</body>
+</html>
