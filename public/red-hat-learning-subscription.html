@@ -93,8 +93,8 @@ h2.title{margin:0 0 12px;font-size:32px;line-height:1.2;letter-spacing:-.02em;fo
 
 /* cards */
 .grid3{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
-.grid3 .card{flex:1 1 320px;max-width:346px}
-@media (max-width:900px){.grid3 .card{flex:1 1 100%;max-width:420px}}
+.grid3 .card{flex:1 1 320px;max-width:420px}
+@media (max-width:900px){.grid3 .card{flex:1 1 100%;max-width:none}}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
 .card:hover{transform:translateY(-8px);box-shadow:0 20px 45px rgba(10,100,160,.22);border-color:var(--blue)}
 .card h3{margin:16px 0 8px;font-size:20px;line-height:1.25;letter-spacing:-.01em;transition:color .25s ease}
@@ -115,8 +115,8 @@ h2.title{margin:0 0 12px;font-size:32px;line-height:1.2;letter-spacing:-.02em;fo
 .price-card .amount small{font-size:16px;font-weight:600;color:var(--muted)}
 .price-card .per{font-size:13px;color:var(--muted);margin-bottom:18px}
 .price-card ul{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:10px;flex:1}
-.price-card li{position:relative;padding-left:22px;font-size:14.5px;color:var(--text)}
-.price-card li::before{content:"";position:absolute;left:0;top:.35em;width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a7fc1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 12.5 9.5 18 20 6'/%3E%3C/svg%3E") no-repeat center/contain}
+.price-card li{position:relative;padding-left:26px;font-size:14.5px;color:var(--text)}
+.price-card li::before{content:"";position:absolute;left:0;top:.1em;width:20px;height:20px;border-radius:50%;background-color:var(--panel-soft);border:1px solid var(--line);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a7fc1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 12.5 9.5 18 20 6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:55%}
 .fine{margin:14px 0 0;font-size:12px;color:var(--muted);text-align:center}
 
 /* comparison: all plans side by side — fluid, no forced horizontal scroll */
@@ -144,7 +144,7 @@ summary{cursor:pointer;padding:16px 20px;font-weight:700;display:flex;justify-co
 summary::-webkit-details-marker{display:none}
 summary::after{content:"+";font-size:22px;line-height:1;color:var(--blue);font-weight:600}
 details[open] summary::after{content:"\2212"}
-details .ans{padding:0 20px 18px;color:var(--muted);font-size:15.5px}
+details .ans{padding:0 20px 18px;color:var(--muted);font-size:15.5px;overflow:hidden;transition:max-height .32s ease,opacity .25s ease}
 details .ans p{margin:0 0 10px}
 
 /* request info form (shared pattern) */
@@ -548,6 +548,37 @@ footer .container{display:flex;justify-content:space-between;gap:14px;flex-wrap:
       if(inlineThanks){ inlineThanks.style.display = 'block'; }
     });
   }
+
+  document.querySelectorAll('.faq details').forEach(function(det){
+    var ans = det.querySelector('.ans');
+    if(!ans) return;
+    if(det.open){ ans.style.maxHeight = ans.scrollHeight + 'px'; ans.style.opacity = '1'; }
+    else { ans.style.maxHeight = '0px'; ans.style.opacity = '0'; }
+
+    det.querySelector('summary').addEventListener('click', function(e){
+      e.preventDefault();
+      if(det.open){
+        ans.style.maxHeight = ans.scrollHeight + 'px';
+        requestAnimationFrame(function(){
+          ans.style.maxHeight = '0px';
+          ans.style.opacity = '0';
+        });
+        ans.addEventListener('transitionend', function close(ev){
+          if(ev.propertyName !== 'max-height') return;
+          det.open = false;
+          ans.removeEventListener('transitionend', close);
+        });
+      } else {
+        det.open = true;
+        ans.style.maxHeight = '0px';
+        ans.style.opacity = '0';
+        requestAnimationFrame(function(){
+          ans.style.maxHeight = ans.scrollHeight + 'px';
+          ans.style.opacity = '1';
+        });
+      }
+    });
+  });
 
   var topBtn = document.getElementById('scroll-top');
   var lastY = window.scrollY;
