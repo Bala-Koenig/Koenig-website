@@ -1507,11 +1507,10 @@ export function CourseScheduler({ initialBatches, courseTitle = "Financial Accou
                 </div>
                 <div className="mt-2 space-y-0.5">
                   <p className="text-[10px] text-koenig-muted">† Excluding VAT/GST</p>
-                  <p className="text-[10px] text-koenig-muted">* Flexi access provided once MS learn registration is done.</p>
                 </div>
 
                 {/* Copy/share/like/dislike — Flexi, desktop (mobile shows it above, near Select Add-ons) */}
-                <div className="hidden lg:flex justify-end -mt-[27px]">
+                <div className="hidden lg:flex justify-end mt-3">
                   <CourseActionBar
                     courseId={courseId}
                     courseName={courseTitle}
