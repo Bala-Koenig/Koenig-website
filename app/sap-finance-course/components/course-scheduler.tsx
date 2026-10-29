@@ -1017,15 +1017,46 @@ export function CourseScheduler({ initialBatches, courseTitle = "Financial Accou
                         <span key={tag} className="rounded-full bg-koenig-navy/10 px-2 py-0.5 text-[11px] font-medium text-koenig-navy border border-koenig-navy/20">{tag}</span>
                       ))}
                     </div>
-                    <div className="mb-[10px] flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                      <ul className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
-                        {["4 certification exam attempts every year", "Learning content in 9 languages", "Live expert sessions + hands-on practice systems", "Learning analytics for individuals & teams", "Covers the entire SAP product portfolio", "Payment via invoice supported"].map((item) => (
-                          <li key={item} className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
-                            <span className="text-xs font-semibold text-koenig-gray">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
+                    <div className="mb-[10px] flex items-start justify-between gap-3">
+                      <div className="flex flex-col sm:flex-row gap-x-3 gap-y-1.5">
+                        <div className="flex flex-col gap-1.5">
+                          {[
+                            "Expert-led live sessions for deeper understanding.",
+                            "Four SAP Certification attempts every year to become and stay certified.",
+                          ].map((item) => (
+                            <div key={item} className="flex items-start gap-2">
+                              <span className="mt-[.45em] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
+                              <span className="text-xs font-semibold text-koenig-gray">{item}</span>
+                            </div>
+                          ))}
+                          <div className="flex items-start gap-2">
+                            <span className="mt-[.45em] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
+                            <span className="text-xs font-semibold text-koenig-gray">
+                              Supported languages: <span className="text-koenig-navy">English, French, German, Spanish, Brazilian Portuguese,<br/>Chinese, Japanese, Korean, and Russian.</span>
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          {[
+                            "Hands-on practice systems that reflect real SAP environments.",
+                            "Learning analytics and management capabilities to track progress and scale skills.",
+                          ].map((item) => (
+                            <div key={item} className="flex items-start gap-2">
+                              <span className="mt-[.45em] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-koenig-blue" />
+                              <span className="text-xs font-semibold text-koenig-gray">{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <a
+                        href="https://www.koenig-solutions.com/sap-learning-hub"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-shrink-0 whitespace-nowrap rounded-full border-2 border-koenig-blue px-4 py-1.5 font-bold text-koenig-blue transition hover:bg-koenig-blue hover:text-white"
+                        style={{ fontSize: 16 }}
+                      >
+                        View more
+                      </a>
                     </div>
                   </div>
                 </div>

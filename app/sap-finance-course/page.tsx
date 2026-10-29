@@ -379,7 +379,7 @@ export default function CoursePageDesign() {
                   mode: "SAP Learning Hub",
                   price: "INR 1,37,772",
                   desc: "Annual subscription, entire SAP portfolio\n4 exam attempts per year",
-                  badge: "Subscription",
+                  badge: "Best Value",
                   badgeColor: "bg-cyan-500/15 text-cyan-300 border border-cyan-500/25",
                   targetFormat: "self-paced",
                 },
